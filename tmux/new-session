@@ -25,5 +25,5 @@ select-pane -t 1
 split-window -h
 
 select-pane -t 0
-send-keys -t 0 'vim' C-m
-
+# send-keys -t 0 'vim' C-m
+#
