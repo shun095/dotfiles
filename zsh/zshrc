@@ -5,16 +5,32 @@ export EDITOR=vim
 function chpwd() {ls -a}
 
 if [[ ! -n $TMUX ]]; then
-	tmux new-session
+	alias tmux="tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session"
+	tmux -2 attach || tmux -2 new-session \; source-file ~/.tmux/new-session
 fi
+
+to_trash() {
+    for file in $@
+    do
+        mv $file ~/.trash
+    done
+}
+alias rm="to_trash" 
 
 VIMRC="$HOME/.vimrc"
-GVIMRC="$HOME/.gvimrc"
-
 if [  ! -e ${VIMRC} ]; then
 	ln -s $HOME/dotfiles/vim/vimrc.vim $HOME/.vimrc
+	touch $HOME/dotfiles/vim/vimrc.vim
 fi
 
+GVIMRC="$HOME/.gvimrc"
 if [  ! -e ${GVIMRC} ]; then
 	ln -s $HOME/dotfiles/vim/gvimrc.vim $HOME/.gvimrc
+	touch $HOME/dotfiles/vim/gvimrc.vim
+fi
+
+TMUXCONF="$HOME/.tmux.conf"
+if [  ! -e ${TMUXCONF} ]; then
+	ln -s $HOME/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
+	touch $HOME/dotfiles/tmux/tmux.conf
 fi

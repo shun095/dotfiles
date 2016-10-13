@@ -1,5 +1,5 @@
 " vim: set foldmethod=marker:
-let $NUSHHOME=expand("%HOME") . "dotfiles/vim"
+let $NUSHHOME=expand("$HOME") . "/dotfiles/vim"
 let g:no_plugins_flag = 0
 " =====プラグインなしVerここから======= {{{
 " OSの判定
