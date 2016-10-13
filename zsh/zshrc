@@ -1,0 +1,20 @@
+#!/usr/bin/env zsh
+
+export EDITOR=vim
+
+function chpwd() {ls -a}
+
+if [[ ! -n $TMUX ]]; then
+	tmux new-session
+fi
+
+VIMRC="$HOME/.vimrc"
+GVIMRC="$HOME/.gvimrc"
+
+if [  ! -e ${VIMRC} ]; then
+	ln -s $HOME/dotfiles/vim/vimrc.vim $HOME/.vimrc
+fi
+
+if [  ! -e ${GVIMRC} ]; then
+	ln -s $HOME/dotfiles/vim/gvimrc.vim $HOME/.gvimrc
+fi

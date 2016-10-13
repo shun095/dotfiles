@@ -1,0 +1,434 @@
+﻿[[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+hook_add = '''
+	"==================================================
+	"UNITE 
+	"==================================================
+	" 入力モードで開始する
+	let g:unite_force_overwrite_statusline = 0
+	let g:unite_enable_start_insert = 1
+	nnoremap <silent> ,ub :<C-u>Unite buffer<CR> 
+	nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+	nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+	nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
+	nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
+	" Unite All
+	nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+	" UniteOutLine
+	nnoremap <silent> ,uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
+	" ウィンドウを分割して開く
+	au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+	au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+	" ウィンドウを縦に分割して開く
+	au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+	au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+	" タブで開く
+	au FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
+	au FileType unite inoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
+	" ESCキーを2回押すと終了する
+	au FileType unite nmap <silent> <buffer> <ESC><ESC> q
+	au FileType unite imap <silent> <buffer> <ESC><ESC> <ESC>q
+'''
+
+[[plugins]]
+repo = 'Shougo/unite-outline'
+depends = ['unite.vim']
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+depends = ['unite.vim']
+
+[[plugins]]
+repo = 'Shougo/vimshell.vim'
+depends = ['vimproc.vim']
+
+[[plugins]]
+repo = 'kana/vim-submode'
+hook_add = '''
+	call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+	call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+	call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+	call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+	call submode#map('winsize', 'n', '', '>', '<C-w>>')
+	call submode#map('winsize', 'n', '', '<', '<C-w><')
+	call submode#map('winsize', 'n', '', '+', '<C-w>+')
+	call submode#map('winsize', 'n', '', '-', '<C-w>-')
+'''
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'tyru/caw.vim.git'
+
+[[plugins]]
+repo = 'https://github.com/mattn/webapi-vim.git'
+
+#OPEN BROWSER
+[[plugins]]
+repo = 'https://github.com/tyru/open-browser.vim.git'
+		
+[[plugins]]
+repo = 'scrooloose/syntastic.git'
+hook_add = '''
+		set statusline+=%#warningmsg#
+		set statusline+=%{SyntasticStatuslineFlag()}
+		set statusline+=%*
+		let g:syntastic_always_populate_loc_list = 1
+		let g:syntastic_auto_loc_list = 1
+		let g:syntastic_check_on_open = 1
+		let g:syntastic_check_on_wq = 0
+		" ここまでReccomend設定
+		
+		let g:syntastic_mode_map = { 'mode': 'passive',
+					\ 'active_filetypes': ['ruby', 'javascript','coffee', 'scss'] }
+		let g:syntastic_ruby_checkers = ['rubocop'] " or ['rubocop', 'mri']
+		let g:syntastic_javascript_checkers = ['jshint']
+		let g:syntastic_coffee_checkers = ['coffeelint']
+		let g:syntastic_scss_checkers = ['scss_lint']
+		hi SyntasticErrorSign ctermfg=160
+		hi SyntasticWarningSign ctermfg=220
+'''
+
+# [[plugins]]
+# repo = "osyo-manga/shabadou.vim"
+
+# [[plugins]]
+# repo = "osyo-manga/vim-watchdogs"
+# hook_add = '''
+# 	let g:watchdogs_check_BufWritePost_enable = 1
+# 	let g:watchdogs_check_CursorHold_enable = 1
+# 	call watchdogs#setup(g:quickrun_config)
+# '''
+
+
+[[plugins]]
+repo = 'superbrothers/vim-vimperator'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+# [[plugins]]
+# repo = 'vim-scripts/TagHighlight'
+
+# [[plugins]]
+# repo = 'majutsushi/tagbar'
+# hook_add = '''
+#
+# 		nnoremap <silent> <Leader>t :TagbarToggle<CR>
+# 		let g:tagbar_autofocus = 1
+# 		let g:tagbar_show_linenumbers = 1
+# 		let g:tagbar_width = 30
+# 		let g:tagbar_autoclose = 1
+#
+# '''
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'Konfekt/FastFold'
+
+[[plugins]]
+repo = 'LeafCage/foldCC.vim'
+hook_add = '''
+
+hi Folded ctermbg=none
+hi FoldColumn ctermbg=none
+set foldtext=FoldCCtext()
+set foldcolumn=4
+set fillchars=vert:\|
+" augroup FoldCC "{{{
+"     hi Folded gui=bold guibg=Grey28 guifg=gray80
+"     hi FoldColumn guibg=Grey14 guifg=gray80
+"
+"     " hi Folded gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey50 guifg=Grey80
+"     " hi FoldColumn gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey guifg=DarkBlue
+" augroup END "}}}
+'''
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+if v:version >= 800 "バージョン８以降ならTimer使って時刻表示
+	let g:currenttime = strftime("%H時%M分%S秒")
+
+	function! SetCurrentTime()
+		let tempTimer = timer_start(1000, 'CheckTemp', {'repeat' : -1})
+		function! CheckTemp(tempTimer)
+			let g:currenttime = strftime("%H時%M分%S秒")
+			try
+				call lightline#update()
+			catch /.*/
+				timer_stop(tempTimer)
+			endtry
+		endfunction 
+	endfunction
+
+	call SetCurrentTime()
+
+else
+	let g:currenttime = ""
+endif
+
+function! ReturnCurrentTime()
+	if &filetype == 'vimfiler'
+		return ''
+	else
+	return g:currenttime
+endfunction
+
+" function! LightLineModified()
+" 	return &ft =~ 'help\|vimfiler' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+" endfunction
+"
+" function! LightLineReadonly()
+" 	return &ft !~? 'help\|vimfiler' && &readonly ? '⭤' : ''
+" endfunction
+"
+" function! LightLineFilename()
+" 	return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+" 				\ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+" 				\  &ft == 'unite' ? unite#get_status_string() :
+" 				\  &ft == 'vimshell' ? vimshell#get_status_string() :
+" 				\ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+" 				\ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+" endfunction
+"
+" function! LightLineFugitive()
+" 	if &ft !~? 'vimfiler' && exists('*fugitive#head')
+" 		let branch = fugitive#head()
+" 		if has("gui_running")
+" 			return branch !=# '' ? '⭠ '.branch : ''
+" 		else
+" 			return branch !=# '' ? 'Branch: '.branch : ''
+" 		endif
+" 	endif
+" 	return ''
+" endfunction
+"
+" let g:lightline = {
+" 			\ 'colorscheme': 'solarized',
+" 			\ 'active': {
+" 			\	  'left':  [ ['mode', 'paste'] ,
+" 			\			   [ 'fugitive', 'filename'] ],
+" 			\	  'right': [ ['lineinfo','currenttime', 'truncate' ] ,
+" 			\			   [ 'percent' ] ,
+" 			\			   [ 'fileformat', 'fileencoding', 'filetype' ] ]
+" 			\ },
+" 			\ 'inactive': {
+" 		    \	  'left':  [ [ 'filename', 'modified' ] ],
+" 		    \	  'right': [ [ 'lineinfo' ],
+" 		    \              [ 'percent' ] ]
+" 			\ },
+" 			\ 'component_function': {
+" 			\	 'currenttime': 'ReturnCurrentTime',
+" 			\   'fugitive': 'LightLineFugitive',
+" 			\   'filename': 'LightLineFilename'
+" 			\ },
+" 			\ 'component': {
+" 			\	'truncate': '%<'
+" 			\ },
+" 			\ }
+" 			if has("gui_running")
+" 				let g:lightline.separator = {
+" 							\	'left': '⮀', 'right': '⮂'
+" 							\	}
+" 				let g:lightline.subseparator = {
+" 							\	'left': '⮁', 'right': '⮃'
+" 							\}
+" 			endif
+
+let g:lightline = {
+			\ 'colorscheme': 'wombat',
+			\ 'active': {
+			\   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+			\   'right': [ [ 'syntastic','currenttime','lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+			\ },
+			\ 'component_function': {
+			\   'fugitive': 'LightLineFugitive',
+			\   'filename': 'LightLineFilename',
+			\   'fileformat': 'LightLineFileformat',
+			\   'filetype': 'LightLineFiletype',
+			\   'fileencoding': 'LightLineFileencoding',
+			\   'mode': 'LightLineMode',
+			\   'ctrlpmark': 'CtrlPMark',
+			\   'currenttime': 'ReturnCurrentTime',
+			\ },
+			\ 'component_expand': {
+			\   'syntastic': 'SyntasticStatuslineFlag',
+			\ },
+			\ 'component_type': {
+			\   'syntastic': 'error',
+			\ },
+			\ 'subseparator': { 'left': '|', 'right': '|' }
+			\ }
+			if has("gui_running")
+				let g:lightline.separator = {
+							\	'left': '⮀', 'right': '⮂'
+							\	}
+				let g:lightline.subseparator = {
+							\	'left': '⮁', 'right': '⮃'
+							\}
+			endif
+
+	function! LightLineModified()
+	  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+	endfunction
+
+	function! LightLineReadonly()
+	  return &ft !~? 'help' && &readonly ? 'RO' : ''
+	endfunction
+
+	function! LightLineFilename()
+	  let fname = expand('%:t')
+	  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
+	        \ fname == '__Tagbar__' ? g:lightline.fname :
+	        \ fname =~ '__Gundo\|NERD_tree' ? '' :
+	        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+	        \ &ft == 'unite' ? unite#get_status_string() :
+	        \ &ft == 'vimshell' ? vimshell#get_status_string() :
+	        \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+	        \ ('' != fname ? fname : '[No Name]') .
+	        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+	endfunction
+
+	function! LightLineFugitive()
+	  try
+	    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+	      let mark = ''  " edit here for cool mark
+	      let branch = fugitive#head()
+	      return branch !=# '' ? mark.branch : ''
+	    endif
+	  catch
+	  endtry
+	  return ''
+	endfunction
+
+	function! LightLineFileformat()
+	  return winwidth(0) > 70 ? &fileformat : ''
+	endfunction
+
+	function! LightLineFiletype()
+	  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+	endfunction
+
+	function! LightLineFileencoding()
+	  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+	endfunction
+
+	function! LightLineMode()
+	  let fname = expand('%:t')
+	  return fname == '__Tagbar__' ? 'Tagbar' :
+	        \ fname == 'ControlP' ? 'CtrlP' :
+	        \ fname == '__Gundo__' ? 'Gundo' :
+	        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+	        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+	        \ &ft == 'unite' ? 'Unite' :
+	        \ &ft == 'vimfiler' ? 'VimFiler' :
+	        \ &ft == 'vimshell' ? 'VimShell' :
+	        \ winwidth(0) > 60 ? lightline#mode() : ''
+	endfunction
+
+	function! CtrlPMark()
+	  if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
+	    call lightline#link('iR'[g:lightline.ctrlp_regex])
+	    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+	          \ , g:lightline.ctrlp_next], 0)
+	  else
+	    return ''
+	  endif
+	endfunction
+
+	let g:ctrlp_status_func = {
+	  \ 'main': 'CtrlPStatusFunc_1',
+	  \ 'prog': 'CtrlPStatusFunc_2',
+	  \ }
+
+	function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+	  let g:lightline.ctrlp_regex = a:regex
+	  let g:lightline.ctrlp_prev = a:prev
+	  let g:lightline.ctrlp_item = a:item
+	  let g:lightline.ctrlp_next = a:next
+	  return lightline#statusline(0)
+	endfunction
+
+	function! CtrlPStatusFunc_2(str)
+	  return lightline#statusline(0)
+	endfunction
+
+	let g:tagbar_status_func = 'TagbarStatusFunc'
+
+	function! TagbarStatusFunc(current, sort, fname, ...) abort
+	    let g:lightline.fname = a:fname
+	  return lightline#statusline(0)
+	endfunction
+
+	augroup AutoSyntastic
+	  autocmd!
+	  autocmd BufWritePost *.c,*.cpp call s:syntastic()
+	augroup END
+	function! s:syntastic()
+	  SyntasticCheck
+	  call lightline#update()
+	endfunction
+
+	let g:unite_force_overwrite_statusline = 0
+	let g:vimfiler_force_overwrite_statusline = 0
+	let g:vimshell_force_overwrite_statusline = 0
+'''
+
+# COLORSCHEMES
+[[plugins]]
+repo = 'sickill/vim-monokai'
+
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
+
+[[plugins]]
+repo = 'w0ng/vim-hybrid'
+
+[[plugins]]
+repo = 'vim-scripts/pyte'
+
+[[plugins]]
+repo = 'vim-scripts/summerfruit256.vim'
+
+[[plugins]]
+repo = 'ciaranm/inkpot'
+
+[[plugins]]
+repo = 'cdmedia/itg_flat_vim'
+
+[[plugins]]
+repo = 'tomasr/molokai'
+
+[[plugins]]
+repo = 'itchyny/landscape.vim'
+# COLORSCHMES END
+
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+hook_add = '''
+	" ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
+	vmap <Enter> <Plug>(EasyAlign)
+
+	" easy-align を呼んだ上で，移動したりテキストオブジェクトを指定して整形．(e.g. gaip)
+	nmap ga <Plug>(EasyAlign)
+	" Start interactive EasyAlign in visual mode (e.g. vipga)
+	xmap ga <Plug>(EasyAlign)
+'''
+
+[[plugins]]
+repo = 'glidenote/memolist.vim'
+hook_add = '''
+	let g:memolist_memo_suffix = 'txt'
+	let g:memolist_unite = 1
+'''
+
+[[plugins]]
+repo = 'ctrlpvim/ctrlp.vim'
+
