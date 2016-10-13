@@ -6,7 +6,7 @@ function chpwd() {ls -a}
 
 if [[ ! -n $TMUX ]]; then
 	alias tmux="tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session"
-	tmux -2 attach || tmux -2 new-session \; source-file ~/.tmux/new-session
+	# tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
 fi
 
 to_trash() {

@@ -1,0 +1,29 @@
+# 一番初めのpaneを選択
+select-pane -t 0
+# 上下にウィンドウを分割する
+split-window -v
+# 1番目(下側)のウィンドウを選択
+select-pane -t 1
+
+# 左右にウィンドウを分割
+split-window -h
+clock-mode
+
+select-layout main-horizontal
+
+resize-pane -y 15
+split-window -v
+send-keys '\sl -ela && exit' C-m
+# メインとなるウィンドウの高さを35行に設定
+# 上下分割レイアウトを反映
+# display-panes
+
+# 2番目(右下)のpaneの横幅（境界)を右に22文字幅移動する
+resize-pane -x 35
+
+select-pane -t 1
+split-window -h
+
+select-pane -t 0
+send-keys -t 0 'vim' C-m
+
