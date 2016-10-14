@@ -4,9 +4,22 @@ export EDITOR=vim
 
 function chpwd() {ls -a}
 
-if [[ ! -n $TMUX ]]; then
+if [[ ! -n $TMUX ]]
+then
 	alias tmux="tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session"
 	# tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
+else
+	if [[ `\tmux -V | cut -d" " -f2` -lt 2.1 ]]
+	then
+		tmux set -g mode-mouse on
+		tmux set -g mouse-resize-pane on
+		tmux set -g mouse-select-pane on
+		tmux set -g mouse-select-window on
+		clear
+	else
+		tmux set -g mouse on
+		clear
+	fi
 fi
 
 to_trash() {
