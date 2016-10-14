@@ -225,8 +225,8 @@ if ostype == "linux"
 endif
 
 " tagファイルから色を付ける設定（ヘルプより引用）
-:map <F11>  :sp tags<CR>:%s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><F12>
-:map <F12>  :so tags.vim<CR>
+command! TagMakeColorring  :sp tags<CR>:%s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><F12>
+command! TagColorring :so tags.vim<CR>
 
 " =====プラグインなしVerここまで======= }}}
 "==================================================
