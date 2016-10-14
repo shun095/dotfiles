@@ -26,6 +26,7 @@ g:no_plugins_flag	vimrc.vim	/^let g:no_plugins_flag = 0$/;"	v
 g:plugins_lazy_toml	vimrc.vim	/^	let g:plugins_lazy_toml = '$NUSHHOME\/dein_lazy.toml'$/;"	v
 g:plugins_toml	vimrc.vim	/^	let g:plugins_toml = '$NUSHHOME\/dein.toml'$/;"	v
 g:save_window_file	vimrc.vim	/^let g:save_window_file = expand('~\/.vimwinpos')$/;"	v
+g:solarized_termcolors	vimrc.vim	/^let g:solarized_termcolors=256$/;"	v
 g:visualstudio_controllerpath	neobundlesettings.vim	/^let g:visualstudio_controllerpath = "VisualStudioController.exe"$/;"	v
 g:visualstudio_enableerrormarker	neobundlesettings.vim	/^let g:visualstudio_enableerrormarker = 1$/;"	v
 g:visualstudio_terminalencoding	neobundlesettings.vim	/^let g:visualstudio_terminalencoding =500$/;"	v

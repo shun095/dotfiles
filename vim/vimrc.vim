@@ -49,6 +49,7 @@ set noautochdir                    " 今開いてるファイルにカレント�
 set scrolloff=5                    " カーソルが端まで行く前にスクロールし始める行数
 set ambiwidth=double               " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a
+set t_Co=256					" ターミナルで256色を使う
 set background=dark
 " 文字コード自動判別優先順位の設定
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp
@@ -228,7 +229,6 @@ endif
 :map <F12>  :so tags.vim<CR>
 
 " =====プラグインなしVerここまで======= }}}
-
 "==================================================
 "USING DEIN VIM TO MANAGE PLUGIN
 "==================================================
@@ -240,6 +240,7 @@ if g:no_plugins_flag != 1 "{{{
 		set nocompatible
 	endif
 
+	set background=dark
 	" 各プラグインをインストールするディレクトリ
 	let s:plugin_dir = expand('$HOME') . '/.vim/dein/'
 	" dein.vimをインストールするディレクトリをランタイムパスへ追加
@@ -269,6 +270,7 @@ if g:no_plugins_flag != 1 "{{{
 	if dein#check_install()
 		call dein#install()
 	endif
+	set background=dark
 	"==================================================
 	"DEIN END
 	"==================================================
@@ -281,5 +283,6 @@ filetype on
 filetype plugin indent on
 syntax enable
 
-set t_Co=256
-colorscheme hybrid
+let g:solarized_termcolors=256
+colorscheme solarized
+" colorscheme hybrid
