@@ -28,8 +28,8 @@ if g:no_plugins_flag != 1
 	" colorscheme summerfruit256
 	" colorscheme molokai
 	" colorscheme inkpot
-	colorscheme hybrid
-	" colorscheme solarized
+	" colorscheme hybrid
+	 colorscheme solarized
 	" colorscheme itg_flat
 	" colorscheme pyte
 	" colorscheme morning

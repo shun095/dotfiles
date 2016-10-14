@@ -119,6 +119,7 @@ augroup END
 " augroup END
 
 " ==========セッション復帰用自作スクリプト==========
+set sessionoptions=curdir,help,slash,tabpages,winsize,winpos,resize
 " MY SESSION FUNCTIONS {{{
 " let g:save_session_file = expand('~/.vimsessions/default.vim')
 
@@ -284,5 +285,6 @@ filetype plugin indent on
 syntax enable
 
 let g:solarized_termcolors=256
+" let g:solarized_termtrans=1
 colorscheme solarized
 " colorscheme hybrid

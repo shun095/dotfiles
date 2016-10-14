@@ -246,7 +246,7 @@ let g:lightline = {
 			\ 'colorscheme': 'wombat',
 			\ 'active': {
 			\   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
-			\   'right': [ [ 'syntastic','currenttime','lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+			\   'right': [ [ 'syntastic','lineinfo','currenttime'], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
 			\ },
 			\ 'component_function': {
 			\   'fugitive': 'LightLineFugitive',
