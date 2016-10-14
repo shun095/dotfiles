@@ -22,13 +22,13 @@ else
 	fi
 fi
 
-to_trash() {
-    for file in $@
-    do
-        mv $file ~/.trash
-    done
-}
-alias rm="to_trash" 
+# to_trash() {
+#     for file in $@
+#     do
+#         mv $file ~/.trash
+#     done
+# }
+# alias rm="to_trash" 
 
 VIMRC="$HOME/.vimrc"
 if [  ! -e ${VIMRC} ]; then

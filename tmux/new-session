@@ -11,7 +11,7 @@ clock-mode
 
 select-layout main-horizontal
 
-resize-pane -y 15
+resize-pane -y 10
 split-window -v
 send-keys '\sl -ela && exit' C-m
 # メインとなるウィンドウの高さを35行に設定
@@ -19,13 +19,16 @@ send-keys '\sl -ela && exit' C-m
 # display-panes
 
 # 2番目(右下)のpaneの横幅（境界)を右に22文字幅移動する
-resize-pane -x 35
+resize-pane -x 30
 
 select-pane -t 1
 split-window -h
 
 select-pane -t 0
 split-window -h
+select-pane -t 1
+resize-pane -x 150
+send-keys 'vim' C-m
 select-pane -t 0
 # send-keys -t 0 'vim' C-m
 #

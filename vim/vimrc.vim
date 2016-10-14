@@ -48,6 +48,7 @@ set autoread                       " 他のソフトで開いてるファイル�
 set noautochdir                    " 今開いてるファイルにカレントディレクトリを移動するか
 set scrolloff=5                    " カーソルが端まで行く前にスクロールし始める行数
 set ambiwidth=double               " 全角記号（「→」など）の文字幅を半角２つ分にする
+set mouse=a
 set background=dark
 " 文字コード自動判別優先順位の設定
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp
