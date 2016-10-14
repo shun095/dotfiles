@@ -125,7 +125,7 @@ let s:save_session_flag = 0
 
 augroup RESTORE
 	autocmd!
-	autocmd VimEnter * :LoadLastSession
+	" autocmd VimEnter * :LoadLastSession
 augroup END
 
 " 新しいWindowを開かずタブで開く
