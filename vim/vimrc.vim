@@ -115,6 +115,12 @@ augroup HTML
 	autocmd Filetype css set foldmethod=syntax
 augroup END
 
+augroup MYQUICKFIX
+	autocmd!
+	autocmd QuickFixCmdPost * if len(getqflist()) != 0 | copen | else | cclose |endif
+	autocmd FileType qf nnoremap <silent><buffer>q :quit<CR>
+augroup END
+
 " augroup VIM_PATH
 " 	autocmd!
 " 	autocmd FileType vim setlocal path+=$VIM,$HOME/.vim/bundle
@@ -295,3 +301,4 @@ if ostype == "win"
 else
 	highlight! VertSplit term=reverse ctermfg=237 ctermbg=237
 endif
+
