@@ -289,7 +289,7 @@ filetype on
 filetype plugin indent on
 syntax enable
 
-helptags $HOME/.vim/doc
+" helptags $HOME/.vim/doc
 
 if ostype == "win"
 else
