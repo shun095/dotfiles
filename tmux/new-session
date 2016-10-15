@@ -1,3 +1,4 @@
+# vim: set ft=conf:
 # 一番初めのpaneを選択
 select-pane -t 0
 # 上下にウィンドウを分割する

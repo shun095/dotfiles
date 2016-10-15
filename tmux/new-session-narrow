@@ -1,4 +1,4 @@
-
+# vim: set ft=conf:
 # 一番初めのpaneを選択
 select-pane -t 0
 # 上下にウィンドウを分割する
@@ -25,9 +25,6 @@ select-pane -t 1
 split-window -h
 
 select-pane -t 0
-split-window -h
-select-pane -t 1
-resize-pane -x 150
 send-keys 'vim' C-m
 select-pane -t 0
 # send-keys -t 0 'vim' C-m

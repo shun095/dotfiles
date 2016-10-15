@@ -7,8 +7,14 @@ function chpwd() {ls -a}
 
 if [[ ! -n $TMUX ]]
 then
-	alias tmux="tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session"
-	tmux
+	if [ ${COLUMNS} -ge 150 ] && [ ${LINES} -ge 47 ]; then
+		# alias tmux="tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session"
+		tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
+	elif [ ${COLUMNS} -lt 150 ] && [ ${LINES} -ge 47 ]; then
+		tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session-narrow
+	else
+		tmux
+	fi
 	# tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
 else
 	if [[ `\tmux -V | cut -d" " -f2` -lt 2.1 ]]
@@ -23,6 +29,7 @@ else
 		clear
 	fi
 fi
+
 
 # to_trash() {
 #     for file in $@
