@@ -1,18 +1,19 @@
 " vim: set foldmethod=marker:
+scriptencoding utf-8
 let $NUSHHOME=expand("$HOME") . "/dotfiles/vim"
 let g:no_plugins_flag = 0
 " =====プラグインなしVerここから======= {{{
 " OSの判定
 if has('win32')
-	let ostype = "win"
+	let g:ostype = "win"
 	if v:version >= 800
 		set rop=type:directx
 	endif
 	set t_Co=16                    " ターミナルで16色を使う
 elseif has('mac')
-	let ostype = "mac"
+	let g:ostype = "mac"
 else
-	let ostype = "linux"
+	let g:ostype = "linux"
 	set t_Co=256				   " ターミナルで256色を使う
 endif
 
@@ -117,7 +118,8 @@ augroup END
 
 augroup MYQUICKFIX
 	autocmd!
-	autocmd QuickFixCmdPost * if len(getqflist()) != 0 | copen | else | cclose |endif
+	" autocmd QuickFixCmdPost * if len(getqflist()) != 0 | copen | else | cclose |endif
+	autocmd QuickFixCmdPost * cwindow
 	autocmd FileType qf nnoremap <silent><buffer>q :quit<CR>
 augroup END
 

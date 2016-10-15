@@ -73,25 +73,37 @@ repo = 'https://github.com/mattn/webapi-vim.git'
 repo = 'https://github.com/tyru/open-browser.vim.git'
 
 [[plugins]]
+repo = "syngan/vim-vimlint"
+depends = "vim-vimlparser"
+
+[[plugins]]
+repo = "ynkdir/vim-vimlparser"
+
+[[plugins]]
 repo = 'scrooloose/syntastic.git'
 hook_add = '''
-		set statusline+=%#warningmsg#
-		set statusline+=%{SyntasticStatuslineFlag()}
-		set statusline+=%*
-		let g:syntastic_always_populate_loc_list = 1
-		let g:syntastic_auto_loc_list = 1
-		let g:syntastic_check_on_open = 1
-		let g:syntastic_check_on_wq = 0
-		" ここまでReccomend設定
+if executable("clang++")
+	let g:syntastic_cpp_compiler = 'clang++'
+	let g:syntastic_cpp_compiler_options = '--std=c++11 --stdlib=libc++'
+endif
 
-		let g:syntastic_mode_map = { 'mode': 'passive',
-					\ 'active_filetypes': ['ruby', 'javascript','coffee', 'scss'] }
-		let g:syntastic_ruby_checkers = ['rubocop'] " or ['rubocop', 'mri']
-		let g:syntastic_javascript_checkers = ['jshint']
-		let g:syntastic_coffee_checkers = ['coffeelint']
-		let g:syntastic_scss_checkers = ['scss_lint']
-		hi SyntasticErrorSign ctermfg=160
-		hi SyntasticWarningSign ctermfg=220
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" ここまでReccomend設定
+
+" let g:syntastic_mode_map = { 'mode': 'passive',
+" 			\ 'active_filetypes': ['ruby', 'javascript','coffee', 'scss'] }
+let g:syntastic_ruby_checkers = ['rubocop'] " or ['rubocop', 'mri']
+let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_coffee_checkers = ['coffeelint']
+let g:syntastic_scss_checkers = ['scss_lint']
+hi SyntasticErrorSign ctermfg=160
+hi SyntasticWarningSign ctermfg=220
 '''
 
 # [[plugins]]
@@ -99,6 +111,7 @@ hook_add = '''
 
 # [[plugins]]
 # repo = "osyo-manga/vim-watchdogs"
+# depends = 'syntastic'
 # hook_add = '''
 # 	let g:watchdogs_check_BufWritePost_enable = 1
 # 	let g:watchdogs_check_CursorHold_enable = 1

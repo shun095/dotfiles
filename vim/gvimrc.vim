@@ -1,10 +1,11 @@
 " vim: set foldmethod=marker:
+scriptencoding utf-8
 set linespace=1
 set cmdheight=2
 set guioptions=rLchb
 set sessionoptions=curdir,help,slash,tabpages,winsize,winpos,resize
 " フォントを設定
-if ostype == "win"
+if g:ostype == "win"
 	set guifont=Ricty_Diminished_for_Powerline:h11:cSHIFTJIS
 	" echo "os=windows"
 else
@@ -15,7 +16,7 @@ endif
 augroup GUIENTER
 	autocmd!
 	" autocmd VimEnter * call s:load_session_on_startup()
-	if ostype == "win"
+	if g:ostype == "win"
 		" autocmd GUIEnter * set transparency=255
 	else
 	endif
