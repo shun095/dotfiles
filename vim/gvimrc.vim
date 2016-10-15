@@ -10,7 +10,6 @@ if ostype == "win"
 else
 	set guifont=Ricty\ Diminished\ for\ Powerline\ 11
 	" echo "os=others"
-	helptags $HOME/.vim/doc
 endif
 
 augroup GUIENTER
@@ -34,14 +33,13 @@ if g:no_plugins_flag != 1
 	" colorscheme pyte
 	" colorscheme morning
 	" colorscheme landscape
-	colorscheme one
+	colorscheme onedark
 else
 	colorscheme industry
 	set background=dark
 endif
 " GUI版でのタブ等特殊文字表示色指定
 " highlight! link SpecialKey Special
-highlight! Normal ctermfg=145 ctermbg=16 guifg=#abb2bf guibg=#1d2026  font=Ricty_Diminished_for_Powerline:h11:cSHIFTJIS:qDRAFT
-"
-highlight! VertSplit term=reverse ctermfg=233 ctermbg=233 guifg=#181a1f guibg=#181a1f
-
+" highlight! Normal ctermfg=145 ctermbg=16 guifg=#abb2bf guibg=#1d2026  font=Ricty_Diminished_for_Powerline:h11:cSHIFTJIS:qDRAFT
+" "
+	highlight! VertSplit guifg=#3E4452 guibg=#3E4452

@@ -152,7 +152,7 @@ set fillchars=vert:\|
 [[plugins]]
 repo = 'vim-airline/vim-airline'
 hook_add = '''
-	let g:airline_theme='one'
+	let g:airline_theme='onedark'
 
 	let g:airline#extensions#branch#enabled        = 1
 	let g:airline#extensions#branch#empty_message  = ''
@@ -438,6 +438,9 @@ hook_add = '''
 # '''
 
 # COLORSCHEMES
+[[plugins]]
+repo = 'joshdick/onedark.vim'
+
 [[plugins]]
 repo = 'sickill/vim-monokai'
 

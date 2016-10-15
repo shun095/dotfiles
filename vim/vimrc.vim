@@ -273,7 +273,6 @@ if g:no_plugins_flag != 1 "{{{
 	if dein#check_install()
 		call dein#install()
 	endif
-	set background=dark
 	"==================================================
 	"DEIN END
 	"==================================================
@@ -283,9 +282,16 @@ else "if no_plugins_flag = 1
 	colorscheme industry
 endif " no_plugins_flag end
 
-colorscheme one
+set background=dark
+colorscheme onedark
 
 filetype on
 filetype plugin indent on
 syntax enable
 
+helptags $HOME/.vim/doc
+
+if ostype == "win"
+else
+	highlight! VertSplit term=reverse ctermfg=237 ctermbg=237
+endif
