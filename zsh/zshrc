@@ -34,16 +34,19 @@ VIMRC="$HOME/.vimrc"
 if [  ! -e ${VIMRC} ]; then
 	ln -s $HOME/dotfiles/vim/vimrc.vim $HOME/.vimrc
 	touch $HOME/dotfiles/vim/vimrc.vim
+	echo "vimrc linked"
 fi
 
 GVIMRC="$HOME/.gvimrc"
 if [  ! -e ${GVIMRC} ]; then
 	ln -s $HOME/dotfiles/vim/gvimrc.vim $HOME/.gvimrc
 	touch $HOME/dotfiles/vim/gvimrc.vim
+	echo "gvimrc linked"
 fi
 
 TMUXCONF="$HOME/.tmux.conf"
 if [  ! -e ${TMUXCONF} ]; then
 	ln -s $HOME/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
 	touch $HOME/dotfiles/tmux/tmux.conf
+	echo "tmuxconf linked"
 fi
