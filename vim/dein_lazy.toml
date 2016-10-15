@@ -52,8 +52,11 @@ depends = ['neosnippet.vim']
 on_i = 1
 
 [[plugins]]
-repo = 'townk/vim-autoclose'
+repo = "cohama/lexima.vim"
 on_i = 1
+hook_post_source = '''
+	imap <expr> <C-h> lexima#expand('<BS>', 'i')
+'''
 
 [[plugins]]
 repo = 'Shougo/neocomplete.vim'
@@ -94,21 +97,20 @@ hook_add = '''
 
 	" Plugin key-mappings.
 	" inoremap <expr><C-g>     neocomplete#undo_completion()
-	inoremap <expr><C-l> neocomplete#complete_common_string()
+	" inoremap <expr><C-l> neocomplete#complete_common_string()
 	" Recommended key-mappings.
 	" <CR>: close popup and save indent.
-	
-	inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-	function! s:my_cr_function()
-		" return (pumvisible() ? "\<C-y>" : "" ) . "\<CR><ESC>"
-		" For no inserting <CR> key.
-		return pumvisible() ? "\<C-y>" : "\<CR>"
-	endfunction
+	" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+	" function! s:my_cr_function()
+	" 	" return (pumvisible() ? "\<C-y>" : "" ) . "\<CR><ESC>"
+	" 	" For no inserting <CR> key.
+	" 	return pumvisible() ? "\<C-y>" : "\<CR>"
+	" endfunction
 	" <TAB>: completion.
 	inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 	" <C-h>, <BS>: close popup and delete backword char.
-	inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-	inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+	" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+	" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 	" Close popup by <Space>.
 	" inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
@@ -154,6 +156,7 @@ hook_add = '''
 	"   autocmd Filetype cs :set suffixesadd+=.cs
 	"   autocmd Filetype cs :set dictionary=~/.vim/unity_script.dict
 	" augroup END "}}}
+	set timeout timeoutlen=1000 ttimeoutlen=100
 '''
 
 [[plugins]]

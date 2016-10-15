@@ -62,6 +62,7 @@ if isdirectory(expand("$HOME")."/.vim/undofiles") != 1
 	call mkdir($HOME."/.vim/undofiles","p")
 endif
 set undodir=$HOME/.vim/undofiles
+set undofile
 " set backupでスワップファイルを保存する
 " 該当フォルダがなければ作成
 if isdirectory(expand("$HOME")."/.vim/backupfiles") != 1

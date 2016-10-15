@@ -4,9 +4,11 @@ export EDITOR=vim
 
 function chpwd() {ls -a}
 
+
 if [[ ! -n $TMUX ]]
 then
 	alias tmux="tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session"
+	tmux
 	# tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
 else
 	if [[ `\tmux -V | cut -d" " -f2` -lt 2.1 ]]

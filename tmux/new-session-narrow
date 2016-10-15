@@ -1,0 +1,34 @@
+
+# 一番初めのpaneを選択
+select-pane -t 0
+# 上下にウィンドウを分割する
+split-window -v
+# 1番目(下側)のウィンドウを選択
+select-pane -t 1
+# 左右にウィンドウを分割
+split-window -h
+clock-mode
+
+select-layout main-horizontal
+
+#下側のペインの高さを調整
+resize-pane -y 10
+#右下にｓｌ表示
+split-window -v
+send-keys '\sl -ela && exit' C-m
+
+#右下ペーンの横幅調整
+resize-pane -x 30
+
+#左下ペインの分割
+select-pane -t 1
+split-window -h
+
+select-pane -t 0
+split-window -h
+select-pane -t 1
+resize-pane -x 150
+send-keys 'vim' C-m
+select-pane -t 0
+# send-keys -t 0 'vim' C-m
+#
