@@ -8,15 +8,17 @@ if has('win32')
 	if v:version >= 800
 		set rop=type:directx
 	endif
+	set t_Co=16                    " ターミナルで16色を使う
 elseif has('mac')
 	let ostype = "mac"
 else
 	let ostype = "linux"
+	set t_Co=256				   " ターミナルで256色を使う
 endif
 
-" バージョン検出
+                                   " バージョン検出
 if v:version >= 800
-	set breakindent                 " version8以降搭載の便利オプション
+	set breakindent                " version8以降搭載の便利オプション
 endif
 
 syntax on                          " 色分けされる
@@ -49,7 +51,6 @@ set noautochdir                    " 今開いてるファイルにカレント�
 set scrolloff=5                    " カーソルが端まで行く前にスクロールし始める行数
 set ambiwidth=double               " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a
-set t_Co=256					" ターミナルで256色を使う
 set background=dark
 " 文字コード自動判別優先順位の設定
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp
@@ -281,11 +282,10 @@ else "if no_plugins_flag = 1
 	set background=dark
 	colorscheme industry
 endif " no_plugins_flag end
+
+colorscheme one
+
 filetype on
 filetype plugin indent on
 syntax enable
 
-let g:solarized_termcolors=256
-" let g:solarized_termtrans=1
-colorscheme solarized
-" colorscheme hybrid

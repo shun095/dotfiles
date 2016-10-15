@@ -29,14 +29,19 @@ if g:no_plugins_flag != 1
 	" colorscheme molokai
 	" colorscheme inkpot
 	" colorscheme hybrid
-	 colorscheme solarized
+	" colorscheme solarized
 	" colorscheme itg_flat
 	" colorscheme pyte
 	" colorscheme morning
 	" colorscheme landscape
-else 
+	colorscheme one
+else
 	colorscheme industry
 	set background=dark
 endif
 " GUI版でのタブ等特殊文字表示色指定
 " highlight! link SpecialKey Special
+highlight! Normal ctermfg=145 ctermbg=16 guifg=#abb2bf guibg=#1d2026  font=Ricty_Diminished_for_Powerline:h11:cSHIFTJIS:qDRAFT
+"
+highlight! VertSplit term=reverse ctermfg=233 ctermbg=233 guifg=#181a1f guibg=#181a1f
+
