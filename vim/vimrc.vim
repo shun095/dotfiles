@@ -17,7 +17,7 @@ else
 	set t_Co=256				   " ターミナルで256色を使う
 endif
 
-                                   " バージョン検出
+" バージョン検出
 if v:version >= 800
 	set breakindent                " version8以降搭載の便利オプション
 endif
@@ -120,7 +120,13 @@ augroup MYQUICKFIX
 	autocmd!
 	" autocmd QuickFixCmdPost * if len(getqflist()) != 0 | copen | else | cclose |endif
 	autocmd QuickFixCmdPost * cwindow
-	autocmd FileType qf nnoremap <silent><buffer>q :quit<CR>
+	autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
+	autocmd FileType qf noremap <silent><buffer> p  <CR>*Nzz<C-w>p
+augroup END
+
+augroup MYHELP
+	autocmd!
+	autocmd FileType help nnoremap <silent><buffer>q :quit<CR> 
 augroup END
 
 " augroup VIM_PATH
@@ -226,7 +232,7 @@ execute "source" g:save_window_file
 " IMEの管理
 set iminsert=0
 " map <silent> <ESC> <ESC>:set iminsert=0<CR>
-if ostype == "linux"
+if g:ostype == "linux"
 	" linux用（fcitxでしか使えない）
 	" echo "ime off script (on Linux)"
 	function! ImInActivate() abort
@@ -290,8 +296,6 @@ else "if no_plugins_flag = 1
 	colorscheme industry
 endif " no_plugins_flag end
 
-set background=dark
-colorscheme onedark
 
 filetype on
 filetype plugin indent on
@@ -299,8 +303,12 @@ syntax enable
 
 " helptags $HOME/.vim/doc
 
-if ostype == "win"
+if g:ostype == "win"
+	set background=dark
+	colorscheme industry
 else
 	highlight! VertSplit term=reverse ctermfg=237 ctermbg=237
+	set background=dark
+	colorscheme onedark
 endif
 
