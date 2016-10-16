@@ -253,47 +253,47 @@ filetype off
 filetype plugin indent off
 
 if g:no_plugins_flag != 1 "{{{
-	if &compatible
-		set nocompatible
-	endif
+		if &compatible
+			set nocompatible
+		endif
 
-	set background=dark
-	" 各プラグインをインストールするディレクトリ
-	let s:plugin_dir = expand('$HOME') . '/.vim/dein/'
-	" dein.vimをインストールするディレクトリをランタイムパスへ追加
-	let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
-	execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
-	" dein.vimがまだ入ってなければ 最初に`git clone`
-	if !isdirectory(s:dein_dir)
-		call mkdir(s:dein_dir, 'p')
-		silent execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
-	endif
-	"==================================================
-	"DEIN BEGIN
-	"==================================================
-	let g:plugins_toml = '$NUSHHOME/dein.toml'
-	let g:plugins_lazy_toml = '$NUSHHOME/dein_lazy.toml'
-	if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
-		call dein#begin(s:plugin_dir)
-		call dein#add('Shougo/dein.vim')
-		call dein#add('vim-scripts/errormarker.vim')
+		set background=dark
+		" 各プラグインをインストールするディレクトリ
+		let s:plugin_dir = expand('$HOME') . '/.vim/dein/'
+		" dein.vimをインストールするディレクトリをランタイムパスへ追加
+		let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
+		execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
+		" dein.vimがまだ入ってなければ 最初に`git clone`
+		if !isdirectory(s:dein_dir)
+			call mkdir(s:dein_dir, 'p')
+			silent execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
+		endif
+		"==================================================
+		"DEIN BEGIN
+		"==================================================
+		let g:plugins_toml = '$NUSHHOME/dein.toml'
+		let g:plugins_lazy_toml = '$NUSHHOME/dein_lazy.toml'
+		if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
+			call dein#begin(s:plugin_dir)
+			call dein#add('Shougo/dein.vim')
+			call dein#add('vim-scripts/errormarker.vim')
 
-		call dein#load_toml(g:plugins_toml,{'lazy' : 0})
-		call dein#load_toml(g:plugins_lazy_toml,{'lazy' : 1})
+			call dein#load_toml(g:plugins_toml,{'lazy' : 0})
+			call dein#load_toml(g:plugins_lazy_toml,{'lazy' : 1})
 
-		call dein#end()
-		call dein#save_state()
-	endif
-	if dein#check_install()
-		call dein#install()
-	endif
-	"==================================================
-	"DEIN END
-	"==================================================
-	"}}}
+			call dein#end()
+			call dein#save_state()
+		endif
+		if dein#check_install()
+			call dein#install()
+		endif
+		"==================================================
+		"DEIN END
+		"==================================================
+		"}}}
 else "if no_plugins_flag = 1
-	set background=dark
-	colorscheme industry
+		set background=dark
+		colorscheme industry
 endif " no_plugins_flag end
 
 
