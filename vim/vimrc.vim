@@ -36,7 +36,7 @@ set noexpandtab
 set smartindent
 set softtabstop=4
 set list                           " タブ,行末スペース、改行等の可視化,またその可視化時のマーク
-set listchars=tab:»-,trail:-,eol:｣,extends:»,precedes:«,nbsp:%
+set listchars=tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%
 set wildmenu                       " コマンドの補完設定
 set wildmode=longest:full,full
 set laststatus=2                   " 下のステータスバーの表示
