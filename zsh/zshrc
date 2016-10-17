@@ -11,7 +11,7 @@ if [[ ! -n $TMUX ]]; then
 	elif [ ${COLUMNS} -lt 150 ] && [ ${LINES} -ge 47 ]; then
 		tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session-narrow
 	else
-		tmux
+		tmux -2
 	fi
 	# tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
 else
