@@ -36,16 +36,16 @@ if has("gui")
 		" colorscheme pyte
 		" colorscheme morning
 		" colorscheme landscape
-		colorscheme one
-		set background=light
+		colorscheme onedark
+		set background=dark
 	else
 		colorscheme industry
 		set background=dark
 	endif
 	" GUI版でのタブ等特殊文字表示色指定
-	" highlight! link SpecialKey Special
-	" highlight! Normal  guifg=#abb2bf guibg=#1d2026 
-	" highlight! VertSplit guifg=#3E4452 guibg=#3E4452
-	" highlight! Folded guibg=#3E4452 guifg=#abb2bf
-	" highlight! FoldColumn guibg=#3E4452
+	highlight! link SpecialKey Special
+	highlight! Normal  guifg=#abb2bf guibg=#1d2026 
+	highlight! VertSplit guifg=#3E4452 guibg=#3E4452
+	highlight! Folded guibg=#3E4452 guifg=#abb2bf
+	highlight! FoldColumn guibg=#3E4452
 endif

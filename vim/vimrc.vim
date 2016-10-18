@@ -295,7 +295,7 @@ augroup VIMRC
 		cd $HOME
 	else
 		highlight! VertSplit term=reverse ctermfg=237 ctermbg=237
-		colorscheme one
-		set background=light
+		colorscheme onedark
+		set background=dark
 	endif
 augroup END
