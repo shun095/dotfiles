@@ -306,9 +306,10 @@ syntax enable
 if g:ostype == "win"
 	set background=dark
 	colorscheme industry
+	cd $HOME
 else
 	highlight! VertSplit term=reverse ctermfg=237 ctermbg=237
-	set background=dark
-	colorscheme onedark
+	colorscheme one
+	set background=light
 endif
 

@@ -508,3 +508,9 @@ hook_add = '''
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'
 
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+hook_add = '''
+	let g:EasyMotion_do_mapping = 0
+	nmap <Leader>s <Plug>(easymotion-s2)
+'''
