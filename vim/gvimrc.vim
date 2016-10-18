@@ -3,7 +3,7 @@ scriptencoding utf-8
 set linespace=1
 set cmdheight=2
 set guioptions=rLchb
-set sessionoptions=curdir,help,slash,tabpages,winsize,winpos,resize
+set sessionoptions=curdir,help,slash,tabpages
 " フォントを設定
 if g:ostype == "win"
 	set guifont=Ricty_Diminished_for_Powerline:h11:cSHIFTJIS

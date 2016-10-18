@@ -135,7 +135,7 @@ augroup END
 " augroup END
 
 " ==========セッション復帰用自作スクリプト==========
-set sessionoptions=curdir,help,slash,tabpages,winsize,winpos,resize
+set sessionoptions=curdir,help,slash,tabpages
 " MY SESSION FUNCTIONS {{{
 " let g:save_session_file = expand('~/.vimsessions/default.vim')
 
