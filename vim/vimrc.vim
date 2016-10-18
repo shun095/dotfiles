@@ -223,7 +223,6 @@ augroup END
 
 command! TabMerge call s:tab_merge()
 command! LoadLastSession call s:load_session("lastsession.vim")
-execute "source" g:save_window_file
 
 " command! ClearSession call s:clear_session()
 " call s:load_session_on_startup()
