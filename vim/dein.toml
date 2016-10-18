@@ -11,15 +11,15 @@ hook_add = '''
 	" 入力モードで開始する
 	let g:unite_force_overwrite_statusline = 0
 	let g:unite_enable_start_insert = 0
-	nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
-	nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-	nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
-	nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
-	nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
+	nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
+	nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+	nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
+	nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
+	nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
 	" Unite All
-	nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+	nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 	" UniteOutLine
-	nnoremap <silent> ,uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
+	nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
 	" ウィンドウを分割して開く
 	au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
 	au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')

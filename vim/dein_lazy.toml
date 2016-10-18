@@ -1,6 +1,6 @@
 [[plugins]]
 repo = 'osyo-manga/vim-precious'
-on_idle = 1
+on_i = 1
 depends = ['context_filetype.vim']
 hook_add = '''
 	" let g:context_filetype#search_offset = 300
@@ -318,8 +318,9 @@ hook_add = '''
 	let g:tweetvim_display_username = 1
 	let g:tweetvim_display_icon = 1
 	let g:tweetvim_async_post = 1
-	nnoremap ,utw :<C-u>Unite tweetvim<CR>
-	nnoremap ,utws :<C-u>TweetVimCommandSay 
+	nnoremap <Leader>tl :<C-u>Unite tweetvim<CR>
+	nnoremap <Leader>tu :<C-u>TweetVimUserStream<CR>
+	nnoremap <Leader>ts :<C-u>TweetVimSay<CR>
 '''
 
 [[plugins]]

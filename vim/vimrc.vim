@@ -1,5 +1,4 @@
 " vim: set foldmethod=marker:
-"
 augroup VIMRC
 	autocmd!
 	scriptencoding utf-8
