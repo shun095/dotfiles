@@ -121,11 +121,12 @@ augroup VIMRC
 	autocmd Filetype xml set foldmethod=indent
 	autocmd Filetype css set foldmethod=syntax
 
-	" autocmd QuickFixCmdPost * if len(getqflist()) != 0 | copen | else | cclose |endif
+	" QuickFixを自動で開く
 	autocmd QuickFixCmdPost * cwindow
 	autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
 	autocmd FileType qf noremap <silent><buffer> p  <CR>*Nzz<C-w>p
 
+	" ヘルプをqで閉じれるようにする
 	autocmd FileType help nnoremap <silent><buffer>q :quit<CR> 
 
 	" 	autocmd FileType vim setlocal path+=$VIM,$HOME/.vim/bundle
@@ -228,8 +229,8 @@ augroup VIMRC
 	endif
 
 	" tagファイルから色を付ける設定（ヘルプより引用）
-	command! TagMakeColorring  :sp tags<CR>:%s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><F12>
-	command! TagColorring :so tags.vim<CR>
+	:map <F11>  :sp tags<CR>:%s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><F12>
+	:map <F12>  :so tags.vim<CR>:noh<CR>
 
 	" =====プラグインなしVerここまで======= }}}
 	"==================================================

@@ -1,48 +1,47 @@
+!_TAG_FILE_ENCODING	cp932	//
 !_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
 !_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_JP_AUTHOR	HIGASHI Hirohito	/Twitter: @h_east/
+!_TAG_PROGRAM_JP_URL	http://hp.vector.co.jp/authors/VA025040/	//
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-$NUSHHOME	vimrc.vim	/^let $NUSHHOME=expand("$HOME") . "\/dotfiles\/vim"$/;"	v
-<C-V>	generalkeymode.vim	/^inoremap <C-V> <ESC>"*p$/;"	m
-<C-]>	neobundlesettings.vim	/^nnoremap <C-]> g<C-]>$/;"	m
-<ESC>	vimrc.vim	/^	imap <silent> <ESC> <ESC>:call ImInActivate()<CR>$/;"	m
-<ESC><ESC>	vimrc.vim	/^nnoremap <silent> <ESC><ESC> :noh<CR>$/;"	m
-AUTOSAVE_ONLEAVE	vimrc.vim	/^augroup AUTOSAVE_ONLEAVE$/;"	a
-CdCurrent	vimrc.vim	/^command! CdCurrent cd\\ %:h$/;"	c
-GUIENTER	gvimrc.vim	/^augroup GUIENTER$/;"	a
-HTML	vimrc.vim	/^augroup HTML$/;"	a
-HtmlFormat	vimrc.vim	/^command! HtmlFormat call s:htmlformat()$/;"	c
-ImInActivate	vimrc.vim	/^	function! ImInActivate() abort$/;"	f
-LoadLastSession	vimrc.vim	/^command! LoadLastSession call s:load_session("lastsession.vim")$/;"	c
-MYXML	vimrc.vim	/^augroup MYXML "{{{$/;"	a
-RESTORE	vimrc.vim	/^augroup RESTORE$/;"	a
-ShowCurrentTime	test.vim	/^function! ShowCurrentTime()$/;"	f
-TabMerge	vimrc.vim	/^command! TabMerge call s:tab_merge()$/;"	c
-cpp	neobundlesettings.vim	/^augroup cpp-path$/;"	a
-g:cpp_class_scope_highlight	neobundlesettings.vim	/^let g:cpp_class_scope_highlight = 1$/;"	v
-g:no_plugins_flag	vimrc.vim	/^let g:no_plugins_flag = 0$/;"	v
-g:plugins_lazy_toml	vimrc.vim	/^	let g:plugins_lazy_toml = '$NUSHHOME\/dein_lazy.toml'$/;"	v
-g:plugins_toml	vimrc.vim	/^	let g:plugins_toml = '$NUSHHOME\/dein.toml'$/;"	v
-g:save_window_file	vimrc.vim	/^let g:save_window_file = expand('~\/.vimwinpos')$/;"	v
-g:solarized_termcolors	vimrc.vim	/^let g:solarized_termcolors=256$/;"	v
-g:visualstudio_controllerpath	neobundlesettings.vim	/^let g:visualstudio_controllerpath = "VisualStudioController.exe"$/;"	v
-g:visualstudio_enableerrormarker	neobundlesettings.vim	/^let g:visualstudio_enableerrormarker = 1$/;"	v
-g:visualstudio_terminalencoding	neobundlesettings.vim	/^let g:visualstudio_terminalencoding =500$/;"	v
-gj	vimrc.vim	/^nnoremap gj j$/;"	m
-gk	vimrc.vim	/^nnoremap gk k$/;"	m
-htmlformat	vimrc.vim	/^function! s:htmlformat() abort$/;"	f
-j	vimrc.vim	/^nnoremap j gj$/;"	m
-k	vimrc.vim	/^nnoremap k gk$/;"	m
-load_session	vimrc.vim	/^function! s:load_session(session_name) abort "{{{$/;"	f
-ostype	vimrc.vim	/^	let ostype = "linux"$/;"	v
-ostype	vimrc.vim	/^	let ostype = "mac"$/;"	v
-ostype	vimrc.vim	/^	let ostype = "win"$/;"	v
-s:dein_dir	vimrc.vim	/^	let s:dein_dir = s:plugin_dir . 'repos\/github.com\/Shougo\/dein.vim'$/;"	v
-s:plugin_dir	vimrc.vim	/^	let s:plugin_dir = expand('$HOME') . '\/.vim\/dein\/'$/;"	v
-s:save_session_flag	vimrc.vim	/^let s:save_session_flag = 0$/;"	v
-save_session	vimrc.vim	/^function! s:save_session(session_name) abort "{{{$/;"	f
-save_window	vimrc.vim	/^function! s:save_window() abort "{{{$/;"	f
-tab_merge	vimrc.vim	/^function! s:tab_merge() abort"{{{$/;"	f
-tn	vimrc.vim	/^nnoremap tn :tabnew $/;"	m
+!_TAG_PROGRAM_VERSION	5.8J2	//
+$NUSHHOME	.\vimrc.vim	/^	let $NUSHHOME=expand("$HOME") . "\/dotfiles\/vim"$/;"	v
+<C-V>	.\generalkeymode.vim	/^inoremap <C-V> <ESC>"*p$/;"	m
+<C-]>	.\neobundlesettings.vim	/^nnoremap <C-]> g<C-]>$/;"	m
+<ESC>	.\vimrc.vim	/^		imap <silent> <ESC> <ESC>:call ImInActivate()<CR>$/;"	m
+<ESC><ESC>	.\vimrc.vim	/^	nnoremap <silent> <ESC><ESC> :noh<CR>$/;"	m
+CdCurrent	.\vimrc.vim	/^	command! CdCurrent cd\\ %:h$/;"	c
+GUIENTER	.\gvimrc.vim	/^	augroup GUIENTER$/;"	a
+ImInActivate	.\vimrc.vim	/^		function! ImInActivate() abort$/;"	f
+LoadLastSession	.\vimrc.vim	/^	command! LoadLastSession call s:load_session("lastsession.vim")$/;"	c
+TabMerge	.\vimrc.vim	/^	command! TabMerge call s:tab_merge()$/;"	c
+TagColorring	.\vimrc.vim	/^	command! TagColorring :so tags.vim<CR>$/;"	c
+TagMakeColorring	.\vimrc.vim	/^	command! TagMakeColorring  :sp tags<CR>:%s\/^\\([^	:]*:\\)\\=\\([^	]*\\).*\/syntax keyword Tag \\2\/<CR>:wq! tags.vim<CR>\/^<CR>$/;"	c
+VIMRC	.\vimrc.vim	/^augroup VIMRC$/;"	a
+cpp	.\neobundlesettings.vim	/^augroup cpp-path$/;"	a
+g:cpp_class_scope_highlight	.\neobundlesettings.vim	/^let g:cpp_class_scope_highlight = 1$/;"	v
+g:no_plugins_flag	.\vimrc.vim	/^	let g:no_plugins_flag = 0$/;"	v
+g:ostype	.\vimrc.vim	/^		let g:ostype = "linux"$/;"	v
+g:ostype	.\vimrc.vim	/^		let g:ostype = "mac"$/;"	v
+g:ostype	.\vimrc.vim	/^		let g:ostype = "win"$/;"	v
+g:plugins_lazy_toml	.\vimrc.vim	/^		let g:plugins_lazy_toml = '$NUSHHOME\/dein_lazy.toml'$/;"	v
+g:plugins_toml	.\vimrc.vim	/^		let g:plugins_toml = '$NUSHHOME\/dein.toml'$/;"	v
+g:save_window_file	.\vimrc.vim	/^	let g:save_window_file = expand('~\/.vimwinpos')$/;"	v
+g:visualstudio_controllerpath	.\neobundlesettings.vim	/^let g:visualstudio_controllerpath = "VisualStudioController.exe"$/;"	v
+g:visualstudio_enableerrormarker	.\neobundlesettings.vim	/^let g:visualstudio_enableerrormarker = 1$/;"	v
+g:visualstudio_terminalencoding	.\neobundlesettings.vim	/^let g:visualstudio_terminalencoding =500$/;"	v
+gj	.\vimrc.vim	/^	nnoremap gj j$/;"	m
+gk	.\vimrc.vim	/^	nnoremap gk k$/;"	m
+htmlformat	.\vimrc.vim	/^	function! s:htmlformat() abort$/;"	f
+j	.\vimrc.vim	/^	nnoremap j gj$/;"	m
+k	.\vimrc.vim	/^	nnoremap k gk$/;"	m
+load_session	.\vimrc.vim	/^	function! s:load_session(session_name) abort "{{{$/;"	f
+s:dein_dir	.\vimrc.vim	/^		let s:dein_dir = s:plugin_dir . 'repos\/github.com\/Shougo\/dein.vim'$/;"	v
+s:plugin_dir	.\vimrc.vim	/^		let s:plugin_dir = expand('$HOME') . '\/.vim\/dein\/'$/;"	v
+s:save_session_flag	.\vimrc.vim	/^	let s:save_session_flag = 0$/;"	v
+save_session	.\vimrc.vim	/^	function! s:save_session(session_name) abort "{{{$/;"	f
+save_window	.\vimrc.vim	/^	function! s:save_window() abort "{{{$/;"	f
+tab_merge	.\vimrc.vim	/^	function! s:tab_merge() abort"{{{$/;"	f
+tn	.\vimrc.vim	/^	nnoremap tn :tabnew $/;"	m

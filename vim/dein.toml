@@ -125,8 +125,8 @@ repo = 'superbrothers/vim-vimperator'
 [[plugins]]
 repo = 'tpope/vim-surround'
 
-# [[plugins]]
-# repo = 'vim-scripts/TagHighlight'
+[[plugins]]
+repo = 'vim-scripts/TagHighlight'
 
 # [[plugins]]
 # repo = 'majutsushi/tagbar'
