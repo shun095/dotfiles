@@ -238,12 +238,14 @@ augroup VIMRC
 	filetype off
 	filetype plugin indent off
 
-	if g:no_plugins_flag != 1 "{{{
+	if g:no_plugins_flag != 1 
+		"{{{ if no_plugins_flag != 1
 		if &compatible
 			set nocompatible
 		endif
 
-		set background=dark
+		let g:vimproc#download_windows_dll = 1
+
 		" 各プラグインをインストールするディレクトリ
 		let s:plugin_dir = expand('$HOME') . '/.vim/dein/'
 		" dein.vimをインストールするディレクトリをランタイムパスへ追加
@@ -295,7 +297,7 @@ augroup VIMRC
 		cd $HOME
 	else
 		highlight! VertSplit term=reverse ctermfg=237 ctermbg=237
-		colorscheme onedark
 		set background=dark
+		colorscheme onedark
 	endif
 augroup END
