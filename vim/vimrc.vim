@@ -92,6 +92,8 @@ augroup VIMRC
 	" 新しいタブショートカット
 	nnoremap tn :tabnew 
 
+	cnoremap w!!! w !sudo tee > /dev/null %<CR>
+
 	" 自作コマンド HtmlFormat(挙動は保証しない）
 	function! s:htmlformat() abort
 		if &filetype == "html" || &filetype == "xml"
