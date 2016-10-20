@@ -352,3 +352,9 @@ hook_add = '''
 repo = 'mattn/vim-soundcloud'
 on_cmd = ['Soundcloud']
 
+[[plugins]]
+repo = 'miyakogi/livemark.vim'
+on_cmd = ['LiveMark']
+hook_add = '''
+let g:livemark_python = 'C:\Program Files\Python35\'
+'''
