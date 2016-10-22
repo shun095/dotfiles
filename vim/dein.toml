@@ -1,4 +1,4 @@
-﻿[[plugins]]
+[[plugins]]
 repo = 'Shougo/vimproc.vim'
 build = 'make'
 
@@ -515,4 +515,12 @@ repo = 'easymotion/vim-easymotion'
 hook_add = '''
 	let g:EasyMotion_do_mapping = 0
 	nmap <Leader>s <Plug>(easymotion-s2)
+'''
+
+[[plugins]]
+repo = "iamcco/markdown-preview.vim"
+hook_add = '''
+if has('win32') != 0
+	let g:mkdp_path_to_chrome="C:/Program\ Files\ (x86)/Google/Chrome/Application/chrome.exe"
+endif
 '''
