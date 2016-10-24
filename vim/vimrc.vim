@@ -4,7 +4,7 @@ augroup VIMRC
 	scriptencoding utf-8
 
 	let $NUSHHOME=expand("$HOME") . "/dotfiles/vim"
-	let g:no_plugins_flag = 0
+	let g:no_plugins_flag = 1
 
 	" =====プラグインなしVerここから======= {{{
 	" OSの判定
@@ -280,10 +280,21 @@ augroup VIMRC
 		"==================================================
 		"DEIN END
 		"==================================================
+		if g:ostype == "win"
+			set background=dark
+			colorscheme industry
+			cd $HOME
+		else
+			highlight! VertSplit term=reverse ctermfg=237 ctermbg=237
+			set background=dark
+			colorscheme onedark
+		endif
 		"}}}
 	else "if no_plugins_flag = 1
 		set background=dark
 		colorscheme industry
+		nnoremap <Leader>e :20Lexplore<CR>
+		autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR> 
 	endif " no_plugins_flag end
 
 
@@ -293,13 +304,4 @@ augroup VIMRC
 
 	" helptags $HOME/.vim/doc
 
-	if g:ostype == "win"
-		set background=dark
-		colorscheme industry
-		cd $HOME
-	else
-		highlight! VertSplit term=reverse ctermfg=237 ctermbg=237
-		set background=dark
-		colorscheme onedark
-	endif
 augroup END
