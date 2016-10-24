@@ -33,7 +33,7 @@ augroup VIMRC
 	set clipboard=unnamed,unnamedplus  " ヤンクした文字列がクリップボードに入る(逆も）
 	set ignorecase                     " 大文字小文字無視
 	set smartcase                      " 大文字で始まる場合は無視しない
-	set foldmethod=syntax              " syntaxに応じて折りたたまれる(zRで全部開く、zMで全部閉じる）
+	" set foldmethod=syntax              " syntaxに応じて折りたたまれる(zRで全部開く、zMで全部閉じる）
 	set tabstop=4                      " タブの挙動設定。挙動がややこしいのでヘルプ参照
 	set shiftwidth=4
 	set noexpandtab
@@ -280,10 +280,24 @@ augroup VIMRC
 		"==================================================
 		"DEIN END
 		"==================================================
+		if g:ostype == "win"
+			set background=dark
+			colorscheme desert
+			cd $HOME
+		else
+			highlight! VertSplit term=reverse ctermfg=237 ctermbg=237
+			set background=dark
+			colorscheme onedark
+		endif
 		"}}}
 	else "if no_plugins_flag = 1
 		set background=dark
-		colorscheme industry
+		colorscheme desert
+		let g:netrw_browse_split = 4
+		let g:netrw_altv = 1
+		let g:netrw_winsize = 20
+		nnoremap <Leader>e :Vexplore<CR>
+		autocmd FileType netrw nnoremap <silent><buffer>q :q<CR>
 	endif " no_plugins_flag end
 
 
@@ -293,13 +307,4 @@ augroup VIMRC
 
 	" helptags $HOME/.vim/doc
 
-	if g:ostype == "win"
-		set background=dark
-		colorscheme industry
-		cd $HOME
-	else
-		highlight! VertSplit term=reverse ctermfg=237 ctermbg=237
-		set background=dark
-		colorscheme onedark
-	endif
 augroup END
