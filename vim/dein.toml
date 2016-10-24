@@ -514,6 +514,10 @@ hook_add = '''
 
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'
+hook_add = '''
+let g:ctrlp_extensions = ['tag' ]
+
+'''
 
 [[plugins]]
 repo = 'easymotion/vim-easymotion'

@@ -297,7 +297,6 @@ augroup VIMRC
 		let g:netrw_altv = 1
 		let g:netrw_winsize = 20
 		nnoremap <Leader>e :Vexplore<CR>
-		autocmd FileType netrw nnoremap <silent><buffer>q :q<CR>
 	endif " no_plugins_flag end
 
 
