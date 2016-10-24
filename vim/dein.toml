@@ -1,3 +1,4 @@
+# vim: set foldmethod=marker:
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
 build = 'make'
@@ -162,6 +163,7 @@ set fillchars=vert:\|
 "     " hi FoldColumn gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey guifg=DarkBlue
 " augroup END "}}}
 '''
+# Airline vim {{{
 [[plugins]]
 repo = 'vim-airline/vim-airline'
 hook_add = '''
@@ -176,7 +178,7 @@ hook_add = '''
 
 	let g:airline#extensions#tabline#show_splits   = 1
 	let g:airline#extensions#tabline#show_tabs = 1
-	let g:airline#extensions#tabline#show_buffers = 1
+	let g:airline#extensions#tabline#show_buffers = 0
 	let g:airline#extensions#tabline#tab_nr_type   = 2 " splits and tab number
 	let g:airline#extensions#tabline#show_close_button = 0
 
@@ -217,7 +219,9 @@ hook_add = '''
 				\ [ 'x', 'y', 'z' ]
 				\ ]
 '''
+# }}}
 
+# Lightline vim {{{
 # [[plugins]]
 # repo = 'itchyny/lightline.vim'
 # hook_add = '''
@@ -451,6 +455,7 @@ hook_add = '''
 # 	let g:vimfiler_force_overwrite_statusline = 0
 # 	let g:vimshell_force_overwrite_statusline = 0
 # '''
+# }}}
 
 # COLORSCHEMES
 [[plugins]]

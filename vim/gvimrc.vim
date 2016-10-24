@@ -39,7 +39,7 @@ if has("gui")
 		colorscheme onedark
 		set background=dark
 	else
-		colorscheme industry
+		colorscheme desert
 		set background=dark
 	endif
 	" GUI版でのタブ等特殊文字表示色指定
