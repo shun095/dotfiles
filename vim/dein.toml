@@ -521,6 +521,6 @@ hook_add = '''
 repo = "iamcco/markdown-preview.vim"
 hook_add = '''
 if has('win32') != 0
-	let g:mkdp_path_to_chrome="C:/Program\ Files\ (x86)/Google/Chrome/Application/chrome.exe"
+	let g:mkdp_path_to_chrome="C:/Program\ Files/Google/Chrome/Application/chrome.exe"
 endif
 '''
