@@ -2,7 +2,7 @@
 
 export EDITOR=vim
 
-function chpwd() {ls -a}
+function chpwd() {ls}
 
 if [[ ! -n $TMUX ]]; then
 	if [ ${COLUMNS} -ge 150 ] && [ ${LINES} -ge 47 ]; then
