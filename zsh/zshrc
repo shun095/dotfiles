@@ -58,4 +58,4 @@ if [  ! -e ${TMUXCONF} ]; then
 fi
 
 # change the color of cursor
-echo -ne '\e]12;#999999\a'
+# echo -ne '\e]12;#999999\a'
