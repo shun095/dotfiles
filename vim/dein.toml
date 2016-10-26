@@ -533,3 +533,15 @@ if has('win32') != 0
 	let g:mkdp_path_to_chrome="C:/Program\ Files/Google/Chrome/Application/chrome.exe"
 endif
 '''
+
+[[plugins]]
+repo = "xolox/vim-session"
+depends = "vim-misc"
+hook_add = '''
+	let g:session_autosave = 'prompt'
+	let g:session_autoload = 'yes'
+	let g:session_default_overwrite = 1
+'''
+
+[[plugins]]
+repo = "xolox/vim-misc"

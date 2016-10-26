@@ -10,10 +10,10 @@ if has("gui")
 	set sessionoptions=curdir,help,slash,tabpages
 	" フォントを設定
 	if g:ostype == "win"
-		set guifont=Ricty_Diminished_for_Powerline:h11:cSHIFTJIS
+		set guifont=Ricty_Diminished_for_Powerline:h12:cSHIFTJIS
 		" echo "os=windows"
 	else
-		set guifont=Ricty\ Diminished\ for\ Powerline\ 11
+		set guifont=Ricty\ Diminished\ for\ Powerline\ 12
 		" echo "os=others"
 	endif
 
@@ -47,7 +47,7 @@ if has("gui")
 	endif
 	" GUI版でのタブ等特殊文字表示色指定
 	highlight! link SpecialKey Special
-	highlight! Normal  guifg=#abb2bf guibg=#1d2026 
+	highlight! Normal  guifg=#abb2bf guibg=#0e1013 
 	highlight! VertSplit guifg=#3E4452 guibg=#3E4452
 	highlight! Folded guibg=#3E4452 guifg=#abb2bf
 	highlight! FoldColumn guibg=#3E4452

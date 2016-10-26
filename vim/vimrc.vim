@@ -321,6 +321,8 @@ augroup VIMRC
 					colorscheme onedark
 					highlight! vertsplit term=reverse ctermfg=237 ctermbg=237
 					highlight! normal ctermbg=233
+					highlight! Folded ctermbg=236 ctermfg=none
+					highlight! FoldColumn ctermbg=236
 				endif
 			else
 				filetype on
