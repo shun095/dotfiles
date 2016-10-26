@@ -530,18 +530,29 @@ hook_add = '''
 repo = "iamcco/markdown-preview.vim"
 hook_add = '''
 if has('win32') != 0
-	let g:mkdp_path_to_chrome="C:/Program\ Files/Google/Chrome/Application/chrome.exe"
+	let s:google_chrome_path="C:/Program\ Files/Google/Chrome/Application/chrome.exe"
+	let s:google_chrome_path32="C:/Program\ Files\ (x86)/Google/Chrome/Application/chrome.exe"
+	if executable(s:google_chrome_path)
+		let g:mkdp_path_to_chrome=s:google_chrome_path
+	else
+		let g:mkdp_path_to_chrome=s:google_chrome_path32
+	endif 
 endif
 '''
 
-[[plugins]]
-repo = "xolox/vim-session"
-depends = "vim-misc"
-hook_add = '''
-	let g:session_autosave = 'prompt'
-	let g:session_autoload = 'yes'
-	let g:session_default_overwrite = 1
-'''
-
-[[plugins]]
-repo = "xolox/vim-misc"
+# [[plugins]]
+# repo = "xolox/vim-session"
+# depends = "vim-misc"
+# hook_add = '''
+# 	let g:session_autosave = 'prompt'
+# 	let g:session_autoload = 'yes'
+# 	let g:session_default_overwrite = 1
+# 	let g:session_persist_globals = ['&sessionoptions']
+# 	call add(g:session_persist_globals, 'g:session_autoload')
+# 	call add(g:session_persist_globals, 'g:session_autosave')
+# 	call add(g:session_persist_globals, 'g:session_default_to_last')
+# 	call add(g:session_persist_globals, 'g:session_persist_globals')
+# '''
+#
+# [[plugins]]
+# repo = "xolox/vim-misc"
