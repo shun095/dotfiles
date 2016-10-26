@@ -13,15 +13,15 @@ augroup VIMRC
 		if v:version >= 800
 			set rop=type:directx
 		endif
-		set t_Co=16                    " ターミナルで16色を使う
+		set t_Co=8                     " ターミナルで16色を使う
 	elseif has('mac')
 		let g:ostype = "mac"
 	else
 		let g:ostype = "linux"
-		set t_Co=256				   " ターミナルで256色を使う
+		set t_Co=256                   " ターミナルで256色を使う
 	endif
 
-	" バージョン検出
+                                       " バージョン検出
 	if v:version >= 800
 		set breakindent                " version8以降搭載の便利オプション
 	endif
@@ -33,7 +33,7 @@ augroup VIMRC
 	set clipboard=unnamed,unnamedplus  " ヤンクした文字列がクリップボードに入る(逆も）
 	set ignorecase                     " 大文字小文字無視
 	set smartcase                      " 大文字で始まる場合は無視しない
-	" set foldmethod=syntax              " syntaxに応じて折りたたまれる(zRで全部開く、zMで全部閉じる）
+                                       " set foldmethod=syntax              " syntaxに応じて折りたたまれる(zRで全部開く、zMで全部閉じる）
 	set tabstop=4                      " タブの挙動設定。挙動がややこしいのでヘルプ参照
 	set shiftwidth=4
 	set noexpandtab
@@ -122,6 +122,9 @@ augroup VIMRC
 	autocmd Filetype xml set foldmethod=indent
 	autocmd Filetype css set foldmethod=syntax
 
+	autocmd FileType python setl autoindent
+	autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+	autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
 	" QuickFixを自動で開く
 	autocmd QuickFixCmdPost * cwindow
 	autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
@@ -280,14 +283,20 @@ augroup VIMRC
 		"==================================================
 		"DEIN END
 		"==================================================
+		filetype on
+		filetype plugin indent on
+		syntax enable
+
+		" ターミナルでの色設定
 		if g:ostype == "win"
 			set background=dark
 			colorscheme desert
 			cd $HOME
 		else
-			highlight! VertSplit term=reverse ctermfg=237 ctermbg=237
 			set background=dark
 			colorscheme onedark
+			highlight! vertsplit term=reverse ctermfg=237 ctermbg=237
+			highlight! normal ctermbg=233
 		endif
 		"}}}
 	else "if no_plugins_flag = 1
@@ -298,11 +307,6 @@ augroup VIMRC
 		let g:netrw_winsize = 20
 		nnoremap <Leader>e :Vexplore<CR>
 	endif " no_plugins_flag end
-
-
-	filetype on
-	filetype plugin indent on
-	syntax enable
 
 	" helptags $HOME/.vim/doc
 
