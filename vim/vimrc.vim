@@ -1,10 +1,13 @@
 " vim: set foldmethod=marker:
+scriptencoding utf-8
+
 augroup VIMRC
 	autocmd!
-	scriptencoding utf-8
+	let s:true = 1
+	let s:false = 0
 
 	let $NUSHHOME=expand("$HOME") . "/dotfiles/vim"
-	let g:no_plugins_flag = 0
+	let g:use_plugins_flag = s:true
 
 	" =====プラグインなしVerここから======= {{{
 	" OSの判定
@@ -21,7 +24,7 @@ augroup VIMRC
 		set t_Co=256                   " ターミナルで256色を使う
 	endif
 
-                                       " バージョン検出
+	" バージョン検出
 	if v:version >= 800
 		set breakindent                " version8以降搭載の便利オプション
 	endif
@@ -33,7 +36,7 @@ augroup VIMRC
 	set clipboard=unnamed,unnamedplus  " ヤンクした文字列がクリップボードに入る(逆も）
 	set ignorecase                     " 大文字小文字無視
 	set smartcase                      " 大文字で始まる場合は無視しない
-                                       " set foldmethod=syntax              " syntaxに応じて折りたたまれる(zRで全部開く、zMで全部閉じる）
+	" set foldmethod=syntax              " syntaxに応じて折りたたまれる(zRで全部開く、zMで全部閉じる）
 	set tabstop=4                      " タブの挙動設定。挙動がややこしいのでヘルプ参照
 	set shiftwidth=4
 	set noexpandtab
@@ -240,15 +243,14 @@ augroup VIMRC
 	"==================================================
 	"USING DEIN VIM TO MANAGE PLUGIN
 	"==================================================
-	filetype off
-	filetype plugin indent off
 
-	if g:no_plugins_flag != 1 
-		"{{{ if no_plugins_flag != 1
+	if g:use_plugins_flag == s:true
+		"{{{ if use_plugins_flag == s:true
 		if &compatible
 			set nocompatible
 		endif
 
+		" vimprocが呼ばれる前に設定
 		let g:vimproc#download_windows_dll = 1
 
 		" 各プラグインをインストールするディレクトリ
@@ -256,57 +258,85 @@ augroup VIMRC
 		" dein.vimをインストールするディレクトリをランタイムパスへ追加
 		let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
 		execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
+
 		" dein.vimがまだ入ってなければ 最初に`git clone`
 		if !isdirectory(s:dein_dir)
-			call mkdir(s:dein_dir, 'p')
-			silent execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
-		endif
-		"==================================================
-		"DEIN BEGIN
-		"==================================================
-		let g:plugins_toml = '$NUSHHOME/dein.toml'
-		let g:plugins_lazy_toml = '$NUSHHOME/dein_lazy.toml'
-		if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
-			call dein#begin(s:plugin_dir)
-			call dein#add('Shougo/dein.vim')
-			call dein#add('vim-scripts/errormarker.vim')
+			let s:dein_is_installed = s:false
 
-			call dein#load_toml(g:plugins_toml,{'lazy' : 0})
-			call dein#load_toml(g:plugins_lazy_toml,{'lazy' : 1})
-
-			call dein#end()
-			call dein#save_state()
-		endif
-		if dein#check_install()
-			call dein#install()
-		endif
-		"==================================================
-		"DEIN END
-		"==================================================
-		filetype on
-		filetype plugin indent on
-		syntax enable
-
-		" ターミナルでの色設定
-		if g:ostype == "win"
-			set background=dark
-			colorscheme desert
-			cd $HOME
+			let s:confirm_dein_install = confirm("Dein is not installed yet.Install now?","&yes\n&no",2)
+			if s:confirm_dein_install == 1
+				call mkdir(s:dein_dir, 'p')
+				silent execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
+				let s:dein_is_installed = s:true
+			endif
 		else
-			set background=dark
-			colorscheme onedark
-			highlight! vertsplit term=reverse ctermfg=237 ctermbg=237
-			highlight! normal ctermbg=233
+			let s:dein_is_installed = s:true
+		endif
+
+		if s:dein_is_installed == s:true
+			filetype off
+			filetype plugin indent off
+			if g:use_plugins_flag == s:true
+				"==================================================
+				"DEIN BEGIN
+				"==================================================
+				let g:plugins_toml = '$NUSHHOME/dein.toml'
+				let g:plugins_lazy_toml = '$NUSHHOME/dein_lazy.toml'
+
+				if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
+					call dein#begin(s:plugin_dir)
+					call dein#add('Shougo/dein.vim')
+
+					call dein#load_toml(g:plugins_toml,{'lazy' : 0})
+					call dein#load_toml(g:plugins_lazy_toml,{'lazy' : 1})
+
+					call dein#end()
+					call dein#save_state()
+				endif
+
+				if dein#check_install()
+					let s:confirm_plugins_install = confirm("Some plugins are not installed yet. Install now?",
+								\ "&yes\n&no",2)
+
+					if s:confirm_plugins_install == 1
+						call dein#install()
+					else
+						echomsg "Plugins were not installed. Please install after."
+					endif
+				endif
+
+				filetype on
+				filetype plugin indent on
+				syntax enable
+				"==================================================
+				"DEIN END
+				"==================================================
+				" ターミナルでの色設定
+				if g:ostype == "win"
+					set background=dark
+					colorscheme desert
+					cd $HOME
+				else
+					set background=dark
+					colorscheme onedark
+					highlight! vertsplit term=reverse ctermfg=237 ctermbg=237
+					highlight! normal ctermbg=233
+				endif
+			else
+				filetype on
+				filetype plugin indent on
+				syntax enable
+			endif
 		endif
 		"}}}
-	else "if no_plugins_flag = 1
+	else "if use_plugins_flag = s:false
 		set background=dark
 		colorscheme desert
 		let g:netrw_browse_split = 4
 		let g:netrw_altv = 1
 		let g:netrw_winsize = 20
 		nnoremap <Leader>e :Vexplore<CR>
-	endif " no_plugins_flag end
+	endif " use_plugins_flag end
 
 	" helptags $HOME/.vim/doc
 

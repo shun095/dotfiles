@@ -1,6 +1,9 @@
 " vim: set foldmethod=marker:
+scriptencoding utf-8
 if has("gui")
-	scriptencoding utf-8
+	let s:true = 1
+	let s:false = 0
+
 	set linespace=1
 	set cmdheight=2
 	set guioptions=rLchb
@@ -25,7 +28,7 @@ if has("gui")
 	augroup END
 	set vb t_vb=
 
-	if g:no_plugins_flag != 1
+	if g:use_plugins_flag == s:true
 		" 有効なcolorschemeを選択
 		" colorscheme summerfruit256
 		" colorscheme molokai
