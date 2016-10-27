@@ -93,7 +93,7 @@ augroup VIMRC
 	" エスケープ２回でハイライトキャンセル
 	nnoremap <silent> <ESC><ESC> :noh<CR>
 	" 新しいタブショートカット
-	nnoremap tn :tabnew 
+	" nnoremap tn :tabnew 
 
 	cnoremap w!!! w !sudo tee > /dev/null %<CR>
 
@@ -138,90 +138,8 @@ augroup VIMRC
 
 	" 	autocmd FileType vim setlocal path+=$VIM,$HOME/.vim/bundle
 
-	" ==========セッション復帰用自作スクリプト==========
-	set sessionoptions=curdir,help,slash,tabpages
-	" MY SESSION FUNCTIONS {{{
-	" let g:save_session_file = expand('~/.vimsessions/default.vim')
-
-	let g:save_window_file = expand('~/.vimwinpos')
-	let s:save_session_flag = 0
-
-	" autocmd VimEnter * :LoadLastSession
-
-	" 新しいWindowを開かずタブで開く
-	" 	autocmd VimEnter * call s:open_with_tab()
-
-	" TABMERGING
-	function! s:tab_merge() abort"{{{
-		if len(split(serverlist())) > 1
-			tabnew
-			tabprevious
-			let s:send_file_path = expand("%")
-			quit
-			call remote_send("GVIM","<ESC><ESC>:tabnew " . s:send_file_path . "<CR>")
-			call remote_foreground("GVIM")
-			let s:save_session_flag = 1
-			quitall
-		else
-			echo "ウィンドウがひとつだけのためマージできません"
-		endif
-	endfunction "}}}
-
-	" SESSION CREAR (DESABLED)
-	" function! s:clear_session() abort "{{{
-	" 	call s:save_session()
-	" 	call rename(expand($HOME) . '/.vimsessions/default.vim' ,expand($HOME) . '/.vimsessions/backup.vim')
-	"
-	" 	let s:save_session_flag = 1
-	" 	quitall
-	" endfunction "}}}
-
-	" LOADING SESSION
-	function! s:load_session(session_name) abort "{{{
-		execute "source" "~/.vimsessions/" . a:session_name
-	endfunction "}}}
-
-	" START UP LOADING (DESABLED)
-	" function! s:load_session_on_startup() abort "{{{
-	" 	if has("vim_starting")
-	" 		if filereadable(g:save_session_file)
-	" 			"ほかにVimが起動していなければ
-	" 			" if len(split(serverlist())) == 1 || serverlist() == ''
-	" 			if serverlist() == ""
-	" 				silent source ~/.vimsessions/default.vim
-	" 			endif
-	" 			" デバッグ用
-	" 			" source ~/.vimsessions/default.vim
-	" 		endif
-	" 	endif
-	" endfunction "}}}
-
-	" SAVING SESSION 
-	function! s:save_session(session_name) abort "{{{
-		if s:save_session_flag != 1
-			execute  "mksession! "  "~/.vimsessions/". a:session_name
-		endif
-	endfunction "}}}
-
-	" SAVING WINDOW POSITION
-	function! s:save_window() abort "{{{
-		let options = [
-					\ 'set columns=' . &columns,
-					\ 'set lines=' . &lines,
-					\ 'winpos ' . getwinposx() . ' ' . getwinposy(),
-					\ ]
-		call writefile(options, g:save_window_file)
-	endfunction "}}}
-
-	autocmd VimLeavePre * call s:save_window()
-	autocmd VimLeavePre * call s:save_session("lastsession.vim")
-
-	command! TabMerge call s:tab_merge()
-	command! LoadLastSession call s:load_session("lastsession.vim")
-
-	" command! ClearSession call s:clear_session()
-	" call s:load_session_on_startup()
-	" ==========セッション復帰用自作スクリプトここまで========== " }}}
+	let s:myplugins = expand("$HOME") . "/dotfiles/vim"
+	execute 'set runtimepath+=' . s:myplugins
 
 	" IMEの管理
 	set iminsert=0
@@ -262,8 +180,10 @@ augroup VIMRC
 		" dein.vimがまだ入ってなければ 最初に`git clone`
 		if !isdirectory(s:dein_dir)
 			let s:dein_is_installed = s:false
-
+			" deinを今インストールするか確認
 			let s:confirm_dein_install = confirm("Dein is not installed yet.Install now?","&yes\n&no",2)
+
+			" インストールする場合
 			if s:confirm_dein_install == 1
 				call mkdir(s:dein_dir, 'p')
 				silent execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')

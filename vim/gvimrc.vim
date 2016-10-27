@@ -46,7 +46,7 @@ if has("gui")
 		set background=dark
 	endif
 	" GUI版でのタブ等特殊文字表示色指定
-	highlight! link SpecialKey Special
+	" highlight! link SpecialKey Special
 	highlight! Normal  guifg=#abb2bf guibg=#0e1013 
 	highlight! VertSplit guifg=#3E4452 guibg=#3E4452
 	highlight! Folded guibg=#3E4452 guifg=#abb2bf
