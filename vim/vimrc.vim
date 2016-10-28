@@ -11,7 +11,7 @@ augroup VIMRC
 
 	" =====プラグインなしVerここから======= {{{
 	" OSの判定
-	if has('win32')
+	if has('win32') || has('win64')
 		let g:ostype = "win"
 		if v:version >= 800
 			set rop=type:directx
@@ -95,7 +95,7 @@ augroup VIMRC
 	" 新しいタブショートカット
 	" nnoremap tn :tabnew 
 
-	cnoremap w!!! w !sudo tee > /dev/null %<CR>
+	command! Wsudo execute("w !sudo tee > /dev/null %<CR>")
 
 	" 自作コマンド HtmlFormat(挙動は保証しない）
 	function! s:htmlformat() abort

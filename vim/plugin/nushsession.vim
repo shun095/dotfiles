@@ -2,13 +2,16 @@
 scriptencoding utf-8
 augroup NUSHSESSION
 	autocmd!
+	let s:true = 1
+	let s:false = 0
 	" ==========セッション復帰用自作スクリプト==========
 	set sessionoptions=curdir,help,slash,tabpages
-	" MY SESSION FUNCTIONS {{{
+	" MY SESSION FUNCTIONS
 	" let g:save_session_file = expand('~/.vimsessions/default.vim')
 
 	let g:save_window_file = expand('~/.vimwinpos')
 	let s:save_session_flag = 0
+	let g:session_loaded = s:false
 
 	" autocmd VimEnter * nested execute("LoadLastSession")
 	" nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
@@ -44,13 +47,13 @@ augroup NUSHSESSION
 
 	" LOADING SESSION
 	function! s:load_session(session_name) abort "{{{
+		let g:session_loaded = s:true
 		execute "source" "~/.vimsessions/" . a:session_name
-		execute "e!"
 	endfunction "}}}
 
 	" SAVING SESSION 
 	function! s:save_session(session_name) abort "{{{
-		if s:save_session_flag != 1
+		if g:session_loaded == s:true
 			execute  "mksession! "  "~/.vimsessions/". a:session_name
 		endif
 	endfunction "}}}
@@ -99,5 +102,5 @@ augroup NUSHSESSION
 
 	" command! ClearSession call s:clear_session()
 	" call s:load_session_on_startup()
-	" ==========セッション復帰用自作スクリプトここまで========== " }}}
+	" ==========セッション復帰用自作スクリプトここまで========== "
 augroup END
