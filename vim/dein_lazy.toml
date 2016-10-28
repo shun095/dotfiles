@@ -194,8 +194,8 @@ hook_add = '''
 
 		" default 'longest' can not work with neocomplete
 		" noselect オプションで最初の候補が自動選択されなくなる
-		let g:clang_c_completeopt = 'menuone,preview,noselect'
-		let g:clang_cpp_completeopt = 'menuone,preview,noselect'
+		let g:clang_c_completeopt = 'menuone,noselect'
+		let g:clang_cpp_completeopt = 'menuone,noselect'
 		" clangのバージョンに従って増やす
 		if executable('clang-3.8')
 			let g:clang_exec = 'clang-3.8'
@@ -256,7 +256,7 @@ hook_post_source = '''
 	augroup JEDIVIM
 		autocmd FileType python setlocal omnifunc=jedi#completions
 		" noselect オプションで最初の候補が自動選択されなくなる
-		autocmd FileType python setlocal completeopt=menuone,preview,noselect
+		autocmd FileType python setlocal completeopt=menuone,noselect
 	augroup END
 		" 以下前半で既出よりコメントアウト
 		" if !exists('g:neocomplete#force_omni_input_patterns')

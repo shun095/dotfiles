@@ -49,5 +49,5 @@ if has("gui_running")
 	highlight! Normal  guifg=#abb2bf guibg=#0e1013 
 	highlight! VertSplit guifg=#3E4452 guibg=#3E4452
 	highlight! Folded guibg=#3E4452 guifg=#abb2bf
-	highlight! FoldColumn guibg=#3E4452
+	highlight! FoldColumn guibg=#0e1013
 endif

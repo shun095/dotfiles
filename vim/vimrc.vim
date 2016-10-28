@@ -137,6 +137,11 @@ augroup VIMRC
 	autocmd FileType help nnoremap <silent><buffer>q :quit<CR> 
 
 	" 	autocmd FileType vim setlocal path+=$VIM,$HOME/.vim/bundle
+	if has("autocmd") && !has("gui_running") && !has("win32")
+		au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
+		au InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+		au VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+	endif
 
 	let s:myplugins = expand("$HOME") . "/dotfiles/vim"
 	execute 'set runtimepath+=' . s:myplugins
@@ -240,9 +245,9 @@ augroup VIMRC
 					set background=dark
 					colorscheme onedark
 					highlight! vertsplit term=reverse ctermfg=237 ctermbg=237
-					highlight! normal ctermbg=233
+					highlight! Normal ctermbg=233
 					highlight! Folded ctermbg=236 ctermfg=none
-					highlight! FoldColumn ctermbg=236
+					highlight! FoldColumn ctermbg=233
 				endif
 			else
 				filetype on
