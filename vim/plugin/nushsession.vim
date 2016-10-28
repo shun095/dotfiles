@@ -16,6 +16,14 @@ augroup NUSHSESSION
 	" autocmd VimEnter * nested execute("LoadLastSession")
 	" nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
 	autocmd VimEnter * nested if @% == '' && s:GetBufByte() == 0 | execute("LoadLastSession") | endif
+	autocmd VimLeavePre * call s:save_window()
+	autocmd VimLeavePre * call s:save_session("lastsession.vim")
+
+	command! TabMerge call s:tab_merge()
+	command! LoadLastSession call s:load_session("lastsession.vim")
+
+	" command! ClearSession call s:clear_session()
+	" call s:load_session_on_startup()
 	
 	function! s:GetBufByte()
 		let byte = line2byte(line('$') + 1)
@@ -97,13 +105,5 @@ augroup NUSHSESSION
 	" endfunction "}}}
 
 
-	autocmd VimLeavePre * call s:save_window()
-	autocmd VimLeavePre * call s:save_session("lastsession.vim")
-
-	command! TabMerge call s:tab_merge()
-	command! LoadLastSession call s:load_session("lastsession.vim")
-
-	" command! ClearSession call s:clear_session()
-	" call s:load_session_on_startup()
 	" ==========セッション復帰用自作スクリプトここまで========== "
 augroup END
