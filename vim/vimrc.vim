@@ -213,7 +213,7 @@ augroup VIMRC
 								\ "&yes\n&no",2)
 
 					if s:confirm_plugins_install == 1
-						call dein#install()
+						autocmd VimEnter * nested call dein#install()
 					else
 						echomsg "Plugins were not installed. Please install after."
 					endif
