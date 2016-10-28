@@ -9,9 +9,9 @@ augroup VIMRC
 	let $NUSHHOME=expand("$HOME") . "/dotfiles/vim"
 	let g:use_plugins_flag = s:true
 
-	" =====プラグインなしVerここから======= {{{
+	" =====No Plugin Version START======= {{{
 	" OSの判定
-	if has('win32') || has('win64')
+	if has('win32')
 		let g:ostype = "win"
 		if v:version >= 800
 			set rop=type:directx
@@ -33,7 +33,7 @@ augroup VIMRC
 	set diffopt=filler,iwhite,vertical " diffのときの挙動
 	set nocursorline                   " カーソル行のハイライト
 	set backspace=indent,eol,start     " バックスペース挙動のおまじない
-	set clipboard=unnamed,unnamedplus  " ヤンクした文字列がクリップボードに入る(逆も）
+	" set clipboard=unnamed,unnamedplus  " ヤンクした文字列がクリップボードに入る(逆も）
 	set ignorecase                     " 大文字小文字無視
 	set smartcase                      " 大文字で始まる場合は無視しない
 	" set foldmethod=syntax              " syntaxに応じて折りたたまれる(zRで全部開く、zMで全部閉じる）
@@ -96,20 +96,6 @@ augroup VIMRC
 	" nnoremap tn :tabnew 
 
 	command! Wsudo execute("w !sudo tee > /dev/null %<CR>")
-
-	" 自作コマンド HtmlFormat(挙動は保証しない）
-	function! s:htmlformat() abort
-		if &filetype == "html" || &filetype == "xml"
-			%s/>\s*</></g 
-			%s/\v\<(.*).*\>\zs\s*\n*\s*\ze\<\/\1\>//g
-			%s/\zs<br>\s*\ze[^$]/<br>/g
-			normal gg=G
-		else 
-			:echo "HTMLファイルではありません"
-		endif
-	endfunction
-
-	autocmd  FileType html command! HtmlFormat call s:htmlformat()
 	" :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
 	command! CdCurrent cd\ %:h
 
@@ -119,15 +105,18 @@ augroup VIMRC
 	autocmd Filetype eruby inoremap <buffer> </ </<C-x><C-o><Esc>F<i
 
 	" タグ系のファイルならインデントを浅くする
-	autocmd Filetype html set shiftwidth=2
-	autocmd Filetype html set foldmethod=indent
-	autocmd Filetype xml set shiftwidth=2
-	autocmd Filetype xml set foldmethod=indent
-	autocmd Filetype css set foldmethod=syntax
+	autocmd Filetype html setl shiftwidth=2
+	autocmd Filetype html setl foldmethod=indent
+	autocmd Filetype xml setl shiftwidth=2
+	autocmd Filetype xml setl foldmethod=indent
+	autocmd Filetype css setl foldmethod=syntax
 
+	" python関係の設定
 	autocmd FileType python setl autoindent
-	autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 	autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
+	autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,
+				\except,finally,def,class
+
 	" QuickFixを自動で開く
 	autocmd QuickFixCmdPost * cwindow
 	autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
@@ -137,11 +126,11 @@ augroup VIMRC
 	autocmd FileType help nnoremap <silent><buffer>q :quit<CR> 
 
 	" 	autocmd FileType vim setlocal path+=$VIM,$HOME/.vim/bundle
-	if has("autocmd") && !has("gui_running") && !has("win32")
-		au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
-		au InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-		au VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-	endif
+	" if has("autocmd") && !has("gui_running") && !has("win32")
+	" 	autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
+	" 	autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+	" 	autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+	" endif
 
 	let s:myplugins = expand("$HOME") . "/dotfiles/vim"
 	execute 'set runtimepath+=' . s:myplugins
@@ -162,7 +151,7 @@ augroup VIMRC
 	:map <F11>  :sp tags<CR>:%s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><F12>
 	:map <F12>  :so tags.vim<CR>:noh<CR>
 
-	" =====プラグインなしVerここまで======= }}}
+	" =====No Plugins Version END======= }}}
 	"==================================================
 	"USING DEIN VIM TO MANAGE PLUGIN
 	"==================================================
