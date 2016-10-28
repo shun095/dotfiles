@@ -47,6 +47,9 @@ augroup NUSHSESSION
 
 	" LOADING SESSION
 	function! s:load_session(session_name) abort "{{{
+		if has("gui_running")
+			execute "source" g:save_window_file
+		endif
 		let g:session_loaded = s:true
 		execute "source" "~/.vimsessions/" . a:session_name
 	endfunction "}}}

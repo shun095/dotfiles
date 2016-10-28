@@ -1,6 +1,6 @@
 " vim: set foldmethod=marker:
 scriptencoding utf-8
-if has("gui")
+if has("gui_running")
 	let s:true = 1
 	let s:false = 0
 
@@ -17,7 +17,6 @@ if has("gui")
 		" echo "os=others"
 	endif
 
-	execute "source" g:save_window_file
 	augroup GUIENTER
 		autocmd!
 		" autocmd VimEnter * call s:load_session_on_startup()
