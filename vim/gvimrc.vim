@@ -19,7 +19,6 @@ if has("gui_running")
 
 	augroup GUIENTER
 		autocmd!
-		" autocmd VimEnter * call s:load_session_on_startup()
 		if g:ostype == "win"
 			" autocmd GUIEnter * set transparency=255
 		else

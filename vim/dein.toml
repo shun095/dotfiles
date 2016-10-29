@@ -523,7 +523,7 @@ let g:ctrlp_extensions = ['tag' ]
 repo = 'easymotion/vim-easymotion'
 hook_add = '''
 	let g:EasyMotion_do_mapping = 0
-	nmap <Leader>s <Plug>(easymotion-s2)
+	nmap <Leader>s <Plug>(easymotion-overwin-f2)
 '''
 
 [[plugins]]
