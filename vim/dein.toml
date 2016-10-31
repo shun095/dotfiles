@@ -48,6 +48,18 @@ repo = 'Shougo/vimshell.vim'
 depends = ['vimproc.vim']
 
 [[plugins]]
+repo = 'Shougo/vimfiler.vim'
+on_cmd = ['VimFilerBufferDir','VimFilerCurrentDir']
+depends = ['vimproc.vim', 'vim-choosewin']
+hook_add = '''
+	let g:vimfiler_force_overwrite_statusline = 0
+	let g:vimfiler_enable_auto_cd = 1
+	let g:vimfiler_as_default_explorer = 1
+	nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
+	nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
+'''
+
+[[plugins]]
 repo = 'kana/vim-submode'
 hook_add = '''
 	call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')

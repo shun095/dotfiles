@@ -16,7 +16,7 @@ autocmd!
 		if v:version >= 800
 			set rop=type:directx
 		endif
-		set t_Co=8                     " ターミナルで8色を使う
+		set t_Co=16                     " ターミナルで8色を使う
 	elseif has('mac')
 		let g:ostype = "mac"
 	else
@@ -59,6 +59,8 @@ autocmd!
 	set scrolloff=5                    " カーソルが端まで行く前にスクロールし始める行数
 	set ambiwidth=double               " 全角記号（「→」など）の文字幅を半角２つ分にする
 	set mouse=a
+	set nomousehide
+	set lazyredraw
 	set background=dark
 
 	" 文字コード自動判別優先順位の設定
@@ -66,7 +68,12 @@ autocmd!
 
 	" 改行コード自動判別優先順位の設定
 	set fileformats=unix,dos,mac
+
+	" Vim側のエンコーディングの設定
 	set encoding=utf-8
+	source $VIMRUNTIME/delmenu.vim
+	set langmenu=ja_jp.utf-8
+	source $VIMRUNTIME/menu.vim
 
 	" set undofileでアンドゥデータをファイルを閉じても残しておく
 	" 該当フォルダがなければ作成
@@ -129,6 +136,9 @@ autocmd!
 
 	" IMEの管理
 	" inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
+	set iminsert=0
+	set imsearch=0
+
 	if g:ostype == "linux"
 		" linux用（fcitxでしか使えない）
 		function! ImInActivate() abort
@@ -218,17 +228,17 @@ autocmd!
 				"DEIN END
 				"==================================================
 				" ターミナルでの色設定
-				if g:ostype == "win"
+				if g:ostype == "win" && !has("gui_running")
 					set background=dark
 					colorscheme desert
 					cd $HOME
 				else
 					set background=dark
 					colorscheme onedark
-					highlight! vertsplit term=reverse ctermfg=237 ctermbg=237
-					highlight! Normal ctermbg=233
-					highlight! Folded ctermbg=236 ctermfg=none
-					highlight! FoldColumn ctermbg=233
+					highlight! FoldColumn ctermbg=233 guibg=#0e1013
+					highlight! Folded ctermbg=236 ctermfg=none guibg=#3E4452 guifg=#abb2bf
+					highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
+					highlight! Vertsplit term=reverse ctermfg=237 ctermbg=237 guifg=#3E4452 guibg=#3E4452
 				endif
 			else
 				filetype on

@@ -26,27 +26,23 @@ if has("gui_running")
 	augroup END
 	set vb t_vb=
 
-	if g:use_plugins_flag == s:true
-		" 有効なcolorschemeを選択
-		" colorscheme summerfruit256
-		" colorscheme molokai
-		" colorscheme inkpot
-		" colorscheme hybrid
-		" colorscheme solarized
-		" colorscheme itg_flat
-		" colorscheme pyte
-		" colorscheme morning
-		" colorscheme landscape
-		colorscheme onedark
-		set background=dark
-	else
-		colorscheme desert
-		set background=dark
-	endif
+	" if g:use_plugins_flag == s:true
+	" 	" 有効なcolorschemeを選択
+	" 	" colorscheme summerfruit256
+	" 	" colorscheme molokai
+	" 	" colorscheme inkpot
+	" 	" colorscheme hybrid
+	" 	" colorscheme solarized
+	" 	" colorscheme itg_flat
+	" 	" colorscheme pyte
+	" 	" colorscheme morning
+	" 	" colorscheme landscape
+	" 	" colorscheme onedark
+	" 	" set background=dark
+	" else
+	" 	colorscheme desert
+	" 	set background=dark
+	" endif
 	" GUI版でのタブ等特殊文字表示色指定
 	" highlight! link SpecialKey Special
-	highlight! Normal  guifg=#abb2bf guibg=#0e1013 
-	highlight! VertSplit guifg=#3E4452 guibg=#3E4452
-	highlight! Folded guibg=#3E4452 guifg=#abb2bf
-	highlight! FoldColumn guibg=#0e1013
 endif
