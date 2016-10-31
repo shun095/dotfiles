@@ -6,11 +6,11 @@ function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
 	if [ ${COLUMNS} -ge 150 ] && [ ${LINES} -ge 47 ]; then
 		# alias tmux="tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session"
-		tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session && exit
+		tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
 	elif [ ${COLUMNS} -lt 150 ] && [ ${LINES} -ge 47 ]; then
-		tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session-narrow && exit
+		tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session-narrow
 	else
-		tmux -2 attach || tmux -2 new-session && exit
+		tmux -2 attach || tmux -2 new-session
 	fi
 	# tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
 else

@@ -554,3 +554,6 @@ hook_add = '''
 	nmap <Leader>R <Plug>(quickrun)
 	nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 '''
+
+[[plugins]]
+repo = "haya14busa/vim-migemo"

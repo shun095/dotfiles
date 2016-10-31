@@ -2,11 +2,11 @@
 scriptencoding utf-8
 
 augroup VIMRC
-	autocmd!
+autocmd!
 	let s:true = 1
 	let s:false = 0
 
-	let $NUSHHOME=expand("$HOME") . "/dotfiles/vim"
+	let $MYVIMHOME=expand("$HOME") . "/dotfiles/vim"
 	let g:use_plugins_flag = s:true
 
 	" =====No Plugin Version START======= {{{
@@ -16,7 +16,7 @@ augroup VIMRC
 		if v:version >= 800
 			set rop=type:directx
 		endif
-		set t_Co=8                     " ターミナルで16色を使う
+		set t_Co=8                     " ターミナルで8色を使う
 	elseif has('mac')
 		let g:ostype = "mac"
 	else
@@ -92,8 +92,6 @@ augroup VIMRC
 
 	" エスケープ２回でハイライトキャンセル
 	nnoremap <silent> <ESC><ESC> :noh<CR>
-	" 新しいタブショートカット
-	" nnoremap tn :tabnew 
 
 	command! Wsudo execute("w !sudo tee > /dev/null %<CR>")
 	" :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
@@ -125,31 +123,23 @@ augroup VIMRC
 	" ヘルプをqで閉じれるようにする
 	autocmd FileType help nnoremap <silent><buffer>q :quit<CR> 
 
-	" 	autocmd FileType vim setlocal path+=$VIM,$HOME/.vim/bundle
-	" if has("autocmd") && !has("gui_running") && !has("win32")
-	" 	autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
-	" 	autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-	" 	autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-	" endif
 
 	let s:myplugins = expand("$HOME") . "/dotfiles/vim"
 	execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 
 	" IMEの管理
-	set iminsert=0
-	" map <silent> <ESC> <ESC>:set iminsert=0<CR>
+	" inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 	if g:ostype == "linux"
 		" linux用（fcitxでしか使えない）
-		" echo "ime off script (on Linux)"
 		function! ImInActivate() abort
 			call system('fcitx-remote -c')
 		endfunction
-		imap <silent> <ESC> <ESC>:call ImInActivate()<CR>
+		autocmd InsertLeave * execute('call ImInActivate()')
 	endif
 
 	" tagファイルから色を付ける設定（ヘルプより引用）
-	:map <F11>  :sp tags<CR>:%s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><F12>
-	:map <F12>  :so tags.vim<CR>:noh<CR>
+	" map <F11>  :sp tags<CR>:%s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><F12>
+	" map <F12>  :so tags.vim<CR>:noh<CR>
 
 	" =====No Plugins Version END======= }}}
 	"==================================================
@@ -180,8 +170,10 @@ augroup VIMRC
 			" インストールする場合
 			if s:confirm_dein_install == 1
 				call mkdir(s:dein_dir, 'p')
-				silent execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
+				execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
 				let s:dein_is_installed = s:true
+			else
+				let s:dein_is_installed = s:false
 			endif
 		else
 			let s:dein_is_installed = s:true
@@ -194,8 +186,8 @@ augroup VIMRC
 				"==================================================
 				"DEIN BEGIN
 				"==================================================
-				let g:plugins_toml = '$NUSHHOME/dein.toml'
-				let g:plugins_lazy_toml = '$NUSHHOME/dein_lazy.toml'
+				let g:plugins_toml = '$MYVIMHOME/dein.toml'
+				let g:plugins_lazy_toml = '$MYVIMHOME/dein_lazy.toml'
 
 				if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
 					call dein#begin(s:plugin_dir)
