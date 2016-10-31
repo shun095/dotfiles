@@ -139,7 +139,7 @@ augroup VIMRC
 	" 	autocmd FileType vim setlocal path+=$VIM,$HOME/.vim/bundle
 
 	let s:myplugins = expand("$HOME") . "/dotfiles/vim"
-	execute 'set runtimepath+=' . s:myplugins
+	execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 
 	" IMEの管理
 	set iminsert=0
