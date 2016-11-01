@@ -1,10 +1,10 @@
 # vim: set foldmethod=marker:
 [[plugins]]
-repo = 'Shougo/vimproc.vim'
-build = 'make'
+repo = 'Shougo/vimproc.vim'# {{{
+build = 'make'# }}}
 
 [[plugins]]
-repo = 'Shougo/unite.vim'
+repo = 'Shougo/unite.vim'# {{{
 hook_add = '''
 	"==================================================
 	"UNITE
@@ -33,26 +33,26 @@ hook_add = '''
 	" ESCキーを2回押すと終了する
 	au FileType unite nmap <silent> <buffer> <ESC><ESC> q
 	au FileType unite imap <silent> <buffer> <ESC><ESC> <ESC>q
-'''
+'''# }}}
 
 [[plugins]]
-repo = 'Shougo/unite-outline'
-depends = ['unite.vim']
+repo = 'Shougo/unite-outline'# {{{
+depends = ['unite.vim']# }}}
 
 [[plugins]]
-repo = 'Shougo/neomru.vim'
-depends = ['unite.vim']
+repo = 'Shougo/neomru.vim'# {{{
+depends = ['unite.vim']# }}}
 
 [[plugins]]
-repo = 'ujihisa/unite-colorscheme'
-depends = ['unite.vim']
+repo = 'ujihisa/unite-colorscheme'# {{{
+depends = ['unite.vim']# }}}
 
 [[plugins]]
-repo = 'Shougo/vimshell.vim'
-depends = ['vimproc.vim']
+repo = 'Shougo/vimshell.vim'# {{{
+depends = ['vimproc.vim']# }}}
 
 [[plugins]]
-repo = 'kana/vim-submode'
+repo = 'kana/vim-submode'# {{{
 hook_add = '''
 	call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
 	call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
@@ -62,7 +62,7 @@ hook_add = '''
 	call submode#map('winsize', 'n', '', '<', '<C-w><')
 	call submode#map('winsize', 'n', '', '+', '<C-w>+')
 	call submode#map('winsize', 'n', '', '-', '<C-w>-')
-'''
+'''# }}}
 
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
@@ -78,8 +78,8 @@ repo = 'https://github.com/mattn/webapi-vim.git'
 repo = 'https://github.com/tyru/open-browser.vim.git'
 
 [[plugins]]
-repo = "syngan/vim-vimlint"
-depends = "vim-vimlparser"
+repo = "syngan/vim-vimlint"# {{{
+depends = "vim-vimlparser"# }}}
 
 [[plugins]]
 repo = "ynkdir/vim-vimlparser"
@@ -88,13 +88,13 @@ repo = "ynkdir/vim-vimlparser"
 # repo = "osyo-manga/shabadou.vim"
 
 # [[plugins]]
-# repo = "osyo-manga/vim-watchdogs"
+# repo = "osyo-manga/vim-watchdogs""{{{
 # depends = 'syntastic'
 # hook_add = '''
 # 	let g:watchdogs_check_BufWritePost_enable = 1
 # 	let g:watchdogs_check_CursorHold_enable = 1
 # 	call watchdogs#setup(g:quickrun_config)
-# '''
+# '''"}}}
 
 
 [[plugins]]
@@ -107,7 +107,7 @@ repo = 'tpope/vim-surround'
 # repo = 'vim-scripts/TagHighlight'
 
 # [[plugins]]
-# repo = 'majutsushi/tagbar'
+# repo = 'majutsushi/tagbar'# {{{
 # hook_add = '''
 #
 # 		nnoremap <silent> <Leader>t :TagbarToggle<CR>
@@ -115,8 +115,8 @@ repo = 'tpope/vim-surround'
 # 		let g:tagbar_show_linenumbers = 1
 # 		let g:tagbar_width = 30
 # 		let g:tagbar_autoclose = 1
-#
-# '''
+# '''# }}}
+
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 
@@ -124,13 +124,16 @@ repo = 'tpope/vim-fugitive'
 repo = 'Konfekt/FastFold'
 
 [[plugins]]
-repo = 'LeafCage/foldCC.vim'
+repo = 'LeafCage/foldCC.vim'# {{{
 hook_add = '''
 
-hi Folded ctermbg=none
-hi FoldColumn ctermbg=none
+let g:foldCCtext_enable_autofdc_adjuster = 1
+" let g:foldCCtext_head = ''
+" let g:foldCCtext_tail = '"(ﾟｪﾟ  )". (v:foldend-v:foldstart+1)'
+let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
+
 set foldtext=FoldCCtext()
-set foldcolumn=2
+set foldcolumn=0
 set fillchars=vert:\|
 " augroup FoldCC "{{{
 "     hi Folded gui=bold guibg=Grey28 guifg=gray80
@@ -139,10 +142,10 @@ set fillchars=vert:\|
 "     " hi Folded gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey50 guifg=Grey80
 "     " hi FoldColumn gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey guifg=DarkBlue
 " augroup END "}}}
-'''
-# # Airline vim {{{
+'''# }}}
+
 # [[plugins]]
-# repo = 'vim-airline/vim-airline'
+# repo = 'vim-airline/vim-airline'#{{{
 # hook_add = '''
 # 	let g:airline_theme='onedark'
 #
@@ -198,9 +201,8 @@ set fillchars=vert:\|
 # '''
 # # }}}
 
-# Lightline vim {{{
 [[plugins]]
-repo = 'itchyny/lightline.vim'
+repo = 'itchyny/lightline.vim'#{{{
 hook_add = '''
 if v:version >= 800 " バージョン８以降ならTimer使って時刻表示
 	let g:currenttime = strftime("%H時%M分%S秒")
@@ -212,7 +214,7 @@ if v:version >= 800 " バージョン８以降ならTimer使って時刻表示
 			try
 				call lightline#update()
 			catch /.*/
-				timer_stop(tempTimer)
+				call timer_stop(a:tempTimer)
 			endtry
 		endfunction
 	endfunction
@@ -443,7 +445,8 @@ let g:lightline = {
 '''
 # }}}
 
-# COLORSCHEMES
+
+# COLORSCHEMES {{{
 [[plugins]]
 repo = 'joshdick/onedark.vim'
 
@@ -476,11 +479,10 @@ repo = 'itchyny/landscape.vim'
 
 [[plugins]]
 repo = 'rakr/vim-one'
-
-# COLORSCHMES END
+# COLORSCHMES END}}}
 
 [[plugins]]
-repo = 'junegunn/vim-easy-align'
+repo = 'junegunn/vim-easy-align'# {{{
 hook_add = '''
 	" ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
 	vmap <Enter> <Plug>(EasyAlign)
@@ -489,24 +491,24 @@ hook_add = '''
 	nmap ga <Plug>(EasyAlign)
 	" Start interactive EasyAlign in visual mode (e.g. vipga)
 	xmap ga <Plug>(EasyAlign)
-'''
+'''# }}}
 
 [[plugins]]
-repo = 'ctrlpvim/ctrlp.vim'
+repo = 'ctrlpvim/ctrlp.vim'# {{{
 hook_add = '''
 let g:ctrlp_extensions = ['tag' ]
 let g:ctrlp_cmd = 'CtrlPMRUFiles'
-'''
+'''# }}}
 
 [[plugins]]
-repo = 'easymotion/vim-easymotion'
+repo = 'easymotion/vim-easymotion'# {{{
 hook_add = '''
 	let g:EasyMotion_do_mapping = 0
 	nmap <Leader>s <Plug>(easymotion-overwin-f2)
-'''
+'''# }}}
 
 [[plugins]]
-repo = "iamcco/markdown-preview.vim"
+repo = "iamcco/markdown-preview.vim"# {{{
 hook_add = '''
 if has('win32') != 0
 	let s:google_chrome_path="C:/Program\ Files/Google/Chrome/Application/chrome.exe"
@@ -517,10 +519,10 @@ if has('win32') != 0
 		let g:mkdp_path_to_chrome=s:google_chrome_path32
 	endif 
 endif
-'''
+'''# }}}
 
 # [[plugins]]
-# repo = "xolox/vim-session"
+# repo = "xolox/vim-session""{{{
 # depends = "vim-misc"
 # hook_add = '''
 # 	let g:session_autosave = 'prompt'
@@ -531,13 +533,13 @@ endif
 # 	call add(g:session_persist_globals, 'g:session_autosave')
 # 	call add(g:session_persist_globals, 'g:session_default_to_last')
 # 	call add(g:session_persist_globals, 'g:session_persist_globals')
-# '''
+# '''"}}}
 #
 # [[plugins]]
 # repo = "xolox/vim-misc"
 
 [[plugins]]
-repo = "https://github.com/thinca/vim-quickrun"
+repo = "https://github.com/thinca/vim-quickrun"# {{{
 on_cmd = 'QuickRun'
 hook_add = '''
 	let g:quickrun_config = get(g:, 'quickrun_config', {})
@@ -566,7 +568,10 @@ hook_add = '''
 
 	nmap <Leader>R <Plug>(quickrun)
 	nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-'''
+'''# }}}
 
 [[plugins]]
 repo = "haya14busa/vim-migemo"
+
+[[plugins]]
+repo = "vim-jp/vimdoc-ja"

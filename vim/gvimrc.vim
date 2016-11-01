@@ -40,8 +40,8 @@ if has("gui_running")
 	" 	" colorscheme onedark
 	" 	" set background=dark
 	" else
-	" 	colorscheme desert
-	" 	set background=dark
+	"  	colorscheme default
+	"  	set background=light
 	" endif
 	" GUI版でのタブ等特殊文字表示色指定
 	" highlight! link SpecialKey Special
