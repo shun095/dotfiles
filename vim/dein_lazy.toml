@@ -9,7 +9,7 @@ hook_add = '''
 	" let g:precious_enable_switch_CursorHold = { '*' : 0 }
 	" INSERTモードのON／OFFに合わせてトグル
 	augroup PreciousAuto
-		" autocmd InsertEnter * :PreciousSwitch
+		autocmd InsertEnter * :PreciousSwitch
 		" autocmd InsertLeave * :PreciousReset
 	augroup END
 	" setfiletype を無効
@@ -280,15 +280,14 @@ on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream']
 depends = ['bitly.vim', 'twibill.vim', 'neco-tweetvim', 'unite-tweetvim']
 hook_add = '''
 	" 1ページに表示する最大数
-	let g:tweetvim_tweet_per_page = 10
+	let g:tweetvim_tweet_per_page = 50
 	" F6と,uvでTweetVimのtimeline選択
-	let g:tweetvim_display_source = 1
-	let g:tweetvim_expand_t_co = 1
-	let g:tweetvim_open_buffer_cmd = "split!"
+	" let g:tweetvim_expand_t_co = 1
+	" let g:tweetvim_open_buffer_cmd = "split!"
 	let g:tweetvim_display_source = 1
 	let g:tweetvim_display_username = 1
 	let g:tweetvim_display_icon = 1
-	let g:tweetvim_async_post = 1
+	" let g:tweetvim_async_post = 0
 	nnoremap <Leader>tl :<C-u>Unite tweetvim<CR>
 	nnoremap <Leader>tu :<C-u>TweetVimUserStream<CR>
 	nnoremap <Leader>ts :<C-u>TweetVimSay<CR>

@@ -1,6 +1,14 @@
 " vim:set foldmethod=marker:
 scriptencoding utf-8
 
+let s:save_cpo = &cpo
+set cpo&vim
+
+if exists("g:loaded_mysession_plugin")
+	finish
+endif
+let g:loaded_mysession_plugin = 1
+
 let s:true = 1
 let s:false = 0
 
@@ -113,3 +121,6 @@ endfunction "}}}
 
 
 " ==========セッション復帰用自作スクリプトここまで========== "
+"
+let &cpo = s:save_cpo
+unlet s:save_cpo

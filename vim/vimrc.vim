@@ -211,14 +211,18 @@ autocmd!
 				endif
 
 				if dein#check_install()
-					let s:confirm_plugins_install = confirm("Some plugins are not installed yet. Install now?",
-								\ "&yes\n&no",2)
+					function! s:confirm_installing() abort
+						let s:confirm_plugins_install = confirm("Some plugins are not installed yet. Install now?",
+									\ "&yes\n&no",2)
 
-					if s:confirm_plugins_install == 1
-						autocmd VimEnter * nested call dein#install()
-					else
-						echomsg "Plugins were not installed. Please install after."
-					endif
+						if s:confirm_plugins_install == 1
+							call dein#install()
+						else
+							echomsg "Plugins were not installed. Please install after."
+						endif
+					endfunction
+
+					autocmd VimEnter * nested call <SID>confirm_installing()
 				endif
 
 				filetype on
