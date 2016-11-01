@@ -138,7 +138,7 @@ hook_add = '''
 hi Folded ctermbg=none
 hi FoldColumn ctermbg=none
 set foldtext=FoldCCtext()
-set foldcolumn=4
+set foldcolumn=2
 set fillchars=vert:\|
 " augroup FoldCC "{{{
 "     hi Folded gui=bold guibg=Grey28 guifg=gray80
@@ -327,14 +327,14 @@ let g:lightline = {
 			\ },
 			\ 'subseparator': { 'left': '|', 'right': '|' }
 			\ }
-			" if has("gui_running")
+			if has("gui_running")
 				let g:lightline.separator = {
 							\	'left': '⮀', 'right': '⮂'
 							\	}
 				let g:lightline.subseparator = {
 							\	'left': '⮁', 'right': '⮃'
 							\}
-			" endif " }}}
+			endif " }}}
 
 	function! LightLineModified()
 	  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
