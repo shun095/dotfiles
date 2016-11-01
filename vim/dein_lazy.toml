@@ -282,7 +282,7 @@ hook_add = '''
 	" 1ページに表示する最大数
 	let g:tweetvim_tweet_per_page = 50
 	" F6と,uvでTweetVimのtimeline選択
-	" let g:tweetvim_expand_t_co = 1
+	let g:tweetvim_expand_t_co = 1
 	" let g:tweetvim_open_buffer_cmd = "split!"
 	let g:tweetvim_display_source = 1
 	let g:tweetvim_display_username = 1
