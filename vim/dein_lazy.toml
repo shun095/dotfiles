@@ -276,7 +276,7 @@ repo = 'https://github.com/basyura/bitly.vim.git'
 
 [[plugins]]
 repo = 'https://github.com/basyura/TweetVim.git'
-on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream']
+on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay']
 depends = ['bitly.vim', 'twibill.vim', 'neco-tweetvim', 'unite-tweetvim']
 hook_add = '''
 	" 1ページに表示する最大数
