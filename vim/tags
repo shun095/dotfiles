@@ -1,59 +1,64 @@
 !_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
 !_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
-!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
-!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
-!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
-!_TAG_PROGRAM_VERSION	0.0.0	//
-$NUSHHOME	.\\vimrc.vim	/^	let $NUSHHOME=expand("$HOME") . "\/dotfiles\/vim"$/;"	v
-<C-V>	.\\archive\\generalkeymode.vim	/^inoremap <C-V> <ESC>"*p$/;"	m
-<C-]>	.\\archive\\neobundlesettings.vim	/^nnoremap <C-]> g<C-]>$/;"	m
-<ESC>	.\\vimrc.vim	/^		imap <silent> <ESC> <ESC>:call ImInActivate()<CR>$/;"	m
-<ESC><ESC>	.\\vimrc.vim	/^	nnoremap <silent> <ESC><ESC> :noh<CR>$/;"	m
-<Leader>e	.\\vimrc.vim	/^		nnoremap <Leader>e :Vexplore<CR>$/;"	m
-CdCurrent	.\\vimrc.vim	/^	command! CdCurrent cd\\ %:h$/;"	c
-GUIENTER	.\\gvimrc.vim	/^	augroup GUIENTER$/;"	a
-ImInActivate	.\\vimrc.vim	/^		function! ImInActivate() abort$/;"	f
-LoadLastSession	.\\plugin\\nushsession.vim	/^	command! LoadLastSession call s:load_session("lastsession.vim")$/;"	c
-NUSHSESSION	.\\plugin\\nushsession.vim	/^augroup NUSHSESSION$/;"	a
-TabMerge	.\\plugin\\nushsession.vim	/^	command! TabMerge call s:tab_merge()$/;"	c
-VIMRC	.\\vimrc.vim	/^augroup VIMRC$/;"	a
-Wsudo	.\\vimrc.vim	/^	command! Wsudo execute("w !sudo tee > \/dev\/null %<CR>")$/;"	c
-cpp	.\\archive\\neobundlesettings.vim	/^augroup cpp-path$/;"	a
-g:cpp_class_scope_highlight	.\\archive\\neobundlesettings.vim	/^let g:cpp_class_scope_highlight = 1$/;"	v
-g:netrw_altv	.\\vimrc.vim	/^		let g:netrw_altv = 1$/;"	v
-g:netrw_browse_split	.\\vimrc.vim	/^		let g:netrw_browse_split = 4$/;"	v
-g:netrw_winsize	.\\vimrc.vim	/^		let g:netrw_winsize = 20$/;"	v
-g:ostype	.\\vimrc.vim	/^		let g:ostype = "linux"$/;"	v
-g:ostype	.\\vimrc.vim	/^		let g:ostype = "mac"$/;"	v
-g:ostype	.\\vimrc.vim	/^		let g:ostype = "win"$/;"	v
-g:plugins_lazy_toml	.\\vimrc.vim	/^				let g:plugins_lazy_toml = '$NUSHHOME\/dein_lazy.toml'$/;"	v
-g:plugins_toml	.\\vimrc.vim	/^				let g:plugins_toml = '$NUSHHOME\/dein.toml'$/;"	v
-g:save_window_file	.\\plugin\\nushsession.vim	/^	let g:save_window_file = expand('~\/.vimwinpos')$/;"	v
-g:use_plugins_flag	.\\vimrc.vim	/^	let g:use_plugins_flag = s:true$/;"	v
-g:vimproc#download_windows_dll	.\\vimrc.vim	/^		let g:vimproc#download_windows_dll = 1$/;"	v
-g:visualstudio_controllerpath	.\\archive\\neobundlesettings.vim	/^let g:visualstudio_controllerpath = "VisualStudioController.exe"$/;"	v
-g:visualstudio_enableerrormarker	.\\archive\\neobundlesettings.vim	/^let g:visualstudio_enableerrormarker = 1$/;"	v
-g:visualstudio_terminalencoding	.\\archive\\neobundlesettings.vim	/^let g:visualstudio_terminalencoding =500$/;"	v
-gj	.\\vimrc.vim	/^	nnoremap gj j$/;"	m
-gk	.\\vimrc.vim	/^	nnoremap gk k$/;"	m
-j	.\\vimrc.vim	/^	nnoremap j gj$/;"	m
-k	.\\vimrc.vim	/^	nnoremap k gk$/;"	m
-s:GetBufByte	.\\plugin\\nushsession.vim	/^	function! s:GetBufByte()$/;"	f
-s:confirm_dein_install	.\\vimrc.vim	/^			let s:confirm_dein_install = confirm("Dein is not installed yet.Install now?","&yes\\n&no",2)$/;"	v
-s:confirm_plugins_install	.\\vimrc.vim	/^					let s:confirm_plugins_install = confirm("Some plugins are not installed yet. Install now?",$/;"	v
-s:dein_dir	.\\vimrc.vim	/^		let s:dein_dir = s:plugin_dir . 'repos\/github.com\/Shougo\/dein.vim'$/;"	v
-s:dein_is_installed	.\\vimrc.vim	/^				let s:dein_is_installed = s:true$/;"	v
-s:dein_is_installed	.\\vimrc.vim	/^			let s:dein_is_installed = s:false$/;"	v
-s:dein_is_installed	.\\vimrc.vim	/^			let s:dein_is_installed = s:true$/;"	v
-s:false	.\\gvimrc.vim	/^	let s:false = 0$/;"	v
-s:false	.\\vimrc.vim	/^	let s:false = 0$/;"	v
-s:htmlformat	.\\vimrc.vim	/^	function! s:htmlformat() abort$/;"	f
-s:load_session	.\\plugin\\nushsession.vim	/^	function! s:load_session(session_name) abort "{{{$/;"	f
-s:myplugins	.\\vimrc.vim	/^	let s:myplugins = expand("$HOME") . "\/dotfiles\/vim"$/;"	v
-s:plugin_dir	.\\vimrc.vim	/^		let s:plugin_dir = expand('$HOME') . '\/.vim\/dein\/'$/;"	v
-s:save_session	.\\plugin\\nushsession.vim	/^	function! s:save_session(session_name) abort "{{{$/;"	f
-s:save_session_flag	.\\plugin\\nushsession.vim	/^	let s:save_session_flag = 0$/;"	v
-s:save_window	.\\plugin\\nushsession.vim	/^	function! s:save_window() abort "{{{$/;"	f
-s:tab_merge	.\\plugin\\nushsession.vim	/^	function! s:tab_merge() abort"{{{$/;"	f
-s:true	.\\gvimrc.vim	/^	let s:true = 1$/;"	v
-s:true	.\\vimrc.vim	/^	let s:true = 1$/;"	v
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+$MYVIMHOME	vimrc.vim	/^	let $MYVIMHOME=expand("$HOME") . "\/dotfiles\/vim"$/;"	v
+<C-V>	archive/generalkeymode.vim	/^inoremap <C-V> <ESC>"*p$/;"	m
+<C-]>	archive/neobundlesettings.vim	/^nnoremap <C-]> g<C-]>$/;"	m
+<ESC><ESC>	vimrc.vim	/^	nnoremap <silent> <ESC><ESC> :noh<CR>$/;"	m
+<Leader>e	vimrc.vim	/^		nnoremap <Leader>e :Vexplore<CR>$/;"	m
+CdCurrent	vimrc.vim	/^	command! CdCurrent cd\\ %:h$/;"	c
+GUIENTER	gvimrc.vim	/^	augroup GUIENTER$/;"	a
+GetBufByte	plugin/mysession.vim	/^function! s:GetBufByte()$/;"	f
+ImInActivate	vimrc.vim	/^		function! ImInActivate() abort$/;"	f
+NUSHSESSION	plugin/mysession.vim	/^augroup NUSHSESSION$/;"	a
+TabMerge	plugin/mysession.vim	/^command! TabMerge call s:tab_merge()$/;"	c
+Test	archive/test.vim	/^command! Test call s:test()$/;"	c
+VIMRC	vimrc.vim	/^augroup VIMRC$/;"	a
+Wsudo	vimrc.vim	/^	command! Wsudo execute("w !sudo tee > \/dev\/null %<CR>")$/;"	c
+confirm_installing	vimrc.vim	/^					function! s:confirm_installing() abort$/;"	f
+cpp	archive/neobundlesettings.vim	/^augroup cpp-path$/;"	a
+g:cpp_class_scope_highlight	archive/neobundlesettings.vim	/^let g:cpp_class_scope_highlight = 1$/;"	v
+g:loaded_mysession_plugin	plugin/mysession.vim	/^let g:loaded_mysession_plugin = 1$/;"	v
+g:netrw_altv	vimrc.vim	/^		let g:netrw_altv = 1$/;"	v
+g:netrw_browse_split	vimrc.vim	/^		let g:netrw_browse_split = 4$/;"	v
+g:netrw_winsize	vimrc.vim	/^		let g:netrw_winsize = 20$/;"	v
+g:ostype	vimrc.vim	/^		let g:ostype = "linux"$/;"	v
+g:ostype	vimrc.vim	/^		let g:ostype = "mac"$/;"	v
+g:ostype	vimrc.vim	/^		let g:ostype = "win"$/;"	v
+g:plugins_lazy_toml	vimrc.vim	/^				let g:plugins_lazy_toml = '$MYVIMHOME\/dein_lazy.toml'$/;"	v
+g:plugins_toml	vimrc.vim	/^				let g:plugins_toml = '$MYVIMHOME\/dein.toml'$/;"	v
+g:save_window_file	plugin/mysession.vim	/^let g:save_window_file = expand('~\/.vimwinpos')$/;"	v
+g:session_loaded	plugin/mysession.vim	/^let g:session_loaded = s:false$/;"	v
+g:use_plugins_flag	vimrc.vim	/^	let g:use_plugins_flag = s:true$/;"	v
+g:vimproc#download_windows_dll	vimrc.vim	/^		let g:vimproc#download_windows_dll = 1$/;"	v
+g:visualstudio_controllerpath	archive/neobundlesettings.vim	/^let g:visualstudio_controllerpath = "VisualStudioController.exe"$/;"	v
+g:visualstudio_enableerrormarker	archive/neobundlesettings.vim	/^let g:visualstudio_enableerrormarker = 1$/;"	v
+g:visualstudio_terminalencoding	archive/neobundlesettings.vim	/^let g:visualstudio_terminalencoding =500$/;"	v
+gj	vimrc.vim	/^	nnoremap gj j$/;"	m
+gk	vimrc.vim	/^	nnoremap gk k$/;"	m
+j	vimrc.vim	/^	nnoremap j gj$/;"	m
+k	vimrc.vim	/^	nnoremap k gk$/;"	m
+load_session	plugin/mysession.vim	/^function! s:load_session(session_name) abort "{{{$/;"	f
+s:confirm_dein_install	vimrc.vim	/^			let s:confirm_dein_install = confirm("Dein is not installed yet.Install now?","&yes\\n&no",2)$/;"	v
+s:dein_dir	vimrc.vim	/^		let s:dein_dir = s:plugin_dir . 'repos\/github.com\/Shougo\/dein.vim'$/;"	v
+s:dein_is_installed	vimrc.vim	/^				let s:dein_is_installed = s:false$/;"	v
+s:dein_is_installed	vimrc.vim	/^				let s:dein_is_installed = s:true$/;"	v
+s:dein_is_installed	vimrc.vim	/^			let s:dein_is_installed = s:false$/;"	v
+s:dein_is_installed	vimrc.vim	/^			let s:dein_is_installed = s:true$/;"	v
+s:false	gvimrc.vim	/^	let s:false = 0$/;"	v
+s:false	plugin/mysession.vim	/^let s:false = 0$/;"	v
+s:false	vimrc.vim	/^	let s:false = 0$/;"	v
+s:myplugins	vimrc.vim	/^	let s:myplugins = expand("$HOME") . "\/dotfiles\/vim"$/;"	v
+s:plugin_dir	vimrc.vim	/^		let s:plugin_dir = expand('$HOME') . '\/.vim\/dein\/'$/;"	v
+s:save_cpo	plugin/mysession.vim	/^let s:save_cpo = &cpo$/;"	v
+s:save_session_flag	plugin/mysession.vim	/^let s:save_session_flag = s:true$/;"	v
+s:true	gvimrc.vim	/^	let s:true = 1$/;"	v
+s:true	plugin/mysession.vim	/^let s:true = 1$/;"	v
+s:true	vimrc.vim	/^	let s:true = 1$/;"	v
+save_session	plugin/mysession.vim	/^function! s:save_session(session_name) abort "{{{$/;"	f
+save_window	plugin/mysession.vim	/^function! s:save_window() abort "{{{$/;"	f
+tab_merge	plugin/mysession.vim	/^function! s:tab_merge() abort "{{{$/;"	f
+test	archive/test.vim	/^function! s:test() abort$/;"	f

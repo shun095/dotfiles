@@ -13,15 +13,15 @@ hook_add = '''
 		" autocmd InsertLeave * :PreciousReset
 	augroup END
 	" setfiletype を無効
-	let g:precious_enable_switchers = {
-	\	"*" : {
-	\		"setfiletype" : 0,
-	\	},
-	\}
-	augroup test
-		autocmd!
-		autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
-	augroup END
+	" let g:precious_enable_switchers = {
+	" \	"*" : {
+	" \		"setfiletype" : 0,
+	" \	},
+	" \}
+	" augroup test
+	" 	autocmd!
+	" 	autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
+	" augroup END
 '''
 
 [[plugins]]
