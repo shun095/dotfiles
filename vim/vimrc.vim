@@ -20,16 +20,13 @@ if has('win32')
 	if v:version >= 800
 		set rop=type:directx
 	endif
-	set t_Co=16                     " ターミナルで8色を使う
-elseif has('mac')
-	let g:ostype = "mac"
-else
+	set t_Co=16                    " ターミナルで8色を使う
+elseif has('unix')
 	let g:ostype = "linux"
 	set t_Co=256                   " ターミナルで256色を使う
 endif
 
-" バージョン検出
-if v:version >= 800
+if v:version >= 800                " バージョン検出
 	set breakindent                " version8以降搭載の便利オプション
 endif
 
@@ -37,10 +34,10 @@ syntax on                          " 色分けされる
 set diffopt=filler,iwhite,vertical " diffのときの挙動
 set nocursorline                   " カーソル行のハイライト
 set backspace=indent,eol,start     " バックスペース挙動のおまじない
-" set clipboard=unnamed,unnamedplus  " ヤンクした文字列がクリップボードに入る(逆も）
+set clipboard=unnamed,unnamedplus  " ヤンクした文字列がクリップボードに入る(逆も）
 set ignorecase                     " 大文字小文字無視
 set smartcase                      " 大文字で始まる場合は無視しない
-" set foldmethod=syntax              " syntaxに応じて折りたたまれる(zRで全部開く、zMで全部閉じる）
+set foldmethod=syntax              " syntaxに応じて折りたたまれる(zRで全部開く、zMで全部閉じる）
 set tabstop=4                      " タブの挙動設定。挙動がややこしいのでヘルプ参照
 set shiftwidth=4
 set noexpandtab
@@ -56,7 +53,7 @@ set showtabline=2                  " タブバーを常に表示
 set number                         " 行番号表示
 set hlsearch                       " 文字列検索時にハイライトする
 set ruler                          " 右下の現在行の表示
-set noequalalways                    " splitしたときにウィンドウが同じ大きさになるよう調節する
+set noequalalways                  " splitしたときにウィンドウが同じ大きさになるよう調節する
 set tags=./tags;                   " タグファイルを上層に向かって探す
 set autoread                       " 他のソフトで開いてるファイルが変更されたとき自動で読み直す
 set noautochdir                    " 今開いてるファイルにカレントディレクトリを移動するか
@@ -66,6 +63,7 @@ set mouse=a
 set nomousehide
 set lazyredraw
 set background=dark
+set sessionoptions=curdir,help,slash,tabpages
 
 " 文字コード自動判別優先順位の設定
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp

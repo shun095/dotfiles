@@ -13,7 +13,6 @@ let s:true = 1
 let s:false = 0
 
 " ==========セッション復帰用自作スクリプト==========
-set sessionoptions=curdir,help,slash,tabpages
 " MY SESSION FUNCTIONS
 " let g:save_session_file = expand('~/.vimsessions/default.vim')
 
