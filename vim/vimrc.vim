@@ -34,31 +34,36 @@ syntax on                          " 色分けされる
 set diffopt=filler,iwhite,vertical " diffのときの挙動
 set nocursorline                   " カーソル行のハイライト
 set backspace=indent,eol,start     " バックスペース挙動のおまじない
-set clipboard=unnamed,unnamedplus  " ヤンクした文字列がクリップボードに入る(逆も）
+set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
 set ignorecase                     " 大文字小文字無視
 set smartcase                      " 大文字で始まる場合は無視しない
-set foldmethod=syntax              " syntaxに応じて折りたたまれる(zRで全部開く、zMで全部閉じる）
-set tabstop=4                      " タブの挙動設定。挙動がややこしいのでヘルプ参照
+set foldmethod=syntax              " syntaxに応じて折りたたまれる
+
+set tabstop=4                      " タブの挙動設定。挙動が難しいのでヘルプ参照
 set shiftwidth=4
 set noexpandtab
 set smartindent
 set softtabstop=4
-set list                           " タブ,行末スペース、改行等の可視化,またその可視化時のマーク
-set listchars=tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%
+
+set list                           " タブ,行末スペース、改行等の可視化,
+set listchars=tab:>-,trail:-,eol:$,\extends:>,
+			\precedes:<,nbsp:%     " またその可視化時のマーク
+
 set wildmenu                       " コマンドの補完設定
 set wildmode=longest:full,full
-set laststatus=2                   " 下のステータスバーの表示
-set cmdheight=2                    " コマンドラインの高さ
-set showtabline=2                  " タブバーを常に表示
-set number                         " 行番号表示
-set hlsearch                       " 文字列検索時にハイライトする
-set ruler                          " 右下の現在行の表示
-set noequalalways                  " splitしたときにウィンドウが同じ大きさになるよう調節する
-set tags=./tags;                   " タグファイルを上層に向かって探す
-set autoread                       " 他のソフトで開いてるファイルが変更されたとき自動で読み直す
-set noautochdir                    " 今開いてるファイルにカレントディレクトリを移動するか
-set scrolloff=5                    " カーソルが端まで行く前にスクロールし始める行数
-set ambiwidth=double               " 全角記号（「→」など）の文字幅を半角２つ分にする
+
+set laststatus=2     " 下のステータスバーの表示
+set cmdheight=2      " コマンドラインの高さ
+set showtabline=2    " タブバーを常に表示
+set number           " 行番号表示
+set hlsearch         " 文字列検索時にハイライトする
+set ruler            " 右下の現在行の表示
+set noequalalways    " splitしたときにウィンドウが同じ大きさになるよう調節する
+set tags=./tags;     " タグファイルを上層に向かって探す
+set autoread         " 他のソフトで、編集中ファイルが変更されたとき自動Reload
+set noautochdir      " 今開いてるファイルにカレントディレクトリを移動するか
+set scrolloff=5      " カーソルが端まで行く前にスクロールし始める行数
+set ambiwidth=double " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a
 set nomousehide
 set lazyredraw
@@ -115,16 +120,14 @@ nnoremap gk k
 
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
-
-" tagファイルから色を付ける設定（ヘルプより引用）
-" map <F11>  :sp tags<CR>:%s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/<CR>:wq! tags.vim<CR>/^<CR><F12>
-" map <F12>  :so tags.vim<CR>:noh<CR>
-
 "}}}
 
 " Commands {{{
+" Sudoで強制保存
 command! Wsudo execute("w !sudo tee > /dev/null %<CR>")
-" :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
+
+" :CdCurrent で現在のファイルのディレクトリに移動できる
+" (Kaoriyaに入ってて便利なので実装)
 command! CdCurrent cd\ %:h
 "}}}
 
@@ -146,8 +149,8 @@ augroup VIMRC
 	" python関係の設定
 	autocmd FileType python setl autoindent
 	autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
-	autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,
-				\except,finally,def,class
+	autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,
+				\try,except,finally,def,class
 
 	" QuickFixを自動で開く
 	autocmd QuickFixCmdPost * cwindow
@@ -165,9 +168,10 @@ function! s:ImInActivate() abort
 endfunction
 
 function! s:confirm_do_dein_install() abort
-	let s:confirm_plugins_install = confirm("Some plugins are not installed yet. Install now?",
-				\"&yes\n&no",2)
-
+	let s:confirm_plugins_install = confirm(
+				\"Some plugins are not installed yet. Install now?",
+				\"&yes\n&no",2
+				\)
 	if s:confirm_plugins_install == 1
 		call dein#install()
 	else
@@ -196,7 +200,9 @@ if !isdirectory(s:dein_dir)
 	if confirm(s:install_dein_diag_mes,"&yes\n&no",2) == 1
 		" deinをインストールする
 		call mkdir(s:dein_dir, 'p')
-		execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
+		execute printf('!git clone %s %s',
+					\'https://github.com/Shougo/dein.vim',
+					\'"' . s:dein_dir . '"')
 		" インストールが完了したらフラグを立てる
 		let g:use_plugins_flag = s:true
 	endif
@@ -254,7 +260,8 @@ if g:use_plugins_flag == s:true
 		highlight! FoldColumn ctermbg=233 guibg=#0e1013
 		highlight! Folded ctermbg=236 ctermfg=none guibg=#3E4452 guifg=#abb2bf
 		highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-		highlight! Vertsplit term=reverse ctermfg=237 ctermbg=237 guifg=#3E4452 guibg=#3E4452
+		highlight! Vertsplit term=reverse ctermfg=237 ctermbg=237 
+					\guifg=#3E4452 guibg=#3E4452
 	endif
 	" }}}
 else "if use_plugins_flag == s:false
