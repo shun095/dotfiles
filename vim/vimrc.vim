@@ -249,8 +249,8 @@ if g:use_plugins_flag == s:true
 		set background=dark
 		cd $HOME
 	else
-		colorscheme onedark
 		set background=dark
+		colorscheme onedark
 		highlight! FoldColumn ctermbg=233 guibg=#0e1013
 		highlight! Folded ctermbg=236 ctermfg=none guibg=#3E4452 guifg=#abb2bf
 		highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
