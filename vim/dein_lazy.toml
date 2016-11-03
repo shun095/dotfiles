@@ -136,8 +136,9 @@ hook_add = '''
 		autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 		autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 		autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-		autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 		autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+		" written in jedi config
+		" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 	augroup END "}}}
 
 	" Enable heavy omni completion.
@@ -279,6 +280,7 @@ hook_post_source = '''
 		let g:jedi#completions_enabled = 0
 		let g:jedi#auto_vim_configuration = 0
 		let g:jedi#auto_close_doc = 0
+		let g:jedi#show_call_signatures = 2
 		let g:jedi#force_py_version = 2
 		let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
