@@ -9,9 +9,9 @@ if has("gui_running")
 	set cmdheight=2
 	set guioptions=rLchb
 	" フォントを設定
-	if g:ostype == "win"
+	if has("win32")
 		set guifont=Ricty_Diminished_for_Powerline:h12:cSHIFTJIS
-	elseif g:ostype == "linux"
+	elseif has("unix")
 		set guifont=Ricty\ Diminished\ for\ Powerline\ 12
 	endif
 

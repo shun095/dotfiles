@@ -16,13 +16,11 @@ let g:use_plugins_flag = s:true
 " Set options {{{
 " OSの判定
 if has('win32')
-	let g:ostype = "win"
 	if v:version >= 800
 		set rop=type:directx
 	endif
 	set t_Co=16                    " ターミナルで8色を使う
 elseif has('unix')
-	let g:ostype = "linux"
 	set t_Co=256                   " ターミナルで256色を使う
 endif
 
@@ -104,7 +102,7 @@ set backup
 set iminsert=0
 set imsearch=0
 
-if g:ostype == "linux"
+if has("unix")
 	" linux用（fcitxでしか使えない）
 	augroup VIMRC
 		autocmd InsertLeave * call <SID>ImInActivate()
@@ -125,7 +123,9 @@ nnoremap <silent> <ESC><ESC> :noh<CR>
 
 " Commands {{{
 " Sudoで強制保存
-command! Wsudo execute("w !sudo tee > /dev/null %<CR>")
+if has("unix")
+	command! Wsudo execute("w !sudo tee % > /dev/null")
+endif
 
 " :CdCurrent で現在のファイルのディレクトリに移動できる
 " (Kaoriyaに入ってて便利なので実装)
@@ -251,7 +251,7 @@ if g:use_plugins_flag == s:true
 	" Dein end
 	" Plugin post settings {{{
 	" ターミナルでの色設定
-	if g:ostype == "win" && !has("gui_running")
+	if has("win32") && !has("gui_running")
 		colorscheme desert
 		set background=dark
 		cd $HOME
