@@ -368,4 +368,3 @@ hook_add = '''
 	" let g:memolist_memo_suffix = 'txt'
 	let g:memolist_unite = 1
 '''# }}}
-

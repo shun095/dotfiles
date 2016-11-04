@@ -82,9 +82,12 @@ function! s:tab_merge() abort "{{{
 	if len(split(serverlist())) > 1
 		tabnew
 		tabprevious
-		let s:send_file_path = expand("%")
+		let l:send_file_path = expand("%")
 		quit
-		call remote_send("GVIM","<ESC><ESC>:tabnew " . s:send_file_path . "<CR>")
+		" let l:server_list = split(serverlist(),"\n")
+		" let l:send_server_name = l:server_list[0]
+		" echom l:send_server_name
+		call remote_send( "GVIM", "<ESC><ESC>:tabnew " . l:send_file_path . "<CR>")
 		call remote_foreground("GVIM")
 		let s:save_session_flag = s:false
 		quitall

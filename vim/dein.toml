@@ -572,3 +572,6 @@ repo = "haya14busa/vim-migemo"
 
 [[plugins]]
 repo = "vim-jp/vimdoc-ja"
+
+[[plugins]]
+repo = "tyru/restart.vim"
