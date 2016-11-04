@@ -167,7 +167,7 @@ set fillchars=vert:\|
 # 		let g:airline_symbols = {}
 # 	endif
 #
-# 	if has("gui")
+# 	if has("gui_running")
 # 		let g:airline#extensions#tabline#left_sep      = '⮀'
 # 		let g:airline#extensions#tabline#left_alt_sep  = '⮁'
 # 		let g:airline#extensions#tabline#right_sep     = '⮂'
@@ -295,10 +295,15 @@ endfunction
 
 " {{{
 let g:lightline = {
-			\ 'colorscheme': 'onedark',
+			\ 'colorscheme': 'onedark_custom',
 			\ 'active': {
 			\   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
 			\   'right': [ [ 'syntastic','lineinfo','currenttime' ,'truncate'], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+			\ },
+			\ 'inactive': {
+		    \ 'left': [ [ 'filename' ] ],
+		    \ 'right': [ [ 'lineinfo', 'currenttime' ],
+		    \            [ 'percent' ] ]
 			\ },
 			\ 'component_function': {
 			\   'fugitive': 'LightLineFugitive',

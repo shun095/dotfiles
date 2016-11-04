@@ -259,10 +259,12 @@ if g:use_plugins_flag == s:true
 		set background=dark
 		colorscheme onedark
 		highlight! FoldColumn ctermbg=233 guibg=#0e1013
-		highlight! Folded ctermbg=236 ctermfg=none guibg=#3E4452 guifg=#abb2bf
+		highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
 		highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-		highlight! Vertsplit term=reverse ctermfg=237 ctermbg=237 
-					\guifg=#3E4452 guibg=#3E4452
+		highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235 
+					\guifg=#282C34 guibg=#282C34
+		highlight! StatusLine ctermbg=235 guibg=#282C34
+		highlight! StatusLineNC ctermbg=235 guibg=#282C34
 	endif
 	" }}}
 else "if use_plugins_flag == s:false
