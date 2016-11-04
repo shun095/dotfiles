@@ -53,6 +53,7 @@ set wildmenu                       " コマンドの補完設定
 set wildmode=longest:full,full
 
 set laststatus=2     " 下のステータスバーの表示
+set showcmd
 set cmdheight=2      " コマンドラインの高さ
 set showtabline=2    " タブバーを常に表示
 set number           " 行番号表示
