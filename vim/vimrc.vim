@@ -78,7 +78,8 @@ set fileformats=unix,dos,mac
 " Vim側のエンコーディングの設定
 set encoding=utf-8
 source $VIMRUNTIME/delmenu.vim
-set langmenu=ja_jp.utf-8
+" set langmenu=ja_jp.utf-8
+set langmenu=en_us.utf-8
 source $VIMRUNTIME/menu.vim
 
 " set undofileでアンドゥデータをファイルを閉じても残しておく
@@ -269,6 +270,12 @@ if g:use_plugins_flag == s:true
 	" }}}
 else "if use_plugins_flag == s:false
 	" Without plugins settings {{{
+	set statusline=%F%m%r%h%w%q%=
+	set statusline+=[%{&fileformat}]
+	set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
+	set statusline+=%y
+	set statusline+=%4p%%%5l:%-3c
+
 	colorscheme default
 	set background=light
 	let g:netrw_browse_split = 4
