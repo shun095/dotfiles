@@ -270,18 +270,19 @@ if g:use_plugins_flag == s:true
 	" }}}
 else "if use_plugins_flag == s:false
 	" Without plugins settings {{{
+	" statusline settings
 	set statusline=%F%m%r%h%w%q%=
 	set statusline+=[%{&fileformat}]
 	set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
 	set statusline+=%y
 	set statusline+=%4p%%%5l:%-3c
 
-	colorscheme default
-	set background=light
+	colorscheme torte
+	set background=dark
 	let g:netrw_browse_split = 4
-	let g:netrw_altv = 1
 	let g:netrw_winsize = 20
-	nnoremap <Leader>e :Vexplore<CR>
+	nnoremap <Leader>e :Vexplore %:h<CR>
+	nnoremap <Leader>E :Vexplore<CR>
 	" }}}
 endif " use_plugins_flag end
 
