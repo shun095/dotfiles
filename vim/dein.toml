@@ -305,6 +305,13 @@ let g:lightline = {
 		    \ 'right': [ [ 'lineinfo', 'currenttime' ],
 		    \            [ 'percent' ] ]
 			\ },
+			" \ 'tab': {
+			" \ 'active': [ 'tabnum', 'absolutepath', 'modified' ]
+			" \ },
+			" \ 'tabline': {
+			" \ 'left': [['tabs']],
+			" \ 'right': [['currenttime','close']]
+			" \ },
 			\ 'component_function': {
 			\   'fugitive': 'LightLineFugitive',
 			\   'filename': 'LightLineFilename',
@@ -319,7 +326,8 @@ let g:lightline = {
 			\   'syntastic': 'SyntasticStatuslineFlag',
 			\ },
  			\ 'component': {
- 			\	'truncate': '%<'
+ 			\	'truncate': '%<',
+			" \	'absolutepath': '%F'
 			\ },
 			\ 'component_type': {
 			\   'syntastic': 'error',
