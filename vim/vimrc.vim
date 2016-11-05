@@ -181,7 +181,12 @@ function! s:confirm_do_dein_install() abort
 	endif
 endfunction
 "}}}
-"
+
+" Self constructed plugins {{{
+let s:myplugins = expand("$HOME") . "/dotfiles/vim"
+execute 'set runtimepath+=' . escape(s:myplugins, ' ')
+"}}}
+
 " ==========No Plugins Version END==========
 
 " ==========Use Plugins Settings START==========
@@ -211,11 +216,6 @@ if !isdirectory(s:dein_dir)
 endif
 "}}}
 if g:use_plugins_flag == s:true
-	" Self constructed plugins {{{
-	let s:myplugins = expand("$HOME") . "/dotfiles/vim"
-	execute 'set runtimepath+=' . escape(s:myplugins, ' ')
-	"}}}
-
 	" Plugin pre settings {{{
 	" vimprocが呼ばれる前に設定
 	let g:vimproc#download_windows_dll = 1
