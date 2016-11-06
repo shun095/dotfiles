@@ -196,8 +196,6 @@ execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 let s:plugin_dir = expand('$HOME') . '/.vim/dein/'
 " dein.vimをインストールするディレクトリをランタイムパスへ追加
 let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
-" escapeでスペースつきのホームフォルダ名に対応
-execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
 " dein.vimがまだ入ってなければインストールするか確認
 if !isdirectory(s:dein_dir)
 	" deinがインストールされてない場合そのままではプラグインは使わない
@@ -224,6 +222,9 @@ if g:use_plugins_flag == s:true
 	" Dein main settings {{{
 	filetype off
 	filetype plugin indent off
+
+	" escapeでスペースつきのホームフォルダ名に対応
+	execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
 
 	let g:plugins_toml = '$MYVIMHOME/dein.toml'
 	let g:plugins_lazy_toml = '$MYVIMHOME/dein_lazy.toml'
