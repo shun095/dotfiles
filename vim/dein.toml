@@ -406,7 +406,8 @@ let g:lightline = {
 	        \ &ft == 'unite' ? 'Unite' :
 	        \ &ft == 'vimfiler' ? 'VimFiler' :
 	        \ &ft == 'vimshell' ? 'VimShell' :
-	        \ winwidth(0) > 60 ? lightline#mode() : ''
+			\ lightline#mode()
+	        " \ winwidth(0) > 60 ? lightline#mode() : ''
 	endfunction
 
 	function! CtrlPMark()
