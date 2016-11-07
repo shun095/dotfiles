@@ -217,6 +217,9 @@ if g:use_plugins_flag == s:true
 	" Plugin pre settings {{{
 	" vimprocが呼ばれる前に設定
 	let g:vimproc#download_windows_dll = 1
+	if filereadable(expand("$HOME")."/dotfiles/vim-local.vim")
+		execute "source " . expand("$HOME") . "/dotfiles/vim-local.vim"
+	endif
 	" }}}
 	" Dein begin
 	" Dein main settings {{{
