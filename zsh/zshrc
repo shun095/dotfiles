@@ -56,6 +56,10 @@ if [  ! -e ${TMUXCONF} ]; then
 	touch $HOME/dotfiles/tmux/tmux.conf
 	echo "tmuxconf linked"
 fi
-
+TMUXLOCAL="$HOME/dotfiles/tmux-local"
+if [  ! -e ${TMUXLOCAL} ]; then
+	touch $HOME/dotfiles/tmux-local
+	echo "tmuxlocal is made"
+fi
 # change the color of cursor
 # echo -ne '\e]12;#999999\a'
