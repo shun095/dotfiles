@@ -10,7 +10,7 @@ if has("gui_running")
 	set guioptions=rLchb
 	" フォントを設定
 	if has("win32")
-		set guifont=Ricty_Diminished_for_Powerline:h12:cSHIFTJIS
+		set guifont=Myrica_M_for_Powerline:h12:cSHIFTJIS
 	elseif has("unix")
 		set guifont=Ricty\ Diminished\ for\ Powerline\ 12
 	endif
