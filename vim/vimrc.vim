@@ -9,7 +9,9 @@ let s:true = 1
 let s:false = 0
 
 let $MYVIMHOME=expand("$HOME") . "/dotfiles/vim"
-let g:use_plugins_flag = s:true
+if !exists("g:use_plugins_flag")
+	let g:use_plugins_flag = s:true
+endif
 
 " ==========No Plugin Version START==========
 "
