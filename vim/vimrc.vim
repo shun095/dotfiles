@@ -259,8 +259,7 @@ if g:use_plugins_flag == s:true
 	" Plugin post settings {{{
 	" ターミナルでの色設定
 	if has("win32") && !has("gui_running")
-		colorscheme desert
-		set background=dark
+		colorscheme default
 		cd $HOME
 	else
 		set background=dark
