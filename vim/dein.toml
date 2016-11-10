@@ -617,3 +617,6 @@ let g:syntastic_scss_checkers = ['scss_lint']
 hi SyntasticErrorSign ctermfg=160
 hi SyntasticWarningSign ctermfg=220
 '''# }}}
+
+[[plugins]]
+repo = 'rking/ag.vim'
