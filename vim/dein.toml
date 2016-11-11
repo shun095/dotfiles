@@ -48,6 +48,10 @@ repo = 'ujihisa/unite-colorscheme'# {{{
 depends = ['unite.vim']# }}}
 
 [[plugins]]
+repo = 'Shougo/neossh.vim' # {{{
+depends = ['unite.vim']# }}}
+
+[[plugins]]
 repo = 'Shougo/vimshell.vim'# {{{
 depends = ['vimproc.vim']# }}}
 
