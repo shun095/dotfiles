@@ -64,7 +64,7 @@ on_i = 1# }}}
 
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'# {{{
-on_cmd = ['VimFilerBufferDir','VimFilerCurrentDir']
+on_cmd = ['VimFiler', 'VimFilerBufferDir','VimFilerCurrentDir']
 depends = ['vimproc.vim', 'vim-choosewin']
 hook_add = '''
 	let g:vimfiler_force_overwrite_statusline = 0
@@ -304,9 +304,9 @@ hook_add = '''
 	let g:tweetvim_display_username = 1
 	let g:tweetvim_display_icon = 1
 	" let g:tweetvim_async_post = 0
-	nnoremap <Leader>tl :<C-u>Unite tweetvim<CR>
-	nnoremap <Leader>tu :<C-u>TweetVimUserStream<CR>
-	nnoremap <Leader>ts :<C-u>TweetVimSay<CR>
+	nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
+	nnoremap <Leader>Tu :<C-u>TweetVimUserStream<CR>
+	nnoremap <Leader>Ts :<C-u>TweetVimSay<CR>
 '''# }}}
 
 [[plugins]]
@@ -334,37 +334,24 @@ on_cmd = ['Soundcloud']# }}}
 # '''"}}}
 
 [[plugins]]
-repo = 'scrooloose/syntastic.git'# {{{
-on_cmd = ['SyntasticCheck']
-hook_add = '''
-if executable("clang++")
-	let g:syntastic_cpp_compiler = 'clang++'
-	let g:syntastic_cpp_compiler_options = '--std=c++11 --stdlib=libc++'
-endif
-
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 1
-" ここまでReccomend設定
-
-" let g:syntastic_mode_map = { 'mode': 'passive',
-" 			\ 'active_filetypes': ['ruby', 'javascript','coffee', 'scss'] }
-let g:syntastic_ruby_checkers = ['rubocop'] " or ['rubocop', 'mri']
-let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_coffee_checkers = ['coffeelint']
-let g:syntastic_scss_checkers = ['scss_lint']
-hi SyntasticErrorSign ctermfg=160
-hi SyntasticWarningSign ctermfg=220
-'''# }}}
-
-[[plugins]]
 repo = 'glidenote/memolist.vim'# {{{
 on_cmd = ['MemoNew', 'MemoList']
 hook_add = '''
 	" let g:memolist_memo_suffix = 'txt'
 	let g:memolist_unite = 1
+'''# }}}
+
+[[plugins]]
+repo = 'majutsushi/tagbar'# {{{
+on_cmd = ['TagbarToggle']
+hook_add = '''
+
+		nnoremap <silent> <Leader>t :TagbarOpen j<CR>
+		let g:tagbar_show_linenumbers = 1
+		let g:tagbar_sort = 0
+		let g:tagbar_indent = 1
+		let g:tagbar_autoshowtag = 1
+		let g:tagbar_autopreview = 1
+		let g:tagbar_autofocus = 1
+		let g:tagbar_autoclose = 1
 '''# }}}

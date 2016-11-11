@@ -9,7 +9,9 @@ let s:true = 1
 let s:false = 0
 
 let $MYVIMHOME=expand("$HOME") . "/dotfiles/vim"
-let g:use_plugins_flag = s:true
+if !exists("g:use_plugins_flag")
+	let g:use_plugins_flag = s:true
+endif
 
 " ==========No Plugin Version START==========
 "
@@ -65,7 +67,7 @@ set scrolloff=5      " カーソルが端まで行く前にスクロールし始
 set ambiwidth=double " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a
 set nomousehide
-set lazyredraw
+set nolazyredraw
 set background=dark
 set sessionoptions=curdir,help,slash,tabpages
 
@@ -78,7 +80,8 @@ set fileformats=unix,dos,mac
 " Vim側のエンコーディングの設定
 set encoding=utf-8
 source $VIMRUNTIME/delmenu.vim
-set langmenu=ja_jp.utf-8
+" set langmenu=ja_jp.utf-8
+set langmenu=en_us.utf-8
 source $VIMRUNTIME/menu.vim
 
 " set undofileでアンドゥデータをファイルを閉じても残しておく
@@ -119,6 +122,7 @@ nnoremap gk k
 
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
+vnoremap * "zy:let @/ = @z <CR>n
 "}}}
 
 " Commands {{{
@@ -180,7 +184,12 @@ function! s:confirm_do_dein_install() abort
 	endif
 endfunction
 "}}}
-"
+
+" Self constructed plugins {{{
+let s:myplugins = expand("$HOME") . "/dotfiles/vim"
+execute 'set runtimepath+=' . escape(s:myplugins, ' ')
+"}}}
+
 " ==========No Plugins Version END==========
 
 " ==========Use Plugins Settings START==========
@@ -190,8 +199,6 @@ endfunction
 let s:plugin_dir = expand('$HOME') . '/.vim/dein/'
 " dein.vimをインストールするディレクトリをランタイムパスへ追加
 let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
-" escapeでスペースつきのホームフォルダ名に対応
-execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
 " dein.vimがまだ入ってなければインストールするか確認
 if !isdirectory(s:dein_dir)
 	" deinがインストールされてない場合そのままではプラグインは使わない
@@ -210,19 +217,20 @@ if !isdirectory(s:dein_dir)
 endif
 "}}}
 if g:use_plugins_flag == s:true
-	" Self constructed plugins {{{
-	let s:myplugins = expand("$HOME") . "/dotfiles/vim"
-	execute 'set runtimepath+=' . escape(s:myplugins, ' ')
-	"}}}
-
 	" Plugin pre settings {{{
 	" vimprocが呼ばれる前に設定
 	let g:vimproc#download_windows_dll = 1
+	if filereadable(expand("$HOME")."/dotfiles/vim-local.vim")
+		execute "source " . expand("$HOME") . "/dotfiles/vim-local.vim"
+	endif
 	" }}}
 	" Dein begin
 	" Dein main settings {{{
 	filetype off
 	filetype plugin indent off
+
+	" escapeでスペースつきのホームフォルダ名に対応
+	execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
 
 	let g:plugins_toml = '$MYVIMHOME/dein.toml'
 	let g:plugins_lazy_toml = '$MYVIMHOME/dein_lazy.toml'
@@ -252,8 +260,7 @@ if g:use_plugins_flag == s:true
 	" Plugin post settings {{{
 	" ターミナルでの色設定
 	if has("win32") && !has("gui_running")
-		colorscheme desert
-		set background=dark
+		colorscheme default
 		cd $HOME
 	else
 		set background=dark
@@ -269,12 +276,19 @@ if g:use_plugins_flag == s:true
 	" }}}
 else "if use_plugins_flag == s:false
 	" Without plugins settings {{{
-	colorscheme default
-	set background=light
+	" statusline settings
+	set statusline=%F%m%r%h%w%q%=
+	set statusline+=[%{&fileformat}]
+	set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
+	set statusline+=%y
+	set statusline+=%4p%%%5l:%-3c
+
+	colorscheme torte
+	set background=dark
 	let g:netrw_browse_split = 4
-	let g:netrw_altv = 1
 	let g:netrw_winsize = 20
-	nnoremap <Leader>e :Vexplore<CR>
+	nnoremap <Leader>e :Vexplore %:h<CR>
+	nnoremap <Leader>E :Vexplore<CR>
 	" }}}
 endif " use_plugins_flag end
 
