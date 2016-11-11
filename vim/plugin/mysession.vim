@@ -25,7 +25,7 @@ if isdirectory(expand("$HOME")."/.vimsessions") != 1
 	call mkdir($HOME."/.vimsessions","p")
 endif
 
-augroup NUSHSESSION
+augroup ISHISESSION
 	autocmd!
 	" autocmd VimEnter * nested execute("LoadLastSession")
 	" nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）

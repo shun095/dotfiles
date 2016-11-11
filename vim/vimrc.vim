@@ -67,7 +67,7 @@ set scrolloff=5      " カーソルが端まで行く前にスクロールし始
 set ambiwidth=double " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a
 set nomousehide
-set lazyredraw
+set nolazyredraw
 set background=dark
 set sessionoptions=curdir,help,slash,tabpages
 
