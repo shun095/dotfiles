@@ -306,8 +306,8 @@ let g:lightline = {
 			\   'right': [ [ 'syntastic','lineinfo','currenttime' ,'truncate'], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
 			\ },
 			\ 'inactive': {
-		    \ 'left': [ [ 'absolutepath' ] ],
-		    \ 'right': [ [ 'lineinfo', 'currenttime' ],
+		    \ 'left': [ [ 'filename' ] ],
+		    \ 'right': [ [ 'lineinfo'],
 		    \            [ 'percent' ] ]
 			\ },
 			" \ 'tab': {
