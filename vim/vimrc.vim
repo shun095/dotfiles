@@ -122,6 +122,7 @@ nnoremap gk k
 
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
+vnoremap * "zy:let @/ = @z <CR>n
 "}}}
 
 " Commands {{{
