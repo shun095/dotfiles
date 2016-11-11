@@ -13,7 +13,7 @@ hook_add = '''
 	let g:unite_force_overwrite_statusline = 0
 	let g:unite_enable_start_insert = 0
 	nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-	nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+	nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -insert-mode file_rec/async<CR>
 	nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
 	nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
 	nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
@@ -33,6 +33,18 @@ hook_add = '''
 	" ESCキーを2回押すと終了する
 	au FileType unite nmap <silent> <buffer> <ESC><ESC> q
 	au FileType unite imap <silent> <buffer> <ESC><ESC> <ESC>q
+
+	"nice unite and ag
+	let g:unite_source_history_yank_enable = 1
+	try
+		let g:unite_source_rec_async_command='ag --nocolor --nogroup -g ""'
+		call unite#filters#matcher_default#use(['matcher_fuzzy'])
+	catch
+	endtry
+	" search a file in the filetree
+	nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
+	" reset not it is <C-l> normally
+	nnoremap <space>r <Plug>(unite_restart)
 '''# }}}
 
 [[plugins]]
@@ -503,8 +515,6 @@ hook_add = '''
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'# {{{
 hook_add = '''
-let g:ctrlp_extensions = ['tag' ]
-let g:ctrlp_cmd = 'CtrlPMRUFiles'
 '''# }}}
 
 [[plugins]]
