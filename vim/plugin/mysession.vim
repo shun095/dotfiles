@@ -18,7 +18,8 @@ let s:false = 0
 
 " Init
 let s:save_session_flag = s:true
-let g:session_loaded = s:false
+" let g:session_loaded = s:false
+let g:session_loaded = s:true
 
 let g:save_window_file = expand('~/.vimwinpos')
 if isdirectory(expand("$HOME")."/.vimsessions") != 1
@@ -37,7 +38,9 @@ augroup NUSHSESSION
 augroup END
 
 command! TabMerge call s:tab_merge()
-" command! LoadLastSession call s:load_session("lastsession.vim")
+command! SaveSession call s:save_session("defaultsavedsession.vim")
+command! LoadSavedSession call s:load_session("defaultsavedsession.vim")
+command! LoadLastSession call s:load_session("lastsession.vim")
 
 " command! ClearSession call s:clear_session()
 " call s:load_session_on_startup()
