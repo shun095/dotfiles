@@ -12,29 +12,25 @@ let g:loaded_mysession_plugin = 1
 let s:true = 1
 let s:false = 0
 
-" ==========セッション復帰用自作スクリプト==========
 " MY SESSION FUNCTIONS
 " let g:save_session_file = expand('~/.vimsessions/default.vim')
 
 " Init
-let s:save_session_flag = s:true
 " let g:session_loaded = s:false
-let g:session_loaded = s:true
+" let g:session_loaded = s:true
+let s:save_session_flag = s:true " TabMerge時用のフラグ
+let g:save_window_file = expand('~/.vimsessions/.vimwinpos')
 
-let g:save_window_file = expand('~/.vimwinpos')
 if isdirectory(expand("$HOME")."/.vimsessions") != 1
 	call mkdir($HOME."/.vimsessions","p")
 endif
 
 augroup ISHISESSION
 	autocmd!
-	" autocmd VimEnter * nested execute("LoadLastSession")
 	" nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
-	autocmd VimEnter * nested if @% == '' && s:GetBufByte() == 0 | call s:load_session("lastsession.vim") | endif
+	autocmd VimEnter * nested if @% == '' && s:getbufbyte() == 0 | call s:load_session("lastsession.vim") | endif
 	autocmd VimLeavePre * call s:save_window()
 	autocmd VimLeavePre * if s:save_session_flag == s:true | call s:save_session("lastsession.vim") | endif
-	" 新しいWindowを開かずタブで開く
-	" 	autocmd VimEnter * call s:open_with_tab()
 augroup END
 
 command! TabMerge call s:tab_merge()
@@ -43,9 +39,8 @@ command! LoadSavedSession call s:load_session("defaultsavedsession.vim")
 command! LoadLastSession call s:load_session("lastsession.vim")
 
 " command! ClearSession call s:clear_session()
-" call s:load_session_on_startup()
 
-function! s:GetBufByte()
+function! s:getbufbyte()
 	let byte = line2byte(line('$') + 1)
 	if byte == -1
 		return 0
@@ -59,13 +54,13 @@ function! s:load_session(session_name) abort "{{{
 	if has("gui_running")
 		execute "source" g:save_window_file
 	endif
-	let g:session_loaded = s:true
+	" let g:session_loaded = s:true
 	execute "source" "~/.vimsessions/" . a:session_name
 endfunction "}}}
 
 " SAVING SESSION 
 function! s:save_session(session_name) abort "{{{
-	if g:session_loaded == s:true
+	" if g:session_loaded == s:true
 		execute  "mksession! "  "~/.vimsessions/". a:session_name
 	endif
 endfunction "}}}
@@ -108,7 +103,6 @@ endfunction "}}}
 " 	quitall
 " endfunction "}}}
 
-
 " START UP LOADING (DESABLED)
 " function! s:load_session_on_startup() abort "{{{
 " 	if has("vim_starting")
@@ -124,8 +118,5 @@ endfunction "}}}
 " 	endif
 " endfunction "}}}
 
-
-" ==========セッション復帰用自作スクリプトここまで========== "
-"
 let &cpo = s:save_cpo
 unlet s:save_cpo
