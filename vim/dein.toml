@@ -653,7 +653,7 @@ repo = "tyru/restart.vim"
 repo = 'rking/ag.vim'
 hook_add = '''
 	nnoremap <Leader>a :Ag 
-	nnoremap } :Ag <c-r>=expand("<cword>")<cr><cr>
+	" nnoremap } :Ag <c-r>=expand("<cword>")<cr><cr>
 '''
 
 # [[plugins]]

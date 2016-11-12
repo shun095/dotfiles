@@ -113,7 +113,7 @@ if has("unix")
 endif
 " }}}
 
-" Maping {{{
+" Mapping {{{
 " 改行があっても真下に移動できるようになる
 nnoremap j gj
 nnoremap k gk
@@ -123,6 +123,7 @@ nnoremap gk k
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
 vnoremap * "zy:let @/ = @z <CR>n
+nnoremap * *N
 "}}}
 
 " Commands {{{
