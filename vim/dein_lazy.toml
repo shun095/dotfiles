@@ -79,8 +79,6 @@ repo = 'Shougo/neocomplete.vim'# {{{
 on_i = 1
 hook_add = '''
 	"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-	" Disable AutoComplPop.
-	let g:acp_enableAtStartup = 0
 	" Use neocomplete.
 	let g:neocomplete#enable_at_startup = 1
 	" 補完に時間がかかってもスキップしない
@@ -89,7 +87,7 @@ hook_add = '''
 	let g:neocomplete#enable_smart_case = 1
 	" _(アンダースコア)区切りの補完を有効化
 	let g:neocomplete#enable_underbar_completion = 1
-	let g:neocomplete#enable_camel_case_completion  =  1
+	" let g:neocomplete#enable_camel_case_completion  =  1
 	" ポップアップメニューで表示される候補の数
 	let g:neocomplete#max_list = 10
 	" Set minimum syntax keyword length.
@@ -130,6 +128,20 @@ hook_add = '''
 	" Close popup by <Space>.
 	" inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
+	" Enable heavy omni completion.
+	if !exists('g:neocomplete#sources#omni#input_patterns')
+		let g:neocomplete#sources#omni#input_patterns = {}
+	endif
+
+	let g:neocomplete#sources#omni#input_patterns.c =
+	\ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
+	let g:neocomplete#sources#omni#input_patterns.cpp =
+	\ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+
+	if !exists('g:neocomplete#force_omni_input_patterns')
+		let g:neocomplete#force_omni_input_patterns = {} 
+	endif
+
 	" Enable omni completion.
 	augroup OMNICOMPLETE "{{{
 		autocmd!
@@ -141,38 +153,17 @@ hook_add = '''
 		" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 	augroup END "}}}
 
-	" Enable heavy omni completion.
-	if !exists('g:neocomplete#sources#omni#input_patterns')
-		let g:neocomplete#sources#omni#input_patterns = {}
-	endif
 	" For perlomni.vim setting.
 	" https://github.com/c9s/perlomni.vim
 	" let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 	"
 	"let g:neocomplete#sources#omni#input_patterns.php =
 	"\ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-	let g:neocomplete#sources#omni#input_patterns.c =
-	\ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
-	let g:neocomplete#sources#omni#input_patterns.cpp =
-	\ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-
-	if !exists('g:neocomplete#force_omni_input_patterns')
-		let g:neocomplete#force_omni_input_patterns = {} 
-	endif
 	" let g:neocomplete#force_overwrite_completefunc = 1
 	" let g:neocomplete#force_omni_input_patterns.c =
 	" \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
 	" let g:neocomplete#force_omni_input_patterns.cpp = 
 	" \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-
-
-	" Unity用補完
-	" augroup UNITYSUFFIX "{{{
-	"   autocmd!
-	"   autocmd Filetype javascript :set dictionary=~/.vim/unity_script.dict
-	"   autocmd Filetype cs :set suffixesadd+=.cs
-	"   autocmd Filetype cs :set dictionary=~/.vim/unity_script.dict
-	" augroup END "}}}
 	set timeout timeoutlen=1000 ttimeoutlen=100
 '''# }}}
 
