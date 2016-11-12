@@ -164,6 +164,7 @@ augroup VIMRC
 
 	" ヘルプをqで閉じれるようにする
 	autocmd FileType help nnoremap <silent><buffer>q :quit<CR> 
+	autocmd VimEnter * call <SID>set_statusline()
 augroup END
 "}}}
 
@@ -181,6 +182,17 @@ function! s:confirm_do_dein_install() abort
 		call dein#install()
 	else
 		echomsg "Plugins were not installed. Please install after."
+	endif
+endfunction
+
+function! s:set_statusline() abort
+	if !exists("g:loaded_lightline")
+		" statusline settings
+		set statusline=%F%m%r%h%w%q%=
+		set statusline+=[%{&fileformat}]
+		set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
+		set statusline+=%y
+		set statusline+=%4p%%%5l:%-3c
 	endif
 endfunction
 "}}}
@@ -273,16 +285,10 @@ if g:use_plugins_flag == s:true
 		highlight! StatusLine ctermbg=235 guibg=#282C34
 		highlight! StatusLineNC ctermbg=235 guibg=#282C34
 	endif
+
 	" }}}
 else "if use_plugins_flag == s:false
 	" Without plugins settings {{{
-	" statusline settings
-	set statusline=%F%m%r%h%w%q%=
-	set statusline+=[%{&fileformat}]
-	set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
-	set statusline+=%y
-	set statusline+=%4p%%%5l:%-3c
-
 	colorscheme torte
 	set background=dark
 	let g:netrw_browse_split = 4

@@ -149,321 +149,321 @@ set fillchars=vert:\|
 " augroup END "}}}
 '''# }}}
 
+ [[plugins]]
+ repo = 'vim-airline/vim-airline'#{{{
+ hook_add = '''
+ 	let g:airline_theme='onedark'
+
+ 	let g:airline#extensions#branch#enabled        = 1
+ 	let g:airline#extensions#branch#empty_message  = ''
+ 	let g:airline#extensions#whitespace#checks     = [ 'indent',  'mixed-indent-file' ]
+ 	let g:airline#extensions#syntastic#enabled     = 1
+ 	let g:airline#extensions#tabline#enabled       = 1
+ 	let g:airline#extensions#tabline#exclude_preview = 1
+
+ 	let g:airline#extensions#tabline#show_splits   = 1
+ 	let g:airline#extensions#tabline#show_tabs = 1
+ 	let g:airline#extensions#tabline#show_buffers = 0
+ 	let g:airline#extensions#tabline#tab_nr_type   = 2 " splits and tab number
+ 	let g:airline#extensions#tabline#show_close_button = 0
+
+ 	" let g:airline_powerline_fonts=1
+ 	if !exists('g:airline_symbols')
+ 		let g:airline_symbols = {}
+ 	endif
+
+ 	if has("gui_running")
+ 		let g:airline#extensions#tabline#left_sep      = '⮀'
+ 		let g:airline#extensions#tabline#left_alt_sep  = '⮁'
+ 		let g:airline#extensions#tabline#right_sep     = '⮂'
+ 		let g:airline#extensions#tabline#right_alt_sep = '⮃'
+ 		let g:airline_left_sep           = '⮀'
+ 		let g:airline_left_alt_sep       = '⮁'
+ 		let g:airline_right_sep          = '⮂'
+ 		let g:airline_right_alt_sep      = '⮃'
+ 		let g:airline_symbols.branch     = '⭠'
+ 		let g:airline_symbols.readonly   = '⭤'
+ 		let g:airline_symbols.linenr     = '⭡'
+ 	endif
+
+ 	let g:airline_symbols.crypt      = '🔒'
+ 	" let g:airline_symbols.linenr = '␊'
+ 	" let g:airline_symbols.linenr = '␤'
+ 	" let g:airline_symbols.linenr = '¶'
+ 	let g:airline_symbols.maxlinenr  = '☰'
+ 	let g:airline_symbols.maxlinenr  = ''
+ 	" let g:airline_symbols.branch = '⎇'
+ 	let g:airline_symbols.paste      = 'ρ'
+ 	let g:airline_symbols.paste      = 'Þ'
+ 	let g:airline_symbols.paste      = '∥'
+ 	let g:airline_symbols.spell      = 'Ꞩ'
+ 	let g:airline_symbols.notexists  = '∄'
+ 	let g:airline_symbols.whitespace = 'Ξ'
+ 	let g:airline#extensions#default#layout = [
+ 				\ [ 'a', 'b', 'c' ],
+ 				\ [ 'x', 'y', 'z' ]
+ 				\ ]
+ '''
+ # }}}
+
 # [[plugins]]
-# repo = 'vim-airline/vim-airline'#{{{
+# repo = 'itchyny/lightline.vim'#{{{
 # hook_add = '''
-# 	let g:airline_theme='onedark'
-#
-# 	let g:airline#extensions#branch#enabled        = 1
-# 	let g:airline#extensions#branch#empty_message  = ''
-# 	let g:airline#extensions#whitespace#checks     = [ 'indent',  'mixed-indent-file' ]
-# 	let g:airline#extensions#syntastic#enabled     = 1
-# 	let g:airline#extensions#tabline#enabled       = 1
-# 	let g:airline#extensions#tabline#exclude_preview = 1
-#
-# 	let g:airline#extensions#tabline#show_splits   = 1
-# 	let g:airline#extensions#tabline#show_tabs = 1
-# 	let g:airline#extensions#tabline#show_buffers = 0
-# 	let g:airline#extensions#tabline#tab_nr_type   = 2 " splits and tab number
-# 	let g:airline#extensions#tabline#show_close_button = 0
-#
-# 	" let g:airline_powerline_fonts=1
-# 	if !exists('g:airline_symbols')
-# 		let g:airline_symbols = {}
-# 	endif
-#
-# 	if has("gui_running")
-# 		let g:airline#extensions#tabline#left_sep      = '⮀'
-# 		let g:airline#extensions#tabline#left_alt_sep  = '⮁'
-# 		let g:airline#extensions#tabline#right_sep     = '⮂'
-# 		let g:airline#extensions#tabline#right_alt_sep = '⮃'
-# 		let g:airline_left_sep           = '⮀'
-# 		let g:airline_left_alt_sep       = '⮁'
-# 		let g:airline_right_sep          = '⮂'
-# 		let g:airline_right_alt_sep      = '⮃'
-# 		let g:airline_symbols.branch     = '⭠'
-# 		let g:airline_symbols.readonly   = '⭤'
-# 		let g:airline_symbols.linenr     = '⭡'
-# 	endif
-#
-# 	let g:airline_symbols.crypt      = '🔒'
-# 	" let g:airline_symbols.linenr = '␊'
-# 	" let g:airline_symbols.linenr = '␤'
-# 	" let g:airline_symbols.linenr = '¶'
-# 	let g:airline_symbols.maxlinenr  = '☰'
-# 	let g:airline_symbols.maxlinenr  = ''
-# 	" let g:airline_symbols.branch = '⎇'
-# 	let g:airline_symbols.paste      = 'ρ'
-# 	let g:airline_symbols.paste      = 'Þ'
-# 	let g:airline_symbols.paste      = '∥'
-# 	let g:airline_symbols.spell      = 'Ꞩ'
-# 	let g:airline_symbols.notexists  = '∄'
-# 	let g:airline_symbols.whitespace = 'Ξ'
-# 	let g:airline#extensions#default#layout = [
-# 				\ [ 'a', 'b', 'c' ],
-# 				\ [ 'x', 'y', 'z' ]
-# 				\ ]
+# if v:version >= 800 " バージョン８以降ならTimer使って時刻表示
+# 	let g:currenttime = strftime("%H時%M分%S秒")
+# 
+# 	function! SetCurrentTime()
+# 		let tempTimer = timer_start(1000, 'CheckTemp', {'repeat' : -1})
+# 		function! CheckTemp(tempTimer)
+# 			let g:currenttime = strftime("%H時%M分%S秒")
+# 			try
+# 				call lightline#update()
+# 			catch /.*/
+# 				call timer_stop(a:tempTimer)
+# 			endtry
+# 		endfunction
+# 	endfunction
+# 
+# 	call SetCurrentTime()
+# 
+# else
+# 	let g:currenttime = ""
+# endif
+# 
+# function! ReturnCurrentTime()
+# 	if &filetype == 'vimfiler'
+# 		return ''
+# 	else
+# 	return g:currenttime
+# endfunction
+# 
+# " function! LightLineModified() {{{
+# " 	return &ft =~ 'help\|vimfiler' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+# " endfunction
+# "
+# " function! LightLineReadonly()
+# " 	return &ft !~? 'help\|vimfiler' && &readonly ? '⭤' : ''
+# " endfunction
+# "
+# " function! LightLineFilename()
+# " 	return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+# " 				\ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+# " 				\  &ft == 'unite' ? unite#get_status_string() :
+# " 				\  &ft == 'vimshell' ? vimshell#get_status_string() :
+# " 				\ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+# " 				\ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+# " endfunction
+# "
+# " function! LightLineFugitive()
+# " 	if &ft !~? 'vimfiler' && exists('*fugitive#head')
+# " 		let branch = fugitive#head()
+# " 		if has("gui_running")
+# " 			return branch !=# '' ? '⭠ '.branch : ''
+# " 		else
+# " 			return branch !=# '' ? 'Branch: '.branch : ''
+# " 		endif
+# " 	endif
+# " 	return ''
+# " endfunction
+# "
+# " let g:lightline = {
+# " 			\ 'colorscheme': 'solarized',
+# " 			\ 'active': {
+# " 			\	  'left':  [ ['mode', 'paste'] ,
+# " 			\			   [ 'fugitive', 'filename'] ],
+# " 			\	  'right': [ ['lineinfo','currenttime', 'truncate' ] ,
+# " 			\			   [ 'percent' ] ,
+# " 			\			   [ 'fileformat', 'fileencoding', 'filetype' ] ]
+# " 			\ },
+# " 			\ 'inactive': {
+# " 		    \	  'left':  [ [ 'filename', 'modified' ] ],
+# " 		    \	  'right': [ [ 'lineinfo' ],
+# " 		    \              [ 'percent' ] ]
+# " 			\ },
+# " 			\ 'component_function': {
+# " 			\	 'currenttime': 'ReturnCurrentTime',
+# " 			\   'fugitive': 'LightLineFugitive',
+# " 			\   'filename': 'LightLineFilename'
+# " 			\ },
+# " 			\ 'component': {
+# " 			\	'truncate': '%<'
+# " 			\ },
+# " 			\ }
+# " 			if has("gui_running")
+# " 				let g:lightline.separator = {
+# " 							\	'left': '⮀', 'right': '⮂'
+# " 							\	}
+# " 				let g:lightline.subseparator = {
+# " 							\	'left': '⮁', 'right': '⮃'
+# " 							\}
+# " 			endif }}}
+# 
+# " {{{
+# let g:lightline = {
+# 			\ 'colorscheme': 'onedark_custom',
+# 			\ 'active': {
+# 			\   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+# 			\   'right': [ [ 'syntastic','lineinfo','currenttime' ,'truncate'], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+# 			\ },
+# 			\ 'inactive': {
+# 		    \ 'left': [ [ 'filename' ] ],
+# 		    \ 'right': [ [ 'lineinfo'],
+# 		    \            [ 'percent' ] ]
+# 			\ },
+# 			" \ 'tab': {
+# 			" \ 'active': [ 'tabnum', 'absolutepath', 'modified' ]
+# 			" \ },
+# 			" \ 'tabline': {
+# 			" \ 'left': [['tabs']],
+# 			" \ 'right': [['currenttime','close']]
+# 			" \ },
+# 			\ 'component_function': {
+# 			\   'fugitive': 'LightLineFugitive',
+# 			\   'filename': 'LightLineFilename',
+# 			\   'fileformat': 'LightLineFileformat',
+# 			\   'filetype': 'LightLineFiletype',
+# 			\   'fileencoding': 'LightLineFileencoding',
+# 			\   'mode': 'LightLineMode',
+# 			\   'ctrlpmark': 'CtrlPMark',
+# 			\   'currenttime': 'ReturnCurrentTime',
+# 			\ },
+# 			\ 'component_expand': {
+# 			\   'syntastic': 'SyntasticStatuslineFlag',
+# 			\ },
+#  			\ 'component': {
+#  			\	'truncate': '%<',
+# 			" \	'absolutepath': '%F'
+# 			\ },
+# 			\ 'component_type': {
+# 			\   'syntastic': 'error',
+# 			\ },
+# 			\ 'subseparator': { 'left': '|', 'right': '|' }
+# 			\ }
+# 			if has("gui_running")
+# 				let g:lightline.separator = {
+# 							\	'left': '⮀', 'right': '⮂'
+# 							\	}
+# 				let g:lightline.subseparator = {
+# 							\	'left': '⮁', 'right': '⮃'
+# 							\}
+# 			endif " }}}
+# 
+# 	function! LightLineModified()
+# 	  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+# 	endfunction
+# 
+# 	function! LightLineReadonly()
+# 		if has("gui_running")
+# 			return &ft !~? 'help\|vimfiler' && &readonly ? '⭤' : ''
+# 		else
+# 			return &ft !~? 'help\|vimfiler' && &readonly ? '[RO]' : ''
+# 		endif
+# 	endfunction
+# 
+# 	function! LightLineFilename()
+# 	  let fname = expand('%:t')
+# 	  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
+# 	        \ fname == '__Tagbar__' ? g:lightline.fname :
+# 	        \ fname =~ '__Gundo\|NERD_tree' ? '' :
+# 	        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+# 	        \ &ft == 'unite' ? unite#get_status_string() :
+# 	        \ &ft == 'vimshell' ? vimshell#get_status_string() :
+# 	        \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+# 	        \ ('' != fname ? fname : '[No Name]') .
+# 	        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+# 	endfunction
+# 
+# 	function! LightLineFugitive()
+# 		try
+# 			if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+# 				let branch = fugitive#head()
+# 				" return branch !=# '' ? mark.branch : ''
+# 				if has("gui_running")
+# 					return branch !=# '' ? '⭠ '.branch : ''
+# 				else
+# 					return branch !=# '' ? 'BR:['.branch.']' : ''
+# 				endif
+# 			endif
+# 		catch
+# 		endtry
+# 		return ''
+# 	endfunction
+# 
+# 	function! LightLineFileformat()
+# 	  return winwidth(0) > 70 ? &fileformat : ''
+# 	endfunction
+# 
+# 	function! LightLineFiletype()
+# 	  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+# 	endfunction
+# 
+# 	function! LightLineFileencoding()
+# 	  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+# 	endfunction
+# 
+# 	function! LightLineMode()
+# 	  let fname = expand('%:t')
+# 	  return fname == '__Tagbar__' ? 'Tagbar' :
+# 	        \ fname == 'ControlP' ? 'CtrlP' :
+# 	        \ fname == '__Gundo__' ? 'Gundo' :
+# 	        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+# 	        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+# 	        \ &ft == 'unite' ? 'Unite' :
+# 	        \ &ft == 'vimfiler' ? 'VimFiler' :
+# 	        \ &ft == 'vimshell' ? 'VimShell' :
+# 			\ lightline#mode()
+# 	        " \ winwidth(0) > 60 ? lightline#mode() : ''
+# 	endfunction
+# 
+# 	function! CtrlPMark()
+# 	  if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
+# 	    call lightline#link('iR'[g:lightline.ctrlp_regex])
+# 	    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+# 	          \ , g:lightline.ctrlp_next], 0)
+# 	  else
+# 	    return ''
+# 	  endif
+# 	endfunction
+# 
+# 	let g:ctrlp_status_func = {
+# 	  \ 'main': 'CtrlPStatusFunc_1',
+# 	  \ 'prog': 'CtrlPStatusFunc_2',
+# 	  \ }
+# 
+# 	function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+# 	  let g:lightline.ctrlp_regex = a:regex
+# 	  let g:lightline.ctrlp_prev = a:prev
+# 	  let g:lightline.ctrlp_item = a:item
+# 	  let g:lightline.ctrlp_next = a:next
+# 	  return lightline#statusline(0)
+# 	endfunction
+# 
+# 	function! CtrlPStatusFunc_2(str)
+# 	  return lightline#statusline(0)
+# 	endfunction
+# 
+# 	let g:tagbar_status_func = 'TagbarStatusFunc'
+# 
+# 	function! TagbarStatusFunc(current, sort, fname, ...) abort
+# 	    let g:lightline.fname = a:fname
+# 	  return lightline#statusline(0)
+# 	endfunction
+# 
+# 	 " augroup AutoSyntastic
+# 	 "   autocmd!
+# 	 "   autocmd BufWritePost *.c,*.cpp call s:syntastic()
+# 	 " augroup END
+# 	function! s:syntastic()
+# 	  SyntasticCheck
+# 	  call lightline#update()
+# 	endfunction
+# 
+# 	let g:unite_force_overwrite_statusline = 0
+# 	let g:vimfiler_force_overwrite_statusline = 0
+# 	let g:vimshell_force_overwrite_statusline = 0
 # '''
 # # }}}
-
-[[plugins]]
-repo = 'itchyny/lightline.vim'#{{{
-hook_add = '''
-if v:version >= 800 " バージョン８以降ならTimer使って時刻表示
-	let g:currenttime = strftime("%H時%M分%S秒")
-
-	function! SetCurrentTime()
-		let tempTimer = timer_start(1000, 'CheckTemp', {'repeat' : -1})
-		function! CheckTemp(tempTimer)
-			let g:currenttime = strftime("%H時%M分%S秒")
-			try
-				call lightline#update()
-			catch /.*/
-				call timer_stop(a:tempTimer)
-			endtry
-		endfunction
-	endfunction
-
-	call SetCurrentTime()
-
-else
-	let g:currenttime = ""
-endif
-
-function! ReturnCurrentTime()
-	if &filetype == 'vimfiler'
-		return ''
-	else
-	return g:currenttime
-endfunction
-
-" function! LightLineModified() {{{
-" 	return &ft =~ 'help\|vimfiler' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-" endfunction
-"
-" function! LightLineReadonly()
-" 	return &ft !~? 'help\|vimfiler' && &readonly ? '⭤' : ''
-" endfunction
-"
-" function! LightLineFilename()
-" 	return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-" 				\ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-" 				\  &ft == 'unite' ? unite#get_status_string() :
-" 				\  &ft == 'vimshell' ? vimshell#get_status_string() :
-" 				\ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-" 				\ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-" endfunction
-"
-" function! LightLineFugitive()
-" 	if &ft !~? 'vimfiler' && exists('*fugitive#head')
-" 		let branch = fugitive#head()
-" 		if has("gui_running")
-" 			return branch !=# '' ? '⭠ '.branch : ''
-" 		else
-" 			return branch !=# '' ? 'Branch: '.branch : ''
-" 		endif
-" 	endif
-" 	return ''
-" endfunction
-"
-" let g:lightline = {
-" 			\ 'colorscheme': 'solarized',
-" 			\ 'active': {
-" 			\	  'left':  [ ['mode', 'paste'] ,
-" 			\			   [ 'fugitive', 'filename'] ],
-" 			\	  'right': [ ['lineinfo','currenttime', 'truncate' ] ,
-" 			\			   [ 'percent' ] ,
-" 			\			   [ 'fileformat', 'fileencoding', 'filetype' ] ]
-" 			\ },
-" 			\ 'inactive': {
-" 		    \	  'left':  [ [ 'filename', 'modified' ] ],
-" 		    \	  'right': [ [ 'lineinfo' ],
-" 		    \              [ 'percent' ] ]
-" 			\ },
-" 			\ 'component_function': {
-" 			\	 'currenttime': 'ReturnCurrentTime',
-" 			\   'fugitive': 'LightLineFugitive',
-" 			\   'filename': 'LightLineFilename'
-" 			\ },
-" 			\ 'component': {
-" 			\	'truncate': '%<'
-" 			\ },
-" 			\ }
-" 			if has("gui_running")
-" 				let g:lightline.separator = {
-" 							\	'left': '⮀', 'right': '⮂'
-" 							\	}
-" 				let g:lightline.subseparator = {
-" 							\	'left': '⮁', 'right': '⮃'
-" 							\}
-" 			endif }}}
-
-" {{{
-let g:lightline = {
-			\ 'colorscheme': 'onedark_custom',
-			\ 'active': {
-			\   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
-			\   'right': [ [ 'syntastic','lineinfo','currenttime' ,'truncate'], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-			\ },
-			\ 'inactive': {
-		    \ 'left': [ [ 'filename' ] ],
-		    \ 'right': [ [ 'lineinfo'],
-		    \            [ 'percent' ] ]
-			\ },
-			" \ 'tab': {
-			" \ 'active': [ 'tabnum', 'absolutepath', 'modified' ]
-			" \ },
-			" \ 'tabline': {
-			" \ 'left': [['tabs']],
-			" \ 'right': [['currenttime','close']]
-			" \ },
-			\ 'component_function': {
-			\   'fugitive': 'LightLineFugitive',
-			\   'filename': 'LightLineFilename',
-			\   'fileformat': 'LightLineFileformat',
-			\   'filetype': 'LightLineFiletype',
-			\   'fileencoding': 'LightLineFileencoding',
-			\   'mode': 'LightLineMode',
-			\   'ctrlpmark': 'CtrlPMark',
-			\   'currenttime': 'ReturnCurrentTime',
-			\ },
-			\ 'component_expand': {
-			\   'syntastic': 'SyntasticStatuslineFlag',
-			\ },
- 			\ 'component': {
- 			\	'truncate': '%<',
-			" \	'absolutepath': '%F'
-			\ },
-			\ 'component_type': {
-			\   'syntastic': 'error',
-			\ },
-			\ 'subseparator': { 'left': '|', 'right': '|' }
-			\ }
-			if has("gui_running")
-				let g:lightline.separator = {
-							\	'left': '⮀', 'right': '⮂'
-							\	}
-				let g:lightline.subseparator = {
-							\	'left': '⮁', 'right': '⮃'
-							\}
-			endif " }}}
-
-	function! LightLineModified()
-	  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-	endfunction
-
-	function! LightLineReadonly()
-		if has("gui_running")
-			return &ft !~? 'help\|vimfiler' && &readonly ? '⭤' : ''
-		else
-			return &ft !~? 'help\|vimfiler' && &readonly ? '[RO]' : ''
-		endif
-	endfunction
-
-	function! LightLineFilename()
-	  let fname = expand('%:t')
-	  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
-	        \ fname == '__Tagbar__' ? g:lightline.fname :
-	        \ fname =~ '__Gundo\|NERD_tree' ? '' :
-	        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-	        \ &ft == 'unite' ? unite#get_status_string() :
-	        \ &ft == 'vimshell' ? vimshell#get_status_string() :
-	        \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-	        \ ('' != fname ? fname : '[No Name]') .
-	        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-	endfunction
-
-	function! LightLineFugitive()
-		try
-			if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-				let branch = fugitive#head()
-				" return branch !=# '' ? mark.branch : ''
-				if has("gui_running")
-					return branch !=# '' ? '⭠ '.branch : ''
-				else
-					return branch !=# '' ? 'BR:['.branch.']' : ''
-				endif
-			endif
-		catch
-		endtry
-		return ''
-	endfunction
-
-	function! LightLineFileformat()
-	  return winwidth(0) > 70 ? &fileformat : ''
-	endfunction
-
-	function! LightLineFiletype()
-	  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-	endfunction
-
-	function! LightLineFileencoding()
-	  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
-	endfunction
-
-	function! LightLineMode()
-	  let fname = expand('%:t')
-	  return fname == '__Tagbar__' ? 'Tagbar' :
-	        \ fname == 'ControlP' ? 'CtrlP' :
-	        \ fname == '__Gundo__' ? 'Gundo' :
-	        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-	        \ fname =~ 'NERD_tree' ? 'NERDTree' :
-	        \ &ft == 'unite' ? 'Unite' :
-	        \ &ft == 'vimfiler' ? 'VimFiler' :
-	        \ &ft == 'vimshell' ? 'VimShell' :
-			\ lightline#mode()
-	        " \ winwidth(0) > 60 ? lightline#mode() : ''
-	endfunction
-
-	function! CtrlPMark()
-	  if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
-	    call lightline#link('iR'[g:lightline.ctrlp_regex])
-	    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-	          \ , g:lightline.ctrlp_next], 0)
-	  else
-	    return ''
-	  endif
-	endfunction
-
-	let g:ctrlp_status_func = {
-	  \ 'main': 'CtrlPStatusFunc_1',
-	  \ 'prog': 'CtrlPStatusFunc_2',
-	  \ }
-
-	function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-	  let g:lightline.ctrlp_regex = a:regex
-	  let g:lightline.ctrlp_prev = a:prev
-	  let g:lightline.ctrlp_item = a:item
-	  let g:lightline.ctrlp_next = a:next
-	  return lightline#statusline(0)
-	endfunction
-
-	function! CtrlPStatusFunc_2(str)
-	  return lightline#statusline(0)
-	endfunction
-
-	let g:tagbar_status_func = 'TagbarStatusFunc'
-
-	function! TagbarStatusFunc(current, sort, fname, ...) abort
-	    let g:lightline.fname = a:fname
-	  return lightline#statusline(0)
-	endfunction
-
-	 " augroup AutoSyntastic
-	 "   autocmd!
-	 "   autocmd BufWritePost *.c,*.cpp call s:syntastic()
-	 " augroup END
-	function! s:syntastic()
-	  SyntasticCheck
-	  call lightline#update()
-	endfunction
-
-	let g:unite_force_overwrite_statusline = 0
-	let g:vimfiler_force_overwrite_statusline = 0
-	let g:vimshell_force_overwrite_statusline = 0
-'''
-# }}}
-
+#
 
 # COLORSCHEMES {{{
 [[plugins]]
@@ -623,6 +623,10 @@ repo = "tyru/restart.vim"
 
 [[plugins]]
 repo = 'rking/ag.vim'
+hook_add = '''
+	nnoremap <Leader>a :Ag 
+	nnoremap } :Ag <c-r>=expand("<cword>")<cr><cr>
+'''
 
 # [[plugins]]
 # repo = "taglist.vim"
