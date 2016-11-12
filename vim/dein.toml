@@ -483,7 +483,7 @@ let g:lightline = {
 	endfunction
 
 	function! CtrlPStatusFunc_2(str)
-		return a:st:r
+		return a:str
 	endfunction
 
 	let g:tagbar_status_func = 'TagbarStatusFunc'
