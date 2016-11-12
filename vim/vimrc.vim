@@ -1,4 +1,4 @@
-﻿" vim: set foldmethod=marker:
+﻿" vim: set foldmethod=marker foldlevel=1:
 scriptencoding utf-8
 
 if &compatible
