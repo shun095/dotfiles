@@ -62,7 +62,6 @@ endfunction "}}}
 function! s:save_session(session_name) abort "{{{
 	" if g:session_loaded == s:true
 		execute  "mksession! "  "~/.vimsessions/". a:session_name
-	endif
 endfunction "}}}
 
 " SAVING WINDOW POSITION
