@@ -669,3 +669,6 @@ hook_add = '''
 
 # [[plugins]]
 # repo = "taglist.vim"
+
+[[plugins]]
+repo = "Yggdroot/indentLine"
