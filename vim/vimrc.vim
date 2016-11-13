@@ -1,4 +1,4 @@
-﻿" vim: set foldmethod=marker:
+﻿" vim: set foldmethod=marker foldlevel=1:
 scriptencoding utf-8
 
 if &compatible
@@ -45,9 +45,8 @@ set noexpandtab
 set smartindent
 set softtabstop=4
 
-set list                           " タブ,行末スペース、改行等の可視化,
-set listchars=tab:>-,trail:-,eol:$,\extends:>,
-			\precedes:<,nbsp:%     " またその可視化時のマーク
+set list                           " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
+set listchars=tab:>-,trail:-,eol:$,\extends:>,precedes:<,nbsp:%
 
 set wildmenu                       " コマンドの補完設定
 set wildmode=longest:full,full
@@ -69,7 +68,7 @@ set mouse=a
 set nomousehide
 set nolazyredraw
 set background=dark
-set sessionoptions=curdir,help,slash,tabpages
+set sessionoptions=folds,help,tabpages,blank,buffers
 
 " 文字コード自動判別優先順位の設定
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp
@@ -104,6 +103,10 @@ set backup
 " inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 set iminsert=0
 set imsearch=0
+
+" 補完関係の設定
+set completeopt=menuone,noselect,preview
+set omnifunc=syntaxcomplete#Complete
 
 if has("unix")
 	" linux用（fcitxでしか使えない）
@@ -141,20 +144,15 @@ command! CdCurrent cd\ %:h
 augroup VIMRC
 	autocmd!
 	" タグを</で自動で閉じる
-	autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o><Esc>F<i
-	autocmd Filetype html inoremap <buffer> </ </<C-x><C-o><Esc>F<i
-	autocmd Filetype eruby inoremap <buffer> </ </<C-x><C-o><Esc>F<i
+	autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
 
 	" タグ系のファイルならインデントを浅くする
-	autocmd Filetype html setl shiftwidth=2
-	autocmd Filetype html setl foldmethod=indent
-	autocmd Filetype xml setl shiftwidth=2
-	autocmd Filetype xml setl foldmethod=indent
+	autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2
+	autocmd Filetype html,xml setl foldmethod=indent
 	autocmd Filetype css setl foldmethod=syntax
 
 	" python関係の設定
 	autocmd FileType python setl autoindent
-	autocmd FileType python setl expandtab tabstop=4 shiftwidth=4 softtabstop=4
 	autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,
 				\try,except,finally,def,class
 

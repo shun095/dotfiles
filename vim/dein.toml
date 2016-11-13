@@ -3,6 +3,7 @@
 repo = 'Shougo/vimproc.vim'# {{{
 build = 'make'# }}}
 
+
 [[plugins]]
 repo = 'Shougo/unite.vim'# {{{
 hook_add = '''
@@ -84,6 +85,18 @@ hook_add = '''
 repo = 'Shougo/context_filetype.vim'
 
 [[plugins]]
+repo = 'ctrlpvim/ctrlp.vim'# {{{
+hook_add = '''
+	let g:ctrlp_cmd = "CtrlPMRUFiles"
+	let g:ctrlp_extensions = [ 'mixed', 'filer']
+'''# }}}
+
+[[plugins]]
+repo = 'mattn/ctrlp-filer'
+depends = 'ctrlpvim/ctrlp.vim'
+
+
+[[plugins]]
 repo = 'tyru/caw.vim.git'
 
 [[plugins]]
@@ -149,69 +162,69 @@ set fillchars=vert:\|
 " augroup END "}}}
 '''# }}}
 
-#  [[plugins]]
-#  repo = 'vim-airline/vim-airline'#{{{
-#  hook_add = '''
-#  	let g:airline_theme='onedark'
+# [[plugins]]
+# repo = 'vim-airline/vim-airline'#{{{
+# hook_add = '''
+# 	let g:airline_theme='onedark'
 # 
-#  	let g:airline#extensions#branch#enabled        = 1
-#  	let g:airline#extensions#branch#empty_message  = ''
-#  	" let g:airline#extensions#whitespace#checks     = [ 'indent',  'mixed-indent-file' ]
-#  	let g:airline#extensions#syntastic#enabled     = 0
+# 	let g:airline#extensions#branch#enabled        = 1
+# 	let g:airline#extensions#branch#empty_message  = ''
+# 	" let g:airline#extensions#whitespace#checks     = [ 'indent',  'mixed-indent-file' ]
+# 	let g:airline#extensions#syntastic#enabled     = 0
 # 
-#  	let g:airline#extensions#tabline#enabled       = 1
+# 	let g:airline#extensions#tabline#enabled       = 1
 # 	" right side show mode
 # 	let g:airline#extensions#tabline#show_tab_type = 0
 # 	" unknown
-#  	let g:airline#extensions#tabline#exclude_preview = 0
-# 	
-#  	let g:airline#extensions#tabline#show_tabs = 1
-#  	let g:airline#extensions#tabline#show_splits   = 1
-#  	let g:airline#extensions#tabline#show_buffers = 1
-#  	let g:airline#extensions#tabline#tab_nr_type   = 2 " splits and tab number
-#  	let g:airline#extensions#tabline#show_close_button = 1
+# 	let g:airline#extensions#tabline#exclude_preview = 0
 # 
-#  	" let g:airline_powerline_fonts=1
-#  	if !exists('g:airline_symbols')
-#  		let g:airline_symbols = {}
-#  	endif
-# "powerline symbols
-#  	if has("gui_running")
-#  		let g:airline#extensions#tabline#left_sep      = '⮀'
-#  		let g:airline#extensions#tabline#left_alt_sep  = '⮁'
-#  		let g:airline#extensions#tabline#right_sep     = '⮂'
-#  		let g:airline#extensions#tabline#right_alt_sep = '⮃'
-#  		let g:airline_left_sep           = '⮀'
-#  		let g:airline_left_alt_sep       = '⮁'
-#  		let g:airline_right_sep          = '⮂'
-#  		let g:airline_right_alt_sep      = '⮃'
-#  		let g:airline_symbols.branch     = '⭠'
-#  		let g:airline_symbols.readonly   = '⭤'
-#  		let g:airline_symbols.linenr     = '⭡'
-#  	endif
+# 	let g:airline#extensions#tabline#show_tabs = 1
+# 	let g:airline#extensions#tabline#show_splits   = 1
+# 	let g:airline#extensions#tabline#show_buffers = 1
+# 	let g:airline#extensions#tabline#tab_nr_type   = 2 " splits and tab number
+# 	let g:airline#extensions#tabline#show_close_button = 1
 # 
-# "unicode symobols
-#   " let g:airline_symbols.crypt = '🔒'
-#   " let g:airline_symbols.linenr = '␊'
-#   " let g:airline_symbols.linenr = '␤'
-#   " let g:airline_symbols.linenr = '¶'
-#   " let g:airline_symbols.maxlinenr = '☰'
-#   " let g:airline_symbols.maxlinenr = ''
-#   " let g:airline_symbols.branch = '⎇'
-#   " let g:airline_symbols.paste = 'ρ'
-#   " let g:airline_symbols.paste = 'Þ'
-#   " let g:airline_symbols.paste = '∥'
-#   " let g:airline_symbols.spell = 'Ꞩ'
-#   " let g:airline_symbols.notexists = '∄'
-#   " let g:airline_symbols.whitespace = 'Ξ'
+# 	" let g:airline_powerline_fonts=1
+# 	if !exists('g:airline_symbols')
+# 		let g:airline_symbols = {}
+# 	endif
+# 	" powerline symbols
+# 	if has("gui_running")
+# 		let g:airline#extensions#tabline#left_sep      = '⮀'
+# 		let g:airline#extensions#tabline#left_alt_sep  = '⮁'
+# 		let g:airline#extensions#tabline#right_sep     = '⮂'
+# 		let g:airline#extensions#tabline#right_alt_sep = '⮃'
+# 		let g:airline_left_sep           = '⮀'
+# 		let g:airline_left_alt_sep       = '⮁'
+# 		let g:airline_right_sep          = '⮂'
+# 		let g:airline_right_alt_sep      = '⮃'
+# 		let g:airline_symbols.branch     = '⭠'
+# 		let g:airline_symbols.readonly   = '⭤'
+# 		let g:airline_symbols.linenr     = '⭡'
+# 	endif
 # 
-# "disable warning
-#  	let g:airline#extensions#default#layout = [
-#  				\ [ 'a', 'b', 'c' ],
-#  				\ [ 'x', 'y', 'z' ]
-#  				\ ]
-#  '''
-#  # }}}
+# 	" unicode symobols
+# 	" let g:airline_symbols.crypt = '🔒'
+# 	" let g:airline_symbols.linenr = '␊'
+# 	" let g:airline_symbols.linenr = '␤'
+# 	" let g:airline_symbols.linenr = '¶'
+# 	" let g:airline_symbols.maxlinenr = '☰'
+# 	" let g:airline_symbols.maxlinenr = ''
+# 	" let g:airline_symbols.branch = '⎇'
+# 	" let g:airline_symbols.paste = 'ρ'
+# 	" let g:airline_symbols.paste = 'Þ'
+# 	" let g:airline_symbols.paste = '∥'
+# 	" let g:airline_symbols.spell = 'Ꞩ'
+# 	" let g:airline_symbols.notexists = '∄'
+# 	" let g:airline_symbols.whitespace = 'Ξ'
+# 
+# 	" disable warning
+# 	let g:airline#extensions#default#layout = [
+# 				\ [ 'a', 'b', 'c' ],
+# 				\ [ 'x', 'y', 'z' ]
+# 				\ ]
+# '''
+# # }}}
 # 
 [[plugins]]
 repo = 'itchyny/lightline.vim'#{{{
@@ -372,7 +385,8 @@ let g:lightline = {
 
 	function! LightLineFilename()
 	  let fname = expand('%:t')
-	  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_byfname . g:lightline.ctrlp_regex :
+	  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? 
+				  \ lightline#concatenate([g:lightline.ctrlp_byfname, g:lightline.ctrlp_regex_string],0) :
 	        \ fname == '__Tagbar__' ? g:lightline.fname :
 	        \ fname =~ '__Gundo\|NERD_tree' ? '' :
 	        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
@@ -427,7 +441,7 @@ let g:lightline = {
 
 	function! CtrlPMark()
 		if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
-			call lightline#link('iR'[g:lightline.ctrlp_regex])
+			call lightline#link('iv'[g:lightline.ctrlp_regex])
 			return g:lightline.ctrlp_prev
 			" return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
 			"       \ , g:lightline.ctrlp_next], 0)
@@ -452,6 +466,7 @@ let g:lightline = {
 		endif
 	endfunction
 
+	let g:ctrlp_status_func = {}
 	let g:ctrlp_status_func = {
 	  \ 'main': 'CtrlPStatusFunc_1',
 	  \ 'prog': 'CtrlPStatusFunc_2',
@@ -459,7 +474,8 @@ let g:lightline = {
 
 	function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
 		let g:lightline.ctrlp_byfname = a:byfname
-		let g:lightline.ctrlp_regex = a:regex==1 ? " regex" : ""
+		let g:lightline.ctrlp_regex = a:regex
+		let g:lightline.ctrlp_regex_string = a:regex==1 ? "regex" : ""
 		let g:lightline.ctrlp_prev = a:prev
 		let g:lightline.ctrlp_item = a:item
 		let g:lightline.ctrlp_next = a:next
@@ -467,7 +483,7 @@ let g:lightline = {
 	endfunction
 
 	function! CtrlPStatusFunc_2(str)
-	  return lightline#statusline(0)
+		return a:str
 	endfunction
 
 	let g:tagbar_status_func = 'TagbarStatusFunc'
@@ -541,11 +557,6 @@ hook_add = '''
 '''# }}}
 
 [[plugins]]
-repo = 'ctrlpvim/ctrlp.vim'# {{{
-hook_add = '''
-'''# }}}
-
-[[plugins]]
 repo = 'easymotion/vim-easymotion'# {{{
 hook_add = '''
 	let g:EasyMotion_do_mapping = 0
@@ -582,35 +593,6 @@ endif
 #
 # [[plugins]]
 # repo = "xolox/vim-misc"
-
-[[plugins]]
-repo = "https://github.com/thinca/vim-quickrun"# {{{
-# on_cmd = 'QuickRun'
-hook_add = '''
-let g:quickrun_config = get(g:, 'quickrun_config', {})
-let g:quickrun_config._ = {
-			\ 'runner'    : 'vimproc',
-			\ 'runner/vimproc/updatetime' : 100,
-			\ 'outputter/buffer/into': 1,
-			\ 'outputter/buffer/close_on_empty' : 1,
-" \ 'runner'    : 'job',
-" \ 'runner/job/interval' : 100,
-			\ }
-let g:quickrun_config.python = {
-			\ 'command' : 'python',
-			\ 'cmdopt' : '-u'
-			\ }
-if executable("clang++")
-	let g:quickrun_config['cpp'] = {'type': 'cpp/clang++11'}
-	let g:quickrun_config['cpp/clang++11'] = {
-				\ 'cmdopt': '--std=c++11 --stdlib=libc++',
-				\ 'type': 'cpp/clang++'
-				\ }
-endif
-
-nmap <Leader>R <Plug>(quickrun)
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-'''# }}}
 
 [[plugins]]
 repo = "haya14busa/vim-migemo"
@@ -658,3 +640,6 @@ hook_add = '''
 
 # [[plugins]]
 # repo = "taglist.vim"
+
+[[plugins]]
+repo = "Yggdroot/indentLine"
