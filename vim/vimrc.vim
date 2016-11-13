@@ -69,7 +69,7 @@ set mouse=a
 set nomousehide
 set nolazyredraw
 set background=dark
-set sessionoptions=curdir,help,slash,tabpages
+set sessionoptions=folds,help,tabpages,blank,buffers
 
 " 文字コード自動判別優先順位の設定
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp
