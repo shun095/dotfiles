@@ -595,35 +595,6 @@ endif
 # repo = "xolox/vim-misc"
 
 [[plugins]]
-repo = "https://github.com/thinca/vim-quickrun"# {{{
-# on_cmd = 'QuickRun'
-hook_add = '''
-let g:quickrun_config = get(g:, 'quickrun_config', {})
-let g:quickrun_config._ = {
-			\ 'runner'    : 'vimproc',
-			\ 'runner/vimproc/updatetime' : 100,
-			\ 'outputter/buffer/into': 1,
-			\ 'outputter/buffer/close_on_empty' : 1,
-" \ 'runner'    : 'job',
-" \ 'runner/job/interval' : 100,
-			\ }
-let g:quickrun_config.python = {
-			\ 'command' : 'python',
-			\ 'cmdopt' : '-u'
-			\ }
-if executable("clang++")
-	let g:quickrun_config['cpp'] = {'type': 'cpp/clang++11'}
-	let g:quickrun_config['cpp/clang++11'] = {
-				\ 'cmdopt': '--std=c++11 --stdlib=libc++',
-				\ 'type': 'cpp/clang++'
-				\ }
-endif
-
-nmap <Leader>R <Plug>(quickrun)
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-'''# }}}
-
-[[plugins]]
 repo = "haya14busa/vim-migemo"
 
 [[plugins]]
