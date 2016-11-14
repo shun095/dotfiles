@@ -713,3 +713,6 @@ repo = "szw/vim-tags"
 hook_add = '''
 	let g:vim_tags_auto_generate = 1
 '''
+
+[[plugins]]
+repo = 'tpope/vim-dispatch'
