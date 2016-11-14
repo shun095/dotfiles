@@ -207,7 +207,8 @@ hook_post_source = '''
 	let g:clang_complete_auto = 0
 	let g:clang_check_syntax_auto = 0
 	let g:clang_enable_format_command = 0
-	let g:clang_diagsopt = 'rightbelow:10'
+	" let g:clang_diagsopt = 'rightbelow:10'
+	let g:clang_diagsopt = ''
 
 	" clangのバージョン検索
 	let g:clang_exec = 'clang'
@@ -225,8 +226,8 @@ hook_post_source = '''
 	endfor
 
 	" 何故かコメントアウトしたら動いた -stdlib=libc++がうまく動かない
-	" let g:clang_c_options = '-std=c11'
-	" let g:clang_cpp_options = '-std=c++11 -stdlib=libc++ '
+	let g:clang_c_options = '-std=c11'
+	let g:clang_cpp_options = '-std=c++11' " -stdlib=libc++
 
 	" default 'longest' can not work with neocomplete
 	" noselect オプションで最初の候補が自動選択されなくなる
@@ -360,38 +361,5 @@ hook_add = '''
 		let g:tagbar_autopreview = 0
 		let g:tagbar_autofocus = 1
 		let g:tagbar_autoclose = 1
-'''# }}}
-
-[[plugins]]
-repo = "https://github.com/thinca/vim-quickrun"# {{{
-on_cmd = 'QuickRun'
-hook_add = '''
-	let g:quickrun_config = get(g:, 'quickrun_config', {})
-	let g:quickrun_config._ = {
-				\ 'runner'    : 'job',
-				\ 'runner/job/interval' : 100,
-				\ 'outputter/buffer/into': 1,
-				\ 'outputter/buffer/close_on_empty' : 1,
-				\ }
-				" \ 'runner'    : 'vimproc',
-				" \ 'runner/vimproc/updatetime' : 100,
-	let g:quickrun_config.python = {
-				\ 'command' : 'python',
-				\ 'cmdopt' : '-u'
-				\ }
-	" if executable("clang++")
-	" 	let g:quickrun_config.cpp = {
-	" 				\ 'command': "clang++-3.8",
-	" 				\'type': 'cpp/clang++'
-	" 				\ }
-	" let g:quickrun_config['cpp/clang++11'] = {
-	" 			\ 'cmdopt': '--std=c++11 --stdlib=libc++',
-	" 			\ 'type': 'cpp/clang++'
-	" 			\ }
-	" endif
-
-	nnoremap <silent> <Leader>R :QuickRun<CR>
-	" nmap <Leader>R <Plug>(quickrun)
-	nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 '''# }}}
 

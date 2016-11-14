@@ -69,7 +69,8 @@ set mouse=a    " マウスを有効化
 set nomousehide    " 入力中にポインタを消すかどうか
 set nolazyredraw
 set background=dark
-set sessionoptions=folds,help,tabpages,blank,buffers
+set sessionoptions=folds,help,tabpages,buffers
+set updatetime=500
 
 " 文字コード自動判別優先順位の設定
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp
