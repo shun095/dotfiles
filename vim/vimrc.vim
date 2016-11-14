@@ -283,6 +283,7 @@ if g:use_plugins_flag == s:true
 					\guifg=#282C34 guibg=#282C34
 		highlight! StatusLine ctermbg=235 guibg=#282C34
 		highlight! StatusLineNC ctermbg=235 guibg=#282C34
+		highlight! IncSearch ctermbg=114 guibg=#98C379
 	endif
 
 	" }}}
