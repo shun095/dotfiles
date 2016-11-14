@@ -3,7 +3,6 @@
 repo = 'Shougo/vimproc.vim'# {{{
 build = 'make'# }}}
 
-
 [[plugins]]
 repo = 'Shougo/unite.vim'# {{{
 hook_add = '''
@@ -92,9 +91,8 @@ hook_add = '''
 '''# }}}
 
 [[plugins]]
-repo = 'mattn/ctrlp-filer'
-depends = 'ctrlpvim/ctrlp.vim'
-
+repo = 'mattn/ctrlp-filer'# {{{
+depends = 'ctrlpvim/ctrlp.vim'# }}}
 
 [[plugins]]
 repo = 'tyru/caw.vim.git'
@@ -512,36 +510,36 @@ let g:lightline = {
 # COLORSCHEMES {{{
 [[plugins]]
 repo = 'joshdick/onedark.vim'
-
-[[plugins]]
-repo = 'sickill/vim-monokai'
-
-[[plugins]]
-repo = 'altercation/vim-colors-solarized'
-
-[[plugins]]
-repo = 'w0ng/vim-hybrid'
-
-[[plugins]]
-repo = 'vim-scripts/pyte'
-
-[[plugins]]
-repo = 'vim-scripts/summerfruit256.vim'
-
-[[plugins]]
-repo = 'ciaranm/inkpot'
-
-[[plugins]]
-repo = 'cdmedia/itg_flat_vim'
-
-[[plugins]]
-repo = 'tomasr/molokai'
-
-[[plugins]]
-repo = 'itchyny/landscape.vim'
-
-[[plugins]]
-repo = 'rakr/vim-one'
+#
+# [[plugins]]
+# repo = 'sickill/vim-monokai'
+#
+# [[plugins]]
+# repo = 'altercation/vim-colors-solarized'
+#
+# [[plugins]]
+# repo = 'w0ng/vim-hybrid'
+#
+# [[plugins]]
+# repo = 'vim-scripts/pyte'
+#
+# [[plugins]]
+# repo = 'vim-scripts/summerfruit256.vim'
+#
+# [[plugins]]
+# repo = 'ciaranm/inkpot'
+#
+# [[plugins]]
+# repo = 'cdmedia/itg_flat_vim'
+#
+# [[plugins]]
+# repo = 'tomasr/molokai'
+#
+# [[plugins]]
+# repo = 'itchyny/landscape.vim'
+#
+# [[plugins]]
+# repo = 'rakr/vim-one'
 # COLORSCHMES END}}}
 
 [[plugins]]
@@ -632,14 +630,20 @@ repo = "tyru/restart.vim"
 # '''# }}}
 
 [[plugins]]
-repo = 'rking/ag.vim'
+repo = 'rking/ag.vim'# {{{
 hook_add = '''
 	nnoremap <Leader>a :Ag 
 	" nnoremap } :Ag <c-r>=expand("<cword>")<cr><cr>
-'''
+'''# }}}
 
 # [[plugins]]
 # repo = "taglist.vim"
 
 [[plugins]]
 repo = "Yggdroot/indentLine"
+
+[[plugins]]
+repo = "szw/vim-tags"
+hook_add = '''
+	let g:vim_tags_auto_generate = 1
+'''

@@ -158,7 +158,27 @@ repo = 'rhysd/vim-clang-format'# {{{
 on_ft = ['c','cpp']
 hook_add = '''
 	let g:clang_format#auto_format = 0
-	let g:clang_format#command = "clang-format-3.8"
+
+	let g:clang_format#command = 'clang-format'
+	for minorversion in range(10)
+		if executable('clang-format-3.' . minorversion)
+			let g:clang_format#command = 'clang-format-3.' . minorversion
+		endif
+	endfor
+
+  let g:clang_format#style_options = {
+              \ "AllowShortIfStatementsOnASingleLine" : "true",
+			  \ "AllowShortBlocksOnASingleLine" : "true",
+			  \ "AllowShortCaseLabelsOnASingleLine" : "true",
+			  \ "AllowShortFunctionsOnASingleLine" : "true",
+			  \ "AllowShortLoopsOnASingleLine" : "true",
+			  \ "AlignConsecutiveAssignments" : "true",
+			  \ "AlignConsecutiveDeclarations" : "true",
+			  \ "AlignTrailingComments" : "true",
+			  \ "TabWidth" : "4",
+			  \ "UseTab" : "Always",
+			  \ "ColumnLimit" : "120"
+              \ }
 '''# }}}
 
 [[plugins]]
@@ -307,9 +327,9 @@ repo = 'https://github.com/yomi322/unite-tweetvim.git'
 [[plugins]]
 repo = 't9md/vim-choosewin'
 
-[[plugins]]
-repo = 'mattn/vim-soundcloud'# {{{
-on_cmd = ['Soundcloud']# }}}
+# [[plugins]]
+# repo = 'mattn/vim-soundcloud'# {{{
+# on_cmd = ['Soundcloud']# }}}
 
 # [[plugins]]
 # repo = 'miyakogi/livemark.vim'"{{{
@@ -336,7 +356,7 @@ hook_add = '''
 		let g:tagbar_sort = 0
 		let g:tagbar_indent = 1
 		let g:tagbar_autoshowtag = 1
-		let g:tagbar_autopreview = 1
+		let g:tagbar_autopreview = 0
 		let g:tagbar_autofocus = 1
 		let g:tagbar_autoclose = 1
 '''# }}}

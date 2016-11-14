@@ -58,7 +58,7 @@ set showtabline=2    " タブバーを常に表示
 set number           " 行番号表示
 set hlsearch         " 文字列検索時にハイライトする
 set ruler            " 右下の現在行の表示
-set noequalalways    " splitしたときにウィンドウが同じ大きさになるよう調節する
+set equalalways    " splitしたときにウィンドウが同じ大きさになるよう調節する
 set tags=./tags;     " タグファイルを上層に向かって探す
 set autoread         " 他のソフトで、編集中ファイルが変更されたとき自動Reload
 set noautochdir      " 今開いてるファイルにカレントディレクトリを移動するか
