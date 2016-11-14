@@ -57,15 +57,16 @@ set cmdheight=2      " コマンドラインの高さ
 set showtabline=2    " タブバーを常に表示
 set number           " 行番号表示
 set hlsearch         " 文字列検索時にハイライトする
+set incsearch        " 文字入力中に検索を開始
 set ruler            " 右下の現在行の表示
-set equalalways    " splitしたときにウィンドウが同じ大きさになるよう調節する
+set equalalways      " splitしたときにウィンドウが同じ大きさになるよう調節する
 set tags=./tags;     " タグファイルを上層に向かって探す
 set autoread         " 他のソフトで、編集中ファイルが変更されたとき自動Reload
 set noautochdir      " 今開いてるファイルにカレントディレクトリを移動するか
 set scrolloff=5      " カーソルが端まで行く前にスクロールし始める行数
 set ambiwidth=double " 全角記号（「→」など）の文字幅を半角２つ分にする
-set mouse=a
-set nomousehide
+set mouse=a    " マウスを有効化
+set nomousehide    " 入力中にポインタを消すかどうか
 set nolazyredraw
 set background=dark
 set sessionoptions=folds,help,tabpages,blank,buffers
@@ -107,13 +108,6 @@ set imsearch=0
 " 補完関係の設定
 set completeopt=menuone,noselect,preview
 set omnifunc=syntaxcomplete#Complete
-
-if has("unix")
-	" linux用（fcitxでしか使えない）
-	augroup VIMRC
-		autocmd InsertLeave * call <SID>ImInActivate()
-	augroup END
-endif
 " }}}
 
 " Mapping {{{
@@ -138,33 +132,6 @@ endif
 " :CdCurrent で現在のファイルのディレクトリに移動できる
 " (Kaoriyaに入ってて便利なので実装)
 command! CdCurrent cd\ %:h
-"}}}
-
-" Autocmds {{{
-augroup VIMRC
-	autocmd!
-	" タグを</で自動で閉じる
-	autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
-
-	" タグ系のファイルならインデントを浅くする
-	autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2
-	autocmd Filetype html,xml setl foldmethod=indent
-	autocmd Filetype css setl foldmethod=syntax
-
-	" python関係の設定
-	autocmd FileType python setl autoindent
-	autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,
-				\try,except,finally,def,class
-
-	" QuickFixを自動で開く
-	autocmd QuickFixCmdPost * cwindow
-	autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
-	autocmd FileType qf noremap <silent><buffer> p  <CR>*Nzz<C-w>p
-
-	" ヘルプをqで閉じれるようにする
-	autocmd FileType help nnoremap <silent><buffer>q :quit<CR> 
-	autocmd VimEnter * call <SID>set_statusline()
-augroup END
 "}}}
 
 " Functions {{{
@@ -194,6 +161,38 @@ function! s:set_statusline() abort
 		set statusline+=%4p%%%5l:%-3c
 	endif
 endfunction
+"}}}
+
+" Autocmds {{{
+augroup VIMRC
+	autocmd!
+	" タグを</で自動で閉じる
+	autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
+
+	" タグ系のファイルならインデントを浅くする
+	autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2
+	autocmd Filetype html,xml setl foldmethod=indent
+	autocmd Filetype css setl foldmethod=syntax
+
+	" python関係の設定
+	autocmd FileType python setl autoindent
+	autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,
+				\try,except,finally,def,class
+
+	" QuickFixを自動で開く
+	autocmd QuickFixCmdPost * cwindow
+	autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
+	autocmd FileType qf noremap <silent><buffer> p  <CR>*Nzz<C-w>p
+
+	" ヘルプをqで閉じれるようにする
+	autocmd FileType help nnoremap <silent><buffer>q :quit<CR> 
+	autocmd VimEnter * call <SID>set_statusline()
+
+	if has("unix")
+		" linux用（fcitxでしか使えない）
+		autocmd InsertLeave * call <SID>ImInActivate()
+	endif
+augroup END
 "}}}
 
 " Self constructed plugins {{{
