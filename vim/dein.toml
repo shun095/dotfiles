@@ -1,8 +1,9 @@
 # vim: set foldmethod=marker:
 [[plugins]]
+repo = 'tpope/vim-dispatch'
+[[plugins]]
 repo = 'Shougo/vimproc.vim'# {{{
 build = 'make'# }}}
-
 [[plugins]]
 repo = 'Shougo/unite.vim'# {{{
 hook_add = '''
@@ -13,7 +14,7 @@ hook_add = '''
 	let g:unite_force_overwrite_statusline = 0
 	let g:unite_enable_start_insert = 0
 	nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-	nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -insert-mode file_rec/async<CR>
+	nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
 	nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
 	nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
 	nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
@@ -46,27 +47,62 @@ hook_add = '''
 	" reset not it is <C-l> normally
 	nnoremap <space>r <Plug>(unite_restart)
 '''# }}}
-
+[[plugins]]
+repo = 'Shougo/vimfiler.vim'# {{{
+# on_cmd = ['VimFiler', 'VimFilerBufferDir','VimFilerCurrentDir']
+depends = ['vimproc.vim', 'vim-choosewin']
+hook_add = '''
+	let g:vimfiler_force_overwrite_statusline = 0
+	let g:vimfiler_enable_auto_cd = 1
+	let g:vimfiler_as_default_explorer = 1
+	nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
+	nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
+'''# }}}
 [[plugins]]
 repo = 'Shougo/unite-outline'# {{{
 depends = ['unite.vim']# }}}
-
 [[plugins]]
 repo = 'Shougo/neomru.vim'# {{{
 depends = ['unite.vim']# }}}
-
 [[plugins]]
 repo = 'ujihisa/unite-colorscheme'# {{{
 depends = ['unite.vim']# }}}
-
 [[plugins]]
 repo = 'Shougo/neossh.vim' # {{{
 depends = ['unite.vim']# }}}
-
 [[plugins]]
 repo = 'Shougo/vimshell.vim'# {{{
 depends = ['vimproc.vim']# }}}
+[[plugins]]
+repo = 'ctrlpvim/ctrlp.vim'# {{{
+hook_add = '''
+	let g:ctrlp_cmd = "CtrlPMRUFiles"
+	let g:ctrlp_extensions = [ 'mixed', 'filer']
+'''# }}}
+[[plugins]]
+repo = 'mattn/ctrlp-filer'# {{{
+depends = 'ctrlpvim/ctrlp.vim'# }}}
+[[plugins]]
+repo = 'tyru/caw.vim.git'
+[[plugins]]
+repo = 'tpope/vim-surround'
+[[plugins]]
+repo = 'junegunn/vim-easy-align'# {{{
+hook_add = '''
+	" ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
+	vmap <Enter> <Plug>(EasyAlign)
 
+	" easy-align を呼んだ上で，移動したりテキストオブジェクトを指定して整形．(e.g. gaip)
+	nmap ga <Plug>(EasyAlign)
+	" Start interactive EasyAlign in visual mode (e.g. vipga)
+	xmap ga <Plug>(EasyAlign)
+'''# }}}
+[[plugins]]
+repo = 'easymotion/vim-easymotion'# {{{
+hook_add = '''
+	let g:EasyMotion_do_mapping = 0
+	nmap <Leader>s <Plug>(easymotion-overwin-f2)
+'''# }}}
 [[plugins]]
 repo = 'kana/vim-submode'# {{{
 hook_add = '''
@@ -79,151 +115,86 @@ hook_add = '''
 	call submode#map('winsize', 'n', '', '+', '<C-w>+')
 	call submode#map('winsize', 'n', '', '-', '<C-w>-')
 '''# }}}
-
 [[plugins]]
-repo = 'Shougo/context_filetype.vim'
-
-[[plugins]]
-repo = 'ctrlpvim/ctrlp.vim'# {{{
-hook_add = '''
-	let g:ctrlp_cmd = "CtrlPMRUFiles"
-	let g:ctrlp_extensions = [ 'mixed', 'filer']
-'''# }}}
-
-[[plugins]]
-repo = 'mattn/ctrlp-filer'# {{{
-depends = 'ctrlpvim/ctrlp.vim'# }}}
-
-[[plugins]]
-repo = 'tyru/caw.vim.git'
-
-[[plugins]]
-repo = 'https://github.com/mattn/webapi-vim.git'
-
-#OPEN BROWSER
-[[plugins]]
-repo = 'https://github.com/tyru/open-browser.vim.git'
-
-[[plugins]]
-repo = "syngan/vim-vimlint"# {{{
-depends = "vim-vimlparser"# }}}
-
-[[plugins]]
-repo = "ynkdir/vim-vimlparser"
-
-[[plugins]]
-repo = "https://github.com/thinca/vim-quickrun"# {{{
-# on_cmd = 'QuickRun'
-hook_add = '''
-	" quickrun-hook-add-include-option {{{
-	let s:hook = {
-				\ "name": "add_include_option",
-				\ "kind": "hook",
-				\ "config": {
-				\   "enable": 0,
-				\   },
-				\ }
-
-	function! s:hook.on_module_loaded(session, context)
-		let paths = filter(split(&path, ","), "len(v:val) && v:val !='.' && v:val !~ 'mingw'")
-		if len(paths)
-			let a:session.config.cmdopt .= " -I".join(paths, " -I")
-		endif
-	endfunction
-
-	call quickrun#module#register(s:hook, 1)
-	unlet s:hook
-	" }}}
-	let g:quickrun_config = get(g:, 'quickrun_config', {})
-
-	let g:quickrun_config._ = {
-				\ 'runner'    : 'job',
-				\ 'runner/job/interval' : 100,
-				\ 'outputter/buffer/into': 1,
-				\ 'outputter/buffer/close_on_empty' : 1,
-				\ }
-	" \ 'runner'    : 'vimproc',
-	" \ 'runner/vimproc/updatetime' : 100,
-	let g:quickrun_config.python = {
-				\ 'command' : 'python',
-				\ 'cmdopt' : '-u'
-				\ }
-
-	let s:config = { 
-				\"cpp" : {
-				\	"hook/add_include_option/enable" : 1
-				\	},
-				\"cpp/watchdogs_checker" : {
-				\	"type" : "watchdogs_checker/clang++",
-				\	"hook/add_include_option/enable" : 1,
-				\	"cmdopt" : '--std=c++11'
-				\	}
-				\}
-	call extend(g:quickrun_config, s:config)
-	unlet s:config
-
-	let g:quickrun_config["watchdogs_checker/_"] = {
-				\ 'runner'    : 'job',
-				\ 'runner/job/interval' : 100,
-				\ "outputter/quickfix/open_cmd" : "copen 8"
-				\}
-				" \ "runner/vimproc/updatetime" : 100,
-				"
- 	call watchdogs#setup(g:quickrun_config)
-
-	nnoremap <silent> <Leader>R :QuickRun<CR>
-	" nmap <Leader>R <Plug>(quickrun)
-	nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-'''# }}}
-
-[[plugins]]
-repo = "osyo-manga/shabadou.vim"
-
-[[plugins]]
-repo = "osyo-manga/vim-watchdogs" # {{{
-depends = [ 'vim-quickrun', 'shabadou.vim' ]
-hook_add = '''
- 	let g:watchdogs_check_BufWritePost_enable = 1
- 	let g:watchdogs_check_CursorHold_enable = 1
-''' # }}}
-
-
+repo = "tyru/restart.vim"
 [[plugins]]
 repo = 'superbrothers/vim-vimperator'
-
 [[plugins]]
-repo = 'tpope/vim-surround'
-
-# [[plugins]]
-# repo = 'vim-scripts/TagHighlight'
-
+repo = 'vim-scripts/TagHighlight'
 [[plugins]]
-repo = 'tpope/vim-fugitive'
-
-[[plugins]]
-repo = 'Konfekt/FastFold'
-
-[[plugins]]
-repo = 'LeafCage/foldCC.vim'# {{{
+repo = "iamcco/markdown-preview.vim"# {{{
 hook_add = '''
-
-let g:foldCCtext_enable_autofdc_adjuster = 1
-" let g:foldCCtext_head = ''
-" let g:foldCCtext_tail = '"(ﾟｪﾟ  )". (v:foldend-v:foldstart+1)'
-let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
-
-set foldtext=FoldCCtext()
-set foldcolumn=0
-set fillchars=vert:\|
-" augroup FoldCC "{{{
-"     hi Folded gui=bold guibg=Grey28 guifg=gray80
-"     hi FoldColumn guibg=Grey14 guifg=gray80
-"
-"     " hi Folded gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey50 guifg=Grey80
-"     " hi FoldColumn gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey guifg=DarkBlue
-" augroup END "}}}
+if has('win32') != 0
+	let s:google_chrome_path="C:/Program\ Files/Google/Chrome/Application/chrome.exe"
+	let s:google_chrome_path32="C:/Program\ Files\ (x86)/Google/Chrome/Application/chrome.exe"
+	if executable(s:google_chrome_path)
+		let g:mkdp_path_to_chrome=s:google_chrome_path
+	else
+		let g:mkdp_path_to_chrome=s:google_chrome_path32
+	endif 
+endif
+'''# }}}
+[[plugins]]
+repo = "Yggdroot/indentLine"# {{{
+hook_add = '''
+    let g:indentLine_color_term = 238
+    let g:indentLine_color_gui = "#3B4048"
+'''# }}}
+[[plugins]]
+repo = "szw/vim-tags"# {{{
+hook_add = '''
+	let g:vim_tags_auto_generate = 1
 '''# }}}
 
+# FOLD PLUGINS {{{
+# [[plugins]]
+# repo = 'LeafCage/foldCC.vim'# {{{
+# hook_add = '''
+# 
+# let g:foldCCtext_enable_autofdc_adjuster = 1
+# " let g:foldCCtext_head = ''
+# " let g:foldCCtext_tail = '"(ﾟｪﾟ  )". (v:foldend-v:foldstart+1)'
+# let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
+# 
+# set foldtext=FoldCCtext()
+# set foldcolumn=0
+# set fillchars=vert:\|
+# " augroup FoldCC "{{{
+# "     hi Folded gui=bold guibg=Grey28 guifg=gray80
+# "     hi FoldColumn guibg=Grey14 guifg=gray80
+# "
+# "     " hi Folded gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey50 guifg=Grey80
+# "     " hi FoldColumn gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey guifg=DarkBlue
+# " augroup END "}}}
+# '''# }}}
+# [[plugins]]
+# repo = 'Konfekt/FastFold'
+# }}}
+# COLORSCHEMES {{{
+[[plugins]]
+repo = 'joshdick/onedark.vim'
+# [[plugins]]
+# repo = 'sickill/vim-monokai'
+# [[plugins]]
+# repo = 'altercation/vim-colors-solarized'
+# [[plugins]]
+# repo = 'w0ng/vim-hybrid'
+# [[plugins]]
+# repo = 'vim-scripts/pyte'
+# [[plugins]]
+# repo = 'vim-scripts/summerfruit256.vim'
+# [[plugins]]
+# repo = 'ciaranm/inkpot'
+# [[plugins]]
+# repo = 'cdmedia/itg_flat_vim'
+# [[plugins]]
+# repo = 'tomasr/molokai'
+# [[plugins]]
+# repo = 'itchyny/landscape.vim'
+# [[plugins]]
+# repo = 'rakr/vim-one'
+# COLORSCHMES END}}}
+# STATUSLINE PLUGINS {{{
 # [[plugins]]
 # repo = 'vim-airline/vim-airline'#{{{
 # hook_add = '''
@@ -287,7 +258,6 @@ set fillchars=vert:\|
 # 				\ ]
 # '''
 # # }}}
-# 
 [[plugins]]
 repo = 'itchyny/lightline.vim'#{{{
 hook_add = '''
@@ -569,158 +539,103 @@ let g:lightline = {
 	let g:vimshell_force_overwrite_statusline = 0
 '''
 # }}}
-
-
-# COLORSCHEMES {{{
-[[plugins]]
-repo = 'joshdick/onedark.vim'
-#
-# [[plugins]]
-# repo = 'sickill/vim-monokai'
-#
-# [[plugins]]
-# repo = 'altercation/vim-colors-solarized'
-#
-# [[plugins]]
-# repo = 'w0ng/vim-hybrid'
-#
-# [[plugins]]
-# repo = 'vim-scripts/pyte'
-#
-# [[plugins]]
-# repo = 'vim-scripts/summerfruit256.vim'
-#
-# [[plugins]]
-# repo = 'ciaranm/inkpot'
-#
-# [[plugins]]
-# repo = 'cdmedia/itg_flat_vim'
-#
-# [[plugins]]
-# repo = 'tomasr/molokai'
-#
-# [[plugins]]
-# repo = 'itchyny/landscape.vim'
-#
-# [[plugins]]
-# repo = 'rakr/vim-one'
-# COLORSCHMES END}}}
-
-[[plugins]]
-repo = 'junegunn/vim-easy-align'# {{{
-hook_add = '''
-	" ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
-	vmap <Enter> <Plug>(EasyAlign)
-
-	" easy-align を呼んだ上で，移動したりテキストオブジェクトを指定して整形．(e.g. gaip)
-	nmap ga <Plug>(EasyAlign)
-	" Start interactive EasyAlign in visual mode (e.g. vipga)
-	xmap ga <Plug>(EasyAlign)
-'''# }}}
-
-[[plugins]]
-repo = 'easymotion/vim-easymotion'# {{{
-hook_add = '''
-	let g:EasyMotion_do_mapping = 0
-	nmap <Leader>s <Plug>(easymotion-overwin-f2)
-'''# }}}
-
-[[plugins]]
-repo = "iamcco/markdown-preview.vim"# {{{
-hook_add = '''
-if has('win32') != 0
-	let s:google_chrome_path="C:/Program\ Files/Google/Chrome/Application/chrome.exe"
-	let s:google_chrome_path32="C:/Program\ Files\ (x86)/Google/Chrome/Application/chrome.exe"
-	if executable(s:google_chrome_path)
-		let g:mkdp_path_to_chrome=s:google_chrome_path
-	else
-		let g:mkdp_path_to_chrome=s:google_chrome_path32
-	endif 
-endif
-'''# }}}
-
-# [[plugins]]
-# repo = "xolox/vim-session""{{{
-# depends = "vim-misc"
-# hook_add = '''
-# 	let g:session_autosave = 'prompt'
-# 	let g:session_autoload = 'yes'
-# 	let g:session_default_overwrite = 1
-# 	let g:session_persist_globals = ['&sessionoptions']
-# 	call add(g:session_persist_globals, 'g:session_autoload')
-# 	call add(g:session_persist_globals, 'g:session_autosave')
-# 	call add(g:session_persist_globals, 'g:session_default_to_last')
-# 	call add(g:session_persist_globals, 'g:session_persist_globals')
-# '''"}}}
-#
-# [[plugins]]
-# repo = "xolox/vim-misc"
-
+# }}}
+# PLUGINS FOR JAPANESE LANGUAGES {{{
 [[plugins]]
 repo = "haya14busa/vim-migemo"
-
 [[plugins]]
 repo = "vim-jp/vimdoc-ja"
-
+# }}}
+# VIMSCRIPT {{{
 [[plugins]]
-repo = "tyru/restart.vim"
-
-# [[plugins]]
-# repo = 'scrooloose/syntastic.git'# {{{
-# # on_cmd = ['SyntasticCheck']
-# hook_add = '''
-# if executable("clang++")
-# 	let g:syntastic_cpp_compiler = 'clang++'
-# 	let g:syntastic_cpp_compiler_options = '--std=c++11 --stdlib=libc++'
-# endif
-#
-# " set statusline+=%#warningmsg#
-# " set statusline+=%{SyntasticStatuslineFlag()}
-# " set statusline+=%*
-# let g:syntastic_always_populate_loc_list = 1
-# let g:syntastic_auto_loc_list = 1
-# let g:syntastic_check_on_open = 0
-# let g:syntastic_check_on_wq = 0
-# " ここまでReccomend設定
-#
-# " let g:syntastic_mode_map = { 'mode': 'passive',
-# " 			\ 'active_filetypes': ['ruby', 'javascript','coffee', 'scss'] }
-# let g:syntastic_ruby_checkers = ['rubocop'] " or ['rubocop', 'mri']
-# let g:syntastic_javascript_checkers = ['jshint']
-# let g:syntastic_coffee_checkers = ['coffeelint']
-# let g:syntastic_scss_checkers = ['scss_lint']
-# hi SyntasticErrorSign ctermfg=160
-# hi SyntasticWarningSign ctermfg=220
-# '''# }}}
-
+repo = "syngan/vim-vimlint"# {{{
+depends = "vim-vimlparser"# }}}
 [[plugins]]
-repo = 'rking/ag.vim'# {{{
+repo = "ynkdir/vim-vimlparser"
+# }}}
+# WRAPPER PLUGINS{{{
+[[plugins]]
+repo = "mileszs/ack.vim" #{{{
 hook_add = '''
-	nnoremap <Leader>a :Ag 
-	" nnoremap } :Ag <c-r>=expand("<cword>")<cr><cr>
+let g:ackprg = 'ag  --smart-case'
+cnoreabbrev Ag Ack
+'''
+# }}}
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+# }}}
+# QUICKRUN SYNTAX CHECKS {{{
+[[plugins]]
+repo = "thinca/vim-quickrun"# {{{
+# on_cmd = 'QuickRun'
+hook_add = '''
+	" quickrun-hook-add-include-option {{{
+	let s:hook = {
+				\ "name": "add_include_option",
+				\ "kind": "hook",
+				\ "config": {
+				\   "enable": 0,
+				\   },
+				\ }
+
+	function! s:hook.on_module_loaded(session, context)
+		let paths = filter(split(&path, ","), "len(v:val) && v:val !='.' && v:val !~ 'mingw'")
+		if len(paths)
+			let a:session.config.cmdopt .= " -I".join(paths, " -I")
+		endif
+	endfunction
+
+	call quickrun#module#register(s:hook, 1)
+	unlet s:hook
+	" }}}
+	let g:quickrun_config = get(g:, 'quickrun_config', {})
+
+	let g:quickrun_config._ = {
+				\ 'runner'    : 'job',
+				\ 'runner/job/interval' : 100,
+				\ 'outputter/buffer/into': 1,
+				\ 'outputter/buffer/close_on_empty' : 1,
+				\ }
+	" \ 'runner'    : 'vimproc',
+	" \ 'runner/vimproc/updatetime' : 100,
+	let g:quickrun_config.python = {
+				\ 'command' : 'python',
+				\ 'cmdopt' : '-u'
+				\ }
+
+	let s:config = { 
+				\"cpp" : {
+				\	"hook/add_include_option/enable" : 1
+				\	},
+				\"cpp/watchdogs_checker" : {
+				\	"type" : "watchdogs_checker/clang++",
+				\	"hook/add_include_option/enable" : 1,
+				\	"cmdopt" : '--std=c++11'
+				\	}
+				\}
+	call extend(g:quickrun_config, s:config)
+	unlet s:config
+
+	let g:quickrun_config["watchdogs_checker/_"] = {
+				\ 'runner'    : 'job',
+				\ 'runner/job/interval' : 100,
+				\ "outputter/quickfix/open_cmd" : "copen 8"
+				\}
+				" \ "runner/vimproc/updatetime" : 100,
+				"
+ 	call watchdogs#setup(g:quickrun_config)
+
+	nnoremap <silent> <Leader>R :QuickRun<CR>
+	" nmap <Leader>R <Plug>(quickrun)
+	nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 '''# }}}
-
-# [[plugins]]
-# repo = "taglist.vim"
-
 [[plugins]]
-repo = "Yggdroot/indentLine"
+repo = "osyo-manga/shabadou.vim"
+[[plugins]]
+repo = "osyo-manga/vim-watchdogs" # {{{
+depends = [ 'vim-quickrun', 'shabadou.vim' ]
 hook_add = '''
-    let g:indentLine_color_term = 238
-    let g:indentLine_color_gui = "#3B4048"
-'''
-
-[[plugins]]
-repo = "szw/vim-tags"
-hook_add = '''
-	let g:vim_tags_auto_generate = 1
-'''
-
-[[plugins]]
-repo = 'tpope/vim-dispatch'
-
-# [[plugins]]
-# repo = 'Valloric/YouCompleteMe'
-# 
-# [[plugins]]
-# repo = 'rdnetto/YCM-Generator'
+ 	let g:watchdogs_check_BufWritePost_enable = 1
+ 	let g:watchdogs_check_CursorHold_enable = 1
+''' # }}}
+# }}}
