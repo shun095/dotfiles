@@ -3,7 +3,7 @@
 repo = 'Shougo/context_filetype.vim'
 [[plugins]]
 repo = 'osyo-manga/vim-precious'# {{{
-on_i = 1
+on_cmd = ["PreciousReset", "PreciousSwitch"]
 depends = ['context_filetype.vim']
 hook_add = '''
 	" let g:context_filetype#search_offset = 300
@@ -47,9 +47,9 @@ hook_add = '''
 				\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 	" For conceal markers.
-	if has('conceal')
-	  set conceallevel=2 concealcursor=niv
-	endif
+	" if has('conceal')
+	"   set conceallevel=2 concealcursor=niv
+	" endif
 	" Enable snipMate compatibility feature.
 	let g:neosnippet#enable_snipmate_compatibility = 1
 	" Tell Neosnippet about the other snippets
@@ -287,9 +287,6 @@ hook_add = '''
 		let g:tagbar_autofocus = 1
 		let g:tagbar_autoclose = 1
 '''# }}}
-[[plugins]]
-repo = 'tyru/open-browser.vim.git' #{{{
-on_cmd = ['OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch']
 
 # TWEETVIM PLUGINS {{{
 [[plugins]]
