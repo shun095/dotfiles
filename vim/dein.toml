@@ -161,28 +161,29 @@ hook_add = '''
 '''# }}}
 
 # FOLD PLUGINS {{{
-# [[plugins]]
-# repo = 'LeafCage/foldCC.vim'# {{{
-# hook_add = '''
-# 
-# let g:foldCCtext_enable_autofdc_adjuster = 1
-# " let g:foldCCtext_head = ''
-# " let g:foldCCtext_tail = '"(ﾟｪﾟ  )". (v:foldend-v:foldstart+1)'
-# let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
-# 
-# set foldtext=FoldCCtext()
-# set foldcolumn=0
-# set fillchars=vert:\|
-# " augroup FoldCC "{{{
-# "     hi Folded gui=bold guibg=Grey28 guifg=gray80
-# "     hi FoldColumn guibg=Grey14 guifg=gray80
-# "
-# "     " hi Folded gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey50 guifg=Grey80
-# "     " hi FoldColumn gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey guifg=DarkBlue
-# " augroup END "}}}
-# '''# }}}
-# [[plugins]]
-# repo = 'Konfekt/FastFold'
+[[plugins]]
+repo = 'LeafCage/foldCC.vim'# {{{
+hook_add = '''
+
+let g:foldCCtext_enable_autofdc_adjuster = 1
+let g:foldCCtext_head = ''
+" let g:foldCCtext_tail = '"(ﾟｪﾟ  )". (v:foldend-v:foldstart+1)'
+
+let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
+
+set foldtext=FoldCCtext()
+set foldcolumn=2
+set fillchars=vert:\|
+" augroup FoldCC "{{{
+"     hi Folded gui=bold guibg=Grey28 guifg=gray80
+"     hi FoldColumn guibg=Grey14 guifg=gray80
+"
+"     " hi Folded gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey50 guifg=Grey80
+"     " hi FoldColumn gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey guifg=DarkBlue
+" augroup END "}}}
+'''# }}}
+[[plugins]]
+repo = 'Konfekt/FastFold'
 # }}}
 # COLORSCHEMES {{{
 [[plugins]]

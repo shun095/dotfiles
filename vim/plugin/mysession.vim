@@ -43,56 +43,52 @@ command! LoadLastSession call s:load_session("lastsession.vim")
 function! s:getbufbyte()
     let byte = line2byte(line('$') + 1)
     if byte == -1
-	return 0
+        return 0
     else
-	return byte - 1
+        return byte - 1
     endif
 endfunction
 
 " LOADING SESSION
 function! s:load_session(session_name) abort "{{{
     if has("gui_running")
-	execute "source" g:save_window_file
+        execute "source" g:save_window_file
     endif
     " let g:session_loaded = s:true
     execute "source" "~/.vimsessions/" . a:session_name
 endfunction "}}}
-
-" SAVING SESSION 
+" SAVING SESSION
 function! s:save_session(session_name) abort "{{{
     " if g:session_loaded == s:true
     execute  "mksession! "  "~/.vimsessions/". a:session_name
 endfunction "}}}
-
 " SAVING WINDOW POSITION
 function! s:save_window() abort "{{{
     let options = [
-		\ 'set columns=' . &columns,
-		\ 'set lines=' . &lines,
-		\ 'winpos ' . getwinposx() . ' ' . getwinposy(),
-		\ ]
+                \ 'set columns=' . &columns,
+                \ 'set lines=' . &lines,
+                \ 'winpos ' . getwinposx() . ' ' . getwinposy(),
+                \ ]
     call writefile(options, g:save_window_file)
 endfunction "}}}
-
 " TABMERGING
 function! s:tab_merge() abort "{{{
     if len(split(serverlist())) > 1
-	tabnew
-	tabprevious
-	let l:send_file_path = expand("%")
-	quit
-	" let l:server_list = split(serverlist(),"\n")
-	" let l:send_server_name = l:server_list[0]
-	" echom l:send_server_name
-	call remote_send( "GVIM", "<ESC><ESC>:tabnew " . l:send_file_path . "<CR>")
-	call remote_foreground("GVIM")
-	let s:save_session_flag = s:false
-	quitall
+        tabnew
+        tabprevious
+        let l:send_file_path = expand("%")
+        quit
+        " let l:server_list = split(serverlist(),"\n")
+        " let l:send_server_name = l:server_list[0]
+        " echom l:send_server_name
+        call remote_send( "GVIM", "<ESC><ESC>:tabnew " . l:send_file_path . "<CR>")
+        call remote_foreground("GVIM")
+        let s:save_session_flag = s:false
+        quitall
     else
-	echo "ウィンドウがひとつだけのためマージできません"
+        echo "ウィンドウがひとつだけのためマージできません"
     endif
 endfunction "}}}
-
 " SESSION CREAR (DESABLED)
 " function! s:clear_session() abort "{{{
 " 	call s:save_session()
@@ -101,7 +97,6 @@ endfunction "}}}
 " 	let s:save_session_flag = 1
 " 	quitall
 " endfunction "}}}
-
 " START UP LOADING (DESABLED)
 " function! s:load_session_on_startup() abort "{{{
 " 	if has("vim_starting")

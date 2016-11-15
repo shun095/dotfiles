@@ -37,7 +37,7 @@ set backspace=indent,eol,start     " バックスペース挙動のおまじな�
 set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
 set ignorecase                     " 大文字小文字無視
 set smartcase                      " 大文字で始まる場合は無視しない
-set foldmethod=syntax              " syntaxに応じて折りたたまれる
+set foldmethod=marker              " syntaxに応じて折りたたまれる
 
 set tabstop=4                      " タブの挙動設定。挙動が難しいのでヘルプ参照
 set shiftwidth=4
