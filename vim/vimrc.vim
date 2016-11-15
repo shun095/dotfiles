@@ -113,10 +113,10 @@ set omnifunc=syntaxcomplete#Complete
 
 " Mapping {{{
 " 改行があっても真下に移動できるようになる
-nnoremap j gj
-nnoremap k gk
-nnoremap gj j
-nnoremap gk k
+" nnoremap j gj
+" nnoremap k gk
+" nnoremap gj j
+" nnoremap gk k
 
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
