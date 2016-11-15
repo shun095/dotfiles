@@ -172,11 +172,12 @@ hook_add = '''
 			  \ "AllowShortCaseLabelsOnASingleLine" : "true",
 			  \ "AllowShortFunctionsOnASingleLine" : "true",
 			  \ "AllowShortLoopsOnASingleLine" : "true",
+              \ "AlignAfterOpenBracket" : "AlwaysBreak",
 			  \ "AlignConsecutiveAssignments" : "true",
 			  \ "AlignConsecutiveDeclarations" : "true",
 			  \ "AlignTrailingComments" : "true",
 			  \ "TabWidth" : "4",
-			  \ "UseTab" : "Always",
+			  \ "UseTab" : "Never",
 			  \ "ColumnLimit" : "120"
               \ }
 '''# }}}
@@ -213,7 +214,7 @@ hook_post_source = '''
 	let g:clang_auto = 0
 	let g:clang_complete_auto = 0
 	let g:clang_check_syntax_auto = 0
-	let g:clang_diagsopt = 'rightbelow:10'
+	let g:clang_diagsopt = 'rightbelow:1'
 	" let g:clang_diagsopt = ''
 
 	" clangのバージョン検索
@@ -233,7 +234,7 @@ hook_post_source = '''
 
 	" 何故かコメントアウトしたら動いた -stdlib=libc++がうまく動かない
 	let g:clang_c_options = '-std=c11'
-	let g:clang_cpp_options = '-std=c++11 -Weverything' " -stdlib=libc++
+	let g:clang_cpp_options = '-std=c++11' " -stdlib=libc++
 
 	" default 'longest' can not work with neocomplete
 	" noselect オプションで最初の候補が自動選択されなくなる

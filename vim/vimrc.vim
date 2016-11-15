@@ -41,7 +41,7 @@ set foldmethod=syntax              " syntaxに応じて折りたたまれる
 
 set tabstop=4                      " タブの挙動設定。挙動が難しいのでヘルプ参照
 set shiftwidth=4
-set noexpandtab
+set expandtab
 set smartindent
 set softtabstop=4
 
