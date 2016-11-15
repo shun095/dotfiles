@@ -184,6 +184,9 @@ hook_add = '''
 [[plugins]]
 repo = 'justmao945/vim-clang'# {{{
 on_ft = ['c', 'cpp']
+hook_add = '''
+	let g:clang_enable_format_command = 0
+'''
 hook_post_source = '''
 	" Enable heavy omni completion.
 	"
@@ -210,9 +213,8 @@ hook_post_source = '''
 	let g:clang_auto = 0
 	let g:clang_complete_auto = 0
 	let g:clang_check_syntax_auto = 0
-	let g:clang_enable_format_command = 0
-	" let g:clang_diagsopt = 'rightbelow:10'
-	let g:clang_diagsopt = ''
+	let g:clang_diagsopt = 'rightbelow:10'
+	" let g:clang_diagsopt = ''
 
 	" clangのバージョン検索
 	let g:clang_exec = 'clang'
