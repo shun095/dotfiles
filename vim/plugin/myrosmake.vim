@@ -32,7 +32,7 @@ function! s:rosmake(filename)
         make
         " echom "[aftermake] : cd to " . s:save_cd
     else
-        echom "Packege directory couldn't be found!!!!!!"
+        echom "Appropriate directory couldn't be found!!"
     endif
 
     execute "cd " . s:save_cd
