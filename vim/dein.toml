@@ -151,12 +151,13 @@ hook_add = '''
         autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
     endif
 '''
-[[plugins]]
-repo = "szw/vim-tags"# {{{
-hook_add = '''
-    let g:vim_tags_auto_generate = 1
-    let g:vim_tags_use_vim_dispatch = 1
-'''# }}}
+# [[plugins]]
+# repo = "szw/vim-tags"# {{{
+# hook_add = '''
+#     let g:vim_tags_auto_generate = 1
+#     let g:vim_tags_use_vim_dispatch = 1
+#     let g:vim_tags_project_tags_command = "{CTAGS} -R {OPTIONS} {DIRECTORY}"
+# '''# }}}
 
 # FOLD PLUGINS {{{
 [[plugins]]

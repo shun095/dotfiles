@@ -1,4 +1,4 @@
-﻿" vim: set foldmethod=marker foldlevel=1:
+﻿" vim: set foldmethod=marker:
 scriptencoding utf-8
 
 if &compatible
@@ -259,7 +259,7 @@ if g:use_plugins_flag == s:true
 
     if dein#check_install()
         augroup VIMRC
-            autocmd VimEnter * nested call <SID>confirm_do_dein_install()
+            autocmd VimEnter * nested call s:confirm_do_dein_install()
         augroup END
     endif
 
