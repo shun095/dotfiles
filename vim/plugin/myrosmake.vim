@@ -3,6 +3,10 @@ set cpo&vim
 
 function! s:rosmake(filename)
     let s:save_makeprg = &makeprg
+    let s:save_errorformat = &errorformat
+    let &errorformat .= ",%-G[rosmake-%c] %f >>> %s,%-G[rosmake-%c] %f <<< %s,%-G No Makefile in package %f,"
+
+
     set makeprg=rosmake
     let s:save_cd = getcwd()
 
@@ -38,6 +42,7 @@ function! s:rosmake(filename)
 
     execute "cd " . s:save_cd
     let &makeprg = s:save_makeprg
+    let &errorformat = s:save_errorformat
     unlet s:save_cd
     unlet s:save_makeprg
 endfunction
