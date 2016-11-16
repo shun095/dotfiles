@@ -7,6 +7,8 @@ function! s:rosmake(filename)
     let &errorformat .= ",".
                 \ "%A[ rosmake ] %m output to directory %.%#," .
                 \ "%Z[ rosmake ] %f %.%#," .
+                \ "%+G%.%#%*[eE]rror%.%#," .
+                \ "%+G%.%#%*[wW]arning%.%#," .
                 \ "%+G[ rosmake ] Results: %.%#," .
                 \ "%+G[ rosmake ] Built %.%#," .
                 \ "%-G%.%#,"
