@@ -4,19 +4,17 @@ set cpo&vim
 function! s:rosmake(filename)
     let s:save_makeprg = &makeprg
     let s:save_errorformat = &errorformat
-    let &errorformat .= ",".
-                \ "%A[ rosmake ] %m output to directory %.%#," .
-                \ "%Z[ rosmake ] %f %.%#," .
-                \ "%+G%.%#%*[eE]rror%.%#," .
-                \ "%+G%.%#%*[wW]arning%.%#," .
-                \ "%+G[ rosmake ] Results: %.%#," .
-                \ "%+G[ rosmake ] Built %.%#," .
-                \ "%-G%.%#,"
-                " \ "%-G[rosmake-%*[0-9]] Starting >>> %m,".
-                " \ "%+G[rosmake-%*[0-9]] Finished <<< %m,".
-                " \ "%-G%.%#"
-                " \ "%-G No Makefile in package %f,".
-                " \ "%-G%.%#make[%n]: %.%#,"
+    let &errorformat .= ","
+                \ . "%+G{-%#,"
+                \ . "%+G[ rosmake ] Results: %.%#,"
+                \ . "%+G[ rosmake ] Built %.%#,"
+                \ . "%I[ rosmake ] %m output to directory %.%#,"
+                \ . "%Z[ rosmake ] %f %.%#,"
+                " \ . "%+G%.%#%*[eE]rror%.%#,"
+                " \ . "%+G%.%#%*[wW]arning%.%#,"
+                " \ . "%+G[rosmake-%*[0-9]] Finished <<< %m,"
+                " \ . "%-G%.%#,"
+                " \ . "%-G[rosmake-%*[0-9]] Starting >>> %m,"
     echom "errorformat is : " . &errorformat
 
     set makeprg=rosmake
