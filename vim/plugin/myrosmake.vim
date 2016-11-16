@@ -4,8 +4,18 @@ set cpo&vim
 function! s:rosmake(filename)
     let s:save_makeprg = &makeprg
     let s:save_errorformat = &errorformat
-    let &errorformat .= ",%-G[rosmake-%c] %f >>> %s,%-G[rosmake-%c] %f <<< %s,%-G No Makefile in package %f,"
-
+    let &errorformat .= ",".
+                \ "%A[ rosmake ] %m output to directory %.%#," .
+                \ "%Z[ rosmake ] %f %.%#," .
+                \ "%+G[ rosmake ] Results: %.%#," .
+                \ "%+G[ rosmake ] Built %.%#," .
+                \ "%-G%.%#,"
+                " \ "%-G[rosmake-%*[0-9]] Starting >>> %m,".
+                " \ "%+G[rosmake-%*[0-9]] Finished <<< %m,".
+                " \ "%-G%.%#"
+                " \ "%-G No Makefile in package %f,".
+                " \ "%-G%.%#make[%n]: %.%#,"
+    echom "errorformat is : " . &errorformat
 
     set makeprg=rosmake
     let s:save_cd = getcwd()
