@@ -5,8 +5,6 @@ function! s:rosmake(filename)
     let s:save_makeprg = &makeprg
     let s:save_errorformat = &errorformat
     let &errorformat .= ","
-                \ . "%+G{-%#,"
-                \ . "%+G[ rosmake ] Results: %.%#,"
                 \ . "%+G[ rosmake ] Built %.%#,"
                 \ . "%I[ rosmake ] %m output to directory %.%#,"
                 \ . "%Z[ rosmake ] %f %.%#,"
