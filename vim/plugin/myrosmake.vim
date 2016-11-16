@@ -9,24 +9,25 @@ function! s:rosmake(filename)
     " init
     let l:package_dir = ""
 
-    " let l:filename = "manifest.xml"
-    let l:filename = a:filename
     " ----Reference of help----
     " finddir()
     " 最初に見つかったディレクトリのパスを返す。そのディレクトリがカレントディレクトリの
     " 下にある場合は相対パスを返す。そうでなければ絶対パスを返す。
     " findfile() is same as finddir()
-    let l:manifestfile = findfile(l:filename,expand("%:p").";")
+    let l:rosxmlfile = findfile(a:filename,expand("%:p").";")
 
-    " if l:manifestfile is relative path
-    if l:manifestfile != "" && l:manifestfile[0] != "/"
-        let l:package_dir = getcwd() . "/" . l:manifestfile
+    if l:rosxmlfile != "" && l:rosxmlfile[0] != "/"
+        " ファイルが存在し、絶対パス表記でなかったら
+        let l:package_dir = getcwd() . "/" . l:rosxmlfile
+
     else
-        let l:package_dir = l:manifestfile
+        " ファイルが存在しないか、絶対パス表記だったら
+        let l:package_dir = l:rosxmlfile
     endif
 
     if l:package_dir != ""
-        let l:package_dir = substitute(l:package_dir,l:filename,"","gc")
+        " ファイル名をパスから削除
+        let l:package_dir = substitute(l:package_dir,a:filename,"","gc")
         " echom "[beforemake] : cd to " . l:package_dir
         execute "cd ". l:package_dir
         make
