@@ -41,8 +41,10 @@ function! s:rosmake(filename)
     unlet s:save_makeprg
 endfunction
 
-command! RosmakePackage call s:rosmake("manifest.xml")
-command! RosmakeWorkspace call s:rosmake("stack.xml")
+if executable("rosmake")
+    command! RosmakePackage call s:rosmake("manifest.xml")
+    command! RosmakeWorkspace call s:rosmake("stack.xml")
+endif
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
