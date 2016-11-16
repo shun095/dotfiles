@@ -68,6 +68,7 @@ hook_post_source = '''
 [[plugins]]
 repo = 'Shougo/neocomplete.vim'# {{{
 on_i = 1
+if = "has('lua')"
 hook_add = '''
     "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
     " Use neocomplete.

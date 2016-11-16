@@ -78,6 +78,7 @@ repo = 'ctrlpvim/ctrlp.vim'# {{{
 hook_add = '''
     let g:ctrlp_cmd = "CtrlPMRUFiles"
     let g:ctrlp_extensions = [ 'mixed', 'filer']
+    let g:ctrlp_max_files = 5000
 '''# }}}
 [[plugins]]
 repo = 'mattn/ctrlp-filer'# {{{
@@ -675,3 +676,5 @@ repo = "dbakker/vim-lint"
 # repo = "Kuniwak/vint"
 [[plugins]]
 repo = 'tyru/open-browser.vim.git' 
+[[plugins]]
+repo = "tmux-plugins/vim-tmux"

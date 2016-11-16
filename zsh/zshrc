@@ -4,29 +4,29 @@ export EDITOR=vim
 
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
-	if [ ${COLUMNS} -ge 150 ] && [ ${LINES} -ge 47 ]; then
-		# alias tmux="tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session"
-		tmux -2 attach || tmux -2 new-session
-		# tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
-	elif [ ${COLUMNS} -lt 150 ] && [ ${LINES} -ge 47 ]; then
-		tmux -2 attach || tmux -2 new-session
-		# tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session-narrow
-	else
-		tmux -2 attach || tmux -2 new-session
-	fi
-	# tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
+    if [ ${COLUMNS} -ge 150 ] && [ ${LINES} -ge 47 ]; then
+        # alias tmux="tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session"
+        tmux -2 attach || tmux -2 new-session
+        # tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
+    elif [ ${COLUMNS} -lt 150 ] && [ ${LINES} -ge 47 ]; then
+        tmux -2 attach || tmux -2 new-session
+        # tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session-narrow
+    else
+        tmux -2 attach || tmux -2 new-session
+    fi
+    # tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
 else
-	if [[ `\tmux -V | cut -d" " -f2` -lt 2.1 ]]
-	then
-		tmux set -g mode-mouse on
-		tmux set -g mouse-resize-pane on
-		tmux set -g mouse-select-pane on
-		tmux set -g mouse-select-window on
-		clear
-	else
-		tmux set -g mouse on
-		clear
-	fi
+    if [[ `\tmux -V | cut -d" " -f2` -lt 2.1 ]]
+    then
+        tmux set -g mode-mouse on
+        tmux set -g mouse-resize-pane on
+        tmux set -g mouse-select-pane on
+        tmux set -g mouse-select-window on
+        clear
+    else
+        tmux set -g mouse on
+        clear
+    fi
 fi
 
 
@@ -40,28 +40,28 @@ fi
 
 VIMRC="$HOME/.vimrc"
 if [  ! -e ${VIMRC} ]; then
-	ln -s $HOME/dotfiles/vim/vimrc.vim $HOME/.vimrc
-	touch $HOME/dotfiles/vim/vimrc.vim
-	echo "vimrc linked"
+    ln -s $HOME/dotfiles/vim/vimrc.vim $HOME/.vimrc
+    touch $HOME/dotfiles/vim/vimrc.vim
+    echo "vimrc linked"
 fi
 
 GVIMRC="$HOME/.gvimrc"
 if [  ! -e ${GVIMRC} ]; then
-	ln -s $HOME/dotfiles/vim/gvimrc.vim $HOME/.gvimrc
-	touch $HOME/dotfiles/vim/gvimrc.vim
-	echo "gvimrc linked"
+    ln -s $HOME/dotfiles/vim/gvimrc.vim $HOME/.gvimrc
+    touch $HOME/dotfiles/vim/gvimrc.vim
+    echo "gvimrc linked"
 fi
 
 TMUXCONF="$HOME/.tmux.conf"
 if [  ! -e ${TMUXCONF} ]; then
-	ln -s $HOME/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
-	touch $HOME/dotfiles/tmux/tmux.conf
-	echo "tmuxconf linked"
+    ln -s $HOME/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
+    touch $HOME/dotfiles/tmux/tmux.conf
+    echo "tmuxconf linked"
 fi
 TMUXLOCAL="$HOME/dotfiles/tmux-local"
 if [  ! -e ${TMUXLOCAL} ]; then
-	touch $HOME/dotfiles/tmux-local
-	echo "tmuxlocal is made"
+    touch $HOME/dotfiles/tmux-local
+    echo "tmuxlocal is made"
 fi
 # change the color of cursor
 # echo -ne '\e]12;#999999\a'
