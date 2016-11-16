@@ -27,12 +27,12 @@ function! s:rosmake(filename)
 
     if l:package_dir != ""
         let l:package_dir = substitute(l:package_dir,l:filename,"","gc")
-        echom "[beforemake] : cd to " . l:package_dir
+        " echom "[beforemake] : cd to " . l:package_dir
         execute "cd ". l:package_dir
         make
-        echom "[aftermake] : cd to " . s:save_cd
+        " echom "[aftermake] : cd to " . s:save_cd
     else
-        echom "packege directory couldn't be found!!!!!!"
+        echom "Packege directory couldn't be found!!!!!!"
     endif
 
     execute "cd " . s:save_cd
