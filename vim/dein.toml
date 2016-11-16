@@ -48,17 +48,6 @@ hook_add = '''
     nnoremap <space>r <Plug>(unite_restart)
 '''# }}}
 [[plugins]]
-repo = 'Shougo/vimfiler.vim'# {{{
-# on_cmd = ['VimFiler', 'VimFilerBufferDir','VimFilerCurrentDir']
-depends = ['vimproc.vim', 'vim-choosewin']
-hook_add = '''
-    let g:vimfiler_force_overwrite_statusline = 0
-    let g:vimfiler_enable_auto_cd = 1
-    let g:vimfiler_as_default_explorer = 1
-    nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
-    nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
-'''# }}}
-[[plugins]]
 repo = 'Shougo/unite-outline'# {{{
 depends = ['unite.vim']# }}}
 [[plugins]]
@@ -73,6 +62,19 @@ depends = ['unite.vim']# }}}
 [[plugins]]
 repo = 'Shougo/vimshell.vim'# {{{
 depends = ['vimproc.vim']# }}}
+[[plugins]]
+repo = 'Shougo/vimfiler.vim'# {{{
+# on_cmd = ['VimFiler', 'VimFilerBufferDir','VimFilerCurrentDir']
+depends = ['vimproc.vim', 'vim-choosewin']
+hook_add = '''
+    let g:vimfiler_force_overwrite_statusline = 0
+    let g:vimfiler_enable_auto_cd = 1
+    let g:vimfiler_as_default_explorer = 1
+    nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
+    nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
+
+    " なんの影響だかは不明だがVimfilerはUnite系の後ろの方においておかないとSyntaxColorが効かなくなる
+'''# }}}
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'# {{{
 hook_add = '''
