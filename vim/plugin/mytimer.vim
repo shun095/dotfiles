@@ -8,8 +8,12 @@ endfunction
 function! s:TimerStart() abort
     let time_min = input("How long? [min]: ")
     let time_milisec = time_min*60*1000 " converting min to milisec
-    let g:timer = timer_start(time_milisec, 'TimerAlert',
-                \ {'repeat': 1})
+    if !exists("g:timer")
+        let g:timer = timer_start(time_milisec, 'TimerAlert',
+                    \ {'repeat': 1})
+    else
+        echo " Error: Timer already exsists!!!!"
+    endif
 endfunction
 
 function! s:TimerInfo() abort
@@ -20,6 +24,7 @@ endfunction
 
 function! s:TimerStop() abort
     call timer_stop(g:timer)
+    unlet g:timer
 endfunction
 
 command! TimerStart call <SID>TimerStart()
