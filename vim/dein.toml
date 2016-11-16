@@ -669,7 +669,7 @@ repo = "osyo-manga/vim-watchdogs" # {{{
 depends = [ 'vim-quickrun', 'shabadou.vim' ]
 hook_add = '''
      let g:watchdogs_check_BufWritePost_enable = 1
-     let g:watchdogs_check_CursorHold_enable = 1
+     let g:watchdogs_check_CursorHold_enable = 0
 ''' # }}}
 # }}}
 [[plugins]]

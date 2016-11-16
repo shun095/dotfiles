@@ -1,6 +1,6 @@
 function! TimerAlert(timer)
     let alert_string = "JIKAN DAYO!!!!!!!!!!"
-    new
+    1new
     execute ":normal a" . alert_string
     echo alert_string
 endfunction
