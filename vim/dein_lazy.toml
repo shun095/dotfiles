@@ -178,22 +178,22 @@ hook_post_source = '''
     " Enable heavy omni completion.
     "
     " Enable these lines or ...
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-        let g:neocomplete#sources#omni#input_patterns = {}
-    endif
-    let g:neocomplete#sources#omni#input_patterns.c =
-                \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
-    let g:neocomplete#sources#omni#input_patterns.cpp =
-                \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+    " if !exists('g:neocomplete#sources#omni#input_patterns')
+    "     let g:neocomplete#sources#omni#input_patterns = {}
+    " endif
+    " let g:neocomplete#sources#omni#input_patterns.c =
+    "             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
+    " let g:neocomplete#sources#omni#input_patterns.cpp =
+    "             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 
     " ...these lines.
-    " if !exists('g:neocomplete#force_omni_input_patterns')
-    "     let g:neocomplete#force_omni_input_patterns = {}
-    " endif
-    " let g:neocomplete#force_omni_input_patterns.c =
-    "             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
-    " let g:neocomplete#force_omni_input_patterns.cpp =
-    "             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+    if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.c =
+                \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
+    let g:neocomplete#force_omni_input_patterns.cpp =
+                \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 
 
     " disable auto completion for vim-clang
@@ -242,18 +242,18 @@ hook_post_source = '''
     augroup END
 
     " Enable these lines or ...
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-        let g:neocomplete#sources#omni#input_patterns = {}
-    endif
-    let g:neocomplete#sources#omni#input_patterns.python =
-                \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+    " if !exists('g:neocomplete#sources#omni#input_patterns')
+    "     let g:neocomplete#sources#omni#input_patterns = {}
+    " endif
+    " let g:neocomplete#sources#omni#input_patterns.python =
+    "             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
     " ... these lines.
-    " if !exists('g:neocomplete#force_omni_input_patterns')
-    "     let g:neocomplete#force_omni_input_patterns = {}
-    " endif
-    " let g:neocomplete#force_omni_input_patterns.python =
-    "             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+    if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.python =
+                \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
     let g:jedi#completions_enabled = 0
     let g:jedi#auto_vim_configuration = 0

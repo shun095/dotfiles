@@ -640,7 +640,7 @@ hook_add = '''
                 \"watchdogs_checker/_" : {
                 \   'runner'    : 'job',
                 \   'runner/job/interval' : 100,
-                \   "outputter/quickfix/open_cmd" : "copen 8"
+                \   "outputter/quickfix/open_cmd" : "copen 5"
                 \   }
                 \}
                 " \ "vim/watchdogs_checker" : {
