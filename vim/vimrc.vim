@@ -60,7 +60,7 @@ set hlsearch         " 文字列検索時にハイライトする
 set incsearch        " 文字入力中に検索を開始
 set ruler            " 右下の現在行の表示
 set noequalalways      " splitしたときにウィンドウが同じ大きさになるよう調節する
-set tags=./tags;     " タグファイルを上層に向かって探す
+set tags+=./tags;,./tags-ja;     " タグファイルを上層に向かって探す
 set autoread         " 他のソフトで、編集中ファイルが変更されたとき自動Reload
 set noautochdir      " 今開いてるファイルにカレントディレクトリを移動するか
 set scrolloff=5      " カーソルが端まで行く前にスクロールし始める行数
@@ -187,6 +187,8 @@ augroup VIMRC
 
     " ヘルプをqで閉じれるようにする
     autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
+    " autocmd FileType help echom "test"
+    " autocmd FileType help execute "let &tags.=',' . expand('$VIMRUNTIME') . '/doc/tags'"
     autocmd VimEnter * call <SID>set_statusline()
 
     if has("unix")
@@ -237,8 +239,6 @@ if g:use_plugins_flag == s:true
     " }}}
     " Dein begin
     " Dein main settings {{{
-    filetype off
-    filetype plugin indent off
 
     " escapeでスペースつきのホームフォルダ名に対応
     execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
@@ -263,9 +263,8 @@ if g:use_plugins_flag == s:true
         augroup END
     endif
 
-    filetype on
     filetype plugin indent on
-    syntax on
+    syntax enable
     " }}}
     " Dein end
     " Plugin post settings {{{
