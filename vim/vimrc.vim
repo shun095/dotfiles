@@ -223,6 +223,11 @@ let s:myplugins = expand("$HOME") . "/dotfiles/vim"
 execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 "}}}
 
+" Included Plugins {{{
+packadd! matchit
+packadd! editexisting
+" }}}
+
 " ==========No Plugins Version END==========
 
 " ==========Use Plugins Settings START==========

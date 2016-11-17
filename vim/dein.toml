@@ -682,3 +682,10 @@ repo = "dbakker/vim-lint"
 repo = 'tyru/open-browser.vim.git' 
 [[plugins]]
 repo = "tmux-plugins/vim-tmux"
+[[plugins]]
+repo = "osyo-manga/vim-brightest"
+hook_add = '''
+let g:brightest#highlight = {
+\   "group" : "BrightestReverse"
+\}
+'''
