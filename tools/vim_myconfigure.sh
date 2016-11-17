@@ -1,16 +1,15 @@
 #!/bin/sh
-
 set -eu
 
 # ${0} の dirname を取得
 cwd=`dirname "${0}"`
-
 # ${0} が 相対パスの場合は cd して pwd を取得
 expr "${0}" : "/.*" > /dev/null || cwd=`(cd "${cwd}" && pwd)`
 
 PREFIX=${cwd}/Build
 
 cd ${cwd}/vim
+
 ./configure --prefix=${PREFIX} \
     --enable-fail-if-missing \
     --enable-gui=gnome2 \
