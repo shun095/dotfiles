@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -eu
 
 # ${0} の dirname を取得
 cwd=`dirname "${0}"`
@@ -11,16 +12,25 @@ PREFIX=${cwd}/Build
 
 cd ${cwd}/vim
 ./configure --prefix=${PREFIX} \
-	--with-features=huge \
-	--enable-fail-if-missing \
-	--enable-gui=gnome2 \
-	--enable-luainterp=dynamic \
-	--with-luajit \
-	--enable-perlinterp=dynamic \
-	--enable-python3interp=dynamic \
-	--enable-pythoninterp=dynamic \
-	--enable-rubyinterp=dynamic
+    --enable-fail-if-missing \
+    --enable-gui=gnome2 \
+    --enable-luainterp=dynamic \
+    --enable-perlinterp=dynamic \
+    --enable-python3interp=dynamic \
+    --enable-pythoninterp=dynamic \
+    --enable-rubyinterp=dynamic \
+    --with-features=huge \
+    --with-luajit
 
 echo 
-echo This program will be installed in ${PREFIX}
-echo 
+echo "This program will be installed in ${PREFIX}.""
+echo "Install now???[y/n]""
+read ans
+
+case $ans in
+    [Yy] | [Yy][Ee][Ss] )
+        make -j install
+        ;;
+    * )
+        echo "Terminated.";;
+esac
