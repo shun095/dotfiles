@@ -9,8 +9,13 @@ let s:true = 1
 let s:false = 0
 
 let $MYVIMHOME=expand("$HOME") . "/dotfiles/vim"
+<<<<<<< HEAD
 if !exists("g:use_plugins")
     let g:use_plugins = s:true
+=======
+if !exists("g:use_plugins_flag")
+    let g:use_plugins_flag = s:true
+>>>>>>> 469fca5b60ec940151adb09369a140117acaadbd
 endif
 
 " ==========No Plugin Version START==========
@@ -65,7 +70,11 @@ set noequalalways      " splitしたときにウィンドウが同じ大きさ�
 set tags+=./tags;,./tags-ja;     " タグファイルを上層に向かって探す
 set autoread         " 他のソフトで、編集中ファイルが変更されたとき自動Reload
 set noautochdir      " 今開いてるファイルにカレントディレクトリを移動するか
+<<<<<<< HEAD
 set scrolloff=5      " カーソルが端まで行く前にスクロールし始める行数
+=======
+set scrolloff=5     " カーソルが端まで行く前にスクロールし始める行数
+>>>>>>> 469fca5b60ec940151adb09369a140117acaadbd
 set ambiwidth=double " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a    " マウスを有効化
 set nomousehide    " 入力中にポインタを消すかどうか
@@ -235,7 +244,11 @@ let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
 " dein.vimがまだ入ってなければインストールするか確認
 if !isdirectory(s:dein_dir)
     " deinがインストールされてない場合そのままではプラグインは使わない
+<<<<<<< HEAD
     let g:use_plugins = s:false
+=======
+    let g:use_plugins_flag = s:false
+>>>>>>> 469fca5b60ec940151adb09369a140117acaadbd
     " deinを今インストールするか確認
     let s:install_dein_diag_mes = "Dein is not installed yet.Install now?"
     if confirm(s:install_dein_diag_mes,"&yes\n&no",2) == 1
@@ -245,11 +258,19 @@ if !isdirectory(s:dein_dir)
                     \'https://github.com/Shougo/dein.vim',
                     \'"' . s:dein_dir . '"')
         " インストールが完了したらフラグを立てる
+<<<<<<< HEAD
         let g:use_plugins = s:true
     endif
 endif
 "}}}
 if g:use_plugins == s:true
+=======
+        let g:use_plugins_flag = s:true
+    endif
+endif
+"}}}
+if g:use_plugins_flag == s:true
+>>>>>>> 469fca5b60ec940151adb09369a140117acaadbd
     " Plugin pre settings {{{
     " vimprocが呼ばれる前に設定
     let g:vimproc#download_windows_dll = 1
@@ -307,15 +328,26 @@ if g:use_plugins == s:true
     endif
 
     " }}}
+<<<<<<< HEAD
 else "if use_plugins == s:false
+=======
+else "if use_plugins_flag == s:false
+>>>>>>> 469fca5b60ec940151adb09369a140117acaadbd
     " Without plugins settings {{{
     colorscheme torte
     set background=dark
     let g:netrw_browse_split = 4
     let g:netrw_winsize = 20
+<<<<<<< HEAD
     nnoremap <Leader>e :Vexplore<CR>
     " nnoremap <Leader>E :Vexplore %:p<CR>
     " }}}
 endif " use_plugins end
+=======
+    nnoremap <Leader>e :Vexplore %:h<CR>
+    nnoremap <Leader>E :Vexplore<CR>
+    " }}}
+endif " use_plugins_flag end
+>>>>>>> 469fca5b60ec940151adb09369a140117acaadbd
 
 " ==========Use Plugins Settings END==========
