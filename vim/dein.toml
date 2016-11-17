@@ -65,6 +65,11 @@ depends = ['unite.vim']# }}}
 [[plugins]]
 repo = 'Shougo/vimshell.vim'# {{{
 depends = ['vimproc.vim']# }}}
+hook_add = '''
+let g:vimshell_prompt = "% "
+let g:vimshell_secondary_prompt = "> "
+let g:vimshell_user_prompt = 'getcwd()'
+'''
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'# {{{
 hook_add = '''
@@ -147,8 +152,13 @@ hook_add = '''
         let g:indent_guides_auto_colors = 1
     else
         let g:indent_guides_auto_colors = 0
-        autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
-        autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+        " summerfruit256
+        autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
+        autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
+
+        " onedark
+        " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
+        " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
     endif
 '''
 # [[plugins]]
@@ -566,12 +576,12 @@ repo = "haya14busa/vim-migemo"
 repo = "vim-jp/vimdoc-ja"
 # }}}
 # WRAPPER PLUGINS{{{
-[[plugins]]
-repo = "mileszs/ack.vim" #{{{
-hook_add = '''
-let g:ackprg = 'ag  --smart-case'
-cnoreabbrev Ag Ack
-'''
+# [[plugins]]
+# repo = "mileszs/ack.vim" #{{{
+# hook_add = '''
+# let g:ackprg = 'ag  --smart-case'
+# command! Ag Ack
+# '''
 # }}}
 [[plugins]]
 repo = 'tpope/vim-fugitive'
@@ -627,7 +637,7 @@ hook_add = '''
                 \"cpp/watchdogs_checker" : {
                 \    "type" : "watchdogs_checker/clang++",
                 \    "hook/add_include_option/enable" : 1,
-                \    "cmdopt" : '--std=c++11'
+                \    "cmdopt" : '-std=c++11 -Wall'
                 \   },
                 \"watchdogs_checker/_" : {
                 \   'runner'    : 'job',
