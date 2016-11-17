@@ -33,6 +33,7 @@ endif
 syntax on                          " 色分けされる
 set diffopt=filler,iwhite,vertical " diffのときの挙動
 set nocursorline                   " カーソル行のハイライト
+set nocursorcolumn
 set backspace=indent,eol,start     " バックスペース挙動のおまじない
 set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
 set ignorecase                     " 大文字小文字無視
@@ -56,6 +57,7 @@ set showcmd          " 入力中のコマンドを右下に表示
 set cmdheight=2      " コマンドラインの高さ
 set showtabline=2    " タブバーを常に表示
 set number           " 行番号表示
+set relativenumber
 set hlsearch         " 文字列検索時にハイライトする
 set incsearch        " 文字入力中に検索を開始
 set ruler            " 右下の現在行の表示
@@ -71,6 +73,12 @@ set nolazyredraw
 set background=dark
 set sessionoptions=folds,help,tabpages,resize
 set updatetime=500
+
+if executable("ag")
+    set grepprg=ag\ --nocolor\ --column\ --nogroup\ -S\ \$*
+else
+    set grepprg=grep\ -rn\ \$*
+endif
 
 " 文字コード自動判別優先順位の設定
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp
@@ -122,6 +130,7 @@ set omnifunc=syntaxcomplete#Complete
 nnoremap <silent> <ESC><ESC> :noh<CR>
 vnoremap * "zy:let @/ = @z <CR>n
 nnoremap * *N
+nnoremap <expr> <Leader>/ <SID>count_serch_number(":%s/<Cursor>/&/gn")
 "}}}
 
 " Commands {{{
@@ -136,6 +145,17 @@ command! CdCurrent cd\ %:h
 "}}}
 
 " Functions {{{
+
+function! s:move_cursor_pos_mapping(str, ...)
+    let left = get(a:, 1, "<Left>")
+    let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
+    return substitute(a:str, '<Cursor>', '', '') . lefts
+endfunction
+
+function! s:count_serch_number(str)
+    return s:move_cursor_pos_mapping(a:str, "\<Left>")
+endfunction
+
 function! s:ImInActivate() abort
     " call system('fcitx-remote -c')
 endfunction
@@ -189,11 +209,11 @@ augroup VIMRC
     autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
     " autocmd FileType help echom "test"
     " autocmd FileType help execute "let &tags.=',' . expand('$VIMRUNTIME') . '/doc/tags'"
-    autocmd VimEnter * call <SID>set_statusline()
+    autocmd VimEnter * call s:set_statusline()
 
     if has("unix")
         " linux用（fcitxでしか使えない）
-        autocmd InsertLeave * call <SID>ImInActivate()
+        autocmd InsertLeave * call s:ImInActivate()
     endif
 augroup END
 "}}}
@@ -273,15 +293,17 @@ if g:use_plugins == s:true
         colorscheme default
         cd $HOME
     else
-        colorscheme onedark
-        highlight! FoldColumn ctermbg=233 guibg=#0e1013
-        highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
-        highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-        highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
-                    \guifg=#282C34 guibg=#282C34
-        highlight! StatusLine ctermbg=235 guibg=#282C34
-        highlight! StatusLineNC ctermbg=235 guibg=#282C34
-        highlight! IncSearch ctermbg=114 guibg=#98C379
+        set background=light
+        colorscheme one
+        " colorscheme onedark
+        " highlight! FoldColumn ctermbg=233 guibg=#0e1013
+        " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
+        " highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
+        " highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
+        "             \guifg=#282C34 guibg=#282C34
+        " highlight! StatusLine ctermbg=235 guibg=#282C34
+        " highlight! StatusLineNC ctermbg=235 guibg=#282C34
+        " highlight! IncSearch ctermbg=114 guibg=#98C379
     endif
 
     " }}}
