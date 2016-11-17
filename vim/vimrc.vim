@@ -9,8 +9,8 @@ let s:true = 1
 let s:false = 0
 
 let $MYVIMHOME=expand("$HOME") . "/dotfiles/vim"
-if !exists("g:use_plugins_flag")
-    let g:use_plugins_flag = s:true
+if !exists("g:use_plugins")
+    let g:use_plugins = s:true
 endif
 
 " ==========No Plugin Version START==========
@@ -215,7 +215,7 @@ let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
 " dein.vimがまだ入ってなければインストールするか確認
 if !isdirectory(s:dein_dir)
     " deinがインストールされてない場合そのままではプラグインは使わない
-    let g:use_plugins_flag = s:false
+    let g:use_plugins = s:false
     " deinを今インストールするか確認
     let s:install_dein_diag_mes = "Dein is not installed yet.Install now?"
     if confirm(s:install_dein_diag_mes,"&yes\n&no",2) == 1
@@ -225,11 +225,11 @@ if !isdirectory(s:dein_dir)
                     \'https://github.com/Shougo/dein.vim',
                     \'"' . s:dein_dir . '"')
         " インストールが完了したらフラグを立てる
-        let g:use_plugins_flag = s:true
+        let g:use_plugins = s:true
     endif
 endif
 "}}}
-if g:use_plugins_flag == s:true
+if g:use_plugins == s:true
     " Plugin pre settings {{{
     " vimprocが呼ばれる前に設定
     let g:vimproc#download_windows_dll = 1
@@ -285,15 +285,15 @@ if g:use_plugins_flag == s:true
     endif
 
     " }}}
-else "if use_plugins_flag == s:false
+else "if use_plugins == s:false
     " Without plugins settings {{{
     colorscheme torte
     set background=dark
     let g:netrw_browse_split = 4
     let g:netrw_winsize = 20
-    nnoremap <Leader>e :Vexplore %:h<CR>
-    nnoremap <Leader>E :Vexplore<CR>
+    nnoremap <Leader>e :Vexplore<CR>
+    " nnoremap <Leader>E :Vexplore %:p<CR>
     " }}}
-endif " use_plugins_flag end
+endif " use_plugins end
 
 " ==========Use Plugins Settings END==========
