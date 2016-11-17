@@ -9,7 +9,8 @@ expr "${0}" : "/.*" > /dev/null || cwd=`(cd "${cwd}" && pwd)`
 PREFIX=${cwd}/Build
 
 cd ${cwd}/vim
-
+git pull
+git checkout master
 ./configure --prefix=${PREFIX} \
     --enable-fail-if-missing \
     --enable-gui=gnome2 \
