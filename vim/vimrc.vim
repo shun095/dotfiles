@@ -33,6 +33,7 @@ endif
 syntax on                          " 色分けされる
 set diffopt=filler,iwhite,vertical " diffのときの挙動
 set nocursorline                   " カーソル行のハイライト
+set nocursorcolumn
 set backspace=indent,eol,start     " バックスペース挙動のおまじない
 set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
 set ignorecase                     " 大文字小文字無視
@@ -56,6 +57,7 @@ set showcmd          " 入力中のコマンドを右下に表示
 set cmdheight=2      " コマンドラインの高さ
 set showtabline=2    " タブバーを常に表示
 set number           " 行番号表示
+set relativenumber
 set hlsearch         " 文字列検索時にハイライトする
 set incsearch        " 文字入力中に検索を開始
 set ruler            " 右下の現在行の表示
@@ -63,7 +65,7 @@ set noequalalways      " splitしたときにウィンドウが同じ大きさ�
 set tags+=./tags;,./tags-ja;     " タグファイルを上層に向かって探す
 set autoread         " 他のソフトで、編集中ファイルが変更されたとき自動Reload
 set noautochdir      " 今開いてるファイルにカレントディレクトリを移動するか
-set scrolloff=5      " カーソルが端まで行く前にスクロールし始める行数
+set scrolloff=5     " カーソルが端まで行く前にスクロールし始める行数
 set ambiwidth=double " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a    " マウスを有効化
 set nomousehide    " 入力中にポインタを消すかどうか
@@ -71,6 +73,12 @@ set nolazyredraw
 set background=dark
 set sessionoptions=folds,help,tabpages,resize
 set updatetime=500
+
+if executable("ag")
+    set grepprg=ag\ --nocolor\ --column\ --nogroup\ -S\ \$*
+else
+    set grepprg=grep\ -rn\ \$*
+endif
 
 " 文字コード自動判別優先順位の設定
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp
@@ -122,6 +130,7 @@ set omnifunc=syntaxcomplete#Complete
 nnoremap <silent> <ESC><ESC> :noh<CR>
 vnoremap * "zy:let @/ = @z <CR>n
 nnoremap * *N
+nnoremap <expr> <Leader>/ <SID>count_serch_number(":%s/<Cursor>/&/gn")
 "}}}
 
 " Commands {{{
@@ -136,6 +145,17 @@ command! CdCurrent cd\ %:h
 "}}}
 
 " Functions {{{
+
+function! s:move_cursor_pos_mapping(str, ...)
+    let left = get(a:, 1, "<Left>")
+    let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
+    return substitute(a:str, '<Cursor>', '', '') . lefts
+endfunction
+
+function! s:count_serch_number(str)
+    return s:move_cursor_pos_mapping(a:str, "\<Left>")
+endfunction
+
 function! s:ImInActivate() abort
     " call system('fcitx-remote -c')
 endfunction
@@ -189,11 +209,11 @@ augroup VIMRC
     autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
     " autocmd FileType help echom "test"
     " autocmd FileType help execute "let &tags.=',' . expand('$VIMRUNTIME') . '/doc/tags'"
-    autocmd VimEnter * call <SID>set_statusline()
+    autocmd VimEnter * call s:set_statusline()
 
     if has("unix")
         " linux用（fcitxでしか使えない）
-        autocmd InsertLeave * call <SID>ImInActivate()
+        autocmd InsertLeave * call s:ImInActivate()
     endif
 augroup END
 "}}}

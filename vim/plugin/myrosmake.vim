@@ -2,8 +2,12 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! s:rosmake(filename)
-    let s:save_makeprg = &makeprg
-    let s:save_errorformat = &errorformat
+    " Save current settings
+    let l:save_makeprg = &makeprg
+    let l:save_errorformat = &errorformat
+    let l:save_cd = getcwd()
+
+    set makeprg=rosmake
     let &errorformat .= ","
                 \ . "%+G[ rosmake ] Built %.%#,"
                 \ . "%I[ rosmake ] %m output to directory %.%#,"
@@ -14,9 +18,6 @@ function! s:rosmake(filename)
                 " \ . "%-G%.%#,"
                 " \ . "%-G[rosmake-%*[0-9]] Starting >>> %m,"
     echom "errorformat is : " . &errorformat
-
-    set makeprg=rosmake
-    let s:save_cd = getcwd()
 
     " init
     let l:package_dir = ""
@@ -43,16 +44,15 @@ function! s:rosmake(filename)
         " echom "[beforemake] : cd to " . l:package_dir
         execute "cd ". l:package_dir
         make
-        " echom "[aftermake] : cd to " . s:save_cd
+        " echom "[aftermake] : cd to " . l:save_cd
     else
         echom "Appropriate directory couldn't be found!!"
     endif
 
-    execute "cd " . s:save_cd
-    let &makeprg = s:save_makeprg
-    let &errorformat = s:save_errorformat
-    unlet s:save_cd
-    unlet s:save_makeprg
+    " Restore saved settings
+    execute "cd " . l:save_cd
+    let &makeprg = l:save_makeprg
+    let &errorformat = l:save_errorformat
 endfunction
 
 if executable("rosmake")

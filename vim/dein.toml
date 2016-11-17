@@ -566,12 +566,12 @@ repo = "haya14busa/vim-migemo"
 repo = "vim-jp/vimdoc-ja"
 # }}}
 # WRAPPER PLUGINS{{{
-[[plugins]]
-repo = "mileszs/ack.vim" #{{{
-hook_add = '''
-let g:ackprg = 'ag  --smart-case'
-cnoreabbrev Ag Ack
-'''
+# [[plugins]]
+# repo = "mileszs/ack.vim" #{{{
+# hook_add = '''
+# let g:ackprg = 'ag  --smart-case'
+# command! Ag Ack
+# '''
 # }}}
 [[plugins]]
 repo = 'tpope/vim-fugitive'
@@ -627,7 +627,7 @@ hook_add = '''
                 \"cpp/watchdogs_checker" : {
                 \    "type" : "watchdogs_checker/clang++",
                 \    "hook/add_include_option/enable" : 1,
-                \    "cmdopt" : '--std=c++11'
+                \    "cmdopt" : '-std=c++11 -Wall'
                 \   },
                 \"watchdogs_checker/_" : {
                 \   'runner'    : 'job',
