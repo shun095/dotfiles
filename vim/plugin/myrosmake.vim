@@ -12,11 +12,11 @@ function! s:rosmake(filename)
                 \ . "%+G[ rosmake ] Built %.%#,"
                 \ . "%I[ rosmake ] %m output to directory %.%#,"
                 \ . "%Z[ rosmake ] %f %.%#,"
-                " \ . "%+G%.%#%*[eE]rror%.%#,"
-                " \ . "%+G%.%#%*[wW]arning%.%#,"
-                " \ . "%+G[rosmake-%*[0-9]] Finished <<< %m,"
-                " \ . "%-G%.%#,"
-                " \ . "%-G[rosmake-%*[0-9]] Starting >>> %m,"
+    " \ . "%+G%.%#%*[eE]rror%.%#,"
+    " \ . "%+G%.%#%*[wW]arning%.%#,"
+    " \ . "%+G[rosmake-%*[0-9]] Finished <<< %m,"
+    " \ . "%-G%.%#,"
+    " \ . "%-G[rosmake-%*[0-9]] Starting >>> %m,"
     echom "errorformat is : " . &errorformat
 
     " init
@@ -58,6 +58,10 @@ endfunction
 if executable("rosmake")
     command! RosmakePackage call s:rosmake("manifest.xml")
     command! RosmakeWorkspace call s:rosmake("stack.xml")
+else
+    augroup ROSMAKE
+        autocmd! VimEnter * echomsg "Please source setup.bash/sh/zsh to use Rosmake plugin."
+    augroup END
 endif
 
 let &cpo = s:save_cpo
