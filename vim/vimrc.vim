@@ -293,15 +293,16 @@ if g:use_plugins_flag == s:true
         colorscheme default
         cd $HOME
     else
-        colorscheme onedark
-        highlight! FoldColumn ctermbg=233 guibg=#0e1013
-        highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
-        highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-        highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
-                    \guifg=#282C34 guibg=#282C34
-        highlight! StatusLine ctermbg=235 guibg=#282C34
-        highlight! StatusLineNC ctermbg=235 guibg=#282C34
-        highlight! IncSearch ctermbg=114 guibg=#98C379
+        colorscheme summerfruit256
+        " colorscheme onedark
+        " highlight! FoldColumn ctermbg=233 guibg=#0e1013
+        " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
+        " highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
+        " highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
+        "             \guifg=#282C34 guibg=#282C34
+        " highlight! StatusLine ctermbg=235 guibg=#282C34
+        " highlight! StatusLineNC ctermbg=235 guibg=#282C34
+        " highlight! IncSearch ctermbg=114 guibg=#98C379
     endif
 
     " }}}
