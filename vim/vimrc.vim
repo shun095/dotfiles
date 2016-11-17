@@ -293,7 +293,8 @@ if g:use_plugins_flag == s:true
         colorscheme default
         cd $HOME
     else
-        colorscheme summerfruit256
+        set background=light
+        colorscheme one
         " colorscheme onedark
         " highlight! FoldColumn ctermbg=233 guibg=#0e1013
         " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf

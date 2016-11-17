@@ -65,6 +65,11 @@ depends = ['unite.vim']# }}}
 [[plugins]]
 repo = 'Shougo/vimshell.vim'# {{{
 depends = ['vimproc.vim']# }}}
+hook_add = '''
+let g:vimshell_prompt = "% "
+let g:vimshell_secondary_prompt = "> "
+let g:vimshell_user_prompt = 'getcwd()'
+'''
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'# {{{
 hook_add = '''
