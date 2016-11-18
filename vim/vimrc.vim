@@ -224,8 +224,10 @@ execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 "}}}
 
 " Included Plugins {{{
-packadd! matchit
-packadd! editexisting
+if v:version >= 800
+    packadd! matchit
+    packadd! editexisting
+endif
 " }}}
 
 " ==========No Plugins Version END==========
