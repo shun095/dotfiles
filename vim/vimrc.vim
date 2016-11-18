@@ -302,7 +302,7 @@ if g:use_plugins == s:true
         colorscheme onedark
         " colorscheme onedark
         " highlight! FoldColumn ctermbg=233 guibg=#0e1013
-        " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
+        highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
         highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
         highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
                     \guifg=#282C34 guibg=#282C34
