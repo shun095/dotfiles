@@ -707,7 +707,9 @@ set statusline=%{anzu#search_status()}
 [[plugins]]
 repo = 'Valloric/YouCompleteMe'
 hook_add = '''
-    let g:ycm_global_ycm_extra_conf = '~/.vim/dein/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+    let g:ycm_global_ycm_extra_conf = 
+                \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
+                \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 '''
 [[plugins]]
 repo = 'rdnetto/YCM-Generator'
