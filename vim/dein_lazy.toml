@@ -177,67 +177,67 @@ hook_add = '''
                 \ "ColumnLimit" : "120"
                 \ }
 '''# }}}
-[[plugins]]
-repo = 'justmao945/vim-clang'# {{{
-depends = ["neocomplete"]
-on_ft = ['c', 'cpp']
-hook_add = '''
-    let g:clang_enable_format_command = 0
-'''
-hook_post_source = '''
-    " Enable heavy omni completion.
-    "
-    " Enable these lines or ...
-    " if !exists('g:neocomplete#sources#omni#input_patterns')
-    "     let g:neocomplete#sources#omni#input_patterns = {}
-    " endif
-    " let g:neocomplete#sources#omni#input_patterns.c =
-    "             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
-    " let g:neocomplete#sources#omni#input_patterns.cpp =
-    "             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-
-    " ...these lines.
-    if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:neocomplete#force_omni_input_patterns.c =
-                \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
-    let g:neocomplete#force_omni_input_patterns.cpp =
-                \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-
-
-    " disable auto completion for vim-clang
-    let g:clang_auto = 0
-    let g:clang_complete_auto = 0
-    let g:clang_check_syntax_auto = 0
-    let g:clang_diagsopt = 'rightbelow:1'
-    " let g:clang_diagsopt = ''
-
-    " clangのバージョン検索
-    let g:clang_exec = 'clang'
-    for minorversion in range(10)
-        if executable('clang-3.' . minorversion)
-            let g:clang_exec = 'clang-3.' . minorversion
-        endif
-    endfor
-
-    let g:clang_format_exec = 'clang-format'
-    for minorversion in range(10)
-        if executable('clang-format-3.' . minorversion)
-            let g:clang_format_exec = 'clang-format-3.' . minorversion
-        endif
-    endfor
-
-    " 何故かコメントアウトしたら動いた -stdlib=libc++がうまく動かない
-    let g:clang_c_options = '-std=c11'
-    let g:clang_cpp_options = '-std=c++11' " -stdlib=libc++
-
-    " default 'longest' can not work with neocomplete
-    " noselect オプションで最初の候補が自動選択されなくなる
-    let g:clang_c_completeopt = 'menuone,noselect,preview'
-    let g:clang_cpp_completeopt = 'menuone,noselect,preview'
-
-''' # }}}
+# [[plugins]]
+# repo = 'justmao945/vim-clang'# {{{
+# depends = ["neocomplete"]
+# on_ft = ['c', 'cpp']
+# hook_add = '''
+#     let g:clang_enable_format_command = 0
+# '''
+# hook_post_source = '''
+#     " Enable heavy omni completion.
+#     "
+#     " Enable these lines or ...
+#     " if !exists('g:neocomplete#sources#omni#input_patterns')
+#     "     let g:neocomplete#sources#omni#input_patterns = {}
+#     " endif
+#     " let g:neocomplete#sources#omni#input_patterns.c =
+#     "             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
+#     " let g:neocomplete#sources#omni#input_patterns.cpp =
+#     "             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+# 
+#     " ...these lines.
+#     if !exists('g:neocomplete#force_omni_input_patterns')
+#         let g:neocomplete#force_omni_input_patterns = {}
+#     endif
+#     let g:neocomplete#force_omni_input_patterns.c =
+#                 \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
+#     let g:neocomplete#force_omni_input_patterns.cpp =
+#                 \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+# 
+# 
+#     " disable auto completion for vim-clang
+#     let g:clang_auto = 0
+#     let g:clang_complete_auto = 0
+#     let g:clang_check_syntax_auto = 0
+#     let g:clang_diagsopt = 'rightbelow:1'
+#     " let g:clang_diagsopt = ''
+# 
+#     " clangのバージョン検索
+#     let g:clang_exec = 'clang'
+#     for minorversion in range(10)
+#         if executable('clang-3.' . minorversion)
+#             let g:clang_exec = 'clang-3.' . minorversion
+#         endif
+#     endfor
+# 
+#     let g:clang_format_exec = 'clang-format'
+#     for minorversion in range(10)
+#         if executable('clang-format-3.' . minorversion)
+#             let g:clang_format_exec = 'clang-format-3.' . minorversion
+#         endif
+#     endfor
+# 
+#     " 何故かコメントアウトしたら動いた -stdlib=libc++がうまく動かない
+#     let g:clang_c_options = '-std=c11'
+#     let g:clang_cpp_options = '-std=c++11' " -stdlib=libc++
+# 
+#     " default 'longest' can not work with neocomplete
+#     " noselect オプションで最初の候補が自動選択されなくなる
+#     let g:clang_c_completeopt = 'menuone,noselect,preview'
+#     let g:clang_cpp_completeopt = 'menuone,noselect,preview'
+# 
+# ''' # }}}
 [[plugins]]
 repo = 'cespare/vim-toml'# {{{
 on_ft = 'toml'# }}}
@@ -247,9 +247,9 @@ on_ft = 'python'
 # depends = 'neocomplete.vim'
 hook_post_source = '''
     "Windowsの場合PYTHONHOMEの環境変数設定が必要なので注意
-    augroup JEDIVIM
-        autocmd FileType python setlocal omnifunc=jedi#completions
-    augroup END
+    " augroup JEDIVIM
+    "     autocmd FileType python setlocal omnifunc=jedi#completions
+    " augroup END
 
     " Enable these lines or ...
     " if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -269,7 +269,7 @@ hook_post_source = '''
     let g:jedi#auto_vim_configuration = 0
     let g:jedi#auto_close_doc = 1
     let g:jedi#show_call_signatures = 2
-    let g:jedi#force_py_version = 2
+    " let g:jedi#force_py_version = 3
 '''# }}}
 [[plugins]]
 repo = 't9md/vim-choosewin'

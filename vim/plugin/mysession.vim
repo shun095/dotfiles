@@ -18,27 +18,31 @@ let s:false = 0
 " Init
 " let g:session_loaded = s:false
 " let g:session_loaded = s:true
-let s:save_session_flag = s:true " TabMerge時用のフラグ
-let g:save_window_file = expand('~/.vimsessions/.vimwinpos')
-
-if isdirectory(expand("$HOME")."/.vimsessions") != 1
-    call mkdir($HOME."/.vimsessions","p")
+if !exists("g:myvimsessions_folder")
+    let g:myvimsessions_folder = "~/.vimsessions"
 endif
 
-augroup ISHISESSION
+let s:save_session_flag = s:true " TabMerge, ClearSession時用のフラグ
+let s:save_window_file = expand(g:myvimsessions_folder) . '/.vimwinpos'
+
+if isdirectory(g:myvimsessions_folder) != 1
+    call mkdir(g:myvimsessions_folder,"p")
+endif
+
+augroup MYSESSIONVIM
     autocmd!
     " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
-    autocmd VimEnter * nested if @% == '' && s:getbufbyte() == 0 | call s:load_session("lastsession.vim") | endif
-    autocmd VimLeavePre * call s:save_window()
-    autocmd VimLeavePre * if s:save_session_flag == s:true | call s:save_session("lastsession.vim") | endif
+    autocmd VimEnter * nested if @% == '' && s:getbufbyte() == 0 | call s:load_session("default.vim") | endif
+    autocmd VimLeavePre * call s:save_window(s:save_window_file)
+    autocmd VimLeavePre * if s:save_session_flag == s:true | call s:save_session("default.vim") | endif
 augroup END
 
 command! TabMerge call s:tab_merge()
-command! SaveSession call s:save_session("defaultsavedsession.vim")
-command! LoadSavedSession call s:load_session("defaultsavedsession.vim")
-command! LoadLastSession call s:load_session("lastsession.vim")
-
-" command! ClearSession call s:clear_session()
+command! SaveSession call s:save_session("savedsession.vim")
+command! LoadSavedSession call s:load_session("savedsession.vim")
+command! LoadLastSession call s:load_session("default.vim")
+command! LoadBackupSession call s:load_session('.backup.vim')
+command! ClearSessionAndQuit call s:clear_session()
 
 function! s:getbufbyte()
     let byte = line2byte(line('$') + 1)
@@ -52,50 +56,56 @@ endfunction
 " LOADING SESSION
 function! s:load_session(session_name) abort "{{{
     if has("gui_running")
-        execute "source" g:save_window_file
+        if filereadable(expand(s:save_window_file))
+            execute "source" s:save_window_file
+        endif
     endif
     " let g:session_loaded = s:true
-    execute "source" "~/.vimsessions/" . a:session_name
+    if filereadable(expand(g:myvimsessions_folder . '/' . a:session_name))
+        execute "source" g:myvimsessions_folder . "/" . a:session_name
+    else
+        echom "No session file the name of '" . a:session_name . "'"
+    endif
 endfunction "}}}
 " SAVING SESSION
 function! s:save_session(session_name) abort "{{{
     " if g:session_loaded == s:true
-    execute  "mksession! "  "~/.vimsessions/". a:session_name
+    execute  "mksession! "  g:myvimsessions_folder . "/" . a:session_name
 endfunction "}}}
 " SAVING WINDOW POSITION
-function! s:save_window() abort "{{{
+function! s:save_window(save_window_file) abort "{{{
     let options = [
                 \ 'set columns=' . &columns,
                 \ 'set lines=' . &lines,
                 \ 'winpos ' . getwinposx() . ' ' . getwinposy(),
                 \ ]
-    call writefile(options, g:save_window_file)
+    call writefile(options, a:save_window_file)
+endfunction "}}}
+" SESSION CREAR
+function! s:clear_session() abort "{{{
+    call s:save_session("default.vim")
+    call rename(expand(g:myvimsessions_folder) . '/default.vim',
+                \ expand(g:myvimsessions_folder) . '/.backup.vim')
+    let s:save_session_flag = s:false
+    quitall
 endfunction "}}}
 " TABMERGING
-function! s:tab_merge() abort "{{{
-    if len(split(serverlist())) > 1
-        tabnew
-        tabprevious
-        let l:send_file_path = expand("%")
-        quit
-        " let l:server_list = split(serverlist(),"\n")
-        " let l:send_server_name = l:server_list[0]
-        " echom l:send_server_name
-        call remote_send( "GVIM", "<ESC><ESC>:tabnew " . l:send_file_path . "<CR>")
-        call remote_foreground("GVIM")
-        let s:save_session_flag = s:false
-        quitall
-    else
-        echo "ウィンドウがひとつだけのためマージできません"
-    endif
-endfunction "}}}
-" SESSION CREAR (DESABLED)
-" function! s:clear_session() abort "{{{
-" 	call s:save_session()
-" 	call rename(expand($HOME) . '/.vimsessions/default.vim' ,expand($HOME) . '/.vimsessions/backup.vim')
-"
-" 	let s:save_session_flag = 1
-" 	quitall
+" function! s:tab_merge() abort "{{{
+"     if len(split(serverlist())) > 1
+"         tabnew
+"         tabprevious
+"         let l:send_file_path = expand("%")
+"         quit
+"         " let l:server_list = split(serverlist(),"\n")
+"         " let l:send_server_name = l:server_list[0]
+"         " echom l:send_server_name
+"         call remote_send( "GVIM", "<ESC><ESC>:tabnew " . l:send_file_path . "<CR>")
+"         call remote_foreground("GVIM")
+"         let s:save_session_flag = s:false
+"         quitall
+"     else
+"         echo "ウィンドウがひとつだけのためマージできません"
+"     endif
 " endfunction "}}}
 " START UP LOADING (DESABLED)
 " function! s:load_session_on_startup() abort "{{{
@@ -104,10 +114,10 @@ endfunction "}}}
 " 			"ほかにVimが起動していなければ
 " 			" if len(split(serverlist())) == 1 || serverlist() == ''
 " 			if serverlist() == ""
-" 				silent source ~/.vimsessions/default.vim
+" 				silent source expand("g:myvimsessions_folder") .  "/default.vim"
 " 			endif
 " 			" デバッグ用
-" 			" source ~/.vimsessions/default.vim
+" 			" source expand("g:myvimsessions_folder"). /default.vim
 " 		endif
 " 	endif
 " endfunction "}}}
