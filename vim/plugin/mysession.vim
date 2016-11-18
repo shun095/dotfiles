@@ -63,14 +63,16 @@ function! s:load_session(session_name) abort "{{{
     " let g:session_loaded = s:true
     if filereadable(expand(g:myvimsessions_folder . '/' . a:session_name))
         execute "source" g:myvimsessions_folder . "/" . a:session_name
+        echom "Session file the name of '" . g:myvimsessions_folder . "/" . a:session_name . "' was loaded."
     else
-        echom "No session file the name of '" . a:session_name . "'"
+        echom "No session file the name of '" . g:myvimsessions_folder . "/" . a:session_name . "'."
     endif
 endfunction "}}}
 " SAVING SESSION
 function! s:save_session(session_name) abort "{{{
     " if g:session_loaded == s:true
     execute  "mksession! "  g:myvimsessions_folder . "/" . a:session_name
+    echom "Session saved to '" . g:myvimsessions_folder . "/" . a:session_name . "'."
 endfunction "}}}
 " SAVING WINDOW POSITION
 function! s:save_window(save_window_file) abort "{{{

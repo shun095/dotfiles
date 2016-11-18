@@ -1,5 +1,9 @@
 let s:save_cpo = &cpo
 set cpo&vim
+if exists("g:loaded_myrosmake_plugin")
+    finish
+endif
+let g:loaded_myrosmake_plugin = 1
 
 function! s:rosmake(filename)
     " Save current settings
