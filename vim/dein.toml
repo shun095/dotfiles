@@ -670,7 +670,7 @@ repo = "osyo-manga/shabadou.vim"
 repo = "osyo-manga/vim-watchdogs" # {{{
 depends = [ 'vim-quickrun', 'shabadou.vim' ]
 hook_add = '''
-     let g:watchdogs_check_BufWritePost_enable = 1
+     let g:watchdogs_check_BufWritePost_enable = 0
      let g:watchdogs_check_CursorHold_enable = 0
 ''' # }}}
 # }}}
@@ -682,14 +682,6 @@ repo = "dbakker/vim-lint"
 repo = 'tyru/open-browser.vim.git' 
 [[plugins]]
 repo = "tmux-plugins/vim-tmux"
-[[plugins]]
-repo = "osyo-manga/vim-brightest"
-hook_add = '''
-let g:brightest#highlight = {
-\   "group" : "BrightestReverse"
-\}
-'''
-
 [[plugins]]
 repo = "osyo-manga/vim-anzu"
 hook_add = '''

@@ -7,7 +7,7 @@ if has("gui_running")
 
     set linespace=1
     set cmdheight=2
-    set guioptions=rLchb
+    set guioptions=rLchbtTm
     " フォントを設定
     if has("win32")
         " set guifont=Myrica_M_for_Powerline:h12

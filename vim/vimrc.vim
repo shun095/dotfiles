@@ -57,7 +57,7 @@ set showcmd          " 入力中のコマンドを右下に表示
 set cmdheight=2      " コマンドラインの高さ
 set showtabline=2    " タブバーを常に表示
 set number           " 行番号表示
-set relativenumber
+set norelativenumber
 set hlsearch         " 文字列検索時にハイライトする
 set incsearch        " 文字入力中に検索を開始
 set ruler            " 右下の現在行の表示
@@ -89,8 +89,8 @@ set fileformats=unix,dos,mac
 " Vim側のエンコーディングの設定
 set encoding=utf-8
 source $VIMRUNTIME/delmenu.vim
-" set langmenu=ja_jp.utf-8
-set langmenu=en_us.utf-8
+set langmenu=ja_jp.utf-8
+" set langmenu=en_us.utf-8
 source $VIMRUNTIME/menu.vim
 
 " set undofileでアンドゥデータをファイルを閉じても残しておく

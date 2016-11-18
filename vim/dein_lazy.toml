@@ -20,10 +20,9 @@ repo = 'osyo-manga/vim-precious'# {{{
 on_cmd = ["PreciousReset", "PreciousSwitch"]
 depends = ['context_filetype.vim']
 hook_add = '''
-    " let g:context_filetype#search_offset = 300
-    " NORMALモードのカーソル移動中に頻繁に切り替わるとうざいのでデフォは無効化しておく(helpは例外)
-    " let g:precious_enable_switch_CursorMoved = { '*' : 0 }
-    " let g:precious_enable_switch_CursorHold = { '*' : 0 }
+    let g:context_filetype#search_offset = 300
+    let g:precious_enable_switch_CursorMoved = { '*' : 0 }
+    let g:precious_enable_switch_CursorHold = { '*' : 1 }
     " INSERTモードのON／OFFに合わせてトグル
     augroup PreciousAuto
         autocmd InsertEnter * :PreciousSwitch
@@ -347,3 +346,10 @@ on_ft = 'css'# }}}
 repo =  'vim-scripts/JavaScript-Indent'# {{{
 on_ft = 'javascript'# }}}
 # }}}
+repo = "osyo-manga/vim-brightest"
+on_cmd = ['BrightestEnable']
+hook_add = '''
+let g:brightest#highlight = {
+\   "group" : "BrightestReverse"
+\}
+'''
