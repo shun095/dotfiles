@@ -728,3 +728,5 @@ hook_add = '''
 '''
 [[plugins]]
 repo = 'rdnetto/YCM-Generator'
+[[plugins]]
+repo = 'sjl/gundo.vim'
