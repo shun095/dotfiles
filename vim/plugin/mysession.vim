@@ -25,8 +25,8 @@ endif
 let s:save_session_flag = s:true " TabMerge, ClearSession時用のフラグ
 let s:save_window_file = expand(g:myvimsessions_folder) . '/.vimwinpos'
 
-if isdirectory(g:myvimsessions_folder) != 1
-    call mkdir(g:myvimsessions_folder,"p")
+if isdirectory(expand(g:myvimsessions_folder)) != 1
+    call mkdir(expand(g:myvimsessions_folder),"p")
 endif
 
 augroup MYSESSIONVIM
