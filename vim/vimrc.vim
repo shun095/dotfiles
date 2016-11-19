@@ -312,14 +312,62 @@ if g:use_plugins == s:true
         " highlight! StatusLineNC ctermbg=235 guibg=#282C34
         highlight! IncSearch ctermbg=114 guibg=#98C379
     endif
-    
+
+    function! s:NiceLexplore(on_bufferdir)
+        " 常に幅30で開く
+        let g:netrw_winsize = float2nr(round(35.0 / winwidth(0) * 100))
+        if a:on_bufferdir == 1
+            Lexplore %:p:h
+        else
+            Lexplore
+        endif
+    endfunction
+
+    " function! s:NiceLexplore(on_bufferdir)
+    "     if exists("t:expl_buf_num")
+    "         let expl_win_num = bufwinnr(t:expl_buf_num)
+    "         if expl_win_num != -1
+    "             let cur_win_nr = winnr()
+    "             exec expl_win_num . 'wincmd w'
+    "             close
+    "             exec cur_win_nr . 'wincmd w'
+    "             unlet t:expl_buf_num
+    "         else
+    "             unlet t:expl_buf_num
+    "         endif
+    "     else
+    "         exec '1wincmd w'
+    "         let g:netrw_winsize = float2nr(round(35.0 / winwidth(0) * 100))
+    "         if a:on_bufferdir == s:true
+    "             Vexplore %:p:h
+    "         else
+    "             Vexplore .
+    "         endif
+    "         let t:expl_buf_num = bufnr("%")
+    "     endif
+    " endfunction
+
+    " let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
     let g:netrw_browse_split = 4
-    " let g:netrw_winsize = 20
-    let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
-    let g:netrw_liststyle = 1
+    let g:netrw_banner = 0
+    let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+    let g:netrw_liststyle = 0
     let g:netrw_alto = 1
     let g:netrw_altv = 1
-    nnoremap <Leader>e :Vexplore<CR>
+
+    " バッファファイルのディレクトリで開く
+    nnoremap <Leader>e :call <SID>NiceLexplore(1)<CR>
+    " カレントディレクトリで開く
+    nnoremap <Leader>E :call <SID>NiceLexplore(0)<CR>
+
+    augroup MyNetrw
+        autocmd!
+        " for toggle
+        autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
+
+        " autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
+        " autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
+    augroup END
     " }}}
 else "if use_plugins == s:false
     " Without plugins settings {{{
