@@ -50,18 +50,18 @@ hook_add = '''
     " reset not it is <C-l> normally
     nnoremap <space>r <Plug>(unite_restart)
 '''# }}}
-[[plugins]]
-repo = 'Shougo/unite-outline'# {{{
-depends = ['unite.vim']# }}}
-[[plugins]]
-repo = 'Shougo/neomru.vim'# {{{
-depends = ['unite.vim']# }}}
-[[plugins]]
-repo = 'ujihisa/unite-colorscheme'# {{{
-depends = ['unite.vim']# }}}
-[[plugins]]
-repo = 'Shougo/neossh.vim' # {{{
-depends = ['unite.vim']# }}}
+# [[plugins]]
+# repo = 'Shougo/unite-outline'# {{{
+# depends = ['unite.vim']# }}}
+# [[plugins]]
+# repo = 'Shougo/neomru.vim'# {{{
+# depends = ['unite.vim']# }}}
+# [[plugins]]
+# repo = 'ujihisa/unite-colorscheme'# {{{
+# depends = ['unite.vim']# }}}
+# [[plugins]]
+# repo = 'Shougo/neossh.vim' # {{{
+# depends = ['unite.vim']# }}}
 [[plugins]]
 repo = 'Shougo/vimshell.vim'# {{{
 depends = ['vimproc.vim']# }}}
@@ -77,9 +77,9 @@ hook_add = '''
     let g:ctrlp_extensions = [ 'mixed', 'filer']
     let g:ctrlp_max_files = 5000
 '''# }}}
-[[plugins]]
-repo = 'mattn/ctrlp-filer'# {{{
-depends = 'ctrlpvim/ctrlp.vim'# }}}
+# [[plugins]]
+# repo = 'mattn/ctrlp-filer'# {{{
+# depends = 'ctrlpvim/ctrlp.vim'# }}}
 [[plugins]]
 repo = 'tyru/caw.vim.git'
 [[plugins]]
