@@ -13,15 +13,15 @@ hook_add = '''
     " 入力モードで開始する
     let g:unite_force_overwrite_statusline = 0
     let g:unite_enable_start_insert = 0
-    nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-    nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
-    nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
-    nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
-    nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
-    " Unite All
-    nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-    " UniteOutLine
-    nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
+    " nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
+    " nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
+    " nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
+    " nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
+    " nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
+    " " Unite All
+    " nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+    " " UniteOutLine
+    " nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
     " ウィンドウを分割して開く
     au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
     au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
@@ -48,7 +48,7 @@ hook_add = '''
     " search a file in the filetree
     " nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
     " reset not it is <C-l> normally
-    nnoremap <space>r <Plug>(unite_restart)
+    " nnoremap <space>r <Plug>(unite_restart)
 '''# }}}
 # [[plugins]]
 # repo = 'Shougo/unite-outline'# {{{
@@ -64,12 +64,12 @@ hook_add = '''
 # depends = ['unite.vim']# }}}
 [[plugins]]
 repo = 'Shougo/vimshell.vim'# {{{
-depends = ['vimproc.vim']# }}}
+depends = ['vimproc.vim']
 hook_add = '''
 let g:vimshell_prompt = "% "
 let g:vimshell_secondary_prompt = "> "
 let g:vimshell_user_prompt = 'getcwd()'
-'''
+'''# }}}
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'# {{{
 hook_add = '''
@@ -145,7 +145,7 @@ endif
 #     let g:indentLine_color_gui = "#3B4048"
 # '''# }}}
 [[plugins]]
-repo = "nathanaelkane/vim-indent-guides"
+repo = "nathanaelkane/vim-indent-guides"# {{{
 hook_add = '''
     let g:indent_guides_guide_size = 0
     let g:indent_guides_color_change_percent = 5
@@ -163,7 +163,7 @@ hook_add = '''
          autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
          autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
     endif
-'''
+'''# }}}
 # [[plugins]]
 # repo = "szw/vim-tags"# {{{
 # hook_add = '''
@@ -682,16 +682,16 @@ repo = "dbakker/vim-lint"
 # [[plugins]]
 # repo = "Kuniwak/vint"
 [[plugins]]
-repo = 'tyru/open-browser.vim.git' 
+repo = 'tyru/open-browser.vim.git' # {{{
 hook_add = '''
     let g:netrw_nogx = 1 " disable netrw's gx mapping.
     nmap gx <Plug>(openbrowser-smart-search)
     vmap gx <Plug>(openbrowser-smart-search)
-'''
+'''# }}}
 [[plugins]]
 repo = "tmux-plugins/vim-tmux"
 [[plugins]]
-repo = "osyo-manga/vim-anzu"
+repo = "osyo-manga/vim-anzu"# {{{
 hook_add = '''
 " mapping
 nmap n <Plug>(anzu-n-with-echo)
@@ -711,9 +711,9 @@ set statusline=%{anzu#search_status()}
 " anzu-mode is anzu(12/51) in screen
 " nmap n <Plug>(anzu-mode-n)
 " nmap N <Plug>(anzu-mode-N)
-'''
+'''# }}}
 [[plugins]]
-repo = 'Valloric/YouCompleteMe'
+repo = 'Valloric/YouCompleteMe'# {{{
 hook_add = '''
     let g:ycm_global_ycm_extra_conf = 
                 \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
@@ -725,8 +725,11 @@ hook_add = '''
         let g:ycm_python_binary_path = "/usr/bin/python"
         " let g:ycm_python_binary_path = "/usr/bin/python3"
     endif
-'''
+'''# }}}
 [[plugins]]
 repo = 'rdnetto/YCM-Generator'
 [[plugins]]
 repo = 'sjl/gundo.vim'
+hook_add = '''
+    nnoremap <Leader>gu :<C-u>GundoToggle<CR>
+'''

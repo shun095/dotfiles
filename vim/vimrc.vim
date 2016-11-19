@@ -286,7 +286,7 @@ if g:use_plugins == s:true
 
     if dein#check_install()
         augroup VIMRC
-            autocmd VimEnter * nested call s:confirm_do_dein_install()
+            autocmd VimEnter * call s:confirm_do_dein_install()
         augroup END
     endif
 
