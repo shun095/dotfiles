@@ -46,7 +46,7 @@ hook_add = '''
     " catch
     " endtry
     " search a file in the filetree
-    nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
+    " nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
     " reset not it is <C-l> normally
     nnoremap <space>r <Plug>(unite_restart)
 '''# }}}
@@ -73,9 +73,12 @@ let g:vimshell_user_prompt = 'getcwd()'
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'# {{{
 hook_add = '''
-    let g:ctrlp_cmd = "CtrlPMRUFiles"
-    let g:ctrlp_extensions = [ 'mixed', 'filer']
+    " let g:ctrlp_cmd = "CtrlPMRUFiles"
+    let g:ctrlp_extensions = ['mixed']
     let g:ctrlp_max_files = 5000
+    nnoremap <leader>pm :<C-u>CtrlPMRUFiles<cr>
+    nnoremap <leader>pf :<C-u>CtrlPCurWD<cr>
+    nnoremap <leader>pr :<C-u>CtrlPClearCache<cr>
 '''# }}}
 # [[plugins]]
 # repo = 'mattn/ctrlp-filer'# {{{
@@ -680,6 +683,11 @@ repo = "dbakker/vim-lint"
 # repo = "Kuniwak/vint"
 [[plugins]]
 repo = 'tyru/open-browser.vim.git' 
+hook_add = '''
+    let g:netrw_nogx = 1 " disable netrw's gx mapping.
+    nmap gx <Plug>(openbrowser-smart-search)
+    vmap gx <Plug>(openbrowser-smart-search)
+'''
 [[plugins]]
 repo = "tmux-plugins/vim-tmux"
 [[plugins]]
@@ -711,8 +719,11 @@ hook_add = '''
                 \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
                 \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
+
+    " setting of the which python is used
     if has("unix")
         let g:ycm_python_binary_path = "/usr/bin/python"
+        " let g:ycm_python_binary_path = "/usr/bin/python3"
     endif
 '''
 [[plugins]]

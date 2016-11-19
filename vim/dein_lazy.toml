@@ -348,6 +348,6 @@ on_event = ['VimEnter']
 # on_cmd = ['BrightestEnable']
 hook_add = '''
 let g:brightest#highlight = {
-\   "group" : "BrightestReverse"
+\   "group" : "BrightestUnderline"
 \}
 '''
