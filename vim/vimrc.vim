@@ -349,7 +349,7 @@ if g:use_plugins == s:true
 
     " let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
     let g:netrw_browse_split = 4
-    let g:netrw_banner = 0
+    let g:netrw_banner = 1
     let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
     let g:netrw_liststyle = 0
     let g:netrw_alto = 1
