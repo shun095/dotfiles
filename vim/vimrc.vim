@@ -314,7 +314,7 @@ if g:use_plugins == s:true
     endif
 
     function! s:NiceLexplore(on_bufferdir)
-        " 常に幅30で開く
+        " 常に幅35で開く
         let g:netrw_winsize = float2nr(round(35.0 / winwidth(0) * 100))
         if a:on_bufferdir == 1
             Lexplore %:p:h
