@@ -36,7 +36,7 @@ hook_add = '''
     au FileType unite imap <silent> <buffer> <ESC><ESC> <ESC>q
 
     "nice unite and ag
-    let g:unite_source_history_yank_enable = 1
+    " let g:unite_source_history_yank_enable = 1
     " try
     let g:unite_source_rec_async_command =
                 \ ['ag', '--follow', '--nocolor', '--nogroup',
@@ -76,8 +76,9 @@ hook_add = '''
     " let g:ctrlp_cmd = "CtrlPMRUFiles"
     let g:ctrlp_extensions = ['mixed']
     let g:ctrlp_max_files = 5000
-    nnoremap <leader>pm :<C-u>CtrlPMRUFiles<cr>
+    nnoremap <leader>pm :<c-u>ctrlpmrufiles<cr>
     nnoremap <leader>pc :<C-u>CtrlPCurWD<cr>
+    nnoremap <space><space> :<C-u>CtrlPCurWD<cr>
     nnoremap <leader>pr :<C-u>CtrlPClearCache<cr>
 '''# }}}
 # [[plugins]]
@@ -91,12 +92,12 @@ repo = 'tpope/vim-surround'
 repo = 'junegunn/vim-easy-align'# {{{
 hook_add = '''
     " ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
-    vmap <Enter> <Plug>(EasyAlign)
+    vmap <Enter> <Plug>(LiveEasyAlign)
 
     " easy-align を呼んだ上で，移動したりテキストオブジェクトを指定して整形．(e.g. gaip)
-    nmap ga <Plug>(EasyAlign)
-    " Start interactive EasyAlign in visual mode (e.g. vipga)
-    xmap ga <Plug>(EasyAlign)
+    " nmap ga <Plug>(EasyAlign)
+    " " Start interactive EasyAlign in visual mode (e.g. vipga)
+    " xmap ga <Plug>(EasyAlign)
 '''# }}}
 [[plugins]]
 repo = 'easymotion/vim-easymotion'# {{{
@@ -663,7 +664,7 @@ hook_add = '''
                 "
      call watchdogs#setup(g:quickrun_config)
 
-    nnoremap <silent> <Leader>R :QuickRun<CR>
+    " nnoremap <silent> <Leader>R :QuickRun<CR>
     " nmap <Leader>R <Plug>(quickrun)
     nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 '''# }}}
@@ -733,3 +734,7 @@ repo = 'sjl/gundo.vim'
 hook_add = '''
     nnoremap <Leader>gu :<C-u>GundoToggle<CR>
 '''
+ # [[plugins]]
+ # repo = 'justinmk/vim-dirvish'
+ # [[plugins]]
+ # repo = 'scrooloose/nerdtree'

@@ -130,7 +130,7 @@ set omnifunc=syntaxcomplete#Complete
 nnoremap <silent> <ESC><ESC> :noh<CR>
 vnoremap * "zy:let @/ = @z <CR>n
 nnoremap * *N
-nnoremap <expr> <Leader>/ <SID>count_serch_number(":%s/<Cursor>/&/gn")
+" nnoremap <expr> <Leader>/ <SID>count_serch_number(":%s/<Cursor>/&/gn")
 "}}}
 
 " Commands {{{
@@ -152,9 +152,9 @@ function! s:move_cursor_pos_mapping(str, ...)
     return substitute(a:str, '<Cursor>', '', '') . lefts
 endfunction
 
-function! s:count_serch_number(str)
-    return s:move_cursor_pos_mapping(a:str, "\<Left>")
-endfunction
+" function! s:count_serch_number(str)
+"     return s:move_cursor_pos_mapping(a:str, "\<Left>")
+" endfunction
 
 function! s:ImInActivate() abort
     " call system('fcitx-remote -c')
@@ -312,7 +312,14 @@ if g:use_plugins == s:true
         " highlight! StatusLineNC ctermbg=235 guibg=#282C34
         highlight! IncSearch ctermbg=114 guibg=#98C379
     endif
-
+    
+    let g:netrw_browse_split = 4
+    " let g:netrw_winsize = 20
+    let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
+    let g:netrw_liststyle = 1
+    let g:netrw_alto = 1
+    let g:netrw_altv = 1
+    nnoremap <Leader>e :Vexplore<CR>
     " }}}
 else "if use_plugins == s:false
     " Without plugins settings {{{
