@@ -313,16 +313,6 @@ if g:use_plugins == s:true
         highlight! IncSearch ctermbg=114 guibg=#98C379
     endif
 
-    function! s:NiceLexplore(on_bufferdir)
-        " 常に幅35で開く
-        let g:netrw_winsize = float2nr(round(35.0 / winwidth(0) * 100))
-        if a:on_bufferdir == 1
-            Lexplore %:p:h
-        else
-            Lexplore
-        endif
-    endfunction
-
     " function! s:NiceLexplore(on_bufferdir)
     "     if exists("t:expl_buf_num")
     "         let expl_win_num = bufwinnr(t:expl_buf_num)
@@ -346,7 +336,16 @@ if g:use_plugins == s:true
     "         let t:expl_buf_num = bufnr("%")
     "     endif
     " endfunction
-
+    "
+    function! s:NiceLexplore(on_bufferdir)
+        " 常に幅35で開く
+        let g:netrw_winsize = float2nr(round(35.0 / winwidth(0) * 100))
+        if a:on_bufferdir == 1
+            Lexplore %:p:h
+        else
+            Lexplore
+        endif
+    endfunction
     " let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
     let g:netrw_browse_split = 4
     let g:netrw_banner = 1
@@ -364,8 +363,11 @@ if g:use_plugins == s:true
         autocmd!
         " for toggle
         autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
-
-        " autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
+        autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
+        autocmd FileType netrw unmap <silent><buffer>qf
+        autocmd FileType netrw unmap <silent><buffer>qF
+        autocmd FileType netrw unmap <silent><buffer>qL
+        autocmd FileType netrw unmap <silent><buffer>qb
         " autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
     augroup END
     " }}}
