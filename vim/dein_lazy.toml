@@ -279,7 +279,7 @@ repo = 'glidenote/memolist.vim'# {{{
 on_cmd = ['MemoNew', 'MemoList']
 hook_add = '''
     " let g:memolist_memo_suffix = 'txt'
-    let g:memolist_unite = 1
+    let g:memolist_unite = 0
 '''# }}}
 [[plugins]]
 repo = 'majutsushi/tagbar'# {{{
@@ -301,7 +301,7 @@ repo = 'basyura/bitly.vim.git'
 [[plugins]]
 repo = 'basyura/TweetVim.git'# {{{
 on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay']
-depends = ['bitly.vim', 'twibill.vim', 'neco-tweetvim', 'unite-tweetvim', 'open-browser.vim']
+depends = ['bitly.vim', 'twibill.vim', 'neco-tweetvim',  'open-browser.vim']
 hook_add = '''
     " 1ページに表示する最大数
     let g:tweetvim_tweet_per_page = 50
@@ -323,8 +323,8 @@ repo = 'basyura/twibill.vim.git'# {{{
 depends = ['open-browser.vim']# }}}
 [[plugins]]
 repo = 'yomi322/neco-tweetvim.git'
-[[plugins]]
-repo = 'yomi322/unite-tweetvim.git'
+# [[plugins]]
+# repo = 'yomi322/unite-tweetvim.git'
 # }}}
 # HTML CSS JS PLUGINS {{{
 [[plugins]]
