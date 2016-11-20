@@ -344,10 +344,10 @@ endif " use_plugins end
 "     endif
 " endfunction
 "
-function! s:NiceLexplore(on_bufferdir)
+function! s:NiceLexplore(open_on_bufferdir)
     " 常に幅35で開く
     let g:netrw_winsize = float2nr(round(30.0 / winwidth(0) * 100))
-    if a:on_bufferdir == 1
+    if a:open_on_bufferdir == 1
         Lexplore %:p:h
     else
         Lexplore
@@ -375,6 +375,8 @@ augroup MyNetrw
     autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
     autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
     autocmd FileType netrw nmap <silent><buffer>. gh
+    autocmd FileType netrw nmap <silent><buffer>h -
+    autocmd FileType netrw nmap <silent><buffer>l <CR>
     autocmd FileType netrw unmap <silent><buffer>qf
     autocmd FileType netrw unmap <silent><buffer>qF
     autocmd FileType netrw unmap <silent><buffer>qL
