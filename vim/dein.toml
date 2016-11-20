@@ -34,7 +34,7 @@ build = 'make'# }}}
 #     " ESCキーを2回押すと終了する
 #     au FileType unite nmap <silent> <buffer> <ESC><ESC> q
 #     au FileType unite imap <silent> <buffer> <ESC><ESC> <ESC>q
-# 
+#
 #     "nice unite and ag
 #     " let g:unite_source_history_yank_enable = 1
 #     " try
@@ -140,7 +140,7 @@ if has('win32') != 0
         let g:mkdp_path_to_chrome=s:google_chrome_path
     else
         let g:mkdp_path_to_chrome=s:google_chrome_path32
-    endif 
+    endif
 endif
 '''# }}}
 # [[plugins]]
@@ -300,7 +300,7 @@ hook_add = '''
 # hook_add = '''
 # if v:version >= 800 " バージョン８以降ならTimer使って時刻表示
 #     let g:currenttime = strftime("%H時%M分%S秒")
-# 
+#
 #     function! SetCurrentTime()
 #         let tempTimer = timer_start(1000, 'CheckTemp', {'repeat' : -1})
 #         function! CheckTemp(tempTimer)
@@ -312,20 +312,20 @@ hook_add = '''
 #             endtry
 #         endfunction
 #     endfunction
-# 
+#
 #     call SetCurrentTime()
-# 
+#
 # else
 #     let g:currenttime = ""
 # endif
-# 
+#
 # function! ReturnCurrentTime()
 #     if &filetype == 'vimfiler'
 #         return ''
 #     else
 #     return g:currenttime
 # endfunction
-# 
+#
 # " function! LightLineModified() {{{
 # "     return &ft =~ 'help\|vimfiler' ? '' : &modified ? '+' : &modifiable ? '' : '-'
 # " endfunction
@@ -386,7 +386,7 @@ hook_add = '''
 # "                             \    'left': '⮁', 'right': '⮃'
 # "                             \}
 # "             endif }}}
-# 
+#
 # " {{{
 # let g:lightline = {
 #             \ 'colorscheme': 'onedark_custom',
@@ -439,11 +439,11 @@ hook_add = '''
 #                             \    'left': '⮁', 'right': '⮃'
 #                             \}
 #             endif " }}}
-# 
+#
 #     function! LightLineModified()
 #       return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
 #     endfunction
-# 
+#
 #     function! LightLineReadonly()
 #         if has("gui_running")
 #             return &ft !~? 'help\|vimfiler' && &readonly ? '⭤' : ''
@@ -451,10 +451,10 @@ hook_add = '''
 #             return &ft !~? 'help\|vimfiler' && &readonly ? '[RO]' : ''
 #         endif
 #     endfunction
-# 
+#
 #     function! LightLineFilename()
 #       let fname = expand('%:t')
-#       return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? 
+#       return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ?
 #                   \ lightline#concatenate([g:lightline.ctrlp_byfname, g:lightline.ctrlp_regex_string],0) :
 #             \ fname == '__Tagbar__' ? g:lightline.fname :
 #             \ fname =~ '__Gundo\|NERD_tree' ? '' :
@@ -465,7 +465,7 @@ hook_add = '''
 #             \ ('' != fname ? fname : '[No Name]') .
 #             \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
 #     endfunction
-# 
+#
 #     function! LightLineFugitive()
 #         try
 #             if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
@@ -481,19 +481,19 @@ hook_add = '''
 #         endtry
 #         return ''
 #     endfunction
-# 
+#
 #     function! LightLineFileformat()
 #       return winwidth(0) > 70 ? &fileformat : ''
 #     endfunction
-# 
+#
 #     function! LightLineFiletype()
 #       return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
 #     endfunction
-# 
+#
 #     function! LightLineFileencoding()
 #       return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
 #     endfunction
-# 
+#
 #     function! LightLineMode()
 #       let fname = expand('%:t')
 #       return fname == '__Tagbar__' ? 'Tagbar' :
@@ -507,7 +507,7 @@ hook_add = '''
 #             \ lightline#mode()
 #             " \ winwidth(0) > 60 ? lightline#mode() : ''
 #     endfunction
-# 
+#
 #     function! CtrlPMark()
 #         if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
 #             call lightline#link('iv'[g:lightline.ctrlp_regex])
@@ -518,7 +518,7 @@ hook_add = '''
 #             return ''
 #         endif
 #     endfunction
-# 
+#
 #     function! CtrlPCurrent()
 #         if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
 #             return g:lightline.ctrlp_item
@@ -526,7 +526,7 @@ hook_add = '''
 #             return ''
 #         endif
 #     endfunction
-# 
+#
 #     function! CtrlPNext() abort
 #         if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
 #             return g:lightline.ctrlp_next
@@ -534,13 +534,13 @@ hook_add = '''
 #             return ''
 #         endif
 #     endfunction
-# 
+#
 #     let g:ctrlp_status_func = {}
 #     let g:ctrlp_status_func = {
 #       \ 'main': 'CtrlPStatusFunc_1',
 #       \ 'prog': 'CtrlPStatusFunc_2',
 #       \ }
-# 
+#
 #     function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
 #         let g:lightline.ctrlp_byfname = a:byfname
 #         let g:lightline.ctrlp_regex = a:regex
@@ -550,18 +550,18 @@ hook_add = '''
 #         let g:lightline.ctrlp_next = a:next
 #         return lightline#statusline(0)
 #     endfunction
-# 
+#
 #     function! CtrlPStatusFunc_2(str)
 #         return a:str
 #     endfunction
-# 
+#
 #     let g:tagbar_status_func = 'TagbarStatusFunc'
-# 
+#
 #     function! TagbarStatusFunc(current, sort, fname, ...) abort
 #         let g:lightline.fname = a:fname
 #       return lightline#statusline(0)
 #     endfunction
-# 
+#
 #      " augroup AutoSyntastic
 #      "   autocmd!
 #      "   autocmd BufWritePost *.c,*.cpp call s:syntastic()
@@ -570,7 +570,7 @@ hook_add = '''
 #       SyntasticCheck
 #       call lightline#update()
 #     endfunction
-# 
+#
 #     let g:unite_force_overwrite_statusline = 0
 #     let g:vimfiler_force_overwrite_statusline = 0
 #     let g:vimshell_force_overwrite_statusline = 0
@@ -638,7 +638,7 @@ hook_add = '''
                 \ 'outputter': 'browser'
                 \ }
 
-    let s:config = { 
+    let s:config = {
                 \"cpp" : {
                 \    "hook/add_include_option/enable" : 1
                 \    },
@@ -720,7 +720,7 @@ set statusline=%{anzu#search_status()}
 [[plugins]]
 repo = 'Valloric/YouCompleteMe'# {{{
 hook_add = '''
-    let g:ycm_global_ycm_extra_conf = 
+    let g:ycm_global_ycm_extra_conf =
                 \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
                 \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
