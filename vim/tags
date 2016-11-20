@@ -13,17 +13,22 @@ $MYVIMHOME	.\vimrc.vim	/^let $MYVIMHOME=expand("$HOME") . "\/dotfiles\/vim"$/;"	
 <C-V>	.\archive\generalkeymode.vim	/^inoremap <C-V> <ESC>"*p$/;"	m
 <C-]>	.\archive\neobundlesettings.vim	/^nnoremap <C-]> g<C-]>$/;"	m
 <ESC><ESC>	.\vimrc.vim	/^nnoremap <silent> <ESC><ESC> :noh<CR>$/;"	m
-<Leader>E	.\vimrc.vim	/^    nnoremap <Leader>E :Vexplore %:p<CR>$/;"	m
-<Leader>e	.\vimrc.vim	/^    nnoremap <Leader>e :Vexplore<CR>$/;"	m
+<Leader>E	.\vimrc.vim	/^nnoremap <Leader>E :call <SID>NiceLexplore(0)<CR>$/;"	m
+<Leader>e	.\vimrc.vim	/^nnoremap <Leader>e :call <SID>NiceLexplore(1)<CR>$/;"	m
 CdCurrent	.\vimrc.vim	/^command! CdCurrent cd\\ %:h$/;"	c
-ISHISESSION	.\plugin\mysession.vim	/^augroup ISHISESSION$/;"	a
+ClearSessionAndQuit	.\plugin\mysession.vim	/^command! ClearSessionAndQuit call s:clear_session()$/;"	c
 ImInActivate	.\vimrc.vim	/^function! s:ImInActivate() abort$/;"	f
-LoadLastSession	.\plugin\mysession.vim	/^command! LoadLastSession call s:load_session("lastsession.vim")$/;"	c
-LoadSavedSession	.\plugin\mysession.vim	/^command! LoadSavedSession call s:load_session("defaultsavedsession.vim")$/;"	c
+LoadBackupSession	.\plugin\mysession.vim	/^command! LoadBackupSession call s:load_session('.backup.vim')$/;"	c
+LoadLastSession	.\plugin\mysession.vim	/^command! LoadLastSession call s:load_session("default.vim")$/;"	c
+LoadSavedSession	.\plugin\mysession.vim	/^command! LoadSavedSession call s:load_session("savedsession.vim")$/;"	c
+MYSESSIONVIM	.\plugin\mysession.vim	/^augroup MYSESSIONVIM$/;"	a
 MyHtmlForm	.\plugin\myhtmlform.vim	/^augroup MyHtmlForm$/;"	a
+MyNetrw	.\vimrc.vim	/^augroup MyNetrw$/;"	a
+NiceLexplore	.\vimrc.vim	/^function! s:NiceLexplore(on_bufferdir)$/;"	f
+ROSMAKE	.\plugin\myrosmake.vim	/^    augroup ROSMAKE$/;"	a
 RosmakePackage	.\plugin\myrosmake.vim	/^    command! RosmakePackage call s:rosmake("manifest.xml")$/;"	c
 RosmakeWorkspace	.\plugin\myrosmake.vim	/^    command! RosmakeWorkspace call s:rosmake("stack.xml")$/;"	c
-SaveSession	.\plugin\mysession.vim	/^command! SaveSession call s:save_session("defaultsavedsession.vim")$/;"	c
+SaveSession	.\plugin\mysession.vim	/^command! SaveSession call s:save_session("savedsession.vim")$/;"	c
 TabMerge	.\plugin\mysession.vim	/^command! TabMerge call s:tab_merge()$/;"	c
 TestErrFmt	.\archive\test.vim	/^function! TestErrFmt(errfmt,lines)$/;"	f
 TimerAlert	.\plugin\mytimer.vim	/^function! TimerAlert(timer)$/;"	f
@@ -36,16 +41,22 @@ TimerStop	.\plugin\mytimer.vim	/^function! s:TimerStop() abort$/;"	f
 VIMRC	.\vimrc.vim	/^        augroup VIMRC$/;"	a
 VIMRC	.\vimrc.vim	/^augroup VIMRC$/;"	a
 Wsudo	.\vimrc.vim	/^    command! Wsudo execute("w !sudo tee % > \/dev\/null")$/;"	c
+clear_session	.\plugin\mysession.vim	/^function! s:clear_session() abort "{{{$/;"	f
 confirm_do_dein_install	.\vimrc.vim	/^function! s:confirm_do_dein_install() abort$/;"	f
 cpp	.\archive\neobundlesettings.vim	/^augroup cpp-path$/;"	a
 g:cpp_class_scope_highlight	.\archive\neobundlesettings.vim	/^let g:cpp_class_scope_highlight = 1$/;"	v
 g:lightline#colorscheme#onedark_custom#palette	.\autoload\lightline\colorscheme\onedark_custom.vim	/^let g:lightline#colorscheme#onedark_custom#palette = lightline#colorscheme#flatten(s:p)$/;"	v
+g:loaded_myrosmake_plugin	.\plugin\myrosmake.vim	/^let g:loaded_myrosmake_plugin = 1$/;"	v
 g:loaded_mysession_plugin	.\plugin\mysession.vim	/^let g:loaded_mysession_plugin = 1$/;"	v
-g:netrw_browse_split	.\vimrc.vim	/^    let g:netrw_browse_split = 4$/;"	v
-g:netrw_winsize	.\vimrc.vim	/^    let g:netrw_winsize = 20$/;"	v
+g:myvimsessions_folder	.\plugin\mysession.vim	/^    let g:myvimsessions_folder = "~\/.vimsessions"$/;"	v
+g:netrw_alto	.\vimrc.vim	/^let g:netrw_alto = 1$/;"	v
+g:netrw_altv	.\vimrc.vim	/^let g:netrw_altv = 1$/;"	v
+g:netrw_banner	.\vimrc.vim	/^let g:netrw_banner = 1$/;"	v
+g:netrw_browse_split	.\vimrc.vim	/^let g:netrw_browse_split = 4$/;"	v
+g:netrw_list_hide	.\vimrc.vim	/^let g:netrw_list_hide = '\\(^\\|\\s\\s\\)\\zs\\.\\S\\+'$/;"	v
+g:netrw_liststyle	.\vimrc.vim	/^let g:netrw_liststyle = 0$/;"	v
 g:plugins_lazy_toml	.\vimrc.vim	/^    let g:plugins_lazy_toml = '$MYVIMHOME\/dein_lazy.toml'$/;"	v
 g:plugins_toml	.\vimrc.vim	/^    let g:plugins_toml = '$MYVIMHOME\/dein.toml'$/;"	v
-g:save_window_file	.\plugin\mysession.vim	/^let g:save_window_file = expand('~\/.vimsessions\/.vimwinpos')$/;"	v
 g:use_plugins	.\vimrc.vim	/^        let g:use_plugins = s:true$/;"	v
 g:use_plugins	.\vimrc.vim	/^    let g:use_plugins = s:false$/;"	v
 g:use_plugins	.\vimrc.vim	/^    let g:use_plugins = s:true$/;"	v
@@ -55,6 +66,7 @@ g:visualstudio_enableerrormarker	.\archive\neobundlesettings.vim	/^let g:visuals
 g:visualstudio_terminalencoding	.\archive\neobundlesettings.vim	/^let g:visualstudio_terminalencoding =500$/;"	v
 getbufbyte	.\plugin\mysession.vim	/^function! s:getbufbyte()$/;"	f
 load_session	.\plugin\mysession.vim	/^function! s:load_session(session_name) abort "{{{$/;"	f
+move_cursor_pos_mapping	.\vimrc.vim	/^function! s:move_cursor_pos_mapping(str, ...)$/;"	f
 myhtmlformat	.\plugin\myhtmlform.vim	/^function! s:myhtmlformat() abort$/;"	f
 rosmake	.\plugin\myrosmake.vim	/^function! s:rosmake(filename)$/;"	f
 s:black	.\autoload\lightline\colorscheme\onedark_custom.vim	/^let s:black = [ '#282C34', 235 ]$/;"	v
@@ -91,14 +103,14 @@ s:purple	.\autoload\lightline\colorscheme\onedark_custom.vim	/^let s:purple = [ 
 s:red	.\autoload\lightline\colorscheme\onedark_custom.vim	/^let s:red = [ '#E06C75', 204 ]$/;"	v
 s:save_cpo	.\plugin\myrosmake.vim	/^let s:save_cpo = &cpo$/;"	v
 s:save_cpo	.\plugin\mysession.vim	/^let s:save_cpo = &cpo$/;"	v
-s:save_session_flag	.\plugin\mysession.vim	/^let s:save_session_flag = s:true " TabMerge時用のフラグ$/;"	v
+s:save_session_flag	.\plugin\mysession.vim	/^let s:save_session_flag = s:true " TabMerge, ClearSession時用のフラグ$/;"	v
+s:save_window_file	.\plugin\mysession.vim	/^let s:save_window_file = expand(g:myvimsessions_folder) . '\/.vimwinpos'$/;"	v
 s:true	.\gvimrc.vim	/^    let s:true = 1$/;"	v
 s:true	.\plugin\mysession.vim	/^let s:true = 1$/;"	v
 s:true	.\vimrc.vim	/^let s:true = 1$/;"	v
 s:white	.\autoload\lightline\colorscheme\onedark_custom.vim	/^let s:white = [ '#ABB2BF', 145 ]$/;"	v
 s:yellow	.\autoload\lightline\colorscheme\onedark_custom.vim	/^let s:yellow = [ '#E5C07B', 180 ]$/;"	v
 save_session	.\plugin\mysession.vim	/^function! s:save_session(session_name) abort "{{{$/;"	f
-save_window	.\plugin\mysession.vim	/^function! s:save_window() abort "{{{$/;"	f
+save_window	.\plugin\mysession.vim	/^function! s:save_window(save_window_file) abort "{{{$/;"	f
 set_statusline	.\vimrc.vim	/^function! s:set_statusline() abort$/;"	f
-tab_merge	.\plugin\mysession.vim	/^function! s:tab_merge() abort "{{{$/;"	f
 time	.\archive\test.py	/^import time$/;"	i

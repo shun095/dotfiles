@@ -76,7 +76,7 @@ hook_add = '''
     " let g:ctrlp_cmd = "CtrlPMRUFiles"
     let g:ctrlp_extensions = ['mixed']
     let g:ctrlp_max_files = 5000
-    nnoremap <leader>pm :<c-u>ctrlpmrufiles<cr>
+    nnoremap <leader>pm :<c-u>CtrlPMRUFiles<cr>
     nnoremap <leader>pc :<C-u>CtrlPCurWD<cr>
     nnoremap <space><space> :<C-u>CtrlPCurWD<cr>
     nnoremap <leader>pr :<C-u>CtrlPClearCache<cr>

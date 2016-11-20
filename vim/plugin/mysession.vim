@@ -33,12 +33,14 @@ augroup MYSESSIONVIM
     autocmd!
     " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
     autocmd VimEnter * nested if @% == '' && s:getbufbyte() == 0 | call s:load_session("default.vim") | endif
+    autocmd CursorHold * if s:save_session_flag == s:true | call s:save_session("default.vim",s:false) | endif
+    autocmd CursorHoldI * if s:save_session_flag == s:true | call s:save_session("default.vim",s:false) | endif
     autocmd VimLeavePre * call s:save_window(s:save_window_file)
-    autocmd VimLeavePre * if s:save_session_flag == s:true | call s:save_session("default.vim") | endif
+    autocmd VimLeavePre * if s:save_session_flag == s:true | call s:save_session("default.vim",s:true) | endif
 augroup END
 
-command! TabMerge call s:tab_merge()
-command! SaveSession call s:save_session("savedsession.vim")
+" command! TabMerge call s:tab_merge()
+command! SaveSession call s:save_session("savedsession.vim",s:true)
 command! LoadSavedSession call s:load_session("savedsession.vim")
 command! LoadLastSession call s:load_session("default.vim")
 command! LoadBackupSession call s:load_session('.backup.vim')
@@ -69,10 +71,12 @@ function! s:load_session(session_name) abort "{{{
     endif
 endfunction "}}}
 " SAVING SESSION
-function! s:save_session(session_name) abort "{{{
+function! s:save_session(session_name,notify_flag) abort "{{{
     " if g:session_loaded == s:true
     execute  "mksession! "  g:myvimsessions_folder . "/" . a:session_name
-    echom "Session saved to '" . g:myvimsessions_folder . "/" . a:session_name . "'."
+    if a:notify_flag == s:true
+        echom "Session saved to '" . g:myvimsessions_folder . "/" . a:session_name . "'."
+    endif
 endfunction "}}}
 " SAVING WINDOW POSITION
 function! s:save_window(save_window_file) abort "{{{
@@ -85,7 +89,7 @@ function! s:save_window(save_window_file) abort "{{{
 endfunction "}}}
 " SESSION CREAR
 function! s:clear_session() abort "{{{
-    call s:save_session("default.vim")
+    call s:save_session("default.vim",s:false)
     call rename(expand(g:myvimsessions_folder) . '/default.vim',
                 \ expand(g:myvimsessions_folder) . '/.backup.vim')
     let s:save_session_flag = s:false
