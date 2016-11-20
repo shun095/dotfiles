@@ -80,9 +80,14 @@ hook_add = '''
     nnoremap <leader>pc :<C-u>CtrlPCurWD<cr>
     nnoremap <space><space> :<C-u>CtrlPCurWD<cr>
     nnoremap <leader>pr :<C-u>CtrlPClearCache<cr>
-    if executable('ag') && !has("win32")
-        let g:ctrlp_use_caching=0
-        let g:ctrlp_user_command='ag %s -i --nocolor --nogroup -g ""'
+    if executable('ag')
+        if !has("win32")
+            let g:ctrlp_use_caching=1
+            let g:ctrlp_user_command='ag %s -i --follow --nocolor --nogroup -g ""'
+        else
+            let g:ctrlp_use_caching=1
+            let g:ctrlp_user_command='ag -i --follow --nocolor --nogroup -g "" %s'
+        endif
     endif
 '''# }}}
 # [[plugins]]
@@ -130,9 +135,9 @@ repo = 'vim-scripts/TagHighlight'
 [[plugins]]
 repo = "iamcco/markdown-preview.vim"# {{{
 hook_add = '''
-let g:mkdp_auto_close = 1
-let g:mkdp_auto_open = 1
-let g:mkdp_auto_start = 1
+let g:mkdp_auto_close = 0
+let g:mkdp_auto_open = 0
+let g:mkdp_auto_start = 0
 if has('win32') != 0
     let s:google_chrome_path="C:/Program\ Files/Google/Chrome/Application/chrome.exe"
     let s:google_chrome_path32="C:/Program\ Files\ (x86)/Google/Chrome/Application/chrome.exe"
