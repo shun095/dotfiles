@@ -32,7 +32,7 @@ endif
 augroup MYSESSIONVIM
     autocmd!
     " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
-    autocmd VimEnter * nested if @% == '' && s:getbufbyte() == 0 | call s:load_session("default.vim") | endif
+    autocmd VimEnter * nested if @% == '' && s:getbufbyte() == 0 | call s:load_session("default.vim",s:false) | endif
     autocmd CursorHold * if s:save_session_flag == s:true | call s:save_session("default.vim",s:false) | endif
     autocmd CursorHoldI * if s:save_session_flag == s:true | call s:save_session("default.vim",s:false) | endif
     autocmd VimLeavePre * call s:save_window(s:save_window_file)
@@ -41,9 +41,9 @@ augroup END
 
 " command! TabMerge call s:tab_merge()
 command! SaveSession call s:save_session("savedsession.vim",s:true)
-command! LoadSavedSession call s:load_session("savedsession.vim")
-command! LoadLastSession call s:load_session("default.vim")
-command! LoadBackupSession call s:load_session('.backup.vim')
+command! LoadSavedSession call s:load_session("savedsession.vim",s:true)
+command! LoadLastSession call s:load_session("default.vim",s:true)
+command! LoadBackupSession call s:load_session('.backup.vim',s:true)
 command! ClearSessionAndQuit call s:clear_session()
 
 function! s:getbufbyte()
@@ -56,7 +56,7 @@ function! s:getbufbyte()
 endfunction
 
 " LOADING SESSION
-function! s:load_session(session_name) abort "{{{
+function! s:load_session(session_name,notify_flag) abort "{{{
     if has("gui_running")
         if filereadable(expand(s:save_window_file))
             execute "source" s:save_window_file
@@ -65,9 +65,13 @@ function! s:load_session(session_name) abort "{{{
     " let g:session_loaded = s:true
     if filereadable(expand(g:myvimsessions_folder . '/' . a:session_name))
         execute "source" g:myvimsessions_folder . "/" . a:session_name
-        echom "Session file the name of '" . g:myvimsessions_folder . "/" . a:session_name . "' was loaded."
+        if a:notify_flag == s:true
+            echom "Session file the name of '" . g:myvimsessions_folder . "/" . a:session_name . "' was loaded."
+        endif
     else
-        echom "No session file the name of '" . g:myvimsessions_folder . "/" . a:session_name . "'."
+        if a:notify_flag == s:true
+            echom "No session file the name of '" . g:myvimsessions_folder . "/" . a:session_name . "'."
+        endif
     endif
 endfunction "}}}
 " SAVING SESSION
