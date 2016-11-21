@@ -277,7 +277,7 @@ repo = 'glidenote/memolist.vim'# {{{
 on_cmd = ['MemoNew', 'MemoList']
 hook_add = '''
     " let g:memolist_memo_suffix = 'txt'
-    let g:memolist_unite = 0
+    let g:memolist_unite = 1
 '''# }}}
 [[plugins]]
 repo = 'majutsushi/tagbar'# {{{
@@ -308,9 +308,9 @@ hook_add = '''
     let g:tweetvim_display_username = 1
     let g:tweetvim_display_icon = 1
     " let g:tweetvim_async_post = 0
-    " nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
+    nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
     nnoremap <Leader>Tm :<C-u>TweetVimMentions<CR>
-    nnoremap <Leader>Tl :<C-u>TweetVimListStatuses 
+    " nnoremap <Leader>Tl :<C-u>TweetVimListStatuses 
     nnoremap <Leader>Tu :<C-u>TweetVimUserStream<CR>
     nnoremap <Leader>Ts :<C-u>TweetVimSay<CR>
 '''# }}}
