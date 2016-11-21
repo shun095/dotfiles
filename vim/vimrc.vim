@@ -71,8 +71,8 @@ set mouse=a    " マウスを有効化
 set nomousehide    " 入力中にポインタを消すかどうか
 set nolazyredraw
 set background=dark
-set sessionoptions=folds,help,tabpages,resize
-set updatetime=2000
+set sessionoptions=folds,help,tabpages
+set updatetime=4000
 
 if executable("ag")
     set grepprg=ag\ --nocolor\ --column\ --nogroup\ -S\ $*
@@ -172,16 +172,16 @@ function! s:confirm_do_dein_install() abort
     endif
 endfunction
 
-function! s:set_statusline() abort
-    if !exists("g:loaded_lightline")
-        " statusline settings
-        set statusline=%F%m%r%h%w%q%=
-        set statusline+=[%{&fileformat}]
-        set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
-        set statusline+=%y
-        set statusline+=%4p%%%5l:%-3c
-    endif
-endfunction
+" function! s:set_statusline() abort
+"     if !exists("g:loaded_lightline")
+"         " statusline settings
+"         set statusline=%F%m%r%h%w%q%=
+"         set statusline+=[%{&fileformat}]
+"         set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
+"         set statusline+=%y
+"         set statusline+=%4p%%%5l:%-3c
+"     endif
+" endfunction
 "}}}
 
 " Autocmds {{{
@@ -209,7 +209,7 @@ augroup VIMRC
     autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
     " autocmd FileType help echom "test"
     " autocmd FileType help execute "let &tags.=',' . expand('$VIMRUNTIME') . '/doc/tags'"
-    autocmd VimEnter * call s:set_statusline()
+    " autocmd VimEnter * call s:set_statusline()
 
     if has("unix")
         " linux用（fcitxでしか使えない）
@@ -315,6 +315,12 @@ if g:use_plugins == s:true
     " }}}
 else "if use_plugins == s:false
     " Without plugins settings {{{
+    " statusline settings
+    set statusline=%F%m%r%h%w%q%=
+    set statusline+=[%{&fileformat}]
+    set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
+    set statusline+=%y
+    set statusline+=%4p%%%5l:%-3c
     colorscheme torte
     set background=dark
     function! s:NiceLexplore(open_on_bufferdir)
@@ -382,6 +388,7 @@ else "if use_plugins == s:false
     " }}}
 endif " use_plugins end
 
+set guioptions+=M
 "
 
 " ==========Use Plugins Settings END==========

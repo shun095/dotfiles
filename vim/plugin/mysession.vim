@@ -57,11 +57,11 @@ endfunction
 
 " LOADING SESSION
 function! s:load_session(session_name,notify_flag) abort "{{{
-    if has("gui_running")
-        if filereadable(expand(s:save_window_file))
-            execute "source" s:save_window_file
-        endif
-    endif
+    " if has("gui_running")
+    "     if filereadable(expand(s:save_window_file))
+    "         execute "source" s:save_window_file
+    "     endif
+    " endif
     " let g:session_loaded = s:true
     if filereadable(expand(g:myvimsessions_folder . '/' . a:session_name))
         execute "source" g:myvimsessions_folder . "/" . a:session_name

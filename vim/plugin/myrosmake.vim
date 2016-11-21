@@ -59,14 +59,14 @@ function! s:rosmake(filename)
     let &errorformat = l:save_errorformat
 endfunction
 
-if executable("rosmake")
+" if executable("rosmake")
     command! RosmakePackage call s:rosmake("manifest.xml")
     command! RosmakeWorkspace call s:rosmake("stack.xml")
-else
-    augroup ROSMAKE
-        autocmd! VimEnter * echomsg "Please source setup.bash/sh/zsh to use Rosmake plugin."
-    augroup END
-endif
+" else
+"     augroup ROSMAKE
+"         autocmd! VimEnter * echomsg "Please source setup.bash/sh/zsh to use Rosmake plugin."
+"     augroup END
+" endif
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
