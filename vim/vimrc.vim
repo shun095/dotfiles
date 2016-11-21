@@ -161,14 +161,17 @@ function! s:ImInActivate() abort
 endfunction
 
 function! s:confirm_do_dein_install() abort
-    let s:confirm_plugins_install = confirm(
-                \"Some plugins are not installed yet. Install now?",
-                \"&yes\n&no",2
-                \)
-    if s:confirm_plugins_install == 1
-        call dein#install()
-    else
-        echomsg "Plugins were not installed. Please install after."
+    if !exists("g:my_dein_install_confirmed")
+        let s:confirm_plugins_install = confirm(
+                    \"Some plugins are not installed yet. Install now?",
+                    \"&yes\n&no",2
+                    \)
+        if s:confirm_plugins_install == 1
+            call dein#install()
+        else
+            echomsg "Plugins were not installed. Please install after."
+        endif
+        let g:my_dein_install_confirmed = 1
     endif
 endfunction
 
@@ -264,9 +267,36 @@ if g:use_plugins == s:true
         execute "source " . expand("$HOME") . "/dotfiles/vim-local.vim"
     endif
     " }}}
+    
+    " VIM-PLUG 試験利用
+    " 起動時に該当ファイルがなければ自動でvim-plugをインストール
+    set runtimepath+=~/.vim/
+    if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
+        echo "vim-plug will be installed."
+        execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
+    endif
+
+    call plug#begin('~/.vim/plugged')
+
+    " COLORSCHEMES
+    Plug 'joshdick/onedark.vim'
+    Plug 'sickill/vim-monokai'
+    Plug 'altercation/vim-colors-solarized'
+    Plug 'w0ng/vim-hybrid'
+    Plug 'vim-scripts/pyte'
+    Plug 'vim-scripts/summerfruit256.vim'
+    Plug 'ciaranm/inkpot'
+    Plug 'cdmedia/itg_flat_vim'
+    Plug 'tomasr/molokai'
+    Plug 'itchyny/landscape.vim'
+    Plug 'rakr/vim-one'
+    " COLORSCHEMESE END
+
+    call plug#end()
+    " VIM-PLUGここまで
+    
     " Dein begin
     " Dein main settings {{{
-
     " escapeでスペースつきのホームフォルダ名に対応
     execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
 
@@ -289,11 +319,11 @@ if g:use_plugins == s:true
             autocmd VimEnter * call s:confirm_do_dein_install()
         augroup END
     endif
-
     filetype plugin indent on
     syntax enable
     " }}}
     " Dein end
+
     " Plugin post settings {{{
     " ターミナルでの色設定
     if has("win32") && !has("gui_running")

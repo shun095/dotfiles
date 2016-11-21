@@ -189,30 +189,6 @@ hook_add = '''
 [[plugins]]
 repo = 'Konfekt/FastFold'
 # }}}
-# COLORSCHEMES {{{
-[[plugins]]
-repo = 'joshdick/onedark.vim'
-[[plugins]]
-repo = 'sickill/vim-monokai'
-[[plugins]]
-repo = 'altercation/vim-colors-solarized'
-[[plugins]]
-repo = 'w0ng/vim-hybrid'
-[[plugins]]
-repo = 'vim-scripts/pyte'
-[[plugins]]
-repo = 'vim-scripts/summerfruit256.vim'
-[[plugins]]
-repo = 'ciaranm/inkpot'
-[[plugins]]
-repo = 'cdmedia/itg_flat_vim'
-[[plugins]]
-repo = 'tomasr/molokai'
-[[plugins]]
-repo = 'itchyny/landscape.vim'
-[[plugins]]
-repo = 'rakr/vim-one'
-# COLORSCHMES END}}}
 # STATUSLINE PLUGINS {{{
 [[plugins]]
 repo = 'vim-airline/vim-airline'#{{{
