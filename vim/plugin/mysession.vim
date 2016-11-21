@@ -33,8 +33,10 @@ augroup MYSESSIONVIM
     autocmd!
     " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
     autocmd VimEnter * nested if @% == '' && s:getbufbyte() == 0 | call s:load_session("default.vim",s:false) | endif
+    " バックアップ用
     autocmd CursorHold * if s:save_session_flag == s:true | call s:save_session("default.vim",s:false) | endif
     autocmd CursorHoldI * if s:save_session_flag == s:true | call s:save_session("default.vim",s:false) | endif
+
     autocmd VimLeavePre * call s:save_window(s:save_window_file)
     autocmd VimLeavePre * if s:save_session_flag == s:true | call s:save_session("default.vim",s:true) | endif
 augroup END
