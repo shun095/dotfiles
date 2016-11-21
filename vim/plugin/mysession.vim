@@ -33,6 +33,7 @@ augroup MYSESSIONVIM
     autocmd!
     " nestedしないとSyntaxなどの設定が繁栄されない（BufReadとかがたぶん呼ばれない）
     autocmd VimEnter * nested if @% == '' && s:getbufbyte() == 0 | call s:load_session("default.vim",s:false) | endif
+    " autocmd VimEnter * nested if @% != '' || s:getbufbyte() != 0 | call s:tab_merge()
     " バックアップ用
     autocmd CursorHold * if s:save_session_flag == s:true | call s:save_session("default.vim",s:false) | endif
     autocmd CursorHoldI * if s:save_session_flag == s:true | call s:save_session("default.vim",s:false) | endif
@@ -101,18 +102,24 @@ function! s:clear_session() abort "{{{
     let s:save_session_flag = s:false
     quitall
 endfunction "}}}
-" TABMERGING
+" TABMERGING " 複数タブのときの動作がだめ
 " function! s:tab_merge() abort "{{{
 "     if len(split(serverlist())) > 1
 "         tabnew
 "         tabprevious
-"         let l:send_file_path = expand("%")
+"         let s:send_file_path = expand("%:p")
 "         quit
-"         " let l:server_list = split(serverlist(),"\n")
-"         " let l:send_server_name = l:server_list[0]
+"         let s:server_list = split(serverlist(),"\n")
+"
+"         for s:exist_sever_name in s:server_list
+"             if s:exist_sever_name != v:servername
+"                 let s:send_server_name = s:exist_sever_name
+"                 break
+"             endif
+"         endfor
 "         " echom l:send_server_name
-"         call remote_send( "GVIM", "<ESC><ESC>:tabnew " . l:send_file_path . "<CR>")
-"         call remote_foreground("GVIM")
+"         call remote_send(s:send_server_name, "<ESC><ESC>:tabnew " . s:send_file_path . "<CR>")
+"         call remote_foreground(s:send_server_name)
 "         let s:save_session_flag = s:false
 "         quitall
 "     else
