@@ -14,7 +14,7 @@ if has("gui_running")
         set guifont=ＭＳ_ゴシック:h10
         " set guifont=Ricty_Diminished_for_Powerline:h12
     elseif has("unix")
-        set guifont=Ricty\ Diminished\ for\ Powerline\ 12
+        set guifont=Ricty\ Diminished\ for\ Powerline\ 10
         " set guifont=Myrica\ M\ for\ Powerline\ 12
     endif
 
