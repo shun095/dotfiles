@@ -19,7 +19,7 @@ endif
 " OSの判定
 if has('win32')
     if v:version >= 800
-        set rop=type:directx
+        " set rop=type:directx
     endif
     set t_Co=16                    " ターミナルで8色を使う
 elseif has('unix')
