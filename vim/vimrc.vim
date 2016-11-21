@@ -75,7 +75,7 @@ set sessionoptions=folds,help,tabpages
 set updatetime=4000
 
 if executable("ag")
-    set grepprg=ag\ --nocolor\ --column\ --nogroup\ -S\ $*
+    set grepprg=ag\ --nocolor\ --column\ --nogroup\ $*
 else
     set grepprg=grep\ -rn\ $*
 endif
