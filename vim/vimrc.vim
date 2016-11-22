@@ -233,8 +233,8 @@ execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 
 " Included Plugins {{{
 if v:version >= 800
-    packadd matchit
-    packadd editexisting
+    " packadd matchit
+    " packadd editexisting
 endif
 " }}}
 
@@ -308,10 +308,13 @@ if g:use_plugins == s:true
     Plug 'itchyny/landscape.vim'
     Plug 'rakr/vim-one'
     " COLORSCHEMESE END
+    Plug 'Shougo/vimfiler.vim'
+    Plug 'Shougo/unite.vim' 
+    call plug#end()
+    " {{{
     " ======================================================================= "
     "                                  Unite                                  "
     " ======================================================================= "
-    Plug 'Shougo/unite.vim' " {{{
     " 入力モードで開始する
     let g:unite_force_overwrite_statusline = 0
     let g:unite_enable_start_insert = 0
@@ -355,7 +358,6 @@ if g:use_plugins == s:true
     " ======================================================================= "
     "                                VimFiler                                 "
     " ======================================================================= "
-    Plug 'Shougo/vimfiler.vim'
 
     let g:vimfiler_force_overwrite_statusline = 0
     let g:vimfiler_enable_auto_cd = 1
@@ -365,7 +367,6 @@ if g:use_plugins == s:true
 
     " なんの影響だかは不明だがVimfilerは後ろの方においておかないとSyntaxColorが効かなくなる
 
-    call plug#end()
     " VIM-PLUGここまで
     " ======================================================================= "
     "                  =====================================                  "
@@ -385,6 +386,9 @@ if g:use_plugins == s:true
 
     let g:plugins_toml = '$MYVIMHOME/dein.toml'
     let g:plugins_lazy_toml = '$MYVIMHOME/dein_lazy.toml'
+    call plug#end()
+
+    filetype off
 
     if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
         call dein#begin(s:plugin_dir)
@@ -402,6 +406,7 @@ if g:use_plugins == s:true
             autocmd VimEnter * call s:confirm_do_dein_install()
         augroup END
     endif
+    filetype on
     filetype plugin indent on
     syntax enable
     " }}}
