@@ -287,11 +287,13 @@ if g:use_plugins == s:true
     " VIM-PLUG 試験利用
     " 起動時に該当ファイルがなければ自動でvim-plugをインストール
     set runtimepath+=~/.vim/
-    if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim") && executable("curl")
-        echo "vim-plug will be installed."
-        execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
-    else
-        echoerr "curlをインストールするか手動でvim-plugをインストールしてください。"
+    if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim") 
+        if executable("curl")
+            echo "vim-plug will be installed."
+            execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
+        else
+            echoerr "curlをインストールするか手動でvim-plugをインストールしてください。"
+        endif
     endif
 
     if filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
@@ -319,7 +321,7 @@ if g:use_plugins == s:true
     "                                  Unite                                  "
     " ======================================================================= "
     " 入力モードで開始する
-    if isdirectory(expand( ~/.vim/plugged/unite.vim)) "{{{
+    if isdirectory(expand("~/.vim/plugged/unite.vim")) "{{{
         let g:unite_force_overwrite_statusline = 0
         let g:unite_enable_start_insert = 0
         nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
@@ -364,7 +366,7 @@ if g:use_plugins == s:true
     "                                VimFiler                                 "
     " ======================================================================= "
 
-    if isdirectory(expand( ~/.vim/plugged/vimfile.vim)) " {{{
+    if isdirectory(expand("~/.vim/plugged/vimfile.vim")) " {{{
         let g:vimfiler_force_overwrite_statusline = 0
         let g:vimfiler_enable_auto_cd = 1
         let g:vimfiler_as_default_explorer = 1
