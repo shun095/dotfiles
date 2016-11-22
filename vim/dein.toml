@@ -5,52 +5,6 @@ repo = 'tpope/vim-dispatch'
 repo = 'Shougo/vimproc.vim'# {{{
 build = 'make'# }}}
 [[plugins]]
-repo = 'Shougo/unite.vim'# {{{
-hook_add = '''
-    "==================================================
-    "UNITE
-    "==================================================
-    " 入力モードで開始する
-    let g:unite_force_overwrite_statusline = 0
-    let g:unite_enable_start_insert = 0
-    nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-    nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
-    nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
-    nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
-    nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
-    " Unite All
-    nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-    " UniteOutLine
-    nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
-    " ウィンドウを分割して開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-    " ウィンドウを縦に分割して開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-    " タブで開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
-    " ESCキーを2回押すと終了する
-    au FileType unite nmap <silent> <buffer> <ESC><ESC> q
-    au FileType unite imap <silent> <buffer> <ESC><ESC> <ESC>q
-
-    "nice unite and ag
-    " let g:unite_source_history_yank_enable = 1
-    " try
-    let g:unite_source_rec_async_command =
-                \ ['ag', '--follow', '--nocolor', '--nogroup',
-                \  '--hidden', '-g', '']
-    let g:unite_source_rec_max_cache_files = 5000
-    call unite#filters#matcher_default#use(['matcher_fuzzy'])
-    " catch
-    " endtry
-    " search a file in the filetree
-    " nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
-    " reset not it is <C-l> normally
-    " nnoremap <space>r <Plug>(unite_restart)
-'''# }}}
-[[plugins]]
 repo = 'Shougo/unite-outline'# {{{
 depends = ['unite.vim']# }}}
 [[plugins]]
@@ -90,9 +44,6 @@ hook_add = '''
         endif
     endif
 '''# }}}
-# [[plugins]]
-# repo = 'mattn/ctrlp-filer'# {{{
-# depends = 'ctrlpvim/ctrlp.vim'# }}}
 [[plugins]]
 repo = 'easymotion/vim-easymotion'# {{{
 hook_add = '''
@@ -131,12 +82,6 @@ if has('win32') != 0
     endif
 endif
 '''# }}}
-# [[plugins]]
-# repo = "Yggdroot/indentLine"# {{{
-# hook_add = '''
-#     let g:indentLine_color_term = 238
-#     let g:indentLine_color_gui = "#3B4048"
-# '''# }}}
 [[plugins]]
 repo = "nathanaelkane/vim-indent-guides"# {{{
 hook_add = '''
@@ -157,14 +102,6 @@ hook_add = '''
          autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
     endif
 '''# }}}
-# [[plugins]]
-# repo = "szw/vim-tags"# {{{
-# hook_add = '''
-#     let g:vim_tags_auto_generate = 1
-#     let g:vim_tags_use_vim_dispatch = 1
-#     let g:vim_tags_project_tags_command = "{CTAGS} -R {OPTIONS} {DIRECTORY}"
-# '''# }}}
-
 # FOLD PLUGINS {{{
 [[plugins]]
 repo = 'LeafCage/foldCC.vim'# {{{
@@ -256,228 +193,6 @@ hook_add = '''
     "             \ [ 'x', 'y', 'z' ]
     "             \ ] " }}}
 '''
-# }}}
-# [[plugins]]
-# repo = 'itchyny/lightline.vim'#{{{
-# hook_add = '''
-# if v:version >= 800 " バージョン８以降ならTimer使って時刻表示 " {{{
-#     let g:currenttime = strftime("%H時%M分%S秒")
-#
-#     function! SetCurrentTime()
-#         let tempTimer = timer_start(1000, 'CheckTemp', {'repeat' : -1})
-#         function! CheckTemp(tempTimer)
-#             let g:currenttime = strftime("%H時%M分%S秒")
-#             try
-#                 call lightline#update()
-#             catch /.*/
-#                 call timer_stop(a:tempTimer)
-#             endtry
-#         endfunction
-#     endfunction
-#
-#     call SetCurrentTime()
-#
-# else
-#     let g:currenttime = ""
-# endif " }}}
-#
-# function! ReturnCurrentTime() " {{{
-#     if &filetype == 'vimfiler'
-#         return ''
-#     else
-#     return g:currenttime
-# endfunction# }}}
-#
-#
-# " {{{
-# let g:lightline = {
-#             \ 'colorscheme': 'onedark_custom',
-#             \ 'active': {
-#             \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark', 'ctrlpcurrent', 'ctrlpnext'] ],
-#             \   'right': [ [ 'syntastic','lineinfo','currenttime' ,'truncate'], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-#             \ },
-#             \ 'inactive': {
-#             \ 'left': [ [ 'filename' ] ],
-#             \ 'right': [ [ 'lineinfo'],
-#             \            [ 'percent' ] ]
-#             \ },
-#             " \ 'tab': {
-#             " \ 'active': [ 'tabnum', 'absolutepath', 'modified' ]
-#             " \ },
-#             " \ 'tabline': {
-#             " \ 'left': [['tabs']],
-#             " \ 'right': [['currenttime','close']]
-#             " \ },
-#             \ 'component_function': {
-#             \   'fugitive': 'LightLineFugitive',
-#             \   'filename': 'LightLineFilename',
-#             \   'fileformat': 'LightLineFileformat',
-#             \   'filetype': 'LightLineFiletype',
-#             \   'fileencoding': 'LightLineFileencoding',
-#             \   'mode': 'LightLineMode',
-#             \   'ctrlpmark': 'CtrlPMark',
-#             \   'ctrlpnext': 'CtrlPNext',
-#             \   'currenttime': 'ReturnCurrentTime',
-#             \ },
-#             \ 'component_expand': {
-#             \   'syntastic': 'SyntasticStatuslineFlag',
-#             \    'ctrlpcurrent': 'CtrlPCurrent'
-#             \ },
-#              \ 'component': {
-#              \    'truncate': '%<',
-#             " \    'absolutepath': '%F'
-#             \ },
-#             \ 'component_type': {
-#             \   'syntastic': 'error',
-#             \   'ctrlpcurrent': 'left',
-#             \ },
-#             \ 'subseparator': { 'left': '|', 'right': '|' }
-#             \ }
-#             if has("gui_running")
-#                 let g:lightline.separator = {
-#                             \    'left': '⮀', 'right': '⮂'
-#                             \    }
-#                 let g:lightline.subseparator = {
-#                             \    'left': '⮁', 'right': '⮃'
-#                             \}
-#             endif " }}}
-#
-#     function! LightLineModified() " {{{
-#       return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-#     endfunction " }}}
-#
-#     function! LightLineReadonly() " {{{
-#         if has("gui_running")
-#             return &ft !~? 'help\|vimfiler' && &readonly ? '⭤' : ''
-#         else
-#             return &ft !~? 'help\|vimfiler' && &readonly ? '[RO]' : ''
-#         endif
-#     endfunction " }}}
-#
-#     function! LightLineFilename() " {{{
-#       let fname = expand('%:t')
-#       return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ?
-#                   \ lightline#concatenate([g:lightline.ctrlp_byfname, g:lightline.ctrlp_regex_string],0) :
-#             \ fname == '__Tagbar__' ? g:lightline.fname :
-#             \ fname =~ '__Gundo\|NERD_tree' ? '' :
-#             \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-#             \ &ft == 'unite' ? unite#get_status_string() :
-#             \ &ft == 'vimshell' ? vimshell#get_status_string() :
-#             \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-#             \ ('' != fname ? fname : '[No Name]') .
-#             \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-#     endfunction  " }}}
-#
-#     function! LightLineFugitive() " {{{
-#         try
-#             if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-#                 let branch = fugitive#head()
-#                 " return branch !=# '' ? mark.branch : ''
-#                 if has("gui_running")
-#                     return branch !=# '' ? '⭠ '.branch : ''
-#                 else
-#                     return branch !=# '' ? 'BR:['.branch.']' : ''
-#                 endif
-#             endif
-#         catch
-#         endtry
-#         return ''
-#     endfunction " }}}
-#
-#     function! LightLineFileformat() " {{{
-#       return winwidth(0) > 70 ? &fileformat : ''
-#     endfunction " }}}
-#
-#     function! LightLineFiletype() " {{{
-#       return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-#     endfunction " }}}
-#
-#     function! LightLineFileencoding() " {{{
-#       return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
-#     endfunction " }}}
-#
-#     function! LightLineMode() " {{{
-#       let fname = expand('%:t')
-#       return fname == '__Tagbar__' ? 'Tagbar' :
-#             \ fname == 'ControlP' ? 'CtrlP' :
-#             \ fname == '__Gundo__' ? 'Gundo' :
-#             \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-#             \ fname =~ 'NERD_tree' ? 'NERDTree' :
-#             \ &ft == 'unite' ? 'Unite' :
-#             \ &ft == 'vimfiler' ? 'VimFiler' :
-#             \ &ft == 'vimshell' ? 'VimShell' :
-#             \ lightline#mode()
-#             " \ winwidth(0) > 60 ? lightline#mode() : ''
-#     endfunction " }}}
-#
-#     function! CtrlPMark() " {{{
-#         if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
-#             call lightline#link('iv'[g:lightline.ctrlp_regex])
-#             return g:lightline.ctrlp_prev
-#             " return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-#             "       \ , g:lightline.ctrlp_next], 0)
-#         else
-#             return ''
-#         endif
-#     endfunction " }}}
-#
-#     function! CtrlPCurrent() " {{{
-#         if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
-#             return g:lightline.ctrlp_item
-#         else
-#             return ''
-#         endif
-#     endfunction " }}}
-#
-#     function! CtrlPNext() abort " {{{
-#         if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
-#             return g:lightline.ctrlp_next
-#         else
-#             return ''
-#         endif
-#     endfunction " }}}
-#
-#     let g:ctrlp_status_func = {}
-#     let g:ctrlp_status_func = {
-#       \ 'main': 'CtrlPStatusFunc_1',
-#       \ 'prog': 'CtrlPStatusFunc_2',
-#       \ }
-#
-#     function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked) " {{{
-#         let g:lightline.ctrlp_byfname = a:byfname
-#         let g:lightline.ctrlp_regex = a:regex
-#         let g:lightline.ctrlp_regex_string = a:regex==1 ? "regex" : ""
-#         let g:lightline.ctrlp_prev = a:prev
-#         let g:lightline.ctrlp_item = a:item
-#         let g:lightline.ctrlp_next = a:next
-#         return lightline#statusline(0)
-#     endfunction " }}}
-#
-#     function! CtrlPStatusFunc_2(str) " {{{
-#         return a:str
-#     endfunction " }}}
-#
-#     let g:tagbar_status_func = 'TagbarStatusFunc'
-#
-#     function! TagbarStatusFunc(current, sort, fname, ...) abort " {{{
-#         let g:lightline.fname = a:fname
-#       return lightline#statusline(0)
-#     endfunction " }}}
-#
-#      " augroup AutoSyntastic
-#      "   autocmd!
-#      "   autocmd BufWritePost *.c,*.cpp call s:syntastic()
-#      " augroup END
-#     function! s:syntastic() " {{{
-#       SyntasticCheck
-#       call lightline#update()
-#     endfunction " }}}
-#
-#     let g:unite_force_overwrite_statusline = 0
-#     let g:vimfiler_force_overwrite_statusline = 0
-#     let g:vimshell_force_overwrite_statusline = 0
-# '''
-# # }}}
 # }}}
 # PLUGINS FOR JAPANESE LANGUAGES {{{
 [[plugins]]

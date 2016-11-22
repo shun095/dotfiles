@@ -13,13 +13,14 @@ if !exists("g:use_plugins")
     let g:use_plugins = s:true
 endif
 
-" ==========No Plugin Version START==========
-"
+" ======================================================================= "
+"                         No Plugin Version START                         "
+" ======================================================================= "
 " Set options {{{
 " OSの判定
 if has('win32')
     if v:version >= 800
-        " set rop=type:directx
+        set rop=type:directx
     endif
     set t_Co=16                    " ターミナルで8色を使う
 elseif has('unix')
@@ -117,14 +118,16 @@ set imsearch=0
 " 補完関係の設定
 set completeopt=menuone,noselect,preview
 set omnifunc=syntaxcomplete#Complete
+" set guioptions+=M
+
 " }}}
 
 " Mapping {{{
 " 改行があっても真下に移動できるようになる
-" nnoremap j gj
-" nnoremap k gk
-" nnoremap gj j
-" nnoremap gk k
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
 
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
@@ -191,7 +194,8 @@ endfunction
 augroup VIMRC
     autocmd!
     " タグを</で自動で閉じる
-    autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
+    autocmd Filetype xml,html,eruby
+                \ inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
 
     " タグ系のファイルならインデントを浅くする
     autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2
@@ -211,7 +215,8 @@ augroup VIMRC
     " ヘルプをqで閉じれるようにする
     autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
     " autocmd FileType help echom "test"
-    " autocmd FileType help execute "let &tags.=',' . expand('$VIMRUNTIME') . '/doc/tags'"
+    " autocmd FileType help execute "let &tags.=',' 
+    " \ . expand('$VIMRUNTIME') . '/doc/tags'"
     " autocmd VimEnter * call s:set_statusline()
 
     if has("unix")
@@ -228,16 +233,19 @@ execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 
 " Included Plugins {{{
 if v:version >= 800
-    packadd! matchit
-    packadd! editexisting
+    packadd matchit
+    packadd editexisting
 endif
 " }}}
 
-" ==========No Plugins Version END==========
-
-" ==========Use Plugins Settings START==========
-"
-" Installing Dein {{{
+" ======================================================================= "
+"                       Use Plugins Settings START                        "
+" ======================================================================= "
+" {{{
+" ======================================================================= "
+"                             Dein Installing                             "
+" ======================================================================= "
+" {{{
 " 各プラグインをインストールするディレクトリ
 let s:plugin_dir = expand('$HOME') . '/.vim/dein/'
 " dein.vimをインストールするディレクトリをランタイムパスへ追加
@@ -260,6 +268,9 @@ if !isdirectory(s:dein_dir)
 endif
 "}}}
 if g:use_plugins == s:true
+    " ======================================================================= "
+    "                           Plugin Pre Settings                           "
+    " ======================================================================= "
     " Plugin pre settings {{{
     " vimprocが呼ばれる前に設定
     let g:vimproc#download_windows_dll = 1
@@ -267,13 +278,19 @@ if g:use_plugins == s:true
         execute "source " . expand("$HOME") . "/dotfiles/vim-local.vim"
     endif
     " }}}
-    
+    " ======================================================================= "
+    "                  =====================================                  "
+    "                                Vim-plug                                 "
+    "                  =====================================                  "
+    " ======================================================================= "
+    " {{{
     " VIM-PLUG 試験利用
     " 起動時に該当ファイルがなければ自動でvim-plugをインストール
     set runtimepath+=~/.vim/
     if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
         echo "vim-plug will be installed."
-        execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
+        execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs 
+                    \https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
     endif
 
     call plug#begin('~/.vim/plugged')
@@ -291,11 +308,77 @@ if g:use_plugins == s:true
     Plug 'itchyny/landscape.vim'
     Plug 'rakr/vim-one'
     " COLORSCHEMESE END
+    " ======================================================================= "
+    "                                  Unite                                  "
+    " ======================================================================= "
+    Plug 'Shougo/unite.vim' " {{{
+    " 入力モードで開始する
+    let g:unite_force_overwrite_statusline = 0
+    let g:unite_enable_start_insert = 0
+    nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
+    nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
+    nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
+    nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
+    nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
+    " Unite All
+    nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+    " UniteOutLine
+    nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
+    " ウィンドウを分割して開く
+    au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+    au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+    " ウィンドウを縦に分割して開く
+    au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+    au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+    " タブで開く
+    au FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
+    au FileType unite inoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
+    " ESCキーを2回押すと終了する
+    au FileType unite nmap <silent> <buffer> <ESC><ESC> q
+    au FileType unite imap <silent> <buffer> <ESC><ESC> <ESC>q
+
+    "nice unite and ag
+    " let g:unite_source_history_yank_enable = 1
+    " try
+    let g:unite_source_rec_async_command =
+                \ ['ag', '--follow', '--nocolor', '--nogroup',
+                \  '--hidden', '-g', '']
+    let g:unite_source_rec_max_cache_files = 5000
+    call unite#filters#matcher_default#use(['matcher_fuzzy'])
+    " catch
+    " endtry
+    " search a file in the filetree
+    " nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
+    " reset not it is <C-l> normally
+    " nnoremap <space>r <Plug>(unite_restart)
+    "
+    " ======================================================================= "
+    "                                VimFiler                                 "
+    " ======================================================================= "
+    Plug 'Shougo/vimfiler.vim'
+
+    let g:vimfiler_force_overwrite_statusline = 0
+    let g:vimfiler_enable_auto_cd = 1
+    let g:vimfiler_as_default_explorer = 1
+    nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
+    nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
+
+    " なんの影響だかは不明だがVimfilerは後ろの方においておかないとSyntaxColorが効かなくなる
 
     call plug#end()
     " VIM-PLUGここまで
-    
-    " Dein begin
+    " ======================================================================= "
+    "                  =====================================                  "
+    "                              Vim-plug END                               "
+    "                  =====================================                  "
+    " ======================================================================= "
+    " }}}
+
+    " ======================================================================= "
+    "                  =====================================                  "
+    "                                  DEIN                                   "
+    "                  =====================================                  "
+    " ======================================================================= "
     " Dein main settings {{{
     " escapeでスペースつきのホームフォルダ名に対応
     execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
@@ -323,6 +406,11 @@ if g:use_plugins == s:true
     syntax enable
     " }}}
     " Dein end
+    " ======================================================================= "
+    "                  =====================================                  "
+    "                                Dein END                                 "
+    "                  =====================================                  "
+    " ======================================================================= "
 
     " Plugin post settings {{{
     " ターミナルでの色設定
@@ -417,7 +505,5 @@ else "if use_plugins == s:false
     " endfunction
     " }}}
 endif " use_plugins end
-
-set guioptions+=M
 
 " ==========Use Plugins Settings END==========
