@@ -287,85 +287,92 @@ if g:use_plugins == s:true
     " VIM-PLUG 試験利用
     " 起動時に該当ファイルがなければ自動でvim-plugをインストール
     set runtimepath+=~/.vim/
-    if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
+    if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim") && executable("curl")
         echo "vim-plug will be installed."
-        execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs 
-                    \https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
+        execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
+    else
+        echoerr "curlをインストールするか手動でvim-plugをインストールしてください。"
     endif
 
-    call plug#begin('~/.vim/plugged')
+    if filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
+        call plug#begin('~/.vim/plugged')
 
-    " COLORSCHEMES
-    Plug 'joshdick/onedark.vim'
-    Plug 'sickill/vim-monokai'
-    Plug 'altercation/vim-colors-solarized'
-    Plug 'w0ng/vim-hybrid'
-    Plug 'vim-scripts/pyte'
-    Plug 'vim-scripts/summerfruit256.vim'
-    Plug 'ciaranm/inkpot'
-    Plug 'cdmedia/itg_flat_vim'
-    Plug 'tomasr/molokai'
-    Plug 'itchyny/landscape.vim'
-    Plug 'rakr/vim-one'
-    " COLORSCHEMESE END
-    Plug 'Shougo/vimfiler.vim'
-    Plug 'Shougo/unite.vim' 
-    call plug#end()
+        " COLORSCHEMES
+        Plug 'joshdick/onedark.vim'
+        Plug 'sickill/vim-monokai'
+        Plug 'altercation/vim-colors-solarized'
+        Plug 'w0ng/vim-hybrid'
+        Plug 'vim-scripts/pyte'
+        Plug 'vim-scripts/summerfruit256.vim'
+        Plug 'ciaranm/inkpot'
+        Plug 'cdmedia/itg_flat_vim'
+        Plug 'tomasr/molokai'
+        Plug 'itchyny/landscape.vim'
+        Plug 'rakr/vim-one'
+        " COLORSCHEMESE END
+        Plug 'Shougo/vimfiler.vim'
+        Plug 'Shougo/unite.vim' 
+        call plug#end()
+    endif
     " {{{
     " ======================================================================= "
     "                                  Unite                                  "
     " ======================================================================= "
     " 入力モードで開始する
-    let g:unite_force_overwrite_statusline = 0
-    let g:unite_enable_start_insert = 0
-    nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-    nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
-    nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
-    nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
-    nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
-    " Unite All
-    nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-    " UniteOutLine
-    nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
-    " ウィンドウを分割して開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-    " ウィンドウを縦に分割して開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-    " タブで開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
-    " ESCキーを2回押すと終了する
-    au FileType unite nmap <silent> <buffer> <ESC><ESC> q
-    au FileType unite imap <silent> <buffer> <ESC><ESC> <ESC>q
+    if isdirectory(expand( ~/.vim/plugged/unite.vim)) "{{{
+        let g:unite_force_overwrite_statusline = 0
+        let g:unite_enable_start_insert = 0
+        nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
+        nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
+        nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
+        nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
+        nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
+        " Unite All
+        nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+        " UniteOutLine
+        nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
+        " ウィンドウを分割して開く
+        au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+        au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+        " ウィンドウを縦に分割して開く
+        au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+        au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+        " タブで開く
+        au FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
+        au FileType unite inoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
+        " ESCキーを2回押すと終了する
+        au FileType unite nmap <silent> <buffer> <ESC><ESC> q
+        au FileType unite imap <silent> <buffer> <ESC><ESC> <ESC>q
 
-    "nice unite and ag
-    " let g:unite_source_history_yank_enable = 1
-    " try
-    let g:unite_source_rec_async_command =
-                \ ['ag', '--follow', '--nocolor', '--nogroup',
-                \  '--hidden', '-g', '']
-    let g:unite_source_rec_max_cache_files = 5000
-    call unite#filters#matcher_default#use(['matcher_fuzzy'])
-    " catch
-    " endtry
-    " search a file in the filetree
-    " nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
-    " reset not it is <C-l> normally
-    " nnoremap <space>r <Plug>(unite_restart)
+        "nice unite and ag
+        " let g:unite_source_history_yank_enable = 1
+        " try
+        let g:unite_source_rec_async_command =
+                    \ ['ag', '--follow', '--nocolor', '--nogroup',
+                    \  '--hidden', '-g', '']
+        let g:unite_source_rec_max_cache_files = 5000
+        call unite#filters#matcher_default#use(['matcher_fuzzy'])
+        " catch
+        " endtry
+        " search a file in the filetree
+        " nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
+        " reset not it is <C-l> normally
+        " nnoremap <space>r <Plug>(unite_restart)
+    endif " }}}
     "
     " ======================================================================= "
     "                                VimFiler                                 "
     " ======================================================================= "
 
-    let g:vimfiler_force_overwrite_statusline = 0
-    let g:vimfiler_enable_auto_cd = 1
-    let g:vimfiler_as_default_explorer = 1
-    nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
-    nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
+    if isdirectory(expand( ~/.vim/plugged/vimfile.vim)) " {{{
+        let g:vimfiler_force_overwrite_statusline = 0
+        let g:vimfiler_enable_auto_cd = 1
+        let g:vimfiler_as_default_explorer = 1
+        nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
+        nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
 
-    " なんの影響だかは不明だがVimfilerは後ろの方においておかないとSyntaxColorが効かなくなる
+        " なんの影響だかは不明だがVimfilerは後ろの方においておかないとSyntaxColorが効かなくなる
+    endif " }}}
 
     " VIM-PLUGここまで
     " ======================================================================= "
@@ -386,7 +393,6 @@ if g:use_plugins == s:true
 
     let g:plugins_toml = '$MYVIMHOME/dein.toml'
     let g:plugins_lazy_toml = '$MYVIMHOME/dein_lazy.toml'
-    call plug#end()
 
     filetype off
     filetype plugin indent off
