@@ -160,7 +160,7 @@ endfunction
 " endfunction
 
 function! s:ImInActivate() abort
-    " call system('fcitx-remote -c')
+    call system('fcitx-remote -c')
 endfunction
 
 function! s:confirm_do_dein_install() abort
