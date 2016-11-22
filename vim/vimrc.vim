@@ -389,7 +389,7 @@ if g:use_plugins == s:true
     call plug#end()
 
     filetype off
-
+    filetype plugin indent off
     if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
         call dein#begin(s:plugin_dir)
         call dein#add('Shougo/dein.vim')
@@ -406,7 +406,6 @@ if g:use_plugins == s:true
             autocmd VimEnter * call s:confirm_do_dein_install()
         augroup END
     endif
-    filetype on
     filetype plugin indent on
     syntax enable
     " }}}
