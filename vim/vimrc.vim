@@ -215,7 +215,7 @@ augroup VIMRC
     " ヘルプをqで閉じれるようにする
     autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
     " autocmd FileType help echom "test"
-    " autocmd FileType help execute "let &tags.=',' 
+    " autocmd FileType help execute "let &tags.=','
     " \ . expand('$VIMRUNTIME') . '/doc/tags'"
     " autocmd VimEnter * call s:set_statusline()
 
