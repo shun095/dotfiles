@@ -366,7 +366,7 @@ if g:use_plugins == s:true
     "                                VimFiler                                 "
     " ======================================================================= "
 
-    if isdirectory(expand("~/.vim/plugged/vimfile.vim")) " {{{
+    if isdirectory(expand("~/.vim/plugged/vimfiler.vim")) " {{{
         let g:vimfiler_force_overwrite_statusline = 0
         let g:vimfiler_enable_auto_cd = 1
         let g:vimfiler_as_default_explorer = 1
