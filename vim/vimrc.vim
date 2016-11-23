@@ -312,6 +312,13 @@ if g:use_plugins == s:true
         " COLORSCHEMESE END
         Plug 'Shougo/vimfiler.vim'
         Plug 'Shougo/unite.vim' 
+
+        Plug 'ervandew/supertab'
+        Plug 'SirVer/ultisnips'
+        Plug 'MarcWeber/vim-addon-mw-utils'
+        Plug 'tomtom/tlib_vim'
+        Plug 'garbas/vim-snipmate'
+        Plug 'honza/vim-snippets'
         call plug#end()
     endif
     " {{{
