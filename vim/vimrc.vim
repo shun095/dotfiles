@@ -29,10 +29,12 @@ if has('win32')
     if v:version >= 800
         set rop=type:directx
     endif
-    set t_Co=16                    " cmd.exeならターミナルで8色を使う
+    set t_Co=16                    " cmd.exeならターミナルで16色を使う
 elseif has('unix')
     set t_Co=256                   " ターミナルで256色を使う
 endif
+set visualbell
+set t_vb=
 
 if v:version >= 800                " バージョン検出
     set breakindent                " version8以降搭載の便利オプション
@@ -297,7 +299,7 @@ if g:use_plugins == s:true
     " Plugin post settings {{{
     " ターミナルでの色設定
     if has("win32") && !has("gui_running")
-        colorscheme default
+        colorscheme elflord
         cd $HOME
     else
         set background=light
