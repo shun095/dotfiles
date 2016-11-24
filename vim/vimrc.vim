@@ -8,6 +8,13 @@ endif
 let s:true = 1
 let s:false = 0
 
+if !exists("g:count")
+    let g:count = 0
+else
+    let g:count = g:count + 1
+    echo g:count
+endif
+
 let $MYVIMHOME=expand("$HOME") . "/dotfiles/vim"
 if !exists("g:use_plugins")
     let g:use_plugins = s:true
@@ -55,7 +62,7 @@ set wildmode=longest:full,full
 
 set laststatus=2     " 下のステータスバーの表示
 set showcmd          " 入力中のコマンドを右下に表示
-set cmdheight=2      " コマンドラインの高さ
+set cmdheight=3      " コマンドラインの高さ
 set showtabline=2    " タブバーを常に表示
 set number           " 行番号表示
 set norelativenumber
@@ -196,8 +203,8 @@ execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 
 " Included Plugins {{{
 if v:version >= 800
-    " packadd matchit
-    " packadd editexisting
+    packadd! matchit
+    packadd! editexisting
 endif
 " }}}
 
@@ -300,8 +307,8 @@ if g:use_plugins == s:true
         " highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
         " highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
         "             \guifg=#282C34 guibg=#282C34
-        " highlight! IncSearch ctermbg=114 guibg=#98C379
-
+        highlight! MatchParen gui=reverse cterm=reverse
+        highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
         " highlight! FoldColumn ctermbg=233 guibg=#0e1013
         " highlight! StatusLine ctermbg=235 guibg=#282C34
         " highlight! StatusLineNC ctermbg=235 guibg=#282C34
