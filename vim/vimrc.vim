@@ -284,7 +284,7 @@ if g:use_plugins == s:true
     " VIM-PLUG 試験利用
     " 起動時に該当ファイルがなければ自動でvim-plugをインストール
     set runtimepath+=~/.vim/
-    if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim") 
+    if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
         if executable("curl")
             echo "vim-plug will be installed."
             execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
@@ -310,7 +310,7 @@ if g:use_plugins == s:true
         Plug 'rakr/vim-one'
         " COLORSCHEMESE END
         Plug 'Shougo/vimfiler.vim'
-        Plug 'Shougo/unite.vim' 
+        Plug 'Shougo/unite.vim'
 
         Plug 'ervandew/supertab'
         Plug 'SirVer/ultisnips'
