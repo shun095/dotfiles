@@ -40,3 +40,4 @@ if has("gui_running")
     " GUI版でのタブ等特殊文字表示色指定
     " highlight! link SpecialKey Special
 endif
+

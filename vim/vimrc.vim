@@ -129,6 +129,8 @@ nnoremap k gk
 nnoremap gj j
 nnoremap gk k
 
+" !マークで挿入モードとコマンドラインモード
+noremap! <C-l> <Del>
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
 vnoremap * "zy:let @/ = @z <CR>n
@@ -205,7 +207,7 @@ let s:plugin_dir = expand('$HOME') . '/.vim/dein/'
 " dein.vimをインストールするディレクトリをランタイムパスへ追加
 let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
 " dein.vimがまだ入ってなければインストールするか確認
-if !isdirectory(s:dein_dir)
+if !isdirectory(s:dein_dir) && g:use_plugins == s:true
     " deinがインストールされてない場合そのままではプラグインは使わない
     let g:use_plugins = s:false
     " deinを今インストールするか確認

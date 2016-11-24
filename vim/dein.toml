@@ -71,12 +71,14 @@ let g:vimshell_user_prompt = 'getcwd()'
 repo = 'ctrlpvim/ctrlp.vim'# {{{
 hook_add = '''
     " let g:ctrlp_cmd = "CtrlPMRUFiles"
+    " yankroundのところでマッピングし直している
+    let g:ctrlp_map = ''
     let g:ctrlp_extensions = ['mixed']
     let g:ctrlp_max_files = 5000
-    nnoremap <leader>pm :<c-u>CtrlPMRUFiles<cr>
-    nnoremap <leader>pc :<C-u>CtrlPCurWD<cr>
-    nnoremap <space><space> :<C-u>CtrlPCurWD<cr>
-    nnoremap <leader>pr :<C-u>CtrlPClearCache<cr>
+    nnoremap <space>m :<c-u>CtrlPMRUFiles<cr>
+    nnoremap <space>c :<C-u>CtrlPCurWD<cr>
+    nnoremap <space>r :<C-u>CtrlPClearCache<cr>
+    nnoremap <space><space> :<C-u>CtrlP<cr>
     if executable('ag')
         if !has("win32")
             let g:ctrlp_use_caching=1
@@ -156,7 +158,6 @@ hook_add = '''
     let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
 
     set foldtext=FoldCCtext()
-    set foldcolumn=2
     set fillchars=vert:\|
     " augroup FoldCC "{{{
     "     hi Folded gui=bold guibg=Grey28 guifg=gray80
@@ -210,7 +211,7 @@ hook_add = '''
         let g:airline_left_alt_sep       = ''
         let g:airline_right_sep          = ''
         let g:airline_right_alt_sep      = ''
-    endif" }}}
+    endif " }}}
 
     " unicode symobols# {{{
     " let g:airline_symbols.crypt = '🔒'
@@ -374,3 +375,18 @@ repo = 'rakr/vim-one'
 #     augroup END
 # '''
 # # }}}
+[[plugins]]
+repo = 'LeafCage/yankround.vim'
+hook_add = '''
+nmap p <Plug>(yankround-p)
+xmap p <Plug>(yankround-p)
+nmap P <Plug>(yankround-P)
+
+nmap gp <Plug>(yankround-gp)
+xmap gp <Plug>(yankround-gp)
+nmap gP <Plug>(yankround-gP)
+
+nnoremap <silent><SID>(ctrlp) :<C-u>CtrlP<CR>
+nmap <expr><C-p> yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
+nmap <C-n> <Plug>(yankround-next)
+'''

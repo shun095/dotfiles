@@ -36,8 +36,8 @@ augroup MYSESSIONVIM
     autocmd VimEnter * nested if @% == '' && mysession#getbufbyte() == 0 | call mysession#load_session("default.vim",s:false) | endif
     " autocmd VimEnter * nested if @% != '' || mysession#getbufbyte() != 0 | call mysession#tab_merge()
     " バックアップ用
-    autocmd CursorHold * if g:save_session_flag == s:true | call mysession#save_session("default.vim",s:false) | endif
-    autocmd CursorHoldI * if g:save_session_flag == s:true | call mysession#save_session("default.vim",s:false) | endif
+    " autocmd CursorHold * if g:save_session_flag == s:true | call mysession#save_session("default.vim",s:false) | endif
+    " autocmd CursorHoldI * if g:save_session_flag == s:true | call mysession#save_session("default.vim",s:false) | endif
 
     autocmd VimLeavePre * call mysession#save_window(g:save_window_file)
     autocmd VimLeavePre * if g:save_session_flag == s:true | call mysession#save_session("default.vim",s:true) | endif
