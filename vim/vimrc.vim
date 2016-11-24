@@ -131,7 +131,8 @@ nnoremap gk k
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
 vnoremap * "zy:let @/ = @z <CR>n
-nnoremap * *N
+nnoremap \rc <ESC>:<C-u>tabe ~/dotfiles/vim/vimrc.vim<CR>
+" nnoremap * *N
 " nnoremap <expr> <Leader>/ <SID>count_serch_number(":%s/<Cursor>/&/gn")
 "}}}
 
@@ -148,34 +149,17 @@ command! CdCurrent cd\ %:h
 
 " Functions {{{
 
-function! s:move_cursor_pos_mapping(str, ...)
-    let left = get(a:, 1, "<Left>")
-    let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
-    return substitute(a:str, '<Cursor>', '', '') . lefts
-endfunction
+" function! s:move_cursor_pos_mapping(str, ...)
+"     let left = get(a:, 1, "<Left>")
+"     let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
+"     return substitute(a:str, '<Cursor>', '', '') . lefts
+" endfunction
 
 " function! s:count_serch_number(str)
 "     return s:move_cursor_pos_mapping(a:str, "\<Left>")
 " endfunction
 
-function! s:ImInActivate() abort
-    call system('fcitx-remote -c')
-endfunction
 
-function! s:confirm_do_dein_install() abort
-    if !exists("g:my_dein_install_confirmed")
-        let s:confirm_plugins_install = confirm(
-                    \"Some plugins are not installed yet. Install now?",
-                    \"&yes\n&no",2
-                    \)
-        if s:confirm_plugins_install == 1
-            call dein#install()
-        else
-            echomsg "Plugins were not installed. Please install after."
-        endif
-        let g:my_dein_install_confirmed = 1
-    endif
-endfunction
 
 " function! s:set_statusline() abort
 "     if !exists("g:loaded_lightline")
@@ -220,7 +204,7 @@ augroup VIMRC
 
     if has("unix")
         " linux用（fcitxでしか使えない）
-        autocmd InsertLeave * call s:ImInActivate()
+        autocmd InsertLeave * call myvimrc#ImInActivate()
     endif
 augroup END
 "}}}
@@ -318,14 +302,17 @@ if g:use_plugins == s:true
         Plug 'tomtom/tlib_vim'
         Plug 'garbas/vim-snipmate'
         Plug 'honza/vim-snippets'
+        " test
+        Plug 'Shougo/deoplete.nvim'
         call plug#end()
     endif
+    let g:deoplete#enable_at_startup = 1
     " {{{
     " ============================== "
     "             Unite              "
     " ============================== "
     " 入力モードで開始する
-    if isdirectory(expand("~/.vim/plugged/unite.vim")) "{{{
+    if has_key(g:plugs, "unite.vim") "{{{
         let g:unite_force_overwrite_statusline = 0
         let g:unite_enable_start_insert = 0
         nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
@@ -370,14 +357,12 @@ if g:use_plugins == s:true
     "            VimFiler            "
     " ============================== "
 
-    if isdirectory(expand("~/.vim/plugged/vimfiler.vim")) " {{{
+    if has_key(g:plugs, "vimfiler.vim") " {{{
         let g:vimfiler_force_overwrite_statusline = 0
         let g:vimfiler_enable_auto_cd = 1
         let g:vimfiler_as_default_explorer = 1
         nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
         nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
-
-        " なんの影響だかは不明だがVimfilerは後ろの方においておかないとSyntaxColorが効かなくなる
     endif " }}}
 
     " VIM-PLUGここまで
@@ -391,6 +376,7 @@ if g:use_plugins == s:true
     " ============================== "
     " Dein main settings {{{
     " escapeでスペースつきのホームフォルダ名に対応
+    " ...できていない
     execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
 
     let g:plugins_toml = '$MYVIMHOME/dein.toml'
@@ -411,7 +397,7 @@ if g:use_plugins == s:true
 
     if dein#check_install()
         augroup VIMRC
-            autocmd VimEnter * call s:confirm_do_dein_install()
+            autocmd VimEnter * call myvimrc#confirm_do_dein_install()
         augroup END
     endif
     filetype plugin indent on
@@ -431,15 +417,17 @@ if g:use_plugins == s:true
         set background=dark
         colorscheme one
         " colorscheme onedark
-        " highlight! FoldColumn ctermbg=233 guibg=#0e1013
         " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
         " highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
         " highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
         "             \guifg=#282C34 guibg=#282C34
         " highlight! IncSearch ctermbg=114 guibg=#98C379
+
+        " highlight! FoldColumn ctermbg=233 guibg=#0e1013
         " highlight! StatusLine ctermbg=235 guibg=#282C34
         " highlight! StatusLineNC ctermbg=235 guibg=#282C34
     endif
+
     " }}}
 else "if use_plugins == s:false
     " Without plugins settings {{{
@@ -449,22 +437,11 @@ else "if use_plugins == s:false
     set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
     set statusline+=%y
     set statusline+=%4p%%%5l:%-3c
-
-    colorscheme default
-    set background=light
-
-    function! s:NiceLexplore(open_on_bufferdir)
-        " 常に幅35で開く
-        let g:netrw_winsize = float2nr(round(30.0 / winwidth(0) * 100))
-        if a:open_on_bufferdir == 1
-            Lexplore %:p:h
-        else
-            Lexplore
-        endif
-    endfunction
+    colorscheme torte
+    set background=dark
 
     " let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
-    let g:netrw_browse_split = 4
+    " let g:netrw_browse_split = 4
     let g:netrw_banner = 1
     let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
     let g:netrw_liststyle = 0
@@ -474,14 +451,14 @@ else "if use_plugins == s:false
     let g:netrw_keepdir = 0
 
     " バッファファイルのディレクトリで開く
-    nnoremap <Leader>e :call <SID>NiceLexplore(1)<CR>
+    nnoremap <Leader>e :call myvimrc#NiceLexplore(1)<CR>
     " カレントディレクトリで開く
-    nnoremap <Leader>E :call <SID>NiceLexplore(0)<CR>
+    nnoremap <Leader>E :call myvimrc#NiceLexplore(0)<CR>
 
     augroup MyNetrw
         autocmd!
         " for toggle
-        autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
+        " autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
         autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
         autocmd FileType netrw nmap <silent><buffer>. gh
         autocmd FileType netrw nmap <silent><buffer>h -
