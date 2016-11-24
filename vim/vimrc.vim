@@ -22,7 +22,7 @@ if has('win32')
     if v:version >= 800
         set rop=type:directx
     endif
-    set t_Co=16                    " ターミナルで8色を使う
+    set t_Co=16                    " cmd.exeならターミナルで8色を使う
 elseif has('unix')
     set t_Co=256                   " ターミナルで256色を使う
 endif
@@ -75,6 +75,7 @@ set sessionoptions=folds,help,tabpages
 set updatetime=4000
 
 if executable("ag")
+    " agは便利
     set grepprg=ag\ --nocolor\ --column\ --nogroup\ $*
 else
     set grepprg=grep\ -rn\ $*
@@ -131,7 +132,7 @@ nnoremap gk k
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
 vnoremap * "zy:let @/ = @z <CR>n
-nnoremap \rc <ESC>:<C-u>tabe ~/dotfiles/vim/vimrc.vim<CR>
+nnoremap <Leader>rc <ESC>:<C-u>tabe ~/dotfiles/vim/vimrc.vim<CR>
 " nnoremap * *N
 " nnoremap <expr> <Leader>/ <SID>count_serch_number(":%s/<Cursor>/&/gn")
 "}}}
@@ -147,36 +148,12 @@ endif
 command! CdCurrent cd\ %:h
 "}}}
 
-" Functions {{{
-
-" function! s:move_cursor_pos_mapping(str, ...)
-"     let left = get(a:, 1, "<Left>")
-"     let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
-"     return substitute(a:str, '<Cursor>', '', '') . lefts
-" endfunction
-
-" function! s:count_serch_number(str)
-"     return s:move_cursor_pos_mapping(a:str, "\<Left>")
-" endfunction
-
-
-
-" function! s:set_statusline() abort
-"     if !exists("g:loaded_lightline")
-"         " statusline settings
-"         set statusline=%F%m%r%h%w%q%=
-"         set statusline+=[%{&fileformat}]
-"         set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
-"         set statusline+=%y
-"         set statusline+=%4p%%%5l:%-3c
-"     endif
-" endfunction
-"}}}
+" Functions (Moved to autoload folder)
 
 " Autocmds {{{
 augroup VIMRC
     autocmd!
-    " タグを</で自動で閉じる
+    " タグを</で自動で閉じる。completeoptに依存している
     autocmd Filetype xml,html,eruby
                 \ inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
 
@@ -193,6 +170,7 @@ augroup VIMRC
     " QuickFixを自動で開く
     autocmd QuickFixCmdPost * cwindow
     autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
+    " プレビューができるようにする
     autocmd FileType qf noremap <silent><buffer> p  <CR>*Nzz<C-w>p
 
     " ヘルプをqで閉じれるようにする
@@ -221,14 +199,7 @@ if v:version >= 800
 endif
 " }}}
 
-" ============================== "
-"   Use Plugins Settings START   "
-" ============================== "
-" {{{
-" ============================== "
-"        Dein Installing         "
-" ============================== "
-" {{{
+" Confirm whether or not install dein if not exists {{{
 " 各プラグインをインストールするディレクトリ
 let s:plugin_dir = expand('$HOME') . '/.vim/dein/'
 " dein.vimをインストールするディレクトリをランタイムパスへ追加
@@ -250,10 +221,9 @@ if !isdirectory(s:dein_dir)
     endif
 endif
 "}}}
+"
 if g:use_plugins == s:true
-    " ============================== "
-    "      Plugin Pre Settings       "
-    " ============================== "
+    " Use Plugins Settings
     " Plugin pre settings {{{
     " vimprocが呼ばれる前に設定
     let g:vimproc#download_windows_dll = 1
@@ -261,119 +231,28 @@ if g:use_plugins == s:true
         execute "source " . expand("$HOME") . "/dotfiles/vim-local.vim"
     endif
     " }}}
-    " ============================== "
-    "            Vim-plug            "
-    " ============================== "
-    " {{{
-    " VIM-PLUG 試験利用
-    " 起動時に該当ファイルがなければ自動でvim-plugをインストール
-    set runtimepath+=~/.vim/
-    if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
-        if executable("curl")
-            echo "vim-plug will be installed."
-            execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
-        else
-            echoerr "curlをインストールするか手動でvim-plugをインストールしてください。"
-        endif
-    endif
 
-    if filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
-        call plug#begin('~/.vim/plugged')
-
-        " COLORSCHEMES
-        Plug 'joshdick/onedark.vim'
-        Plug 'sickill/vim-monokai'
-        Plug 'altercation/vim-colors-solarized'
-        Plug 'w0ng/vim-hybrid'
-        Plug 'vim-scripts/pyte'
-        Plug 'vim-scripts/summerfruit256.vim'
-        Plug 'ciaranm/inkpot'
-        Plug 'cdmedia/itg_flat_vim'
-        Plug 'tomasr/molokai'
-        " Plug 'itchyny/landscape.vim' "vimfilerと競合するので注意
-        Plug 'rakr/vim-one'
-        " COLORSCHEMESE END
-        Plug 'Shougo/vimfiler.vim'
-        Plug 'Shougo/unite.vim'
-
-        Plug 'ervandew/supertab'
-        Plug 'SirVer/ultisnips'
-        Plug 'MarcWeber/vim-addon-mw-utils'
-        Plug 'tomtom/tlib_vim'
-        Plug 'garbas/vim-snipmate'
-        Plug 'honza/vim-snippets'
-        " test
-        Plug 'Shougo/deoplete.nvim'
-        call plug#end()
-    endif
-    let g:deoplete#enable_at_startup = 1
-    " {{{
-    " ============================== "
-    "             Unite              "
-    " ============================== "
-    " 入力モードで開始する
-    if has_key(g:plugs, "unite.vim") "{{{
-        let g:unite_force_overwrite_statusline = 0
-        let g:unite_enable_start_insert = 0
-        nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-        nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
-        nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
-        nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
-        nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
-        " Unite All
-        nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-        " UniteOutLine
-        nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
-        " ウィンドウを分割して開く
-        au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-        au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-        " ウィンドウを縦に分割して開く
-        au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-        au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-        " タブで開く
-        au FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
-        au FileType unite inoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
-        " ESCキーを2回押すと終了する
-        au FileType unite nmap <silent> <buffer> <ESC><ESC> q
-        au FileType unite imap <silent> <buffer> <ESC><ESC> <ESC>q
-
-        "nice unite and ag
-        " let g:unite_source_history_yank_enable = 1
-        " try
-        let g:unite_source_rec_async_command =
-                    \ ['ag', '--follow', '--nocolor', '--nogroup',
-                    \  '--hidden', '-g', '']
-        let g:unite_source_rec_max_cache_files = 5000
-        call unite#filters#matcher_default#use(['matcher_fuzzy'])
-        " catch
-        " endtry
-        " search a file in the filetree
-        " nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
-        " reset not it is <C-l> normally
-        " nnoremap <space>r <Plug>(unite_restart)
-    endif " }}}
+    " " Vim-Plug (test){{{
+    " " VIM-PLUG 試験利用
+    " " 起動時に該当ファイルがなければ自動でvim-plugをインストール
+    " set runtimepath+=~/.vim/
+    " if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
+    "     if executable("curl")
+    "         echo "vim-plug will be installed."
+    "         execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
+    "     else
+    "         echoerr "curlをインストールするか手動でvim-plugをインストールしてください。"
+    "     endif
+    " endif
     "
-    " ============================== "
-    "            VimFiler            "
-    " ============================== "
+    " if filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
+    "     call plug#begin('~/.vim/plugged')
+    "     call plug#end()
+    " endif
 
-    if has_key(g:plugs, "vimfiler.vim") " {{{
-        let g:vimfiler_force_overwrite_statusline = 0
-        let g:vimfiler_enable_auto_cd = 1
-        let g:vimfiler_as_default_explorer = 1
-        nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
-        nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
-    endif " }}}
+    " " Vim-plug END
+    " " }}}
 
-    " VIM-PLUGここまで
-    " ============================== "
-    "          Vim-plug END          "
-    " ============================== "
-    " }}}
-
-    " ============================== "
-    "              DEIN              "
-    " ============================== "
     " Dein main settings {{{
     " escapeでスペースつきのホームフォルダ名に対応
     " ...できていない
@@ -397,16 +276,14 @@ if g:use_plugins == s:true
 
     if dein#check_install()
         augroup VIMRC
+            " インストールされていないプラグインがあれば確認
             autocmd VimEnter * call myvimrc#confirm_do_dein_install()
         augroup END
     endif
     filetype plugin indent on
     syntax enable
-    " }}}
     " Dein end
-    " ============================== "
-    "            Dein END            "
-    " ============================== "
+    " }}}
 
     " Plugin post settings {{{
     " ターミナルでの色設定
@@ -429,17 +306,19 @@ if g:use_plugins == s:true
     endif
 
     " }}}
-else "if use_plugins == s:false
-    " Without plugins settings {{{
-    " statusline settings
+else
+    " Without plugins settings
+    " Statusline settings {{{
     set statusline=%F%m%r%h%w%q%=
     set statusline+=[%{&fileformat}]
     set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
     set statusline+=%y
     set statusline+=%4p%%%5l:%-3c
-    colorscheme torte
-    set background=dark
+    colorscheme default
+    set background=light
+    " }}}
 
+    " Netrw settings {{{
     " let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
     " let g:netrw_browse_split = 4
     let g:netrw_banner = 1
@@ -493,6 +372,4 @@ else "if use_plugins == s:false
     "     endif
     " endfunction
     " }}}
-endif " use_plugins end
-
-" ==========Use Plugins Settings END==========
+endif

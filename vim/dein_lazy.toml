@@ -1,8 +1,9 @@
 # vim:set foldmethod=marker:
 [[plugins]]
-repo = 'osyo-manga/vim-precious'# {{{
+repo = 'osyo-manga/vim-precious'
 on_cmd = ["PreciousReset", "PreciousSwitch"]
 depends = ['context_filetype.vim']
+# {{{
 hook_add = '''
     let g:context_filetype#search_offset = 300
     let g:precious_enable_switch_CursorMoved = { '*' : 0 }
@@ -22,16 +23,20 @@ hook_add = '''
     "     autocmd!
     "     autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
     " augroup END
-'''# }}}
+'''
+# }}}
 [[plugins]]
-repo = "cohama/lexima.vim"# {{{
+repo = "cohama/lexima.vim"
 on_i = 1
+# {{{
 hook_post_source = '''
     imap <expr> <C-h> lexima#expand('<BS>', 'i')
-'''# }}}
+'''
+# }}}
 [[plugins]]
-repo = 'rhysd/vim-clang-format'# {{{
+repo = 'rhysd/vim-clang-format'
 on_ft = ['c','cpp']
+# {{{
 hook_add = '''
     let g:clang_format#auto_format = 0
 
@@ -56,14 +61,16 @@ hook_add = '''
                 \ "UseTab" : "Never",
                 \ "ColumnLimit" : "120"
                 \ }
-'''# }}}
+'''
+# }}}
 [[plugins]]
-repo = 'cespare/vim-toml'# {{{
-on_ft = 'toml'# }}}
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
 [[plugins]]
-repo = 'davidhalter/jedi-vim'# {{{
+repo = 'davidhalter/jedi-vim'
 on_ft = 'python'
 # depends = 'neocomplete.vim'
+# {{{
 hook_post_source = '''
     "Windowsの場合PYTHONHOMEの環境変数設定が必要なので注意
     " augroup JEDIVIM
@@ -89,19 +96,23 @@ hook_post_source = '''
     let g:jedi#auto_close_doc = 1
     let g:jedi#show_call_signatures = 2
     " let g:jedi#force_py_version = 3
-'''# }}}
+'''
+# }}}
 [[plugins]]
 repo = 't9md/vim-choosewin'
 [[plugins]]
-repo = 'glidenote/memolist.vim'# {{{
+repo = 'glidenote/memolist.vim'
 on_cmd = ['MemoNew', 'MemoList']
+# {{{
 hook_add = '''
     " let g:memolist_memo_suffix = 'txt'
     let g:memolist_unite = 1
-'''# }}}
+'''
+# }}}
 [[plugins]]
-repo = 'majutsushi/tagbar'# {{{
+repo = 'majutsushi/tagbar'
 on_cmd = ['TagbarToggle', 'TagbarOpen']
+# {{{
 hook_add = '''
     nnoremap <silent> <Leader>t :TagbarOpen j<CR>
     let g:tagbar_show_linenumbers = 1
@@ -111,13 +122,13 @@ hook_add = '''
     let g:tagbar_autopreview = 1
     let g:tagbar_autofocus = 1
     let g:tagbar_autoclose = 1
-'''# }}}
-
-# TWEETVIM PLUGINS {{{
+'''
+# }}}
 [[plugins]]
-repo = 'basyura/TweetVim.git'# {{{
+repo = 'basyura/TweetVim.git'
 on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay']
 depends = ['bitly.vim', 'twibill.vim', 'neco-tweetvim',  'open-browser.vim']
+# {{{
 hook_add = '''
     " 1ページに表示する最大数
     let g:tweetvim_tweet_per_page = 50
@@ -130,20 +141,21 @@ hook_add = '''
     " let g:tweetvim_async_post = 0
     nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
     nnoremap <Leader>Tm :<C-u>TweetVimMentions<CR>
-    " nnoremap <Leader>Tl :<C-u>TweetVimListStatuses 
+    " nnoremap <Leader>Tl :<C-u>TweetVimListStatuses
     nnoremap <Leader>Tu :<C-u>TweetVimUserStream<CR>
     nnoremap <Leader>Ts :<C-u>TweetVimSay<CR>
-'''# }}}
-# HTML CSS JS PLUGINS {{{
-[[plugins]]
-repo = 'csscomb/vim-csscomb'# {{{
-on_ft = 'css'# }}}
+'''
 # }}}
-# QUICKRUN SYNTAX CHECKS {{{
+# HTML CSS JS PLUGINS
 [[plugins]]
-repo = "thinca/vim-quickrun"# {{{
+repo = 'csscomb/vim-csscomb'
+on_ft = 'css'
+# QUICKRUN SYNTAX CHECKS
+[[plugins]]
+repo = "thinca/vim-quickrun"
 depends = "vim-watchdogs"
 on_cmd = 'QuickRun'
+# {{{
 hook_post_source = '''
 " quickrun-hook-add-include-option {{{
     let s:hook = {
@@ -217,44 +229,51 @@ hook_post_source = '''
     " nnoremap <silent> <Leader>R :QuickRun<CR>
     " nmap <Leader>R <Plug>(quickrun)
     nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-'''# }}}
+'''
+# }}}
 [[plugins]]
-repo = "osyo-manga/vim-watchdogs" # {{{
+repo = "osyo-manga/vim-watchdogs"
 on_cmd = 'WatchdogsRun'
 depends = [ 'shabadou.vim' ]
+# {{{
 hook_add = '''
      let g:watchdogs_check_BufWritePost_enable = 0
      let g:watchdogs_check_CursorHold_enable = 0
-''' # }}}
+'''
 # }}}
 [[plugins]]
-on_i = 1
-depends = "YouCompleteMe"
 repo = 'rdnetto/YCM-Generator'
+on_cmd = 'YcmGenerator'
+depends = "YouCompleteMe"
 [[plugins]]
 repo = 'sjl/gundo.vim'
 on_event = "CursorHold"
+# {{{
 hook_add = '''
     nnoremap <Leader>gu :<C-u>GundoToggle<CR>
 '''
+# }}}
 [[plugins]]
 repo = "osyo-manga/vim-brightest"
-# on_event = ['VimEnter']# {{{
+# on_event = ['VimEnter']
 on_cmd = ['BrightestEnable']
+# {{{
 hook_add = '''
 let g:brightest#highlight = {
 \   "group" : "BrightestUnderline"
 \}
-'''# }}}
+'''
+# }}}
 [[plugins]]
-on_event = "CursorMoved"
 repo = 'tyru/caw.vim.git'
-[[plugins]]
 on_event = "CursorMoved"
+[[plugins]]
 repo = 'tpope/vim-surround'
-[[plugins]]
-repo = 'junegunn/vim-easy-align'# {{{
 on_event = "CursorMoved"
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+on_event = "CursorMoved"
+# {{{
 hook_add = '''
     " ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
     vmap <Enter> <Plug>(LiveEasyAlign)
@@ -264,3 +283,16 @@ hook_add = '''
     " " Start interactive EasyAlign in visual mode (e.g. vipga)
     " xmap ga <Plug>(EasyAlign)
 '''# }}}
+[[plugins]]
+repo = 'Shougo/vimfiler.vim'
+on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
+depends = 'unite.vim'
+# {{{
+hook_add = '''
+    let g:vimfiler_force_overwrite_statusline = 0
+    let g:vimfiler_enable_auto_cd = 1
+    let g:vimfiler_as_default_explorer = 1
+    nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
+    nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
+'''
+# }}}
