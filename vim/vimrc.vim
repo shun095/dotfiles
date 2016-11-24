@@ -429,16 +429,16 @@ if g:use_plugins == s:true
         cd $HOME
     else
         set background=dark
-        colorscheme onedark
+        colorscheme one
         " colorscheme onedark
         " highlight! FoldColumn ctermbg=233 guibg=#0e1013
-        highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
-        highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-        highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
-                    \guifg=#282C34 guibg=#282C34
+        " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
+        " highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
+        " highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
+        "             \guifg=#282C34 guibg=#282C34
+        " highlight! IncSearch ctermbg=114 guibg=#98C379
         " highlight! StatusLine ctermbg=235 guibg=#282C34
         " highlight! StatusLineNC ctermbg=235 guibg=#282C34
-        highlight! IncSearch ctermbg=114 guibg=#98C379
     endif
     " }}}
 else "if use_plugins == s:false
@@ -449,8 +449,10 @@ else "if use_plugins == s:false
     set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
     set statusline+=%y
     set statusline+=%4p%%%5l:%-3c
+
     colorscheme default
     set background=light
+
     function! s:NiceLexplore(open_on_bufferdir)
         " 常に幅35で開く
         let g:netrw_winsize = float2nr(round(30.0 / winwidth(0) * 100))
