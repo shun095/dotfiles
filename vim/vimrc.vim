@@ -141,7 +141,7 @@ noremap! <C-l> <Del>
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
 vnoremap * "zy:let @/ = @z <CR>n
-nnoremap <Leader>rc <ESC>:<C-u>tabe ~/dotfiles/vim/vimrc.vim<CR>
+nnoremap <Leader>rc <ESC>:<C-u>vsplit ~/dotfiles/vim/vimrc.vim<CR>
 " nnoremap * *N
 " nnoremap <expr> <Leader>/ <SID>count_serch_number(":%s/<Cursor>/&/gn")
 "}}}
@@ -300,8 +300,10 @@ if g:use_plugins == s:true
         colorscheme default
         cd $HOME
     else
-        set background=dark
+        set background=light
         colorscheme one
+        " colorscheme summerfruit256
+        " set background=dark
         " colorscheme onedark
         " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
         " highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
@@ -312,6 +314,21 @@ if g:use_plugins == s:true
         " highlight! FoldColumn ctermbg=233 guibg=#0e1013
         " highlight! StatusLine ctermbg=235 guibg=#282C34
         " highlight! StatusLineNC ctermbg=235 guibg=#282C34
+
+        if has("gui_running")
+            let g:indent_guides_auto_colors = 1
+        else
+            let g:indent_guides_auto_colors = 0
+                " summerfruit
+                " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
+                " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
+                " one(light)
+                autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
+                autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
+                " onedark
+                " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
+                " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=234
+        endif
     endif
 
     " }}}

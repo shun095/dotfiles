@@ -5,8 +5,7 @@ repo = 'tpope/vim-dispatch'
 repo = 'Shougo/vimproc.vim'# {{{
 build = 'make'# }}}
 [[plugins]]
-repo = 'Shougo/unite.vim'
-# {{{
+repo = 'Shougo/unite.vim' #{{{
 hook_add = '''
     let g:unite_force_overwrite_statusline = 0
     let g:unite_enable_start_insert = 0
@@ -48,6 +47,18 @@ hook_add = '''
     " nnoremap <space>r <Plug>(unite_restart)
 '''# }}}
 [[plugins]]
+repo = 'Shougo/vimfiler.vim' #{{{
+# on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
+depends = 'unite.vim'
+hook_add = '''
+    let g:vimfiler_force_overwrite_statusline = 0
+    let g:vimfiler_enable_auto_cd = 1
+    let g:vimfiler_as_default_explorer = 1
+    nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
+    nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
+'''
+# }}}
+[[plugins]]
 repo = 'Shougo/unite-outline'# {{{
 depends = ['unite.vim']# }}}
 [[plugins]]
@@ -78,6 +89,7 @@ hook_add = '''
     nnoremap <space>m :<c-u>CtrlPMRUFiles<cr>
     nnoremap <space>c :<C-u>CtrlPCurWD<cr>
     nnoremap <space>r :<C-u>CtrlPClearCache<cr>
+    nnoremap <space>b :<C-u>CtrlPBuffer<cr>
     nnoremap <space><space> :<C-u>CtrlP<cr>
     if executable('ag')
         if !has("win32")
@@ -134,18 +146,6 @@ hook_add = '''
     let g:indent_guides_color_change_percent = 5
     let g:indent_guides_start_level = 1
     let g:indent_guides_enable_on_vim_startup = 1
-    if has("gui_running")
-        let g:indent_guides_auto_colors = 1
-    else
-        let g:indent_guides_auto_colors = 0
-        " summerfruit256
-        "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
-       " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
-
-        " onedark
-         autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
-         autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
-    endif
 '''# }}}
 # FOLD PLUGINS
 [[plugins]]
@@ -180,14 +180,14 @@ hook_add = '''
 
     let g:airline#extensions#tabline#enabled       = 1 "{{{
     " right side show mode
-    let g:airline#extensions#tabline#show_tab_type = 0
+    let g:airline#extensions#tabline#show_tab_type = 1
     " プレビューウィンドウのステータスライン(Airline優先:0か,他のプラグイン優先:1)
     let g:airline#extensions#tabline#exclude_preview = 0
     let g:airline#extensions#tabline#show_tabs = 1
-    let g:airline#extensions#tabline#show_splits   = 0
+    let g:airline#extensions#tabline#show_splits   = 1
     let g:airline#extensions#tabline#show_buffers = 0
     let g:airline#extensions#tabline#tab_nr_type   = 2 " splits and tab number
-    let g:airline#extensions#tabline#show_close_button = 1 "}}}
+    let g:airline#extensions#tabline#show_close_button = 0 "}}}
 
     " let g:airline_powerline_fonts=1
     if !exists('g:airline_symbols')
