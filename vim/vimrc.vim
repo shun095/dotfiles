@@ -71,7 +71,6 @@ set ambiwidth=double " 全角記号（「→」など）の文字幅を半角２
 set mouse=a    " マウスを有効化
 set nomousehide    " 入力中にポインタを消すかどうか
 set nolazyredraw
-set background=dark
 set sessionoptions=folds,help,tabpages
 set updatetime=4000
 
@@ -307,7 +306,7 @@ if g:use_plugins == s:true
         Plug 'ciaranm/inkpot'
         Plug 'cdmedia/itg_flat_vim'
         Plug 'tomasr/molokai'
-        Plug 'itchyny/landscape.vim'
+        " Plug 'itchyny/landscape.vim' "vimfilerと競合するので注意
         Plug 'rakr/vim-one'
         " COLORSCHEMESE END
         Plug 'Shougo/vimfiler.vim'
@@ -450,8 +449,8 @@ else "if use_plugins == s:false
     set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
     set statusline+=%y
     set statusline+=%4p%%%5l:%-3c
-    colorscheme torte
-    set background=dark
+    colorscheme default
+    set background=light
     function! s:NiceLexplore(open_on_bufferdir)
         " 常に幅35で開く
         let g:netrw_winsize = float2nr(round(30.0 / winwidth(0) * 100))
