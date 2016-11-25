@@ -302,18 +302,18 @@ if g:use_plugins == s:true
         colorscheme elflord
         cd $HOME
     else
-        set background=light
-        colorscheme one
+        set background=dark
+        colorscheme onedark
         " colorscheme summerfruit256
         " set background=dark
         " colorscheme onedark
-        " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
-        " highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-        " highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
-        "             \guifg=#282C34 guibg=#282C34
+        highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
+        highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
+        highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
+                    \guifg=#282C34 guibg=#282C34
         highlight! MatchParen gui=reverse cterm=reverse
         highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
-        " highlight! FoldColumn ctermbg=233 guibg=#0e1013
+        highlight! FoldColumn ctermbg=233 guibg=#0e1013
         " highlight! StatusLine ctermbg=235 guibg=#282C34
         " highlight! StatusLineNC ctermbg=235 guibg=#282C34
 
@@ -325,11 +325,11 @@ if g:use_plugins == s:true
                 " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
                 " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
                 " one(light)
-                autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
-                autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
+                " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
+                " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
                 " onedark
-                " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
-                " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=234
+                autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
+                autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
         endif
     endif
 
