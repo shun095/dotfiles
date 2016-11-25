@@ -49,36 +49,32 @@ set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入�
 set ignorecase                     " 大文字小文字無視
 set smartcase                      " 大文字で始まる場合は無視しない
 set foldmethod=marker              " syntaxに応じて折りたたまれる
-
-set tabstop=4                      " タブの挙動設定。挙動が難しいのでヘルプ参照
-set shiftwidth=4
-set expandtab
-set smartindent
-set softtabstop=4
-
+set tabstop=4                      " タブキーの挙動設定。タブをスペース4つ分とする
+set shiftwidth=4                   " インデントでスペース４つ分下げる
+set expandtab                      " タブをスペースに変換
+set smartindent                    " 自動インデントを有効にする
+set softtabstop=4                  " バックスペース等でスペースを消す幅
 set list                           " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
 set listchars=tab:>-,trail:-,eol:$,\extends:>,precedes:<,nbsp:%
-
 set wildmenu                       " コマンドの補完設定
-set wildmode=longest:full,full
-
-set laststatus=2     " 下のステータスバーの表示
-set showcmd          " 入力中のコマンドを右下に表示
-set cmdheight=3      " コマンドラインの高さ
-set showtabline=2    " タブバーを常に表示
-set number           " 行番号表示
+set wildmode=longest:full,full     " コマンドの補完スタイル
+set laststatus=2                   " 下のステータスバーの表示
+set showcmd                        " 入力中のコマンドを右下に表示
+set cmdheight=3                    " コマンドラインの高さ
+set showtabline=2                  " タブバーを常に表示
+set number                         " 行番号表示
 set norelativenumber
-set hlsearch         " 文字列検索時にハイライトする
-set incsearch        " 文字入力中に検索を開始
-set ruler            " 右下の現在行の表示
-set noequalalways      " splitしたときにウィンドウが同じ大きさになるよう調節する
-set tags+=./tags;,./tags-ja;     " タグファイルを上層に向かって探す
-set autoread         " 他のソフトで、編集中ファイルが変更されたとき自動Reload
-set noautochdir      " 今開いてるファイルにカレントディレクトリを移動するか
-set scrolloff=5     " カーソルが端まで行く前にスクロールし始める行数
-set ambiwidth=double " 全角記号（「→」など）の文字幅を半角２つ分にする
-set mouse=a    " マウスを有効化
-set nomousehide    " 入力中にポインタを消すかどうか
+set hlsearch                       " 文字列検索時にハイライトする
+set incsearch                      " 文字入力中に検索を開始
+set ruler                          " 右下の現在行の表示
+set noequalalways                  " splitしたときにウィンドウが同じ大きさになるよう調節する
+set tags+=./tags;,./tags-ja;       " タグファイルを上層に向かって探す
+set autoread                       " 他のソフトで、編集中ファイルが変更されたとき自動Reload
+set noautochdir                    " 今開いてるファイルにカレントディレクトリを移動するか
+set scrolloff=5                    " カーソルが端まで行く前にスクロールし始める行数
+set ambiwidth=double               " 全角記号（「→」など）の文字幅を半角２つ分にする
+set mouse=a                        " マウスを有効化
+set nomousehide                    " 入力中にポインタを消すかどうか
 set nolazyredraw
 set sessionoptions=folds,help,tabpages
 set updatetime=4000
@@ -376,7 +372,8 @@ else
         autocmd FileType netrw unmap <silent><buffer>qb
         " autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
     augroup END
-    " function! s:NiceLexplore(on_bufferdir)
+    " Toggling
+    " function! s:NiceLexplore(on_bufferdir) {{{
     "     if exists("t:expl_buf_num")
     "         let expl_win_num = bufwinnr(t:expl_buf_num)
     "         if expl_win_num != -1
@@ -399,5 +396,6 @@ else
     "         let t:expl_buf_num = bufnr("%")
     "     endif
     " endfunction
+    " }}}
     " }}}
 endif
