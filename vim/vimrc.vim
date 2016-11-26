@@ -307,7 +307,7 @@ if g:use_plugins == s:true
         highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
         highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
                     \guifg=#282C34 guibg=#282C34
-        highlight! MatchParen gui=reverse cterm=reverse
+        highlight! MatchParen gui=none cterm=none term=none
         highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
         highlight! FoldColumn ctermbg=233 guibg=#0e1013
         " highlight! StatusLine ctermbg=235 guibg=#282C34
