@@ -1,7 +1,6 @@
 function! myvimrc#ImInActivate() abort
-    if has("job")
-        call job_start('fcitx-remote -c')
-    else
+    let fcitx_dbus = system('fcitx-remote -a')
+    if fcitx_dbus != ''
         call system('fcitx-remote -c')
     endif
 endfunction
