@@ -78,26 +78,26 @@ set nomousehide                    " 入力中にポインタを消すかどう�
 set nolazyredraw
 set sessionoptions=folds,help,tabpages
 set updatetime=4000
+set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判別優先順位の設定
+set fileformats=unix,dos,mac " 改行コード自動判別優先順位の設定
+set completeopt=menuone,noselect,preview " 補完関係の設定
+set omnifunc=syntaxcomplete#Complete
+set iminsert=0 " IMEの管理
+set imsearch=0
 
+" Vim側のメニューバーのエンコーディングの設定
+" set guioptions+=M
+set encoding=utf-8
+source $VIMRUNTIME/delmenu.vim
+set langmenu=ja_JP.utf-8
+source $VIMRUNTIME/menu.vim
+
+" agがあればgrepの代わりにagを使う
 if executable("ag")
-    " agは便利
     set grepprg=ag\ --nocolor\ --column\ --nogroup\ $*
 else
     set grepprg=grep\ -rn\ $*
 endif
-
-" 文字コード自動判別優先順位の設定
-set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp
-
-" 改行コード自動判別優先順位の設定
-set fileformats=unix,dos,mac
-
-" Vim側のエンコーディングの設定
-set encoding=utf-8
-source $VIMRUNTIME/delmenu.vim
-set langmenu=ja_jp.utf-8
-" set langmenu=en_us.utf-8
-source $VIMRUNTIME/menu.vim
 
 " set undofileでアンドゥデータをファイルを閉じても残しておく
 " 該当フォルダがなければ作成
@@ -114,17 +114,6 @@ if isdirectory(expand("$HOME")."/.vim/backupfiles") != 1
 endif
 set backupdir=$HOME/.vim/backupfiles
 set backup
-
-" IMEの管理
-" inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
-set iminsert=0
-set imsearch=0
-
-" 補完関係の設定
-set completeopt=menuone,noselect,preview
-set omnifunc=syntaxcomplete#Complete
-" set guioptions+=M
-
 " }}}
 
 " Mapping {{{
@@ -133,15 +122,13 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
-
-" !マークで挿入モードとコマンドラインモード
+" !マークは挿入モードとコマンドラインモードへのマッピング
 noremap! <C-l> <Del>
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
+" ビジュアルモードでも*検索が使えるようにする
 vnoremap * "zy:let @/ = @z <CR>n
 nnoremap <Leader>rc <ESC>:<C-u>vsplit ~/dotfiles/vim/vimrc.vim<CR>
-" nnoremap * *N
-" nnoremap <expr> <Leader>/ <SID>count_serch_number(":%s/<Cursor>/&/gn")
 "}}}
 
 " Commands {{{
@@ -150,8 +137,7 @@ if has("unix")
     command! Wsudo execute("w !sudo tee % > /dev/null")
 endif
 
-" :CdCurrent で現在のファイルのディレクトリに移動できる
-" (Kaoriyaに入ってて便利なので実装)
+" :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
 command! CdCurrent cd\ %:h
 "}}}
 
@@ -177,15 +163,11 @@ augroup VIMRC
     " QuickFixを自動で開く
     autocmd QuickFixCmdPost * cwindow
     autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
-    " プレビューができるようにする
+    " pでプレビューができるようにする
     autocmd FileType qf noremap <silent><buffer> p  <CR>*Nzz<C-w>p
 
     " ヘルプをqで閉じれるようにする
     autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
-    " autocmd FileType help echom "test"
-    " autocmd FileType help execute "let &tags.=','
-    " \ . expand('$VIMRUNTIME') . '/doc/tags'"
-    " autocmd VimEnter * call s:set_statusline()
 
     if has("unix")
         " linux用（fcitxでしか使えない）

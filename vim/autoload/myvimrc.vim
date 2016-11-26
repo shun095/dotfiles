@@ -1,5 +1,9 @@
 function! myvimrc#ImInActivate() abort
-    call system('fcitx-remote -c')
+    if has("job")
+        call job_start('fcitx-remote -c')
+    else
+        call system('fcitx-remote -c')
+    endif
 endfunction
 
 function! myvimrc#confirm_do_dein_install() abort
@@ -17,7 +21,7 @@ function! myvimrc#confirm_do_dein_install() abort
     endif
 endfunction
 
-function! myvimrc#NiceLexplore(open_on_bufferdir)
+function! myvimrc#NiceLexplore(open_on_bufferdir) abort
     " 常に幅35で開く
     let g:netrw_winsize = float2nr(round(30.0 / winwidth(0) * 100))
     if a:open_on_bufferdir == 1
