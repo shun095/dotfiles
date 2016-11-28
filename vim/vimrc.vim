@@ -299,16 +299,31 @@ if g:use_plugins == s:true
             let g:indent_guides_auto_colors = 1
         else
             let g:indent_guides_auto_colors = 0
-                " summerfruit
-                " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
-                " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
-                " one(light)
-                " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
-                " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
-                " onedark
-                autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
-                autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+            " summerfruit
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
+            " one(light)
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
+            " onedark
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
         endif
+    endif
+
+    " Auto updating vimrc
+    let s:git_callback_count = 0
+    function! MyvimrcGitcallback(ch, msg)
+        let s:git_callback_count+=1
+        echom s:git_callback_count a:msg
+    endfunction
+
+    if has('job')
+        let s:save_cd = getcwd()
+        cd ~/dotfiles/
+        call job_start('git pull', {'callback': 'MyvimrcGitcallback'})
+        execute "cd " . s:save_cd
+        unlet s:save_cd
     endif
 
     " }}}

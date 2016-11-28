@@ -126,7 +126,7 @@ hook_add = '''
 # }}}
 [[plugins]]
 repo = 'basyura/TweetVim.git'
-on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay']
+on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
 depends = ['bitly.vim', 'twibill.vim', 'neco-tweetvim',  'open-browser.vim']
 # {{{
 hook_add = '''
@@ -144,6 +144,7 @@ hook_add = '''
     " nnoremap <Leader>Tl :<C-u>TweetVimListStatuses
     nnoremap <Leader>Tu :<C-u>TweetVimUserStream<CR>
     nnoremap <Leader>Ts :<C-u>TweetVimSay<CR>
+    nnoremap <Leader>Tc :<C-u>TweetVimCommandSay<CR>
 '''
 # }}}
 # HTML CSS JS PLUGINS
