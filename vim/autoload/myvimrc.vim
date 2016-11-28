@@ -43,16 +43,19 @@ function! myvimrc#git_auto_updating() abort
 endfunction
 
 " Auto updating vimrc
-function! myvimrc#git_callback(ch, msg)
+function! myvimrc#git_callback(ch, msg) abort
     let s:git_callback_count+=1
     echom s:git_callback_count a:msg
 endfunction
 
-function! myvimrc#git_end_callback(ch, msg)
+function! myvimrc#git_end_callback(ch, msg) abort
     if s:git_callback_count > 1
-    echohl WarningMsg
-    echom "New vimrc was downloaded. Please restart to use it!!"
-    echohl none
+        echohl WarningMsg
+        echom "New vimrc was downloaded. Please restart to use it!!"
+        echohl none
+    " else
+    "     echomsg "git git_callback_count was " . s:git_callback_count
+    endif
 endfunction
 
 " function! s:move_cursor_pos_mapping(str, ...)
