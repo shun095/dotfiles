@@ -45,7 +45,7 @@ endfunction
 " Auto updating vimrc
 function! myvimrc#git_callback(ch, msg) abort
     let s:git_callback_count+=1
-    echom s:git_callback_count a:msg
+    " echom s:git_callback_count a:msg
 endfunction
 
 function! myvimrc#git_end_callback(ch, msg) abort
