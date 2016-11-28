@@ -128,7 +128,7 @@ noremap! <C-l> <Del>
 nnoremap <silent> <ESC><ESC> :noh<CR>
 " ビジュアルモードでも*検索が使えるようにする
 vnoremap * "zy:let @/ = @z <CR>n
-nnoremap <Leader>rc <ESC>:<C-u>vsplit ~/dotfiles/vim/vimrc.vim<CR>
+nnoremap <Leader>rc <ESC>:<C-u>edit ~/dotfiles/vim/vimrc.vim<CR>
 "}}}
 
 " Commands {{{
