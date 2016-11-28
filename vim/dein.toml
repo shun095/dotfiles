@@ -284,12 +284,12 @@ hook_add = '''
                 \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
                 \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
-
+    let g:ycm_min_num_of_chars_for_completion = 1
     " setting of the which python is used
     if has("unix")
-        let g:ycm_python_binary_path = "/usr/bin/python"
+        let g:ycm_python_binary_path = "/usr/bin/python" . g:myvimrc_python_version
         " let g:ycm_python_binary_path = "/usr/bin/python3"
-        let g:UltiSnipsUsePythonVersion = 2
+        let g:UltiSnipsUsePythonVersion = g:myvimrc_python_version
     endif
     " let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
     " let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -310,8 +310,8 @@ hook_add = '''
 repo = 'MarcWeber/vim-addon-mw-utils'
 [[plugins]]
 repo = 'tomtom/tlib_vim'
-[[plugins]]
-repo = 'garbas/vim-snipmate'
+# [[plugins]]
+# repo = 'garbas/vim-snipmate'
 [[plugins]]
 repo = 'honza/vim-snippets'
 [[plugins]]

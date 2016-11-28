@@ -77,7 +77,7 @@ set mouse=a                        " マウスを有効化
 set nomousehide                    " 入力中にポインタを消すかどうか
 set nolazyredraw
 set sessionoptions=folds,help,tabpages
-set updatetime=4000
+set updatetime=1000
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判別優先順位の設定
 set fileformats=unix,dos,mac " 改行コード自動判別優先順位の設定
 set completeopt=menuone,noselect,preview " 補完関係の設定
@@ -221,6 +221,8 @@ if g:use_plugins == s:true
     if filereadable(expand("$HOME")."/dotfiles/vim-local.vim")
         execute "source " . expand("$HOME") . "/dotfiles/vim-local.vim"
     endif
+    " プラグインで使われるpythonのバージョンを決定
+    let g:myvimrc_python_version = 2
     " }}}
 
     " " Vim-Plug (test){{{
