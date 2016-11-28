@@ -31,6 +31,23 @@ function! myvimrc#NiceLexplore(open_on_bufferdir) abort
     let g:netrw_winsize = 50
 endfunction
 
+function! myvimrc#git_auto_updating() abort
+    if has('job')
+        let s:save_cd = getcwd()
+        cd ~/dotfiles/
+        call job_start('git pull', {'callback': 'myvimrc#git_callback'})
+        execute "cd " . s:save_cd
+        unlet s:save_cd
+    endif
+endfunction
+
+" Auto updating vimrc
+let s:git_callback_count = 0
+function! myvimrc#git_callback(ch, msg)
+    let s:git_callback_count+=1
+    echom s:git_callback_count a:msg
+endfunction
+
 " function! s:move_cursor_pos_mapping(str, ...)
 "     let left = get(a:, 1, "<Left>")
 "     let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")

@@ -173,6 +173,8 @@ augroup VIMRC
         " linux用（fcitxでしか使えない）
         autocmd InsertLeave * call myvimrc#ImInActivate()
     endif
+
+    autocmd VimEnter * call myvimrc#git_auto_updating()
 augroup END
 "}}}
 
@@ -310,22 +312,6 @@ if g:use_plugins == s:true
             autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
         endif
     endif
-
-    " Auto updating vimrc
-    let s:git_callback_count = 0
-    function! MyvimrcGitcallback(ch, msg)
-        let s:git_callback_count+=1
-        echom s:git_callback_count a:msg
-    endfunction
-
-    if has('job')
-        let s:save_cd = getcwd()
-        cd ~/dotfiles/
-        call job_start('git pull', {'callback': 'MyvimrcGitcallback'})
-        execute "cd " . s:save_cd
-        unlet s:save_cd
-    endif
-
     " }}}
 else
     " Without plugins settings
