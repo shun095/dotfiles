@@ -40,7 +40,11 @@ function! myrosmake#rosmake(filename)
                         \ . "%+G[ rosmake ] Built %.%#,"
                         \ . "%I[ rosmake ] %m output to directory %.%#,"
                         \ . "%Z[ rosmake ] %f %.%#,"
-            make
+            if exists(":Dispatch") == 2
+                Dispatch
+            else
+                make
+            endif
         endif
 
         " Restore saved settings
