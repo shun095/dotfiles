@@ -66,38 +66,38 @@ hook_add = '''
 [[plugins]]
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
-[[plugins]]
-repo = 'davidhalter/jedi-vim'
-on_ft = 'python'
-# depends = 'neocomplete.vim'
-# {{{
-hook_post_source = '''
-    "Windowsの場合PYTHONHOMEの環境変数設定が必要なので注意
-    " augroup JEDIVIM
-    "     autocmd FileType python setlocal omnifunc=jedi#completions
-    " augroup END
-
-    " Enable these lines or ...
-    " if !exists('g:neocomplete#sources#omni#input_patterns')
-    "     let g:neocomplete#sources#omni#input_patterns = {}
-    " endif
-    " let g:neocomplete#sources#omni#input_patterns.python =
-    "             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-
-    " ... these lines.
-    if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:neocomplete#force_omni_input_patterns.python =
-                \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-
-    let g:jedi#completions_enabled = 0
-    let g:jedi#auto_vim_configuration = 0
-    let g:jedi#auto_close_doc = 1
-    let g:jedi#show_call_signatures = 2
-    " let g:jedi#force_py_version = 3
-'''
-# }}}
+# [[plugins]]
+# repo = 'davidhalter/jedi-vim'
+# on_ft = 'python'
+# # depends = 'neocomplete.vim'
+# # {{{
+# hook_post_source = '''
+#     "Windowsの場合PYTHONHOMEの環境変数設定が必要なので注意
+#     " augroup JEDIVIM
+#     "     autocmd FileType python setlocal omnifunc=jedi#completions
+#     " augroup END
+# 
+#     " Enable these lines or ...
+#     " if !exists('g:neocomplete#sources#omni#input_patterns')
+#     "     let g:neocomplete#sources#omni#input_patterns = {}
+#     " endif
+#     " let g:neocomplete#sources#omni#input_patterns.python =
+#     "             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+# 
+#     " ... these lines.
+#     if !exists('g:neocomplete#force_omni_input_patterns')
+#         let g:neocomplete#force_omni_input_patterns = {}
+#     endif
+#     let g:neocomplete#force_omni_input_patterns.python =
+#                 \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+# 
+#     let g:jedi#completions_enabled = 0
+#     let g:jedi#auto_vim_configuration = 0
+#     let g:jedi#auto_close_doc = 1
+#     let g:jedi#show_call_signatures = 2
+#     " let g:jedi#force_py_version = 3
+# '''
+# # }}}
 [[plugins]]
 repo = 't9md/vim-choosewin'
 [[plugins]]
