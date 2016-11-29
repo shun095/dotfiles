@@ -438,6 +438,9 @@ depends = [ 'shabadou.vim', 'vim-quickrun' ]
 # {{{
 hook_add = '''
     let g:watchdogs_check_BufWritePost_enable = 1
+    let g:watchdogs_check_BufWritePost_enables = {
+                \"cpp" : 0
+                \}
     let g:watchdogs_check_CursorHold_enable = 0
 
     " quickrun-hook-add-include-option {{{
@@ -463,17 +466,12 @@ hook_add = '''
                 \"cpp" : {
                 \    "hook/add_include_option/enable" : 1
                 \    },
-                \"watchdogs_checker/_" : {
-                \   'runner'    : 'job',
-                \   'runner/job/interval' : 100,
-                \   "outputter/quickfix/open_cmd" : "copen 5"
-                \   }
+                \"cpp/watchdogs_checker" : {
+                \    "type" : "watchdogs_checker/clang++",
+                \    "hook/add_include_option/enable" : 1,
+                \    "cmdopt" : '-std=c++11 -Wall'
+                \   },
                 \}
-                " \"cpp/watchdogs_checker" : {
-                " \    "type" : "watchdogs_checker/clang++",
-                " \    "hook/add_include_option/enable" : 1,
-                " \    "cmdopt" : '-std=c++11 -Wall'
-                " \   },
                 " \ "vim/watchdogs_checker" : {
                 " \   "type" : "watchdogs_checker/vint",
                 " \   },
