@@ -94,7 +94,7 @@ source $VIMRUNTIME/menu.vim
 
 " agがあればgrepの代わりにagを使う
 if executable("ag")
-    set grepprg=ag\ --nocolor\ --column\ --nogroup\ $*
+    set grepprg=ag\ --vimgrep\ --smart-case\ $*
 else
     set grepprg=grep\ -rn\ $*
 endif

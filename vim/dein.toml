@@ -243,8 +243,8 @@ repo = "vim-jp/vimdoc-ja"
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
-[[plugins]]
-repo = "dbakker/vim-lint"
+# [[plugins]]
+# repo = "dbakker/vim-lint"
 [[plugins]]
 repo = 'tyru/open-browser.vim.git' # {{{
 hook_add = '''
@@ -440,7 +440,9 @@ repo = "osyo-manga/vim-watchdogs"
 # on_cmd = 'WatchdogsRun'
 depends = [ 'shabadou.vim', 'vim-quickrun' ]
 # {{{
+
 hook_add = '''
+
     let g:watchdogs_check_BufWritePost_enable = 1
     let g:watchdogs_check_BufWritePost_enables = {
                 \"cpp" : 0
@@ -497,6 +499,11 @@ hook_add = '''
                     "
      " endif
      call watchdogs#setup(g:quickrun_config)
-
 '''
 # }}}
+
+# [[plugins]]
+# repo = 'mileszs/ack.vim'
+# hook_add = '''
+#     let g:ackprg = 'ag --vimgrep --smart-case'
+# '''
