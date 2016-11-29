@@ -107,7 +107,7 @@ endif
 set undodir=$HOME/.vim/undofiles
 set undofile
 
-" set backupでスワップファイルを保存する
+"  set backupでスワップファイルを保存する
 " 該当フォルダがなければ作成
 if isdirectory(expand("$HOME")."/.vim/backupfiles") != 1
     call mkdir($HOME."/.vim/backupfiles","p")
@@ -222,7 +222,9 @@ if g:use_plugins == s:true
         execute "source " . expand("$HOME") . "/dotfiles/vim-local.vim"
     endif
     " プラグインで使われるpythonのバージョンを決定
-    let g:myvimrc_python_version = 2
+    if !exists("g:myvimrc_python_version")
+        let g:myvimrc_python_version = 2
+    endif
     " }}}
 
     " " Vim-Plug (test){{{
