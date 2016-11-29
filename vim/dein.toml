@@ -396,3 +396,105 @@ nnoremap <silent><SID>(ctrlp) :<C-u>CtrlP<CR>
 nmap <expr><C-p> yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
 nmap <C-n> <Plug>(yankround-next)
 '''
+# QUICKRUN SYNTAX CHECKS
+[[plugins]]
+repo = "thinca/vim-quickrun"
+# {{{
+# depends = "vim-watchdogs"
+# on_event = "VimEnter"
+# on_cmd = 'QuickRun'
+hook_add = '''
+
+    let g:quickrun_config = get(g:, 'quickrun_config', {})
+
+    let g:quickrun_config._ = {
+                \ 'runner'    : 'job',
+                \ 'runner/job/interval' : 100,
+                \ 'outputter/buffer/into': 1,
+                \ 'outputter/buffer/close_on_empty' : 0,
+                \ }
+    " \ 'runner'    : 'vimproc',
+    " \ 'runner/vimproc/updatetime' : 100,
+    let g:quickrun_config.python = {
+                \ 'command' : 'python',
+                \ 'cmdopt' : '-u'
+                \ }
+    let g:quickrun_config.markdown = {
+                \ 'type': 'markdown/pandoc',
+                \ 'cmdopt': '-s',
+                \ 'outputter': 'browser'
+                \ }
+
+    " nnoremap <silent> <Leader>R :QuickRun<CR>
+    " nmap <Leader>R <Plug>(quickrun)
+    nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+
+'''
+# }}}
+[[plugins]]
+repo = "osyo-manga/vim-watchdogs"
+# on_cmd = 'WatchdogsRun'
+depends = [ 'shabadou.vim', 'vim-quickrun' ]
+# {{{
+hook_add = '''
+    let g:watchdogs_check_BufWritePost_enable = 1
+    let g:watchdogs_check_CursorHold_enable = 0
+
+    " quickrun-hook-add-include-option {{{
+    let s:hook = {
+                \ "name": "add_include_option",
+                \ "kind": "hook",
+                \ "config": {
+                \   "enable": 0,
+                \   },
+                \ }
+
+    function! s:hook.on_module_loaded(session, context)
+        let paths = filter(split(&path, ","), "len(v:val) && v:val !='.' && v:val !~ 'mingw'")
+        if len(paths)
+            let a:session.config.cmdopt .= " -I".join(paths, " -I")
+        endif
+    endfunction
+    call quickrun#module#register(s:hook, 1)
+    unlet s:hook
+    " }}}
+
+    let s:config = {
+                \"cpp" : {
+                \    "hook/add_include_option/enable" : 1
+                \    },
+                \"watchdogs_checker/_" : {
+                \   'runner'    : 'job',
+                \   'runner/job/interval' : 100,
+                \   "outputter/quickfix/open_cmd" : "copen 5"
+                \   }
+                \}
+                " \"cpp/watchdogs_checker" : {
+                " \    "type" : "watchdogs_checker/clang++",
+                " \    "hook/add_include_option/enable" : 1,
+                " \    "cmdopt" : '-std=c++11 -Wall'
+                " \   },
+                " \ "vim/watchdogs_checker" : {
+                " \   "type" : "watchdogs_checker/vint",
+                " \   },
+    call extend(g:quickrun_config, s:config)
+    unlet s:config
+
+    if has("job")
+        let g:quickrun_config["watchdogs_checker/_"] = {
+                    \ 'runner'    : 'job',
+                    \ 'runner/job/interval' : 100,
+                    \ "outputter/quickfix/open_cmd" : "copen 5"
+                    \}
+    else
+        let g:quickrun_config["watchdogs_checker/_"] = {
+                    \ 'runner'    : 'vimproc',
+                    \ "runner/vimproc/updatetime" : 100,
+                    \ "outputter/quickfix/open_cmd" : "copen 5"
+                    \}
+                    "
+     endif
+     call watchdogs#setup(g:quickrun_config)
+
+'''
+# }}}
