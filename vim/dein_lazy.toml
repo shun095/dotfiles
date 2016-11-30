@@ -155,13 +155,13 @@ on_ft = 'css'
 repo = 'rdnetto/YCM-Generator'
 on_cmd = 'YcmGenerator'
 depends = "YouCompleteMe"
-[[plugins]]
-repo = 'sjl/gundo.vim'
-on_event = "CursorHold"
+# [[plugins]]
+# repo = 'sjl/gundo.vim'
+# on_event = "CursorHold"
 # {{{
-hook_add = '''
-    nnoremap <Leader>gu :<C-u>GundoToggle<CR>
-'''
+# hook_add = '''
+#     nnoremap <Leader>gu :<C-u>GundoToggle<CR>
+# '''
 # }}}
 [[plugins]]
 repo = "osyo-manga/vim-brightest"

@@ -223,7 +223,7 @@ if g:use_plugins == s:true
     endif
     " プラグインで使われるpythonのバージョンを決定
     if !exists("g:myvimrc_python_version")
-        let g:myvimrc_python_version = 2
+        let g:myvimrc_python_version = ""
     endif
     " }}}
 

@@ -293,8 +293,10 @@ hook_add = '''
     let g:ycm_autoclose_preview_window_after_completion = 1
     " setting of the which python is used
     if has("unix")
-        let g:ycm_python_binary_path = "/usr/bin/python" . g:myvimrc_python_version
-        let g:UltiSnipsUsePythonVersion = g:myvimrc_python_version
+        let g:ycm_python_binary_path = "python" . g:myvimrc_python_version
+        if !g:myvimrc_python_version == ""
+            let g:UltiSnipsUsePythonVersion = g:myvimrc_python_version
+        endif
     endif
     " let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
     " let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -507,3 +509,8 @@ hook_add = '''
 # hook_add = '''
 #     let g:ackprg = 'ag --vimgrep --smart-case'
 # '''
+[[plugins]]
+repo = "mbbill/undotree"
+hook_add = '''
+    nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
+'''
