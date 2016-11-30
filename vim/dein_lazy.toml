@@ -193,3 +193,10 @@ hook_add = '''
     " " Start interactive EasyAlign in visual mode (e.g. vipga)
     " xmap ga <Plug>(EasyAlign)
 '''# }}}
+[[plugins]]
+repo = 'pocke/sushibar.vim'
+on_cmd = "Sushibar"
+hook_post_source = '''
+    set statusline=%!sushibar#sushibar()
+    set laststatus=2
+'''
