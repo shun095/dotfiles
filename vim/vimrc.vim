@@ -45,7 +45,8 @@ set diffopt=filler,iwhite,vertical " diffのときの挙動
 set nocursorline                   " カーソル行のハイライト
 set nocursorcolumn
 set backspace=indent,eol,start     " バックスペース挙動のおまじない
-set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
+" set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
+set clipboard=
 set ignorecase                     " 大文字小文字無視
 set smartcase                      " 大文字で始まる場合は無視しない
 set foldmethod=marker              " syntaxに応じて折りたたまれる
