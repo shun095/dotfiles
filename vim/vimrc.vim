@@ -74,6 +74,7 @@ set autoread                       " 他のソフトで、編集中ファイル�
 set noautochdir                    " 今開いてるファイルにカレントディレクトリを移動するか
 set scrolloff=5                    " カーソルが端まで行く前にスクロールし始める行数
 set ambiwidth=double               " 全角記号（「→」など）の文字幅を半角２つ分にする
+set emoji                          " 絵文字を全角表示
 set mouse=a                        " マウスを有効化
 set nomousehide                    " 入力中にポインタを消すかどうか
 set nolazyredraw
