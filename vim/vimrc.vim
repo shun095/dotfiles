@@ -289,8 +289,8 @@ if g:use_plugins == s:true
         cd $HOME
     else
         set background=light
-        let g:airline_theme="onedark"
-        colorscheme summerfruit256
+        let g:airline_theme="solarized"
+        colorscheme solarized
         " colorscheme summerfruit256
         " set background=dark
         " colorscheme onedark

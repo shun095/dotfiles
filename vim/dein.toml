@@ -502,7 +502,7 @@ hook_add = '''
         let g:quickrun_config["watchdogs_checker/_"] = {
                     \ 'runner'    : 'vimproc',
                     \ "runner/vimproc/updatetime" : 100,
-                    \ "outputter/quickfix/open_cmd" : "copen 5"
+                    \ "outputter/quickfix/open_cmd" : "copen 8"
                     \}
                     "
      " endif
