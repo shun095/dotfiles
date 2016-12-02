@@ -115,6 +115,7 @@ if isdirectory(expand("$HOME")."/.vim/backupfiles") != 1
 endif
 set backupdir=$HOME/.vim/backupfiles
 set backup
+set background=light
 " }}}
 
 " Mapping {{{
@@ -288,6 +289,7 @@ if g:use_plugins == s:true
         cd $HOME
     else
         set background=light
+        let g:airline_theme="onedark"
         colorscheme summerfruit256
         " colorscheme summerfruit256
         " set background=dark
@@ -307,14 +309,14 @@ if g:use_plugins == s:true
         else
             let g:indent_guides_auto_colors = 0
             " summerfruit
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
             " one(light)
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
             " onedark
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
         endif
     endif
     " }}}
