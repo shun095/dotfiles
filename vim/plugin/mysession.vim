@@ -44,11 +44,11 @@ augroup MYSESSIONVIM
 augroup END
 
 " command! TabMerge call mysession#tab_merge()
-command! SaveSession call mysession#save_session("savedsession.vim",s:true)
-command! LoadSavedSession call mysession#load_session("savedsession.vim",s:true)
-command! LoadLastSession call mysession#load_session("default.vim",s:true)
-command! LoadBackupSession call mysession#load_session('.backup.vim',s:true)
-command! ClearSessionAndQuit call mysession#clear_session()
+command! SessionSave call mysession#save_session("savedsession.vim",s:true)
+command! SessionLoadSaved call mysession#load_session("savedsession.vim",s:true)
+command! SessionLoadLast call mysession#load_session("default.vim",s:true)
+command! SessionLoadBackup call mysession#load_session('.backup.vim',s:true)
+command! SessionClearAndQuit call mysession#clear_session()
 
 
 let &cpo = s:save_cpo
