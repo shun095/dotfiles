@@ -310,9 +310,9 @@ if g:use_plugins == s:true
             let g:indent_guides_auto_colors = 1
         else
             let g:indent_guides_auto_colors = 0
-            " summerfruit
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=223
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=216
+            " solarized(light)
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
             " summerfruit
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
