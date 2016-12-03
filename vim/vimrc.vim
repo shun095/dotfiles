@@ -30,8 +30,10 @@ if has('win32')
         set rop=type:directx
     endif
     set t_Co=16                    " cmd.exeならターミナルで16色を使う
+    let g:solarized_termcolors = 16
 elseif has('unix')
     set t_Co=256                   " ターミナルで256色を使う
+    let g:solarized_termcolors = 256
 endif
 set visualbell
 set t_vb=
@@ -309,8 +311,11 @@ if g:use_plugins == s:true
         else
             let g:indent_guides_auto_colors = 0
             " summerfruit
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=223
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=216
+            " summerfruit
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
             " one(light)
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
