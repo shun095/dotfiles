@@ -30,8 +30,10 @@ if has('win32')
         set rop=type:directx
     endif
     set t_Co=16                    " cmd.exeならターミナルで16色を使う
+    let g:solarized_termcolors = 16
 elseif has('unix')
     set t_Co=256                   " ターミナルで256色を使う
+    let g:solarized_termcolors = 256
 endif
 set visualbell
 set t_vb=
@@ -116,6 +118,7 @@ if isdirectory(expand("$HOME")."/.vim/backupfiles") != 1
 endif
 set backupdir=$HOME/.vim/backupfiles
 set backup
+set background=light
 " }}}
 
 " Mapping {{{
@@ -288,18 +291,19 @@ if g:use_plugins == s:true
         colorscheme elflord
         cd $HOME
     else
-        set background=dark
-        colorscheme onedark
+        set background=light
+        let g:airline_theme="solarized"
+        colorscheme solarized
         " colorscheme summerfruit256
         " set background=dark
         " colorscheme onedark
-        highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
-        highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-        highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
-                    \guifg=#282C34 guibg=#282C34
-        highlight! MatchParen gui=none cterm=none term=none
-        highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
-        highlight! FoldColumn ctermbg=233 guibg=#0e1013
+        " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
+        " highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
+        " highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
+        "             \guifg=#282C34 guibg=#282C34
+        " highlight! MatchParen gui=none cterm=none term=none
+        " highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
+        " highlight! FoldColumn ctermbg=233 guibg=#0e1013
         " highlight! StatusLine ctermbg=235 guibg=#282C34
         " highlight! StatusLineNC ctermbg=235 guibg=#282C34
 
@@ -307,6 +311,9 @@ if g:use_plugins == s:true
             let g:indent_guides_auto_colors = 1
         else
             let g:indent_guides_auto_colors = 0
+            " solarized(light)
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
             " summerfruit
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
@@ -314,8 +321,8 @@ if g:use_plugins == s:true
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
             " onedark
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
         endif
     endif
     " }}}

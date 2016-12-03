@@ -234,7 +234,11 @@ hook_add = '''
     "             \ [ 'x', 'y', 'z' ]
     "             \ ] " }}}
 '''
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+depends = 'vim-airline'
 # }}}
+
 # PLUGINS FOR JAPANESE LANGUAGES
 [[plugins]]
 repo = "haya14busa/vim-migemo"
@@ -498,7 +502,7 @@ hook_add = '''
         let g:quickrun_config["watchdogs_checker/_"] = {
                     \ 'runner'    : 'vimproc',
                     \ "runner/vimproc/updatetime" : 100,
-                    \ "outputter/quickfix/open_cmd" : "copen 5"
+                    \ "outputter/quickfix/open_cmd" : "copen 8"
                     \}
                     "
      " endif
