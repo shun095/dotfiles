@@ -8,12 +8,7 @@ endif
 let s:true = 1
 let s:false = 0
 
-if !exists("g:count")
-    let g:count = 0
-else
-    let g:count = g:count + 1
-    echo g:count
-endif
+let mapleader = "\<space>"
 
 let $MYVIMHOME=expand("$HOME") . "/dotfiles/vim"
 if !exists("g:use_plugins")
@@ -126,6 +121,9 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
+nnoremap <Down> gj
+nnoremap <Up> gk
+
 " !マークは挿入モードとコマンドラインモードへのマッピング
 noremap! <C-l> <Del>
 " エスケープ２回でハイライトキャンセル
@@ -133,7 +131,9 @@ nnoremap <silent> <ESC><ESC> :noh<CR>
 " ビジュアルモードでも*検索が使えるようにする
 vnoremap * "zy:let @/ = @z <CR>n
 nnoremap <Leader>rc <ESC>:<C-u>edit ~/dotfiles/vim/vimrc.vim<CR>
-"}}}
+
+
+" }}}
 
 " Commands {{{
 " Sudoで強制保存
@@ -143,7 +143,7 @@ endif
 
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
 command! CdCurrent cd\ %:h
-"}}}
+" }}}
 
 " Functions (Moved to autoload folder)
 

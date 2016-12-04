@@ -86,11 +86,11 @@ hook_add = '''
     let g:ctrlp_map = ''
     let g:ctrlp_extensions = ['mixed']
     let g:ctrlp_max_files = 5000
-    nnoremap <space>m :<c-u>CtrlPMRUFiles<cr>
-    nnoremap <space>c :<C-u>CtrlPCurWD<cr>
-    nnoremap <space>r :<C-u>CtrlPClearCache<cr>
-    nnoremap <space>b :<C-u>CtrlPBuffer<cr>
-    nnoremap <space><space> :<C-u>CtrlP<cr>
+    nnoremap <Leader>m :<c-u>CtrlPMRUFiles<cr>
+    nnoremap <Leader>c :<C-u>CtrlPCurWD<cr>
+    " nnoremap <Leader>r :<C-u>CtrlPClearCache<cr>
+    nnoremap <Leader>b :<C-u>CtrlPBuffer<cr>
+    nnoremap <Leader><Leader> :<C-u>CtrlP<cr>
     if executable('ag')
         if !has("win32")
             let g:ctrlp_use_caching=1
