@@ -120,25 +120,7 @@ hook_add = '''
     call submode#map('winsize', 'n', '', '-', '<C-w>-')
 '''# }}}
 [[plugins]]
-repo = "tyru/restart.vim"
-[[plugins]]
 repo = 'superbrothers/vim-vimperator'
-[[plugins]]
-repo = "iamcco/markdown-preview.vim"# {{{
-hook_add = '''
-let g:mkdp_auto_close = 0
-let g:mkdp_auto_open = 0
-let g:mkdp_auto_start = 0
-if has('win32') != 0
-    let s:google_chrome_path="C:/Program\ Files/Google/Chrome/Application/chrome.exe"
-    let s:google_chrome_path32="C:/Program\ Files\ (x86)/Google/Chrome/Application/chrome.exe"
-    if executable(s:google_chrome_path)
-        let g:mkdp_path_to_chrome=s:google_chrome_path
-    else
-        let g:mkdp_path_to_chrome=s:google_chrome_path32
-    endif
-endif
-'''# }}}
 [[plugins]]
 repo = "nathanaelkane/vim-indent-guides"# {{{
 hook_add = '''
@@ -279,9 +261,7 @@ set statusline=%{anzu#search_status()}
 " anzu-mode is anzu(12/51) in screen
 " nmap n <Plug>(anzu-mode-n)
 " nmap N <Plug>(anzu-mode-N)
-'''# }}}
-# [[plugins]]
-# repo = 'ervandew/supertab'
+''' # }}}
 [[plugins]]
 repo = 'SirVer/ultisnips'
 hook_add = '''
@@ -295,8 +275,6 @@ hook_add = '''
 repo = 'MarcWeber/vim-addon-mw-utils'
 [[plugins]]
 repo = 'tomtom/tlib_vim'
-# [[plugins]]
-# repo = 'garbas/vim-snipmate'
 [[plugins]]
 repo = 'honza/vim-snippets'
 [[plugins]]
@@ -347,20 +325,6 @@ repo = 'tomasr/molokai'
 [[plugins]]
 repo = 'rakr/vim-one'
 # COLORSCHEMESE END }}}
-# [[plugins]]
-# repo = 'scrooloose/nerdtree' # {{{
-#
-# hook_add = '''
-#     nnoremap <Leader>e :NERDTreeFind<CR>
-#     nnoremap <Leader>E :NERDTreeCWD<CR>
-#     augroup MyNERDTree
-#         " NERDTreeは読み込み時に設定済みかどうかチェックしない模様
-#         autocmd VimEnter * let NERDTreeQuitOnOpen = 1
-#         autocmd VimEnter * let NERDTreeMinimalUI = 1
-#         autocmd VimEnter * let NERDTreeDirArrows = 1
-#     augroup END
-# '''
-# # }}}
 [[plugins]]
 repo = 'LeafCage/yankround.vim'
 hook_add = '''
@@ -376,111 +340,6 @@ nnoremap <silent><SID>(ctrlp) :<C-u>CtrlP<CR>
 nmap <expr><C-p> yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
 nmap <C-n> <Plug>(yankround-next)
 '''
-# QUICKRUN SYNTAX CHECKS
-[[plugins]]
-repo = "thinca/vim-quickrun"
-# {{{
-# depends = "vim-watchdogs"
-# on_event = "VimEnter"
-# on_cmd = 'QuickRun'
-hook_add = '''
-
-    let g:quickrun_config = get(g:, 'quickrun_config', {})
-
-    let g:quickrun_config._ = {
-                    \ 'runner'    : 'vimproc',
-                    \ "runner/vimproc/updatetime" : 100,
-                    \ "outputter/quickfix/open_cmd" : "copen 8"
-                    \}
-                " \ 'runner'    : 'job',
-                " \ 'runner/job/interval' : 100,
-                " \ 'outputter/buffer/into': 1,
-                " \ 'outputter/buffer/close_on_empty' : 0,
-                " \ }
-    " \ 'runner'    : 'vimproc',
-    " \ 'runner/vimproc/updatetime' : 100,
-    let g:quickrun_config.python = {
-                \ 'command' : 'python',
-                \ 'cmdopt' : '-u'
-                \ }
-    let g:quickrun_config.markdown = {
-                \ 'type': 'markdown/pandoc',
-                \ 'cmdopt': '-s',
-                \ 'outputter': 'browser'
-    \ }
-
-    " nnoremap <silent> <Leader>R :QuickRun<CR>
-    " nmap <Leader>R <Plug>(quickrun)
-    nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-
-'''
-# }}}
-[[plugins]]
-repo = "osyo-manga/vim-watchdogs"
-# on_cmd = 'WatchdogsRun'
-depends = [ 'shabadou.vim', 'vim-quickrun' ]
-# {{{
-
-hook_add = '''
-
-    let g:watchdogs_check_BufWritePost_enable = 1
-    let g:watchdogs_check_BufWritePost_enables = {
-                \"cpp" : 0
-                \}
-    let g:watchdogs_check_CursorHold_enable = 0
-
-    " quickrun-hook-add-include-option {{{
-    let s:hook = {
-                \ "name": "add_include_option",
-                \ "kind": "hook",
-                \ "config": {
-                \   "enable": 0,
-                \   },
-                \ }
-
-    function! s:hook.on_module_loaded(session, context)
-        let paths = filter(split(&path, ","), "len(v:val) && v:val !='.' && v:val !~ 'mingw'")
-        if len(paths)
-            let a:session.config.cmdopt .= " -I".join(paths, " -I")
-        endif
-    endfunction
-    call quickrun#module#register(s:hook, 1)
-    unlet s:hook
-    " }}}
-
-    let s:config = {
-                \"cpp" : {
-                \    "hook/add_include_option/enable" : 1
-                \    },
-                \"cpp/watchdogs_checker" : {
-                \    "type" : "watchdogs_checker/clang++",
-                \    "hook/add_include_option/enable" : 1,
-                \    "cmdopt" : '-std=c++11 -Wall'
-                \   },
-                \}
-                " \ "vim/watchdogs_checker" : {
-                " \   "type" : "watchdogs_checker/vint",
-                " \   },
-    call extend(g:quickrun_config, s:config)
-    unlet s:config
-
-    " if has("job")
-    "     let g:quickrun_config["watchdogs_checker/_"] = {
-    "                 \ 'runner'    : 'job',
-    "                 \ 'runner/job/interval' : 100,
-    "                 \ "outputter/quickfix/open_cmd" : "copen 8"
-    "                 \}
-    " else
-        let g:quickrun_config["watchdogs_checker/_"] = {
-                    \ 'runner'    : 'vimproc',
-                    \ "runner/vimproc/updatetime" : 100,
-                    \ "outputter/quickfix/open_cmd" : "copen 8"
-                    \}
-                    "
-     " endif
-     call watchdogs#setup(g:quickrun_config)
-'''
-# }}}
 [[plugins]]
 repo = "mbbill/undotree"
 hook_add = '''
@@ -491,3 +350,33 @@ repo = "bkad/CamelCaseMotion"
 hook_add = '''
     call camelcasemotion#CreateMotionMappings(',')
 '''
+[[plugins]]
+repo = 'tyru/caw.vim.git'
+# on_event = "CursorMoved"
+[[plugins]]
+repo = 'tpope/vim-surround'
+# on_event = "CursorMoved"
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+# on_event = "CursorMoved"
+# {{{
+hook_add = '''
+    " ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
+    vmap <Enter> <Plug>(LiveEasyAlign)
+
+    " easy-align を呼んだ上で，移動したりテキストオブジェクトを指定して整形．(e.g. gaip)
+    " nmap ga <Plug>(EasyAlign)
+    " " Start interactive EasyAlign in visual mode (e.g. vipga)
+    " xmap ga <Plug>(EasyAlign)
+'''# }}}
+[[plugins]]
+repo = "osyo-manga/vim-brightest"
+# on_event = ['VimEnter']
+# on_cmd = ['BrightestEnable']
+# {{{
+hook_add = '''
+let g:brightest#highlight = {
+\   "group" : "BrightestUnderline"
+\}
+'''
+# }}}
