@@ -435,7 +435,7 @@ hook_add = '''
                 \ 'type': 'markdown/pandoc',
                 \ 'cmdopt': '-s',
                 \ 'outputter': 'browser'
-                \ }
+    \ }
 
     " nnoremap <silent> <Leader>R :QuickRun<CR>
     " nmap <Leader>R <Plug>(quickrun)
@@ -509,14 +509,13 @@ hook_add = '''
      call watchdogs#setup(g:quickrun_config)
 '''
 # }}}
-
-# [[plugins]]
-# repo = 'mileszs/ack.vim'
-# hook_add = '''
-#     let g:ackprg = 'ag --vimgrep --smart-case'
-# '''
 [[plugins]]
 repo = "mbbill/undotree"
 hook_add = '''
     nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
+'''
+[[plugins]]
+repo = "bkad/CamelCaseMotion"
+hook_add = '''
+    call camelcasemotion#CreateMotionMappings(',')
 '''

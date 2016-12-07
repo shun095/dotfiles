@@ -130,7 +130,7 @@ noremap! <C-l> <Del>
 nnoremap <silent> <ESC><ESC> :noh<CR>
 " ビジュアルモードでも*検索が使えるようにする
 vnoremap * "zy:let @/ = @z <CR>n
-nnoremap <Leader>rc <ESC>:<C-u>edit ~/dotfiles/vim/vimrc.vim<CR>
+nnoremap <Leader>dot <ESC>:<C-u>edit ~/dotfiles/vim/vimrc.vim<CR>
 
 
 " }}}
@@ -290,19 +290,22 @@ if g:use_plugins == s:true
         colorscheme elflord
         cd $HOME
     else
-        set background=light
-        let g:airline_theme="solarized"
-        colorscheme solarized
+        " set background=light
+        " let g:airline_theme="solarized"
+        " colorscheme solarized
+
         " colorscheme summerfruit256
-        " set background=dark
-        " colorscheme onedark
+
+        set background=dark
+        let g:airline_theme="one"
+        colorscheme one
+        highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
         " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
+        " highlight! FoldColumn ctermbg=233 guibg=#0e1013
         " highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
         " highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
         "             \guifg=#282C34 guibg=#282C34
         " highlight! MatchParen gui=none cterm=none term=none
-        " highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
-        " highlight! FoldColumn ctermbg=233 guibg=#0e1013
         " highlight! StatusLine ctermbg=235 guibg=#282C34
         " highlight! StatusLineNC ctermbg=235 guibg=#282C34
 
@@ -311,8 +314,8 @@ if g:use_plugins == s:true
         else
             let g:indent_guides_auto_colors = 0
             " solarized(light)
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
             " summerfruit
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
@@ -320,8 +323,8 @@ if g:use_plugins == s:true
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
             " onedark
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
         endif
     endif
     " }}}
