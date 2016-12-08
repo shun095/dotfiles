@@ -380,3 +380,5 @@ let g:brightest#highlight = {
 \}
 '''
 # }}}
+[[plugins]]
+repo = 'istepura/vim-toolbar-icons-silk'
