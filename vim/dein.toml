@@ -129,7 +129,6 @@ hook_add = '''
     let g:indent_guides_start_level = 1
     let g:indent_guides_enable_on_vim_startup = 1
 '''# }}}
-# FOLD PLUGINS
 [[plugins]]
 repo = 'LeafCage/foldCC.vim'# {{{
 hook_add = '''
@@ -151,7 +150,6 @@ hook_add = '''
 '''# }}}
 [[plugins]]
 repo = 'Konfekt/FastFold'
-# STATUSLINE PLUGINS
 [[plugins]]
 repo = 'vim-airline/vim-airline'#{{{
 hook_add = '''
@@ -220,17 +218,12 @@ hook_add = '''
 repo = 'vim-airline/vim-airline-themes'
 depends = 'vim-airline'
 # }}}
-
-# PLUGINS FOR JAPANESE LANGUAGES
 [[plugins]]
 repo = "haya14busa/vim-migemo"
 [[plugins]]
 repo = "vim-jp/vimdoc-ja"
-
 [[plugins]]
 repo = 'tpope/vim-fugitive'
-# [[plugins]]
-# repo = "dbakker/vim-lint"
 [[plugins]]
 repo = 'tyru/open-browser.vim.git' # {{{
 hook_add = '''
@@ -263,14 +256,14 @@ set statusline=%{anzu#search_status()}
 " nmap N <Plug>(anzu-mode-N)
 ''' # }}}
 [[plugins]]
-repo = 'SirVer/ultisnips'
+repo = 'SirVer/ultisnips'# {{{
 hook_add = '''
     " better key bindings for UltiSnipsExpandTrigger
     let g:UltiSnipsExpandTrigger = "<C-j>"
     let g:UltiSnipsJumpForwardTrigger = "<C-j>"
     let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
     " let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips"
-'''
+'''# }}}
 [[plugins]]
 repo = 'MarcWeber/vim-addon-mw-utils'
 [[plugins]]
@@ -303,6 +296,62 @@ repo = 'basyura/twibill.vim.git'# {{{
 depends = ['open-browser.vim']# }}}
 [[plugins]]
 repo = 'basyura/bitly.vim.git'
+[[plugins]]
+repo = 'LeafCage/yankround.vim'# {{{
+hook_add = '''
+nmap p <Plug>(yankround-p)
+xmap p <Plug>(yankround-p)
+nmap P <Plug>(yankround-P)
+
+nmap gp <Plug>(yankround-gp)
+xmap gp <Plug>(yankround-gp)
+nmap gP <Plug>(yankround-gP)
+
+nnoremap <silent><SID>(ctrlp) :<C-u>CtrlP<CR>
+nmap <expr><C-p> yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
+nmap <C-n> <Plug>(yankround-next)
+'''# }}}
+[[plugins]]
+repo = "mbbill/undotree"# {{{
+hook_add = '''
+    nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
+'''# }}}
+[[plugins]]
+repo = "bkad/CamelCaseMotion"# {{{
+hook_add = '''
+    call camelcasemotion#CreateMotionMappings(',')
+'''# }}}
+[[plugins]]
+repo = 'tyru/caw.vim.git'# {{{
+# on_event = "CursorMoved"# }}}
+[[plugins]]
+repo = 'tpope/vim-surround'# {{{
+# on_event = "CursorMoved"# }}}
+[[plugins]]
+repo = 'junegunn/vim-easy-align'# {{{
+# on_event = "CursorMoved"
+hook_add = '''
+    " ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
+    vmap <Enter> <Plug>(LiveEasyAlign)
+
+    " easy-align を呼んだ上で，移動したりテキストオブジェクトを指定して整形．(e.g. gaip)
+    " nmap ga <Plug>(EasyAlign)
+    " " Start interactive EasyAlign in visual mode (e.g. vipga)
+    " xmap ga <Plug>(EasyAlign)
+'''# }}}
+[[plugins]]
+repo = "osyo-manga/vim-brightest"# {{{
+# on_event = ['VimEnter']
+# on_cmd = ['BrightestEnable']
+hook_add = '''
+let g:brightest#highlight = {
+\   "group" : "BrightestUnderline"
+\}
+'''
+# }}}
+[[plugins]]
+repo = 'istepura/vim-toolbar-icons-silk'
+
 # COLORSCHEMES {{{
 [[plugins]]
 repo = 'joshdick/onedark.vim'
@@ -325,60 +374,3 @@ repo = 'tomasr/molokai'
 [[plugins]]
 repo = 'rakr/vim-one'
 # COLORSCHEMESE END }}}
-[[plugins]]
-repo = 'LeafCage/yankround.vim'
-hook_add = '''
-nmap p <Plug>(yankround-p)
-xmap p <Plug>(yankround-p)
-nmap P <Plug>(yankround-P)
-
-nmap gp <Plug>(yankround-gp)
-xmap gp <Plug>(yankround-gp)
-nmap gP <Plug>(yankround-gP)
-
-nnoremap <silent><SID>(ctrlp) :<C-u>CtrlP<CR>
-nmap <expr><C-p> yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
-nmap <C-n> <Plug>(yankround-next)
-'''
-[[plugins]]
-repo = "mbbill/undotree"
-hook_add = '''
-    nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
-'''
-[[plugins]]
-repo = "bkad/CamelCaseMotion"
-hook_add = '''
-    call camelcasemotion#CreateMotionMappings(',')
-'''
-[[plugins]]
-repo = 'tyru/caw.vim.git'
-# on_event = "CursorMoved"
-[[plugins]]
-repo = 'tpope/vim-surround'
-# on_event = "CursorMoved"
-[[plugins]]
-repo = 'junegunn/vim-easy-align'
-# on_event = "CursorMoved"
-# {{{
-hook_add = '''
-    " ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
-    vmap <Enter> <Plug>(LiveEasyAlign)
-
-    " easy-align を呼んだ上で，移動したりテキストオブジェクトを指定して整形．(e.g. gaip)
-    " nmap ga <Plug>(EasyAlign)
-    " " Start interactive EasyAlign in visual mode (e.g. vipga)
-    " xmap ga <Plug>(EasyAlign)
-'''# }}}
-[[plugins]]
-repo = "osyo-manga/vim-brightest"
-# on_event = ['VimEnter']
-# on_cmd = ['BrightestEnable']
-# {{{
-hook_add = '''
-let g:brightest#highlight = {
-\   "group" : "BrightestUnderline"
-\}
-'''
-# }}}
-[[plugins]]
-repo = 'istepura/vim-toolbar-icons-silk'

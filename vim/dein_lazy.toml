@@ -3,8 +3,7 @@
 repo = 'osyo-manga/vim-precious'
 on_cmd = ["PreciousReset", "PreciousSwitch"]
 depends = ['context_filetype.vim']
-# {{{
-hook_add = '''
+hook_add = '''# {{{
     let g:context_filetype#search_offset = 300
     let g:precious_enable_switch_CursorMoved = { '*' : 0 }
     let g:precious_enable_switch_CursorHold = { '*' : 1 }
@@ -28,16 +27,14 @@ hook_add = '''
 [[plugins]]
 repo = "cohama/lexima.vim"
 on_i = 1
-# {{{
-hook_post_source = '''
+hook_post_source = '''# {{{
     imap <expr> <C-h> lexima#expand('<BS>', 'i')
 '''
 # }}}
 [[plugins]]
 repo = 'rhysd/vim-clang-format'
 on_ft = ['c','cpp']
-# {{{
-hook_add = '''
+hook_add = '''# {{{
     let g:clang_format#auto_format = 0
 
     let g:clang_format#command = 'clang-format'
@@ -70,8 +67,8 @@ on_ft = 'toml'
 # repo = 'davidhalter/jedi-vim'
 # on_ft = 'python'
 # # depends = 'neocomplete.vim'
-# # {{{
-# hook_post_source = '''
+# 
+# hook_post_source = '''# {{{
 #     "Windowsの場合PYTHONHOMEの環境変数設定が必要なので注意
 #     " augroup JEDIVIM
 #     "     autocmd FileType python setlocal omnifunc=jedi#completions
@@ -103,8 +100,7 @@ repo = 't9md/vim-choosewin'
 [[plugins]]
 repo = 'glidenote/memolist.vim'
 on_cmd = ['MemoNew', 'MemoList']
-# {{{
-hook_add = '''
+hook_add = '''# {{{
     " let g:memolist_memo_suffix = 'txt'
     let g:memolist_unite = 1
 '''
@@ -112,8 +108,7 @@ hook_add = '''
 [[plugins]]
 repo = 'majutsushi/tagbar'
 on_cmd = ['TagbarToggle', 'TagbarOpen']
-# {{{
-hook_add = '''
+hook_add = '''# {{{
     nnoremap <silent> <Leader>t :TagbarOpen j<CR>
     let g:tagbar_show_linenumbers = 1
     let g:tagbar_sort = 0
@@ -128,8 +123,7 @@ hook_add = '''
 repo = 'basyura/TweetVim.git'
 on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
 depends = ['bitly.vim', 'twibill.vim', 'neco-tweetvim',  'open-browser.vim']
-# {{{
-hook_add = '''
+hook_add = '''# {{{
     " 1ページに表示する最大数
     let g:tweetvim_tweet_per_page = 20
     " F6と,uvでTweetVimのtimeline選択
@@ -152,9 +146,9 @@ hook_add = '''
 repo = 'csscomb/vim-csscomb'
 on_ft = 'css'
 [[plugins]]
-repo = 'Valloric/YouCompleteMe'# {{{
+repo = 'Valloric/YouCompleteMe'
 on_i = 1
-hook_add = '''
+hook_add = '''# {{{
     let g:ycm_global_ycm_extra_conf =
                 \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
                 \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
@@ -186,14 +180,14 @@ depends = "YouCompleteMe"
 [[plugins]]
 repo = 'pocke/sushibar.vim'
 on_cmd = "Sushibar"
-hook_post_source = '''
+hook_post_source = '''# {{{
     set statusline=%!sushibar#sushibar()
     set laststatus=2
-'''
+'''# }}}
 [[plugins]]
 repo = 'lervag/vimtex'
 on_ft = ['tex']
-hook_add = '''
+hook_add = '''# {{{
     if has("win32")
         let g:vimtex_latexmk_continuous = 1
         let g:vimtex_latexmk_background = 1
@@ -219,11 +213,11 @@ hook_add = '''
         "let g:vimtex_view_general_options = '--unique @pdf\#src:@tex:@line:@col'
         "let g:vimtex_view_general_options_latexmk = '--unique'
     endif
-'''
+'''# }}}
 [[plugins]]
-repo = "iamcco/markdown-preview.vim"# {{{
+repo = "iamcco/markdown-preview.vim"
 on_ft = 'markdown'
-hook_add = '''
+hook_add = '''# {{{
 let g:mkdp_auto_close = 0
 let g:mkdp_auto_open = 0
 let g:mkdp_auto_start = 0
@@ -239,12 +233,11 @@ endif
 '''# }}}
 [[plugins]]
 repo = "thinca/vim-quickrun"
-# {{{
 # depends = "vim-watchdogs"
 # on_event = "VimEnter"
 on_event = "CursorHold"
 # on_cmd = 'QuickRun'
-hook_post_source = '''
+hook_post_source = '''# {{{
 
     let g:quickrun_config = get(g:, 'quickrun_config', {})
 
@@ -274,8 +267,7 @@ hook_post_source = '''
     " nmap <Leader>R <Plug>(quickrun)
     nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 
-'''
-# }}}
+'''# }}}
 [[plugins]]
 repo = "osyo-manga/vim-watchdogs"
 on_event = 'CursorHold'
