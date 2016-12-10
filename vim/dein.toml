@@ -2,8 +2,8 @@
 [[plugins]]
 repo = 'tpope/vim-dispatch'
 [[plugins]]
-repo = 'Shougo/vimproc.vim'# {{{
-build = 'make'# }}}
+repo = 'Shougo/vimproc.vim' # {{{
+build = 'make' # }}}
 [[plugins]]
 repo = 'Shougo/unite.vim' #{{{
 hook_add = '''
@@ -47,7 +47,7 @@ hook_add = '''
     " nnoremap <space>r <Plug>(unite_restart)
 '''# }}}
 [[plugins]]
-repo = 'Shougo/vimfiler.vim' #{{{
+repo = 'Shougo/vimfiler.vim' # {{{
 # on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
 depends = 'unite.vim'
 hook_add = '''
@@ -59,27 +59,27 @@ hook_add = '''
 '''
 # }}}
 [[plugins]]
-repo = 'Shougo/unite-outline'# {{{
-depends = ['unite.vim']# }}}
+repo = 'Shougo/unite-outline' # {{{
+depends = ['unite.vim'] # }}}
 [[plugins]]
-repo = 'Shougo/neomru.vim'# {{{
-depends = ['unite.vim']# }}}
+repo = 'Shougo/neomru.vim' # {{{
+depends = ['unite.vim'] # }}}
 [[plugins]]
-repo = 'ujihisa/unite-colorscheme'# {{{
-depends = ['unite.vim']# }}}
+repo = 'ujihisa/unite-colorscheme' # {{{
+depends = ['unite.vim'] # }}}
 [[plugins]]
 repo = 'Shougo/neossh.vim' # {{{
-depends = ['unite.vim']# }}}
+depends = ['unite.vim'] # }}}
 [[plugins]]
-repo = 'Shougo/vimshell.vim'# {{{
+repo = 'Shougo/vimshell.vim' # {{{
 depends = ['vimproc.vim']
 hook_add = '''
 let g:vimshell_prompt = "% "
 let g:vimshell_secondary_prompt = "> "
 let g:vimshell_user_prompt = 'getcwd()'
-'''# }}}
+''' # }}}
 [[plugins]]
-repo = 'ctrlpvim/ctrlp.vim'# {{{
+repo = 'ctrlpvim/ctrlp.vim' # {{{
 hook_add = '''
     " let g:ctrlp_cmd = "CtrlPMRUFiles"
     " yankroundのところでマッピングし直している
@@ -100,15 +100,15 @@ hook_add = '''
             let g:ctrlp_user_command='ag -i --follow --nocolor --nogroup -g "" %s'
         endif
     endif
-'''# }}}
+''' # }}}
 [[plugins]]
-repo = 'easymotion/vim-easymotion'# {{{
+repo = 'easymotion/vim-easymotion' # {{{
 hook_add = '''
     let g:EasyMotion_do_mapping = 0
     nmap <Leader>s <Plug>(easymotion-overwin-f2)
-'''# }}}
+''' # }}}
 [[plugins]]
-repo = 'kana/vim-submode'# {{{
+repo = 'kana/vim-submode' # {{{
 hook_add = '''
     call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
     call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
@@ -118,19 +118,19 @@ hook_add = '''
     call submode#map('winsize', 'n', '', '<', '<C-w><')
     call submode#map('winsize', 'n', '', '+', '<C-w>+')
     call submode#map('winsize', 'n', '', '-', '<C-w>-')
-'''# }}}
+''' # }}}
 [[plugins]]
 repo = 'superbrothers/vim-vimperator'
 [[plugins]]
-repo = "nathanaelkane/vim-indent-guides"# {{{
+repo = "nathanaelkane/vim-indent-guides" # {{{
 hook_add = '''
     let g:indent_guides_guide_size = 0
     let g:indent_guides_color_change_percent = 5
     let g:indent_guides_start_level = 1
     let g:indent_guides_enable_on_vim_startup = 1
-'''# }}}
+''' # }}}
 [[plugins]]
-repo = 'LeafCage/foldCC.vim'# {{{
+repo = 'LeafCage/foldCC.vim' # {{{
 hook_add = '''
     let g:foldCCtext_enable_autofdc_adjuster = 1
     let g:foldCCtext_head = ''
@@ -147,11 +147,11 @@ hook_add = '''
     "     " hi Folded gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey50 guifg=Grey80
     "     " hi FoldColumn gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey guifg=DarkBlue
     " augroup END "}}}
-'''# }}}
+''' # }}}
 [[plugins]]
 repo = 'Konfekt/FastFold'
 [[plugins]]
-repo = 'vim-airline/vim-airline'#{{{
+repo = 'vim-airline/vim-airline' # {{{
 hook_add = '''
     let g:airline#extensions#branch#enabled        = 1
     let g:airline#extensions#branch#empty_message  = ''
@@ -230,11 +230,11 @@ hook_add = '''
     let g:netrw_nogx = 1 " disable netrw's gx mapping.
     nmap gx <Plug>(openbrowser-smart-search)
     vmap gx <Plug>(openbrowser-smart-search)
-'''# }}}
+''' # }}}
 [[plugins]]
 repo = "tmux-plugins/vim-tmux"
 [[plugins]]
-repo = "osyo-manga/vim-anzu"# {{{
+repo = "osyo-manga/vim-anzu" # {{{
 hook_add = '''
 " mapping
 nmap n <Plug>(anzu-n-with-echo)
@@ -256,14 +256,14 @@ set statusline=%{anzu#search_status()}
 " nmap N <Plug>(anzu-mode-N)
 ''' # }}}
 [[plugins]]
-repo = 'SirVer/ultisnips'# {{{
+repo = 'SirVer/ultisnips' # {{{
 hook_add = '''
     " better key bindings for UltiSnipsExpandTrigger
     let g:UltiSnipsExpandTrigger = "<C-j>"
     let g:UltiSnipsJumpForwardTrigger = "<C-j>"
     let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
     " let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips"
-'''# }}}
+''' # }}}
 [[plugins]]
 repo = 'MarcWeber/vim-addon-mw-utils'
 [[plugins]]
@@ -273,31 +273,31 @@ repo = 'honza/vim-snippets'
 [[plugins]]
 repo = "osyo-manga/shabadou.vim"
 [[plugins]]
-repo =  'othree/html5.vim'# {{{
+repo =  'othree/html5.vim' # {{{
 on_ft = ['html']
 hook_add = '''
     let g:html5_event_handler_attributes_complete = 1
     let g:html5_rdfa_attributes_complete = 1
     let g:html5_microdata_attributes_complete = 1
     let g:html5_aria_attributes_complete = 1
-'''# }}}
+''' # }}}
 [[plugins]]
 repo = 'yomi322/neco-tweetvim.git'
 [[plugins]]
-repo =  'vim-scripts/JavaScript-Indent'# {{{
-on_ft = 'javascript'# }}}
+repo =  'vim-scripts/JavaScript-Indent' # {{{
+on_ft = 'javascript' # }}}
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
 [[plugins]]
-repo = 'gregsexton/MatchTag'# {{{
-on_ft = ['html','xml']# }}}
+repo = 'gregsexton/MatchTag' # {{{
+on_ft = ['html','xml'] # }}}
 [[plugins]]
-repo = 'basyura/twibill.vim.git'# {{{
-depends = ['open-browser.vim']# }}}
+repo = 'basyura/twibill.vim.git' # {{{
+depends = ['open-browser.vim'] # }}}
 [[plugins]]
 repo = 'basyura/bitly.vim.git'
 [[plugins]]
-repo = 'LeafCage/yankround.vim'# {{{
+repo = 'LeafCage/yankround.vim' # {{{
 hook_add = '''
 nmap p <Plug>(yankround-p)
 xmap p <Plug>(yankround-p)
@@ -310,25 +310,25 @@ nmap gP <Plug>(yankround-gP)
 nnoremap <silent><SID>(ctrlp) :<C-u>CtrlP<CR>
 nmap <expr><C-p> yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
 nmap <C-n> <Plug>(yankround-next)
-'''# }}}
+''' # }}}
 [[plugins]]
-repo = "mbbill/undotree"# {{{
+repo = "mbbill/undotree" # {{{
 hook_add = '''
     nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
-'''# }}}
+''' # }}}
 [[plugins]]
-repo = "bkad/CamelCaseMotion"# {{{
+repo = "bkad/CamelCaseMotion" # {{{
 hook_add = '''
     call camelcasemotion#CreateMotionMappings(',')
-'''# }}}
+''' # }}}
 [[plugins]]
-repo = 'tyru/caw.vim.git'# {{{
-# on_event = "CursorMoved"# }}}
+repo = 'tyru/caw.vim.git' # {{{
+# on_event = "CursorMoved" # }}}
 [[plugins]]
-repo = 'tpope/vim-surround'# {{{
-# on_event = "CursorMoved"# }}}
+repo = 'tpope/vim-surround' # {{{
+# on_event = "CursorMoved" # }}}
 [[plugins]]
-repo = 'junegunn/vim-easy-align'# {{{
+repo = 'junegunn/vim-easy-align' # {{{
 # on_event = "CursorMoved"
 hook_add = '''
     " ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
@@ -338,9 +338,9 @@ hook_add = '''
     " nmap ga <Plug>(EasyAlign)
     " " Start interactive EasyAlign in visual mode (e.g. vipga)
     " xmap ga <Plug>(EasyAlign)
-'''# }}}
+''' # }}}
 [[plugins]]
-repo = "osyo-manga/vim-brightest"# {{{
+repo = "osyo-manga/vim-brightest" # {{{
 # on_event = ['VimEnter']
 # on_cmd = ['BrightestEnable']
 hook_add = '''
