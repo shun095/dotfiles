@@ -162,8 +162,11 @@ augroup VIMRC
 
     " python関係の設定
     autocmd FileType python setl autoindent
-    autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,
+    autocmd FileType python setl foldmethod=indent smartindent cinwords=if,elif,else,for,while,
                 \try,except,finally,def,class
+
+    " cpp関係の設定
+    autocmd FileType c,cpp setl foldmethod=syntax
 
     " QuickFixを自動で開く
     autocmd QuickFixCmdPost * cwindow
