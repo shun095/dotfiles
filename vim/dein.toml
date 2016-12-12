@@ -84,7 +84,7 @@ hook_add = '''
     " let g:ctrlp_cmd = "CtrlPMRUFiles"
     " yankroundのところでマッピングし直している
     let g:ctrlp_map = ''
-    let g:ctrlp_extensions = ['mixed']
+    " let g:ctrlp_extensions = ['mixed']
     let g:ctrlp_max_files = 5000
     nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
     nnoremap <Leader>c :<C-u>CtrlPCurWD<cr>
