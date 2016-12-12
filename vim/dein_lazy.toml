@@ -229,6 +229,12 @@ if has('win32') != 0
 endif
 ''' # }}}
 [[plugins]]
+repo = "kannokanno/previm"
+on_ft = 'markdown'
+hook_add = '''
+    let g:previm_enable_realtime = 1
+'''
+[[plugins]]
 repo = "thinca/vim-quickrun"
 # depends = "vim-watchdogs"
 # on_event = "VimEnter"
