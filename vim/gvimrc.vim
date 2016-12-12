@@ -15,7 +15,7 @@ if has("gui_running")
         " set guifont=Ricty_Diminished_for_Powerline:h11
     elseif has("unix")
         " set guifont=Ricty\ Diminished\ for\ Powerline\ 11
-        set guifont=Myrica\ M\ for\ Powerline\ 12
+        set guifont=Myrica\ M\ 12
     endif
 
     set vb t_vb=
