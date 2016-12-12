@@ -32,14 +32,16 @@ function! myvimrc#NiceLexplore(open_on_bufferdir) abort
 endfunction
 
 function! myvimrc#git_auto_updating() abort
+    let s:save_cd = getcwd()
+    cd ~/dotfiles/
+    let s:git_callback_count = 0
     if has('job')
-        let s:save_cd = getcwd()
-        cd ~/dotfiles/
-        let s:git_callback_count = 0
         call job_start('git pull', {'callback': 'myvimrc#git_callback', 'exit_cb': 'myvimrc#git_end_callback'})
-        execute "cd " . s:save_cd
-        unlet s:save_cd
+    else
+        call vimproc#system("git pull &")
     endif
+    execute "cd " . s:save_cd
+    unlet s:save_cd
 endfunction
 
 " Auto updating vimrc
