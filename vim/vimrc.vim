@@ -8,12 +8,7 @@ endif
 let s:true = 1
 let s:false = 0
 
-if !exists("g:count")
-    let g:count = 0
-else
-    let g:count = g:count + 1
-    echo g:count
-endif
+let mapleader = "\<space>"
 
 let $MYVIMHOME=expand("$HOME") . "/dotfiles/vim"
 if !exists("g:use_plugins")
@@ -58,7 +53,7 @@ set expandtab                      " タブをスペースに変換
 set smartindent                    " 自動インデントを有効にする
 set softtabstop=4                  " バックスペース等でスペースを消す幅
 set list                           " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
-set listchars=tab:>-,trail:-,eol:$,\extends:>,precedes:<,nbsp:%
+set listchars=tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%
 set wildmenu                       " コマンドの補完設定
 set wildmode=longest:full,full     " コマンドの補完スタイル
 set laststatus=2                   " 下のステータスバーの表示
@@ -127,14 +122,19 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
+nnoremap <Down> gj
+nnoremap <Up> gk
+
 " !マークは挿入モードとコマンドラインモードへのマッピング
 noremap! <C-l> <Del>
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
 " ビジュアルモードでも*検索が使えるようにする
 vnoremap * "zy:let @/ = @z <CR>n
-nnoremap <Leader>rc <ESC>:<C-u>edit ~/dotfiles/vim/vimrc.vim<CR>
-"}}}
+nnoremap <Leader>dot <ESC>:<C-u>edit ~/dotfiles/vim/vimrc.vim<CR>
+
+
+" }}}
 
 " Commands {{{
 " Sudoで強制保存
@@ -144,7 +144,7 @@ endif
 
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
 command! CdCurrent cd\ %:h
-"}}}
+" }}}
 
 " Functions (Moved to autoload folder)
 
@@ -291,29 +291,32 @@ if g:use_plugins == s:true
         colorscheme elflord
         cd $HOME
     else
-        set background=light
-        let g:airline_theme="solarized"
-        colorscheme solarized
+        " set background=light
+        " let g:airline_theme="solarized"
+        " colorscheme solarized
+
         " colorscheme summerfruit256
-        " set background=dark
-        " colorscheme onedark
-        " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
-        " highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-        " highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
-        "             \guifg=#282C34 guibg=#282C34
-        " highlight! MatchParen gui=none cterm=none term=none
-        " highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
-        " highlight! FoldColumn ctermbg=233 guibg=#0e1013
-        " highlight! StatusLine ctermbg=235 guibg=#282C34
-        " highlight! StatusLineNC ctermbg=235 guibg=#282C34
+
+        set background=dark
+        let g:airline_theme="onedark"
+        colorscheme onedark
+        highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
+        highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
+        highlight! FoldColumn ctermbg=233 guibg=#0e1013
+        highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
+        highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235
+                    \guifg=#282C34 guibg=#282C34
+        highlight! MatchParen gui=none cterm=none term=none
+        highlight! StatusLine ctermbg=235 guibg=#282C34
+        highlight! StatusLineNC ctermbg=235 guibg=#282C34
 
         if has("gui_running")
             let g:indent_guides_auto_colors = 1
         else
             let g:indent_guides_auto_colors = 0
             " solarized(light)
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
             " summerfruit
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
@@ -321,8 +324,8 @@ if g:use_plugins == s:true
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
             " onedark
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
+            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
         endif
     endif
     " }}}
