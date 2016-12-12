@@ -107,6 +107,9 @@ hook_add = '''
 [[plugins]]
 repo = 'mattn/ctrlp-filer'
 depends = 'ctrlp.vim'
+hook_add = '''
+    nnoremap <Leader>f :<C-u>CtrlPFiler<cr>
+'''
 [[plugins]]
 repo = 'easymotion/vim-easymotion' # {{{
 hook_add = '''
