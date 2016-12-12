@@ -99,6 +99,8 @@ on_cmd = ['MemoNew', 'MemoList']
 hook_add = ''' " {{{
     " let g:memolist_memo_suffix = 'txt'
     let g:memolist_unite = 1
+    nmap <Leader>mn :MemoNew<cr>
+    nmap <Leader>ml :MemoList<cr>
 ''' # }}}
 [[plugins]]
 repo = 'majutsushi/tagbar'
