@@ -56,8 +56,8 @@ hook_add = '''
     let g:vimfiler_force_overwrite_statusline = 0
     let g:vimfiler_enable_auto_cd = 1
     let g:vimfiler_as_default_explorer = 0
-    nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
-    nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
+    " nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
+    " nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
 '''
 # }}}
 [[plugins]]
@@ -360,6 +360,19 @@ let g:brightest#highlight = {
 # }}}
 [[plugins]]
 repo = 'istepura/vim-toolbar-icons-silk'
+[[plugins]]
+repo = "justinmk/vim-dirvish"# {{{
+# on_event = 'VimEnter'
+# on_cmd = "Dirvish"
+hook_add = '''
+    nnoremap <Leader>e :Dirvish %:p<cr>
+    nnoremap <Leader>E :Dirvish<cr>
+    autocmd FileType dirvish silent sort r /[^\/]$/
+    " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
+    autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
+    autocmd FileType dirvish nnoremap <silent><buffer> s :sort r /[^\/]$/<cr>
+'''
+# }}}
 
 # COLORSCHEMES {{{
 [[plugins]]

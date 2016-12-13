@@ -334,7 +334,3 @@ hook_post_source = ''' " {{{
      " endif
      call watchdogs#setup(g:quickrun_config)
 ''' # }}}
-[[plugins]]
-repo = "justinmk/vim-dirvish"
-on_event = 'VimEnter'
-# on_cmd = "Dirvish"
