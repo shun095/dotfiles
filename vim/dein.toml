@@ -369,11 +369,11 @@ nnoremap <silent> <Leader>e :Dirvish %:p:h<cr>
 nnoremap <silent> <Leader>E :Dirvish<cr>
 augroup mydirvish
     autocmd FileType dirvish
-                \  nnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
-                \ |xnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
+                \ nnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
+                \|xnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
     autocmd FileType dirvish
-                \  nmap <silent><buffer> h <Plug>(dirvish_up)
-                \ |xmap <silent><buffer> h <Plug>(dirvish_up)
+                \ nmap <silent><buffer> h <Plug>(dirvish_up)
+                \|xmap <silent><buffer> h <Plug>(dirvish_up)
     " autocmd FileType dirvish silent sort r /[^\/]$/
     " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
     autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
