@@ -381,7 +381,7 @@ augroup mydirvish
 
     " magicだと\(\\\|/\)~~~
     " verymagic(\|/) (パスがmagicだとドットが入るのでだめ)
-    autocmd FileType dirvish call search("\\(\\\\\\|/\\)" . @z . "$")
+    autocmd FileType dirvish call search("\\M\\(\\\\\\|/\\)" . @z . "$")
 augroup END
 '''
 # }}}
