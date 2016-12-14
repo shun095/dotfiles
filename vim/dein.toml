@@ -374,7 +374,7 @@ augroup mydirvish
     autocmd FileType dirvish
                 \ nmap <silent><buffer> h <Plug>(dirvish_up)
                 \|xmap <silent><buffer> h <Plug>(dirvish_up)
-    " autocmd FileType dirvish silent sort r /[^\/]$/
+    autocmd FileType dirvish silent sort r /[^\/]$/
     " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
     autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
     autocmd FileType dirvish nnoremap <silent><buffer> s :sort r /[^\/]$/<cr>
