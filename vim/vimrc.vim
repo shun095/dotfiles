@@ -345,35 +345,12 @@ else
     " }}}
 
     " Netrw settings {{{
-    " let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
-    " let g:netrw_browse_split = 4
-    let g:netrw_banner = 1
-    let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-    let g:netrw_liststyle = 0
-    let g:netrw_alto = 1
-    let g:netrw_altv = 1
-    " カレントディレクトリを変える
-    let g:netrw_keepdir = 0
-
+    "
     " バッファファイルのディレクトリで開く
     nnoremap <Leader>e :call myvimrc#NiceLexplore(1)<CR>
     " カレントディレクトリで開く
     nnoremap <Leader>E :call myvimrc#NiceLexplore(0)<CR>
 
-    augroup MyNetrw
-        autocmd!
-        " for toggle
-        " autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
-        autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
-        autocmd FileType netrw nmap <silent><buffer>. gh
-        autocmd FileType netrw nmap <silent><buffer>h -
-        autocmd FileType netrw nmap <silent><buffer>l <CR>
-        autocmd FileType netrw unmap <silent><buffer>qf
-        autocmd FileType netrw unmap <silent><buffer>qF
-        autocmd FileType netrw unmap <silent><buffer>qL
-        autocmd FileType netrw unmap <silent><buffer>qb
-        " autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
-    augroup END
     " Toggling
     " function! s:NiceLexplore(on_bufferdir) {{{
     "     if exists("t:expl_buf_num")
@@ -401,3 +378,28 @@ else
     " }}}
     " }}}
 endif
+" let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
+" let g:netrw_browse_split = 4
+let g:netrw_banner = 1
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_liststyle = 0
+let g:netrw_alto = 1
+let g:netrw_altv = 1
+" カレントディレクトリを変える
+let g:netrw_keepdir = 0
+
+
+augroup MyNetrw
+    autocmd!
+    " for toggle
+    " autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
+    autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
+    autocmd FileType netrw nmap <silent><buffer>. gh
+    autocmd FileType netrw nmap <silent><buffer>h -
+    autocmd FileType netrw nmap <silent><buffer>l <CR>
+    autocmd FileType netrw unmap <silent><buffer>qf
+    autocmd FileType netrw unmap <silent><buffer>qF
+    autocmd FileType netrw unmap <silent><buffer>qL
+    autocmd FileType netrw unmap <silent><buffer>qb
+    " autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
+augroup END
