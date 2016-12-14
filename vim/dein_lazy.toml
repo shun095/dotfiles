@@ -1,30 +1,5 @@
 # vim:set foldmethod=marker:
 [[plugins]]
-repo = 'osyo-manga/vim-precious'
-on_event = "VimEnter"
-# on_cmd = ["PreciousReset", "PreciousSwitch"]
-depends = ['context_filetype.vim']
-hook_add = ''' " {{{
-    let g:context_filetype#search_offset = 300
-    let g:precious_enable_switch_CursorMoved = { '*' : 0 }
-    let g:precious_enable_switch_CursorHold = { '*' : 1 }
-    " INSERTモードのON／OFFに合わせてトグル
-    augroup PreciousAuto
-        autocmd InsertEnter * :PreciousSwitch
-        " autocmd InsertLeave * :PreciousReset
-    augroup END
-    " setfiletype を無効
-    " let g:precious_enable_switchers = {
-    " \    "*" : {
-    " \        "setfiletype" : 0,
-    " \    },
-    " \}
-    " augroup test
-    "     autocmd!
-    "     autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
-    " augroup END
-''' # }}}
-[[plugins]]
 repo = "cohama/lexima.vim"
 on_i = 1
 hook_post_source = ''' " {{{
@@ -144,6 +119,7 @@ repo = 'csscomb/vim-csscomb'
 on_ft = 'css'
 [[plugins]]
 repo = 'Valloric/YouCompleteMe'
+# ycmはdeinがキャッシュを作るにはおもすぎるのでlazy
 on_event = "VimEnter"
 # on_i = 1
 hook_add = ''' " {{{

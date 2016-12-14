@@ -300,6 +300,32 @@ on_ft = 'javascript' # }}}
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
 [[plugins]]
+repo = 'osyo-manga/vim-precious'
+# on_event = "VimEnter"
+# on_cmd = ["PreciousReset", "PreciousSwitch"]
+depends = ['context_filetype.vim']
+hook_add = ''' " {{{
+    " let g:context_filetype#search_offset = 300
+    let g:precious_enable_switch_CursorMoved = { '*' : 0 }
+    let g:precious_enable_switch_CursorHold = { '*' : 1 }
+    " INSERTモードのON／OFFに合わせてトグル
+    augroup PreciousAuto
+        autocmd!
+        autocmd InsertEnter * :PreciousSwitch
+        " autocmd InsertLeave * :PreciousReset
+    augroup END
+    " setfiletype を無効
+    " let g:precious_enable_switchers = {
+    " \    "*" : {
+    " \        "setfiletype" : 0,
+    " \    },
+    " \}
+    " augroup test
+    "     autocmd!
+    "     autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
+    " augroup END
+''' # }}}
+[[plugins]]
 repo = 'gregsexton/MatchTag' # {{{
 on_ft = ['html','xml'] # }}}
 [[plugins]]
@@ -371,11 +397,11 @@ nnoremap <silent> <Leader>e :let w:dirvishbefore=expand("%:p")<cr>:Dirvish %:p:h
 nnoremap <silent> <Leader>E :Dirvish<cr>
 augroup mydirvish
     autocmd!
+    " hとlによる移動
     autocmd FileType dirvish nnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
     autocmd FileType dirvish xnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
     autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
     autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
-
     " 起動時にソート
     autocmd FileType dirvish silent sort r /[^\/]$/
     " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
@@ -383,7 +409,7 @@ augroup mydirvish
     autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
     autocmd FileType dirvish nnoremap <silent><buffer> s :sort r /[^\/]$/<cr>
 
-    " 開いていたファイルやDirectoryにカーソルをあわせる
+    " 開いていたファイルやDirectory(w:dirvishbefore)にカーソルをあわせる
     autocmd FileType dirvish if exists("w:dirvishbefore") | call search('\V\^'.escape(w:dirvishbefore, '\').'\$', 'cw') | endif
     autocmd FileType dirvish let w:dirvishbefore=expand("%:p")
 augroup END
