@@ -365,8 +365,8 @@ repo = "justinmk/vim-dirvish"# {{{
 # on_event = 'VimEnter'
 # on_cmd = "Dirvish"
 hook_add = '''
-nnoremap <Leader>e :Dirvish %:p<cr>
-nnoremap <Leader>E :Dirvish<cr>
+nnoremap <silent> <Leader>e :Dirvish %<cr>
+nnoremap <silent> <Leader>E :Dirvish<cr>
 augroup mydirvish
     autocmd FileType dirvish
                 \  nnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
