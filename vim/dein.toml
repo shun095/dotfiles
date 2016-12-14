@@ -379,7 +379,7 @@ augroup mydirvish
     autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
     autocmd FileType dirvish nnoremap <silent><buffer> s :sort r /[^\/]$/<cr>
 
-    autocmd FileType dirvish call search(@z . "$")
+    autocmd FileType dirvish call search("\\v(\\\\|/)" . @z . "$")
 augroup END
 '''
 # }}}
