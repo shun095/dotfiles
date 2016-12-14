@@ -365,7 +365,7 @@ repo = "justinmk/vim-dirvish"# {{{
 # on_event = 'VimEnter'
 # on_cmd = "Dirvish"
 hook_add = '''
-nnoremap <silent> <Leader>e :let @z=expand("%:t")<cr>:Dirvish %:p:h<cr>
+nnoremap <silent> <Leader>e :let w:dirvishbefore=expand("%:p")<cr>:Dirvish %:p:h<cr>
 nnoremap <silent> <Leader>E :Dirvish<cr>
 augroup mydirvish
     autocmd!
@@ -379,9 +379,8 @@ augroup mydirvish
     autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
     autocmd FileType dirvish nnoremap <silent><buffer> s :sort r /[^\/]$/<cr>
 
-    " magicだと\(\\\|/\)~~~
-    " verymagic(\|/) (パスがmagicだとドットが入るのでだめ)
-    autocmd FileType dirvish call search("\\M\\(\\\\\\|/\\)" . @z . "$")
+    autocmd FileType dirvish call search('\V\^'.escape(w:dirvishbefore, '\').'\$', 'cw')
+    autocmd FileType dirvish let w:dirvishbefore=expand("%:p")
 augroup END
 '''
 # }}}
