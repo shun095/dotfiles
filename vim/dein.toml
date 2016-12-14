@@ -365,12 +365,20 @@ repo = "justinmk/vim-dirvish"# {{{
 # on_event = 'VimEnter'
 # on_cmd = "Dirvish"
 hook_add = '''
-    nnoremap <Leader>e :Dirvish %:p<cr>
-    nnoremap <Leader>E :Dirvish<cr>
+nnoremap <Leader>e :Dirvish %:p<cr>
+nnoremap <Leader>E :Dirvish<cr>
+augroup mydirvish
+    autocmd FileType dirvish
+                \  nnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
+                \ |xnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
+    autocmd FileType dirvish
+                \  nmap <silent><buffer> h <Plug>(dirvish_up)
+                \ |xmap <silent><buffer> h <Plug>(dirvish_up)
     autocmd FileType dirvish silent sort r /[^\/]$/
     " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
     autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
     autocmd FileType dirvish nnoremap <silent><buffer> s :sort r /[^\/]$/<cr>
+augroup END
 '''
 # }}}
 
