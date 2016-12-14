@@ -144,7 +144,8 @@ repo = 'csscomb/vim-csscomb'
 on_ft = 'css'
 [[plugins]]
 repo = 'Valloric/YouCompleteMe'
-on_i = 1
+on_event = "VimEnter"
+# on_i = 1
 hook_add = ''' " {{{
     let g:ycm_global_ycm_extra_conf =
                 \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe

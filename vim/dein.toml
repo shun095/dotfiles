@@ -376,11 +376,14 @@ augroup mydirvish
     autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
     autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
 
+    " 起動時にソート
     autocmd FileType dirvish silent sort r /[^\/]$/
     " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
+    " .とsに隠しファイルとソートを割り当て
     autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
     autocmd FileType dirvish nnoremap <silent><buffer> s :sort r /[^\/]$/<cr>
 
+    " 開いていたファイルやDirectoryにカーソルをあわせる
     autocmd FileType dirvish if exists("w:dirvishbefore") | call search('\V\^'.escape(w:dirvishbefore, '\').'\$', 'cw') | endif
     autocmd FileType dirvish let w:dirvishbefore=expand("%:p")
 augroup END
