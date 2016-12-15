@@ -5,6 +5,11 @@ if &compatible
     set nocompatible
 endif
 
+if exists("g:loaded_myvimrc")
+    finish
+endif
+let g:loaded_myvimrc = 1
+
 let s:true = 1
 let s:false = 0
 
