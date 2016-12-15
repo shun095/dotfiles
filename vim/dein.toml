@@ -270,11 +270,23 @@ set statusline=%{anzu#search_status()}
 repo = 'SirVer/ultisnips' # {{{
 hook_add = '''
     " better key bindings for UltiSnipsExpandTrigger
-    let g:UltiSnipsExpandTrigger = "<C-j>"
-    let g:UltiSnipsJumpForwardTrigger = "<C-j>"
-    let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+    let g:UltiSnipsExpandTrigger = "<tab>"
+    let g:UltiSnipsJumpForwardTrigger = "<tab>"
+    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
     " let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips"
+    if has("unix")
+        if !g:myvimrc_python_version == ""
+            let g:UltiSnipsUsePythonVersion = g:myvimrc_python_version
+        else
+            let g:UltiSnipsUsePythonVersion = 2
+        endif
+    endif
 ''' # }}}
+[[plugins]]
+repo = 'ervandew/supertab'
+hook_add = '''
+    let g:SuperTabDefaultCompletionType = '<c-n>'
+'''
 [[plugins]]
 repo = 'MarcWeber/vim-addon-mw-utils'
 [[plugins]]
