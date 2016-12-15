@@ -283,10 +283,10 @@ hook_add = '''
     endif
 ''' # }}}
 [[plugins]]
-repo = 'ervandew/supertab'
+repo = 'ervandew/supertab'# {{{
 hook_add = '''
     let g:SuperTabDefaultCompletionType = '<c-n>'
-'''
+'''# }}}
 [[plugins]]
 repo = 'MarcWeber/vim-addon-mw-utils'
 [[plugins]]
