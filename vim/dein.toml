@@ -300,11 +300,11 @@ on_ft = 'javascript' # }}}
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
 [[plugins]]
-repo = 'osyo-manga/vim-precious'
+repo = 'osyo-manga/vim-precious' # {{{
 # on_event = "VimEnter"
 # on_cmd = ["PreciousReset", "PreciousSwitch"]
 depends = ['context_filetype.vim']
-hook_add = ''' " {{{
+hook_add = '''
     " let g:context_filetype#search_offset = 300
     let g:precious_enable_switch_CursorMoved = { '*' : 0 }
     let g:precious_enable_switch_CursorHold = { '*' : 1 }
