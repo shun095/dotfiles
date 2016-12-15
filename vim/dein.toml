@@ -270,7 +270,7 @@ set statusline=%{anzu#search_status()}
 repo = 'SirVer/ultisnips' # {{{
 hook_add = '''
     " better key bindings for UltiSnipsExpandTrigger
-    let g:UltiSnipsExpandTrigger = "<tab>"
+    let g:UltiSnipsExpandTrigger = "<c-j>"
     let g:UltiSnipsJumpForwardTrigger = "<tab>"
     let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
     " let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips"
