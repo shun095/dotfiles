@@ -349,11 +349,6 @@ nmap <expr><C-p> yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrl
 nmap <C-n> <Plug>(yankround-next)
 ''' # }}}
 [[plugins]]
-repo = "mbbill/undotree" # {{{
-hook_add = '''
-    nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
-''' # }}}
-[[plugins]]
 repo = "bkad/CamelCaseMotion" # {{{
 hook_add = '''
     call camelcasemotion#CreateMotionMappings(',')

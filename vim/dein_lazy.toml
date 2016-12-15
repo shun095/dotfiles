@@ -311,3 +311,15 @@ hook_post_source = ''' " {{{
      " endif
      call watchdogs#setup(g:quickrun_config)
 ''' # }}}
+[[plugins]]
+repo = "mbbill/undotree" # {{{
+on_if = '!has("python")'
+hook_post_source = '''
+    nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
+''' # }}}
+[[plugins]]
+repo = "sjl/gundo.vim"
+on_if = 'has("python")'
+hook_post_source = '''
+    nnoremap <Leader>gu :<C-u>GundoToggle<cr>
+'''
