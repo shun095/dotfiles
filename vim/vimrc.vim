@@ -84,6 +84,7 @@ set sessionoptions=folds,help,tabpages
 set updatetime=1000
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判別優先順位の設定
 set fileformats=unix,dos,mac " 改行コード自動判別優先順位の設定
+set complete=.,w,b,u,t,i,d,t
 set completeopt=menuone,noselect,preview " 補完関係の設定
 set omnifunc=syntaxcomplete#Complete
 set iminsert=0 " IMEの管理
