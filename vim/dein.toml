@@ -312,7 +312,7 @@ hook_add = '''
     augroup PreciousAuto
         autocmd!
         autocmd InsertEnter * :PreciousSwitch
-        " autocmd InsertLeave * :PreciousReset
+        autocmd InsertLeave * :PreciousSwitch
     augroup END
     " setfiletype を無効
     " let g:precious_enable_switchers = {
