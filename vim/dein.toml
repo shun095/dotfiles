@@ -271,8 +271,8 @@ repo = 'SirVer/ultisnips' # {{{
 hook_add = '''
     " better key bindings for UltiSnipsExpandTrigger
     let g:UltiSnipsExpandTrigger = "<c-j>"
-    let g:UltiSnipsJumpForwardTrigger = "<tab>"
-    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+    let g:UltiSnipsJumpForwardTrigger = "<c-j>"
+    let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
     " let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips"
     if has("unix")
         if !g:myvimrc_python_version == ""
