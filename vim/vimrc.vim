@@ -178,7 +178,7 @@ augroup VIMRC
     autocmd QuickFixCmdPost * cwindow
     autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
     " pでプレビューができるようにする
-    autocmd FileType qf noremap <silent><buffer> p  <CR>*Nzz<C-w>p
+    autocmd FileType qf noremap <silent><buffer> p  <CR>zz<C-w>p
 
     " ヘルプをqで閉じれるようにする
     autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
