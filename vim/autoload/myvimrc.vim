@@ -32,31 +32,34 @@ function! myvimrc#NiceLexplore(open_on_bufferdir) abort
 endfunction
 
 function! myvimrc#git_auto_updating() abort
-    let s:save_cd = getcwd()
-    cd ~/dotfiles/
-    let s:git_callback_count = 0
-    if has('job')
-        call job_start('git pull', {'callback': 'myvimrc#git_callback', 'exit_cb': 'myvimrc#git_end_callback'})
-    else
-        call vimproc#system("git pull &")
+    if !exists("g:called_mygit_func")
+        let s:save_cd = getcwd()
+        cd ~/dotfiles/
+        let s:git_callback_count = 0
+        if has('job')
+            call job_start('git pull', {'callback': 'myvimrc#git_callback', 'exit_cb': 'myvimrc#git_end_callback'})
+        else
+            call vimproc#system("git pull &")
+        endif
+        execute "cd " . s:save_cd
+        unlet s:save_cd
+        let g:called_mygit_func = 1
     endif
-    execute "cd " . s:save_cd
-    unlet s:save_cd
 endfunction
 
 " Auto updating vimrc
 function! myvimrc#git_callback(ch, msg) abort
     let s:git_callback_count+=1
-    echom "Myvimrc: " . a:msg
+    " echom "Myvimrc: " . a:msg
 endfunction
 
 function! myvimrc#git_end_callback(ch, msg) abort
     if s:git_callback_count > 1
-        " echohl WarningMsg
-        " echom "New vimrc was downloaded. Please restart to use it!!"
-        " echohl none
-    " else
-    "     echomsg "git git_callback_count was " . s:git_callback_count
+        echohl WarningMsg
+        echom "New vimrc was downloaded. Please restart to use it!!"
+        echohl none
+    else
+        " echomsg "git git_callback_count was " . s:git_callback_count
     endif
 endfunction
 
