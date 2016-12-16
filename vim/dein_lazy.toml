@@ -13,6 +13,7 @@ for [begin, end] in [['"','"'], ["'","'"]]
 endfor
 
 call lexima#init()
+" <BS>,<CR>が文字列ではなく展開されてしまうためうまくいかないので<lt>を利用
 inoremap <expr> <C-h> lexima#expand('<lt>BS>', 'i')
 imap <expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
 ''' # }}}
