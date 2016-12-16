@@ -56,27 +56,27 @@ on_ft = 'toml'
 # repo = 'davidhalter/jedi-vim'
 # on_ft = 'python'
 # # depends = 'neocomplete.vim'
-# 
+#
 # hook_post_source = ''' " {{{
 #     "Windowsの場合PYTHONHOMEの環境変数設定が必要なので注意
 #     " augroup JEDIVIM
 #     "     autocmd FileType python setlocal omnifunc=jedi#completions
 #     " augroup END
-# 
+#
 #     " Enable these lines or ...
 #     " if !exists('g:neocomplete#sources#omni#input_patterns')
 #     "     let g:neocomplete#sources#omni#input_patterns = {}
 #     " endif
 #     " let g:neocomplete#sources#omni#input_patterns.python =
 #     "             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-# 
+#
 #     " ... these lines.
 #     if !exists('g:neocomplete#force_omni_input_patterns')
 #         let g:neocomplete#force_omni_input_patterns = {}
 #     endif
 #     let g:neocomplete#force_omni_input_patterns.python =
 #                 \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-# 
+#
 #     let g:jedi#completions_enabled = 0
 #     let g:jedi#auto_vim_configuration = 0
 #     let g:jedi#auto_close_doc = 1
@@ -156,6 +156,7 @@ hook_add = ''' " {{{
     endif
     let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
     let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+    autocmd VIMRC FileType python nnoremap K :<C-u>YcmCompleter GetDoc<CR>
 ''' # }}}
 [[plugins]]
 repo = 'rdnetto/YCM-Generator'
