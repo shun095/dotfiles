@@ -224,9 +224,9 @@ hook_add = '''
     "             \ [ 'a', 'b', 'c' ],
     "             \ [ 'x', 'y', 'z' ]
     "             \ ] " }}}
-'''
+''' # }}}
 [[plugins]]
-repo = 'vim-airline/vim-airline-themes'
+repo = 'vim-airline/vim-airline-themes' # {{{
 depends = 'vim-airline'
 # }}}
 [[plugins]]
@@ -447,7 +447,7 @@ augroup END
 '''
 # }}}
 [[plugins]]
-repo = 'terryma/vim-multiple-cursors'
+repo = 'terryma/vim-multiple-cursors' # {{{
 hook_add = '''
 let g:multi_cursor_use_default_mapping = 0
 " Default mapping
@@ -456,7 +456,7 @@ let g:multi_cursor_next_key = '<C-n>'
 let g:multi_cursor_prev_key = '<C-p>'
 let g:multi_cursor_skip_key = '<C-x>'
 let g:multi_cursor_quit_key = '<Esc>'
-'''
+''' # }}}
 [[plugins]]
 repo = "mbbill/undotree" # {{{
 # on_event = "VimEnter"
@@ -468,6 +468,8 @@ hook_add = '''
 ''' # }}}
 [[plugins]]
 repo = "haya14busa/dein-command.vim"
+[[plugins]]
+repo = "Yggdroot/indentLine"
 
 # COLORSCHEMES {{{
 [[plugins]]
