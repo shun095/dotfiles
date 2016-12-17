@@ -123,7 +123,7 @@ set background=light
 " }}}
 
 " Mapping {{{
-" 改行があっても真下に移動できるようになる
+" 折り返しがあっても真下に移動できるようになる
 nnoremap j gj
 nnoremap k gk
 nnoremap gj j
