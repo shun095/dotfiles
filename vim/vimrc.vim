@@ -272,6 +272,7 @@ if g:use_plugins == s:true
 
     filetype off
     filetype plugin indent off
+    let g:dein#install_max_processes = 16
     if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
         call dein#begin(s:plugin_dir)
         call dein#add('Shougo/dein.vim')
