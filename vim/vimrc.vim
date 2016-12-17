@@ -168,9 +168,12 @@ augroup VIMRC
     autocmd Filetype css setl foldmethod=syntax
 
     " python関係の設定
+    let g:python_highlight_all = 1
     autocmd FileType python setl autoindent
     autocmd FileType python setl foldmethod=indent smartindent cinwords=if,elif,else,for,while,
                 \try,except,finally,def,class
+    autocmd FileType python inoremap <buffer> # X#
+    autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
 
     " cpp関係の設定
     autocmd FileType c,cpp setl foldmethod=syntax
