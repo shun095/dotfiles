@@ -270,9 +270,8 @@ if g:use_plugins == s:true
     let g:plugins_toml = '$MYVIMHOME/dein.toml'
     let g:plugins_lazy_toml = '$MYVIMHOME/dein_lazy.toml'
 
-    filetype off
-    filetype plugin indent off
-    let g:dein#install_max_processes = 16
+    let g:dein#install_max_processes = 64
+    let g:dein#install_process_timeout = 240
     if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
         call dein#begin(s:plugin_dir)
         call dein#add('Shougo/dein.vim')
@@ -284,14 +283,15 @@ if g:use_plugins == s:true
         call dein#save_state()
     endif
 
+    filetype plugin indent on
+    syntax enable
+
     if dein#check_install()
         augroup VIMRC
             " インストールされていないプラグインがあれば確認
             autocmd VimEnter * call myvimrc#confirm_do_dein_install()
         augroup END
     endif
-    filetype plugin indent on
-    syntax enable
     " Dein end
     " }}}
 
