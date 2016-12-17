@@ -320,23 +320,23 @@ if g:use_plugins == s:true
         highlight! StatusLine ctermbg=235 guibg=#282C34
         highlight! StatusLineNC ctermbg=235 guibg=#282C34
 
-        if has("gui_running")
-            let g:indent_guides_auto_colors = 1
-        else
-            let g:indent_guides_auto_colors = 0
-            " solarized(light)
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
-            " summerfruit
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
-            " one(light)
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
-            " onedark
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
-            autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
-        endif
+        " if has("gui_running")
+        "     let g:indent_guides_auto_colors = 1
+        " else
+        "     let g:indent_guides_auto_colors = 0
+        "     " solarized(light)
+        "     " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
+        "     " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
+        "     " summerfruit
+        "     " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
+        "     " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
+        "     " one(light)
+        "     " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
+        "     " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
+        "     " onedark
+        "     autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
+        "     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+        " endif
     endif
     " }}}
 else

@@ -470,6 +470,9 @@ hook_add = '''
 repo = "haya14busa/dein-command.vim"
 [[plugins]]
 repo = "Yggdroot/indentLine"
+hook_add = '''
+    let g:indentLine_showFirstIndentLevel=1
+'''
 
 # COLORSCHEMES {{{
 [[plugins]]
