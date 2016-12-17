@@ -433,6 +433,15 @@ let g:multi_cursor_prev_key = '<C-p>'
 let g:multi_cursor_skip_key = '<C-x>'
 let g:multi_cursor_quit_key = '<Esc>'
 '''
+[[plugins]]
+repo = "mbbill/undotree" # {{{
+# on_event = "VimEnter"
+# on_if = '!has("python")'
+hook_add = '''
+    let g:undotree_WindowLayout = 2
+    let g:undotree_SplitWidth = 40
+    nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
+''' # }}}
 
 # COLORSCHEMES {{{
 [[plugins]]
