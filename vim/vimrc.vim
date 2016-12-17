@@ -99,7 +99,7 @@ source $VIMRUNTIME/menu.vim
 
 " agがあればgrepの代わりにagを使う
 if executable("ag")
-    set grepprg=ag\ --vimgrep\ --smart-case\ $*
+    set grepprg=ag\ --nogroup\ --nocolor\ --column\ --smart-case\ $*
 else
     set grepprg=grep\ -rn\ $*
 endif
