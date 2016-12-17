@@ -1,4 +1,4 @@
-﻿" vim: set foldmethod=marker:
+﻿" vim:set foldmethod=marker:
 scriptencoding utf-8
 
 if &compatible
@@ -152,6 +152,7 @@ endif
 command! CdCurrent cd\ %:h
 " }}}
 
+
 " Functions (Moved to autoload folder)
 
 " Autocmds {{{
@@ -173,6 +174,9 @@ augroup VIMRC
 
     " cpp関係の設定
     autocmd FileType c,cpp setl foldmethod=syntax
+
+    let g:vimsyn_folding = 'aflmpPrt'
+    autocmd Filetype vim setl foldmethod=syntax
 
     " QuickFixを自動で開く
     autocmd QuickFixCmdPost * cwindow
