@@ -12,17 +12,14 @@ let g:loaded_mysession_plugin = 1
 let s:true = 1
 let s:false = 0
 
-" MY SESSION FUNCTIONS
-" let mysession#save_session_file = expand('~/.vimsessions/default.vim')
-
 " Init
 " let mysession#session_loaded = s:false
 " let mysession#session_loaded = s:true
+
 if !exists("mysession#myvimsessions_folder")
     let mysession#myvimsessions_folder = "~/.vimsessions"
 endif
 
-" いつかグローバル変数やめたい
 let mysession#save_session_flag = s:true " TabMerge, ClearSession時用のフラグ
 let mysession#save_window_file = expand(mysession#myvimsessions_folder) . '/.vimwinpos'
 
@@ -52,11 +49,11 @@ augroup MYSESSIONVIM
 augroup END
 
 " command! TabMerge call mysession#tab_merge()
-command! SessionSave call mysession#save_session("savedsession.vim",s:true)
-command! SessionLoadSaved call mysession#load_session("savedsession.vim",s:true)
-command! SessionLoadLast call mysession#load_session("default.vim",s:true)
-command! SessionLoadBackup call mysession#load_session('.backup.vim',s:true)
 command! SessionClearAndQuit call mysession#clear_session()
+command! SessionLoadLast call mysession#load_session("default.vim",s:true)
+command! SessionLoadSaved call mysession#load_session("savedsession.vim",s:true)
+command! SessionSave call mysession#save_session("savedsession.vim",s:true)
+command! SessionLoadClearedSession call mysession#load_session('.backup.vim',s:true)
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
