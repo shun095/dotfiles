@@ -403,18 +403,17 @@ let g:netrw_altv = 1
 " カレントディレクトリを変える
 let g:netrw_keepdir = 0
 
-
 augroup MyNetrw
     autocmd!
     " for toggle
     " autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
-    autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
+    " autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
     autocmd FileType netrw nmap <silent><buffer>. gh
     autocmd FileType netrw nmap <silent><buffer>h -
     autocmd FileType netrw nmap <silent><buffer>l <CR>
-    autocmd FileType netrw unmap <silent><buffer>qf
-    autocmd FileType netrw unmap <silent><buffer>qF
-    autocmd FileType netrw unmap <silent><buffer>qL
-    autocmd FileType netrw unmap <silent><buffer>qb
+    " autocmd FileType netrw unmap <silent><buffer>qf
+    " autocmd FileType netrw unmap <silent><buffer>qF
+    " autocmd FileType netrw unmap <silent><buffer>qL
+    " autocmd FileType netrw unmap <silent><buffer>qb
     " autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
 augroup END
