@@ -24,10 +24,16 @@ endif
 
 " グローバルやめてぇ～～～～
 let g:save_session_flag = s:true " TabMerge, ClearSession時用のフラグ
-" let g:save_window_file = expand(g:myvimsessions_folder) . '/.vimwinpos'
+let g:save_window_file = expand(g:myvimsessions_folder) . '/.vimwinpos'
 
 if isdirectory(expand(g:myvimsessions_folder)) != 1
     call mkdir(expand(g:myvimsessions_folder),"p")
+endif
+
+if has("gui_running")
+    if filereadable(expand(g:save_window_file))
+        execute "source" g:save_window_file
+    endif
 endif
 
 augroup MYSESSIONVIM
@@ -39,7 +45,7 @@ augroup MYSESSIONVIM
     " autocmd CursorHold * if g:save_session_flag == s:true | call mysession#save_session("default.vim",s:false) | endif
     " autocmd CursorHoldI * if g:save_session_flag == s:true | call mysession#save_session("default.vim",s:false) | endif
 
-    " autocmd VimLeavePre * call mysession#save_window(g:save_window_file)
+    autocmd VimLeavePre * call mysession#save_window(g:save_window_file)
     autocmd VimLeavePre * if g:save_session_flag == s:true | call mysession#save_session("default.vim",s:true) | endif
 augroup END
 
