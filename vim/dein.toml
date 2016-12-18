@@ -463,7 +463,7 @@ repo = "mbbill/undotree" # {{{
 # on_if = '!has("python")'
 hook_add = '''
     let g:undotree_WindowLayout = 2
-    let g:undotree_SplitWidth = 40
+    let g:undotree_SplitWidth = 30
     nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
 ''' # }}}
 [[plugins]]
