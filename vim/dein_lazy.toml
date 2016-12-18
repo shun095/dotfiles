@@ -294,6 +294,13 @@ hook_post_source = ''' " {{{
      " endif
      call watchdogs#setup(g:quickrun_config)
 ''' # }}}
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+on_event = 'VimEnter'
+hook_add = '''
+    nnoremap <Leader>e :NERDTreeFind<CR>
+    nnoremap <Leader>E :NERDTreeCWD<CR>
+'''
 # [[plugins]]
 # repo = "sjl/gundo.vim"
 # on_if = 'has("python")'

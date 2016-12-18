@@ -180,7 +180,7 @@ augroup VIMRC
     autocmd FileType c,cpp setl foldmethod=syntax
 
     let g:vimsyn_folding = 'aflmpPrt'
-    autocmd Filetype vim setl foldmethod=syntax
+    autocmd BufRead *.vim setl foldmethod=syntax
 
     " QuickFixを自動で開く
     autocmd QuickFixCmdPost * cwindow

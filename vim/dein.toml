@@ -419,32 +419,32 @@ let g:brightest#highlight = {
 # }}}
 [[plugins]]
 repo = 'istepura/vim-toolbar-icons-silk'
-[[plugins]]
-repo = "justinmk/vim-dirvish"# {{{
-# on_event = 'VimEnter'
-# on_cmd = "Dirvish"
-hook_add = '''
-nnoremap <silent> <Leader>e :let w:dirvishbefore=expand("%:p")<cr>:Dirvish %:p:h<cr>
-nnoremap <silent> <Leader>E :Dirvish<cr>
-augroup mydirvish
-    autocmd!
-    " hとlによる移動
-    autocmd FileType dirvish nnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
-    autocmd FileType dirvish xnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
-    autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
-    autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
-    " 起動時にソート
-    autocmd FileType dirvish silent sort r /[^\/]$/
-    " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
-    " .とsに隠しファイルとソートを割り当て
-    autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
-    autocmd FileType dirvish nnoremap <silent><buffer> s :sort r /[^\/]$/<cr>
-
-    " 開いていたファイルやDirectory(w:dirvishbefore)にカーソルをあわせる
-    autocmd FileType dirvish if exists("w:dirvishbefore") | call search('\V\^'.escape(w:dirvishbefore, '\').'\$', 'cw') | endif
-    autocmd FileType dirvish let w:dirvishbefore=expand("%:p")
-augroup END
-'''
+# [[plugins]]
+# repo = "justinmk/vim-dirvish"# {{{
+# # on_event = 'VimEnter'
+# # on_cmd = "Dirvish"
+# hook_add = '''
+# nnoremap <silent> <Leader>e :let w:dirvishbefore=expand("%:p")<cr>:Dirvish %:p:h<cr>
+# nnoremap <silent> <Leader>E :Dirvish<cr>
+# augroup mydirvish
+#     autocmd!
+#     " hとlによる移動
+#     autocmd FileType dirvish nnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
+#     autocmd FileType dirvish xnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
+#     autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
+#     autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
+#     " 起動時にソート
+#     autocmd FileType dirvish silent sort r /[^\/]$/
+#     " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
+#     " .とsに隠しファイルとソートを割り当て
+#     autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
+#     autocmd FileType dirvish nnoremap <silent><buffer> s :sort r /[^\/]$/<cr>
+#
+#     " 開いていたファイルやDirectory(w:dirvishbefore)にカーソルをあわせる
+#     autocmd FileType dirvish if exists("w:dirvishbefore") | call search('\V\^'.escape(w:dirvishbefore, '\').'\$', 'cw') | endif
+#     autocmd FileType dirvish let w:dirvishbefore=expand("%:p")
+# augroup END
+# '''
 # }}}
 [[plugins]]
 repo = 'terryma/vim-multiple-cursors' # {{{
