@@ -399,6 +399,7 @@ else
     " }}}
     " }}}
 endif
+" General Netrw settings {{{
 " let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
 " let g:netrw_browse_split = 4
 let g:netrw_banner = 1
@@ -423,3 +424,4 @@ augroup MyNetrw
     " autocmd FileType netrw unmap <silent><buffer>qb
     " autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
 augroup END
+" }}}

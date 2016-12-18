@@ -48,37 +48,6 @@ hook_add = ''' " {{{
 [[plugins]]
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
-# [[plugins]]
-# repo = 'davidhalter/jedi-vim'
-# on_ft = 'python'
-# # depends = 'neocomplete.vim'
-#
-# hook_post_source = ''' " {{{
-#     "Windowsの場合PYTHONHOMEの環境変数設定が必要なので注意
-#     " augroup JEDIVIM
-#     "     autocmd FileType python setlocal omnifunc=jedi#completions
-#     " augroup END
-#
-#     " Enable these lines or ...
-#     " if !exists('g:neocomplete#sources#omni#input_patterns')
-#     "     let g:neocomplete#sources#omni#input_patterns = {}
-#     " endif
-#     " let g:neocomplete#sources#omni#input_patterns.python =
-#     "             \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-#
-#     " ... these lines.
-#     if !exists('g:neocomplete#force_omni_input_patterns')
-#         let g:neocomplete#force_omni_input_patterns = {}
-#     endif
-#     let g:neocomplete#force_omni_input_patterns.python =
-#                 \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-#
-#     let g:jedi#completions_enabled = 0
-#     let g:jedi#auto_vim_configuration = 0
-#     let g:jedi#auto_close_doc = 1
-#     let g:jedi#show_call_signatures = 2
-#     " let g:jedi#force_py_version = 3
-# ''' # }}}
 [[plugins]]
 repo = 't9md/vim-choosewin'
 [[plugins]]
@@ -91,20 +60,20 @@ hook_add = ''' " {{{
     nmap <Leader>mn :MemoNew<cr>
     nmap <Leader>ml :MemoList<cr>
 ''' # }}}
-# [[plugins]]
-# repo = 'majutsushi/tagbar'
-# on_cmd = ['TagbarToggle', 'TagbarOpen']
-# hook_add = ''' " {{{
-#     nnoremap <silent> <Leader>t :TagbarOpen j<CR>
-#     let g:tagbar_show_linenumbers = 1
-#     let g:tagbar_sort = 0
-#     let g:tagbar_indent = 1
-#     let g:tagbar_autoshowtag = 1
-#     let g:tagbar_autopreview = 0
-#     let g:tagbar_autofocus = 1
-#     let g:tagbar_autoclose = 1
-#     autocmd FileType help let b:tagbar_ignore = 1
-# ''' # }}}
+[[plugins]]
+repo = 'majutsushi/tagbar'
+on_cmd = ['TagbarToggle', 'TagbarOpen']
+hook_add = ''' " {{{
+    nnoremap <silent> <Leader>t :TagbarOpen j<CR>
+    let g:tagbar_show_linenumbers = 1
+    let g:tagbar_sort = 0
+    let g:tagbar_indent = 1
+    let g:tagbar_autoshowtag = 1
+    let g:tagbar_autopreview = 0
+    let g:tagbar_autofocus = 1
+    let g:tagbar_autoclose = 1
+    autocmd FileType help let b:tagbar_ignore = 1
+''' # }}}
 [[plugins]]
 repo = 'basyura/TweetVim.git'
 on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
@@ -318,19 +287,6 @@ hook_post_source = ''' " {{{
      " endif
      call watchdogs#setup(g:quickrun_config)
 ''' # }}}
-# [[plugins]]
-# repo = 'scrooloose/nerdtree'
-# on_event = 'VimEnter'
-# hook_post_source = '''
-#     nnoremap <Leader>e :NERDTreeFind<CR>
-#     nnoremap <Leader>E :NERDTreeCWD<CR>
-# '''
-# [[plugins]]
-# repo = "sjl/gundo.vim"
-# on_if = 'has("python")'
-# hook_post_source = '''
-#     nnoremap <Leader>gu :<C-u>GundoToggle<cr>
-# '''
 [[plugins]]
 repo = "bkad/CamelCaseMotion"
 on_map = ['n', ',']
@@ -395,21 +351,21 @@ hook_add = ''' " {{{
     " nnoremap <space>r <Plug>(unite_restart)
 '''# }}}
 [[plugins]]
-repo = "osyo-manga/vim-brightest" # {{{
+repo = "osyo-manga/vim-brightest"
 on_event = ['CursorHold']
 # on_cmd = ['BrightestEnable']
-hook_add = '''
+hook_add = ''' " {{{
 let g:brightest#highlight = {
 \   "group" : "BrightestUnderline"
 \}
 '''
 # }}}
 [[plugins]]
-repo = 'osyo-manga/vim-precious' # {{{
+repo = 'osyo-manga/vim-precious'
 on_event = "CursorHold"
 # on_cmd = ["PreciousReset", "PreciousSwitch"]
 depends = ['context_filetype.vim']
-hook_post_source = '''
+hook_post_source = ''' " {{{
     " let g:context_filetype#search_offset = 300
     let g:precious_enable_switch_CursorMoved = { '*' : 0 }
     let g:precious_enable_switch_CursorHold = { '*' : 1 }
@@ -430,3 +386,16 @@ hook_post_source = '''
     "     autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
     " augroup END
 ''' # }}}
+# [[plugins]]
+# repo = 'scrooloose/nerdtree'
+# on_event = 'VimEnter'
+# hook_post_source = '''
+#     nnoremap <Leader>e :NERDTreeFind<CR>
+#     nnoremap <Leader>E :NERDTreeCWD<CR>
+# '''
+# [[plugins]]
+# repo = "sjl/gundo.vim"
+# on_if = 'has("python")'
+# hook_post_source = '''
+#     nnoremap <Leader>gu :<C-u>GundoToggle<cr>
+# '''
