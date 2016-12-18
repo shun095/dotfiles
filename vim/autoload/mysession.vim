@@ -44,8 +44,7 @@ endfunction "}}}
 " SAVING WINDOW POSITION
 function! mysession#save_window(save_window_file) abort "{{{
     let options = [
-                \ 'set columns=' . &columns,
-                \ 'set lines=' . &lines,
+                \ 'winsize ' . &columns . ' ' . &lines,
                 \ 'winpos ' . getwinposx() . ' ' . getwinposy(),
                 \ ]
     call writefile(options, a:save_window_file)
