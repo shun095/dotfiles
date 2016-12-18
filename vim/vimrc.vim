@@ -90,6 +90,13 @@ set completeopt=menuone,noselect,preview " 補完関係の設定
 set omnifunc=syntaxcomplete#Complete
 set iminsert=0 " IMEの管理
 set imsearch=0
+" Statusline settings {{{
+set statusline=%F%m%r%h%w%q%=
+set statusline+=[%{&fileformat}]
+set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
+set statusline+=%y
+set statusline+=%4p%%%5l:%-3c
+" }}}
 
 " Vim側のメニューバーのエンコーディングの設定
 " set guioptions+=M
@@ -210,6 +217,12 @@ if v:version >= 800
     packadd! matchit
     packadd! editexisting
 endif
+let g:loaded_getscriptPlugin = 1
+let g:loaded_gzip = 1
+let g:loaded_logiPat = 1
+let g:loaded_tarPlugin = 1
+let g:loaded_vimballPlugin = 1
+let g:loaded_zipPlugin = 1
 " }}}
 
 " Confirm whether or not install dein if not exists {{{
@@ -349,15 +362,8 @@ if g:use_plugins == s:true
     " }}}
 else
     " Without plugins settings
-    " Statusline settings {{{
-    set statusline=%F%m%r%h%w%q%=
-    set statusline+=[%{&fileformat}]
-    set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
-    set statusline+=%y
-    set statusline+=%4p%%%5l:%-3c
     colorscheme default
     set background=light
-    " }}}
 
     " Netrw settings {{{
     "

@@ -5,50 +5,6 @@ repo = 'tpope/vim-dispatch'
 repo = 'Shougo/vimproc.vim' # {{{
 build = 'make' # }}}
 [[plugins]]
-repo = 'Shougo/unite.vim' #{{{
-hook_add = '''
-    let g:unite_force_overwrite_statusline = 0
-    let g:unite_enable_start_insert = 0
-    nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-    nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
-    nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
-    nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
-    nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
-    " Unite All
-    nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-    " UniteOutLine
-    nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
-    " ウィンドウを分割して開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-    " ウィンドウを縦に分割して開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-    " タブで開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
-    " ESCキーを2回押すと終了する
-    au FileType unite nmap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
-    au FileType unite imap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
-    au FileType unite imap <silent> <buffer> <C-j> <Plug>(unite_select_next_line)
-    au FileType unite imap <silent> <buffer> <C-k> <Plug>(unite_select_previous_line)
-
-    "nice unite and ag
-    " let g:unite_source_history_yank_enable = 1
-    " try
-    let g:unite_source_rec_async_command =
-                \ ['ag', '--follow', '--nocolor', '--nogroup',
-                \  '--hidden', '-g', '']
-    let g:unite_source_rec_max_cache_files = 5000
-    call unite#filters#matcher_default#use(['matcher_fuzzy'])
-    " catch
-    " endtry
-    " search a file in the filetree
-    " nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
-    " reset not it is <C-l> normally
-    " nnoremap <space>r <Plug>(unite_restart)
-'''# }}}
-[[plugins]]
 repo = 'Shougo/vimfiler.vim' # {{{
 # on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
 depends = 'unite.vim'
@@ -117,18 +73,6 @@ repo = 'easymotion/vim-easymotion' # {{{
 hook_add = '''
     let g:EasyMotion_do_mapping = 0
     nmap <Leader>s <Plug>(easymotion-overwin-f2)
-''' # }}}
-[[plugins]]
-repo = 'kana/vim-submode' # {{{
-hook_add = '''
-    call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-    call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-    call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
-    call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
-    call submode#map('winsize', 'n', '', '>', '<C-w>>')
-    call submode#map('winsize', 'n', '', '<', '<C-w><')
-    call submode#map('winsize', 'n', '', '+', '<C-w>+')
-    call submode#map('winsize', 'n', '', '-', '<C-w>-')
 ''' # }}}
 [[plugins]]
 repo = 'superbrothers/vim-vimperator'
@@ -253,41 +197,10 @@ nmap N <Plug>(anzu-N-with-echo)
 nmap * <Plug>(anzu-star-with-echo)
 nmap # <Plug>(anzu-sharp-with-echo)
 
-" clear status
-" nmap <silent> <Esc><Esc> <Plug>(anzu-clear-search-status):noh<CR>
-
-
-" statusline
-set statusline=%{anzu#search_status()}
-
-
 " if start anzu-mode key mapping
 " anzu-mode is anzu(12/51) in screen
 " nmap n <Plug>(anzu-mode-n)
 " nmap N <Plug>(anzu-mode-N)
-''' # }}}
-[[plugins]]
-repo = 'Valloric/YouCompleteMe'
-build = 'install.py --clang-completer'
-hook_add = ''' " {{{
-    let g:ycm_global_ycm_extra_conf =
-                \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
-                \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-
-    let g:ycm_min_num_of_chars_for_completion = 1
-    let g:ycm_complete_in_comments = 1
-    let g:ycm_collect_identifiers_from_comments_and_strings = 1
-    let g:ycm_collect_identifiers_from_tags_files = 1
-    let g:ycm_seed_identifiers_with_syntax = 1
-    let g:ycm_add_preview_to_completeopt = 1
-    let g:ycm_autoclose_preview_window_after_completion = 1
-    " setting of the which python is used
-    if has("unix")
-        let g:ycm_python_binary_path = "python" . g:myvimrc_python_version
-    endif
-    let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-    let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-    autocmd VIMRC FileType python nnoremap K :<C-u>YcmCompleter GetDoc<CR>
 ''' # }}}
 [[plugins]]
 repo = 'SirVer/ultisnips' # {{{
@@ -336,32 +249,6 @@ on_ft = 'javascript' # }}}
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
 [[plugins]]
-repo = 'osyo-manga/vim-precious' # {{{
-# on_event = "VimEnter"
-# on_cmd = ["PreciousReset", "PreciousSwitch"]
-depends = ['context_filetype.vim']
-hook_add = '''
-    " let g:context_filetype#search_offset = 300
-    let g:precious_enable_switch_CursorMoved = { '*' : 0 }
-    let g:precious_enable_switch_CursorHold = { '*' : 1 }
-    " INSERTモードのON／OFFに合わせてトグル
-    augroup PreciousAuto
-        autocmd!
-        autocmd InsertEnter * :PreciousSwitch
-        autocmd InsertLeave * :PreciousSwitch
-    augroup END
-    " setfiletype を無効
-    " let g:precious_enable_switchers = {
-    " \    "*" : {
-    " \        "setfiletype" : 0,
-    " \    },
-    " \}
-    " augroup test
-    "     autocmd!
-    "     autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
-    " augroup END
-''' # }}}
-[[plugins]]
 repo = 'gregsexton/MatchTag' # {{{
 on_ft = ['html','xml'] # }}}
 [[plugins]]
@@ -385,11 +272,6 @@ hook_add = '''
     nmap <C-n> <Plug>(yankround-next)
 ''' # }}}
 [[plugins]]
-repo = "bkad/CamelCaseMotion" # {{{
-hook_add = '''
-    call camelcasemotion#CreateMotionMappings(',')
-''' # }}}
-[[plugins]]
 repo = 'tyru/caw.vim.git' # {{{
 # on_event = "CursorMoved" # }}}
 [[plugins]]
@@ -407,16 +289,6 @@ hook_add = '''
     " " Start interactive EasyAlign in visual mode (e.g. vipga)
     " xmap ga <Plug>(EasyAlign)
 ''' # }}}
-[[plugins]]
-repo = "osyo-manga/vim-brightest" # {{{
-# on_event = ['VimEnter']
-# on_cmd = ['BrightestEnable']
-hook_add = '''
-let g:brightest#highlight = {
-\   "group" : "BrightestUnderline"
-\}
-'''
-# }}}
 [[plugins]]
 repo = 'istepura/vim-toolbar-icons-silk'
 [[plugins]]
