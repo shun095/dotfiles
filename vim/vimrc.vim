@@ -13,6 +13,13 @@ let g:loaded_myvimrc = 1
 let s:true = 1
 let s:false = 0
 
+" Vim側のメニューバーのエンコーディングの設定
+" set guioptions+=M
+set encoding=utf-8
+" source $VIMRUNTIME/delmenu.vim
+set langmenu=ja_JP.utf-8
+" source $VIMRUNTIME/menu.vim
+
 let mapleader = "\<space>"
 
 let $MYVIMHOME=expand("$HOME") . "/dotfiles/vim"
@@ -98,12 +105,6 @@ set statusline+=%y
 set statusline+=%4p%%%5l:%-3c
 " }}}
 
-" Vim側のメニューバーのエンコーディングの設定
-" set guioptions+=M
-set encoding=utf-8
-source $VIMRUNTIME/delmenu.vim
-set langmenu=ja_JP.utf-8
-source $VIMRUNTIME/menu.vim
 
 " agがあればgrepの代わりにagを使う
 if executable("ag")
