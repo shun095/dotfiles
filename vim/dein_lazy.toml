@@ -199,8 +199,9 @@ hook_post_source = ''' " {{{
 
     let g:quickrun_config._ = {
                     \ 'runner'    : 'vimproc',
-                    \ "runner/vimproc/updatetime" : 100,
-                    \ "outputter/quickfix/open_cmd" : "copen 8"
+                    \ 'runner/vimproc/updatetime' : 100,
+                    \ 'outputter/quickfix/open_cmd' : 'copen 8',
+					\ 'outputter/buffer/split' : 'botright 10'
                     \}
                 " \ 'runner'    : 'job',
                 " \ 'runner/job/interval' : 100,
@@ -221,7 +222,11 @@ hook_post_source = ''' " {{{
 
     " nnoremap <silent> <Leader>R :QuickRun<CR>
     " nmap <Leader>R <Plug>(quickrun)
-    nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+    nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>myvimrc_quickrun_sweep() : "\<C-c>"
+	fun! s:myvimrc_quickrun_sweep()
+		echo "Quickrun Sweep"
+		call quickrun#sweep_sessions()
+	endf
 
 ''' # }}}
 [[plugins]]

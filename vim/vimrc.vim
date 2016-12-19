@@ -54,7 +54,7 @@ set smartcase                      " 大文字で始まる場合は無視しな�
 set foldmethod=marker              " syntaxに応じて折りたたまれる
 set tabstop=4                      " タブキーの挙動設定。タブをスペース4つ分とする
 set shiftwidth=4                   " インデントでスペース４つ分下げる
-set expandtab                      " タブをスペースに変換
+set noexpandtab                      " タブをスペースに変換
 set smartindent                    " 自動インデントを有効にする
 set autoindent
 set softtabstop=4                  " バックスペース等でスペースを消す幅
