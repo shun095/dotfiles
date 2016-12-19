@@ -296,6 +296,7 @@ repo = "justinmk/vim-dirvish"# {{{
 # on_event = 'VimEnter'
 # on_cmd = "Dirvish"
 hook_add = '''
+
 nnoremap <silent> <Leader>d :let w:dirvishbefore=expand("%:p")<cr>:Dirvish %:p:h<cr>
 nnoremap <silent> <Leader>D :Dirvish<cr>
 augroup mydirvish
@@ -317,7 +318,7 @@ augroup mydirvish
     autocmd FileType dirvish let w:dirvishbefore=expand("%:p")
 augroup END
 '''
-# }}}
+}}}
 [[plugins]]
 repo = 'terryma/vim-multiple-cursors' # {{{
 hook_add = '''

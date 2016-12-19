@@ -360,6 +360,10 @@ if g:use_plugins == s:true
             autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
         endif
     endif
+    " バッファファイルのディレクトリで開く
+    nnoremap <Leader>n :call myvimrc#NiceLexplore(1)<CR>
+    " カレントディレクトリで開く
+    nnoremap <Leader>N :call myvimrc#NiceLexplore(0)<CR>
     " }}}
 else
     " Without plugins settings
@@ -408,6 +412,7 @@ let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 let g:netrw_liststyle = 0
 let g:netrw_alto = 1
 let g:netrw_altv = 1
+let g:netrw_banner = 0
 " カレントディレクトリを変える
 let g:netrw_keepdir = 0
 
