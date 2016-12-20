@@ -318,7 +318,7 @@ augroup mydirvish
     autocmd FileType dirvish let w:dirvishbefore=expand("%:p")
 augroup END
 '''
-}}}
+# }}}
 [[plugins]]
 repo = 'terryma/vim-multiple-cursors' # {{{
 hook_add = '''
