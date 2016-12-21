@@ -357,8 +357,8 @@ if g:use_plugins == s:true
 			" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
 			" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
 			" onedark
-			autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
-			autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
+			autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234
+			autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235
 		endif
 	endif
 	" バッファファイルのディレクトリで開く
