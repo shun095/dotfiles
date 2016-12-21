@@ -441,3 +441,60 @@ if !dein#check_install(["vim-brightest"])
 				\   "group" : "BrightestUnderline"
 				\}
 endif
+
+if !dein#check_install(["vim-precious"])
+	" let g:context_filetype#search_offset = 300
+	let g:precious_enable_switch_CursorMoved = { '*' : 0 }
+	let g:precious_enable_switch_CursorHold = { '*' : 1 }
+	" INSERTモードのON／OFFに合わせてトグル
+	augroup PreciousAuto
+		autocmd!
+		autocmd InsertEnter * :PreciousSwitch
+		autocmd InsertLeave * :PreciousSwitch
+	augroup END
+	" setfiletype を無効
+	" let g:precious_enable_switchers = {
+	" \	"*" : {
+	" \		"setfiletype" : 0,
+	" \	},
+	" \}
+	" augroup test
+	"	 autocmd!
+	"	 autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
+	" augroup END
+endif
+
+if !dein#check_install(["vim-quickrun"])
+	let g:quickrun_config = get(g:, 'quickrun_config', {})
+
+	let g:quickrun_config._ = {
+					\ 'runner'	: 'vimproc',
+					\ 'runner/vimproc/updatetime' : 100,
+					\ 'outputter/quickfix/open_cmd' : 'copen 8',
+					\ 'outputter/buffer/split' : 'botright 10'
+					\}
+				" \ 'runner'	: 'job',
+				" \ 'runner/job/interval' : 100,
+				" \ 'outputter/buffer/into': 1,
+				" \ 'outputter/buffer/close_on_empty' : 0,
+				" \ }
+	" \ 'runner'	: 'vimproc',
+	" \ 'runner/vimproc/updatetime' : 100,
+	let g:quickrun_config.python = {
+				\ 'command' : 'python',
+				\ 'cmdopt' : '-u'
+				\ }
+	let g:quickrun_config.markdown = {
+				\ 'type': 'markdown/pandoc',
+				\ 'cmdopt': '-s',
+				\ 'outputter': 'browser'
+	\ }
+
+	" nnoremap <silent> <Leader>R :QuickRun<CR>
+	" nmap <Leader>R <Plug>(quickrun)
+	nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>myvimrc_quickrun_sweep() : "\<C-c>"
+	fun! s:myvimrc_quickrun_sweep()
+		echo "Quickrun Sweep"
+		call quickrun#sweep_sessions()
+	endf
+endif
