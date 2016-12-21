@@ -50,6 +50,7 @@ repo = 'cespare/vim-toml'
 on_ft = 'toml'
 [[plugins]]
 repo = 't9md/vim-choosewin'
+on_event = "VimEnter"
 [[plugins]]
 repo = 'glidenote/memolist.vim'
 on_cmd = ['MemoNew', 'MemoList']
