@@ -367,7 +367,7 @@ if g:use_plugins == s:true
 	nnoremap <Leader>N :call myvimrc#NiceLexplore(0)<CR>
 	" }}}
 else
-	" Without plugins settings
+	" Without plugins settings {{{
 	colorscheme default
 	set background=light
 
@@ -402,6 +402,7 @@ else
 	"         let t:expl_buf_num = bufnr("%")
 	"     endif
 	" endfunction
+	" }}}
 	" }}}
 	" }}}
 endif
