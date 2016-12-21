@@ -4,12 +4,12 @@ repo = "cohama/lexima.vim"
 on_event = "InsertEnter"
 hook_post_source = ''' " {{{
 for [begin, end] in [['(', ')'], ['{','}'], ['[',']']]
-    call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': begin, 'input': begin})
-    call lexima#add_rule({'at': '\%#\n\s*'.end , 'char': end, 'input': '<CR>'.end, 'delete': end})
+	call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': begin, 'input': begin})
+	call lexima#add_rule({'at': '\%#\n\s*'.end , 'char': end, 'input': '<CR>'.end, 'delete': end})
 endfor
 
 for [begin, end] in [['"','"'], ["'","'"]]
-    call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': begin, 'input': begin})
+	call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': begin, 'input': begin})
 endfor
 
 call lexima#init()
@@ -21,29 +21,29 @@ imap <expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
 repo = 'rhysd/vim-clang-format'
 on_ft = ['c','cpp']
 hook_add = ''' " {{{
-    let g:clang_format#auto_format = 0
+	let g:clang_format#auto_format = 0
 
-    let g:clang_format#command = 'clang-format'
-    for minorversion in range(10)
-        if executable('clang-format-3.' . minorversion)
-            let g:clang_format#command = 'clang-format-3.' . minorversion
-        endif
-    endfor
+	let g:clang_format#command = 'clang-format'
+	for minorversion in range(10)
+		if executable('clang-format-3.' . minorversion)
+			let g:clang_format#command = 'clang-format-3.' . minorversion
+		endif
+	endfor
 
-    let g:clang_format#style_options = {
-                \ "AllowShortIfStatementsOnASingleLine" : "true",
-                \ "AllowShortBlocksOnASingleLine" : "true",
-                \ "AllowShortCaseLabelsOnASingleLine" : "true",
-                \ "AllowShortFunctionsOnASingleLine" : "true",
-                \ "AllowShortLoopsOnASingleLine" : "true",
-                \ "AlignAfterOpenBracket" : "AlwaysBreak",
-                \ "AlignConsecutiveAssignments" : "true",
-                \ "AlignConsecutiveDeclarations" : "true",
-                \ "AlignTrailingComments" : "true",
-                \ "TabWidth" : "4",
-                \ "UseTab" : "Never",
-                \ "ColumnLimit" : "120"
-                \ }
+	let g:clang_format#style_options = {
+				\ "AllowShortIfStatementsOnASingleLine" : "true",
+				\ "AllowShortBlocksOnASingleLine" : "true",
+				\ "AllowShortCaseLabelsOnASingleLine" : "true",
+				\ "AllowShortFunctionsOnASingleLine" : "true",
+				\ "AllowShortLoopsOnASingleLine" : "true",
+				\ "AlignAfterOpenBracket" : "AlwaysBreak",
+				\ "AlignConsecutiveAssignments" : "true",
+				\ "AlignConsecutiveDeclarations" : "true",
+				\ "AlignTrailingComments" : "true",
+				\ "TabWidth" : "4",
+				\ "UseTab" : "Never",
+				\ "ColumnLimit" : "120"
+				\ }
 ''' # }}}
 [[plugins]]
 repo = 'cespare/vim-toml'
@@ -54,46 +54,46 @@ repo = 't9md/vim-choosewin'
 repo = 'glidenote/memolist.vim'
 on_cmd = ['MemoNew', 'MemoList']
 hook_add = ''' " {{{
-    " let g:memolist_memo_suffix = 'txt'
-    let g:memolist_unite = 0
-    let g:memolist_ex_cmd = "Dirvish"
-    nmap <Leader>mn :MemoNew<cr>
-    nmap <Leader>ml :MemoList<cr>
+	" let g:memolist_memo_suffix = 'txt'
+	let g:memolist_unite = 0
+	let g:memolist_ex_cmd = "Dirvish"
+	nmap <Leader>mn :MemoNew<cr>
+	nmap <Leader>ml :MemoList<cr>
 ''' # }}}
 [[plugins]]
 repo = 'majutsushi/tagbar'
 on_cmd = ['TagbarToggle', 'TagbarOpen']
 hook_add = ''' " {{{
-    nnoremap <silent> <Leader>t :TagbarOpen j<CR>
-    let g:tagbar_show_linenumbers = 1
-    let g:tagbar_sort = 0
-    let g:tagbar_indent = 1
-    let g:tagbar_autoshowtag = 1
-    let g:tagbar_autopreview = 0
-    let g:tagbar_autofocus = 1
-    let g:tagbar_autoclose = 1
-    autocmd FileType help let b:tagbar_ignore = 1
+	nnoremap <silent> <Leader>t :TagbarOpen j<CR>
+	let g:tagbar_show_linenumbers = 1
+	let g:tagbar_sort = 0
+	let g:tagbar_indent = 1
+	let g:tagbar_autoshowtag = 1
+	let g:tagbar_autopreview = 0
+	let g:tagbar_autofocus = 1
+	let g:tagbar_autoclose = 1
+	autocmd FileType help let b:tagbar_ignore = 1
 ''' # }}}
 [[plugins]]
 repo = 'basyura/TweetVim.git'
 on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
 depends = ['bitly.vim', 'twibill.vim', 'neco-tweetvim',  'open-browser.vim']
 hook_add = ''' " {{{
-    " 1ページに表示する最大数
-    let g:tweetvim_tweet_per_page = 20
-    " F6と,uvでTweetVimのtimeline選択
-    let g:tweetvim_expand_t_co = 1
-    " let g:tweetvim_open_buffer_cmd = "split!"
-    let g:tweetvim_display_source = 1
-    let g:tweetvim_display_username = 1
-    let g:tweetvim_display_icon = 1
-    " let g:tweetvim_async_post = 0
-    nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
-    nnoremap <Leader>Tm :<C-u>TweetVimMentions<CR>
-    " nnoremap <Leader>Tl :<C-u>TweetVimListStatuses
-    nnoremap <Leader>Tu :<C-u>TweetVimUserStream<CR>
-    nnoremap <Leader>Ts :<C-u>TweetVimSay<CR>
-    nnoremap <Leader>Tc :<C-u>TweetVimCommandSay<CR>
+	" 1ページに表示する最大数
+	let g:tweetvim_tweet_per_page = 20
+	" F6と,uvでTweetVimのtimeline選択
+	let g:tweetvim_expand_t_co = 1
+	" let g:tweetvim_open_buffer_cmd = "split!"
+	let g:tweetvim_display_source = 1
+	let g:tweetvim_display_username = 1
+	let g:tweetvim_display_icon = 1
+	" let g:tweetvim_async_post = 0
+	nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
+	nnoremap <Leader>Tm :<C-u>TweetVimMentions<CR>
+	" nnoremap <Leader>Tl :<C-u>TweetVimListStatuses
+	nnoremap <Leader>Tu :<C-u>TweetVimUserStream<CR>
+	nnoremap <Leader>Ts :<C-u>TweetVimSay<CR>
+	nnoremap <Leader>Tc :<C-u>TweetVimCommandSay<CR>
 ''' # }}}
 # HTML CSS JS PLUGINS
 [[plugins]]
@@ -108,9 +108,9 @@ repo = 'Valloric/YouCompleteMe'
 build = 'install.py --clang-completer'
 on_event = "VimEnter"
 hook_add = ''' " {{{
-    let g:ycm_global_ycm_extra_conf =
-                \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
-                \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+	let g:ycm_global_ycm_extra_conf =
+				\'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
+				\/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
     let g:ycm_min_num_of_chars_for_completion = 1
     let g:ycm_complete_in_comments = 1
@@ -132,38 +132,38 @@ hook_add = ''' " {{{
 repo = 'pocke/sushibar.vim'
 on_cmd = "Sushibar"
 hook_post_source = ''' " {{{
-    set statusline=%!sushibar#sushibar()
-    set laststatus=2
+	set statusline=%!sushibar#sushibar()
+	set laststatus=2
 ''' # }}}
 [[plugins]]
 repo = 'lervag/vimtex'
 on_ft = ['tex']
 hook_add = ''' " {{{
-    if has("win32")
-        let g:vimtex_latexmk_continuous = 1
-        let g:vimtex_latexmk_background = 1
-        "let g:vimtex_latexmk_options = '-pdf'
-        let g:vimtex_latexmk_options = '-pdfdvi'
-        "let g:vimtex_latexmk_options = '-pdfps'
-        let g:vimtex_view_general_viewer = "SumatraPDF.exe"
-        let g:vimtex_view_general_options =
-                    \ '-reuse-instance -inverse-search "\"' . $VIM . '\gvim.exe\" -n --remote-silent +\%l \"\%f\"" -forward-search @tex @line @pdf'
-        let g:vimtex_view_general_options_latexmk = '-reuse-instance'
-        "let g:vimtex_view_general_viewer = 'texworks'
-    elseif has("unix")""
-        let g:vimtex_latexmk_continuous = 1
-        let g:vimtex_latexmk_background = 1
-        "let g:vimtex_latexmk_options = '-pdf'
-        let g:vimtex_latexmk_options = '-pdfdvi'
-        "let g:vimtex_latexmk_options = '-pdfps'
-        let g:vimtex_view_general_viewer = 'xdg-open'
-        "let g:vimtex_view_general_viewer = 'okular'
-        "let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
-        "let g:vimtex_view_general_options_latexmk = '--unique'
-        "let g:vimtex_view_general_viewer = 'qpdfview'
-        "let g:vimtex_view_general_options = '--unique @pdf\#src:@tex:@line:@col'
-        "let g:vimtex_view_general_options_latexmk = '--unique'
-    endif
+	if has("win32")
+		let g:vimtex_latexmk_continuous = 1
+		let g:vimtex_latexmk_background = 1
+		"let g:vimtex_latexmk_options = '-pdf'
+		let g:vimtex_latexmk_options = '-pdfdvi'
+		"let g:vimtex_latexmk_options = '-pdfps'
+		let g:vimtex_view_general_viewer = "SumatraPDF.exe"
+		let g:vimtex_view_general_options =
+					\ '-reuse-instance -inverse-search "\"' . $VIM . '\gvim.exe\" -n --remote-silent +\%l \"\%f\"" -forward-search @tex @line @pdf'
+		let g:vimtex_view_general_options_latexmk = '-reuse-instance'
+		"let g:vimtex_view_general_viewer = 'texworks'
+	elseif has("unix")""
+		let g:vimtex_latexmk_continuous = 1
+		let g:vimtex_latexmk_background = 1
+		"let g:vimtex_latexmk_options = '-pdf'
+		let g:vimtex_latexmk_options = '-pdfdvi'
+		"let g:vimtex_latexmk_options = '-pdfps'
+		let g:vimtex_view_general_viewer = 'xdg-open'
+		"let g:vimtex_view_general_viewer = 'okular'
+		"let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
+		"let g:vimtex_view_general_options_latexmk = '--unique'
+		"let g:vimtex_view_general_viewer = 'qpdfview'
+		"let g:vimtex_view_general_options = '--unique @pdf\#src:@tex:@line:@col'
+		"let g:vimtex_view_general_options_latexmk = '--unique'
+	endif
 ''' # }}}
 [[plugins]]
 repo = "iamcco/markdown-preview.vim"
@@ -173,20 +173,20 @@ let g:mkdp_auto_close = 0
 let g:mkdp_auto_open = 0
 let g:mkdp_auto_start = 0
 if has('win32') != 0
-    let s:google_chrome_path="C:/Program\ Files/Google/Chrome/Application/chrome.exe"
-    let s:google_chrome_path32="C:/Program\ Files\ (x86)/Google/Chrome/Application/chrome.exe"
-    if executable(s:google_chrome_path)
-        let g:mkdp_path_to_chrome=s:google_chrome_path
-    else
-        let g:mkdp_path_to_chrome=s:google_chrome_path32
-    endif
+	let s:google_chrome_path="C:/Program\ Files/Google/Chrome/Application/chrome.exe"
+	let s:google_chrome_path32="C:/Program\ Files\ (x86)/Google/Chrome/Application/chrome.exe"
+	if executable(s:google_chrome_path)
+		let g:mkdp_path_to_chrome=s:google_chrome_path
+	else
+		let g:mkdp_path_to_chrome=s:google_chrome_path32
+	endif
 endif
 ''' # }}}
 [[plugins]]
 repo = "kannokanno/previm"
 on_ft = 'markdown'
 hook_add = '''
-    let g:previm_enable_realtime = 1
+	let g:previm_enable_realtime = 1
 '''
 [[plugins]]
 repo = "thinca/vim-quickrun"
@@ -196,34 +196,34 @@ on_event = "CursorHold"
 # on_cmd = 'QuickRun'
 hook_post_source = ''' " {{{
 
-    let g:quickrun_config = get(g:, 'quickrun_config', {})
+	let g:quickrun_config = get(g:, 'quickrun_config', {})
 
-    let g:quickrun_config._ = {
-                    \ 'runner'    : 'vimproc',
-                    \ 'runner/vimproc/updatetime' : 100,
-                    \ 'outputter/quickfix/open_cmd' : 'copen 8',
+	let g:quickrun_config._ = {
+					\ 'runner'	: 'vimproc',
+					\ 'runner/vimproc/updatetime' : 100,
+					\ 'outputter/quickfix/open_cmd' : 'copen 8',
 					\ 'outputter/buffer/split' : 'botright 10'
-                    \}
-                " \ 'runner'    : 'job',
-                " \ 'runner/job/interval' : 100,
-                " \ 'outputter/buffer/into': 1,
-                " \ 'outputter/buffer/close_on_empty' : 0,
-                " \ }
-    " \ 'runner'    : 'vimproc',
-    " \ 'runner/vimproc/updatetime' : 100,
-    let g:quickrun_config.python = {
-                \ 'command' : 'python',
-                \ 'cmdopt' : '-u'
-                \ }
-    let g:quickrun_config.markdown = {
-                \ 'type': 'markdown/pandoc',
-                \ 'cmdopt': '-s',
-                \ 'outputter': 'browser'
-    \ }
+					\}
+				" \ 'runner'	: 'job',
+				" \ 'runner/job/interval' : 100,
+				" \ 'outputter/buffer/into': 1,
+				" \ 'outputter/buffer/close_on_empty' : 0,
+				" \ }
+	" \ 'runner'	: 'vimproc',
+	" \ 'runner/vimproc/updatetime' : 100,
+	let g:quickrun_config.python = {
+				\ 'command' : 'python',
+				\ 'cmdopt' : '-u'
+				\ }
+	let g:quickrun_config.markdown = {
+				\ 'type': 'markdown/pandoc',
+				\ 'cmdopt': '-s',
+				\ 'outputter': 'browser'
+	\ }
 
-    " nnoremap <silent> <Leader>R :QuickRun<CR>
-    " nmap <Leader>R <Plug>(quickrun)
-    nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>myvimrc_quickrun_sweep() : "\<C-c>"
+	" nnoremap <silent> <Leader>R :QuickRun<CR>
+	" nmap <Leader>R <Plug>(quickrun)
+	nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>myvimrc_quickrun_sweep() : "\<C-c>"
 	fun! s:myvimrc_quickrun_sweep()
 		echo "Quickrun Sweep"
 		call quickrun#sweep_sessions()
@@ -236,125 +236,125 @@ on_event = 'CursorHold'
 depends = [ 'shabadou.vim', 'vim-quickrun' ]
 hook_post_source = ''' " {{{
 
-    let g:watchdogs_check_BufWritePost_enable = 1
-    let g:watchdogs_check_BufWritePost_enables = {
-                \"cpp" : 0
-                \}
-    let g:watchdogs_check_CursorHold_enable = 0
+	let g:watchdogs_check_BufWritePost_enable = 1
+	let g:watchdogs_check_BufWritePost_enables = {
+				\"cpp" : 0
+				\}
+	let g:watchdogs_check_CursorHold_enable = 0
 
-    " quickrun-hook-add-include-option {{{
-    let s:hook = {
-                \ "name": "add_include_option",
-                \ "kind": "hook",
-                \ "config": {
-                \   "enable": 0,
-                \   },
-                \ }
+	" quickrun-hook-add-include-option {{{
+	let s:hook = {
+				\ "name": "add_include_option",
+				\ "kind": "hook",
+				\ "config": {
+				\   "enable": 0,
+				\   },
+				\ }
 
-    function! s:hook.on_module_loaded(session, context)
-        let paths = filter(split(&path, ","), "len(v:val) && v:val !='.' && v:val !~ 'mingw'")
-        if len(paths)
-            let a:session.config.cmdopt .= " -I".join(paths, " -I")
-        endif
-    endfunction
-    call quickrun#module#register(s:hook, 1)
-    unlet s:hook
-    " }}}
+	function! s:hook.on_module_loaded(session, context)
+		let paths = filter(split(&path, ","), "len(v:val) && v:val !='.' && v:val !~ 'mingw'")
+		if len(paths)
+			let a:session.config.cmdopt .= " -I".join(paths, " -I")
+		endif
+	endfunction
+	call quickrun#module#register(s:hook, 1)
+	unlet s:hook
+	" }}}
 
-    let s:config = {
-                \"cpp" : {
-                \    "hook/add_include_option/enable" : 1
-                \    },
-                \"cpp/watchdogs_checker" : {
-                \    "type" : "watchdogs_checker/clang++",
-                \    "hook/add_include_option/enable" : 1,
-                \    "cmdopt" : '-std=c++11 -Wall'
-                \   },
-                \}
-                " \ "vim/watchdogs_checker" : {
-                " \   "type" : "watchdogs_checker/vint",
-                " \   },
-    call extend(g:quickrun_config, s:config)
-    unlet s:config
+	let s:config = {
+				\"cpp" : {
+				\	"hook/add_include_option/enable" : 1
+				\	},
+				\"cpp/watchdogs_checker" : {
+				\	"type" : "watchdogs_checker/clang++",
+				\	"hook/add_include_option/enable" : 1,
+				\	"cmdopt" : '-std=c++11 -Wall'
+				\   },
+				\}
+				" \ "vim/watchdogs_checker" : {
+				" \   "type" : "watchdogs_checker/vint",
+				" \   },
+	call extend(g:quickrun_config, s:config)
+	unlet s:config
 
-    " if has("job")
-    "     let g:quickrun_config["watchdogs_checker/_"] = {
-    "                 \ 'runner'    : 'job',
-    "                 \ 'runner/job/interval' : 100,
-    "                 \ "outputter/quickfix/open_cmd" : "copen 8"
-    "                 \}
-    " else
-        let g:quickrun_config["watchdogs_checker/_"] = {
-                    \ 'runner'    : 'vimproc',
-                    \ "runner/vimproc/updatetime" : 100,
-                    \ "outputter/quickfix/open_cmd" : "copen 8"
-                    \}
-                    "
-     " endif
-     call watchdogs#setup(g:quickrun_config)
+	" if has("job")
+	"	 let g:quickrun_config["watchdogs_checker/_"] = {
+	"				 \ 'runner'	: 'job',
+	"				 \ 'runner/job/interval' : 100,
+	"				 \ "outputter/quickfix/open_cmd" : "copen 8"
+	"				 \}
+	" else
+		let g:quickrun_config["watchdogs_checker/_"] = {
+					\ 'runner'	: 'vimproc',
+					\ "runner/vimproc/updatetime" : 100,
+					\ "outputter/quickfix/open_cmd" : "copen 8"
+					\}
+					"
+	 " endif
+	 call watchdogs#setup(g:quickrun_config)
 ''' # }}}
 [[plugins]]
 repo = "bkad/CamelCaseMotion"
 on_map = ['n', ',']
 hook_post_source = ''' " {{{
-    call camelcasemotion#CreateMotionMappings(',')
+	call camelcasemotion#CreateMotionMappings(',')
 ''' # }}}
 [[plugins]]
 repo = 'kana/vim-submode'
 on_map = ['n', '<C-w>']
 hook_post_source = ''' " {{{
-    call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-    call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-    call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
-    call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
-    call submode#map('winsize', 'n', '', '>', '<C-w>>')
-    call submode#map('winsize', 'n', '', '<', '<C-w><')
-    call submode#map('winsize', 'n', '', '+', '<C-w>+')
-    call submode#map('winsize', 'n', '', '-', '<C-w>-')
+	call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+	call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+	call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+	call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+	call submode#map('winsize', 'n', '', '>', '<C-w>>')
+	call submode#map('winsize', 'n', '', '<', '<C-w><')
+	call submode#map('winsize', 'n', '', '+', '<C-w>+')
+	call submode#map('winsize', 'n', '', '-', '<C-w>-')
 ''' # }}}
 [[plugins]]
 repo = 'Shougo/unite.vim'
 on_cmd = ['Unite', 'UniteWithBufferDir']
 hook_add = ''' " {{{
-    nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-    nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
-    nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
-    nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
-    nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
-    " Unite All
-    nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-    " UniteOutLine
-    nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
-    let g:unite_force_overwrite_statusline = 0
-    let g:unite_enable_start_insert = 0
-    " ウィンドウを分割して開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-    " ウィンドウを縦に分割して開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-    " タブで開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
-    " ESCキーを2回押すと終了する
-    au FileType unite nmap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
-    au FileType unite imap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
-    au FileType unite imap <silent> <buffer> <C-j> <Plug>(unite_select_next_line)
-    au FileType unite imap <silent> <buffer> <C-k> <Plug>(unite_select_previous_line)
-    au FileType unite call unite#filters#matcher_default#use(['matcher_fuzzy'])
-    "nice unite and ag
-    " let g:unite_source_history_yank_enable = 1
-    " try
-    let g:unite_source_rec_async_command =
-                \ ['ag', '--follow', '--nocolor', '--nogroup',
-                \  '--hidden', '-g', '']
-    let g:unite_source_rec_max_cache_files = 5000
-    " catch
-    " endtry
-    " search a file in the filetree
-    " nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
-    " reset not it is <C-l> normally
-    " nnoremap <space>r <Plug>(unite_restart)
+	nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
+	nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
+	nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
+	nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
+	nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
+	" Unite All
+	nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+	" UniteOutLine
+	nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
+	let g:unite_force_overwrite_statusline = 0
+	let g:unite_enable_start_insert = 0
+	" ウィンドウを分割して開く
+	au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+	au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+	" ウィンドウを縦に分割して開く
+	au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+	au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+	" タブで開く
+	au FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
+	au FileType unite inoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
+	" ESCキーを2回押すと終了する
+	au FileType unite nmap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
+	au FileType unite imap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
+	au FileType unite imap <silent> <buffer> <C-j> <Plug>(unite_select_next_line)
+	au FileType unite imap <silent> <buffer> <C-k> <Plug>(unite_select_previous_line)
+	au FileType unite call unite#filters#matcher_default#use(['matcher_fuzzy'])
+	"nice unite and ag
+	" let g:unite_source_history_yank_enable = 1
+	" try
+	let g:unite_source_rec_async_command =
+				\ ['ag', '--follow', '--nocolor', '--nogroup',
+				\  '--hidden', '-g', '']
+	let g:unite_source_rec_max_cache_files = 5000
+	" catch
+	" endtry
+	" search a file in the filetree
+	" nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
+	" reset not it is <C-l> normally
+	" nnoremap <space>r <Plug>(unite_restart)
 '''# }}}
 [[plugins]]
 repo = "osyo-manga/vim-brightest"
@@ -372,25 +372,25 @@ on_event = "CursorHold"
 # on_cmd = ["PreciousReset", "PreciousSwitch"]
 depends = ['context_filetype.vim']
 hook_post_source = ''' " {{{
-    " let g:context_filetype#search_offset = 300
-    let g:precious_enable_switch_CursorMoved = { '*' : 0 }
-    let g:precious_enable_switch_CursorHold = { '*' : 1 }
-    " INSERTモードのON／OFFに合わせてトグル
-    augroup PreciousAuto
-        autocmd!
-        autocmd InsertEnter * :PreciousSwitch
-        autocmd InsertLeave * :PreciousSwitch
-    augroup END
-    " setfiletype を無効
-    " let g:precious_enable_switchers = {
-    " \    "*" : {
-    " \        "setfiletype" : 0,
-    " \    },
-    " \}
-    " augroup test
-    "     autocmd!
-    "     autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
-    " augroup END
+	" let g:context_filetype#search_offset = 300
+	let g:precious_enable_switch_CursorMoved = { '*' : 0 }
+	let g:precious_enable_switch_CursorHold = { '*' : 1 }
+	" INSERTモードのON／OFFに合わせてトグル
+	augroup PreciousAuto
+		autocmd!
+		autocmd InsertEnter * :PreciousSwitch
+		autocmd InsertLeave * :PreciousSwitch
+	augroup END
+	" setfiletype を無効
+	" let g:precious_enable_switchers = {
+	" \	"*" : {
+	" \		"setfiletype" : 0,
+	" \	},
+	" \}
+	" augroup test
+	"	 autocmd!
+	"	 autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
+	" augroup END
 ''' # }}}
 [[plugins]]
 repo = 'tell-k/vim-autopep8'
@@ -399,12 +399,12 @@ on_ft = 'python'
 # repo = 'scrooloose/nerdtree'
 # on_event = 'VimEnter'
 # hook_post_source = '''
-#     nnoremap <Leader>e :NERDTreeFind<CR>
-#     nnoremap <Leader>E :NERDTreeCWD<CR>
+#	 nnoremap <Leader>e :NERDTreeFind<CR>
+#	 nnoremap <Leader>E :NERDTreeCWD<CR>
 # '''
 # [[plugins]]
 # repo = "sjl/gundo.vim"
 # on_if = 'has("python")'
 # hook_post_source = '''
-#     nnoremap <Leader>gu :<C-u>GundoToggle<cr>
+#	 nnoremap <Leader>gu :<C-u>GundoToggle<cr>
 # '''
