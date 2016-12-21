@@ -185,6 +185,8 @@ hook_add = '''
 	let g:netrw_nogx = 1 " disable netrw's gx mapping.
 	nmap gx <Plug>(openbrowser-smart-search)
 	vmap gx <Plug>(openbrowser-smart-search)
+	nnoremap <Leader>oh :<C-u>OpenBrowser https://
+	nnoremap <Leader>os :<C-u>OpenBrowserSearch 
 ''' # }}}
 [[plugins]]
 repo = "tmux-plugins/vim-tmux"
