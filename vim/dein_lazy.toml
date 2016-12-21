@@ -106,7 +106,7 @@ depends = "YouCompleteMe"
 [[plugins]]
 repo = 'Valloric/YouCompleteMe'
 build = 'install.py --clang-completer'
-on_event = "InsertEnter"
+on_event = "VimEnter"
 hook_add = ''' " {{{
     let g:ycm_global_ycm_extra_conf =
                 \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
@@ -125,7 +125,8 @@ hook_add = ''' " {{{
     endif
     let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
     let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-    autocmd VIMRC FileType python nnoremap K :<C-u>YcmCompleter GetDoc<CR>
+    autocmd VIMRC FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
+    autocmd VIMRC FileType python nnoremap <buffer> <C-]> :<C-u>YcmCompleter GoTo<CR>
 ''' # }}}
 [[plugins]]
 repo = 'pocke/sushibar.vim'
@@ -391,6 +392,9 @@ hook_post_source = ''' " {{{
     "     autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
     " augroup END
 ''' # }}}
+[[plugins]]
+repo = 'tell-k/vim-autopep8'
+on_ft = 'python'
 # [[plugins]]
 # repo = 'scrooloose/nerdtree'
 # on_event = 'VimEnter'
