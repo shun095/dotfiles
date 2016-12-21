@@ -314,6 +314,8 @@ if g:use_plugins == s:true
 			autocmd VimEnter * call myvimrc#confirm_do_dein_install()
 		augroup END
 	endif
+
+	source $MYVIMHOME/scripts/custom.vim
 	" Dein end
 	" }}}
 
