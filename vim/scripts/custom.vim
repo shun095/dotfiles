@@ -265,6 +265,9 @@ if !dein#check_install(['vim-dirvish'])
 		autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
 		" 行末記号を入れないことで全部ソートする
 		autocmd FileType dirvish nnoremap <silent><buffer> s :sort /.*\([\\\/]\)\@=/<cr>
+		autocmd FileType dirvish nnoremap <silent><buffer> dd :Shdo rm {}<CR>
+		autocmd FileType dirvish nnoremap <silent><buffer> rr :Shdo mv {}<CR>
+		autocmd FileType dirvish nnoremap <silent><buffer> cc :Shdo cp {}<CR>
 
 		" 開いていたファイルやDirectory(w:dirvishbefore)にカーソルをあわせる
 		autocmd FileType dirvish call <SID>mydirvish_selectbeforedir()
