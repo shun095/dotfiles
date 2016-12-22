@@ -492,7 +492,7 @@ endif
 
 if !dein#check_install(['vim-brightest'])
 	let g:brightest#highlight = {
-				\   "group" : "BrightestUnderline"
+				\   "group" : "DiffChange"
 				\}
 else
 	echo "vim-brightest is not installed"
