@@ -315,6 +315,7 @@ if g:use_plugins == s:true
 		augroup END
 	endif
 
+	" load settings of plugins
 	source $MYVIMHOME/scripts/custom.vim
 	" Dein end
 	" }}}
