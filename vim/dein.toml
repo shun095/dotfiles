@@ -131,3 +131,5 @@ repo = 'cdmedia/itg_flat_vim'
 repo = 'tomasr/molokai'
 [[plugins]]
 repo = 'rakr/vim-one'
+[[plugins]]
+repo = "ishitaku5522/revimses"
