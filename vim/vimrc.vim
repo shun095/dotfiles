@@ -40,6 +40,8 @@ if has('win32')
 	let g:solarized_termcolors = 16
 elseif has('unix')
 	set t_Co=256                   " ターミナルで256色を使う
+	set t_ut=
+	set termguicolors
 	let g:solarized_termcolors = 256
 	if has("autocmd")
 		au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
