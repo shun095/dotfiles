@@ -61,8 +61,7 @@ set diffopt=filler,iwhite,vertical " diffのときの挙動
 set nocursorline                   " カーソル行のハイライト
 set nocursorcolumn
 set backspace=indent,eol,start     " バックスペース挙動のおまじない
-" set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
-set clipboard=
+set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
 set ignorecase                     " 大文字小文字無視
 set smartcase                      " 大文字で始まる場合は無視しない
 set foldmethod=marker              " syntaxに応じて折りたたまれる
@@ -206,12 +205,16 @@ augroup VIMRC
 	" ヘルプをqで閉じれるようにする
 	autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
 
+	" misc
 	if has("unix")
 		" linux用（fcitxでしか使えない）
 		autocmd InsertLeave * call myvimrc#ImInActivate()
 	endif
-
 	autocmd VimEnter * call myvimrc#git_auto_updating()
+	" クリップボードが無名レジスタと違ったら
+	" (他のソフトでコピーしてきたということなので)
+	" yレジスタに保存しておく
+	autocmd CursorMoved,CursorHold * if @* != @" | let @y = @* | endif
 augroup END
 "}}}
 

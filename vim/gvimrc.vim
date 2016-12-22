@@ -20,4 +20,3 @@ if has('gui_running')
 
 	set vb t_vb=
 endif
-
