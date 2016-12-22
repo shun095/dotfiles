@@ -8,14 +8,14 @@ let s:true = 1
 let s:false = 0
 
 " check buffer size
-function! mysession#getbufbyte()"{{{
+function! mysession#getbufbyte() "{{{
     let byte = line2byte(line('$') + 1)
     if byte == -1
         return 0
     else
         return byte - 1
     endif
-endfunction"}}}
+endfunction "}}}
 
 " LOADING SESSION
 function! mysession#load_session(session_name,notify_flag) abort "{{{
