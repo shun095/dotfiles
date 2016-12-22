@@ -41,6 +41,11 @@ if has('win32')
 elseif has('unix')
 	set t_Co=256                   " ターミナルで256色を使う
 	let g:solarized_termcolors = 256
+	if has("autocmd")
+		au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
+		au InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+		au VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+	endif
 endif
 set visualbell
 set t_vb=
