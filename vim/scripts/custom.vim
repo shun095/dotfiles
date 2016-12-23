@@ -12,16 +12,12 @@ if !dein#check_install(['vimfiler.vim'])
 	nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -winwidth=35 -simple -toggle -force-quit -split-action=below<CR>
 	" nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
 	" nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
-else
-	echo "vimfiler.vim is not installed"
 endif
 
 if !dein#check_install(['vimshell.vim'])
 	let g:vimshell_prompt = "% "
 	let g:vimshell_secondary_prompt = "> "
 	let g:vimshell_user_prompt = 'getcwd()'
-else
-	echo "vimshell.vim is not installed"
 endif
 
 if !dein#check_install(['ctrlp.vim'])
@@ -45,21 +41,15 @@ if !dein#check_install(['ctrlp.vim'])
 			let g:ctrlp_user_command='ag -i --follow --nocolor --nogroup -g "" %s'
 		endif
 	endif
-else
-	echo "ctrlp.vim is not installed"
 endif
 
 if !dein#check_install(['vim-easymotion'])
 	let g:EasyMotion_do_mapping = 0
 	nmap <Leader>s <Plug>(easymotion-overwin-f2)
-else
-	echo "vim-easymotion is not installed"
 endif
 
 if !dein#check_install(['ctrlp-filer'])
 	nnoremap <Leader>f :<C-u>CtrlPFiler<cr>
-else
-	echo "ctrlp-filer is not installed"
 endif
 
 if !dein#check_install(['vim-indent-guides'])
@@ -67,8 +57,6 @@ if !dein#check_install(['vim-indent-guides'])
 	let g:indent_guides_color_change_percent = 5
 	let g:indent_guides_start_level = 1
 	let g:indent_guides_enable_on_vim_startup = 1
-else
-	echo "vim-indent-guides is not installed"
 endif
 
 if !dein#check_install(['foldCC.vim'])
@@ -87,8 +75,6 @@ if !dein#check_install(['foldCC.vim'])
 	"	 " hi Folded gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey50 guifg=Grey80
 	"	 " hi FoldColumn gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey guifg=DarkBlue
 	" augroup END "}}}
-else
-	echo "foldCC.vim is not installed"
 endif
 
 if !dein#check_install(['vim-airline'])
@@ -152,8 +138,6 @@ if !dein#check_install(['vim-airline'])
 	"			 \ [ 'a', 'b', 'c' ],
 	"			 \ [ 'x', 'y', 'z' ]
 	"			 \ ] " }}}
-else
-	echo "vim-airline is not installed"
 endif
 
 if !dein#check_install(['open-browser.vim.git'])
@@ -162,8 +146,6 @@ if !dein#check_install(['open-browser.vim.git'])
 	vmap gx <Plug>(openbrowser-smart-search)
 	nnoremap <Leader>oh :<C-u>OpenBrowser https://
 	nnoremap <Leader>os :<C-u>OpenBrowserSearch 
-else
-	echo "open-browser.vim.git is not installed"
 endif
 
 if !dein#check_install(['vim-anzu'])
@@ -177,8 +159,6 @@ if !dein#check_install(['vim-anzu'])
 	" anzu-mode is anzu(12/51) in screen
 	" nmap n <Plug>(anzu-mode-n)
 	" nmap N <Plug>(anzu-mode-N)
-else
-	echo "vim-anzu is not installed"
 endif
 
 if !dein#check_install(['ultisnips'])
@@ -194,14 +174,10 @@ if !dein#check_install(['ultisnips'])
 			let g:UltiSnipsUsePythonVersion = 2
 		endif
 	endif
-else
-	echo "ultisnips is not installed"
 endif
 
 if !dein#check_install(['supertab'])
 	let g:SuperTabDefaultCompletionType = '<c-n>'
-else
-	echo "supertab is not installed"
 endif
 
 if !dein#check_install(['html5.vim'])
@@ -209,8 +185,6 @@ if !dein#check_install(['html5.vim'])
 	let g:html5_rdfa_attributes_complete = 1
 	let g:html5_microdata_attributes_complete = 1
 	let g:html5_aria_attributes_complete = 1
-else
-	echo "html5.vim is not installed"
 endif
 
 if !dein#check_install(['yankround.vim'])
@@ -225,8 +199,6 @@ if !dein#check_install(['yankround.vim'])
 	nnoremap <silent><SID>(ctrlp) :<C-u>CtrlP<CR>
 	nmap <expr><C-p> yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
 	nmap <C-n> <Plug>(yankround-next)
-else
-	echo "yankround.vim is not installed"
 endif
 
 if !dein#check_install(['vim-easy-align'])
@@ -237,8 +209,6 @@ if !dein#check_install(['vim-easy-align'])
 	" nmap ga <Plug>(EasyAlign)
 	" " Start interactive EasyAlign in visual mode (e.g. vipga)
 	" xmap ga <Plug>(EasyAlign)
-else
-	echo "vim-easy-align is not installed"
 endif
 
 if !dein#check_install(['vim-dirvish'])
@@ -273,8 +243,6 @@ if !dein#check_install(['vim-dirvish'])
 		autocmd FileType dirvish call <SID>mydirvish_selectbeforedir()
 		autocmd FileType dirvish let w:dirvishbefore=expand("%:p")
 	augroup END
-else
-	echo "vim-dirvish is not installed"
 endif
 
 if !dein#check_install(['vim-multiple-cursors'])
@@ -285,16 +253,12 @@ if !dein#check_install(['vim-multiple-cursors'])
 	let g:multi_cursor_prev_key = '<C-p>'
 	let g:multi_cursor_skip_key = '<C-x>'
 	let g:multi_cursor_quit_key = '<Esc>'
-else
-	echo "vim-multiple-cursors is not installed"
 endif
 
 if !dein#check_install(['undotree'])
 	let g:undotree_WindowLayout = 2
 	let g:undotree_SplitWidth = 30
 	nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
-else
-	echo "undotree is not installed"
 endif
 
 if !dein#check_install(['vim-clang-format'])
@@ -321,8 +285,6 @@ if !dein#check_install(['vim-clang-format'])
 				\ "UseTab" : "Never",
 				\ "ColumnLimit" : "120"
 				\ }
-else
-	echo "vim-clang-format is not installed"
 endif
 
 if !dein#check_install(['memolist.vim'])
@@ -331,8 +293,6 @@ if !dein#check_install(['memolist.vim'])
 	let g:memolist_ex_cmd = "Dirvish"
 	nmap <Leader>mn :MemoNew<cr>
 	nmap <Leader>ml :MemoList<cr>
-else
-	echo "memolist.vim is not installed"
 endif
 
 if !dein#check_install(['tagbar'])
@@ -345,8 +305,6 @@ if !dein#check_install(['tagbar'])
 	let g:tagbar_autofocus = 1
 	let g:tagbar_autoclose = 1
 	autocmd FileType help let b:tagbar_ignore = 1
-else
-	echo "tagbar is not installed"
 endif
 
 if !dein#check_install(['TweetVim.git'])
@@ -365,8 +323,6 @@ if !dein#check_install(['TweetVim.git'])
 	nnoremap <Leader>Tu :<C-u>TweetVimUserStream<CR>
 	nnoremap <Leader>Ts :<C-u>TweetVimSay<CR>
 	nnoremap <Leader>Tc :<C-u>TweetVimCommandSay<CR>
-else
-	echo "TweetVim.git is not installed"
 endif
 
 if !dein#check_install(['YouCompleteMe'])
@@ -389,8 +345,6 @@ if !dein#check_install(['YouCompleteMe'])
 	let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 	autocmd VIMRC FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
 	autocmd VIMRC FileType python nnoremap <buffer> <C-]> :<C-u>YcmCompleter GoTo<CR>
-else
-	echo "YouCompleteMe is not installed"
 endif
 
 if !dein#check_install(['vimtex'])
@@ -419,8 +373,6 @@ if !dein#check_install(['vimtex'])
 		"let g:vimtex_view_general_options = '--unique @pdf\#src:@tex:@line:@col'
 		"let g:vimtex_view_general_options_latexmk = '--unique'
 	endif
-else
-	echo "vimtex is not installed"
 endif
 
 if !dein#check_install(['markdown-preview.vim'])
@@ -436,14 +388,10 @@ if !dein#check_install(['markdown-preview.vim'])
 			let g:mkdp_path_to_chrome=s:google_chrome_path32
 		endif
 	endif
-else
-	echo "markdown-preview.vim is not installed"
 endif
 
 if !dein#check_install(['previm'])
 	let g:previm_enable_realtime = 1
-else
-	echo "previm is not installed"
 endif
 
 if !dein#check_install(['unite.vim'])
@@ -489,16 +437,12 @@ if !dein#check_install(['unite.vim'])
 	" nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
 	" reset not it is <C-l> normally
 	" nnoremap <space>r <Plug>(unite_restart)
-else
-	echo "unite.vim is not installed"
 endif
 
 if !dein#check_install(['vim-brightest'])
 	let g:brightest#highlight = {
 				\   "group" : "BrightestUnderline"
 				\}
-else
-	echo "vim-brightest is not installed"
 endif
 
 if !dein#check_install(['vim-precious'])
@@ -521,8 +465,6 @@ if !dein#check_install(['vim-precious'])
 	"	 autocmd!
 	"	 autocmd User PreciousFileType let &l:syntax = precious#context_filetype()
 	" augroup END
-else
-	echo "vim-precious is not installed"
 endif
 
 if !dein#check_install(['vim-quickrun'])
@@ -558,6 +500,4 @@ if !dein#check_install(['vim-quickrun'])
 		echo "Quickrun Sweep"
 		call quickrun#sweep_sessions()
 	endf
-else
-	echo "vim-quickrun is not installed"
 endif
