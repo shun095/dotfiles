@@ -35,7 +35,7 @@ function! myrosmake#rosmake(filename)
             let l:package_dir = substitute(l:package_dir, a:filename, "", "g")
             " cdして実行
             execute "cd ". l:package_dir
-            set makeprg=rosmake
+            set makeprg=rosmake\ --threads=12
             let &errorformat .= ","
                         \ . "%+G[ rosmake ] Built %.%#,"
                         \ . "%I[ rosmake ] %m output to directory %.%#,"
