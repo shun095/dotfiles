@@ -228,7 +228,7 @@ if !dein#check_install(['vim-dirvish'])
 		autocmd FileType dirvish xnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
 		autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
 		autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
-		" 起動時にソート 行末記号を入れないことで全部ソートする
+		" 起動時にソート 行末記号を入れないことで全行ソートする
 		autocmd FileType dirvish silent sort /.*\([\\\/]\)\@=/
 		" autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
 		" .とsに隠しファイルとソートを割り当て
@@ -238,6 +238,7 @@ if !dein#check_install(['vim-dirvish'])
 		autocmd FileType dirvish nnoremap <silent><buffer> dd :Shdo rm {}<CR>
 		autocmd FileType dirvish nnoremap <silent><buffer> rr :Shdo mv {}<CR>
 		autocmd FileType dirvish nnoremap <silent><buffer> cc :Shdo cp {}<CR>
+		autocmd FileType dirvish nnoremap <silent><buffer> ~ :Dirvish ~/<CR>
 
 		" 開いていたファイルやDirectory(w:dirvishbefore)にカーソルをあわせる
 		autocmd FileType dirvish call <SID>mydirvish_selectbeforedir()
