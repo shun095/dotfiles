@@ -43,7 +43,7 @@ elseif has('unix')
 	set t_ut=
 	set termguicolors
 	let g:solarized_termcolors = 256
-	if has("autocmd")
+	if executable('gconftool-2')
 		au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
 		au InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
 		au VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
