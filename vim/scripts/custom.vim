@@ -140,7 +140,7 @@ if dein#tap('vim-airline')
 	"			 \ ] " }}}
 endif
 
-if dein#tap('open-browser.vim.git')
+if dein#tap('open-browser.vim')
 	let g:netrw_nogx = 1 " disable netrw's gx mapping.
 	nmap gx <Plug>(openbrowser-smart-search)
 	vmap gx <Plug>(openbrowser-smart-search)
@@ -308,7 +308,7 @@ if dein#tap('tagbar')
 	autocmd FileType help let b:tagbar_ignore = 1
 endif
 
-if dein#tap('TweetVim.git')
+if dein#tap('TweetVim')
 	" 1ページに表示する最大数
 	let g:tweetvim_tweet_per_page = 20
 	" F6と,uvでTweetVimのtimeline選択
