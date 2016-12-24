@@ -212,8 +212,8 @@ if dein#tap('vim-easy-align')
 endif
 
 if dein#tap('vim-dirvish')
-	nnoremap <silent> <Leader>d :let w:dirvishbefore=expand("%:p")<cr>:Dirvish %:p:h<cr>
-	nnoremap <silent> <Leader>D :Dirvish<cr>
+	nnoremap <silent> <Leader>e :let w:dirvishbefore=expand("%:p")<cr>:Dirvish %:p:h<cr>
+	nnoremap <silent> <Leader>E :Dirvish<cr>
 
 	fun s:mydirvish_selectbeforedir()
 		if exists("w:dirvishbefore")

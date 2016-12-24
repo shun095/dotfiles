@@ -95,6 +95,8 @@ set mouse=a                        " マウスを有効化
 set nomousehide                    " 入力中にポインタを消すかどうか
 set nolazyredraw
 set sessionoptions=folds,help,tabpages
+set splitbelow
+set splitright
 set updatetime=1000
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判別優先順位の設定
 set fileformats=unix,dos,mac " 改行コード自動判別優先順位の設定
