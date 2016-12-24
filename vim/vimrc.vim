@@ -167,7 +167,6 @@ endif
 command! CdCurrent cd\ %:h
 " }}}
 
-
 " Functions (Moved to autoload folder)
 
 " Autocmds {{{

@@ -136,3 +136,5 @@ repo = "ishitaku5522/revimses"
 rev = "dev"
 [[plugins]]
 repo = "airblade/vim-gitgutter"
+[[plugins]]
+repo = 'scrooloose/nerdtree'

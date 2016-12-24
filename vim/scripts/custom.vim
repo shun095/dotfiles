@@ -502,3 +502,9 @@ if !dein#check_install(['vim-quickrun'])
 		call quickrun#sweep_sessions()
 	endf
 endif
+
+if !dein#check_install(['nerdtree'])
+	nnoremap <Leader>e :NERDTreeFind<CR>
+	nnoremap <Leader>E :NERDTreeCWD<CR>
+endif
+
