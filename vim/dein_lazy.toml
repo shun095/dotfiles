@@ -160,13 +160,13 @@ depends = ['context_filetype.vim']
 [[plugins]]
 repo = 'tell-k/vim-autopep8'
 on_ft = 'python'
-# [[plugins]]
-# repo = 'scrooloose/nerdtree'
-# on_event = 'VimEnter'
-# hook_post_source = '''
-#	 nnoremap <Leader>e :NERDTreeFind<CR>
-#	 nnoremap <Leader>E :NERDTreeCWD<CR>
-# '''
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+on_event = 'VimEnter'
+hook_post_source = '''
+   nnoremap <Leader>e :NERDTreeFind<CR>
+   nnoremap <Leader>E :NERDTreeCWD<CR>
+'''
 # [[plugins]]
 # repo = "sjl/gundo.vim"
 # on_if = 'has("python")'

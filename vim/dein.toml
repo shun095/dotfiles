@@ -4,10 +4,10 @@ repo = 'tpope/vim-dispatch'
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
 build = 'make'
-[[plugins]]
-repo = 'Shougo/vimfiler.vim'
-# on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
-depends = 'unite.vim'
+# [[plugins]]
+# repo = 'Shougo/vimfiler.vim'
+# # on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
+# depends = 'unite.vim'
 [[plugins]]
 repo = 'Shougo/unite-outline'
 depends = ['unite.vim']
