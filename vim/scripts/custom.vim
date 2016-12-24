@@ -507,4 +507,3 @@ if dein#tap('nerdtree')
 	nnoremap <Leader>e :NERDTreeFind<CR>
 	nnoremap <Leader>E :NERDTreeCWD<CR>
 endif
-

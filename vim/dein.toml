@@ -99,10 +99,10 @@ repo = 'junegunn/vim-easy-align'
 # on_event = "CursorMoved"
 [[plugins]]
 repo = 'istepura/vim-toolbar-icons-silk'
-[[plugins]]
-repo = "justinmk/vim-dirvish"
-# on_event = 'VimEnter'
-# on_cmd = "Dirvish"
+# [[plugins]]
+# repo = "justinmk/vim-dirvish"
+# # on_event = 'VimEnter'
+# # on_cmd = "Dirvish"
 [[plugins]]
 repo = 'terryma/vim-multiple-cursors'
 [[plugins]]
