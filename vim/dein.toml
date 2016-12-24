@@ -133,3 +133,6 @@ repo = 'tomasr/molokai'
 repo = 'rakr/vim-one'
 [[plugins]]
 repo = "ishitaku5522/revimses"
+rev = "dev"
+[[plugins]]
+repo = "airblade/vim-gitgutter"
