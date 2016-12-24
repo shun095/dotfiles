@@ -1,11 +1,15 @@
 ﻿" vim:set foldmethod=marker:
+set encoding=utf-8
+" source $VIMRUNTIME/delmenu.vim
+set langmenu=ja_JP.utf-8
+" source $VIMRUNTIME/menu.vim
 scriptencoding utf-8
 
 if &compatible
 	set nocompatible
 endif
 
-if exists("g:loaded_myvimrc")
+if exists('g:loaded_myvimrc')
 	finish
 endif
 let g:loaded_myvimrc = 1
@@ -15,15 +19,11 @@ let s:false = 0
 
 " Vim側のメニューバーのエンコーディングの設定
 " set guioptions+=M
-set encoding=utf-8
-" source $VIMRUNTIME/delmenu.vim
-set langmenu=ja_JP.utf-8
-" source $VIMRUNTIME/menu.vim
 
 let mapleader = "\<space>"
 
-let $MYVIMHOME=expand("$HOME") . "/dotfiles/vim"
-if !exists("g:use_plugins")
+let $MYVIMHOME=expand('$HOME') . '/dotfiles/vim'
+if !exists('g:use_plugins')
 	let g:use_plugins = s:true
 endif
 
@@ -44,9 +44,11 @@ elseif has('unix')
 	set termguicolors
 	let g:solarized_termcolors = 256
 	if executable('gconftool-2')
-		au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
-		au InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-		au VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+		augroup VIMRC
+			au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
+			au InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+			au VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+		augroup END
 	endif
 endif
 set visualbell
@@ -115,7 +117,7 @@ set statusline+=%4p%%%5l:%-3c
 
 
 " agがあればgrepの代わりにagを使う
-if executable("ag")
+if executable('ag')
 	set grepprg=ag\ --nogroup\ --nocolor\ --column\ --smart-case\ $*
 else
 	set grepprg=grep\ -rn\ $*
@@ -123,16 +125,16 @@ endif
 
 " set undofileでアンドゥデータをファイルを閉じても残しておく
 " 該当フォルダがなければ作成
-if isdirectory(expand("$HOME")."/.vim/undofiles") != 1
-	call mkdir($HOME."/.vim/undofiles","p")
+if isdirectory(expand('$HOME').'/.vim/undofiles') != 1
+	call mkdir($HOME.'/.vim/undofiles','p')
 endif
 set undodir=$HOME/.vim/undofiles
 set undofile
 
 "  set backupでスワップファイルを保存する
 " 該当フォルダがなければ作成
-if isdirectory(expand("$HOME")."/.vim/backupfiles") != 1
-	call mkdir($HOME."/.vim/backupfiles","p")
+if isdirectory(expand('$HOME').'/.vim/backupfiles') != 1
+	call mkdir($HOME.'/.vim/backupfiles','p')
 endif
 set backupdir=$HOME/.vim/backupfiles
 set backup
@@ -161,7 +163,7 @@ nnoremap <Leader>. <ESC>:<C-u>edit ~/dotfiles/vim/vimrc.vim<CR>
 
 " Commands {{{
 " Sudoで強制保存
-if has("unix")
+if has('unix')
 	command! Wsudo execute("w !sudo tee % > /dev/null")
 endif
 
@@ -207,7 +209,7 @@ augroup VIMRC
 	autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
 
 	" misc
-	if has("unix")
+	if has('unix')
 		" linux用（fcitxでしか使えない）
 		autocmd InsertLeave * call myvimrc#ImInActivate()
 	endif
@@ -220,7 +222,7 @@ augroup END
 "}}}
 
 " Self constructed plugins {{{
-let s:myplugins = expand("$HOME") . "/dotfiles/vim"
+let s:myplugins = expand('$HOME') . '/dotfiles/vim'
 execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 "}}}
 
@@ -229,12 +231,12 @@ if v:version >= 800
 	packadd! matchit
 	packadd! editexisting
 endif
-let g:loaded_getscriptPlugin = 1
-let g:loaded_gzip = 1
-let g:loaded_logiPat = 1
-let g:loaded_tarPlugin = 1
-let g:loaded_vimballPlugin = 1
-let g:loaded_zipPlugin = 1
+" let g:loaded_getscriptPlugin = 1
+" let g:loaded_gzip = 1
+" let g:loaded_logiPat = 1
+" let g:loaded_tarPlugin = 1
+" let g:loaded_vimballPlugin = 1
+" let g:loaded_zipPlugin = 1
 " }}}
 
 " Confirm whether or not install dein if not exists {{{
@@ -247,7 +249,7 @@ if !isdirectory(s:dein_dir) && g:use_plugins == s:true
 	" deinがインストールされてない場合そのままではプラグインは使わない
 	let g:use_plugins = s:false
 	" deinを今インストールするか確認
-	let s:install_dein_diag_mes = "Dein is not installed yet.Install now?"
+	let s:install_dein_diag_mes = 'Dein is not installed yet.Install now?'
 	if confirm(s:install_dein_diag_mes,"&yes\n&no",2) == 1
 		" deinをインストールする
 		call mkdir(s:dein_dir, 'p')
@@ -265,12 +267,12 @@ if g:use_plugins == s:true
 	" Plugin pre settings {{{
 	" vimprocが呼ばれる前に設定
 	let g:vimproc#download_windows_dll = 1
-	if filereadable(expand("$HOME")."/dotfiles/vim-local.vim")
-		execute "source " . expand("$HOME") . "/dotfiles/vim-local.vim"
+	if filereadable(expand('$HOME').'/dotfiles/vim-local.vim')
+		execute 'source ' . expand('$HOME') . '/dotfiles/vim-local.vim'
 	endif
 	" プラグインで使われるpythonのバージョンを決定
-	if !exists("g:myvimrc_python_version")
-		let g:myvimrc_python_version = ""
+	if !exists('g:myvimrc_python_version')
+		let g:myvimrc_python_version = ''
 	endif
 	" }}}
 
@@ -333,7 +335,7 @@ if g:use_plugins == s:true
 
 	" Plugin post settings {{{
 	" ターミナルでの色設定
-	if has("win32") && !has("gui_running")
+	if has('win32') && !has('gui_running')
 		colorscheme elflord
 		cd $HOME
 	else
@@ -344,7 +346,7 @@ if g:use_plugins == s:true
 		" colorscheme summerfruit256
 
 		set background=dark
-		let g:airline_theme="onedark"
+		let g:airline_theme='onedark'
 		colorscheme onedark
 		highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
 		highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
@@ -355,7 +357,7 @@ if g:use_plugins == s:true
 		" highlight! StatusLine ctermbg=235 guibg=#282C34
 		" highlight! StatusLineNC ctermbg=235 guibg=#282C34
 
-		if has("gui_running")
+		if has('gui_running')
 			let g:indent_guides_auto_colors = 1
 		else
 			let g:indent_guides_auto_colors = 0
@@ -445,4 +447,4 @@ augroup MyNetrw
 	" autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
 augroup END
 " }}}
-exe "cd " . expand("~")
+exe 'cd ' . expand('~')
