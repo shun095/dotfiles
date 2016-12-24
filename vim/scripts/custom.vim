@@ -508,3 +508,7 @@ if dein#tap('nerdtree')
 	nnoremap <Leader>E :NERDTreeCWD<CR>
 	let NERDTreeMinimalUI = 1
 endif
+
+if dein#tap('restart.vim')
+	let g:restart_sessionoptions = &sessionoptions
+endif

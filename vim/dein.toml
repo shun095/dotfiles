@@ -138,3 +138,5 @@ rev = "dev"
 repo = "airblade/vim-gitgutter"
 # [[plugins]]
 # repo = 'scrooloose/nerdtree'
+[[plugins]]
+repo = "tyru/restart.vim"
