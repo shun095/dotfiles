@@ -4,7 +4,7 @@ if &compatible
 	set nocompatible
 endif
 
-if !dein#check_install(['vimfiler.vim'])
+if dein#tap('vimfiler.vim')
 	let g:vimfiler_force_overwrite_statusline = 0
 	let g:vimfiler_enable_auto_cd = 1
 	let g:vimfiler_as_default_explorer = 0
@@ -14,13 +14,13 @@ if !dein#check_install(['vimfiler.vim'])
 	" nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
 endif
 
-if !dein#check_install(['vimshell.vim'])
+if dein#tap('vimshell.vim')
 	let g:vimshell_prompt = "% "
 	let g:vimshell_secondary_prompt = "> "
 	let g:vimshell_user_prompt = 'getcwd()'
 endif
 
-if !dein#check_install(['ctrlp.vim'])
+if dein#tap('ctrlp.vim')
 	" let g:ctrlp_cmd = "CtrlPMRUFiles"
 	" yankroundのところでマッピングし直している
 	let g:ctrlp_map = ''
@@ -43,23 +43,23 @@ if !dein#check_install(['ctrlp.vim'])
 	endif
 endif
 
-if !dein#check_install(['vim-easymotion'])
+if dein#tap('vim-easymotion')
 	let g:EasyMotion_do_mapping = 0
 	nmap <Leader>s <Plug>(easymotion-overwin-f2)
 endif
 
-if !dein#check_install(['ctrlp-filer'])
+if dein#tap('ctrlp-filer')
 	nnoremap <Leader>f :<C-u>CtrlPFiler<cr>
 endif
 
-if !dein#check_install(['vim-indent-guides'])
+if dein#tap('vim-indent-guides')
 	let g:indent_guides_guide_size = 0
 	let g:indent_guides_color_change_percent = 5
 	let g:indent_guides_start_level = 1
 	let g:indent_guides_enable_on_vim_startup = 1
 endif
 
-if !dein#check_install(['foldCC.vim'])
+if dein#tap('foldCC.vim')
 	let g:foldCCtext_enable_autofdc_adjuster = 1
 	let g:foldCCtext_head = ''
 	" let g:foldCCtext_tail = '"(ﾟｪﾟ  )". (v:foldend-v:foldstart+1)'
@@ -77,7 +77,7 @@ if !dein#check_install(['foldCC.vim'])
 	" augroup END "}}}
 endif
 
-if !dein#check_install(['vim-airline'])
+if dein#tap('vim-airline')
 	let g:airline#extensions#branch#enabled		= 1
 	let g:airline#extensions#branch#empty_message  = ''
 	" let g:airline#extensions#whitespace#checks	 = [ 'indent',  'mixed-indent-file' ]
@@ -140,7 +140,7 @@ if !dein#check_install(['vim-airline'])
 	"			 \ ] " }}}
 endif
 
-if !dein#check_install(['open-browser.vim.git'])
+if dein#tap('open-browser.vim.git')
 	let g:netrw_nogx = 1 " disable netrw's gx mapping.
 	nmap gx <Plug>(openbrowser-smart-search)
 	vmap gx <Plug>(openbrowser-smart-search)
@@ -148,7 +148,7 @@ if !dein#check_install(['open-browser.vim.git'])
 	nnoremap <Leader>os :<C-u>OpenBrowserSearch 
 endif
 
-if !dein#check_install(['vim-anzu'])
+if dein#tap('vim-anzu')
 	" mapping
 	nmap n <Plug>(anzu-n-with-echo)
 	nmap N <Plug>(anzu-N-with-echo)
@@ -161,7 +161,7 @@ if !dein#check_install(['vim-anzu'])
 	" nmap N <Plug>(anzu-mode-N)
 endif
 
-if !dein#check_install(['ultisnips'])
+if dein#tap('ultisnips')
 	" better key bindings for UltiSnipsExpandTrigger
 	let g:UltiSnipsExpandTrigger = "<c-j>"
 	let g:UltiSnipsJumpForwardTrigger = "<c-j>"
@@ -176,18 +176,18 @@ if !dein#check_install(['ultisnips'])
 	endif
 endif
 
-if !dein#check_install(['supertab'])
+if dein#tap('supertab')
 	let g:SuperTabDefaultCompletionType = '<c-n>'
 endif
 
-if !dein#check_install(['html5.vim'])
+if dein#tap('html5.vim')
 	let g:html5_event_handler_attributes_complete = 1
 	let g:html5_rdfa_attributes_complete = 1
 	let g:html5_microdata_attributes_complete = 1
 	let g:html5_aria_attributes_complete = 1
 endif
 
-if !dein#check_install(['yankround.vim'])
+if dein#tap('yankround.vim')
 	nmap p <Plug>(yankround-p)
 	xmap p <Plug>(yankround-p)
 	nmap P <Plug>(yankround-P)
@@ -201,7 +201,7 @@ if !dein#check_install(['yankround.vim'])
 	nmap <C-n> <Plug>(yankround-next)
 endif
 
-if !dein#check_install(['vim-easy-align'])
+if dein#tap('vim-easy-align')
 	" ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
 	vmap <Enter> <Plug>(LiveEasyAlign)
 
@@ -211,7 +211,7 @@ if !dein#check_install(['vim-easy-align'])
 	" xmap ga <Plug>(EasyAlign)
 endif
 
-if !dein#check_install(['vim-dirvish'])
+if dein#tap('vim-dirvish')
 	nnoremap <silent> <Leader>d :let w:dirvishbefore=expand("%:p")<cr>:Dirvish %:p:h<cr>
 	nnoremap <silent> <Leader>D :Dirvish<cr>
 
@@ -246,7 +246,7 @@ if !dein#check_install(['vim-dirvish'])
 	augroup END
 endif
 
-if !dein#check_install(['vim-multiple-cursors'])
+if dein#tap('vim-multiple-cursors')
 	let g:multi_cursor_use_default_mapping = 0
 	" Default mapping
 	let g:multi_cursor_start_key = 'g<C-n>'
@@ -256,13 +256,13 @@ if !dein#check_install(['vim-multiple-cursors'])
 	let g:multi_cursor_quit_key = '<Esc>'
 endif
 
-if !dein#check_install(['undotree'])
+if dein#tap('undotree')
 	let g:undotree_WindowLayout = 2
 	let g:undotree_SplitWidth = 30
 	nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
 endif
 
-if !dein#check_install(['vim-clang-format'])
+if dein#tap('vim-clang-format')
 	let g:clang_format#auto_format = 0
 
 	let g:clang_format#command = 'clang-format'
@@ -288,7 +288,7 @@ if !dein#check_install(['vim-clang-format'])
 				\ }
 endif
 
-if !dein#check_install(['memolist.vim'])
+if dein#tap('memolist.vim')
 	" let g:memolist_memo_suffix = 'txt'
 	let g:memolist_unite = 0
 	let g:memolist_ex_cmd = "Dirvish"
@@ -296,7 +296,7 @@ if !dein#check_install(['memolist.vim'])
 	nmap <Leader>ml :MemoList<cr>
 endif
 
-if !dein#check_install(['tagbar'])
+if dein#tap('tagbar')
 	nnoremap <silent> <Leader>t :TagbarOpen j<CR>
 	let g:tagbar_show_linenumbers = 1
 	let g:tagbar_sort = 0
@@ -308,7 +308,7 @@ if !dein#check_install(['tagbar'])
 	autocmd FileType help let b:tagbar_ignore = 1
 endif
 
-if !dein#check_install(['TweetVim.git'])
+if dein#tap('TweetVim.git')
 	" 1ページに表示する最大数
 	let g:tweetvim_tweet_per_page = 20
 	" F6と,uvでTweetVimのtimeline選択
@@ -326,7 +326,7 @@ if !dein#check_install(['TweetVim.git'])
 	nnoremap <Leader>Tc :<C-u>TweetVimCommandSay<CR>
 endif
 
-if !dein#check_install(['YouCompleteMe'])
+if dein#tap('YouCompleteMe')
 	let g:ycm_global_ycm_extra_conf =
 				\'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
 				\/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
@@ -348,7 +348,7 @@ if !dein#check_install(['YouCompleteMe'])
 	autocmd VIMRC FileType python nnoremap <buffer> <C-]> :<C-u>YcmCompleter GoTo<CR>
 endif
 
-if !dein#check_install(['vimtex'])
+if dein#tap('vimtex')
 	if has("win32")
 		let g:vimtex_latexmk_continuous = 1
 		let g:vimtex_latexmk_background = 1
@@ -376,7 +376,7 @@ if !dein#check_install(['vimtex'])
 	endif
 endif
 
-if !dein#check_install(['markdown-preview.vim'])
+if dein#tap('markdown-preview.vim')
 	let g:mkdp_auto_close = 0
 	let g:mkdp_auto_open = 0
 	let g:mkdp_auto_start = 0
@@ -391,11 +391,11 @@ if !dein#check_install(['markdown-preview.vim'])
 	endif
 endif
 
-if !dein#check_install(['previm'])
+if dein#tap('previm')
 	let g:previm_enable_realtime = 1
 endif
 
-if !dein#check_install(['unite.vim'])
+if dein#tap('unite.vim')
 	nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
 	nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
 	nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
@@ -440,13 +440,13 @@ if !dein#check_install(['unite.vim'])
 	" nnoremap <space>r <Plug>(unite_restart)
 endif
 
-if !dein#check_install(['vim-brightest'])
+if dein#tap('vim-brightest')
 	let g:brightest#highlight = {
 				\   "group" : "BrightestUnderline"
 				\}
 endif
 
-if !dein#check_install(['vim-precious'])
+if dein#tap('vim-precious')
 	" let g:context_filetype#search_offset = 300
 	let g:precious_enable_switch_CursorMoved = { '*' : 0 }
 	let g:precious_enable_switch_CursorHold = { '*' : 1 }
@@ -468,7 +468,7 @@ if !dein#check_install(['vim-precious'])
 	" augroup END
 endif
 
-if !dein#check_install(['vim-quickrun'])
+if dein#tap('vim-quickrun')
 	let g:quickrun_config = get(g:, 'quickrun_config', {})
 
 	let g:quickrun_config._ = {
@@ -503,7 +503,7 @@ if !dein#check_install(['vim-quickrun'])
 	endf
 endif
 
-if !dein#check_install(['nerdtree'])
+if dein#tap('nerdtree')
 	nnoremap <Leader>e :NERDTreeFind<CR>
 	nnoremap <Leader>E :NERDTreeCWD<CR>
 endif
