@@ -140,3 +140,7 @@ repo = "airblade/vim-gitgutter"
 # repo = 'scrooloose/nerdtree'
 [[plugins]]
 repo = "tyru/restart.vim"
+[[plugins]]
+repo = "vim-jp/vital.vim"
+[[plugins]]
+repo = 'haya14busa/vim-open-googletranslate'
