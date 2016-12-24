@@ -443,3 +443,4 @@ augroup MyNetrw
 	" autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
 augroup END
 " }}}
+exe "cd " . expand("~")
