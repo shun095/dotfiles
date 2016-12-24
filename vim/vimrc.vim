@@ -177,8 +177,7 @@ command! CdCurrent cd\ %:h
 augroup VIMRC
 	autocmd!
 	" タグを</で自動で閉じる。completeoptに依存している
-	autocmd Filetype xml,html,eruby
-				\ inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
+	autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
 
 	" タグ系のファイルならインデントを浅くする
 	autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2
@@ -188,8 +187,8 @@ augroup VIMRC
 	" python関係の設定
 	let g:python_highlight_all = 1
 	autocmd FileType python setl autoindent
-	autocmd FileType python setl foldmethod=indent smartindent cinwords=if,elif,else,for,while,
-				\try,except,finally,def,class
+	autocmd FileType python setl foldmethod=indent smartindent
+	autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
 	autocmd FileType python inoremap <buffer> # X#
 	autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
 
@@ -217,9 +216,37 @@ augroup VIMRC
 	" クリップボードが無名レジスタと違ったら
 	" (他のソフトでコピーしてきたということなので)
 	" yレジスタに保存しておく
-	autocmd CursorMoved,CursorHold * if @* != @" | let @y = @* | endif
+	autocmd CursorHold,CursorHoldI * if @* != @" | let @y = @* | endif
 augroup END
 "}}}
+
+" General Netrw settings {{{
+" let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
+" let g:netrw_browse_split = 4
+let g:netrw_banner = 1
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_liststyle = 0
+let g:netrw_alto = 1
+let g:netrw_altv = 1
+let g:netrw_banner = 0
+" カレントディレクトリを変える
+let g:netrw_keepdir = 0
+
+augroup MyNetrw
+	autocmd!
+	" for toggle
+	" autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
+	" autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
+	autocmd FileType netrw nmap <silent><buffer>. gh
+	autocmd FileType netrw nmap <silent><buffer>h -
+	autocmd FileType netrw nmap <silent><buffer>l <CR>
+	" autocmd FileType netrw unmap <silent><buffer>qf
+	" autocmd FileType netrw unmap <silent><buffer>qF
+	" autocmd FileType netrw unmap <silent><buffer>qL
+	" autocmd FileType netrw unmap <silent><buffer>qb
+	" autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
+augroup END
+" }}}
 
 " Self constructed plugins {{{
 let s:myplugins = expand('$HOME') . '/dotfiles/vim'
@@ -251,9 +278,7 @@ if !isdirectory(s:dein_dir) && g:use_plugins == s:true
 	if confirm(s:install_dein_diag_mes,"&yes\n&no",2) == 1
 		" deinをインストールする
 		call mkdir(s:dein_dir, 'p')
-		execute printf('!git clone %s %s',
-					\'https://github.com/Shougo/dein.vim',
-					\'"' . s:dein_dir . '"')
+		execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
 		" インストールが完了したらフラグを立てる
 		let g:use_plugins = s:true
 	endif
@@ -340,9 +365,7 @@ if g:use_plugins == s:true
 		" set background=light
 		" let g:airline_theme="solarized"
 		" colorscheme solarized
-
 		" colorscheme summerfruit256
-
 		set background=dark
 		let g:airline_theme='onedark'
 		colorscheme onedark
@@ -418,31 +441,4 @@ else
 	" }}}
 	" }}}
 endif
-" General Netrw settings {{{
-" let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
-" let g:netrw_browse_split = 4
-let g:netrw_banner = 1
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-let g:netrw_liststyle = 0
-let g:netrw_alto = 1
-let g:netrw_altv = 1
-let g:netrw_banner = 0
-" カレントディレクトリを変える
-let g:netrw_keepdir = 0
-
-augroup MyNetrw
-	autocmd!
-	" for toggle
-	" autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
-	" autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
-	autocmd FileType netrw nmap <silent><buffer>. gh
-	autocmd FileType netrw nmap <silent><buffer>h -
-	autocmd FileType netrw nmap <silent><buffer>l <CR>
-	" autocmd FileType netrw unmap <silent><buffer>qf
-	" autocmd FileType netrw unmap <silent><buffer>qF
-	" autocmd FileType netrw unmap <silent><buffer>qL
-	" autocmd FileType netrw unmap <silent><buffer>qb
-	" autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
-augroup END
-" }}}
 exe 'cd ' . expand('~')
