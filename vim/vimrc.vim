@@ -22,7 +22,7 @@ let s:false = 0
 
 let mapleader = "\<space>"
 
-let $MYVIMHOME=expand('$HOME') . '/dotfiles/vim'
+let $MYVIMHOME=$HOME . '/dotfiles/vim'
 if !exists('g:use_plugins')
 	let g:use_plugins = s:true
 endif
@@ -124,7 +124,7 @@ endif
 
 " set undofileでアンドゥデータをファイルを閉じても残しておく
 " 該当フォルダがなければ作成
-if isdirectory(expand('$HOME').'/.vim/undofiles') != 1
+if !isdirectory($HOME.'/.vim/undofiles')
 	call mkdir($HOME.'/.vim/undofiles','p')
 endif
 set undodir=$HOME/.vim/undofiles
@@ -132,12 +132,11 @@ set undofile
 
 "  set backupでスワップファイルを保存する
 " 該当フォルダがなければ作成
-if isdirectory(expand('$HOME').'/.vim/backupfiles') != 1
+if !isdirectory($HOME.'/.vim/backupfiles')
 	call mkdir($HOME.'/.vim/backupfiles','p')
 endif
 set backupdir=$HOME/.vim/backupfiles
 set backup
-set background=light
 " }}}
 
 " Mapping {{{
@@ -248,7 +247,7 @@ augroup END
 " }}}
 
 " Self constructed plugins {{{
-let s:myplugins = expand('$HOME') . '/dotfiles/vim'
+let s:myplugins = $HOME . '/dotfiles/vim'
 execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 "}}}
 
@@ -265,7 +264,7 @@ set runtimepath+=$VIMRUNTIME/pack/dist/opt/matchit
 
 " Confirm whether or not install dein if not exists {{{
 " 各プラグインをインストールするディレクトリ
-let s:plugin_dir = expand('$HOME') . '/.vim/dein/'
+let s:plugin_dir = $HOME . '/.vim/dein/'
 " dein.vimをインストールするディレクトリをランタイムパスへ追加
 let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
 " dein.vimがまだ入ってなければインストールするか確認
@@ -289,8 +288,8 @@ if g:use_plugins == s:true
 	" Plugin pre settings {{{
 	" vimprocが呼ばれる前に設定
 	let g:vimproc#download_windows_dll = 1
-	if filereadable(expand('$HOME').'/dotfiles/vim-local.vim')
-		execute 'source ' . expand('$HOME') . '/dotfiles/vim-local.vim'
+	if filereadable($HOME.'/dotfiles/vim-local.vim')
+		execute 'source ' . $HOME . '/dotfiles/vim-local.vim'
 	endif
 	" プラグインで使われるpythonのバージョンを決定
 	if !exists('g:myvimrc_python_version')
@@ -365,7 +364,6 @@ if g:use_plugins == s:true
 		" let g:airline_theme="solarized"
 		" colorscheme solarized
 		" colorscheme summerfruit256
-		set background=dark
 		let g:airline_theme='onedark'
 		colorscheme onedark
 		highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
@@ -440,4 +438,4 @@ else
 	" }}}
 	" }}}
 endif
-exe 'cd ' . expand('~')
+exe 'cd ' . $HOME
