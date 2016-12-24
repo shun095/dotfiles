@@ -58,7 +58,6 @@ if v:version >= 800                " バージョン検出
 	set breakindent                " version8以降搭載の便利オプション
 endif
 
-syntax on                          " 色分けされる
 set diffopt=filler,iwhite,vertical " diffのときの挙動
 set nocursorline                   " カーソル行のハイライト
 set nocursorcolumn
