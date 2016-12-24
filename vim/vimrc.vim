@@ -227,10 +227,8 @@ execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 "}}}
 
 " Included Plugins {{{
-if v:version >= 800
-	packadd! matchit
-	packadd! editexisting
-endif
+set runtimepath+=$VIMRUNTIME/pack/dist/opt/editexisting
+set runtimepath+=$VIMRUNTIME/pack/dist/opt/matchit
 " let g:loaded_getscriptPlugin = 1
 " let g:loaded_gzip = 1
 " let g:loaded_logiPat = 1
