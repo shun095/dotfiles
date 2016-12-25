@@ -403,38 +403,12 @@ else
 	set background=light
 
 	" Netrw settings {{{
-	"
 	" バッファファイルのディレクトリで開く
 	nnoremap <Leader>e :call myvimrc#NiceLexplore(1)<CR>
 	" カレントディレクトリで開く
 	nnoremap <Leader>E :call myvimrc#NiceLexplore(0)<CR>
+	" }}}
 
-	" Toggling
-	" function! s:NiceLexplore(on_bufferdir) {{{
-	"     if exists("t:expl_buf_num")
-	"         let expl_win_num = bufwinnr(t:expl_buf_num)
-	"         if expl_win_num != -1
-	"             let cur_win_nr = winnr()
-	"             exec expl_win_num . 'wincmd w'
-	"             close
-	"             exec cur_win_nr . 'wincmd w'
-	"             unlet t:expl_buf_num
-	"         else
-	"             unlet t:expl_buf_num
-	"         endif
-	"     else
-	"         exec '1wincmd w'
-	"         let g:netrw_winsize = float2nr(round(35.0 / winwidth(0) * 100))
-	"         if a:on_bufferdir == s:true
-	"             Vexplore %:p:h
-	"         else
-	"             Vexplore .
-	"         endif
-	"         let t:expl_buf_num = bufnr("%")
-	"     endif
-	" endfunction
-	" }}}
-	" }}}
 	" }}}
 endif
 exe 'cd ' . $HOME
