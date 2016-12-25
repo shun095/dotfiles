@@ -1,4 +1,18 @@
 # vim:set foldmethod=marker:
+# [[plugins]]
+# repo = "sjl/gundo.vim"
+# on_if = 'has("python")'
+# hook_post_source = '''
+#	 nnoremap <Leader>gu :<C-u>GundoToggle<cr>
+# '''
+[[plugins]]
+repo = "bkad/CamelCaseMotion"
+on_map = ['n', ',']
+hook_post_source = ''' " {{{
+
+	call camelcasemotion#CreateMotionMappings(',')
+
+''' # }}}
 [[plugins]]
 repo = "cohama/lexima.vim"
 on_event = "InsertEnter"
@@ -24,51 +38,15 @@ imap <expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
 
 ''' # }}}
 [[plugins]]
-repo = 'rhysd/vim-clang-format'
-on_ft = ['c','cpp']
-[[plugins]]
-repo = 'cespare/vim-toml'
-on_ft = 'toml'
-[[plugins]]
-repo = 't9md/vim-choosewin'
-on_event = "VimEnter"
-[[plugins]]
-repo = 'glidenote/memolist.vim'
-on_cmd = ['MemoNew', 'MemoList']
-[[plugins]]
-repo = 'majutsushi/tagbar'
-on_cmd = ['TagbarToggle', 'TagbarOpen']
-[[plugins]]
-repo = 'basyura/TweetVim'
-on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
-depends = ['bitly.vim', 'twibill.vim', 'neco-tweetvim',  'open-browser.vim']
-# HTML CSS JS PLUGINS
-[[plugins]]
-repo = 'csscomb/vim-csscomb'
-on_ft = 'css'
-[[plugins]]
-repo = 'rdnetto/YCM-Generator'
-on_cmd = 'YcmGenerator'
-depends = "YouCompleteMe"
-[[plugins]]
-repo = 'Valloric/YouCompleteMe'
-build = 'install.py --clang-completer'
-on_event = ['InsertEnter', 'CursorHold']
-[[plugins]]
-repo = 'lervag/vimtex'
-on_ft = ['tex']
-[[plugins]]
 repo = "iamcco/markdown-preview.vim"
 on_ft = 'markdown'
 [[plugins]]
 repo = "kannokanno/previm"
 on_ft = 'markdown'
 [[plugins]]
-repo = "thinca/vim-quickrun"
-# depends = "vim-watchdogs"
-# on_event = "VimEnter"
-on_event = "CursorHold"
-# on_cmd = 'QuickRun'
+repo = "osyo-manga/vim-brightest"
+on_event = ['CursorHold']
+# on_cmd = ['BrightestEnable']
 [[plugins]]
 repo = "osyo-manga/vim-watchdogs"
 on_event = 'CursorHold'
@@ -123,13 +101,32 @@ call watchdogs#setup(g:quickrun_config)
 
 ''' # }}}
 [[plugins]]
-repo = "bkad/CamelCaseMotion"
-on_map = ['n', ',']
-hook_post_source = ''' " {{{
-
-	call camelcasemotion#CreateMotionMappings(',')
-
-''' # }}}
+repo = "thinca/vim-quickrun"
+# depends = "vim-watchdogs"
+# on_event = "VimEnter"
+on_event = "CursorHold"
+# on_cmd = 'QuickRun'
+[[plugins]]
+repo = 'Shougo/unite.vim'
+on_cmd = ['Unite', 'UniteWithBufferDir']
+[[plugins]]
+repo = 'Valloric/YouCompleteMe'
+build = 'install.py --clang-completer'
+on_event = ['InsertEnter', 'CursorHold']
+[[plugins]]
+repo = 'basyura/TweetVim'
+on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
+depends = ['bitly.vim', 'twibill.vim', 'neco-tweetvim',  'open-browser.vim']
+# HTML CSS JS PLUGINS
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+[[plugins]]
+repo = 'csscomb/vim-csscomb'
+on_ft = 'css'
+[[plugins]]
+repo = 'glidenote/memolist.vim'
+on_cmd = ['MemoNew', 'MemoList']
 [[plugins]]
 repo = 'kana/vim-submode'
 on_map = ['n', '<C-w>']
@@ -146,23 +143,26 @@ hook_post_source = ''' " {{{
 
 ''' # }}}
 [[plugins]]
-repo = 'Shougo/unite.vim'
-on_cmd = ['Unite', 'UniteWithBufferDir']
+repo = 'lervag/vimtex'
+on_ft = ['tex']
 [[plugins]]
-repo = "osyo-manga/vim-brightest"
-on_event = ['CursorHold']
-# on_cmd = ['BrightestEnable']
+repo = 'majutsushi/tagbar'
+on_cmd = ['TagbarToggle', 'TagbarOpen']
 [[plugins]]
 repo = 'osyo-manga/vim-precious'
 on_event = "CursorHold"
 # on_cmd = ["PreciousReset", "PreciousSwitch"]
 depends = ['context_filetype.vim']
 [[plugins]]
+repo = 'rdnetto/YCM-Generator'
+on_cmd = 'YcmGenerator'
+depends = "YouCompleteMe"
+[[plugins]]
+repo = 'rhysd/vim-clang-format'
+on_ft = ['c','cpp']
+[[plugins]]
+repo = 't9md/vim-choosewin'
+on_event = "VimEnter"
+[[plugins]]
 repo = 'tell-k/vim-autopep8'
 on_ft = 'python'
-# [[plugins]]
-# repo = "sjl/gundo.vim"
-# on_if = 'has("python")'
-# hook_post_source = '''
-#	 nnoremap <Leader>gu :<C-u>GundoToggle<cr>
-# '''
