@@ -172,6 +172,7 @@ if dein#tap('unite.vim')
 	" UniteOutLine
 	nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
 	let g:unite_force_overwrite_statusline = 0
+	call unite#filters#sorter_default#use(['sorter_rank'])
 	call unite#custom#profile('default', 'context', {
 	\	'start_insert': 1,
 	\	'winheight': 30,
@@ -180,14 +181,14 @@ if dein#tap('unite.vim')
 	" ウィンドウを分割して開く
 	augroup CustomUnite
 		autocmd!
-		autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-		autocmd FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-		" ウィンドウを縦に分割して開く
-		autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-		autocmd FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-		" タブで開く
-		autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
-		autocmd FileType unite inoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
+		" autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+		" autocmd FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+		" " ウィンドウを縦に分割して開く
+		" autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+		" autocmd FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+		" " タブで開く
+		" autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
+		" autocmd FileType unite inoremap <silent> <buffer> <expr> <C-t> unite#do_action('tabopen')
 		" ESCキーを2回押すと終了する
 		autocmd FileType unite nmap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
 		autocmd FileType unite imap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
