@@ -323,7 +323,7 @@ if dein#tap('vim-dirvish')
 		autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
 		" 行末記号を入れないことで全部ソートする
 		autocmd FileType dirvish nnoremap <silent><buffer> s :sort /.*\([\\\/]\)\@=/<cr>
-		autocmd FileType dirvish nnoremap <silent><buffer> dd :Shdo rm {}<CR>
+		autocmd FileType dirvish nnoremap <silent><buffer> dd :Shdo rm -rf {}<CR>
 		autocmd FileType dirvish nnoremap <silent><buffer> rr :Shdo mv {}<CR>
 		autocmd FileType dirvish nnoremap <silent><buffer> cc :Shdo cp {}<CR>
 		autocmd FileType dirvish nnoremap <silent><buffer> ~ :Dirvish ~/<CR>
