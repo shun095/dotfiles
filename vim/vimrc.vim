@@ -77,7 +77,7 @@ set wildmenu                       " コマンドの補完設定
 set wildmode=longest:full,full     " コマンドの補完スタイル
 set laststatus=2                   " 下のステータスバーの表示
 set showcmd                        " 入力中のコマンドを右下に表示
-set cmdheight=3                    " コマンドラインの高さ
+set cmdheight=2                    " コマンドラインの高さ
 set showtabline=2                  " タブバーを常に表示
 set number                         " 行番号表示
 set norelativenumber
@@ -355,34 +355,40 @@ if g:use_plugins == s:true
 		" let g:airline_theme="solarized"
 		" colorscheme solarized
 		" colorscheme summerfruit256
-		let g:airline_theme='onedark'
-		colorscheme onedark
-		highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
-		highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
-		highlight! FoldColumn ctermbg=233 guibg=#0e1013
-		highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-		highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235 guifg=#282C34 guibg=#282C34
-		highlight! MatchParen gui=none cterm=none term=none
-		" highlight! StatusLine ctermbg=235 guibg=#282C34
-		" highlight! StatusLineNC ctermbg=235 guibg=#282C34
+		try
+			colorscheme onedark
+			let g:airline_theme='onedark'
+			highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
+			highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
+			highlight! FoldColumn ctermbg=233 guibg=#0e1013
+			highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
+			highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235 guifg=#282C34 guibg=#282C34
+			highlight! MatchParen gui=none cterm=none term=none
+			" highlight! StatusLine ctermbg=235 guibg=#282C34
+			" highlight! StatusLineNC ctermbg=235 guibg=#282C34
 
-		if has('gui_running')
-			let g:indent_guides_auto_colors = 1
-		else
-			let g:indent_guides_auto_colors = 0
-			" solarized(light)
-			" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
-			" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
-			" summerfruit
-			" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
-			" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
-			" one(light)
-			" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
-			" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
-			" onedark
-			autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234
-			autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235
-		endif
+			if has('gui_running')
+				let g:indent_guides_auto_colors = 1
+			else
+				let g:indent_guides_auto_colors = 0
+				" solarized(light)
+				" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
+				" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
+				" summerfruit
+				" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
+				" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
+				" one(light)
+				" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
+				" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
+				" onedark
+				autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234
+				autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235
+
+			endif
+		catch
+			colorscheme default
+			set background=light
+		endtry
 	endif
 	" }}}
 	" Netrw Mapping {{{
