@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
 export EDITOR=vim
+export MYDOTFILES=$HOME/dotfiles
 
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then

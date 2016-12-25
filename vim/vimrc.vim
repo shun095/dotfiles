@@ -1,10 +1,9 @@
 ﻿" vim:set foldmethod=marker:
+" Initialize {{{
 set encoding=utf-8
-" source $VIMRUNTIME/delmenu.vim
 set langmenu=ja_JP.utf-8
-" source $VIMRUNTIME/menu.vim
-scriptencoding utf-8
 
+scriptencoding utf-8
 if &compatible
 	set nocompatible
 endif
@@ -17,21 +16,20 @@ let g:loaded_myvimrc = 1
 let s:true = 1
 let s:false = 0
 
-" Vim側のメニューバーのエンコーディングの設定
-" set guioptions+=M
-
-let mapleader = "\<space>"
-
 let $MYVIMHOME=$HOME . '/dotfiles/vim'
+
 if !exists('g:use_plugins')
 	let g:use_plugins = s:true
 endif
+" }}}
 
 " ============================== "
-"    No Plugin Version START     "
+" No Plugin Settings             "
 " ============================== "
 " Set options {{{
 " OSの判定
+let g:mapleader = "\<space>"
+
 if has('win32')
 	if v:version >= 800
 		set rop=type:directx
@@ -138,7 +136,6 @@ endif
 set backupdir=$HOME/.vim/backupfiles
 set backup
 " }}}
-
 " Mapping {{{
 " 折り返しがあっても真下に移動できるようになる
 nnoremap j gj
@@ -158,7 +155,6 @@ nnoremap <Leader>. <ESC>:<C-u>edit ~/dotfiles/vim/vimrc.vim<CR>
 
 
 " }}}
-
 " Commands {{{
 " Sudoで強制保存
 if has('unix')
@@ -168,9 +164,6 @@ endif
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
 command! CdCurrent cd\ %:h
 " }}}
-
-" Functions (Moved to autoload folder)
-
 " Autocmds {{{
 augroup VIMRC
 	autocmd!
@@ -217,7 +210,16 @@ augroup VIMRC
 	autocmd CursorHold,CursorHoldI * if @* != @" | let @y = @* | endif
 augroup END
 "}}}
-
+" Build in plugins {{{
+set runtimepath+=$VIMRUNTIME/pack/dist/opt/editexisting
+set runtimepath+=$VIMRUNTIME/pack/dist/opt/matchit
+" let g:loaded_getscriptPlugin = 1
+" let g:loaded_gzip = 1
+" let g:loaded_logiPat = 1
+" let g:loaded_tarPlugin = 1
+" let g:loaded_vimballPlugin = 1
+" let g:loaded_zipPlugin = 1
+" }}}
 " General Netrw settings {{{
 " let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
 " let g:netrw_browse_split = 4
@@ -226,7 +228,6 @@ let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 let g:netrw_liststyle = 0
 let g:netrw_alto = 1
 let g:netrw_altv = 1
-let g:netrw_banner = 0
 " カレントディレクトリを変える
 let g:netrw_keepdir = 0
 
@@ -245,23 +246,10 @@ augroup MyNetrw
 	" autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
 augroup END
 " }}}
-
 " Self constructed plugins {{{
 let s:myplugins = $HOME . '/dotfiles/vim'
 execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 "}}}
-
-" Included Plugins {{{
-set runtimepath+=$VIMRUNTIME/pack/dist/opt/editexisting
-set runtimepath+=$VIMRUNTIME/pack/dist/opt/matchit
-" let g:loaded_getscriptPlugin = 1
-" let g:loaded_gzip = 1
-" let g:loaded_logiPat = 1
-" let g:loaded_tarPlugin = 1
-" let g:loaded_vimballPlugin = 1
-" let g:loaded_zipPlugin = 1
-" }}}
-
 " Confirm whether or not install dein if not exists {{{
 " 各プラグインをインストールするディレクトリ
 let s:plugin_dir = $HOME . '/.vim/dein/'
@@ -282,21 +270,24 @@ if !isdirectory(s:dein_dir) && g:use_plugins == s:true
 	endif
 endif
 "}}}
-"
+
+" ============================== "
+" Plugin Settings START          "
+" ============================== "
 if g:use_plugins == s:true
-	" Use Plugins Settings
-	" Plugin pre settings {{{
-	" vimprocが呼ばれる前に設定
-	let g:vimproc#download_windows_dll = 1
+	" Load local settings"{{{
 	if filereadable($HOME . '/dotfiles/vim-local.vim')
 		execute 'source ' . $HOME . '/dotfiles/vim-local.vim'
 	endif
+	"}}}
+	" Plugin pre settings {{{
+	" vimprocが呼ばれる前に設定
+	let g:vimproc#download_windows_dll = 1
 	" プラグインで使われるpythonのバージョンを決定
 	if !exists('g:myvimrc_python_version')
 		let g:myvimrc_python_version = ''
 	endif
 	" }}}
-
 	" " Vim-Plug (test){{{
 	" " VIM-PLUG 試験利用
 	" " 起動時に該当ファイルがなければ自動でvim-plugをインストール
@@ -317,7 +308,6 @@ if g:use_plugins == s:true
 
 	" " Vim-plug END
 	" " }}}
-
 	" Dein main settings {{{
 	" escapeでスペースつきのホームフォルダ名に対応
 	" ...できていない
@@ -353,8 +343,7 @@ if g:use_plugins == s:true
 	source $MYVIMHOME/scripts/custom.vim
 	" Dein end
 	" }}}
-
-	" Plugin post settings {{{
+	" Color settings {{{
 	" ターミナルでの色設定
 	if has('win32') && !has('gui_running')
 		colorscheme elflord
@@ -393,6 +382,8 @@ if g:use_plugins == s:true
 			autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235
 		endif
 	endif
+	" }}}
+	" Netrw Mapping {{{
 	" バッファファイルのディレクトリで開く
 	nnoremap <Leader>n :call myvimrc#NiceLexplore(1)<CR>
 	" カレントディレクトリで開く
