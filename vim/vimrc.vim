@@ -27,9 +27,9 @@ endif
 " No Plugin Settings             "
 " ============================== "
 " Set options {{{
-" OSの判定
 let g:mapleader = "\<space>"
 
+" OSの判定
 if has('win32')
 	if v:version >= 800
 		set rop=type:directx
@@ -49,6 +49,7 @@ elseif has('unix')
 		augroup END
 	endif
 endif
+
 set visualbell
 set t_vb=
 
@@ -57,7 +58,7 @@ if v:version >= 800                " バージョン検出
 endif
 
 set diffopt=filler,iwhite,vertical " diffのときの挙動
-set nocursorline                   " カーソル行のハイライト
+set cursorline                   " カーソル行のハイライト
 set nocursorcolumn
 set backspace=indent,eol,start     " バックスペース挙動のおまじない
 set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
@@ -104,6 +105,7 @@ set completeopt=menuone,noselect,preview " 補完関係の設定
 set omnifunc=syntaxcomplete#Complete
 set iminsert=0 " IMEの管理
 set imsearch=0
+
 " Statusline settings {{{
 set statusline=%F%m%r%h%w%q%=
 set statusline+=[%{&fileformat}]
