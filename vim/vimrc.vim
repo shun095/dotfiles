@@ -124,16 +124,16 @@ endif
 
 " set undofileでアンドゥデータをファイルを閉じても残しておく
 " 該当フォルダがなければ作成
-if !isdirectory($HOME.'/.vim/undofiles')
-	call mkdir($HOME.'/.vim/undofiles','p')
+if !isdirectory($HOME . '/.vim/undofiles')
+	call mkdir($HOME . '/.vim/undofiles','p')
 endif
 set undodir=$HOME/.vim/undofiles
 set undofile
 
 "  set backupでスワップファイルを保存する
 " 該当フォルダがなければ作成
-if !isdirectory($HOME.'/.vim/backupfiles')
-	call mkdir($HOME.'/.vim/backupfiles','p')
+if !isdirectory($HOME . '/.vim/backupfiles')
+	call mkdir($HOME . '/.vim/backupfiles','p')
 endif
 set backupdir=$HOME/.vim/backupfiles
 set backup
@@ -288,7 +288,7 @@ if g:use_plugins == s:true
 	" Plugin pre settings {{{
 	" vimprocが呼ばれる前に設定
 	let g:vimproc#download_windows_dll = 1
-	if filereadable($HOME.'/dotfiles/vim-local.vim')
+	if filereadable($HOME . '/dotfiles/vim-local.vim')
 		execute 'source ' . $HOME . '/dotfiles/vim-local.vim'
 	endif
 	" プラグインで使われるpythonのバージョンを決定
