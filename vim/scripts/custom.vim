@@ -173,9 +173,9 @@ if dein#tap('unite.vim')
 	nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
 	let g:unite_force_overwrite_statusline = 0
 	call unite#custom#profile('default', 'context', {
-	\   'start_insert': 1,
-	\   'winheight': 30,
-	\   'direction': 'botright',
+	\	'start_insert': 1,
+	\	'winheight': 30,
+	\	'direction': 'botright',
 	\ })
 	" ウィンドウを分割して開く
 	augroup CustomUnite
@@ -201,6 +201,7 @@ if dein#tap('unite.vim')
 				\ ['ag', '--follow', '--nocolor', '--nogroup',
 				\  '--hidden', '-g', '']
 	let g:unite_source_rec_max_cache_files = 5000
+	let g:unite_source_rec_min_cache_files = 10
 	" search a file in the filetree
 	" nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
 	" reset not it is <C-l> normally
