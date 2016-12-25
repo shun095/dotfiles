@@ -81,6 +81,9 @@ repo = 'justinmk/vim-dirvish'
 repo = 'mattn/ctrlp-filer'
 depends = 'ctrlp.vim'
 [[plugins]]
+repo = 'mattn/ctrlp-register'
+depends = 'ctrlp.vim'
+[[plugins]]
 repo = 'mbbill/undotree'
 # on_event = 'VimEnter'
 # on_if = '!has('python')'

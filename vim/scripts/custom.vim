@@ -51,21 +51,22 @@ if dein#tap('ctrlp.vim')
 	let g:ctrlp_map = ''
 	" let g:ctrlp_extensions = ['mixed']
 	let g:ctrlp_max_files = 5000
-	let g:ctrlp_match_window = 'max:30'
+	let g:ctrlp_match_window = 'bottom,order:btt,max:30'
 	nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
+	nnoremap <Leader>r :<C-u>CtrlPRegister<cr>
 	nnoremap <Leader>c :<C-u>CtrlPCurWD<cr>
 	" nnoremap <Leader>r :<C-u>CtrlPClearCache<cr>
 	nnoremap <Leader>b :<C-u>CtrlPBuffer<cr>
 	nnoremap <Leader><Leader> :<C-u>CtrlP<cr>
-	if executable('ag')
-		if !has('win32')
-			let g:ctrlp_use_caching=1
-			let g:ctrlp_user_command='ag %s -i --follow --nocolor --nogroup -g ""'
-		else
-			let g:ctrlp_use_caching=1
-			let g:ctrlp_user_command='ag -i --follow --nocolor --nogroup -g "" %s'
-		endif
-	endif
+	" if executable('ag')
+	" 	if !has('win32')
+	" 		let g:ctrlp_use_caching=1
+	" 		let g:ctrlp_user_command='ag %s -i --follow --nocolor --nogroup -g ""'
+	" 	else
+	" 		let g:ctrlp_use_caching=1
+	" 		let g:ctrlp_user_command='ag -i --follow --nocolor --nogroup -g "" %s'
+	" 	endif
+	" endif
 endif
 if dein#tap('foldCC.vim')
 	let g:foldCCtext_enable_autofdc_adjuster = 1
@@ -104,8 +105,8 @@ if dein#tap('markdown-preview.vim')
 endif
 if dein#tap('memolist.vim')
 	" let g:memolist_memo_suffix = 'txt'
-	let g:memolist_unite = 0
-	let g:memolist_ex_cmd = 'Dirvish'
+	let g:memolist_unite = 1
+	" let g:memolist_ex_cmd = 'CtrlP'
 	nmap <Leader>mn :MemoNew<cr>
 	nmap <Leader>ml :MemoList<cr>
 endif
@@ -162,16 +163,20 @@ if dein#tap('undotree')
 endif
 if dein#tap('unite.vim')
 	nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-	nnoremap <silent> <Leader>uf :<C-u>UniteWithBufferDir -buffer-name=files -start-insert file_rec/async<CR>
-	nnoremap <silent> <Leader>ur :<C-u>Unite -buffer-name=register register<CR>
+	nnoremap <silent> <Leader>uf :<C-u>UniteWithProjectDir file_rec/async<CR>
+	nnoremap <silent> <Leader>ur :<C-u>Unite register<CR>
 	nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
 	nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
 	" Unite All
-	nnoremap <silent> <Leader>ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+	nnoremap <silent> <Leader>ua :<C-u>UniteWithProjectDir buffer file_mru bookmark file<CR>
 	" UniteOutLine
 	nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
 	let g:unite_force_overwrite_statusline = 0
-	let g:unite_enable_start_insert = 0
+	call unite#custom#profile('default', 'context', {
+	\   'start_insert': 1,
+	\   'winheight': 30,
+	\   'direction': 'botright',
+	\ })
 	" ウィンドウを分割して開く
 	augroup CustomUnite
 		autocmd!
@@ -192,13 +197,10 @@ if dein#tap('unite.vim')
 	augroup END
 	"nice unite and ag
 	" let g:unite_source_history_yank_enable = 1
-	" try
 	let g:unite_source_rec_async_command =
 				\ ['ag', '--follow', '--nocolor', '--nogroup',
 				\  '--hidden', '-g', '']
 	let g:unite_source_rec_max_cache_files = 5000
-	" catch
-	" endtry
 	" search a file in the filetree
 	" nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
 	" reset not it is <C-l> normally
@@ -362,7 +364,10 @@ endif
 if dein#tap('vim-precious')
 	" let g:context_filetype#search_offset = 300
 	let g:precious_enable_switch_CursorMoved = { '*' : 0 }
-	let g:precious_enable_switch_CursorHold = { '*' : 1 }
+	let g:precious_enable_switch_CursorHold = {
+				\	'*' : 1,
+				\	'help' : 0
+				\}
 	" INSERTモードのON／OFFに合わせてトグル
 	augroup PreciousAuto
 		autocmd!
@@ -381,6 +386,8 @@ if dein#tap('vim-precious')
 	" augroup END
 endif
 if dein#tap('vim-quickrun')
+	let g:quickrun_no_default_key_mappings = 1
+	nmap <Leader>R <Plug>(quickrun)
 	let g:quickrun_config = get(g:, 'quickrun_config', {})
 	let g:quickrun_config._ = {
 				\ 'runner'	: 'vimproc',
