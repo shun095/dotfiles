@@ -59,7 +59,10 @@ function! myvimrc#git_end_callback(ch, msg) abort
         echom "New vimrc was downloaded. Please restart to use it!!"
         echohl none
 		sleep 1
-		Restart
+		let l:confirm = confirm('Restart Now?', '&Yes\n&No', '2')
+		if l:confirm == 1
+			Restart
+		endif
     else
         " echomsg "git git_callback_count was " . s:git_callback_count
     endif
