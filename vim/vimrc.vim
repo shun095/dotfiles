@@ -411,4 +411,6 @@ else
 
 	" }}}
 endif
-exe 'cd ' . $HOME
+if getcwd() ==# $VIMRUNTIME
+	exe 'cd ' . $HOME
+endif
