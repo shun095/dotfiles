@@ -31,13 +31,15 @@ else
 fi
 
 
-# to_trash() {
-#     for file in $@
-#     do
-#         mv $file ~/.trash
-#     done
-# }
-# alias rm="to_trash" 
+to_trash() {
+    for file in $@
+    do
+        mv $file ~/.trash
+    done
+}
+alias rm="to_trash"
+alias tgvim="gvim --remote-tab"
+alias tvim="gvim --remote-tab"
 
 VIMRC="$HOME/.vimrc"
 if [  ! -e ${VIMRC} ]; then
