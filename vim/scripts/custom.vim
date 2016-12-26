@@ -173,7 +173,7 @@ if dein#tap('unite.vim')
 	" UniteOutLine
 	nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
 	let g:unite_force_overwrite_statusline = 0
-	call unite#filters#sorter_default#use(['sorter_rank'])
+	call unite#filters#sorter_default#use(['sorter_length'])
 	call unite#custom#profile('default', 'context', {
 	\	'start_insert': 1,
 	\	'winheight': 10,
