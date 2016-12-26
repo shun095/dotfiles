@@ -58,6 +58,8 @@ function! myvimrc#git_end_callback(ch, msg) abort
         echohl WarningMsg
         echom "New vimrc was downloaded. Please restart to use it!!"
         echohl none
+		sleep 1
+		Restart
     else
         " echomsg "git git_callback_count was " . s:git_callback_count
     endif
