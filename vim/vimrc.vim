@@ -43,6 +43,7 @@ elseif has('unix')
 	let g:solarized_termcolors = 256
 	if executable('gconftool-2')
 		augroup VIMRC
+			au!
 			au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
 			au InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
 			au VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
@@ -168,7 +169,6 @@ command! CdCurrent cd\ %:h
 " }}}
 " Autocmds {{{
 augroup VIMRC
-	autocmd!
 	" タグを</で自動で閉じる。completeoptに依存している
 	autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
 
