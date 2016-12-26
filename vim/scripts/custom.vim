@@ -56,6 +56,7 @@ if dein#tap('ctrlp.vim')
 	nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
 	nnoremap <Leader>r :<C-u>CtrlPRegister<cr>
 	nnoremap <Leader>c :<C-u>CtrlPCurWD<cr>
+	nnoremap <Leader>T :<C-u>CtrlPTag<cr>
 	" nnoremap <Leader>r :<C-u>CtrlPClearCache<cr>
 	nnoremap <Leader>b :<C-u>CtrlPBuffer<cr>
 	nnoremap <Leader><Leader> :<C-u>CtrlP<cr>
