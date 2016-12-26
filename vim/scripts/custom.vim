@@ -50,7 +50,7 @@ if dein#tap('ctrlp.vim')
 	" yankroundのところでマッピングし直している
 	let g:ctrlp_map = ''
 	" let g:ctrlp_extensions = ['mixed']
-	let g:ctrlp_max_files = 5000
+	" let g:ctrlp_max_files = 5000
 	let g:ctrlp_match_window = 'bottom,order:btt,max:30'
 	let g:ctrlp_show_hidden = 1
 	nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
