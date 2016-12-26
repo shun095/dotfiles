@@ -59,6 +59,7 @@ if dein#tap('ctrlp.vim')
 	nnoremap <Leader>T :<C-u>CtrlPTag<cr>
 	" nnoremap <Leader>r :<C-u>CtrlPClearCache<cr>
 	nnoremap <Leader>b :<C-u>CtrlPBuffer<cr>
+	nnoremap <Leader>l :<C-u>CtrlPLine<cr>
 	nnoremap <Leader><Leader> :<C-u>CtrlP<cr>
 	" if executable('ag')
 	" 	if !has('win32')
