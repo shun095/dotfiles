@@ -51,7 +51,7 @@ if dein#tap('ctrlp.vim')
 	let g:ctrlp_map = ''
 	" let g:ctrlp_extensions = ['mixed']
 	" let g:ctrlp_max_files = 5000
-	let g:ctrlp_match_window = 'bottom,order:btt,max:30'
+	let g:ctrlp_match_window = 'bottom,order:btt,max:10,results:500'
 	let g:ctrlp_show_hidden = 1
 	nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
 	nnoremap <Leader>r :<C-u>CtrlPRegister<cr>
@@ -164,7 +164,7 @@ if dein#tap('undotree')
 endif
 if dein#tap('unite.vim')
 	nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-	nnoremap <silent> <Leader>uf :<C-u>UniteWithProjectDir file_rec/async<CR>
+	nnoremap <silent> <Leader>uf :CdCurrent<CR>:<C-u>UniteWithProjectDir file_rec/async<CR>
 	nnoremap <silent> <Leader>ur :<C-u>Unite register<CR>
 	nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
 	nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
@@ -176,8 +176,7 @@ if dein#tap('unite.vim')
 	call unite#filters#sorter_default#use(['sorter_rank'])
 	call unite#custom#profile('default', 'context', {
 	\	'start_insert': 1,
-	\	'winheight': 30,
-	\	'direction': 'botright',
+	\	'winheight': 10,
 	\ })
 	" ウィンドウを分割して開く
 	augroup CustomUnite
