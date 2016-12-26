@@ -195,6 +195,8 @@ if dein#tap('unite.vim')
 		autocmd FileType unite imap <silent> <buffer> <ESC><ESC> <Plug>(unite_exit)
 		autocmd FileType unite imap <silent> <buffer> <C-j> <Plug>(unite_select_next_line)
 		autocmd FileType unite imap <silent> <buffer> <C-k> <Plug>(unite_select_previous_line)
+		autocmd FileType unite imap <silent> <buffer> <Tab> <Plug>(unite_complete)
+		autocmd FileType unite imap <silent> <buffer> <C-Tab> <Plug>(unite_choose_action)
 		autocmd FileType unite call unite#filters#matcher_default#use(['matcher_fuzzy'])
 	augroup END
 	"nice unite and ag
