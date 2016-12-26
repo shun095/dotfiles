@@ -51,7 +51,7 @@ if dein#tap('ctrlp.vim')
 	let g:ctrlp_map = ''
 	" let g:ctrlp_extensions = ['mixed']
 	" let g:ctrlp_max_files = 5000
-	let g:ctrlp_match_window = 'bottom,order:btt,min:10,max:10,results:500'
+	let g:ctrlp_match_window = 'bottom,order:btt,min:10,max:10,results:100'
 	let g:ctrlp_show_hidden = 1
 	nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
 	nnoremap <Leader>r :<C-u>CtrlPRegister<cr>
@@ -65,7 +65,7 @@ if dein#tap('ctrlp.vim')
 	" 		let g:ctrlp_user_command='ag %s -i --follow --nocolor --nogroup -g ""'
 	" 	else
 	" 		let g:ctrlp_use_caching=1
-	" 		let g:ctrlp_user_command='ag -i --follow --nocolor --nogroup -g "" %s'
+	" 		let g:ctrlp_user_command='dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git"'
 	" 	endif
 	" endif
 endif
