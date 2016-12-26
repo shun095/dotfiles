@@ -11,7 +11,6 @@ if has('gui_running')
 	" フォントを設定
 	if has('win32')
 		set guifont=Myrica_M_for_Powerline:h12
-		" set guifont=ＭＳ_ゴシック:h10
 		" set guifont=Ricty_Diminished_for_Powerline:h11
 	elseif has('unix')
 		" set guifont=Ricty\ Diminished\ for\ Powerline\ 11
