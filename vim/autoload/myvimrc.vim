@@ -36,7 +36,8 @@ function! myvimrc#git_auto_updating() abort
         let s:save_cd = getcwd()
         cd ~/dotfiles/
         let s:git_callback_count = 0
-        if has('job')
+		let s:git_qflist = []
+		if has('job')
             call job_start('git pull', {'callback': 'myvimrc#git_callback', 'exit_cb': 'myvimrc#git_end_callback'})
         else
             call vimproc#system("git pull &")
@@ -50,10 +51,12 @@ endfunction
 " Auto updating vimrc
 function! myvimrc#git_callback(ch, msg) abort
     let s:git_callback_count+=1
+	call add(s:git_qflist, {'text':a:msg})
     " echom "Myvimrc: " . a:msg
 endfunction
 
 function! myvimrc#git_end_callback(ch, msg) abort
+	call setqflist(s:git_qflist)
     if s:git_callback_count > 1
         echohl WarningMsg
         echom "New vimrc was downloaded. Please restart to use it!!"
