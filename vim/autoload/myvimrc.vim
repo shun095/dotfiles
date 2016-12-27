@@ -61,6 +61,7 @@ function! myvimrc#git_end_callback(ch, msg) abort
         echohl WarningMsg
         echom "New vimrc was downloaded. Please restart to use it!!"
         echohl none
+		cope
 		sleep 1
 		let l:confirm = confirm("Restart Now?", "&yes\n&no", 2)
 		if l:confirm == 1
