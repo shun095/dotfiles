@@ -306,7 +306,7 @@ if dein#tap('vim-clang-format')
 				\ 'AlignConsecutiveDeclarations' : 'true',
 				\ 'AlignTrailingComments' : 'true',
 				\ 'TabWidth' : '4',
-				\ 'UseTab' : 'Never',
+				\ 'UseTab' : 'Always',
 				\ 'ColumnLimit' : '120'
 				\ }
 endif
