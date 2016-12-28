@@ -72,6 +72,11 @@ function! myvimrc#git_end_callback(ch, msg) abort
 	endif
 endfunction
 
+fun myvimrc#copypath()
+	let @" = expand("%:p")
+	let @* = expand("%:p")
+	let @+ = expand("%:p")
+endf
 " function! s:move_cursor_pos_mapping(str, ...)
 "     let left = get(a:, 1, "<Left>")
 "     let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
