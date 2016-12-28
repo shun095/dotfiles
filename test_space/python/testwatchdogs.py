@@ -8,13 +8,13 @@ import numpy as np
 # y = np.arange(0, 10)
 fig = plt.figure()
 ax = Axes3D(fig)
-for t in range(100):
+for t in range(50):
     x = t
     y = t
     z = t
 
-    print x
-    print y
+    print(x)
+    print(y)
     #
 
     # X, Y = np.meshgrid(x, y)
@@ -23,7 +23,7 @@ for t in range(100):
     # print X
     # print Y
 
-    plt.gca().clear()
+    ax.clear()
     ax.set_xlim3d(-10, 110)
     ax.set_ylim3d(-10, 110)
     ax.set_zlim3d(-10, 110)

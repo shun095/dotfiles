@@ -398,9 +398,13 @@ if dein#tap('vim-quickrun')
 	let g:quickrun_config = get(g:, 'quickrun_config', {})
 	let g:quickrun_config._ = {
 				\ 'runner'	: 'vimproc',
-				\ 'runner/vimproc/updatetime' : 100,
+				\ 'runner/vimproc/updatetime' : 10,
+				\ 'outputter': 'multi',
+				\ 'outputter/buffer/into' : 1,
+				\ 'outputter/buffer/split' : 'botright 8',
+				\ 'outputter/multi/targets' : ['buffer', 'quickfix'],
 				\ 'outputter/quickfix/open_cmd' : 'copen 8',
-				\ 'outputter/buffer/split' : 'botright 10'
+				\ 'hook/time/enable' : 1,
 				\}
 	" \ 'runner'	: 'job',
 	" \ 'runner/job/interval' : 100,
@@ -411,12 +415,11 @@ if dein#tap('vim-quickrun')
 	" \ 'runner/vimproc/updatetime' : 100,
 	let g:quickrun_config.python = {
 				\ 'command' : 'python',
-				\ 'cmdopt' : '-u'
+				\ 'cmdopt' : '-u',
 				\ }
 	let g:quickrun_config.markdown = {
 				\ 'type': 'markdown/pandoc',
 				\ 'cmdopt': '-s',
-				\ 'outputter': 'browser'
 				\ }
 	" nnoremap <silent> <Leader>R :QuickRun<CR>
 	" nmap <Leader>R <Plug>(quickrun)

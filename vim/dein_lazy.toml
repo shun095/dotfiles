@@ -82,8 +82,9 @@ unlet s:hook
 let s:config = {
 			\"watchdogs_checker/_" : {
 			\	'runner' : 'vimproc',
-			\	"runner/vimproc/updatetime" : 100,
-			\	"outputter/quickfix/open_cmd" : "copen 8"
+			\	"runner/vimproc/updatetime" : 10,
+			\	'outputter' : 'loclist'
+			\	"outputter/loclist/open_cmd" : "lopen 8"
 			\	},
 			\"cpp" : {
 			\	"hook/add_include_option/enable" : 1
