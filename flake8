@@ -1,3 +1,7 @@
 [flake8]
+# E1: about indentation
+# E2: about white space
+# E3: about blank line
+# W2 or 3: trailings(whitespace and line)
 ignore = E127,E128,E201,E202,E221,E225,E226,E231,E271,E302,E303,W291,W293,W391
 max-line-length = 160
