@@ -83,7 +83,7 @@ let s:config = {
 			\"watchdogs_checker/_" : {
 			\	'runner' : 'vimproc',
 			\	"runner/vimproc/updatetime" : 10,
-			\	'outputter' : 'loclist'
+			\	'outputter' : 'loclist',
 			\	"outputter/loclist/open_cmd" : "lopen 8"
 			\	},
 			\"cpp" : {
@@ -170,3 +170,6 @@ on_ft = 'python'
 [[plugins]]
 repo = 'chrisbra/csv.vim'
 on_ft = 'csv'
+[[plugins]]
+repo = 'nixprime/cpsm'
+on_event = 'VimEnter'
