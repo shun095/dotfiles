@@ -53,11 +53,11 @@ if dein#tap('ctrlp.vim')
 	let g:ctrlp_max_files = 20000
 	let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
 	let g:ctrlp_show_hidden = 1
-	  let g:ctrlp_root_markers = ['.ctrlproot']
+	let g:ctrlp_root_markers = ['.ctrlproot']
 	if has("unix")
 		let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
-	" elseif has("win32")
-	" 	let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
+		" elseif has("win32")
+		" 	let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
 	endif
 	nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
 	nnoremap <Leader>r :<C-u>CtrlPRegister<cr>
@@ -70,7 +70,7 @@ if dein#tap('ctrlp.vim')
 	" if executable('ag')
 	if has('win32')
 		let g:ctrlp_use_caching=1
-  let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
+		let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
 	else
 		let g:ctrlp_use_caching=1
 		let g:ctrlp_user_command = 'find %s -type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"'          " MacOSX/Linux
@@ -172,7 +172,7 @@ if dein#tap('undotree')
 endif
 if dein#tap('unite.vim')
 	nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-	nnoremap <silent> <Leader>uf :CdCurrent<CR>:<C-u>UniteWithProjectDir file_rec/async<CR>
+	nnoremap <silent> <Leader>uf :call myvimrc#cd_command_cdreturn(expand('%:h'),['UniteWithProjectDir file_rec/async'])<CR>
 	nnoremap <silent> <Leader>ur :<C-u>Unite register<CR>
 	nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
 	nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
@@ -209,9 +209,15 @@ if dein#tap('unite.vim')
 	augroup END
 	"nice unite and ag
 	" let g:unite_source_history_yank_enable = 1
-	let g:unite_source_rec_async_command =
-				\ ['ag', '--follow', '--nocolor', '--nogroup',
-				\  '--hidden', '-g', '']
+	if has('win32')
+		let g:unite_source_rec_async_command =
+					\ ['dir', '/-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"']
+	else
+		let g:unite_source_rec_async_command =
+					\ ['find', '-type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"']
+	endif
+	" \ ['ag', '--follow', '--nocolor', '--nogroup',
+	" \  '--hidden', '-g', '']
 	let g:unite_source_rec_max_cache_files = 20000
 	let g:unite_source_rec_min_cache_files = 10
 	" search a file in the filetree

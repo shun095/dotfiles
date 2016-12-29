@@ -67,7 +67,7 @@ function! myvimrc#git_end_callback(ch, msg) abort
 		if l:confirm == 1
 			Restart
 		endif
-	else
+	" else
 		" echomsg "git git_callback_count was " . s:git_callback_count
 	endif
 endfunction
@@ -76,6 +76,15 @@ fun myvimrc#copypath()
 	let @" = expand("%:p")
 	let @* = expand("%:p")
 	let @+ = expand("%:p")
+endf
+
+fun myvimrc#cd_command_cdreturn(destination,commandlist)
+	let l:previous_cwd = getcwd()
+	exe 'cd ' . a:destination
+	for command in a:commandlist
+		exe command
+	endfor
+	exe 'cd ' . l:previous_cwd
 endf
 " function! s:move_cursor_pos_mapping(str, ...)
 "     let left = get(a:, 1, "<Left>")
