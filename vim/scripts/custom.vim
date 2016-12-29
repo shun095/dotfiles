@@ -51,7 +51,7 @@ if dein#tap('ctrlp.vim')
 	let g:ctrlp_map = ''
 	" let g:ctrlp_extensions = ['mixed']
 	let g:ctrlp_max_files = 20000
-	let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:1000'
+	let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:500'
 	let g:ctrlp_show_hidden = 1
 	if has("unix")
 		let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
@@ -65,13 +65,13 @@ if dein#tap('ctrlp.vim')
 	nnoremap <Leader>l :<C-u>CtrlPLine<cr>
 	nnoremap <Leader><Leader> :<C-u>CtrlP<cr>
 	" if executable('ag')
-	" 	if !has('win32')
-	" 		let g:ctrlp_use_caching=1
-	" 		let g:ctrlp_user_command='ag %s -i --follow --nocolor --nogroup -g ""'
-	" 	else
-	" 		let g:ctrlp_use_caching=1
-	" 		let g:ctrlp_user_command='dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git"'
-	" 	endif
+	if has('win32')
+		let g:ctrlp_use_caching=1
+		let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d' " Windows
+	else
+		let g:ctrlp_use_caching=1
+		let g:ctrlp_user_command = 'find %s -type f'       " MacOSX/Linux
+	endif
 	" endif
 endif
 if dein#tap('foldCC.vim')
@@ -180,10 +180,10 @@ if dein#tap('unite.vim')
 	let g:unite_force_overwrite_statusline = 0
 	call unite#filters#sorter_default#use(['sorter_length'])
 	call unite#custom#profile('default', 'context', {
-	\	'start_insert': 1,
-	\	'winheight': 10,
-	\	'direction': 'botright'
-	\ })
+				\	'start_insert': 1,
+				\	'winheight': 10,
+				\	'direction': 'botright'
+				\ })
 	" ウィンドウを分割して開く
 	augroup CustomUnite
 		autocmd!
