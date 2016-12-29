@@ -210,7 +210,7 @@ if dein#tap('unite.vim')
 	let g:unite_source_rec_async_command =
 				\ ['ag', '--follow', '--nocolor', '--nogroup',
 				\  '--hidden', '-g', '']
-	let g:unite_source_rec_max_cache_files = 5000
+	let g:unite_source_rec_max_cache_files = 20000
 	let g:unite_source_rec_min_cache_files = 10
 	" search a file in the filetree
 	" nnoremap <space><space> :<C-u>Unite -start-insert file_rec/async<cr>
