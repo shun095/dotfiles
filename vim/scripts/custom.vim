@@ -67,10 +67,10 @@ if dein#tap('ctrlp.vim')
 	" if executable('ag')
 	if has('win32')
 		let g:ctrlp_use_caching=1
-		let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d' " Windows
+  let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
 	else
 		let g:ctrlp_use_caching=1
-		let g:ctrlp_user_command = 'find %s -type f'       " MacOSX/Linux
+		let g:ctrlp_user_command = 'find %s -type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"'          " MacOSX/Linux
 	endif
 	" endif
 endif
