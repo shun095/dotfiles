@@ -322,7 +322,7 @@ if g:use_plugins == s:true
 	let g:plugins_lazy_toml = '$MYVIMHOME/dein_lazy.toml'
 
 	let g:dein#install_max_processes = 64
-	let g:dein#install_process_timeout = 240
+	" let g:dein#install_process_timeout = 240
 	if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
 		call dein#begin(s:plugin_dir)
 		call dein#add('Shougo/dein.vim')
@@ -347,6 +347,9 @@ if g:use_plugins == s:true
 	" load settings of plugins
 	source $MYVIMHOME/scripts/custom.vim
 	" Dein end
+	if filereadable($HOME . '/dotfiles/vim-localafter.vim')
+		execute 'source ' . $HOME . '/dotfiles/vim-localafter.vim'
+	endif
 	" }}}
 	" Color settings {{{
 	" ターミナルでの色設定

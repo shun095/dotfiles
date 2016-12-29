@@ -173,5 +173,4 @@ on_ft = 'csv'
 [[plugins]]
 repo = 'nixprime/cpsm'
 on_if = 'has("unix")'
-build = 'install.sh'
 on_event = 'VimEnter'
