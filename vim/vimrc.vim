@@ -95,7 +95,7 @@ set emoji                          " 絵文字を全角表示
 set mouse=a                        " マウスを有効化
 set nomousehide                    " 入力中にポインタを消すかどうか
 set nolazyredraw
-set sessionoptions=folds,help,tabpages,curdir,buffers
+set sessionoptions=folds,help,tabpages
 set splitbelow
 set splitright
 set updatetime=1000

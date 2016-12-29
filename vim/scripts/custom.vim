@@ -53,6 +53,7 @@ if dein#tap('ctrlp.vim')
 	let g:ctrlp_max_files = 20000
 	let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:500'
 	let g:ctrlp_show_hidden = 1
+	  let g:ctrlp_root_markers = ['.ctrlproot']
 	if has("unix")
 		let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
 	endif
@@ -223,14 +224,14 @@ if dein#tap('vim-airline')
 	let g:airline#extensions#syntastic#enabled	 = 0
 	let g:airline#extensions#tabline#enabled	   = 1 "{{{
 	" right side show mode
-	let g:airline#extensions#tabline#show_tab_type = 1
+	let g:airline#extensions#tabline#show_tab_type = 0
 	" プレビューウィンドウのステータスライン(Airline優先:0か,他のプラグイン優先:1)
 	let g:airline#extensions#tabline#exclude_preview = 0
 	let g:airline#extensions#tabline#show_tabs = 1
-	let g:airline#extensions#tabline#show_splits   = 1
+	let g:airline#extensions#tabline#show_splits   = 0
 	let g:airline#extensions#tabline#show_buffers = 0
 	let g:airline#extensions#tabline#tab_nr_type   = 2 " splits and tab number
-	let g:airline#extensions#tabline#show_close_button = 0 "}}}
+	let g:airline#extensions#tabline#show_close_button = 1 "}}}
 	" let g:airline_powerline_fonts=1
 	if !exists('g:airline_symbols')
 		let g:airline_symbols = {}
