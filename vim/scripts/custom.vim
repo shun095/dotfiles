@@ -50,9 +50,12 @@ if dein#tap('ctrlp.vim')
 	" yankroundのところでマッピングし直している
 	let g:ctrlp_map = ''
 	" let g:ctrlp_extensions = ['mixed']
-	" let g:ctrlp_max_files = 5000
-	let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
+	let g:ctrlp_max_files = 20000
+	let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:1000'
 	let g:ctrlp_show_hidden = 1
+	if has("unix")
+		let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
+	endif
 	nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
 	nnoremap <Leader>r :<C-u>CtrlPRegister<cr>
 	nnoremap <Leader>c :<C-u>CtrlPCurWD<cr>
