@@ -175,7 +175,11 @@ if dein#tap('undotree')
 endif
 if dein#tap('unite.vim')
 	nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
-	nnoremap <silent> <Leader>uf :call myvimrc#cd_command_cdreturn(expand('%:h'),['UniteWithProjectDir file_rec/async'])<CR>
+	if has('win32')
+		nnoremap <silent> <Leader>uf :call myvimrc#cd_command_cdreturn(expand('%:h'),['UniteWithProjectDir file_rec'])<CR>
+	else
+		nnoremap <silent> <Leader>uf :call myvimrc#cd_command_cdreturn(expand('%:h'),['UniteWithProjectDir file_rec/async'])<CR>
+	endif
 	nnoremap <silent> <Leader>ur :<C-u>Unite register<CR>
 	nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
 	nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
