@@ -40,9 +40,6 @@ repo = 'altercation/vim-colors-solarized'
 [[plugins]]
 repo = 'basyura/bitly.vim'
 [[plugins]]
-repo = 'basyura/twibill.vim'
-depends = ['open-browser.vim']
-[[plugins]]
 repo = 'cdmedia/itg_flat_vim'
 [[plugins]]
 repo = 'ciaranm/inkpot'

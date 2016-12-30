@@ -176,15 +176,13 @@ endif
 if dein#tap('unite.vim')
 	nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
 	" if has('win32')
-		nnoremap <silent> <Leader>uf :call myvimrc#cd_command_cdreturn(expand('%:h'),['UniteWithProjectDir file_rec'])<CR>
+	nnoremap <silent> <Leader>uf :call myvimrc#cd_command_cdreturn(expand('%:h'),['UniteWithProjectDir file_rec'])<CR>
 	" else
-		" nnoremap <silent> <Leader>uf :call myvimrc#cd_command_cdreturn(expand('%:h'),['UniteWithProjectDir file_rec/async'])<CR>
+	" nnoremap <silent> <Leader>uf :call myvimrc#cd_command_cdreturn(expand('%:h'),['UniteWithProjectDir file_rec/async'])<CR>
 	" endif
+	nnoremap <silent> <Leader>ug :<C-u>UniteWithProjectDir grep<CR>
 	nnoremap <silent> <Leader>ur :<C-u>Unite register<CR>
 	nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
-	nnoremap <silent> <Leader>uu :<C-u>Unite buffer file_mru<CR>
-	" Unite All
-	nnoremap <silent> <Leader>ua :<C-u>UniteWithProjectDir buffer file_mru bookmark file<CR>
 	" UniteOutLine
 	nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
 	let g:unite_force_overwrite_statusline = 0
