@@ -89,39 +89,38 @@ fun myvimrc#cd_command_cdreturn(destination,commandlist)
 	exe 'cd ' . l:previous_cwd
 endf
 
-fun! myvimrc#find_project_dir(filename) abort
-	" init variable
-	let l:package_dir = ''
+fun! myvimrc#find_project_dir(searchname) abort
+	let l:target = findfile(a:searchname, expand('%:p').';')
 
-	" ----Reference from help about finddir()---- {{{
-	" finddir()
-	" 最初に見つかったディレクトリのパスを返す。そのディレクトリがカレントディレクトリの
-	" 下にある場合は相対パスを返す。そうでなければ絶対パスを返す。
-	" findfile() is same as finddir()
-	" }}}
-	let l:rosxmlfile = findfile(a:filename, expand('%:p').';')
-
-	if l:rosxmlfile !=# '' && (l:rosxmlfile[0] !=# '/') " ファイルが存在し、絶対パス表記でなかったら
-		let l:package_dir = getcwd() . '/' . l:rosxmlfile
-	else " ファイルが存在しないか、絶対パス表記だったら
-		let l:package_dir = l:rosxmlfile
+	if l:target ==# ''
+		let l:target = finddir(a:searchname, expand('%:p').';')
 	endif
 
-	if l:package_dir ==# ''
-		echohl WarningMsg
-		echom "Appropriate directory couldn't be found!! (There is no " . a:filename . " file.)"
-		echohl none
+	if l:target ==# ''
+		let l:destdir = ''
 	else
-		" ファイル名をパスから削除
-		let l:package_dir = fnamemodify(l:package_dir, ':h')
+		let l:target = fnamemodify(l:target, ':p')
+		if isdirectory(l:target)
+			let l:destdir = fnamemodify(l:target, ':h:h')
+		else
+			let l:destdir = fnamemodify(l:target, ':h')
+		endif
 	endif
-
-	return l:package_dir
+	return l:destdir
 endf
 
 fun! myvimrc#ctags_project() abort
 	let l:tags_dir = myvimrc#find_project_dir('tags')
-	if l:tags_dir !=# ''
+
+	if l:tags_dir ==# ''
+		let l:tags_dir = myvimrc#find_project_dir('.git')
+	endif
+
+	if l:tags_dir ==# ''
+		echohl WarningMsg
+		echom "Appropriate directory couldn't be found!! (There is no tags file or git directory.)"
+		echohl none
+	else
 		call myvimrc#cd_command_cdreturn(l:tags_dir,['call system("ctags -R")'])
 	endif
 endf
