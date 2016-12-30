@@ -88,6 +88,43 @@ fun myvimrc#cd_command_cdreturn(destination,commandlist)
 	endfor
 	exe 'cd ' . l:previous_cwd
 endf
+
+fun! myvimrc#find_project_dir(filename) abort
+	" init variable
+	let l:package_dir = ''
+
+	" ----Reference from help about finddir()---- {{{
+	" finddir()
+	" 最初に見つかったディレクトリのパスを返す。そのディレクトリがカレントディレクトリの
+	" 下にある場合は相対パスを返す。そうでなければ絶対パスを返す。
+	" findfile() is same as finddir()
+	" }}}
+	let l:rosxmlfile = findfile(a:filename, expand('%:p').';')
+
+	if l:rosxmlfile !=# '' && (l:rosxmlfile[0] !=# '/') " ファイルが存在し、絶対パス表記でなかったら
+		let l:package_dir = getcwd() . '/' . l:rosxmlfile
+	else " ファイルが存在しないか、絶対パス表記だったら
+		let l:package_dir = l:rosxmlfile
+	endif
+
+	if l:package_dir ==# ''
+		echohl WarningMsg
+		echom "Appropriate directory couldn't be found!! (There is no " . a:filename . " file.)"
+		echohl none
+	else
+		" ファイル名をパスから削除
+		let l:package_dir = fnamemodify(l:package_dir, ':h')
+	endif
+
+	return l:package_dir
+endf
+
+fun! myvimrc#ctags_project() abort
+	let l:tags_dir = myvimrc#find_project_dir('tags')
+	if l:tags_dir !=# ''
+		call myvimrc#cd_command_cdreturn(l:tags_dir,['call system("ctags -R")'])
+	endif
+endf
 " function! s:move_cursor_pos_mapping(str, ...)
 "     let left = get(a:, 1, "<Left>")
 "     let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")

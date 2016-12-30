@@ -56,8 +56,8 @@ if dein#tap('ctrlp.vim')
 	let g:ctrlp_root_markers = ['.ctrlproot']
 	if has("unix")
 		let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
-		" elseif has("win32")
-		" 	let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
+	elseif has("win32")
+		let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
 	endif
 	nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
 	nnoremap <Leader>r :<C-u>CtrlPRegister<cr>
@@ -70,7 +70,7 @@ if dein#tap('ctrlp.vim')
 	" if executable('ag')
 	if has('win32')
 		let g:ctrlp_use_caching=1
-		let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
+		let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
 	else
 		let g:ctrlp_use_caching=1
 		let g:ctrlp_user_command = 'find %s -type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"'          " MacOSX/Linux

@@ -169,6 +169,7 @@ endif
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
 command! CdCurrent cd\ %:h
 command! CopyPath call myvimrc#copypath()
+command! Ctags call myvimrc#ctags_project()
 " }}}
 " Autocmds {{{
 augroup VIMRC
