@@ -157,7 +157,7 @@ nnoremap <silent> <ESC><ESC> :noh<CR>
 " ビジュアルモードでも*検索が使えるようにする
 vnoremap * "zy:let @/ = @z <CR>n
 nnoremap <Leader>. <ESC>:<C-u>edit $MYVIMHOME/vimrc.vim<CR>
-
+nnoremap <C-]> g<C-]>
 
 " }}}
 " Commands {{{

@@ -40,7 +40,7 @@ if dein#tap('YouCompleteMe')
 	let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 	let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 	autocmd VIMRC FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
-	autocmd VIMRC FileType python nnoremap <buffer> <C-]> :<C-u>YcmCompleter GoTo<CR>
+	nnoremap <leader><c-]> :<C-u>YcmCompleter GoTo<CR>
 endif
 if dein#tap('ctrlp-filer')
 	nnoremap <Leader>f :<C-u>CtrlPFiler<cr>
