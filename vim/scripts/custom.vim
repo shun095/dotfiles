@@ -20,6 +20,11 @@ if dein#tap('TweetVim')
 	nnoremap <Leader>Tu :<C-u>TweetVimUserStream<CR>
 	nnoremap <Leader>Ts :<C-u>TweetVimSay<CR>
 	nnoremap <Leader>Tc :<C-u>TweetVimCommandSay<CR>
+	"tweetvim用
+	augroup mytweetvim
+		autocmd FileType tweetvim nnoremap <buffer> j gj
+		autocmd FileType tweetvim nnoremap <buffer> k gk
+	augroup END
 endif
 if dein#tap('YouCompleteMe')
 	let g:ycm_global_ycm_extra_conf =
@@ -68,16 +73,16 @@ if dein#tap('ctrlp.vim')
 	nnoremap <Leader>l :<C-u>CtrlPLine<cr>
 	nnoremap <Leader><Leader> :<C-u>CtrlP<cr>
 	" if executable('ag')
-		" let s:ctrlp_ag_options = '--nocolor --nogroup --hidden -g ""'
-		if has('win32')
-			let g:ctrlp_use_caching=1
-			" let g:ctrlp_user_command = 'ag ' . s:ctrlp_ag_options . ' %s'
-			let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
-		else
-			let g:ctrlp_use_caching=1
-			" let g:ctrlp_user_command = 'ag %s ' . s:ctrlp_ag_options
-			let g:ctrlp_user_command = 'find %s -type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"'          " MacOSX/Linux
-		endif
+	" let s:ctrlp_ag_options = '--nocolor --nogroup --hidden -g ""'
+	if has('win32')
+		let g:ctrlp_use_caching=1
+		" let g:ctrlp_user_command = 'ag ' . s:ctrlp_ag_options . ' %s'
+		let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
+	else
+		let g:ctrlp_use_caching=1
+		" let g:ctrlp_user_command = 'ag %s ' . s:ctrlp_ag_options
+		let g:ctrlp_user_command = 'find %s -type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"'          " MacOSX/Linux
+	endif
 	" endif
 endif
 if dein#tap('foldCC.vim')
@@ -221,9 +226,9 @@ if dein#tap('unite.vim')
 	" 				\ ['find', '-type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"']
 	" endif
 	"nice unite and ag
-		" let g:unite_source_rec_async_command =
-		" 			\ ['ag', '--follow', '--nocolor', '--nogroup',
-		" 			\  '--hidden', '-g', '']
+	" let g:unite_source_rec_async_command =
+	" 			\ ['ag', '--follow', '--nocolor', '--nogroup',
+	" 			\  '--hidden', '-g', '']
 	let g:unite_source_rec_max_cache_files = 20000
 	let g:unite_source_rec_min_cache_files = 10
 	" search a file in the filetree
