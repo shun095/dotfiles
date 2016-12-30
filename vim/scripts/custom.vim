@@ -20,11 +20,11 @@ if dein#tap('TweetVim')
 	nnoremap <Leader>Tu :<C-u>TweetVimUserStream<CR>
 	nnoremap <Leader>Ts :<C-u>TweetVimSay<CR>
 	nnoremap <Leader>Tc :<C-u>TweetVimCommandSay<CR>
-	"tweetvim用
-	augroup mytweetvim
-		autocmd FileType tweetvim nnoremap <buffer> j gj
-		autocmd FileType tweetvim nnoremap <buffer> k gk
-	augroup END
+	" "tweetvim用
+	" augroup mytweetvim
+	" 	autocmd FileType tweetvim nnoremap <buffer> j gj
+	" 	autocmd FileType tweetvim nnoremap <buffer> k gk
+	" augroup END
 endif
 if dein#tap('YouCompleteMe')
 	let g:ycm_global_ycm_extra_conf =
