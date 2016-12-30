@@ -207,17 +207,19 @@ if dein#tap('unite.vim')
 		autocmd FileType unite imap <silent> <buffer> <C-Tab> <Plug>(unite_choose_action)
 		autocmd FileType unite call unite#filters#matcher_default#use(['matcher_fuzzy'])
 	augroup END
-	"nice unite and ag
 	" let g:unite_source_history_yank_enable = 1
-	if has('win32')
-		let g:unite_source_rec_async_command =
-					\ ['dir', '/-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"']
-	else
-		let g:unite_source_rec_async_command =
-					\ ['find', '-type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"']
-	endif
-	" \ ['ag', '--follow', '--nocolor', '--nogroup',
-	" \  '--hidden', '-g', '']
+	" if has('win32')
+	" 	let g:unite_source_rec_async_command =
+	" 				\ ['dir', '/-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"']
+	" else
+	" 	let g:unite_source_rec_async_command =
+	" 				\ ['find', '-type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"']
+	" endif
+
+	"nice unite and ag
+	let g:unite_source_rec_async_command =
+				\ ['ag', '--follow', '--nocolor', '--nogroup',
+				\  '--hidden', '-g', '']
 	let g:unite_source_rec_max_cache_files = 20000
 	let g:unite_source_rec_min_cache_files = 10
 	" search a file in the filetree
