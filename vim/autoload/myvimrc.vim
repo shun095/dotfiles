@@ -4,7 +4,6 @@ function! myvimrc#ImInActivate() abort
 		call system('fcitx-remote -c')
 	endif
 endfunction
-
 function! myvimrc#confirm_do_dein_install() abort
 	if !exists("g:my_dein_install_confirmed")
 		let s:confirm_plugins_install = confirm(
@@ -19,7 +18,6 @@ function! myvimrc#confirm_do_dein_install() abort
 		let g:my_dein_install_confirmed = 1
 	endif
 endfunction
-
 function! myvimrc#NiceLexplore(open_on_bufferdir) abort
 	" 常に幅35で開く
 	let g:netrw_winsize = float2nr(round(30.0 / winwidth(0) * 100))
@@ -30,7 +28,7 @@ function! myvimrc#NiceLexplore(open_on_bufferdir) abort
 	endif
 	let g:netrw_winsize = 50
 endfunction
-
+" Auto updating vimrc
 function! myvimrc#git_auto_updating() abort
 	if !exists("g:called_mygit_func")
 		let s:save_cd = getcwd()
@@ -47,14 +45,11 @@ function! myvimrc#git_auto_updating() abort
 		let g:called_mygit_func = 1
 	endif
 endfunction
-
-" Auto updating vimrc
 function! myvimrc#git_callback(ch, msg) abort
 	let s:git_callback_count+=1
 	call add(s:git_qflist, {'text':a:msg})
 	" echom "Myvimrc: " . a:msg
 endfunction
-
 function! myvimrc#git_end_callback(ch, msg) abort
 	call setqflist(s:git_qflist)
 	if s:git_callback_count > 1
@@ -88,7 +83,6 @@ fun myvimrc#cd_command_cdreturn(destination,commandlist)
 	endfor
 	exe 'cd ' . l:previous_cwd
 endf
-
 fun! myvimrc#find_project_dir(searchname) abort
 	let l:target = findfile(a:searchname, expand('%:p').';')
 
@@ -108,7 +102,6 @@ fun! myvimrc#find_project_dir(searchname) abort
 	endif
 	return l:destdir
 endf
-
 fun! myvimrc#ctags_project() abort
 	let l:tags_dir = myvimrc#find_project_dir('tags')
 
@@ -124,25 +117,3 @@ fun! myvimrc#ctags_project() abort
 		call myvimrc#cd_command_cdreturn(l:tags_dir,['call system("ctags -R")'])
 	endif
 endf
-" function! s:move_cursor_pos_mapping(str, ...)
-"     let left = get(a:, 1, "<Left>")
-"     let lefts = join(map(split(matchstr(a:str, '.*<Cursor>\zs.*\ze'), '.\zs'), 'left'), "")
-"     return substitute(a:str, '<Cursor>', '', '') . lefts
-" endfunction
-
-" function! s:count_serch_number(str)
-"     return s:move_cursor_pos_mapping(a:str, "\<Left>")
-" endfunction
-
-
-
-" function! s:set_statusline() abort
-"     if !exists("g:loaded_lightline")
-"         " statusline settings
-"         set statusline=%F%m%r%h%w%q%=
-"         set statusline+=[%{&fileformat}]
-"         set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
-"         set statusline+=%y
-"         set statusline+=%4p%%%5l:%-3c
-"     endif
-" endfunction
