@@ -13,7 +13,9 @@ if dein#tap('TweetVim')
 	let g:tweetvim_display_source = 1
 	let g:tweetvim_display_username = 1
 	let g:tweetvim_display_icon = 1
-	" let g:tweetvim_async_post = 0
+	let g:tweetvim_display_separator = 0
+	let g:tweetvim_async_post = 1
+	let g:tweetvim_updatetime = 10
 	nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
 	nnoremap <Leader>Tm :<C-u>TweetVimMentions<CR>
 	" nnoremap <Leader>Tl :<C-u>TweetVimListStatuses
