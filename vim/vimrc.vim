@@ -145,8 +145,6 @@ set backup
 " 折り返しがあっても真下に移動できるようになる
 nnoremap j gj
 nnoremap k gk
-nnoremap gj j
-nnoremap gk k
 nnoremap <Down> gj
 nnoremap <Up> gk
 
