@@ -119,7 +119,9 @@ repo = 'basyura/TweetVim'
 on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
 depends = ['bitly.vim', 'twibill.vim', 'neco-tweetvim',  'open-browser.vim']
 [[plugins]]
-repo = 'basyura/twibill.vim'
+repo = 'ishitaku5522/twibill.vim'
+# [[plugins]]
+# repo = 'basyura/twibill.vim'
 # HTML CSS JS PLUGINS
 [[plugins]]
 repo = 'cespare/vim-toml'
