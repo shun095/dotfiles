@@ -53,25 +53,19 @@ on_event = 'CursorHold'
 depends = [ 'shabadou.vim', 'vim-quickrun' ]
 hook_post_source = ''' " {{{
 
-let g:watchdogs_check_BufWritePost_enable = 1
-let g:watchdogs_check_BufWritePost_enables = {
-			\"cpp" : 0
-			\}
-let g:watchdogs_check_CursorHold_enable = 0
-
 " quickrun-hook-add-include-option {{{
 let s:hook = {
-			\ "name": "add_include_option",
-			\ "kind": "hook",
-			\ "config": {
-			\   "enable": 0,
+			\ 'name': 'add_include_option',
+			\ 'kind': 'hook',
+			\ 'config': {
+			\   'enable': 0,
 			\   },
 			\ }
 
 function! s:hook.on_module_loaded(session, context)
-	let paths = filter(split(&path, ","), "len(v:val) && v:val !='.' && v:val !~ 'mingw'")
+	let paths = filter(split(&path, ','), "len(v:val) && v:val !='.' && v:val !~ 'mingw'")
 	if len(paths)
-		let a:session.config.cmdopt .= " -I".join(paths, " -I")
+		let a:session.config.cmdopt .= ' -I'.join(paths, ' -I')
 	endif
 endfunction
 
@@ -79,20 +73,26 @@ call quickrun#module#register(s:hook, 1)
 unlet s:hook
 " }}}
 
+let g:watchdogs_check_BufWritePost_enable = 1
+let g:watchdogs_check_BufWritePost_enables = {
+			\'cpp' : 0
+			\}
+let g:watchdogs_check_CursorHold_enable = 0
+
 let s:config = {
-			\"watchdogs_checker/_" : {
+			\'watchdogs_checker/_' : {
 			\	'runner' : 'vimproc',
-			\	"runner/vimproc/updatetime" : 10,
-			\	'outputter' : 'loclist',
-			\	"outputter/loclist/open_cmd" : "lopen 8"
+			\	'runner/vimproc/updatetime' : 10,
+			\	'outputter' : 'quickfix',
+			\	'outputter/quickfix/open_cmd' : 'copen 8'
 			\	},
-			\"cpp" : {
-			\	"hook/add_include_option/enable" : 1
+			\'cpp' : {
+			\	'hook/add_include_option/enable' : 1
 			\	},
-			\"cpp/watchdogs_checker" : {
-			\	"type" : "watchdogs_checker/clang++",
-			\	"hook/add_include_option/enable" : 1,
-			\	"cmdopt" : '-std=c++11 -Wall'
+			\'cpp/watchdogs_checker' : {
+			\	'type' : 'watchdogs_checker/clang++',
+			\	'hook/add_include_option/enable' : 1,
+			\	'cmdopt' : '-std=c++11 -Wall'
 			\	}
 			\}
 call extend(g:quickrun_config, s:config)

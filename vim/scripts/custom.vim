@@ -61,9 +61,9 @@ if dein#tap('ctrlp.vim')
 	let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
 	let g:ctrlp_show_hidden = 1
 	let g:ctrlp_root_markers = ['.ctrlproot']
-	if has("unix")
+	if has('unix')
 		let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
-	elseif has("win32")
+	elseif has('win32')
 		let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
 	endif
 	nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
@@ -419,36 +419,31 @@ if dein#tap('vim-precious')
 endif
 if dein#tap('vim-quickrun')
 	let g:quickrun_no_default_key_mappings = 1
-	nmap <Leader>R :CdCurrent<CR><Plug>(quickrun)
 	let g:quickrun_config = get(g:, 'quickrun_config', {})
-	let g:quickrun_config._ = {
-				\ 'runner'	: 'vimproc',
-				\ 'runner/vimproc/updatetime' : 10,
-				\ 'outputter': 'multi',
-				\ 'outputter/buffer/into' : 1,
-				\ 'outputter/buffer/split' : 'botright 8',
-				\ 'outputter/multi/targets' : ['buffer', 'quickfix'],
-				\ 'outputter/quickfix/open_cmd' : 'copen 8',
-				\ 'hook/time/enable' : 1,
+	let g:quickrun_config = {
+				\'_' : {
+				\	'runner' : 'vimproc',
+				\	'runner/vimproc/updatetime' : 10,
+				\	'outputter' : 'buffer',
+				\	'outputter/buffer/into' : 1,
+				\	'outputter/buffer/split' : 'botright 8',
+				\	'outputter/multi/targets' : ['buffer', 'quickfix'],
+				\	'outputter/quickfix/open_cmd' : 'copen 8',
+				\	'hook/time/enable' : 1,
+				\	},
+				\'python' : {
+				\	'command' : 'python',
+				\	'cmdopt' : '-u',
+				\	},
+				\'markdown' : {
+				\	'type': 'markdown/pandoc',
+				\	'cmdopt': '-s',
+				\	}
 				\}
-	" \ 'runner'	: 'job',
-	" \ 'runner/job/interval' : 100,
-	" \ 'outputter/buffer/into': 1,
-	" \ 'outputter/buffer/close_on_empty' : 0,
-	" \ }
-	" \ 'runner'	: 'vimproc',
-	" \ 'runner/vimproc/updatetime' : 100,
-	let g:quickrun_config.python = {
-				\ 'command' : 'python',
-				\ 'cmdopt' : '-u',
-				\ }
-	let g:quickrun_config.markdown = {
-				\ 'type': 'markdown/pandoc',
-				\ 'cmdopt': '-s',
-				\ }
-	" nnoremap <silent> <Leader>R :QuickRun<CR>
-	" nmap <Leader>R <Plug>(quickrun)
+
+	nmap <silent> <Leader>R :CdCurrent<CR><Plug>(quickrun)
 	nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>myvimrc_quickrun_sweep() : "\<C-c>"
+
 	fun! s:myvimrc_quickrun_sweep()
 		echo 'Quickrun Sweep'
 		call quickrun#sweep_sessions()
