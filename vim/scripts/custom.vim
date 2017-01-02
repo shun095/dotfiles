@@ -15,7 +15,7 @@ if dein#tap('TweetVim')
 	let g:tweetvim_display_icon = 1
 	let g:tweetvim_display_separator = 1
 	let g:tweetvim_async_post = 1
-	" let g:tweetvim_buffer_name = 'TweetVimBuffer'
+	let g:tweetvim_buffer_name = 'TweetVimBuffer'
 	" let g:tweetvim_updatetime = 10
 	nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
 	nnoremap <Leader>Tm :<C-u>TweetVimMentions<CR>
