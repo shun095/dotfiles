@@ -9,7 +9,7 @@ if dein#tap('TweetVim')
 	let g:tweetvim_tweet_per_page = 20
 	" F6と,uvでTweetVimのtimeline選択
 	let g:tweetvim_expand_t_co = 1
-	" let g:tweetvim_open_buffer_cmd = "split!"
+	let g:tweetvim_open_buffer_cmd = "40vsplit!"
 	let g:tweetvim_display_source = 1
 	let g:tweetvim_display_username = 1
 	let g:tweetvim_display_icon = 1
