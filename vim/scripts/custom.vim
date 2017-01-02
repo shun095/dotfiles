@@ -15,6 +15,7 @@ if dein#tap('TweetVim')
 	let g:tweetvim_display_icon = 1
 	let g:tweetvim_display_separator = 1
 	let g:tweetvim_async_post = 1
+	" let g:tweetvim_buffer_name = 'TweetVimBuffer'
 	" let g:tweetvim_updatetime = 10
 	nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
 	nnoremap <Leader>Tm :<C-u>TweetVimMentions<CR>
@@ -496,6 +497,7 @@ if dein#tap('vimfiler.vim')
 	let g:vimfiler_force_overwrite_statusline = 0
 	let g:vimfiler_enable_auto_cd = 1
 	let g:vimfiler_as_default_explorer = 1
+	let g:vimfiler_restore_alternate_file = 0
 	nnoremap <silent> <Leader>e :VimFilerBufferDir -split -winwidth=35 -simple -toggle -find -force-quit -split-action=below<CR>
 	nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -winwidth=35 -simple -toggle -force-quit -split-action=below<CR>
 	" nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
