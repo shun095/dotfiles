@@ -497,7 +497,7 @@ if dein#tap('vimfiler.vim')
 	let g:vimfiler_force_overwrite_statusline = 0
 	let g:vimfiler_enable_auto_cd = 1
 	let g:vimfiler_as_default_explorer = 1
-	let g:vimfiler_restore_alternate_file = 0
+	" let g:vimfiler_restore_alternate_file = 0
 	nnoremap <silent> <Leader>e :VimFilerBufferDir -split -winwidth=35 -simple -toggle -find -force-quit -split-action=below<CR>
 	nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -winwidth=35 -simple -toggle -force-quit -split-action=below<CR>
 	" nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
