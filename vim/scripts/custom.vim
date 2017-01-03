@@ -188,6 +188,8 @@ if dein#tap('unite.vim')
 	" else
 	" nnoremap <silent> <Leader>uf :call myvimrc#cd_command_cdreturn(expand('%:h'),['UniteWithProjectDir file_rec/async'])<CR>
 	" endif
+	nnoremap <silent> <Leader>uc :<C-u>Unite file_rec<CR>
+	nnoremap <silent> <Leader>ul :<C-u>Unite line<CR>
 	nnoremap <silent> <Leader>ug :<C-u>UniteWithProjectDir grep<CR>
 	nnoremap <silent> <Leader>ur :<C-u>Unite register<CR>
 	nnoremap <silent> <Leader>um :<C-u>Unite file_mru<CR>
