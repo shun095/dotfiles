@@ -317,8 +317,8 @@ if g:use_plugins == s:true
 	" ...できていない
 	execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
 
-	let g:plugins_toml = '$MYVIMHOME/dein.toml'
-	let g:plugins_lazy_toml = '$MYVIMHOME/dein_lazy.toml'
+	let g:plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
+	let g:plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
 
 	let g:dein#install_max_processes = 64
 	" let g:dein#install_process_timeout = 240
