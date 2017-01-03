@@ -43,10 +43,10 @@ elseif has('unix')
 	let g:solarized_termcolors = 256
 	if executable('gconftool-2')
 		augroup VIMRC
-			au!
-			au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
-			au InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-			au VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+			autocmd!
+			autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
+			autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+			autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
 		augroup END
 	endif
 endif
@@ -98,7 +98,7 @@ set nolazyredraw
 set sessionoptions=folds,help,tabpages
 set splitbelow
 set splitright
-set updatetime=1000
+set updatetime=500
 set timeoutlen=2000
 set ttimeoutlen=100
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判別優先順位の設定
