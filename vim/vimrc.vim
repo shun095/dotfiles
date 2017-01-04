@@ -148,6 +148,7 @@ nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up> gk
 noremap <C-j> <ESC>
+noremap! <C-j> <ESC>
 
 " !マークは挿入モードとコマンドラインモードへのマッピング
 noremap! <C-l> <Del>
