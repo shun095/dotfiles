@@ -164,9 +164,9 @@ if dein#tap('tagbar')
 endif
 if dein#tap('ultisnips')
 	" better key bindings for UltiSnipsExpandTrigger
-	let g:UltiSnipsExpandTrigger = '<c-j>'
-	let g:UltiSnipsJumpForwardTrigger = '<c-j>'
-	let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+	let g:UltiSnipsExpandTrigger = '<Tab>'
+	let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+	let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 	" let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips"
 	if has('unix')
 		if !g:myvimrc_python_version ==? ''
