@@ -62,6 +62,7 @@ if dein#tap('ctrlp.vim')
 	let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
 	let g:ctrlp_show_hidden = 1
 	let g:ctrlp_root_markers = ['.ctrlproot']
+	let g:ctrlp_mruf_default_order = 1
 	if has('unix')
 		let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
 	elseif has('win32')

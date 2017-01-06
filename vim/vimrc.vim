@@ -8,10 +8,10 @@ if &compatible
 	set nocompatible
 endif
 
-if exists('g:loaded_myvimrc')
-	finish
-endif
-let g:loaded_myvimrc = 1
+" if exists('g:loaded_myvimrc')
+" 	finish
+" endif
+" let g:loaded_myvimrc = 1
 
 let s:true = 1
 let s:false = 0
@@ -95,7 +95,7 @@ set emoji                          " 絵文字を全角表示
 set mouse=a                        " マウスを有効化
 set nomousehide                    " 入力中にポインタを消すかどうか
 set nolazyredraw
-set sessionoptions=folds,help,tabpages
+set sessionoptions=folds,help,tabpages,buffers
 set splitbelow
 set splitright
 set updatetime=1000

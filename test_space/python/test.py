@@ -1,6 +1,7 @@
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 # x = np.arange(-3, 3, 0.25)
 # y = np.arange(-3, 3, 0.25)
@@ -8,6 +9,7 @@ import numpy as np
 # y = np.arange(0, 10)
 fig = plt.figure()
 ax = Axes3D(fig)
+print 'argives' ,sys.argv[1]
 for t in range(50):
     x = t
     y = t
