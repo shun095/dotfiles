@@ -31,9 +31,6 @@ let g:mapleader = "\<space>"
 
 " OSの判定
 if has('win32')
-	if v:version >= 800
-		set rop=type:directx
-	endif
 	set t_Co=16                    " cmd.exeならターミナルで16色を使う
 	let g:solarized_termcolors = 16
 elseif has('unix')

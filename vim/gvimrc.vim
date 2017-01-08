@@ -5,6 +5,9 @@ if has('gui_running')
 	let s:true = 1
 	let s:false = 0
 
+	if v:version >= 800
+		set rop=type:directx,geom:1,renmode:5
+	endif
 	set linespace=1
 	set cmdheight=2
 	set guioptions=rchb
