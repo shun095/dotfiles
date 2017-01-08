@@ -1,10 +1,10 @@
-function! myvimrc#ImInActivate() abort
+fun myvimrc#ImInActivate() abort
 	let fcitx_dbus = system('fcitx-remote -a')
 	if fcitx_dbus != ''
 		call system('fcitx-remote -c')
 	endif
-endfunction
-function! myvimrc#confirm_do_dein_install() abort
+endf
+fun myvimrc#confirm_do_dein_install() abort
 	if !exists("g:my_dein_install_confirmed")
 		let s:confirm_plugins_install = confirm(
 					\"Some plugins are not installed yet. Install now?",
@@ -17,8 +17,8 @@ function! myvimrc#confirm_do_dein_install() abort
 		endif
 		let g:my_dein_install_confirmed = 1
 	endif
-endfunction
-function! myvimrc#NiceLexplore(open_on_bufferdir) abort
+endf
+fun myvimrc#NiceLexplore(open_on_bufferdir) abort
 	" 常に幅35で開く
 	let g:netrw_winsize = float2nr(round(30.0 / winwidth(0) * 100))
 	if a:open_on_bufferdir == 1
@@ -27,9 +27,9 @@ function! myvimrc#NiceLexplore(open_on_bufferdir) abort
 		Lexplore
 	endif
 	let g:netrw_winsize = 50
-endfunction
+endf
 " Auto updating vimrc
-function! myvimrc#git_auto_updating() abort
+fun myvimrc#git_auto_updating() abort
 	if !exists("g:called_mygit_func")
 		let s:save_cd = getcwd()
 		cd ~/dotfiles/
@@ -44,13 +44,13 @@ function! myvimrc#git_auto_updating() abort
 		unlet s:save_cd
 		let g:called_mygit_func = 1
 	endif
-endfunction
-function! myvimrc#git_callback(ch, msg) abort
+endf
+fun myvimrc#git_callback(ch, msg) abort
 	let s:git_callback_count+=1
 	call add(s:git_qflist, {'text':a:msg})
 	" echom "Myvimrc: " . a:msg
-endfunction
-function! myvimrc#git_end_callback(ch, msg) abort
+endf
+fun myvimrc#git_end_callback(ch, msg) abort
 	call setqflist(s:git_qflist)
 	if s:git_callback_count > 1
 		echohl WarningMsg
@@ -67,7 +67,7 @@ function! myvimrc#git_end_callback(ch, msg) abort
 		" else
 		" echomsg "git git_callback_count was " . s:git_callback_count
 	endif
-endfunction
+endf
 
 fun myvimrc#copypath()
 	let @" = expand("%:p")
@@ -83,7 +83,7 @@ fun myvimrc#cd_command_cdreturn(destination,commandlist)
 	endfor
 	exe 'cd ' . l:previous_cwd
 endf
-fun! myvimrc#find_project_dir(searchname) abort
+fun myvimrc#find_project_dir(searchname) abort
 	let l:target = findfile(a:searchname, expand('%:p').';')
 
 	if l:target ==# ''
@@ -102,7 +102,7 @@ fun! myvimrc#find_project_dir(searchname) abort
 	endif
 	return l:destdir
 endf
-fun! myvimrc#ctags_project() abort
+fun myvimrc#ctags_project() abort
 	let l:tags_dir = myvimrc#find_project_dir('tags')
 
 	if l:tags_dir ==# ''

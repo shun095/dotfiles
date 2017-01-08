@@ -4,6 +4,10 @@ if &compatible
 	set nocompatible
 endif
 
+augroup VIMRCCUSTOM
+	autocmd!
+augroup END
+
 if dein#tap('TweetVim')
 	" 1ページに表示する最大数
 	let g:tweetvim_tweet_per_page = 20
@@ -47,7 +51,7 @@ if dein#tap('YouCompleteMe')
 	endif
 	let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 	let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-	autocmd VIMRC FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
+	autocmd VIMRCCUSTOM FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
 	nnoremap <leader><c-]> :<C-u>YcmCompleter GoTo<CR>
 endif
 if dein#tap('ctrlp-filer')
@@ -161,7 +165,7 @@ if dein#tap('tagbar')
 	let g:tagbar_autopreview = 0
 	let g:tagbar_autofocus = 1
 	let g:tagbar_autoclose = 1
-	autocmd VIMRC FileType help let b:tagbar_ignore = 1
+	autocmd VIMRCCUSTOM FileType help let b:tagbar_ignore = 1
 endif
 if dein#tap('ultisnips')
 	" better key bindings for UltiSnipsExpandTrigger
@@ -448,7 +452,7 @@ if dein#tap('vim-quickrun')
 	nmap <silent> <Leader>R :CdCurrent<CR><Plug>(quickrun)
 	nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>myvimrc_quickrun_sweep() : "\<C-c>"
 
-	fun! s:myvimrc_quickrun_sweep()
+	fun s:myvimrc_quickrun_sweep()
 		echo 'Quickrun Sweep'
 		call quickrun#sweep_sessions()
 	endf

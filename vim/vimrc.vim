@@ -42,7 +42,7 @@ elseif has('unix')
 	set termguicolors
 	let g:solarized_termcolors = 256
 	if executable('gconftool-2')
-		augroup VIMRC
+		augroup VIMRC1
 			autocmd!
 			autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
 			autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
@@ -163,16 +163,18 @@ nnoremap <C-]> g<C-]>
 " Commands {{{
 " Sudoで強制保存
 if has('unix')
-	command! Wsudo execute("w !sudo tee % > /dev/null")
+	command Wsudo execute("w !sudo tee % > /dev/null")
 endif
 
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
-command! CdCurrent cd\ %:h
-command! CopyPath call myvimrc#copypath()
-command! Ctags call myvimrc#ctags_project()
+command CdCurrent cd\ %:h
+command CopyPath call myvimrc#copypath()
+command Ctags call myvimrc#ctags_project()
+command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 " }}}
 " Autocmds {{{
-augroup VIMRC
+augroup VIMRC2
+	autocmd!
 	" タグを</で自動で閉じる。completeoptに依存している
 	autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
 
@@ -339,7 +341,8 @@ if g:use_plugins == s:true
 	syntax enable
 
 	if dein#check_install()
-		augroup VIMRC
+		augroup VIMRC3
+			autocmd!
 			" インストールされていないプラグインがあれば確認
 			autocmd VimEnter * call myvimrc#confirm_do_dein_install()
 		augroup END
@@ -379,17 +382,20 @@ if g:use_plugins == s:true
 			else
 				let g:indent_guides_auto_colors = 0
 				" solarized(light)
-				" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
-				" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
-				" summerfruit
-				" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
-				" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
-				" one(light)
-				" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
-				" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
-				" onedark
-				autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234
-				autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235
+				augroup VIMRC4
+					autocmd!
+					" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
+					" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
+					" summerfruit
+					" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
+					" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
+					" one(light)
+					" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
+					" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
+					" onedark
+					autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234
+					autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235
+				augroup END
 
 			endif
 		catch
