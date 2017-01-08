@@ -75,7 +75,7 @@ fun myvimrc#copypath()
 	let @+ = expand("%:p")
 endf
 
-fun myvimrc#cd_command_cdreturn(destination,commandlist)
+fun myvimrc#command_at_destdir(destination,commandlist)
 	let l:previous_cwd = getcwd()
 	exe 'cd ' . a:destination
 	for command in a:commandlist
@@ -114,6 +114,6 @@ fun myvimrc#ctags_project() abort
 		echom "Appropriate directory couldn't be found!! (There is no tags file or git directory.)"
 		echohl none
 	else
-		call myvimrc#cd_command_cdreturn(l:tags_dir,['call system("ctags -R")'])
+		call myvimrc#command_at_destdir(l:tags_dir,['call system("ctags -R")'])
 	endif
 endf

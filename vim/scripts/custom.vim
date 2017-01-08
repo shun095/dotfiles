@@ -189,9 +189,9 @@ endif
 if dein#tap('unite.vim')
 	nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
 	" if has('win32')
-	nnoremap <silent> <Leader>uf :call myvimrc#cd_command_cdreturn(expand('%:h'),['UniteWithProjectDir file_rec'])<CR>
+	nnoremap <silent> <Leader>uf :call myvimrc#command_at_destdir(expand('%:h'),['UniteWithProjectDir file_rec'])<CR>
 	" else
-	" nnoremap <silent> <Leader>uf :call myvimrc#cd_command_cdreturn(expand('%:h'),['UniteWithProjectDir file_rec/async'])<CR>
+	" nnoremap <silent> <Leader>uf :call myvimrc#command_at_destdir(expand('%:h'),['UniteWithProjectDir file_rec/async'])<CR>
 	" endif
 	nnoremap <silent> <Leader>uc :<C-u>Unite file_rec<CR>
 	nnoremap <silent> <Leader>ul :<C-u>Unite line<CR>
