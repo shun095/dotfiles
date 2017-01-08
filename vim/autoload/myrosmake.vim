@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-fun! myrosmake#rosmake(filename) abort
+fun myrosmake#rosmake(filename) abort
 	if !executable('rosmake')
 		echohl WarningMsg
 		echomsg "Command 'rosmake' is not executable. Please source setup.bash/sh/zsh first."
@@ -29,7 +29,7 @@ fun! myrosmake#rosmake(filename) abort
 	endif
 endf
 
-fun! myrosmake#find_project_dir(filename) abort
+fun myrosmake#find_project_dir(filename) abort
 	" init variable
 	let l:package_dir = ''
 
@@ -59,7 +59,7 @@ fun! myrosmake#find_project_dir(filename) abort
 	return l:package_dir
 endf
 
-fun! myrosmake#cd_command_cdreturn(destination,commandlist) abort
+fun myrosmake#cd_command_cdreturn(destination,commandlist) abort
 	let l:previous_cwd = getcwd()
 	exe 'cd ' . a:destination
 	for command in a:commandlist

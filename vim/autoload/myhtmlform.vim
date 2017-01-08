@@ -1,4 +1,4 @@
-function! myhtmlform#myhtmlformat() abort
+fun myhtmlform#myhtmlformat() abort
     if &filetype == "html" || &filetype == "xml"
         " タグの間の空白を消す
         %s/>\s*</></g
@@ -12,5 +12,5 @@ function! myhtmlform#myhtmlformat() abort
     else 
         echo "HTML/XMLファイルではありません"
     endif
-endfunction
+endf
 
