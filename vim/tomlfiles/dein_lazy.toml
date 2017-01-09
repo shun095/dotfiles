@@ -141,10 +141,10 @@ hook_post_source = ''' " {{{
 	call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
 	call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
 	call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
-	call submode#map('winsize', 'n', '', '>', '<C-w>>')
-	call submode#map('winsize', 'n', '', '<', '<C-w><')
-	call submode#map('winsize', 'n', '', '+', '<C-w>+')
-	call submode#map('winsize', 'n', '', '-', '<C-w>-')
+	call submode#map('winsize', 'n', '', '>', '5<C-w>>')
+	call submode#map('winsize', 'n', '', '<', '5<C-w><')
+	call submode#map('winsize', 'n', '', '+', '5<C-w>+')
+	call submode#map('winsize', 'n', '', '-', '5<C-w>-')
 
 ''' # }}}
 [[plugins]]
