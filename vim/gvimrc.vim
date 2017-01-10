@@ -6,7 +6,7 @@ if has('gui_running')
 	let s:false = 0
 
 	if v:version >= 800
-		set rop=type:directx,geom:1,renmode:5
+		set rop=type:directx,geom:1
 	endif
 	set linespace=1
 	set cmdheight=2

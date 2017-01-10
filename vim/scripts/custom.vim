@@ -449,6 +449,7 @@ if dein#tap('vim-quickrun')
 				\'markdown' : {
 				\	'type': 'markdown/pandoc',
 				\	'cmdopt': '-s',
+				\	'outputter' : 'multi:buffer:quickfix:browser'
 				\	}
 				\}
 
