@@ -9,7 +9,7 @@ import sys
 # y = np.arange(0, 10)
 fig = plt.figure()
 ax = Axes3D(fig)
-print 'argives' ,sys.argv[1]
+# print 'argives' ,sys.argv[1]
 for t in range(50):
     x = t
     y = t

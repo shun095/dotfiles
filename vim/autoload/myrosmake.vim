@@ -1,40 +1,47 @@
 scriptencoding utf-8
 
+let s:rosmake_errorformat = ','
+			\ . '%+G[ rosmake ] Built %.%#,'
+			\ . '%I[ rosmake ] %m output to directory %.%#,'
+			\ . '%Z[ rosmake ] %f %.%#,'
+
 fun myrosmake#rosmake(filename) abort
 	if !executable('rosmake')
 		echohl WarningMsg
 		echomsg "Command 'rosmake' is not executable. Please source setup.bash/sh/zsh first."
 		echohl none
 	else
-		" Save current settings
-		let l:save_makeprg = &makeprg
-		let l:save_errorformat = &errorformat
 
 		let l:package_dir = myrosmake#find_project_dir(a:filename)
 
 		if l:package_dir !=# ''
-			" cdして実行
-			set makeprg=rosmake\ --threads=12
-			let &errorformat .= ','
-						\ . '%+G[ rosmake ] Built %.%#,'
-						\ . '%I[ rosmake ] %m output to directory %.%#,'
-						\ . '%Z[ rosmake ] %f %.%#,'
 			let l:command = myrosmake#get_make_command()
+			" cdして実行
 			call myrosmake#cd_command_cdreturn(l:package_dir,[l:command])
 		endif
 
-		" Restore saved settings
-		let &makeprg = l:save_makeprg
-		let &errorformat = l:save_errorformat
 	endif
+endf
+
+fun myrosmake#make() abort
+	" Save current settings
+	let l:save_makeprg = &makeprg
+	let l:save_errorformat = &errorformat
+
+	set makeprg=rosmake\ --threads=12
+	let &errorformat .= s:rosmake_errorformat
+	make
+
+	" Restore saved settings
+	let &makeprg = l:save_makeprg
+	let &errorformat = l:save_errorformat
 endf
 
 fun myrosmake#get_make_command() abort
 	if exists(':QuickRun') == 2
 		let l:config = {
 					\ 'rosmake' : {
-					\	'outputter' : 'quickfix',
-					\	'outputter/quickfix/errorformat' : &errorformat,
+					\	'outputter/quickfix/errorformat' : &errorformat . s:rosmake_errorformat,
 					\	'command' : 'rosmake',
 					\	'args' : '--threads=12',
 					\	'exec' : '%c %a',
@@ -43,7 +50,7 @@ fun myrosmake#get_make_command() abort
 		call extend(g:quickrun_config, l:config)
 		let l:command = ':QuickRun rosmake'
 	else
-		let l:command = 'make'
+		let l:command = ':call myrosmake#make()'
 	endif
 
 	return l:command
