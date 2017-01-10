@@ -19,14 +19,34 @@ fun myrosmake#rosmake(filename) abort
 						\ . '%+G[ rosmake ] Built %.%#,'
 						\ . '%I[ rosmake ] %m output to directory %.%#,'
 						\ . '%Z[ rosmake ] %f %.%#,'
-
-			call myrosmake#cd_command_cdreturn(l:package_dir,['make'])
+			let l:command = myrosmake#get_make_command()
+			call myrosmake#cd_command_cdreturn(l:package_dir,[l:command])
 		endif
 
 		" Restore saved settings
 		let &makeprg = l:save_makeprg
 		let &errorformat = l:save_errorformat
 	endif
+endf
+
+fun myrosmake#get_make_command() abort
+	if exists(':QuickRun') == 2
+		let l:config = {
+					\ 'rosmake' : {
+					\	'outputter' : 'quickfix',
+					\	'outputter/quickfix/errorformat' : &errorformat,
+					\	'command' : 'rosmake',
+					\	'args' : '--threads=12',
+					\	'exec' : '%c %a',
+					\	}
+					\ }
+		call extend(g:quickrun_config, l:config)
+		let l:command = ':QuickRun rosmake'
+	else
+		let l:command = 'make'
+	endif
+
+	return l:command
 endf
 
 fun myrosmake#find_project_dir(filename) abort
