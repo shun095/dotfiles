@@ -260,7 +260,7 @@ if dein#tap('vim-airline')
 	let g:airline#extensions#tabline#show_splits   = 0
 	let g:airline#extensions#tabline#show_buffers = 0
 	let g:airline#extensions#tabline#tab_nr_type   = 2 " splits and tab number
-	let g:airline#extensions#tabline#show_close_button = 1 "}}}
+	let g:airline#extensions#tabline#show_close_button = 0 "}}}
 	" let g:airline_powerline_fonts=1
 	if !exists('g:airline_symbols')
 		let g:airline_symbols = {}
