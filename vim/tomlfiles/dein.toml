@@ -1,8 +1,8 @@
 # vim: set foldmethod=marker:
 # [[plugins]]
 # repo = 'scrooloose/nerdtree'
-[[plugins]]
-repo = 'Shougo/vimfiler.vim'
+# [[plugins]]
+# repo = 'Shougo/vimfiler.vim'
 # on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
 depends = 'unite.vim'
 [[plugins]]
@@ -70,10 +70,10 @@ repo = 'joshdick/onedark.vim'
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
 # on_event = 'CursorMoved'
-# [[plugins]]
-# repo = 'justinmk/vim-dirvish'
-# # on_event = 'VimEnter'
-# # on_cmd = 'Dirvish'
+[[plugins]]
+repo = 'justinmk/vim-dirvish'
+# on_event = 'VimEnter'
+# on_cmd = 'Dirvish'
 [[plugins]]
 repo = 'mattn/ctrlp-filer'
 depends = 'ctrlp.vim'

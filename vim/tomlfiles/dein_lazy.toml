@@ -82,7 +82,7 @@ let g:watchdogs_check_CursorHold_enable = 0
 let s:config = {
 			\'watchdogs_checker/_' : {
 			\	'runner' : 'vimproc',
-			\	'runner/vimproc/updatetime' : 10,
+			\	'runner/vimproc/updatetime' : 40,
 			\	'outputter' : 'quickfix',
 			\	'outputter/quickfix/open_cmd' : 'copen 8'
 			\	},

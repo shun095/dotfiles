@@ -1,25 +1,22 @@
 #include <gtk/gtk.h>
-
-static void destroy(GtkWidget *widget, gpointer data)
-{
-  gtk_main_quit();
-}
-
+//#pragma comment(lib, "C:/MinGW/msys/1.0/gtk3/bin/libatk-1.0-0.dll")
+//#pragma comment(lib, "C:/MinGW/msys/1.0/gtk3/bin/libgdk_pixbuf-2.0-0.dll")
+//#pragma comment(lib, "C:/MinGW/msys/1.0/gtk3/bin/libgio-2.0-0.dll")
+//#pragma comment(lib, "C:/MinGW/msys/1.0/gtk3/bin/libglib-2.0-0.dll")
+//#pragma comment(lib, "C:/MinGW/msys/1.0/gtk3/bin/libgobject-2.0-0.dll")
+//#pragma comment(lib, "C:/MinGW/msys/1.0/gtk3/bin/libpango-1.0-0.dll")
 int main(int argc, char *argv[])
 {
-  GtkWidget *window;
-  GtkWidget *label;
-  
-  gtk_init(&argc, &argv);
-  
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  label = gtk_label_new("Hello, World!");
-  gtk_container_add (GTK_CONTAINER (window), label);
-  gtk_widget_show (label);
-  gtk_widget_show(window);
-  
-  g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (destroy), NULL);
-  gtk_main();
-
-  return 0;
+        GtkWidget *dialog;
+        gtk_init(&argc, &argv);
+        dialog = gtk_message_dialog_new(
+                NULL,
+                GTK_DIALOG_DESTROY_WITH_PARENT, 
+                GTK_MESSAGE_OTHER,
+                GTK_BUTTONS_OK,
+                "Hello!"
+        );
+        gtk_dialog_run(GTK_DIALOG(dialog));
+        gtk_widget_destroy(dialog);
+        return 0;
 }

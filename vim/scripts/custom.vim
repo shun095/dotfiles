@@ -514,3 +514,6 @@ if dein#tap('vimfiler.vim')
 	" nnoremap <silent> <Leader>e :VimFilerBufferDir -toggle -find -force-quit -split  -status -winwidth=35 -simple -split-action=below<CR>
 	" nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
 endif
+if dein#tap('revimses')
+	let g:revimses#sessionoptions = &sessionoptions
+endif
