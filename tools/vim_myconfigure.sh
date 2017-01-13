@@ -23,8 +23,8 @@ git pull origin master
     --with-luajit
 
 echo 
-echo "This program will be installed in ${PREFIX}.""
-echo "Install now???[y/n]""
+echo "This program will be installed in ${PREFIX}."
+echo "Install now???[y/n]"
 read ans
 
 case $ans in
