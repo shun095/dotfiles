@@ -48,8 +48,8 @@ if [ ! -e ${FZFDIR} ]; then
 fi
 
 if [ ! -e ${ZPREZTODIR} ]; then
-	git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-	git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
+	git clone --recursive https://github.com/zsh-users/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+#	git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
 
 	setopt EXTENDED_GLOB
 
