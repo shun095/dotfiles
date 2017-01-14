@@ -3,19 +3,28 @@
 export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
 
+ZPREZTO="$HOME/.zpreztorc"
+if [  ! -e ${ZPREZTO} ]; then
+	git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+	git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
+
+	setopt EXTENDED_GLOB
+
+	mv ~/.zshrc ~/.zshrcbak
+
+	for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+		ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+	done
+
+	cat ~/.zshrcbak >> ${ZDOTDIR:-$HOME}/.zshrc
+
+	rm ${ZDOTDIR:-$HOME}/.zpreztorc
+	ln -s ${MYDOTFILES}/zsh/zpreztorc ${ZDOTDIR:-$HOME}/.zpreztorc
+fi
+
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
-	# if [ ${COLUMNS} -ge 150 ] && [ ${LINES} -ge 47 ]; then
-	#     # alias tmux="tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session"
-	#     tmux -2 attach || tmux -2 new-session
-	#     # tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
-	# elif [ ${COLUMNS} -lt 150 ] && [ ${LINES} -ge 47 ]; then
-	#     tmux -2 attach || tmux -2 new-session
-	#     # tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session-narrow
-	# else
 	tmux attach || tmux new-session
-	# fi
-	# tmux -2 attach || tmux -2 new-session \; source-file ~/dotfiles/tmux/new-session
 else
 	if [[ `\tmux -V | cut -d" " -f2` -lt 2.1 ]]
 	then
@@ -30,7 +39,10 @@ else
 	fi
 fi
 
-
+TRASH="$HOME/.trash"
+if [  ! -e ${TRASH} ]; then
+	mkdir ${TRASH}
+fi
 to_trash() {
 	for file in $@
 	do
@@ -40,6 +52,7 @@ to_trash() {
 alias rm="to_trash"
 alias tgvim="gvim --remote-tab"
 alias tvim="gvim --remote-tab"
+
 
 VIMRC="$HOME/.vimrc"
 if [  ! -e ${VIMRC} ]; then
