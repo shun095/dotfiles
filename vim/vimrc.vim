@@ -16,7 +16,11 @@ endif
 let s:true = 1
 let s:false = 0
 
-let $MYVIMHOME=$HOME . '/dotfiles/vim'
+if !exists('$MYDOTFILES')
+	let $MYDOTFILES = $HOME/dotfiles
+endif
+
+let $MYVIMHOME=$MYDOTFILES.'/vim'
 
 if !exists('g:use_plugins')
 	let g:use_plugins = s:true
@@ -119,7 +123,7 @@ set statusline+=%4p%%%5l:%-3c
 
 " agがあればgrepの代わりにagを使う
 if executable('ag')
-	set grepprg=ag\ --nogroup\ --nocolor\ --column\ --smart-case\ $*
+	set grepprg=ag\ --nogroup\ --nocolor\ --column\ $*
 else
 	set grepprg=grep\ -rn\ $*
 endif
@@ -254,7 +258,7 @@ augroup MyNetrw
 augroup END
 " }}}
 " Self constructed plugins {{{
-let s:myplugins = $HOME . '/dotfiles/vim'
+let s:myplugins = $MYDOTFILES . '/vim'
 execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 "}}}
 " Confirm whether or not install dein if not exists {{{
@@ -283,8 +287,8 @@ endif
 " ============================== "
 if g:use_plugins == s:true
 	" Load local settings"{{{
-	if filereadable($HOME . '/dotfiles/vim-local.vim')
-		execute 'source ' . $HOME . '/dotfiles/vim-local.vim'
+	if filereadable($MYDOTFILES . '/vim-local.vim')
+		execute 'source ' . $MYDOTFILES . '/vim-local.vim'
 	endif
 	"}}}
 	" Plugin pre settings {{{
@@ -350,8 +354,8 @@ if g:use_plugins == s:true
 	" load settings of plugins
 	source $MYVIMHOME/scripts/custom.vim
 	" Dein end
-	if filereadable($HOME . '/dotfiles/vim-localafter.vim')
-		execute 'source ' . $HOME . '/dotfiles/vim-localafter.vim'
+	if filereadable($MYDOTFILES . '/vim-localafter.vim')
+		execute 'source ' . $MYDOTFILES . '/vim-localafter.vim'
 	endif
 	" }}}
 	" Color settings {{{

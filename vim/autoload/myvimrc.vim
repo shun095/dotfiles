@@ -32,7 +32,7 @@ endf
 fun myvimrc#git_auto_updating() abort
 	if !exists("g:called_mygit_func")
 		let s:save_cd = getcwd()
-		cd ~/dotfiles/
+		exe 'cd ' . $MYDOTFILES
 		let s:git_callback_count = 0
 		let s:git_qflist = []
 		if has('job')
