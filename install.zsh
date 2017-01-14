@@ -15,6 +15,9 @@ TRASH="$HOME/.trash"
 touch ~/.zshrc
 echo "source $MYDOTFILES/zsh/zshrc" >> ~/.zshrc
 
+git config --global core.editor vim
+git config --global alias.graph "log --graph --all --pretty=format:'%C(auto)%h%d%n  %s %C(magenta)(%cr)%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset' --abbrev-commit --date=relative"
+
 if [ ! -e ${FZFDIR} ]; then
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 	~/.fzf/install
