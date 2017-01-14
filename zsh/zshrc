@@ -7,8 +7,7 @@ function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
 	tmux attach || tmux new-session
 else
-	if [[ `\tmux -V | cut -d" " -f2` -lt 2.1 ]]
-	then
+	if [[ `\tmux -V | cut -d" " -f2` -lt 2.1 ]]; then
 		tmux set -g mode-mouse on
 		tmux set -g mouse-resize-pane on
 		tmux set -g mouse-select-pane on
