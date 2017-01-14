@@ -71,6 +71,7 @@ set autoindent
 set softtabstop=4                  " バックスペース等でスペースを消す幅
 set list                           " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
 set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<,nbsp:%
+set display=truncate
 set wildmenu                       " コマンドの補完設定
 set wildmode=longest:full,full     " コマンドの補完スタイル
 set laststatus=2                   " 下のステータスバーの表示
