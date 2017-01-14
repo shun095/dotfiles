@@ -1,5 +1,8 @@
 *-local*
 *.swp
+*.exe
+*.pyc
+*.out
 *tags
 *GTAGS
 *GRTAGS

@@ -3,25 +3,6 @@
 export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
 
-ZPREZTO="$HOME/.zpreztorc"
-if [  ! -e ${ZPREZTO} ]; then
-	git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-	git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
-
-	setopt EXTENDED_GLOB
-
-	mv ~/.zshrc ~/.zshrcbak
-
-	for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-		ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-	done
-
-	cat ~/.zshrcbak >> ${ZDOTDIR:-$HOME}/.zshrc
-
-	rm ${ZDOTDIR:-$HOME}/.zpreztorc
-	ln -s ${MYDOTFILES}/zsh/zpreztorc ${ZDOTDIR:-$HOME}/.zpreztorc
-fi
-
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
 	tmux attach || tmux new-session
@@ -39,10 +20,6 @@ else
 	fi
 fi
 
-TRASH="$HOME/.trash"
-if [  ! -e ${TRASH} ]; then
-	mkdir ${TRASH}
-fi
 to_trash() {
 	for file in $@
 	do
@@ -53,31 +30,3 @@ alias rm="to_trash"
 alias tgvim="gvim --remote-tab"
 alias tvim="gvim --remote-tab"
 
-
-VIMRC="$HOME/.vimrc"
-if [  ! -e ${VIMRC} ]; then
-	ln -s $HOME/dotfiles/vim/vimrc.vim $HOME/.vimrc
-	touch $HOME/dotfiles/vim/vimrc.vim
-	echo "vimrc linked"
-fi
-
-GVIMRC="$HOME/.gvimrc"
-if [  ! -e ${GVIMRC} ]; then
-	ln -s $HOME/dotfiles/vim/gvimrc.vim $HOME/.gvimrc
-	touch $HOME/dotfiles/vim/gvimrc.vim
-	echo "gvimrc linked"
-fi
-
-TMUXCONF="$HOME/.tmux.conf"
-if [  ! -e ${TMUXCONF} ]; then
-	ln -s $HOME/dotfiles/tmux/tmux.conf $HOME/.tmux.conf
-	touch $HOME/dotfiles/tmux/tmux.conf
-	echo "tmuxconf linked"
-fi
-TMUXLOCAL="$HOME/dotfiles/tmux-local"
-if [  ! -e ${TMUXLOCAL} ]; then
-	touch $HOME/dotfiles/tmux-local
-	echo "tmuxlocal is made"
-fi
-# change the color of cursor
-# echo -ne '\e]12;#999999\a'
