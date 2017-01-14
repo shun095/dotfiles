@@ -4,6 +4,8 @@ set -eu
 
 export MYDOTFILES=$HOME/dotfiles
 
+
+ZSHRC="$HOME/.zshrc"
 FZFDIR="$HOME/.fzf"
 ZPREZTORC="$HOME/.zpreztorc"
 VIMRC="$HOME/.vimrc"
@@ -12,8 +14,29 @@ TMUXCONF="$HOME/.tmux.conf"
 TMUXLOCAL="$MYDOTFILES/tmux-local"
 TRASH="$HOME/.trash"
 
-touch ~/.zshrc
-echo "source $MYDOTFILES/zsh/zshrc" >> ~/.zshrc
+if [ ${1:-default} = "--reinstall" ]; then
+	if [ -e "~/.zshrc.bak" ]; then
+		rm ~/.zshrc.bak
+	fi
+
+	if [ -e "$ZSHRC" ]; then
+		cp $ZSHRC ~/.zshrc.bak
+	fi
+
+	setopt EXTENDED_GLOB
+	for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+		if [ -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]; then
+			rm "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+		fi
+	done
+
+	\rm -rf $FZFDIR ~/.zprezto $VIMRC $GVIMRC $TMUXCONF $TMUXLOCAL
+fi
+
+if [ ! -e ${ZSHRC} ]; then
+	touch ~/.zshrc
+	echo "source $MYDOTFILES/zsh/zshrc" >> ~/.zshrc
+fi
 
 git config --global core.editor vim
 git config --global alias.graph "log --graph --all --pretty=format:'%C(auto)%h%d%n  %s %C(magenta)(%cr)%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset' --abbrev-commit --date=relative"
@@ -29,14 +52,14 @@ if [ ! -e ${ZPREZTORC} ]; then
 
 	setopt EXTENDED_GLOB
 
-	mv ~/.zshrc ~/.zshrcbak
+	mv ~/.zshrc ~/.zshrc.tmp
 
 	for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
 		ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 	done
 
-	cat ~/.zshrcbak >> ${ZDOTDIR:-$HOME}/.zshrc
-	rm ~/.zshrcbak
+	cat ~/.zshrc.tmp >> ${ZDOTDIR:-$HOME}/.zshrc
+	rm ~/.zshrc.tmp
 
 	rm ${ZDOTDIR:-$HOME}/.zpreztorc
 	ln -s ${MYDOTFILES}/zsh/zpreztorc ${ZDOTDIR:-$HOME}/.zpreztorc
