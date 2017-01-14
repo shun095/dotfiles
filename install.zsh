@@ -7,11 +7,12 @@ export MYDOTFILES=$HOME/dotfiles
 
 ZSHRC="$HOME/.zshrc"
 FZFDIR="$HOME/.fzf"
-ZPREZTORC="$HOME/.zpreztorc"
+ZPREZTODIR="${ZDOTDIR:-$HOME}/.zprezto"
 VIMRC="$HOME/.vimrc"
 GVIMRC="$HOME/.gvimrc"
 TMUXCONF="$HOME/.tmux.conf"
 TMUXLOCAL="$MYDOTFILES/tmux-local"
+FLAKE8="$HOME/.config/flake8"
 TRASH="$HOME/.trash"
 
 if [ ${1:-default} = "--reinstall" ]; then
@@ -30,7 +31,7 @@ if [ ${1:-default} = "--reinstall" ]; then
 		fi
 	done
 
-	\rm -rf $FZFDIR ~/.zprezto $VIMRC $GVIMRC $TMUXCONF $TMUXLOCAL
+	\rm -rf $FZFDIR $ZPREZTODIR $VIMRC $GVIMRC $TMUXCONF $TMUXLOCAL $FLAKE8
 fi
 
 if [ ! -e ${ZSHRC} ]; then
@@ -43,10 +44,10 @@ git config --global alias.graph "log --graph --all --pretty=format:'%C(auto)%h%d
 
 if [ ! -e ${FZFDIR} ]; then
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-	~/.fzf/install
+	~/.fzf/install --completion --key-bindings --update-rc
 fi
 
-if [ ! -e ${ZPREZTORC} ]; then
+if [ ! -e ${ZPREZTODIR} ]; then
 	git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 	git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
 
@@ -67,25 +68,30 @@ fi
 
 if [ ! -e ${VIMRC} ]; then
 	touch $MYDOTFILES/vim/vimrc.vim
-	ln -s $MYDOTFILES/vim/vimrc.vim $HOME/.vimrc
+	ln -s $MYDOTFILES/vim/vimrc.vim ${VIMRC}
 	echo "vimrc linked"
 fi
 
 if [ ! -e ${GVIMRC} ]; then
 	touch $MYDOTFILES/vim/gvimrc.vim
-	ln -s $MYDOTFILES/vim/gvimrc.vim $HOME/.gvimrc
+	ln -s $MYDOTFILES/vim/gvimrc.vim ${GVIMRC}
 	echo "gvimrc linked"
 fi
 
 if [ ! -e ${TMUXCONF} ]; then
 	touch $MYDOTFILES/tmux/tmux.conf
-	ln -s $MYDOTFILES/tmux/tmux.conf $HOME/.tmux.conf
+	ln -s $MYDOTFILES/tmux/tmux.conf ${TMUXCONF}
 	echo "tmuxconf linked"
 fi
 
 if [ ! -e ${TMUXLOCAL} ]; then
 	touch $MYDOTFILES/tmux-local
 	echo "tmuxlocal is made"
+fi
+
+if [ ! -e ${FLAKE8} ]; then
+	ln -s $MYDOTFILES/flake8 ${FLAKE8}
+	echo "flake8 config file linked"
 fi
 
 if [ ! -e ${TRASH} ]; then
