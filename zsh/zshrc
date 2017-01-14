@@ -19,13 +19,18 @@ else
 	fi
 fi
 
-to_trash() {
-	for file in $@
-	do
-		mv $file ~/.trash
-	done
-}
-alias rm="to_trash"
+if [ -x "`which trash-put`" ]; then
+	alias rm="trash-put"
+else
+	to_trash() {
+		for file in $@
+		do
+			mv $file ~/.trash
+		done
+	}
+	alias rm="to_trash"
+fi
+
 alias tgvim="gvim --remote-tab"
 alias tvim="gvim --remote-tab"
 
