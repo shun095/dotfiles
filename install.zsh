@@ -56,6 +56,20 @@ for opt in "$@"; do
 	esac
 done
 
+
+cat << EOF
+    ____  ____  __________________    ___________
+   / __ \/ __ \/_  __/ ____/  _/ /   / ____/ ___/
+  / / / / / / / / / / /_   / // /   / __/  \__ \ 
+ / /_/ / /_/ / / / / __/ _/ // /___/ /___ ___/ / 
+/_____/\____/ /_/ /_/   /___/_____/_____//____/  
+
+Author: ishitaku5522
+
+EOF
+
+sleep 1
+
 if [ ! -z "$update" ]; then
 	pushd ${ZPREZTODIR}
 	git pull && git submodule update --init --recursive
