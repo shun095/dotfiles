@@ -84,8 +84,6 @@ Author: ishitaku5522
 
 EOF
 
-sleep 1
-
 if [ ! -z "$update" ]; then
 	pushd ${ZPREZTODIR}
 	git pull && git submodule update --init --recursive
