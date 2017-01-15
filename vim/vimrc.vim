@@ -17,10 +17,10 @@ let s:true = 1
 let s:false = 0
 
 if !exists('$MYDOTFILES')
-	let $MYDOTFILES = $HOME/dotfiles
+	let $MYDOTFILES = $HOME . '/dotfiles'
 endif
 
-let $MYVIMHOME=$MYDOTFILES.'/vim'
+let $MYVIMHOME=$MYDOTFILES . '/vim'
 
 if !exists('g:use_plugins')
 	let g:use_plugins = s:true
