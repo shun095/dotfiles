@@ -6,17 +6,17 @@ export MYDOTFILES=$HOME/dotfiles
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
 	tmux attach || tmux new-session
-else
-	if [[ `\tmux -V | cut -d" " -f2` -lt 2.1 ]]; then
-		tmux set -g mode-mouse on
-		tmux set -g mouse-resize-pane on
-		tmux set -g mouse-select-pane on
-		tmux set -g mouse-select-window on
-		clear
-	else
-		tmux set -g mouse on
-		clear
-	fi
+# else
+# 	if [[ `\tmux -V | cut -d" " -f2` -lt 2.1 ]]; then
+# 		tmux set -g mode-mouse on
+# 		tmux set -g mouse-resize-pane on
+# 		tmux set -g mouse-select-pane on
+# 		tmux set -g mouse-select-window on
+# 		clear
+# 	else
+# 		tmux set -g mouse on
+# 		clear
+# 	fi
 fi
 
 if [ -x "`which trash-put`" ]; then
