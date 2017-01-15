@@ -34,7 +34,8 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'prompt' \
   'syntax-highlighting' \
-  'command-not-found'
+  'command-not-found' \
+  'history-substring-search'
 
 #
 # Deer
