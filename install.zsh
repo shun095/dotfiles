@@ -10,14 +10,19 @@ update=
 relinkprezto=
 relinkfzf=
 
-ZSHRC="$HOME/.zshrc"
+# directories
 FZFDIR="$HOME/.fzf"
 ZPREZTODIR="${ZDOTDIR:-$HOME}/.zprezto"
+
+# symlinks
+ZSHRC="$HOME/.zshrc"
 VIMRC="$HOME/.vimrc"
 GVIMRC="$HOME/.gvimrc"
 TMUXCONF="$HOME/.tmux.conf"
-TMUXLOCAL="$MYDOTFILES/tmux-local"
 FLAKE8="$HOME/.config/flake8"
+
+# actual files
+TMUXLOCAL="$MYDOTFILES/tmux-local"
 TRASH="$HOME/.trash"
 
 help() {
@@ -77,13 +82,16 @@ if [ ! -z "$relink" ]; then
 	for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
 		if [ -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]; then
 			echo "Remove .${rcfile:t}"
-			rm "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+			\unlink "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 		fi
 	done
 	relinkprezto=1
 	relinkfzf=1
 
-	\rm -f $VIMRC $GVIMRC $TMUXCONF $TMUXLOCAL $FLAKE8
+	\unlink $VIMRC
+	\unlink $GVIMRC
+	\unlink $TMUXCONF
+	\unlink $FLAKE8
 fi
 
 if [ ! -z "$reinstall" ]; then
@@ -138,6 +146,7 @@ if [ ! -z "$relinkfzf" ]; then
 	~/.fzf/install --completion --key-bindings --update-rc
 fi
 
+# make symlinks
 if [ ! -e ${VIMRC} ]; then
 	touch $MYDOTFILES/vim/vimrc.vim
 	ln -s $MYDOTFILES/vim/vimrc.vim ${VIMRC}
@@ -156,14 +165,15 @@ if [ ! -e ${TMUXCONF} ]; then
 	echo "tmuxconf linked"
 fi
 
-if [ ! -e ${TMUXLOCAL} ]; then
-	touch $MYDOTFILES/tmux-local
-	echo "tmuxlocal is made"
-fi
-
 if [ ! -e ${FLAKE8} ]; then
 	ln -s $MYDOTFILES/flake8 ${FLAKE8}
 	echo "flake8 config file linked"
+fi
+
+# Not symlink
+if [ ! -e ${TMUXLOCAL} ]; then
+	touch $MYDOTFILES/tmux-local
+	echo "tmuxlocal is made"
 fi
 
 if [ ! -e ${TRASH} ]; then
