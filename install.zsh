@@ -21,6 +21,22 @@ GVIMRC="$HOME/.gvimrc"
 TMUXCONF="$HOME/.tmux.conf"
 FLAKE8="$HOME/.config/flake8"
 
+SYMLINKS=(
+${VIMRC}
+${GVIMRC}
+${TMUXCONF}
+${FLAKE8}
+)
+
+SYMTARGET=(
+"${MYDOTFILES}/vim/vimrc.vim"
+"${MYDOTFILES}/vim/gvimrc.vim"
+"${MYDOTFILES}/tmux/tmux.conf"
+"${MYDOTFILES}/flake8"
+)
+
+SYMRANGE=(1 2 3 4)
+
 # actual files
 TMUXLOCAL="$MYDOTFILES/tmux-local"
 TRASH="$HOME/.trash"
@@ -56,6 +72,20 @@ for opt in "$@"; do
 	esac
 done
 
+
+cat << EOF
+____  ____  __________________    ___________
+/ __ \/ __ \/_  __/ ____/  _/ /   / ____/ ___/
+/ / / / / / / / / / /_   / // /   / __/  \__ \ 
+/ /_/ / /_/ / / / / __/ _/ // /___/ /___ ___/ / 
+/_____/\____/ /_/ /_/   /___/_____/_____//____/  
+
+Author: ishitaku5522
+
+EOF
+
+sleep 1
+
 if [ ! -z "$update" ]; then
 	pushd ${ZPREZTODIR}
 	git pull && git submodule update --init --recursive
@@ -68,7 +98,7 @@ if [ ! -z "$update" ]; then
 fi
 
 if [ ! -z "$unlink" ]; then
-
+	echo "\n==========Remove existing RC files==========\n"
 	if [ -e "$ZSHRC" ]; then
 		if [ -e "~/.zshrc.bak" ]; then
 			echo "Remove exist backup of zshrc"
@@ -88,10 +118,11 @@ if [ ! -z "$unlink" ]; then
 	relinkprezto=1
 	relinkfzf=1
 
-	\unlink $VIMRC
-	\unlink $GVIMRC
-	\unlink $TMUXCONF
-	\unlink $FLAKE8
+	for item in ${SYMLINKS[@]}; do
+		echo "Remove ${item}"
+		\unlink ${item}
+	done
+	unset item
 fi
 
 if [ ! -z "$reinstall" ]; then
@@ -104,22 +135,22 @@ git config --global alias.graph "log --graph --all --pretty=format:'%C(auto)%h%d
 
 # install fzf
 if [ ! -e ${FZFDIR} ]; then
-	echo "Download and install fzf"
+	echo "\n==========Download fzf==========\n"
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 	relinkfzf=1
 fi
 
 # download zprezto
 if [ ! -e ${ZPREZTODIR} ]; then
-	echo "Download zprezto"
+	echo "\n==========Download zprezto==========\n"
 	git clone --recursive https://github.com/zsh-users/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-#	git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
+	#	git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
 	relinkprezto=1
 fi
 
 # relink prezto files
 if [ ! -z "$relinkprezto" ]; then
-	echo "Install prezto"
+	echo "\n==========Install prezto==========\n"
 	setopt EXTENDED_GLOB
 	for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
 		if [ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]; then
@@ -143,32 +174,19 @@ if [ ! -z "$relinkprezto" ]; then
 fi
 
 if [ ! -z "$relinkfzf" ]; then
+	echo "\n==========Install fzf==========\n"
 	~/.fzf/install --completion --key-bindings --update-rc
 fi
 
 # make symlinks
-if [ ! -e ${VIMRC} ]; then
-	touch $MYDOTFILES/vim/vimrc.vim
-	ln -s $MYDOTFILES/vim/vimrc.vim ${VIMRC}
-	echo "vimrc linked"
-fi
-
-if [ ! -e ${GVIMRC} ]; then
-	touch $MYDOTFILES/vim/gvimrc.vim
-	ln -s $MYDOTFILES/vim/gvimrc.vim ${GVIMRC}
-	echo "gvimrc linked"
-fi
-
-if [ ! -e ${TMUXCONF} ]; then
-	touch $MYDOTFILES/tmux/tmux.conf
-	ln -s $MYDOTFILES/tmux/tmux.conf ${TMUXCONF}
-	echo "tmuxconf linked"
-fi
-
-if [ ! -e ${FLAKE8} ]; then
-	ln -s $MYDOTFILES/flake8 ${FLAKE8}
-	echo "flake8 config file linked"
-fi
+echo "\n==========Install RC files==========\n"
+for i in ${SYMRANGE}; do
+	if [ ! -e ${SYMLINKS[${i}]} ]; then
+		touch ${SYMTARGET[${i}]}
+		ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
+		echo "Link" ${SYMLINKS[${i}]:t}
+	fi
+done
 
 # Not symlink
 if [ ! -e ${TMUXLOCAL} ]; then
@@ -179,3 +197,4 @@ fi
 if [ ! -e ${TRASH} ]; then
 	mkdir ${TRASH}
 fi
+
