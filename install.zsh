@@ -5,7 +5,7 @@ set -eu
 export MYDOTFILES=$HOME/dotfiles
 
 reinstall=
-relink=
+unlink=
 update=
 relinkprezto=
 relinkfzf=
@@ -44,9 +44,9 @@ for opt in "$@"; do
 			;;
 		--reinstall)
 			reinstall=1
-			relink=1
+			unlink=1
 			;;
-		--relink) relink=1 ;;
+		--relink) unlink=1 ;;
 		--update) update=1 ;;
 		*)
 			echo "unknown option: $opt"
@@ -64,10 +64,10 @@ if [ ! -z "$update" ]; then
 	git pull
 	popd
 
-	relink=1
+	unlink=1
 fi
 
-if [ ! -z "$relink" ]; then
+if [ ! -z "$unlink" ]; then
 
 	if [ -e "$ZSHRC" ]; then
 		if [ -e "~/.zshrc.bak" ]; then
