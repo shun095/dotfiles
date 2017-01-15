@@ -2,6 +2,7 @@
 
 export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
+export TERM=xterm-256color
 
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
