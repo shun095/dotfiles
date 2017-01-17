@@ -4,6 +4,7 @@
 
 int func(int a){
 	for(int func=0 ; func < 10; func++){
+		std::stringstream abc;
 		std::cout << "this is func var" << func << std::endl;
 	}
 	return a+10;
