@@ -70,10 +70,10 @@ repo = 'joshdick/onedark.vim'
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
 # on_event = 'CursorMoved'
-[[plugins]]
-repo = 'justinmk/vim-dirvish'
-# on_event = 'VimEnter'
-# on_cmd = 'Dirvish'
+# [[plugins]]
+# repo = 'justinmk/vim-dirvish'
+# # on_event = 'VimEnter'
+# # on_cmd = 'Dirvish'
 [[plugins]]
 repo = 'mattn/ctrlp-filer'
 depends = 'ctrlp.vim'
