@@ -2,23 +2,23 @@
 scriptencoding utf-8
 
 if has('gui_running')
-	let s:true = 1
-	let s:false = 0
+  let s:true = 1
+  let s:false = 0
 
-	if v:version >= 800
-		set rop=type:directx,geom:1
-	endif
-	set linespace=1
-	set cmdheight=2
-	set guioptions=rchb
-	" フォントを設定
-	if has('win32')
-		set guifont=Myrica_M_for_Powerline:h12
-		" set guifont=Ricty_Diminished_for_Powerline:h11
-	elseif has('unix')
-		" set guifont=Ricty\ Diminished\ for\ Powerline\ 11
-		set guifont=Myrica\ M\ 12
-	endif
+  if v:version >= 800
+    set rop=type:directx,geom:1
+  endif
+  set linespace=1
+  set cmdheight=2
+  set guioptions=rchb
+  " フォントを設定
+  if has('win32')
+    set guifont=Myrica_M_for_Powerline:h12
+    " set guifont=Ricty_Diminished_for_Powerline:h11
+  elseif has('unix')
+    " set guifont=Ricty\ Diminished\ for\ Powerline\ 11
+    set guifont=Myrica\ M\ 12
+  endif
 
-	set vb t_vb=
+  set vb t_vb=
 endif

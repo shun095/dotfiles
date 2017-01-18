@@ -1,7 +1,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 if exists("g:loaded_myrosmake_plugin")
-    finish
+  finish
 endif
 let g:loaded_myrosmake_plugin = 1
 

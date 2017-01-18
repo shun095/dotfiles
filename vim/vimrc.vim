@@ -5,7 +5,7 @@ set langmenu=ja_JP.utf-8
 
 scriptencoding utf-8
 if &compatible
-	set nocompatible
+  set nocompatible
 endif
 
 " if exists('g:loaded_myvimrc')
@@ -17,13 +17,13 @@ let s:true = 1
 let s:false = 0
 
 if !exists('$MYDOTFILES')
-	let $MYDOTFILES = $HOME . '/dotfiles'
+  let $MYDOTFILES = $HOME . '/dotfiles'
 endif
 
 let $MYVIMHOME=$MYDOTFILES . '/vim'
 
 if !exists('g:use_plugins')
-	let g:use_plugins = s:true
+  let g:use_plugins = s:true
 endif
 " }}}
 
@@ -35,28 +35,28 @@ let g:mapleader = "\<space>"
 
 " OSの判定
 if has('win32')
-	set t_Co=16                    " cmd.exeならターミナルで16色を使う
-	let g:solarized_termcolors = 16
+  set t_Co=16                    " cmd.exeならターミナルで16色を使う
+  let g:solarized_termcolors = 16
 elseif has('unix')
-	set t_Co=256                   " ターミナルで256色を使う
-	set t_ut=
-	set termguicolors
-	let g:solarized_termcolors = 256
-	if executable('gconftool-2')
-		augroup VIMRC1
-			autocmd!
-			autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
-			autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-			autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-		augroup END
-	endif
+  set t_Co=256                   " ターミナルで256色を使う
+  set t_ut=
+  set termguicolors
+  let g:solarized_termcolors = 256
+  if executable('gconftool-2')
+    augroup VIMRC1
+      autocmd!
+      autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
+      autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+      autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+    augroup END
+  endif
 endif
 
 set visualbell
 set t_vb=
 
 if v:version >= 800                " バージョン検出
-	set breakindent                " version8以降搭載の便利オプション
+  set breakindent                " version8以降搭載の便利オプション
 endif
 
 set diffopt=filler,iwhite,vertical " diffのときの挙動
@@ -123,15 +123,15 @@ set statusline+=%4p%%%5l:%-3c
 
 " agがあればgrepの代わりにagを使う
 if executable('ag')
-	set grepprg=ag\ --nogroup\ --nocolor\ --column\ $*
+  set grepprg=ag\ --nogroup\ --nocolor\ --column\ $*
 else
-	set grepprg=grep\ -rn\ $*
+  set grepprg=grep\ -rn\ $*
 endif
 
 " set undofileでアンドゥデータをファイルを閉じても残しておく
 " 該当フォルダがなければ作成
 if !isdirectory($HOME . '/.vim/undofiles')
-	call mkdir($HOME . '/.vim/undofiles','p')
+  call mkdir($HOME . '/.vim/undofiles','p')
 endif
 set undodir=$HOME/.vim/undofiles
 set undofile
@@ -139,7 +139,7 @@ set undofile
 "  set backupでスワップファイルを保存する
 " 該当フォルダがなければ作成
 if !isdirectory($HOME . '/.vim/backupfiles')
-	call mkdir($HOME . '/.vim/backupfiles','p')
+  call mkdir($HOME . '/.vim/backupfiles','p')
 endif
 set backupdir=$HOME/.vim/backupfiles
 set backup
@@ -166,7 +166,7 @@ nnoremap <C-]> g<C-]>
 " Commands {{{
 " Sudoで強制保存
 if has('unix')
-	command Wsudo execute("w !sudo tee % > /dev/null")
+  command Wsudo execute("w !sudo tee % > /dev/null")
 endif
 
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
@@ -177,48 +177,50 @@ command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | di
 " }}}
 " Autocmds {{{
 augroup VIMRC2
-	autocmd!
-	" タグを</で自動で閉じる。completeoptに依存している
-	autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
+  autocmd!
+  " タグを</で自動で閉じる。completeoptに依存している
+  autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
 
-	" タグ系のファイルならインデントを浅くする
-	autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2
-	autocmd Filetype html,xml setl foldmethod=indent
-	autocmd Filetype css setl foldmethod=syntax
+  " タグ系のファイルならインデントを浅くする
+  autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2
+  autocmd Filetype html,xml setl foldmethod=indent
+  autocmd Filetype css setl foldmethod=syntax
 
-	" python関係の設定
-	let g:python_highlight_all = 1
-	autocmd FileType python setl autoindent
-	autocmd FileType python setl foldmethod=indent smartindent
-	autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
-	autocmd FileType python inoremap <buffer> # X#
-	autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
+  " python関係の設定
+  let g:python_highlight_all = 1
+  autocmd FileType python setl autoindent
+  autocmd FileType python setl foldmethod=indent smartindent
+  autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
+  autocmd FileType python inoremap <buffer> # X#
+  autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
 
-	" cpp関係の設定
-	autocmd FileType c,cpp setl foldmethod=syntax
+  " cpp関係の設定
+  autocmd FileType c,cpp setl foldmethod=syntax
 
-	let g:vimsyn_folding = 'aflmpPrt'
-	autocmd BufRead *.vim setl foldmethod=syntax
+  autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2
 
-	" QuickFixを自動で開く
-	autocmd QuickFixCmdPost * cwindow
-	autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
-	" pでプレビューができるようにする
-	autocmd FileType qf noremap <silent><buffer> p  <CR>zz<C-w>p
+  let g:vimsyn_folding = 'aflmpPrt'
+  autocmd BufRead *.vim setl foldmethod=syntax
 
-	" ヘルプをqで閉じれるようにする
-	autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
+  " QuickFixを自動で開く
+  autocmd QuickFixCmdPost * cwindow
+  autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
+  " pでプレビューができるようにする
+  autocmd FileType qf noremap <silent><buffer> p  <CR>zz<C-w>p
 
-	" misc
-	if has('unix')
-		" linux用（fcitxでしか使えない）
-		autocmd InsertLeave * call myvimrc#ImInActivate()
-	endif
-	autocmd VimEnter * call myvimrc#git_auto_updating()
-	" クリップボードが無名レジスタと違ったら
-	" (他のソフトでコピーしてきたということなので)
-	" yレジスタに保存しておく
-	autocmd CursorHold,CursorHoldI * if @* != @" | let @y = @* | endif
+  " ヘルプをqで閉じれるようにする
+  autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
+
+  " misc
+  if has('unix')
+    " linux用（fcitxでしか使えない）
+    autocmd InsertLeave * call myvimrc#ImInActivate()
+  endif
+  autocmd VimEnter * call myvimrc#git_auto_updating()
+  " クリップボードが無名レジスタと違ったら
+  " (他のソフトでコピーしてきたということなので)
+  " yレジスタに保存しておく
+  autocmd CursorHold,CursorHoldI * if @* != @" | let @y = @* | endif
 augroup END
 "}}}
 " Build in plugins {{{
@@ -243,18 +245,18 @@ let g:netrw_altv = 1
 let g:netrw_keepdir = 0
 
 augroup MyNetrw
-	autocmd!
-	" for toggle
-	" autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
-	" autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
-	autocmd FileType netrw nmap <silent><buffer>. gh
-	autocmd FileType netrw nmap <silent><buffer>h -
-	autocmd FileType netrw nmap <silent><buffer>l <CR>
-	" autocmd FileType netrw unmap <silent><buffer>qf
-	" autocmd FileType netrw unmap <silent><buffer>qF
-	" autocmd FileType netrw unmap <silent><buffer>qL
-	" autocmd FileType netrw unmap <silent><buffer>qb
-	" autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
+  autocmd!
+  " for toggle
+  " autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
+  " autocmd FileType netrw nnoremap <silent><buffer>q :quit<CR>
+  autocmd FileType netrw nmap <silent><buffer>. gh
+  autocmd FileType netrw nmap <silent><buffer>h -
+  autocmd FileType netrw nmap <silent><buffer>l <CR>
+  " autocmd FileType netrw unmap <silent><buffer>qf
+  " autocmd FileType netrw unmap <silent><buffer>qF
+  " autocmd FileType netrw unmap <silent><buffer>qL
+  " autocmd FileType netrw unmap <silent><buffer>qb
+  " autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
 augroup END
 " }}}
 " Self constructed plugins {{{
@@ -268,17 +270,17 @@ let s:plugin_dir = $HOME . '/.vim/dein/'
 let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
 " dein.vimがまだ入ってなければインストールするか確認
 if !isdirectory(s:dein_dir) && g:use_plugins == s:true
-	" deinがインストールされてない場合そのままではプラグインは使わない
-	let g:use_plugins = s:false
-	" deinを今インストールするか確認
-	let s:install_dein_diag_mes = 'Dein is not installed yet.Install now?'
-	if confirm(s:install_dein_diag_mes,"&yes\n&no",2) == 1
-		" deinをインストールする
-		call mkdir(s:dein_dir, 'p')
-		execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
-		" インストールが完了したらフラグを立てる
-		let g:use_plugins = s:true
-	endif
+  " deinがインストールされてない場合そのままではプラグインは使わない
+  let g:use_plugins = s:false
+  " deinを今インストールするか確認
+  let s:install_dein_diag_mes = 'Dein is not installed yet.Install now?'
+  if confirm(s:install_dein_diag_mes,"&yes\n&no",2) == 1
+    " deinをインストールする
+    call mkdir(s:dein_dir, 'p')
+    execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
+    " インストールが完了したらフラグを立てる
+    let g:use_plugins = s:true
+  endif
 endif
 "}}}
 
@@ -286,147 +288,147 @@ endif
 " Plugin Settings START          "
 " ============================== "
 if g:use_plugins == s:true
-	" Load local settings"{{{
-	if filereadable($MYDOTFILES . '/vim-local.vim')
-		execute 'source ' . $MYDOTFILES . '/vim-local.vim'
-	endif
-	"}}}
-	" Plugin pre settings {{{
-	" vimprocが呼ばれる前に設定
-	let g:vimproc#download_windows_dll = 1
-	" プラグインで使われるpythonのバージョンを決定
-	if !exists('g:myvimrc_python_version')
-		let g:myvimrc_python_version = ''
-	endif
-	" }}}
-	" " Vim-Plug (test){{{
-	" " VIM-PLUG 試験利用
-	" " 起動時に該当ファイルがなければ自動でvim-plugをインストール
-	" set runtimepath+=~/.vim/
-	" if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
-	"     if executable("curl")
-	"         echo "vim-plug will be installed."
-	"         execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
-	"     else
-	"         echoerr "curlをインストールするか手動でvim-plugをインストールしてください。"
-	"     endif
-	" endif
-	"
-	" if filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
-	"     call plug#begin('~/.vim/plugged')
-	"     call plug#end()
-	" endif
+  " Load local settings"{{{
+  if filereadable($MYDOTFILES . '/vim-local.vim')
+    execute 'source ' . $MYDOTFILES . '/vim-local.vim'
+  endif
+  "}}}
+  " Plugin pre settings {{{
+  " vimprocが呼ばれる前に設定
+  let g:vimproc#download_windows_dll = 1
+  " プラグインで使われるpythonのバージョンを決定
+  if !exists('g:myvimrc_python_version')
+    let g:myvimrc_python_version = ''
+  endif
+  " }}}
+  " " Vim-Plug (test){{{
+  " " VIM-PLUG 試験利用
+  " " 起動時に該当ファイルがなければ自動でvim-plugをインストール
+  " set runtimepath+=~/.vim/
+  " if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
+  "     if executable("curl")
+  "         echo "vim-plug will be installed."
+  "         execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
+  "     else
+  "         echoerr "curlをインストールするか手動でvim-plugをインストールしてください。"
+  "     endif
+  " endif
+  "
+  " if filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
+  "     call plug#begin('~/.vim/plugged')
+  "     call plug#end()
+  " endif
 
-	" " Vim-plug END
-	" " }}}
-	" Dein main settings {{{
-	" escapeでスペースつきのホームフォルダ名に対応
-	" ...できていない
-	execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
+  " " Vim-plug END
+  " " }}}
+  " Dein main settings {{{
+  " escapeでスペースつきのホームフォルダ名に対応
+  " ...できていない
+  execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
 
-	let g:plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
-	let g:plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
+  let g:plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
+  let g:plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
 
-	let g:dein#install_max_processes = 64
-	" let g:dein#install_process_timeout = 240
-	if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
-		call dein#begin(s:plugin_dir)
-		call dein#add('Shougo/dein.vim')
+  let g:dein#install_max_processes = 64
+  " let g:dein#install_process_timeout = 240
+  if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
+    call dein#begin(s:plugin_dir)
+    call dein#add('Shougo/dein.vim')
 
-		call dein#load_toml(g:plugins_toml,{'lazy' : 0})
-		call dein#load_toml(g:plugins_lazy_toml,{'lazy' : 1})
+    call dein#load_toml(g:plugins_toml,{'lazy' : 0})
+    call dein#load_toml(g:plugins_lazy_toml,{'lazy' : 1})
 
-		call dein#end()
-		call dein#save_state()
-	endif
+    call dein#end()
+    call dein#save_state()
+  endif
 
-	filetype plugin indent on
-	syntax enable
+  filetype plugin indent on
+  syntax enable
 
-	if dein#check_install()
-		augroup VIMRC3
-			autocmd!
-			" インストールされていないプラグインがあれば確認
-			autocmd VimEnter * call myvimrc#confirm_do_dein_install()
-		augroup END
-	endif
+  if dein#check_install()
+    augroup VIMRC3
+      autocmd!
+      " インストールされていないプラグインがあれば確認
+      autocmd VimEnter * call myvimrc#confirm_do_dein_install()
+    augroup END
+  endif
 
-	" load settings of plugins
-	source $MYVIMHOME/scripts/custom.vim
-	" Dein end
-	if filereadable($MYDOTFILES . '/vim-localafter.vim')
-		execute 'source ' . $MYDOTFILES . '/vim-localafter.vim'
-	endif
-	" }}}
-	" Color settings {{{
-	" ターミナルでの色設定
-	if has('win32') && !has('gui_running')
-		colorscheme elflord
-		cd $HOME
-	else
-		" set background=light
-		" let g:airline_theme="solarized"
-		" colorscheme solarized
-		" colorscheme summerfruit256
-		try
-			colorscheme onedark
-			let g:airline_theme='onedark'
-			highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
-			highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
-			highlight! FoldColumn ctermbg=233 guibg=#0e1013
-			highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-			highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235 guifg=#282C34 guibg=#282C34
-			highlight! MatchParen gui=none cterm=none term=none
-			" highlight! StatusLine ctermbg=235 guibg=#282C34
-			" highlight! StatusLineNC ctermbg=235 guibg=#282C34
+  " load settings of plugins
+  source $MYVIMHOME/scripts/custom.vim
+  " Dein end
+  if filereadable($MYDOTFILES . '/vim-localafter.vim')
+    execute 'source ' . $MYDOTFILES . '/vim-localafter.vim'
+  endif
+  " }}}
+  " Color settings {{{
+  " ターミナルでの色設定
+  if has('win32') && !has('gui_running')
+    colorscheme elflord
+    cd $HOME
+  else
+    " set background=light
+    " let g:airline_theme="solarized"
+    " colorscheme solarized
+    " colorscheme summerfruit256
+    try
+      colorscheme onedark
+      let g:airline_theme='onedark'
+      highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
+      highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
+      highlight! FoldColumn ctermbg=233 guibg=#0e1013
+      highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
+      highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235 guifg=#282C34 guibg=#282C34
+      highlight! MatchParen gui=none cterm=none term=none
+      " highlight! StatusLine ctermbg=235 guibg=#282C34
+      " highlight! StatusLineNC ctermbg=235 guibg=#282C34
 
-			if has('gui_running')
-				let g:indent_guides_auto_colors = 1
-			else
-				let g:indent_guides_auto_colors = 0
-				" solarized(light)
-				augroup VIMRC4
-					autocmd!
-					" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
-					" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
-					" summerfruit
-					" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
-					" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
-					" one(light)
-					" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
-					" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
-					" onedark
-					autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234
-					autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235
-				augroup END
+      if has('gui_running')
+        let g:indent_guides_auto_colors = 1
+      else
+        let g:indent_guides_auto_colors = 0
+        " solarized(light)
+        augroup VIMRC4
+          autocmd!
+          " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
+          " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
+          " summerfruit
+          " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
+          " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
+          " one(light)
+          " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
+          " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
+          " onedark
+          autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234
+          autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235
+        augroup END
 
-			endif
-		catch
-			colorscheme default
-			set background=light
-		endtry
-	endif
-	" }}}
-	" Netrw Mapping {{{
-	" バッファファイルのディレクトリで開く
-	nnoremap <Leader>n :call myvimrc#NiceLexplore(1)<CR>
-	" カレントディレクトリで開く
-	nnoremap <Leader>N :call myvimrc#NiceLexplore(0)<CR>
-	" }}}
+      endif
+    catch
+      colorscheme default
+      set background=light
+    endtry
+  endif
+  " }}}
+  " Netrw Mapping {{{
+  " バッファファイルのディレクトリで開く
+  nnoremap <Leader>n :call myvimrc#NiceLexplore(1)<CR>
+  " カレントディレクトリで開く
+  nnoremap <Leader>N :call myvimrc#NiceLexplore(0)<CR>
+  " }}}
 else
-	" Without plugins settings {{{
-	colorscheme default
-	set background=light
+  " Without plugins settings {{{
+  colorscheme default
+  set background=light
 
-	" Netrw settings {{{
-	" バッファファイルのディレクトリで開く
-	nnoremap <Leader>e :call myvimrc#NiceLexplore(1)<CR>
-	" カレントディレクトリで開く
-	nnoremap <Leader>E :call myvimrc#NiceLexplore(0)<CR>
-	" }}}
+  " Netrw settings {{{
+  " バッファファイルのディレクトリで開く
+  nnoremap <Leader>e :call myvimrc#NiceLexplore(1)<CR>
+  " カレントディレクトリで開く
+  nnoremap <Leader>E :call myvimrc#NiceLexplore(0)<CR>
+  " }}}
 
-	" }}}
+  " }}}
 endif
 if getcwd() ==# $VIM
-	exe 'cd ' . $HOME
+  exe 'cd ' . $HOME
 endif
