@@ -344,9 +344,29 @@ if dein#tap('vim-clang-format')
 				\ }
 endif
 if dein#tap('vim-dirvish')
-	nnoremap <silent> <Leader>e :let w:dirvishbefore=expand("%:p")<cr>:Dirvish %:p:h<cr>
+	nnoremap <silent> <Leader>e :exe ":" . <SID>open_mydirvish()<CR>
 	nnoremap <silent> <Leader>E :Dirvish<cr>
-	fun s:mydirvish_selectbeforedir()
+	fun s:open_mydirvish()
+		let savepre = 'let w:dirvishbefore = expand("%:p")'
+		if len(tabpagebuflist()) > 1
+			let w:dirvish_splited = 0
+			return savepre . '| Dirvish %:p:h'
+		else
+			return 'vsplit|' . savepre .'| let w:dirvish_splited = 1 | Dirvish %:p:h'
+		endif
+	endfun
+	fun s:quit_mydirvish()
+		if !exists('w:dirvish_splited')
+			let w:dirvish_splited = 0
+		endif
+		if w:dirvish_splited == 1 && len(tabpagebuflist()) > 1
+			quit
+		else
+			nmap <buffer> q <plug>(dirvish_quit)
+			normal q
+		endif
+	endfun
+	fun s:mydirvish_selectprevdir()
 		if exists('w:dirvishbefore')
 			call search('\V\^'.escape(w:dirvishbefore, '\').'\$', 'cw')
 		endif
@@ -358,6 +378,7 @@ if dein#tap('vim-dirvish')
 		autocmd FileType dirvish xnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
 		autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
 		autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
+		autocmd FileType dirvish nmap <silent><buffer> q :call <SID>quit_mydirvish()<cr>
 		" 起動時にソート.行末記号を入れないことで全行ソートする(共通部はソートしない)
 		autocmd FileType dirvish silent sort /.*\([\\\/]\)\@=/
 		" autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
@@ -373,7 +394,7 @@ if dein#tap('vim-dirvish')
 		autocmd FileType dirvish vnoremap <silent><buffer> c :Shdo cp {}<CR>
 		autocmd FileType dirvish nnoremap <silent><buffer> ~ :Dirvish ~/<CR>
 		" 開いていたファイルやDirectory(w:dirvishbefore)にカーソルをあわせる
-		autocmd FileType dirvish call <SID>mydirvish_selectbeforedir()
+		autocmd FileType dirvish call <SID>mydirvish_selectprevdir()
 		autocmd FileType dirvish let w:dirvishbefore=expand("%:p")
 	augroup END
 endif
