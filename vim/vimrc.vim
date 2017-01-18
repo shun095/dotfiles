@@ -252,10 +252,11 @@ augroup MyNetrw
   autocmd FileType netrw nmap <silent><buffer>. gh
   autocmd FileType netrw nmap <silent><buffer>h -
   autocmd FileType netrw nmap <silent><buffer>l <CR>
-  " autocmd FileType netrw unmap <silent><buffer>qf
-  " autocmd FileType netrw unmap <silent><buffer>qF
-  " autocmd FileType netrw unmap <silent><buffer>qL
-  " autocmd FileType netrw unmap <silent><buffer>qb
+  autocmd FileType netrw nmap <silent><buffer>q <C-o>
+  autocmd FileType netrw unmap <silent><buffer>qf
+  autocmd FileType netrw unmap <silent><buffer>qF
+  autocmd FileType netrw unmap <silent><buffer>qL
+  autocmd FileType netrw unmap <silent><buffer>qb
   " autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
 augroup END
 " }}}
