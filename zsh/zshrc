@@ -9,9 +9,10 @@ if [[ ! -n $TMUX ]]; then
 	tmux attach || tmux new-session
 fi
 
-if [ -x "`which trash-put`" ]; then
+if [[ -x "`which trash-put`" ]]; then
 	alias rm="trash-put"
 else
+	echo "Recommended to install 'trash-cli'"
 	to_trash() {
 		for file in $@
 		do

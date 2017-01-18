@@ -84,7 +84,7 @@ Author: ishitaku5522
 
 EOF
 
-if [ ! -z "$update" ]; then
+if [[ ! -z "$update" ]]; then
 	pushd ${ZPREZTODIR}
 	git pull && git submodule update --init --recursive
 	popd
@@ -95,10 +95,10 @@ if [ ! -z "$update" ]; then
 	unlink=1
 fi
 
-if [ ! -z "$unlink" ]; then
+if [[ ! -z "$unlink" ]]; then
 	echo "\n==========Remove existing RC files==========\n"
-	if [ -e "$ZSHRC" ]; then
-		if [ -e "~/.zshrc.bak" ]; then
+	if [[ -e "$ZSHRC" ]]; then
+		if [[ -e "~/.zshrc.bak" ]]; then
 			echo "Remove exist backup of zshrc"
 			rm ~/.zshrc.bak
 		fi
@@ -108,7 +108,7 @@ if [ ! -z "$unlink" ]; then
 
 	setopt EXTENDED_GLOB
 	for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-		if [ -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]; then
+		if [[ -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
 			echo "Remove .${rcfile:t}"
 			\unlink "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 		fi
@@ -123,7 +123,7 @@ if [ ! -z "$unlink" ]; then
 	unset item
 fi
 
-if [ ! -z "$reinstall" ]; then
+if [[ ! -z "$reinstall" ]]; then
 	echo "Remove fzf and zprezto directory"
 	\rm -rf $FZFDIR $ZPREZTODIR 
 fi
@@ -132,14 +132,14 @@ git config --global core.editor vim
 git config --global alias.graph "log --graph --all --pretty=format:'%C(auto)%h%d%n  %s %C(magenta)(%cr)%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset' --abbrev-commit --date=relative"
 
 # install fzf
-if [ ! -e ${FZFDIR} ]; then
+if [[ ! -e ${FZFDIR} ]]; then
 	echo "\n==========Download fzf==========\n"
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 	relinkfzf=1
 fi
 
 # download zprezto
-if [ ! -e ${ZPREZTODIR} ]; then
+if [[ ! -e ${ZPREZTODIR} ]]; then
 	echo "\n==========Download zprezto==========\n"
 	git clone --recursive https://github.com/zsh-users/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 	#	git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
@@ -147,11 +147,11 @@ if [ ! -e ${ZPREZTODIR} ]; then
 fi
 
 # relink prezto files
-if [ ! -z "$relinkprezto" ]; then
+if [[ ! -z "$relinkprezto" ]]; then
 	echo "\n==========Install prezto==========\n"
 	setopt EXTENDED_GLOB
 	for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-		if [ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]; then
+		if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
 			echo "Link .${rcfile:t}"
 			ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 		fi
@@ -160,7 +160,7 @@ if [ ! -z "$relinkprezto" ]; then
 	rm ${ZDOTDIR:-$HOME}/.zpreztorc
 	ln -s ${MYDOTFILES}/zsh/zpreztorc ${ZDOTDIR:-$HOME}/.zpreztorc
 
-	if [ -e "$HOME/.zshrc.bak" ]; then
+	if [[ -e "$HOME/.zshrc.bak" ]]; then
 		echo "Restore backup of zshrc"
 		cat ~/.zshrc.bak > ~/.zshrc
 		rm ~/.zshrc.bak
@@ -171,7 +171,7 @@ if [ ! -z "$relinkprezto" ]; then
 	fi
 fi
 
-if [ ! -z "$relinkfzf" ]; then
+if [[ ! -z "$relinkfzf" ]]; then
 	echo "\n==========Install fzf==========\n"
 	~/.fzf/install --completion --key-bindings --update-rc
 fi
@@ -179,7 +179,7 @@ fi
 # make symlinks
 echo "\n==========Install RC files==========\n"
 for i in ${SYMRANGE}; do
-	if [ ! -e ${SYMLINKS[${i}]} ]; then
+	if [[ ! -e ${SYMLINKS[${i}]} ]]; then
 		touch ${SYMTARGET[${i}]}
 		ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
 		echo "Link" ${SYMLINKS[${i}]:t}
@@ -187,12 +187,12 @@ for i in ${SYMRANGE}; do
 done
 
 # Not symlink
-if [ ! -e ${TMUXLOCAL} ]; then
+if [[ ! -e ${TMUXLOCAL} ]]; then
 	touch $MYDOTFILES/tmux-local
 	echo "tmuxlocal is made"
 fi
 
-if [ ! -e ${TRASH} ]; then
+if [[ ! -e ${TRASH} ]]; then
 	mkdir ${TRASH}
 fi
 
