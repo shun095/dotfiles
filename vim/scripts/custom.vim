@@ -378,21 +378,24 @@ if dein#tap('vim-dirvish')
     autocmd FileType dirvish xnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
     autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
     autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
+    " 独自quitスクリプト
     autocmd FileType dirvish nmap <silent><buffer> q :call <SID>quit_mydirvish()<cr>
     " 起動時にソート.行末記号を入れないことで全行ソートする(共通部はソートしない)
     autocmd FileType dirvish silent sort /.*\([\\\/]\)\@=/
     " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
     " .とsに隠しファイルとソートを割り当て
     autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
-    " 行末記号を入れないことで全部ソートする
     autocmd FileType dirvish nnoremap <silent><buffer> s :sort /.*\([\\\/]\)\@=/<cr>
-    autocmd FileType dirvish nnoremap <silent><buffer> dd :Shdo rm -rf {}<CR>
-    autocmd FileType dirvish nnoremap <silent><buffer> rr :Shdo mv {}<CR>
-    autocmd FileType dirvish nnoremap <silent><buffer> cc :Shdo cp {}<CR>
-    autocmd FileType dirvish vnoremap <silent><buffer> d :Shdo rm -rf {}<CR>
-    autocmd FileType dirvish vnoremap <silent><buffer> r :Shdo mv {}<CR>
-    autocmd FileType dirvish vnoremap <silent><buffer> c :Shdo cp {}<CR>
+
     autocmd FileType dirvish nnoremap <silent><buffer> ~ :Dirvish ~/<CR>
+
+    autocmd FileType dirvish nnoremap <silent><buffer> dd :Shdo rm -rf {}<CR>
+    autocmd FileType dirvish vnoremap <silent><buffer> d :Shdo rm -rf {}<CR>
+    autocmd FileType dirvish nnoremap <silent><buffer> rr :Shdo mv {}<CR>
+    autocmd FileType dirvish vnoremap <silent><buffer> r :Shdo mv {}<CR>
+    autocmd FileType dirvish nnoremap <silent><buffer> cc :Shdo cp {}<CR>
+    autocmd FileType dirvish vnoremap <silent><buffer> c :Shdo cp {}<CR>
+
     " 開いていたファイルやDirectory(w:dirvishbefore)にカーソルをあわせる
     autocmd FileType dirvish call <SID>mydirvish_selectprevdir()
     autocmd FileType dirvish let w:dirvishbefore=expand("%:p")
