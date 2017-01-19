@@ -263,6 +263,7 @@ augroup END
 " Self constructed plugins {{{
 let s:myplugins = $MYDOTFILES . '/vim'
 execute 'set runtimepath+=' . escape(s:myplugins, ' ')
+set runtimepath+=$HOME/.fzf/
 "}}}
 " Confirm whether or not install dein if not exists {{{
 " 各プラグインをインストールするディレクトリ

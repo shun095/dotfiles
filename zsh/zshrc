@@ -2,12 +2,12 @@
 
 export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
-export TERM=xterm
 
 setopt AUTO_CD
 
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
+	export TERM=xterm
 	# tmux attach || tmux new-session
 fi
 
