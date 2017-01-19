@@ -6,7 +6,7 @@ export TERM=xterm
 
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
-	tmux attach || tmux new-session
+	# tmux attach || tmux new-session
 fi
 
 if [[ -x "`which trash-put`" ]]; then
