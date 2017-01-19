@@ -4,6 +4,8 @@ export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
 export TERM=xterm
 
+setopt AUTO_CD
+
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
 	# tmux attach || tmux new-session
