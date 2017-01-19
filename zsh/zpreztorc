@@ -35,6 +35,8 @@ zstyle ':prezto:load' pmodule \
   'prompt' \
   'syntax-highlighting' \
   'command-not-found' \
+  'tmux' \
+  'autosuggestions' \
   'history-substring-search'
 
 #
@@ -49,7 +51,7 @@ zstyle ':prezto:load' pmodule \
 #
 
 # Set the query found color.
-# zstyle ':prezto:module:autosuggestions:color' found ''
+zstyle ':prezto:module:autosuggestions:color' found ''
 
 #
 # Editor
