@@ -35,9 +35,8 @@ zstyle ':prezto:load' pmodule \
   'prompt' \
   'syntax-highlighting' \
   'command-not-found' \
-  'autosuggestions' \
   'history-substring-search'
-
+  # 'autosuggestions' \
 #
 # Deer
 #

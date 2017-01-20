@@ -264,6 +264,7 @@ augroup END
 let s:myplugins = $MYDOTFILES . '/vim'
 execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 set runtimepath+=$HOME/.fzf/
+nnoremap <Leader><C-f> :<C-u>FZF<CR>
 "}}}
 " Confirm whether or not install dein if not exists {{{
 " 各プラグインをインストールするディレクトリ
