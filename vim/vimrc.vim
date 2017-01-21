@@ -39,11 +39,11 @@ if has('win32')
   let g:solarized_termcolors = 16
 elseif has('unix')
   set t_Co=256                   " ターミナルで256色を使う
+  let g:solarized_termcolors = 256
   set t_ut=
   if v:version >= 800
     set termguicolors
   endif
-  let g:solarized_termcolors = 256
   if executable('gsettings') && has("job")
     augroup VIMRC1
       autocmd!
@@ -63,12 +63,6 @@ endif
 
 set visualbell
 set t_vb=
-
-if v:version >= 800                " バージョン検出
-  set breakindent                " version8以降搭載の便利オプション
-  set display=truncate
-  set emoji                          " 絵文字を全角表示
-endif
 
 set diffopt=filler,iwhite,vertical " diffのときの挙動
 set cursorline                   " カーソル行のハイライト
@@ -117,12 +111,16 @@ set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判
 set fileformats=unix,dos,mac " 改行コード自動判別優先順位の設定
 set complete=.,w,b,u,k,s,t,i,d,t
 set completeopt=menuone,preview " 補完関係の設定
-if v:version >= 800
-  set completeopt+=noselect
-endif
 set omnifunc=syntaxcomplete#Complete
 set iminsert=0 " IMEの管理
 set imsearch=0
+
+if v:version >= 800                " バージョン検出
+  set breakindent                " version8以降搭載の便利オプション
+  set display=truncate
+  set emoji                          " 絵文字を全角表示
+  set completeopt+=noselect
+endif
 
 " Statusline settings {{{
 set statusline=%F%m%r%h%w%q%=
@@ -131,7 +129,6 @@ set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding
 set statusline+=%y
 set statusline+=%4p%%%5l:%-3c
 " }}}
-
 
 " agがあればgrepの代わりにagを使う
 if executable('ag')
@@ -162,11 +159,22 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up> gk
+vnoremap j gj
+vnoremap k gk
+vnoremap <Down> gj
+vnoremap <Up> gk
+
 noremap <C-j> <ESC>
 noremap! <C-j> <ESC>
 
+
 " !マークは挿入モードとコマンドラインモードへのマッピング
-noremap! <C-l> <Del>
+" インサートモードとコマンドモードで一部emacsキーバインド
+noremap! <C-f> <Right>
+noremap! <C-b> <Left>
+cnoremap <C-a> <C-b>
+cnoremap <C-@> <C-a>
+
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
 " ビジュアルモードでも*検索が使えるようにする
