@@ -483,7 +483,7 @@ if dein#tap('vim-quickrun')
   nmap <silent> <Leader>R :CdCurrent<CR><Plug>(quickrun)
   nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>myvimrc_quickrun_sweep() : "\<C-c>"
 
-  fun s:myvimrc_quickrun_sweep()
+  fun! s:myvimrc_quickrun_sweep()
     echo 'Quickrun Sweep'
     call quickrun#sweep_sessions()
   endf

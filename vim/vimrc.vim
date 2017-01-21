@@ -8,11 +8,6 @@ if &compatible
   set nocompatible
 endif
 
-" if exists('g:loaded_myvimrc')
-" 	finish
-" endif
-" let g:loaded_myvimrc = 1
-
 let s:true = 1
 let s:false = 0
 
@@ -186,14 +181,14 @@ nnoremap <C-]> g<C-]>
 " Commands {{{
 " Sudoで強制保存
 if has('unix')
-  command Wsudo execute("w !sudo tee % > /dev/null")
+  command! Wsudo execute("w !sudo tee % > /dev/null")
 endif
 
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
-command CdCurrent cd\ %:h
-command CopyPath call myvimrc#copypath()
-command Ctags call myvimrc#ctags_project()
-command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+command! CdCurrent cd\ %:h
+command! CopyPath call myvimrc#copypath()
+command! Ctags call myvimrc#ctags_project()
+command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 " }}}
 " Autocmds {{{
 augroup VIMRC2
@@ -282,25 +277,22 @@ augroup END
 " }}}
 " Self constructed plugins {{{
 let s:myplugins = $MYDOTFILES . '/vim'
-execute 'set runtimepath+=' . escape(s:myplugins, ' ')
+exe 'set runtimepath+=' . escape(s:myplugins, ' \')
 set runtimepath+=$HOME/.fzf/
 nnoremap <Leader><C-f> :call myvimrc#command_at_destdir(myvimrc#find_project_dir('.git'),['FZF'])<CR>
 "}}}
 " Confirm whether or not install dein if not exists {{{
-" 各プラグインをインストールするディレクトリ
-let s:plugin_dir = $HOME . '/.vim/dein/'
-" dein.vimをインストールするディレクトリをランタイムパスへ追加
-let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
-" dein.vimがまだ入ってなければインストールするか確認
+let s:plugin_dir = $HOME . '/.vim/dein'
+let s:dein_dir = s:plugin_dir . '/repos/github.com/Shougo/dein.vim'
+
 if !isdirectory(s:dein_dir) && g:use_plugins == s:true
   " deinがインストールされてない場合そのままではプラグインは使わない
   let g:use_plugins = s:false
-  " deinを今インストールするか確認
+
   let s:install_dein_diag_mes = 'Dein is not installed yet.Install now?'
   if confirm(s:install_dein_diag_mes,"&yes\n&no",2) == 1
-    " deinをインストールする
     call mkdir(s:dein_dir, 'p')
-    execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
+    exe printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
     " インストールが完了したらフラグを立てる
     let g:use_plugins = s:true
   endif
@@ -313,7 +305,7 @@ endif
 if g:use_plugins == s:true
   " Load local settings"{{{
   if filereadable($MYDOTFILES . '/vim-local.vim')
-    execute 'source ' . $MYDOTFILES . '/vim-local.vim'
+    source $MYDOTFILES/vim-local.vim
   endif
   "}}}
   " Plugin pre settings {{{
@@ -345,21 +337,17 @@ if g:use_plugins == s:true
   " " Vim-plug END
   " " }}}
   " Dein main settings {{{
-  " escapeでスペースつきのホームフォルダ名に対応
-  " ...できていない
-  execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
+  exe 'set runtimepath+=' . escape(s:dein_dir, ' \')
 
-  let g:plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
-  let g:plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
+  let s:plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
+  let s:plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
 
-  let g:dein#install_max_processes = 64
-  " let g:dein#install_process_timeout = 240
-  if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
+  if dein#load_state(s:plugin_dir,s:plugins_toml,s:plugins_lazy_toml)
     call dein#begin(s:plugin_dir)
     call dein#add('Shougo/dein.vim')
 
-    call dein#load_toml(g:plugins_toml,{'lazy' : 0})
-    call dein#load_toml(g:plugins_lazy_toml,{'lazy' : 1})
+    call dein#load_toml(s:plugins_toml,{'lazy' : 0})
+    call dein#load_toml(s:plugins_lazy_toml,{'lazy' : 1})
 
     call dein#end()
     call dein#save_state()
@@ -380,20 +368,19 @@ if g:use_plugins == s:true
   source $MYVIMHOME/scripts/custom.vim
   " Dein end
   if filereadable($MYDOTFILES . '/vim-localafter.vim')
-    execute 'source ' . $MYDOTFILES . '/vim-localafter.vim'
+    source $MYDOTFILES/vim-localafter.vim'
   endif
   " }}}
   " Color settings {{{
   " ターミナルでの色設定
   if has('win32') && !has('gui_running')
     colorscheme elflord
-    cd $HOME
   else
-    " set background=light
-    " let g:airline_theme="solarized"
-    " colorscheme solarized
-    " colorscheme summerfruit256
     try
+      " set background=light
+      " let g:airline_theme="solarized"
+      " colorscheme solarized
+      " colorscheme summerfruit256
       colorscheme onedark
       let g:airline_theme='onedark'
       highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
@@ -453,5 +440,5 @@ else
   " }}}
 endif
 if getcwd() ==# $VIM
-  exe 'cd ' . $HOME
+  cd $HOME
 endif
