@@ -51,7 +51,7 @@ if dein#tap('YouCompleteMe')
   endif
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-  autocmd VIMRCCUSTOM FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
+  " autocmd VIMRCCUSTOM FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
   nnoremap <leader><c-]> :<C-u>YcmCompleter GoTo<CR>
 endif
 if dein#tap('ctrlp-filer')
@@ -545,4 +545,8 @@ if dein#tap('vimfiler.vim')
 endif
 if dein#tap('revimses')
   let g:revimses#sessionoptions = &sessionoptions
+endif
+if dein#tap('jedi-vim')
+  let g:jedi#completions_enabled = 0
+  let g:jedi#show_call_signatures = 2
 endif

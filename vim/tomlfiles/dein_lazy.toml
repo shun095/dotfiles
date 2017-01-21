@@ -1,10 +1,4 @@
 # vim:set foldmethod=marker:
-# [[plugins]]
-# repo = "sjl/gundo.vim"
-# on_if = 'has("python")'
-# hook_post_source = '''
-#	 nnoremap <Leader>gu :<C-u>GundoToggle<cr>
-# '''
 [[plugins]]
 repo = "bkad/CamelCaseMotion"
 on_map = ['n', ',']
@@ -175,6 +169,9 @@ on_ft = ['c','cpp']
 [[plugins]]
 repo = 't9md/vim-choosewin'
 on_event = "VimEnter"
+[[plugins]]
+repo = 'davidhalter/jedi-vim'
+on_ft = 'python'
 [[plugins]]
 repo = 'tell-k/vim-autopep8'
 on_ft = 'python'

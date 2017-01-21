@@ -169,6 +169,8 @@ noremap! <C-f> <Right>
 noremap! <C-b> <Left>
 cnoremap <C-a> <C-b>
 cnoremap <C-@> <C-a>
+cnoremap <C-p> <up>
+cnoremap <C-n> <down>
 
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
@@ -357,11 +359,15 @@ if g:use_plugins == s:true
   syntax enable
 
   if dein#check_install()
-    augroup VIMRC3
-      autocmd!
-      " インストールされていないプラグインがあれば確認
-      autocmd VimEnter * call myvimrc#confirm_do_dein_install()
-    augroup END
+    " インストールされていないプラグインがあれば確認
+    if has('vim_starting')
+      augroup VIMRC3
+        autocmd!
+        autocmd VimEnter * call myvimrc#confirm_do_dein_install()
+      augroup END
+    else
+      call myvimrc#confirm_do_dein_install()
+    endif
   endif
 
   " load settings of plugins

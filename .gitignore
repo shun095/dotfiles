@@ -1,5 +1,5 @@
 *-local*
-*.swp
+*.sw[po]
 *.exe
 *.pyc
 *.out
