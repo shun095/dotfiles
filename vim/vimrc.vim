@@ -48,6 +48,13 @@ elseif has('unix')
       autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
       autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
       autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+      let s:curshape_str = '!profile=$(gsettings get org.gnome.Terminal.ProfilesList default); '
+      let s:curshape_str .= 'profile=${profile:1:-1}; '
+      let s:curshape_str .= 'gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" '
+      let s:curshape_str .= 'cursor-shape '
+      autocmd InsertEnter * silent execute s:curshape_str . 'ibeam'
+	  autocmd InsertLeave * silent execute s:curshape_str . 'block'
+      autocmd VimLeave * silent execute s:curshape_str . 'block'
     augroup END
   endif
 endif
