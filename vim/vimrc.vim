@@ -42,19 +42,19 @@ elseif has('unix')
   set t_ut=
   set termguicolors
   let g:solarized_termcolors = 256
-  if executable('gconftool-2')
+  if executable('gsettings')
     augroup VIMRC1
       autocmd!
-      autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
-      autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-      autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-      let s:curshape_str = '!profile=$(gsettings get org.gnome.Terminal.ProfilesList default); '
+      " autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
+      " autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+      " autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+      let s:curshape_str = 'profile=$(gsettings get org.gnome.Terminal.ProfilesList default); '
       let s:curshape_str .= 'profile=${profile:1:-1}; '
       let s:curshape_str .= 'gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" '
       let s:curshape_str .= 'cursor-shape '
-      autocmd InsertEnter * silent execute s:curshape_str . 'ibeam'
-	  autocmd InsertLeave * silent execute s:curshape_str . 'block'
-      autocmd VimLeave * silent execute s:curshape_str . 'block'
+      autocmd InsertEnter * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'ibeam'])
+      autocmd InsertLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
+      autocmd VimLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
     augroup END
   endif
 endif
