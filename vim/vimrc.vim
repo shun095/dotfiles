@@ -281,7 +281,7 @@ augroup END
 let s:myplugins = $MYDOTFILES . '/vim'
 exe 'set runtimepath+=' . escape(s:myplugins, ' \')
 set runtimepath+=$HOME/.fzf/
-nnoremap <Leader><C-f> :call myvimrc#command_at_destdir(myvimrc#find_project_dir('.git'),['FZF'])<CR>
+nnoremap <Leader><C-f> :call myvimrc#command_at_destdir(myvimrc#find_project_dir(['.git','.tags']),['FZF'])<CR>
 "}}}
 " Confirm whether or not install dein if not exists {{{
 let s:plugin_dir = $HOME . '/.vim/dein'
