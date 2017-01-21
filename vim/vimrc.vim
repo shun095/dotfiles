@@ -48,6 +48,13 @@ elseif has('unix')
       autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
       autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
       autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+      let s:curshape_str = '!profile=$(gsettings get org.gnome.Terminal.ProfilesList default); '
+      let s:curshape_str .= 'profile=${profile:1:-1}; '
+      let s:curshape_str .= 'gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" '
+      let s:curshape_str .= 'cursor-shape '
+      autocmd InsertEnter * silent execute s:curshape_str . 'ibeam'
+	  autocmd InsertLeave * silent execute s:curshape_str . 'block'
+      autocmd VimLeave * silent execute s:curshape_str . 'block'
     augroup END
   endif
 endif
@@ -188,11 +195,11 @@ augroup VIMRC2
 
   " python関係の設定
   let g:python_highlight_all = 1
-  autocmd FileType python setl autoindent
-  autocmd FileType python setl foldmethod=indent smartindent
-  autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
-  autocmd FileType python inoremap <buffer> # X#
-  autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
+  " autocmd FileType python setl autoindent nosmartindent
+  " autocmd FileType python setl foldmethod=indent
+  " autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
+  " autocmd FileType python inoremap <buffer> # X#
+  " autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
 
   " cpp関係の設定
   autocmd FileType c,cpp setl foldmethod=syntax
@@ -264,7 +271,7 @@ augroup END
 let s:myplugins = $MYDOTFILES . '/vim'
 execute 'set runtimepath+=' . escape(s:myplugins, ' ')
 set runtimepath+=$HOME/.fzf/
-nnoremap <Leader><C-f> :<C-u>FZF<CR>
+nnoremap <Leader><C-f> :call myvimrc#command_at_destdir(myvimrc#find_project_dir('.git'),['FZF'])<CR>
 "}}}
 " Confirm whether or not install dein if not exists {{{
 " 各プラグインをインストールするディレクトリ
