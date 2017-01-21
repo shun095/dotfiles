@@ -48,9 +48,13 @@ elseif has('unix')
       autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
       autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
       autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-      autocmd InsertEnter * silent execute '!profile=$(gsettings get org.gnome.Terminal.ProfilesList default); profile=${profile:1:-1}; gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" cursor-shape ibeam'
-	  autocmd InsertLeave * silent execute '!profile=$(gsettings get org.gnome.Terminal.ProfilesList default); profile=${profile:1:-1}; gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" cursor-shape block'
-      autocmd VimLeave * silent execute '!profile=$(gsettings get org.gnome.Terminal.ProfilesList default); profile=${profile:1:-1}; gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" cursor-shape block'
+      let s:cursorshape_string = '!profile=$(gsettings get org.gnome.Terminal.ProfilesList default); '
+      let s:cursorshape_string .= 'profile=${profile:1:-1}; '
+      let s:cursorshape_string .= 'gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" '
+      let s:cursorshape_string .= 'cursor-shape '
+      autocmd InsertEnter * silent execute s:cursorshape_string . 'ibeam'
+	  autocmd InsertLeave * silent execute s:cursorshape_string . 'block'
+      autocmd VimLeave * silent execute s:cursorshape_string . 'block'
     augroup END
   endif
 endif
