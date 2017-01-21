@@ -40,9 +40,11 @@ if has('win32')
 elseif has('unix')
   set t_Co=256                   " ターミナルで256色を使う
   set t_ut=
-  set termguicolors
+  if v:version >= 800
+    set termguicolors
+  endif
   let g:solarized_termcolors = 256
-  if executable('gsettings')
+  if executable('gsettings') && has("job")
     augroup VIMRC1
       autocmd!
       " autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
@@ -64,6 +66,8 @@ set t_vb=
 
 if v:version >= 800                " バージョン検出
   set breakindent                " version8以降搭載の便利オプション
+  set display=truncate
+  set emoji                          " 絵文字を全角表示
 endif
 
 set diffopt=filler,iwhite,vertical " diffのときの挙動
@@ -82,7 +86,6 @@ set autoindent
 set softtabstop=4                  " バックスペース等でスペースを消す幅
 set list                           " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
 set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<,nbsp:%
-set display=truncate
 set wildmenu                       " コマンドの補完設定
 set wildmode=longest:full,full     " コマンドの補完スタイル
 set laststatus=2                   " 下のステータスバーの表示
@@ -101,7 +104,6 @@ set autoread                       " 他のソフトで、編集中ファイル�
 set noautochdir                    " 今開いてるファイルにカレントディレクトリを移動するか
 set scrolloff=5                    " カーソルが端まで行く前にスクロールし始める行数
 set ambiwidth=double               " 全角記号（「→」など）の文字幅を半角２つ分にする
-set emoji                          " 絵文字を全角表示
 set mouse=a                        " マウスを有効化
 set nomousehide                    " 入力中にポインタを消すかどうか
 set nolazyredraw
@@ -114,7 +116,10 @@ set ttimeoutlen=100
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判別優先順位の設定
 set fileformats=unix,dos,mac " 改行コード自動判別優先順位の設定
 set complete=.,w,b,u,k,s,t,i,d,t
-set completeopt=menuone,noselect,preview " 補完関係の設定
+set completeopt=menuone,preview " 補完関係の設定
+if v:version >= 800
+  set completeopt+=noselect
+endif
 set omnifunc=syntaxcomplete#Complete
 set iminsert=0 " IMEの管理
 set imsearch=0
