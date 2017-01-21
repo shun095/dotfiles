@@ -145,7 +145,7 @@ if dein#tap('open-browser.vim')
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
   nnoremap <Leader>oh :<C-u>OpenBrowser https://
-  nnoremap <Leader>os :<C-u>OpenBrowserSearch 
+  nnoremap <Leader>os :<C-u>OpenBrowserSearch<Space>
 endif
 if dein#tap('previm')
   let g:previm_enable_realtime = 1
