@@ -5,17 +5,14 @@ fun myvimrc#ImInActivate() abort
   endif
 endf
 fun myvimrc#confirm_do_dein_install() abort
-  if !exists("g:my_dein_install_confirmed")
-    let s:confirm_plugins_install = confirm(
-          \"Some plugins are not installed yet. Install now?",
-          \"&yes\n&no",2
-          \)
-    if s:confirm_plugins_install == 1
-      call dein#install()
-    else
-      echomsg "Plugins were not installed. Please install after."
-    endif
-    let g:my_dein_install_confirmed = 1
+  let l:confirm_plugins_install = confirm(
+        \"Some plugins are not installed yet. Install now?",
+        \"&yes\n&no",2
+        \)
+  if l:confirm_plugins_install == 1
+    call dein#install()
+  else
+    echomsg "Plugins were not installed. Please install after."
   endif
 endf
 fun myvimrc#NiceLexplore(open_on_bufferdir) abort
