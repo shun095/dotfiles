@@ -18,8 +18,11 @@ fun myrosmake#rosmake(filename) abort
       let l:command = myrosmake#get_make_command()
       " cdして実行
       call myrosmake#cd_command_cdreturn(l:package_dir,[l:command])
+    else
+      echohl WarningMsg
+      echom "Appropriate directory couldn't be found!! (There is no stack/manifest.xml file.)"
+      echohl none
     endif
-
   endif
 endf
 
@@ -56,34 +59,52 @@ fun myrosmake#get_make_command() abort
   return l:command
 endf
 
-fun myrosmake#find_project_dir(filename) abort
-  " init variable
-  let l:package_dir = ''
-
-  " ----Reference from help about finddir()---- {{{
-  " finddir()
-  " 最初に見つかったディレクトリのパスを返す。そのディレクトリがカレントディレクトリの
-  " 下にある場合は相対パスを返す。そうでなければ絶対パスを返す。
-  " findfile() is same as finddir()
-  " }}}
-  let l:rosxmlfile = findfile(a:filename, expand('%:p').';')
-
-  if l:rosxmlfile !=# '' && (l:rosxmlfile[0] !=# '/') " ファイルが存在し、絶対パス表記でなかったら
-    let l:package_dir = getcwd() . '/' . l:rosxmlfile
-  else " ファイルが存在しないか、絶対パス表記だったら
-    let l:package_dir = l:rosxmlfile
-  endif
-
-  if l:package_dir ==# ''
-    echohl WarningMsg
-    echom "Appropriate directory couldn't be found!! (There is no stack/manifest.xml file.)"
-    echohl none
+fun myrosmake#find_project_dir(searchname_arg) abort
+  if type(a:searchname_arg) == 1 " stringのとき
+    let l:arg_is_string = 1
+    let l:searchname = a:searchname_arg
+  elseif type(a:searchname_arg) == 3 " listのとき
+    let l:arg_is_string = 0
+    let l:index = 0
+    let l:searchname = a:searchname_arg[l:index]
   else
-    " ファイル名をパスから削除
-    let l:package_dir = substitute(l:package_dir, a:filename, '', 'g')
+    echoerr 'Argument is not appropriate to myrosmake#find_project_dir()'
+    return
   endif
 
-  return l:package_dir
+  let l:destdir = ''
+
+  while l:destdir == '' && l:searchname !=# ''
+    let l:target = findfile(l:searchname, expand('%:p').';')
+
+    if l:target ==# ''
+      let l:target = finddir(l:searchname, expand('%:p').';')
+    endif
+
+    if l:target ==# ''
+      let l:destdir = ''
+    else
+      let l:target = fnamemodify(l:target, ':p')
+      if isdirectory(l:target)
+        let l:destdir = fnamemodify(l:target, ':h:h')
+      else
+        let l:destdir = fnamemodify(l:target, ':h')
+      endif
+    endif
+
+    if l:arg_is_string == 1 " stringのとき
+      let l:searchname = ''
+    else " listのとき
+      let l:index = l:index + 1
+      if l:index < len(a:searchname_arg)
+        let l:searchname = a:searchname_arg[l:index]
+      else
+        let l:searchname = ''
+      endif
+    endif
+  endwhile
+
+  return l:destdir
 endf
 
 fun myrosmake#cd_command_cdreturn(destination,commandlist) abort

@@ -58,6 +58,7 @@ set cursorline                   " カーソル行のハイライト
 set nocursorcolumn
 set backspace=indent,eol,start     " バックスペース挙動のおまじない
 set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
+                                   "Vimrc_clipboard_syncからの依存に注意
 set ignorecase                     " 大文字小文字無視
 set smartcase                      " 大文字で始まる場合は無視しない
 set foldmethod=marker              " syntaxに応じて折りたたまれる
@@ -230,19 +231,26 @@ augroup VIMRC2
   autocmd VimEnter * call myvimrc#git_auto_updating()
   " クリップボードが無名レジスタと違ったら
   " (他のソフトでコピーしてきたということなので)
-  " yレジスタに保存しておく
-  autocmd CursorHold,CursorHoldI * if @* != @" | let @y = @* | endif
+  " 他のレジスタに保存しておく
+  if has("job")
+    fun! Vimrc_clipboard_sync(timer)
+      if @* != @"
+        let @" = @*
+        let @0 = @*
+      endif
+    endf
+    call timer_start(500,'Vimrc_clipboard_sync',{'repeat':-1})
+  else
+    autocmd CursorHold,CursorHoldI
+          \ * if @* != @" | let @" = @* | let @0 = @* | endif
+  endif
+
+  autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 augroup END
 "}}}
 " Build in plugins {{{
 set runtimepath+=$VIMRUNTIME/pack/dist/opt/editexisting
 set runtimepath+=$VIMRUNTIME/pack/dist/opt/matchit
-" let g:loaded_getscriptPlugin = 1
-" let g:loaded_gzip = 1
-" let g:loaded_logiPat = 1
-" let g:loaded_tarPlugin = 1
-" let g:loaded_vimballPlugin = 1
-" let g:loaded_zipPlugin = 1
 " }}}
 " General Netrw settings {{{
 " let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない

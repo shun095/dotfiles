@@ -86,10 +86,15 @@ endf
 fun myvimrc#find_project_dir(searchname_arg) abort
 
   if type(a:searchname_arg) == 1 " stringのとき
+    let l:arg_is_string = 1
     let l:searchname = a:searchname_arg
   elseif type(a:searchname_arg) == 3 " listのとき
+    let l:arg_is_string = 0
     let l:index = 0
     let l:searchname = a:searchname_arg[l:index]
+  else
+    echoerr 'Argument is not appropriate to myvimrc#find_project_dir()'
+    return
   endif
 
   let l:destdir = ''
@@ -112,9 +117,9 @@ fun myvimrc#find_project_dir(searchname_arg) abort
       endif
     endif
 
-    if type(a:searchname_arg) == 1 " stringのとき
+    if l:arg_is_string == 1 " stringのとき
       let l:searchname = ''
-    elseif type(a:searchname_arg) == 3 " listのとき
+    else " listのとき
       let l:index = l:index + 1
       if l:index < len(a:searchname_arg)
         let l:searchname = a:searchname_arg[l:index]

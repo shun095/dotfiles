@@ -353,7 +353,7 @@ if dein#tap('vim-dirvish')
     else
       return 'vsplit|' . savepre .'| let w:dirvish_splited = 1 | Dirvish %:p:h'
     endif
-  endfun
+  endf
   fun s:quit_mydirvish()
     if !exists('w:dirvish_splited')
       let w:dirvish_splited = 0
@@ -364,7 +364,7 @@ if dein#tap('vim-dirvish')
       nmap <buffer> q <plug>(dirvish_quit)
       normal q
     endif
-  endfun
+  endf
   fun s:mydirvish_selectprevdir()
     if exists('w:dirvishbefore')
       call search('\V\^'.escape(w:dirvishbefore, '\').'\$', 'cw')
