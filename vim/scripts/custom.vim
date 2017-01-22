@@ -4,10 +4,6 @@ if &compatible
   set nocompatible
 endif
 
-augroup VIMRCCUSTOM
-  autocmd!
-augroup END
-
 if dein#tap('TweetVim')
   " 1ページに表示する最大数
   let g:tweetvim_tweet_per_page = 20
@@ -165,7 +161,10 @@ if dein#tap('tagbar')
   let g:tagbar_autopreview = 0
   let g:tagbar_autofocus = 1
   let g:tagbar_autoclose = 1
-  autocmd VIMRCCUSTOM FileType help let b:tagbar_ignore = 1
+  augroup CustomTagbar
+    autocmd!
+    autocmd FileType help let b:tagbar_ignore = 1
+  augroup END
 endif
 if dein#tap('ultisnips')
   " better key bindings for UltiSnipsExpandTrigger
@@ -371,7 +370,7 @@ if dein#tap('vim-dirvish')
       call search('\V\^'.escape(w:dirvishbefore, '\').'\$', 'cw')
     endif
   endf
-  augroup mydirvish
+  augroup CustomDirvish
     autocmd!
     " hとlによる移動
     autocmd FileType dirvish nnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
@@ -436,7 +435,7 @@ if dein#tap('vim-precious')
         \	'help' : 0
         \}
   " INSERTモードのON／OFFに合わせてトグル
-  augroup PreciousAuto
+  augroup CustomPrecious
     autocmd!
     autocmd InsertEnter * :PreciousSwitch
     autocmd InsertLeave * :PreciousSwitch

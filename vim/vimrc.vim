@@ -42,13 +42,7 @@ elseif has('unix')
   if executable('gsettings') && has("job")
     augroup VIMRC1
       autocmd!
-      " autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
-      " autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-      " autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-      let s:curshape_str = 'profile=$(gsettings get org.gnome.Terminal.ProfilesList default); '
-      let s:curshape_str .= 'profile=${profile:1:-1}; '
-      let s:curshape_str .= 'gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" '
-      let s:curshape_str .= 'cursor-shape '
+      let s:curshape_str = 'profile=$(gsettings get org.gnome.Terminal.ProfilesList default);profile=${profile:1:-1};gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" cursor-shape '
       autocmd InsertEnter * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'ibeam'])
       autocmd InsertLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
       autocmd VimLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
@@ -261,7 +255,7 @@ let g:netrw_altv = 1
 " カレントディレクトリを変える
 let g:netrw_keepdir = 0
 
-augroup MyNetrw
+augroup CustomNetrw
   autocmd!
   " for toggle
   " autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
