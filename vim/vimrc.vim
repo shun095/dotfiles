@@ -169,6 +169,7 @@ cnoremap <C-n> <down>
 
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
+nnoremap <C-g> 2<C-g>
 " ビジュアルモードでも*検索が使えるようにする
 vnoremap * "zy:let @/ = @z <CR>n
 nnoremap <Leader>. <ESC>:<C-u>edit $MYVIMHOME/vimrc.vim<CR>
