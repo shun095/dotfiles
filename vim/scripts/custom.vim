@@ -557,3 +557,9 @@ if dein#tap('calendar.vim')
   let g:calendar_time_zone = '+0900'
 
 endif
+if dein#tap('thumbnail.vim')
+  augroup CustomThumbnail
+    autocmd!
+    autocmd FileType thumbnail IndentGuidesDisable
+  augroup END
+endif

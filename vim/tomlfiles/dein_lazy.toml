@@ -37,10 +37,10 @@ on_ft = 'markdown'
 [[plugins]]
 repo = "kannokanno/previm"
 on_ft = 'markdown'
-[[plugins]]
-repo = "osyo-manga/vim-brightest"
-on_event = ['CursorHold']
-# on_cmd = ['BrightestEnable']
+# [[plugins]]
+# repo = "osyo-manga/vim-brightest"
+# on_event = ['CursorHold']
+# # on_cmd = ['BrightestEnable']
 [[plugins]]
 repo = "osyo-manga/vim-watchdogs"
 on_event = 'CursorHold'
@@ -193,4 +193,10 @@ on_cmd = 'BenchVimrc'
 repo = 'jasonm23/markdown-css-themes'
 [[plugins]]
 repo = 'itchyny/calendar.vim'
+on_event = 'VimEnter'
+[[plugins]]
+repo = 'itchyny/thumbnail.vim'
+on_event = 'VimEnter'
+[[plugins]]
+repo = 'itchyny/vim-cursorword'
 on_event = 'VimEnter'
