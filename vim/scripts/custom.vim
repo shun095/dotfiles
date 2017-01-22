@@ -548,6 +548,12 @@ if dein#tap('jedi-vim')
   let g:jedi#show_call_signatures = 2
 endif
 if dein#tap('calendar.vim')
+  augroup CustomCalendar
+    autocmd!
+    autocmd FileType calendar IndentGuidesDisable
+  augroup END
   let g:calendar_google_calendar = 1
   let g:calendar_google_task = 1
+  let g:calendar_time_zone = '+0900'
+
 endif
