@@ -83,23 +83,52 @@ fun myvimrc#command_at_destdir(destination,commandlist)
   endfor
   exe 'cd ' . l:previous_cwd
 endf
-fun myvimrc#find_project_dir(searchname) abort
-  let l:target = findfile(a:searchname, expand('%:p').';')
+fun myvimrc#find_project_dir(searchname_arg) abort
 
-  if l:target ==# ''
-    let l:target = finddir(a:searchname, expand('%:p').';')
-  endif
-
-  if l:target ==# ''
-    let l:destdir = ''
+  if type(a:searchname_arg) == 1 " stringのとき
+    let l:arg_is_string = 1
+    let l:searchname = a:searchname_arg
+  elseif type(a:searchname_arg) == 3 " listのとき
+    let l:arg_is_string = 0
+    let l:index = 0
+    let l:searchname = a:searchname_arg[l:index]
   else
-    let l:target = fnamemodify(l:target, ':p')
-    if isdirectory(l:target)
-      let l:destdir = fnamemodify(l:target, ':h:h')
-    else
-      let l:destdir = fnamemodify(l:target, ':h')
-    endif
+    echoerr 'Argument is not appropriate to myvimrc#find_project_dir()'
+    return
   endif
+
+  let l:destdir = ''
+
+  while l:destdir == '' && l:searchname !=# ''
+    let l:target = findfile(l:searchname, expand('%:p').';')
+
+    if l:target ==# ''
+      let l:target = finddir(l:searchname, expand('%:p').';')
+    endif
+
+    if l:target ==# ''
+      let l:destdir = ''
+    else
+      let l:target = fnamemodify(l:target, ':p')
+      if isdirectory(l:target)
+        let l:destdir = fnamemodify(l:target, ':h:h')
+      else
+        let l:destdir = fnamemodify(l:target, ':h')
+      endif
+    endif
+
+    if l:arg_is_string == 1 " stringのとき
+      let l:searchname = ''
+    else " listのとき
+      let l:index = l:index + 1
+      if l:index < len(a:searchname_arg)
+        let l:searchname = a:searchname_arg[l:index]
+      else
+        let l:searchname = ''
+      endif
+    endif
+  endwhile
+
   return l:destdir
 endf
 fun myvimrc#ctags_project() abort

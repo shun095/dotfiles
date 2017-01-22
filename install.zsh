@@ -85,9 +85,11 @@ Author: ishitaku5522
 EOF
 
 if [[ ! -z "$update" ]]; then
+	echo "Checking zprezto repository"
 	pushd ${ZPREZTODIR}
 	git pull && git submodule update --init --recursive
 	popd
+	echo "Checking fzf repository"
 	pushd ${FZFDIR}
 	git pull
 	popd

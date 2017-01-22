@@ -2,13 +2,16 @@
 
 export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
 
 setopt AUTO_CD
 
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
-	export TERM=xterm
+	export TERM=xterm-256color
 	# tmux attach || tmux new-session
+	# else
+	# export TERM=screen-256color
 fi
 
 if [[ -x "`which trash-put`" ]]; then

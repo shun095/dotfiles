@@ -8,11 +8,6 @@ if &compatible
   set nocompatible
 endif
 
-" if exists('g:loaded_myvimrc')
-" 	finish
-" endif
-" let g:loaded_myvimrc = 1
-
 let s:true = 1
 let s:false = 0
 
@@ -39,15 +34,18 @@ if has('win32')
   let g:solarized_termcolors = 16
 elseif has('unix')
   set t_Co=256                   " ターミナルで256色を使う
-  set t_ut=
-  set termguicolors
   let g:solarized_termcolors = 256
-  if executable('gconftool-2')
+  set t_ut=
+  if v:version >= 800
+    set termguicolors
+  endif
+  if executable('gsettings') && has("job")
     augroup VIMRC1
       autocmd!
-      autocmd InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
-      autocmd InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
-      autocmd VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+      let s:curshape_str = 'profile=$(gsettings get org.gnome.Terminal.ProfilesList default);profile=${profile:1:-1};gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" cursor-shape '
+      autocmd InsertEnter * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'ibeam'])
+      autocmd InsertLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
+      autocmd VimLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
     augroup END
   endif
 endif
@@ -55,27 +53,23 @@ endif
 set visualbell
 set t_vb=
 
-if v:version >= 800                " バージョン検出
-  set breakindent                " version8以降搭載の便利オプション
-endif
-
 set diffopt=filler,iwhite,vertical " diffのときの挙動
 set cursorline                   " カーソル行のハイライト
 set nocursorcolumn
 set backspace=indent,eol,start     " バックスペース挙動のおまじない
 set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
+                                   "Vimrc_clipboard_syncからの依存に注意
 set ignorecase                     " 大文字小文字無視
 set smartcase                      " 大文字で始まる場合は無視しない
 set foldmethod=marker              " syntaxに応じて折りたたまれる
 set tabstop=4                      " タブキーの挙動設定。タブをスペース4つ分とする
 set shiftwidth=4                   " インデントでスペース４つ分下げる
-set noexpandtab                      " タブをスペースに変換
+set expandtab                      " タブをスペースに変換
 set smartindent                    " 自動インデントを有効にする
 set autoindent
 set softtabstop=4                  " バックスペース等でスペースを消す幅
 set list                           " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
 set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<,nbsp:%
-set display=truncate
 set wildmenu                       " コマンドの補完設定
 set wildmode=longest:full,full     " コマンドの補完スタイル
 set laststatus=2                   " 下のステータスバーの表示
@@ -94,7 +88,6 @@ set autoread                       " 他のソフトで、編集中ファイル�
 set noautochdir                    " 今開いてるファイルにカレントディレクトリを移動するか
 set scrolloff=5                    " カーソルが端まで行く前にスクロールし始める行数
 set ambiwidth=double               " 全角記号（「→」など）の文字幅を半角２つ分にする
-set emoji                          " 絵文字を全角表示
 set mouse=a                        " マウスを有効化
 set nomousehide                    " 入力中にポインタを消すかどうか
 set nolazyredraw
@@ -107,10 +100,17 @@ set ttimeoutlen=100
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判別優先順位の設定
 set fileformats=unix,dos,mac " 改行コード自動判別優先順位の設定
 set complete=.,w,b,u,k,s,t,i,d,t
-set completeopt=menuone,noselect,preview " 補完関係の設定
+set completeopt=menuone,preview " 補完関係の設定
 set omnifunc=syntaxcomplete#Complete
 set iminsert=0 " IMEの管理
 set imsearch=0
+
+if v:version >= 800                " バージョン検出
+  set breakindent                " version8以降搭載の便利オプション
+  set display=truncate
+  set emoji                          " 絵文字を全角表示
+  set completeopt+=noselect
+endif
 
 " Statusline settings {{{
 set statusline=%F%m%r%h%w%q%=
@@ -119,7 +119,6 @@ set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding
 set statusline+=%y
 set statusline+=%4p%%%5l:%-3c
 " }}}
-
 
 " agがあればgrepの代わりにagを使う
 if executable('ag')
@@ -150,11 +149,24 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up> gk
+vnoremap j gj
+vnoremap k gk
+vnoremap <Down> gj
+vnoremap <Up> gk
+
 noremap <C-j> <ESC>
 noremap! <C-j> <ESC>
 
+
 " !マークは挿入モードとコマンドラインモードへのマッピング
-noremap! <C-l> <Del>
+" インサートモードとコマンドモードで一部emacsキーバインド
+noremap! <C-f> <Right>
+noremap! <C-b> <Left>
+cnoremap <C-a> <C-b>
+cnoremap <C-@> <C-a>
+cnoremap <C-p> <up>
+cnoremap <C-n> <down>
+
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
 " ビジュアルモードでも*検索が使えるようにする
@@ -166,14 +178,14 @@ nnoremap <C-]> g<C-]>
 " Commands {{{
 " Sudoで強制保存
 if has('unix')
-  command Wsudo execute("w !sudo tee % > /dev/null")
+  command! Wsudo execute("w !sudo tee % > /dev/null")
 endif
 
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
-command CdCurrent cd\ %:h
-command CopyPath call myvimrc#copypath()
-command Ctags call myvimrc#ctags_project()
-command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+command! CdCurrent cd\ %:h
+command! CopyPath call myvimrc#copypath()
+command! Ctags call myvimrc#ctags_project()
+command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 " }}}
 " Autocmds {{{
 augroup VIMRC2
@@ -188,11 +200,11 @@ augroup VIMRC2
 
   " python関係の設定
   let g:python_highlight_all = 1
-  autocmd FileType python setl autoindent
-  autocmd FileType python setl foldmethod=indent smartindent
-  autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
-  autocmd FileType python inoremap <buffer> # X#
-  autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
+  " autocmd FileType python setl autoindent nosmartindent
+  " autocmd FileType python setl foldmethod=indent
+  " autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
+  " autocmd FileType python inoremap <buffer> # X#
+  " autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
 
   " cpp関係の設定
   autocmd FileType c,cpp setl foldmethod=syntax
@@ -219,19 +231,26 @@ augroup VIMRC2
   autocmd VimEnter * call myvimrc#git_auto_updating()
   " クリップボードが無名レジスタと違ったら
   " (他のソフトでコピーしてきたということなので)
-  " yレジスタに保存しておく
-  autocmd CursorHold,CursorHoldI * if @* != @" | let @y = @* | endif
+  " 他のレジスタに保存しておく
+  if has("job")
+    fun! Vimrc_clipboard_sync(timer)
+      if @* != @"
+        let @" = @*
+        let @0 = @*
+      endif
+    endf
+    call timer_start(500,'Vimrc_clipboard_sync',{'repeat':-1})
+  else
+    autocmd CursorHold,CursorHoldI
+          \ * if @* != @" | let @" = @* | let @0 = @* | endif
+  endif
+
+  autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 augroup END
 "}}}
 " Build in plugins {{{
 set runtimepath+=$VIMRUNTIME/pack/dist/opt/editexisting
 set runtimepath+=$VIMRUNTIME/pack/dist/opt/matchit
-" let g:loaded_getscriptPlugin = 1
-" let g:loaded_gzip = 1
-" let g:loaded_logiPat = 1
-" let g:loaded_tarPlugin = 1
-" let g:loaded_vimballPlugin = 1
-" let g:loaded_zipPlugin = 1
 " }}}
 " General Netrw settings {{{
 " let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
@@ -244,7 +263,7 @@ let g:netrw_altv = 1
 " カレントディレクトリを変える
 let g:netrw_keepdir = 0
 
-augroup MyNetrw
+augroup CustomNetrw
   autocmd!
   " for toggle
   " autocmd FileType netrw nnoremap <buffer><Leader>e :call <SID>NiceLexplore(0)<CR>
@@ -262,24 +281,22 @@ augroup END
 " }}}
 " Self constructed plugins {{{
 let s:myplugins = $MYDOTFILES . '/vim'
-execute 'set runtimepath+=' . escape(s:myplugins, ' ')
+exe 'set runtimepath+=' . escape(s:myplugins, ' \')
 set runtimepath+=$HOME/.fzf/
+nnoremap <silent><expr><Leader><C-f> myvimrc#command_at_destdir(myvimrc#find_project_dir(['.git','tags']),['FZF'])
 "}}}
 " Confirm whether or not install dein if not exists {{{
-" 各プラグインをインストールするディレクトリ
-let s:plugin_dir = $HOME . '/.vim/dein/'
-" dein.vimをインストールするディレクトリをランタイムパスへ追加
-let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
-" dein.vimがまだ入ってなければインストールするか確認
+let s:plugin_dir = $HOME . '/.vim/dein'
+let s:dein_dir = s:plugin_dir . '/repos/github.com/Shougo/dein.vim'
+
 if !isdirectory(s:dein_dir) && g:use_plugins == s:true
   " deinがインストールされてない場合そのままではプラグインは使わない
   let g:use_plugins = s:false
-  " deinを今インストールするか確認
+
   let s:install_dein_diag_mes = 'Dein is not installed yet.Install now?'
   if confirm(s:install_dein_diag_mes,"&yes\n&no",2) == 1
-    " deinをインストールする
     call mkdir(s:dein_dir, 'p')
-    execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
+    exe printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
     " インストールが完了したらフラグを立てる
     let g:use_plugins = s:true
   endif
@@ -292,7 +309,7 @@ endif
 if g:use_plugins == s:true
   " Load local settings"{{{
   if filereadable($MYDOTFILES . '/vim-local.vim')
-    execute 'source ' . $MYDOTFILES . '/vim-local.vim'
+    source $MYDOTFILES/vim-local.vim
   endif
   "}}}
   " Plugin pre settings {{{
@@ -324,21 +341,17 @@ if g:use_plugins == s:true
   " " Vim-plug END
   " " }}}
   " Dein main settings {{{
-  " escapeでスペースつきのホームフォルダ名に対応
-  " ...できていない
-  execute 'set runtimepath+=' . escape(s:dein_dir, ' ')
+  exe 'set runtimepath+=' . escape(s:dein_dir, ' \')
 
-  let g:plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
-  let g:plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
+  let s:plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
+  let s:plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
 
-  let g:dein#install_max_processes = 64
-  " let g:dein#install_process_timeout = 240
-  if dein#load_state(s:plugin_dir,g:plugins_toml,g:plugins_lazy_toml)
+  if dein#load_state(s:plugin_dir,s:plugins_toml,s:plugins_lazy_toml)
     call dein#begin(s:plugin_dir)
     call dein#add('Shougo/dein.vim')
 
-    call dein#load_toml(g:plugins_toml,{'lazy' : 0})
-    call dein#load_toml(g:plugins_lazy_toml,{'lazy' : 1})
+    call dein#load_toml(s:plugins_toml,{'lazy' : 0})
+    call dein#load_toml(s:plugins_lazy_toml,{'lazy' : 1})
 
     call dein#end()
     call dein#save_state()
@@ -348,31 +361,34 @@ if g:use_plugins == s:true
   syntax enable
 
   if dein#check_install()
-    augroup VIMRC3
-      autocmd!
-      " インストールされていないプラグインがあれば確認
-      autocmd VimEnter * call myvimrc#confirm_do_dein_install()
-    augroup END
+    " インストールされていないプラグインがあれば確認
+    if has('vim_starting')
+      augroup VIMRC3
+        autocmd!
+        autocmd VimEnter * call myvimrc#confirm_do_dein_install()
+      augroup END
+    else
+      call myvimrc#confirm_do_dein_install()
+    endif
   endif
 
   " load settings of plugins
   source $MYVIMHOME/scripts/custom.vim
   " Dein end
   if filereadable($MYDOTFILES . '/vim-localafter.vim')
-    execute 'source ' . $MYDOTFILES . '/vim-localafter.vim'
+    source $MYDOTFILES/vim-localafter.vim'
   endif
   " }}}
   " Color settings {{{
   " ターミナルでの色設定
   if has('win32') && !has('gui_running')
     colorscheme elflord
-    cd $HOME
   else
-    " set background=light
-    " let g:airline_theme="solarized"
-    " colorscheme solarized
-    " colorscheme summerfruit256
     try
+      " set background=light
+      " let g:airline_theme="solarized"
+      " colorscheme solarized
+      " colorscheme summerfruit256
       colorscheme onedark
       let g:airline_theme='onedark'
       highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
@@ -432,5 +448,5 @@ else
   " }}}
 endif
 if getcwd() ==# $VIM
-  exe 'cd ' . $HOME
+  cd $HOME
 endif

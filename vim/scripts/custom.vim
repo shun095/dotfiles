@@ -4,10 +4,6 @@ if &compatible
   set nocompatible
 endif
 
-augroup VIMRCCUSTOM
-  autocmd!
-augroup END
-
 if dein#tap('TweetVim')
   " 1ページに表示する最大数
   let g:tweetvim_tweet_per_page = 20
@@ -51,7 +47,7 @@ if dein#tap('YouCompleteMe')
   endif
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-  autocmd VIMRCCUSTOM FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
+  " autocmd VIMRCCUSTOM FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
   nnoremap <leader><c-]> :<C-u>YcmCompleter GoTo<CR>
 endif
 if dein#tap('ctrlp-filer')
@@ -145,7 +141,7 @@ if dein#tap('open-browser.vim')
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
   nnoremap <Leader>oh :<C-u>OpenBrowser https://
-  nnoremap <Leader>os :<C-u>OpenBrowserSearch 
+  nnoremap <Leader>os :<C-u>OpenBrowserSearch<Space>
 endif
 if dein#tap('previm')
   let g:previm_enable_realtime = 1
@@ -165,7 +161,10 @@ if dein#tap('tagbar')
   let g:tagbar_autopreview = 0
   let g:tagbar_autofocus = 1
   let g:tagbar_autoclose = 1
-  autocmd VIMRCCUSTOM FileType help let b:tagbar_ignore = 1
+  augroup CustomTagbar
+    autocmd!
+    autocmd FileType help let b:tagbar_ignore = 1
+  augroup END
 endif
 if dein#tap('ultisnips')
   " better key bindings for UltiSnipsExpandTrigger
@@ -354,7 +353,7 @@ if dein#tap('vim-dirvish')
     else
       return 'vsplit|' . savepre .'| let w:dirvish_splited = 1 | Dirvish %:p:h'
     endif
-  endfun
+  endf
   fun s:quit_mydirvish()
     if !exists('w:dirvish_splited')
       let w:dirvish_splited = 0
@@ -365,13 +364,13 @@ if dein#tap('vim-dirvish')
       nmap <buffer> q <plug>(dirvish_quit)
       normal q
     endif
-  endfun
+  endf
   fun s:mydirvish_selectprevdir()
     if exists('w:dirvishbefore')
       call search('\V\^'.escape(w:dirvishbefore, '\').'\$', 'cw')
     endif
   endf
-  augroup mydirvish
+  augroup CustomDirvish
     autocmd!
     " hとlによる移動
     autocmd FileType dirvish nnoremap <silent><buffer> l :call dirvish#open('edit', 0)<CR>
@@ -436,7 +435,7 @@ if dein#tap('vim-precious')
         \	'help' : 0
         \}
   " INSERTモードのON／OFFに合わせてトグル
-  augroup PreciousAuto
+  augroup CustomPrecious
     autocmd!
     autocmd InsertEnter * :PreciousSwitch
     autocmd InsertLeave * :PreciousSwitch
@@ -483,7 +482,7 @@ if dein#tap('vim-quickrun')
   nmap <silent> <Leader>R :CdCurrent<CR><Plug>(quickrun)
   nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>myvimrc_quickrun_sweep() : "\<C-c>"
 
-  fun s:myvimrc_quickrun_sweep()
+  fun! s:myvimrc_quickrun_sweep()
     echo 'Quickrun Sweep'
     call quickrun#sweep_sessions()
   endf
@@ -545,4 +544,8 @@ if dein#tap('vimfiler.vim')
 endif
 if dein#tap('revimses')
   let g:revimses#sessionoptions = &sessionoptions
+endif
+if dein#tap('jedi-vim')
+  let g:jedi#completions_enabled = 0
+  let g:jedi#show_call_signatures = 2
 endif

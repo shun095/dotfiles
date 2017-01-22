@@ -13,7 +13,7 @@ git checkout master
 git pull origin master
 ./configure --prefix=${PREFIX} \
     --enable-fail-if-missing \
-    --enable-gui=gnome2 \
+    --enable-gui=gtk2 \
     --enable-luainterp=dynamic \
     --enable-perlinterp=dynamic \
     --enable-python3interp=dynamic \
@@ -29,7 +29,7 @@ read ans
 
 case $ans in
     [Yy] | [Yy][Ee][Ss] )
-        make -j install
+        make -j8 install
         ;;
     * )
         echo "Terminated.";;
