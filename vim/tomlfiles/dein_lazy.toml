@@ -191,3 +191,6 @@ repo = 'mattn/benchvimrc-vim'
 on_cmd = 'BenchVimrc'
 [[plugins]]
 repo = 'jasonm23/markdown-css-themes'
+[[plugins]]
+repo = 'itchyny/calendar.vim'
+on_event = 'VimEnter'
