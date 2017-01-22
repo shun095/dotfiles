@@ -118,13 +118,13 @@ if dein#tap('markdown-preview.vim')
   let g:mkdp_auto_close = 0
   let g:mkdp_auto_open = 0
   let g:mkdp_auto_start = 0
-  if has('win32') != 0
+  if has('win32')
     let s:google_chrome_path='C:/Program\ Files/Google/Chrome/Application/chrome.exe'
     let s:google_chrome_path32='C:/Program\ Files\ (x86)/Google/Chrome/Application/chrome.exe'
     if executable(s:google_chrome_path)
-      let g:mkdp_path_to_chrome=s:google_chrome_path
+      let g:mkdp_path_to_chrome=shellescape(s:google_chrome_path)
     else
-      let g:mkdp_path_to_chrome=s:google_chrome_path32
+      let g:mkdp_path_to_chrome=shellescape(s:google_chrome_path32)
     endif
   endif
 endif
