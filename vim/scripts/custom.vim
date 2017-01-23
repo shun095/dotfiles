@@ -63,11 +63,11 @@ if dein#tap('ctrlp.vim')
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
-  if has('unix')
+  " if has('unix')
     let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
-  elseif has('win32')
-    let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
-  endif
+  " elseif has('win32')
+    " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
+  " endif
   nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
   nnoremap <Leader>r :<C-u>CtrlPRegister<cr>
   nnoremap <Leader>c :<C-u>CtrlPCurWD<cr>

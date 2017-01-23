@@ -183,7 +183,7 @@ on_ft = 'python'
 # on_ft = 'csv'
 [[plugins]]
 repo = 'nixprime/cpsm'
-on_if = 'has("unix")'
+# on_if = 'has("unix")'
 on_event = 'VimEnter'
 [[plugins]]
 repo = 'FelikZ/ctrlp-py-matcher'
