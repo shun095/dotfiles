@@ -78,15 +78,15 @@ if dein#tap('ctrlp.vim')
   nnoremap <Leader><Leader> :<C-u>CtrlP<cr>
   " if executable('ag')
   " let s:ctrlp_ag_options = '--nocolor --nogroup --hidden -g ""'
-  if has('win32')
+  " if has('win32')
     let g:ctrlp_use_caching=1
     " let g:ctrlp_user_command = 'ag ' . s:ctrlp_ag_options . ' %s'
     " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
-  else
-    let g:ctrlp_use_caching=1
+  " else
+  "   let g:ctrlp_use_caching=1
     " let g:ctrlp_user_command = 'ag %s ' . s:ctrlp_ag_options
     " let g:ctrlp_user_command = 'find %s -type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"'          " MacOSX/Linux
-  endif
+  " endif
   " endif
 endif
 if dein#tap('foldCC.vim')
