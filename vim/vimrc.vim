@@ -365,7 +365,7 @@ if g:use_plugins == s:true
   if dein#check_install()
     " インストールされていないプラグインがあれば確認
     if has('vim_starting')
-      augroup VIMRC3
+      augroup vimrc_dein_install_plugs
         autocmd!
         autocmd VimEnter * call myvimrc#confirm_do_dein_install()
       augroup END

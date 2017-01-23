@@ -5,6 +5,9 @@ fun myvimrc#ImInActivate() abort
   endif
 endf
 fun myvimrc#confirm_do_dein_install() abort
+  augroup vimrc_dein_install_plugs
+    autocmd!
+  augroup END
   let l:confirm_plugins_install = confirm(
         \"Some plugins are not installed yet. Install now?",
         \"&yes\n&no",2
