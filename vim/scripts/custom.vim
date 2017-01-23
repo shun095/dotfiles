@@ -58,16 +58,16 @@ if dein#tap('ctrlp.vim')
   " yankroundのところでマッピングし直している
   let g:ctrlp_map = ''
   " let g:ctrlp_extensions = ['mixed']
-  let g:ctrlp_max_files = 20000
+  let g:ctrlp_max_files = 100000
   let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
-  if has('unix')
+  " if has('unix')
     let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
-  elseif has('win32')
-    let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
-  endif
+  " elseif has('win32')
+    " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
+  " endif
   nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
   nnoremap <Leader>r :<C-u>CtrlPRegister<cr>
   nnoremap <Leader>c :<C-u>CtrlPCurWD<cr>
@@ -81,11 +81,11 @@ if dein#tap('ctrlp.vim')
   if has('win32')
     let g:ctrlp_use_caching=1
     " let g:ctrlp_user_command = 'ag ' . s:ctrlp_ag_options . ' %s'
-    let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
+    " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
   else
     let g:ctrlp_use_caching=1
     " let g:ctrlp_user_command = 'ag %s ' . s:ctrlp_ag_options
-    let g:ctrlp_user_command = 'find %s -type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"'          " MacOSX/Linux
+    " let g:ctrlp_user_command = 'find %s -type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"'          " MacOSX/Linux
   endif
   " endif
 endif
@@ -546,4 +546,20 @@ endif
 if dein#tap('jedi-vim')
   let g:jedi#completions_enabled = 0
   let g:jedi#show_call_signatures = 2
+endif
+if dein#tap('calendar.vim')
+  augroup CustomCalendar
+    autocmd!
+    autocmd FileType calendar IndentGuidesDisable
+  augroup END
+  let g:calendar_google_calendar = 1
+  let g:calendar_google_task = 1
+  let g:calendar_time_zone = '+0900'
+
+endif
+if dein#tap('thumbnail.vim')
+  augroup CustomThumbnail
+    autocmd!
+    autocmd FileType thumbnail IndentGuidesDisable
+  augroup END
 endif
