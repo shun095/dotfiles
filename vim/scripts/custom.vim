@@ -58,13 +58,13 @@ if dein#tap('ctrlp.vim')
   " yankroundのところでマッピングし直している
   let g:ctrlp_map = ''
   " let g:ctrlp_extensions = ['mixed']
-  let g:ctrlp_max_files = 20000
+  let g:ctrlp_max_files = 100000
   let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
   " if has('unix')
-  let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
+    let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
   " elseif has('win32')
     " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
   " endif
