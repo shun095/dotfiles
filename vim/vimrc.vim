@@ -36,6 +36,7 @@ elseif has('unix')
   set t_Co=256                   " ターミナルで256色を使う
   let g:solarized_termcolors = 256
   set t_ut=
+  set ttymouse=xterm2
   if v:version >= 800
     set termguicolors
   endif
