@@ -46,7 +46,6 @@ repo = "osyo-manga/vim-watchdogs"
 on_event = 'CursorHold'
 depends = [ 'shabadou.vim', 'vim-quickrun' ]
 hook_post_source = ''' " {{{
-
 " quickrun-hook-add-include-option {{{
 let s:hook = {
       \ 'name': 'add_include_option',
@@ -104,10 +103,12 @@ endtry
 ''' # }}}
 [[plugins]]
 repo = "thinca/vim-quickrun"
-# depends = "vim-watchdogs"
-# on_event = "VimEnter"
+depends = ['vim-watchdogs','shabadou.vim']
+on_event = "VimEnter"
 on_event = "CursorHold"
 # on_cmd = 'QuickRun'
+[[plugins]]
+repo = 'osyo-manga/shabadou.vim'
 [[plugins]]
 repo = 'Shougo/unite.vim'
 on_cmd = ['Unite', 'UniteWithBufferDir']
@@ -160,24 +161,26 @@ on_event = "CursorHold"
 # on_cmd = ["PreciousReset", "PreciousSwitch"]
 depends = ['context_filetype.vim']
 [[plugins]]
+repo = 'Shougo/context_filetype.vim'
+[[plugins]]
 repo = 'rdnetto/YCM-Generator'
 on_cmd = 'YcmGenerator'
 depends = "YouCompleteMe"
 [[plugins]]
 repo = 'rhysd/vim-clang-format'
 on_ft = ['c','cpp']
-[[plugins]]
-repo = 't9md/vim-choosewin'
-on_event = "VimEnter"
+# [[plugins]]
+# repo = 't9md/vim-choosewin'
+# on_event = "VimEnter"
 [[plugins]]
 repo = 'davidhalter/jedi-vim'
 on_ft = 'python'
 [[plugins]]
 repo = 'tell-k/vim-autopep8'
 on_ft = 'python'
-[[plugins]]
-repo = 'chrisbra/csv.vim'
-on_ft = 'csv'
+# [[plugins]]
+# repo = 'chrisbra/csv.vim'
+# on_ft = 'csv'
 [[plugins]]
 repo = 'nixprime/cpsm'
 on_if = 'has("unix")'

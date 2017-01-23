@@ -347,7 +347,7 @@ if g:use_plugins == s:true
   let s:plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
   let s:plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
 
-  if dein#load_state(s:plugin_dir,s:plugins_toml,s:plugins_lazy_toml)
+  if dein#load_state(s:plugin_dir)
     call dein#begin(s:plugin_dir)
     call dein#add('Shougo/dein.vim')
 
