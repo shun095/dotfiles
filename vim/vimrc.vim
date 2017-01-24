@@ -227,6 +227,7 @@ augroup VIMRC2
 
   " ヘルプをqで閉じれるようにする
   autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
+  autocmd FileType mail source $MYDOTFILES/vim-local-signature.vim
 
   " misc
   if has('unix')
