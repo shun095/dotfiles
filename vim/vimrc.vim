@@ -240,7 +240,7 @@ augroup VIMRC2
   if has("job")
     fun! Vimrc_clipboard_sync(timer)
       if @* != @"
-        let @" = @*
+        " let @" = @*
         let @0 = @*
       endif
     endf
