@@ -150,6 +150,7 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj
 nnoremap <Up> gk
+
 vnoremap j gj
 vnoremap k gk
 vnoremap <Down> gj
@@ -157,6 +158,8 @@ vnoremap <Up> gk
 
 noremap <C-j> <ESC>
 noremap! <C-j> <ESC>
+nnoremap <C-Tab> gt
+nnoremap <C-S-TAB> gT
 
 
 " !マークは挿入モードとコマンドラインモードへのマッピング
