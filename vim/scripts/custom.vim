@@ -564,3 +564,6 @@ if dein#tap('thumbnail.vim')
     autocmd FileType thumbnail IndentGuidesDisable
   augroup END
 endif
+if dein#tap('autofmt')
+  set formatexpr=autofmt#japanese#formatexpr()
+endif

@@ -123,3 +123,5 @@ repo = 'vim-scripts/JavaScript-Indent'
 on_ft = 'javascript'
 # [[plugins]]
 # repo = 'vim-scripts/summerfruit256.vim'
+[[plugins]]
+repo = 'vim-jp/autofmt'
