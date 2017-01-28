@@ -244,6 +244,7 @@ if dein#tap('unite.vim')
   " nnoremap <space>r <Plug>(unite_restart)
 endif
 if dein#tap('vim-airline')
+  let g:airline#extensions#tagbar#enabled = 0
   let g:airline#extensions#branch#enabled		= 1
   let g:airline#extensions#branch#empty_message  = ''
   " let g:airline#extensions#whitespace#checks	 = [ 'indent',  'mixed-indent-file' ]
@@ -529,9 +530,9 @@ if dein#tap('yankround.vim')
   nmap <C-n> <Plug>(yankround-next)
 endif
 if dein#tap('vimfiler.vim')
-  let g:vimfiler_force_overwrite_statusline = 0
+  " let g:vimfiler_force_overwrite_statusline = 0
   let g:vimfiler_enable_auto_cd = 1
-  " let g:vimfiler_as_default_explorer = 1
+  let g:vimfiler_as_default_explorer = 1
   " let g:vimfiler_restore_alternate_file = 0
   nnoremap <silent> <Leader>v :VimFilerBufferDir -split -winwidth=35 -simple -toggle -find -force-quit -split-action=below<CR>
   nnoremap <silent> <Leader>V :VimFilerCurrentDir -split -winwidth=35 -simple -toggle -force-quit -split-action=below<CR>

@@ -153,9 +153,6 @@ hook_post_source = ''' " {{{
 repo = 'lervag/vimtex'
 on_ft = ['tex']
 [[plugins]]
-repo = 'majutsushi/tagbar'
-on_cmd = ['TagbarToggle', 'TagbarOpen']
-[[plugins]]
 repo = 'osyo-manga/vim-precious'
 on_event = "CursorHold"
 # on_cmd = ["PreciousReset", "PreciousSwitch"]
@@ -203,3 +200,6 @@ on_event = 'VimEnter'
 [[plugins]]
 repo = 'itchyny/vim-cursorword'
 on_event = 'VimEnter'
+[[plugins]]
+repo = 'majutsushi/tagbar'
+on_cmd = ['TagbarToggle', 'TagbarOpen']
