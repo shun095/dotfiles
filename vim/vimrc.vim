@@ -278,6 +278,7 @@ let g:netrw_alto = 1
 let g:netrw_altv = 1
 " カレントディレクトリを変える
 let g:netrw_keepdir = 0
+highlight! link netrwMarkFile Search
 
 augroup CustomNetrw
   autocmd!
@@ -288,10 +289,10 @@ augroup CustomNetrw
   autocmd FileType netrw nmap <silent><buffer>h -
   autocmd FileType netrw nmap <silent><buffer>l <CR>
   autocmd FileType netrw nmap <silent><buffer>q <C-o>
-  autocmd FileType netrw unmap <silent><buffer>qf
-  autocmd FileType netrw unmap <silent><buffer>qF
-  autocmd FileType netrw unmap <silent><buffer>qL
-  autocmd FileType netrw unmap <silent><buffer>qb
+  " autocmd FileType netrw unmap <silent><buffer>qf
+  " autocmd FileType netrw unmap <silent><buffer>qF
+  " autocmd FileType netrw unmap <silent><buffer>qL
+  " autocmd FileType netrw unmap <silent><buffer>qb
   " autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
 augroup END
 " }}}
