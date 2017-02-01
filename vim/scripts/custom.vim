@@ -44,7 +44,8 @@ if dein#tap('YouCompleteMe')
   let g:ycm_autoclose_preview_window_after_insertion = 1
   " setting of the which python is used
   if has('unix')
-    let g:ycm_python_binary_path = 'python' . g:myvimrc_python_version
+    " let g:ycm_python_binary_path = 'python' . g:myvimrc_python_version
+    let g:ycm_python_binary_path = 'python2'
   endif
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -187,6 +188,7 @@ if dein#tap('ultisnips')
   if has('unix')
     if !g:myvimrc_python_version ==? ''
       let g:UltiSnipsUsePythonVersion = g:myvimrc_python_version
+      " let g:UltiSnipsUsePythonVersion = 2
     else
       let g:UltiSnipsUsePythonVersion = 2
     endif

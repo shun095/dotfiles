@@ -10,6 +10,7 @@ import sys
 fig = plt.figure()
 ax = Axes3D(fig)
 # print 'argives' ,sys.argv[1]
+
 for t in range(50):
     x = t
     y = t

@@ -109,9 +109,9 @@ on_event = "CursorHold"
 # on_cmd = 'QuickRun'
 [[plugins]]
 repo = 'osyo-manga/shabadou.vim'
-[[plugins]]
-repo = 'Shougo/unite.vim'
-on_cmd = ['Unite', 'UniteWithBufferDir']
+# [[plugins]]
+# repo = 'Shougo/unite.vim'
+# on_cmd = ['Unite', 'UniteWithBufferDir']
 [[plugins]]
 repo = 'Valloric/YouCompleteMe'
 build = 'install.py --clang-completer'

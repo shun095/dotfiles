@@ -334,7 +334,7 @@ if g:use_plugins == s:true
   let g:vimproc#download_windows_dll = 1
   " プラグインで使われるpythonのバージョンを決定
   if !exists('g:myvimrc_python_version')
-    let g:myvimrc_python_version = ''
+    let g:myvimrc_python_version = '3'
   endif
   " }}}
   " " Vim-Plug (test){{{
