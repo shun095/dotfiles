@@ -32,8 +32,8 @@ build = 'make'
 repo = 'SirVer/ultisnips'
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
-# [[plugins]]
-# repo = 'altercation/vim-colors-solarized'
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
 [[plugins]]
 repo = 'basyura/bitly.vim'
 # [[plugins]]
