@@ -34,9 +34,9 @@ imap <silent><expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
 [[plugins]]
 repo = 'iamcco/markdown-preview.vim'
 on_ft = 'markdown'
-[[plugins]]
-repo = "kannokanno/previm"
-on_ft = 'markdown'
+# [[plugins]]
+# repo = "kannokanno/previm"
+# on_ft = 'markdown'
 # [[plugins]]
 # repo = "osyo-manga/vim-brightest"
 # on_event = ['CursorHold']

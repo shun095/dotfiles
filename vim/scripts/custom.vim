@@ -606,3 +606,9 @@ if dein#tap('autofmt')
   set formatexpr=autofmt#japanese#formatexpr()
 endif
 
+if dein#tap('denite.nvim')
+  " Change file_rec command.
+  call denite#custom#var('file_rec', 'command',
+        \ ['chcp 65001 & ag --follow --nocolor --nogroup -g ""'])
+
+endif
