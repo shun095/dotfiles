@@ -54,43 +54,44 @@ endif
 set visualbell
 set t_vb=
 
-set diffopt=filler,iwhite,vertical " diffのときの挙動
-set cursorline                   " カーソル行のハイライト
+set diffopt=filler,iwhite,vertical                    " diffのときの挙動
+set cursorline                                        " カーソル行のハイライト
 set nocursorcolumn
-set backspace=indent,eol,start     " バックスペース挙動のおまじない
-set clipboard=unnamed,unnamedplus  " コピーした文字列がclipboardに入る(逆も）
-                                   "Vimrc_clipboard_syncからの依存に注意
-set ignorecase                     " 大文字小文字無視
-set smartcase                      " 大文字で始まる場合は無視しない
-set foldmethod=marker              " syntaxに応じて折りたたまれる
-set tabstop=4                      " タブキーの挙動設定。タブをスペース4つ分とする
-set shiftwidth=4                   " インデントでスペース４つ分下げる
-set expandtab                      " タブをスペースに変換
-set smartindent                    " 自動インデントを有効にする
+set backspace=indent,eol,start                        " バックスペース挙動のおまじない
+set clipboard=unnamed,unnamedplus                     " コピーした文字列がclipboardに入る(逆も）
+                                                      " Vimrc_clipboard_syncからの依存に注意
+set ignorecase                                        " 大文字小文字無視
+set smartcase                                         " 大文字で始まる場合は無視しない
+set foldmethod=marker                                 " syntaxに応じて折りたたまれる
+set tabstop=4                                         " タブキーの挙動設定。タブをスペース4つ分とする
+set shiftwidth=4                                      " インデントでスペース４つ分下げる
+set expandtab                                         " タブをスペースに変換
+set smartindent                                       " 自動インデントを有効にする
 set autoindent
-set softtabstop=4                  " バックスペース等でスペースを消す幅
-set list                           " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
+set softtabstop=4                                     " バックスペース等でスペースを消す幅
+set list                                              " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
 set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<,nbsp:%
-set wildmenu                       " コマンドの補完設定
-set wildmode=longest:full,full     " コマンドの補完スタイル
-set laststatus=2                   " 下のステータスバーの表示
-set showcmd                        " 入力中のコマンドを右下に表示
-set cmdheight=2                    " コマンドラインの高さ
-set showtabline=2                  " タブバーを常に表示
-set number                         " 行番号表示
+set wildmenu                                          " コマンドの補完設定
+set wildmode=longest:full,full                        " コマンドの補完スタイル
+set laststatus=2                                      " 下のステータスバーの表示
+set display=lastline                                  " 一行が長い場合でも@にせずちゃんと表示
+set showcmd                                           " 入力中のコマンドを右下に表示
+set cmdheight=2                                       " コマンドラインの高さ
+set showtabline=2                                     " タブバーを常に表示
+set number                                            " 行番号表示
 set norelativenumber
-set hlsearch                       " 文字列検索時にハイライトする
-set incsearch                      " 文字入力中に検索を開始
-set ruler                          " 右下の現在行の表示
+set hlsearch                                          " 文字列検索時にハイライトする
+set incsearch                                         " 文字入力中に検索を開始
+set ruler                                             " 右下の現在行の表示
 set hidden
-set noequalalways                  " splitしたときにウィンドウが同じ大きさになるよう調節する
-set tags+=./tags;,./tags-ja;       " タグファイルを上層に向かって探す
-set autoread                       " 他のソフトで、編集中ファイルが変更されたとき自動Reload
-set noautochdir                    " 今開いてるファイルにカレントディレクトリを移動するか
-set scrolloff=5                    " カーソルが端まで行く前にスクロールし始める行数
-set ambiwidth=double               " 全角記号（「→」など）の文字幅を半角２つ分にする
-set mouse=a                        " マウスを有効化
-set nomousehide                    " 入力中にポインタを消すかどうか
+set noequalalways                                     " splitしたときにウィンドウが同じ大きさになるよう調節する
+set tags+=./tags;,./tags-ja;                          " タグファイルを上層に向かって探す
+set autoread                                          " 他のソフトで、編集中ファイルが変更されたとき自動Reload
+set noautochdir                                       " 今開いてるファイルにカレントディレクトリを移動するか
+set scrolloff=5                                       " カーソルが端まで行く前にスクロールし始める行数
+set ambiwidth=double                                  " 全角記号（「→」など）の文字幅を半角２つ分にする
+set mouse=a                                           " マウスを有効化
+set nomousehide                                       " 入力中にポインタを消すかどうか
 set nolazyredraw
 set sessionoptions=folds,help,tabpages,buffers
 set splitbelow
@@ -99,17 +100,17 @@ set updatetime=1000
 set timeoutlen=2000
 set ttimeoutlen=100
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判別優先順位の設定
-set fileformats=unix,dos,mac " 改行コード自動判別優先順位の設定
+set fileformats=unix,dos,mac                          " 改行コード自動判別優先順位の設定
 set complete=.,w,b,u,k,s,t,i,d,t
-set completeopt=menuone,preview " 補完関係の設定
+set completeopt=menuone,preview                       " 補完関係の設定
 set omnifunc=syntaxcomplete#Complete
-set iminsert=0 " IMEの管理
+set iminsert=0                                        " IMEの管理
 set imsearch=0
 
-if v:version >= 800                " バージョン検出
-  set breakindent                " version8以降搭載の便利オプション
+if v:version >= 800                                   " バージョン検出
+  set breakindent                                     " version8以降搭載の便利オプション
   set display=truncate
-  set emoji                          " 絵文字を全角表示
+  set emoji                                           " 絵文字を全角表示
   set completeopt+=noselect
 endif
 
@@ -403,17 +404,17 @@ if g:use_plugins == s:true
   else
     try
       set background=light
-      let g:airline_theme="molokai"
-      colorscheme molokai
+      " let g:airline_theme="molokai"
+      " colorscheme molokai
       " colorscheme summerfruit256
-      " colorscheme onedark
-      " let g:airline_theme='onedark'
-      " highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
-      " highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
-      " highlight! FoldColumn ctermbg=233 guibg=#0e1013
-      " highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-      " highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235 guifg=#282C34 guibg=#282C34
-      " highlight! MatchParen gui=none cterm=none term=none
+      colorscheme onedark
+      let g:airline_theme='onedark'
+      highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
+      highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
+      highlight! FoldColumn ctermbg=233 guibg=#0e1013
+      highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
+      highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235 guifg=#282C34 guibg=#282C34
+      highlight! MatchParen gui=none cterm=none term=none
 
       " highlight! StatusLine ctermbg=235 guibg=#282C34
       " highlight! StatusLineNC ctermbg=235 guibg=#282C34
@@ -425,17 +426,20 @@ if g:use_plugins == s:true
         " solarized(light)
         augroup VIMRC4
           autocmd!
+          " solarized
+          " autcmd VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#0C3540 guibg=#183F49
+          " autcmd VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#183F49 guibg=#0C3540
           " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
           " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
           " summerfruit
           " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
           " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
           " one(light)
-          " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254
-          " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253
+          " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254 guifg=#E1E1E1 guibg=#EDEDED
+          " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253 guifg=#EDEDED guibg=#E1E1E1
           " onedark
-          autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234
-          autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235
+          autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234 guifg=#252629 guibg=#1A1B1E
+          autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235 guifg=#1A1B1E guibg=#252629
         augroup END
 
       endif
