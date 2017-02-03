@@ -203,3 +203,5 @@ on_event = 'VimEnter'
 [[plugins]]
 repo = 'majutsushi/tagbar'
 on_cmd = ['TagbarToggle', 'TagbarOpen']
+[[plugins]]
+repo = 'yuratomo/gmail.vim'

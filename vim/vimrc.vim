@@ -403,8 +403,8 @@ if g:use_plugins == s:true
   else
     try
       set background=light
-      let g:airline_theme="solarized"
-      colorscheme solarized
+      let g:airline_theme="molokai"
+      colorscheme molokai
       " colorscheme summerfruit256
       " colorscheme onedark
       " let g:airline_theme='onedark'
