@@ -80,11 +80,11 @@ if dein#tap('ctrlp.vim')
   nnoremap <Leader>b :<C-u>CtrlPBuffer<cr>
   nnoremap <Leader>l :<C-u>CtrlPLine<cr>
   nnoremap <Leader><Leader> :<C-u>CtrlP<cr>
-  " if executable('ag')
-  let s:ctrlp_ag_options = '--nocolor --nogroup --hidden -g ""'
-  " if has('win32')
-  let g:ctrlp_use_caching=1
-  let g:ctrlp_user_command = 'pt ' . s:ctrlp_ag_options . ' %s'
+
+  if executable('pt')
+    let s:ctrlp_command_options = '--nocolor --nogroup --hidden -g ""'
+    let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+  endif
   " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
   " else
   "   let g:ctrlp_use_caching=1
@@ -608,6 +608,7 @@ if dein#tap('autofmt')
 endif
 
 if dein#tap('denite.nvim')
+  call denite#custom#option('default','winheight','10')
   " Change file_rec command.
   call denite#custom#var('file_rec', 'command',
         \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g:', ''])
@@ -630,13 +631,31 @@ if dein#tap('denite.nvim')
         \ '<denite:move_to_previous_line>',
         \ 'noremap'
         \)
+  " pt command on grep source
+  call denite#custom#var('grep', 'command', ['pt'])
+  call denite#custom#var('grep', 'default_opts',
+        \ ['--nogroup', '--nocolor', '--smart-case'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', [])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
+
   highlight! link deniteMatchedChar ErrorMsg
-  nnoremap <silent> <leader>df :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
-  nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>
-  nnoremap <silent> <Leader>dc :<C-u>Denite file_rec<CR>
-  nnoremap <silent> <Leader>dl :<C-u>Denite line<CR>
-  nnoremap <silent> <Leader>dg :<C-u>DeniteProjectDir grep<CR>
-  nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
-  nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
-  nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
+  " nnoremap <silent> <leader>df :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
+  " nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>
+  " nnoremap <silent> <Leader>dc :<C-u>Denite file_rec<CR>
+  " nnoremap <silent> <Leader>dl :<C-u>Denite line<CR>
+  " nnoremap <silent> <Leader>dg :<C-u>Denite grep -no-quit<CR>
+  " nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
+  " nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
+  " nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
+  " 
+  nnoremap <silent> <leader><leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
+  nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
+  nnoremap <silent> <Leader>c :<C-u>Denite file_rec<CR>
+  nnoremap <silent> <Leader>l :<C-u>Denite line<CR>
+  nnoremap <silent> <Leader>gr :<C-u>Denite grep -no-quit<CR>
+  nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
+  nnoremap <silent> <Leader>mr :<C-u>Denite file_mru<CR>
+  nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
 endif
