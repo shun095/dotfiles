@@ -609,6 +609,11 @@ endif
 
 if dein#tap('denite.nvim')
   call denite#custom#option('default','winheight','10')
+  call denite#custom#option('default','reversed','1')
+  call denite#custom#option('default','vertical_preview','0')
+  call denite#custom#option('default','highlight_matched_char','Special')
+  call denite#custom#option('default','auto_resize','1')
+
   " Change file_rec command.
   call denite#custom#var('file_rec', 'command',
         \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g:', ''])
@@ -640,7 +645,6 @@ if dein#tap('denite.nvim')
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
 
-  highlight! link deniteMatchedChar ErrorMsg
   " nnoremap <silent> <leader>df :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
   " nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>
   " nnoremap <silent> <Leader>dc :<C-u>Denite file_rec<CR>
