@@ -61,7 +61,7 @@ set alias_file = "~/.mutt/alias"
 
 source "~/.mutt/alias"
 source "~/.mutt/colors"
-source "~/.mutt/account1"
+source "~/.mutt/account2"
 
 # gmail
 macro pager,index <f2> '<sync-mailbox><refresh><enter-command>source ~/.mutt/account1<enter><change-folder>!<enter>'
