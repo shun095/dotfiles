@@ -68,9 +68,9 @@ if dein#tap('ctrlp.vim')
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
   " if has('unix')
-    let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
+  let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
   " elseif has('win32')
-    " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
+  " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
   " endif
   nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
   nnoremap <Leader>r :<C-u>CtrlPRegister<cr>
@@ -83,13 +83,13 @@ if dein#tap('ctrlp.vim')
   " if executable('ag')
   " let s:ctrlp_ag_options = '--nocolor --nogroup --hidden -g ""'
   " if has('win32')
-    let g:ctrlp_use_caching=1
-    " let g:ctrlp_user_command = 'ag ' . s:ctrlp_ag_options . ' %s'
-    " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
+  let g:ctrlp_use_caching=1
+  " let g:ctrlp_user_command = 'ag ' . s:ctrlp_ag_options . ' %s'
+  " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
   " else
   "   let g:ctrlp_use_caching=1
-    " let g:ctrlp_user_command = 'ag %s ' . s:ctrlp_ag_options
-    " let g:ctrlp_user_command = 'find %s -type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"'          " MacOSX/Linux
+  " let g:ctrlp_user_command = 'ag %s ' . s:ctrlp_ag_options
+  " let g:ctrlp_user_command = 'find %s -type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"'          " MacOSX/Linux
   " endif
   " endif
 endif
@@ -609,6 +609,31 @@ endif
 if dein#tap('denite.nvim')
   " Change file_rec command.
   call denite#custom#var('file_rec', 'command',
-        \ ['ag','--follow','--nocolor','--nogroup','-g',''])
-
+        \ ['pt', '--follow', '--nocolor', '--nogroup', '-g:', ''])
+  " call denite#custom#var('file_rec', 'command',
+  "       \ ['ag','--follow','--nocolor','--nogroup','-g',''])
+  " call denite#custom#source(
+  " \ 'file_rec', 'matchers', ['matcher_cpsm'])
+  " Change mappings.
+  call denite#custom#map(
+        \ 'insert',
+        \ '<C-j>',
+        \ '<denite:move_to_next_line>',
+        \ 'noremap'
+        \)
+  call denite#custom#map(
+        \ 'insert',
+        \ '<C-k>',
+        \ '<denite:move_to_previous_line>',
+        \ 'noremap'
+        \)
+  highlight! link deniteMatchedChar ErrorMsg
+  nnoremap <silent> <leader>df :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
+  nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>
+  nnoremap <silent> <Leader>dc :<C-u>Denite file_rec<CR>
+  nnoremap <silent> <Leader>dl :<C-u>Denite line<CR>
+  nnoremap <silent> <Leader>dg :<C-u>DeniteProjectDir grep<CR>
+  nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
+  nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
+  nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
 endif
