@@ -81,10 +81,10 @@ if dein#tap('ctrlp.vim')
   nnoremap <Leader>l :<C-u>CtrlPLine<cr>
   nnoremap <Leader><Leader> :<C-u>CtrlP<cr>
   " if executable('ag')
-  " let s:ctrlp_ag_options = '--nocolor --nogroup --hidden -g ""'
+  let s:ctrlp_ag_options = '--nocolor --nogroup --hidden -g ""'
   " if has('win32')
   let g:ctrlp_use_caching=1
-  " let g:ctrlp_user_command = 'ag ' . s:ctrlp_ag_options . ' %s'
+  let g:ctrlp_user_command = 'pt ' . s:ctrlp_ag_options . ' %s'
   " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
   " else
   "   let g:ctrlp_use_caching=1
@@ -131,10 +131,11 @@ endif
 
 if dein#tap('memolist.vim')
   " let g:memolist_memo_suffix = 'txt'
-  let g:memolist_unite = 1
-  " let g:memolist_ex_cmd = 'CtrlP'
+  " let g:memolist_unite = 1
+  " let g:memolist_ex_cmd = 'Denite file_rec -path='
   nmap <Leader>mn :MemoNew<cr>
-  nmap <Leader>ml :MemoList<cr>
+  " nmap <Leader>ml :MemoList<cr>
+  nmap <Leader>ml :execute "Denite file_rec -path=" . g:memolist_path<cr>
 endif
 
 if dein#tap('nerdtree')
@@ -609,9 +610,11 @@ endif
 if dein#tap('denite.nvim')
   " Change file_rec command.
   call denite#custom#var('file_rec', 'command',
-        \ ['pt', '--follow', '--nocolor', '--nogroup', '-g:', ''])
+        \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g:', ''])
   " call denite#custom#var('file_rec', 'command',
   "       \ ['ag','--follow','--nocolor','--nogroup','-g',''])
+  " call denite#custom#source(
+  "       \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
   " call denite#custom#source(
   " \ 'file_rec', 'matchers', ['matcher_cpsm'])
   " Change mappings.
