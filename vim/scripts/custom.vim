@@ -658,7 +658,7 @@ if dein#tap('denite.nvim')
   " nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
   " nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
   " nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
-  " 
+
   nnoremap <silent> <leader><leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
   nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
   nnoremap <silent> <Leader>c :<C-u>Denite file_rec<CR>
