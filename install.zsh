@@ -44,11 +44,11 @@ TRASH="$HOME/.trash"
 help() {
     cat << EOF
     usage: $0 [OPTIONS]
-    --help				Show this message
-    --reinstall			Refetch zsh-plugins from repository and reinstall.
-    --relink			Delete symbolic link and link again.
-    --update			Update plugins
-    EOF
+    --help              Show this message
+    --reinstall         Refetch zsh-plugins from repository and reinstall.
+    --relink            Delete symbolic link and link again.
+    --update            Update plugins
+EOF
 }
 
 
@@ -74,11 +74,11 @@ done
 
 
 cat << EOF
-____  ____  __________________    ___________
-/ __ \/ __ \/_  __/ ____/  _/ /   / ____/ ___/
-/ / / / / / / / / / /_   / // /   / __/  \__ \
-    / /_/ / /_/ / / / / __/ _/ // /___/ /___ ___/ /
-/_____/\____/ /_/ /_/   /___/_____/_____//____/
+    ____  ____  __________________    ___________
+   / __ \/ __ \/_  __/ ____/  _/ /   / ____/ ___/
+  / / / / / / / / / / /_   / // /   / __/  \__ \ 
+ / /_/ / /_/ / / / / __/ _/ // /___/ /___ ___/ / 
+/_____/\____/ /_/ /_/   /___/_____/_____//____/  
 
 Author: ishitaku5522
 
@@ -144,7 +144,7 @@ fi
 if [[ ! -e ${ZPREZTODIR} ]]; then
     echo "\n==========Download zprezto==========\n"
     git clone --recursive https://github.com/zsh-users/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-    #	git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
+    #   git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
     relinkprezto=1
 fi
 
