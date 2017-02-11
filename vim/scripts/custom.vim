@@ -617,10 +617,10 @@ if dein#tap('denite.nvim')
   " Change file_rec command.
   if has("win32")
     call denite#custom#var('file_rec', 'command',
-          \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g:', ''])
+          \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g:', ''])
   else
     call denite#custom#var('file_rec', 'command',
-          \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g=', ''])
+          \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g=', ''])
   endif
   " call denite#custom#var('file_rec', 'command',
   "       \ ['ag','--follow','--nocolor','--nogroup','-g',''])
@@ -659,12 +659,12 @@ if dein#tap('denite.nvim')
   " nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
   " nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
 
-  nnoremap <silent> <leader><leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
-  nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
-  nnoremap <silent> <Leader>c :<C-u>Denite file_rec<CR>
-  nnoremap <silent> <Leader>l :<C-u>Denite line<CR>
-  nnoremap <silent> <Leader>gr :<C-u>Denite grep -no-quit<CR>
-  nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
-  nnoremap <silent> <Leader>mr :<C-u>Denite file_mru<CR>
-  nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
+  nnoremap <silent> <leader>df :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
+  nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>
+  nnoremap <silent> <Leader>dc :<C-u>Denite file_rec<CR>
+  nnoremap <silent> <Leader>dl :<C-u>Denite line<CR>
+  nnoremap <silent> <Leader>dg :<C-u>Denite grep -no-quit<CR>
+  nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
+  nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
+  nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
 endif
