@@ -7,6 +7,7 @@ cwd=`dirname "${0}"`
 expr "${0}" : "/.*" > /dev/null || cwd=`(cd "${cwd}" && pwd)`
 
 PREFIX=${cwd}/Build
+CPUNUM=`cat /proc/cpuinfo | grep -c processor`
 
 cd ${cwd}/vim
 git checkout master
@@ -29,7 +30,7 @@ read ans
 
 case $ans in
     [Yy] | [Yy][Ee][Ss] )
-        make -j8 install
+        make -j${CPUNUM} install
         ;;
     * )
         echo "Terminated.";;
