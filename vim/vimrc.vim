@@ -59,7 +59,7 @@ set cursorline                                        " カーソル行のハイ
 set nocursorcolumn
 set backspace=indent,eol,start                        " バックスペース挙動のおまじない
 set clipboard=unnamed,unnamedplus                     " コピーした文字列がclipboardに入る(逆も）
-                                                      " Vimrc_clipboard_syncからの依存に注意
+" Vimrc_clipboard_syncからの依存に注意
 set ignorecase                                        " 大文字小文字無視
 set smartcase                                         " 大文字で始まる場合は無視しない
 set foldmethod=marker                                 " syntaxに応じて折りたたまれる
@@ -228,7 +228,23 @@ augroup VIMRC2
 
   " ヘルプをqで閉じれるようにする
   autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
-  autocmd FileType mail source $MYDOTFILES/vim-local-signature.vim
+  autocmd FileType mail call s:add_signature()
+  fun s:add_signature()
+    let l:file = $MYDOTFILES . '/vim-local-signature.vim'
+    if filereadable(l:file)
+      let l:signature = []
+      for line in readfile(l:file)
+        call add(l:signature,line)
+      endfor
+      if !exists("b:mailsignature")
+        let b:mailsignature = 1
+        silent call append(0,l:signature)
+        normal gg
+      endif
+    else
+      echomsg 'There is no signature file'
+    endif
+  endf
   " vim-local-signature 雛形
   " let s:signature = [
   " (ここに署名を書く)
