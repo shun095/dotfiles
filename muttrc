@@ -13,7 +13,8 @@ set mail_check=60
 set pager_index_lines=10
 
 auto_view text/html                                      # view html automatically
-alternative_order text/plain text/enriched text/html     # save html for last
+# alternative_order text/plain text/enriched text/html     # save html for last
+alternative_order text/html text/plain text/enriched      # save html for last
 
 bind pager,index j next-entry
 bind pager,index k previous-entry
@@ -63,6 +64,5 @@ source "~/.mutt/alias"
 source "~/.mutt/colors"
 source "~/.mutt/account2"
 
-# gmail
-macro pager,index <f2> '<sync-mailbox><refresh><enter-command>source ~/.mutt/account1<enter><change-folder>!<enter>'
-macro pager,index <f3> '<sync-mailbox><refresh><enter-command>source ~/.mutt/account2<enter><change-folder>!<enter>'
+macro pager,index <f2> '<sync-mailbox><refresh><enter-command>source ~/.mutt/account2<enter><change-folder>!<enter>'
+macro pager,index <f3> '<sync-mailbox><refresh><enter-command>source ~/.mutt/account1<enter><change-folder>!<enter>'

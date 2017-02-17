@@ -38,7 +38,7 @@ elseif has('unix')
   set t_ut=
   set ttymouse=xterm2
   if v:version >= 800
-    set termguicolors
+    set notermguicolors
   endif
   if executable('gsettings') && has("job")
     augroup VIMRC1
@@ -432,6 +432,12 @@ if g:use_plugins == s:true
       highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235 guifg=#282C34 guibg=#282C34
       highlight! MatchParen gui=none cterm=none term=none
 
+      " transparent
+      highlight! Folded cterm=underline ctermbg=none
+      highlight! FoldColumn ctermbg=none
+      highlight! Normal ctermbg=none
+      highlight! Vertsplit term=reverse ctermfg=145 ctermbg=none guifg=#282C34 guibg=#282C34
+
       " highlight! StatusLine ctermbg=235 guibg=#282C34
       " highlight! StatusLineNC ctermbg=235 guibg=#282C34
 
@@ -454,8 +460,11 @@ if g:use_plugins == s:true
           " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254 guifg=#E1E1E1 guibg=#EDEDED
           " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253 guifg=#EDEDED guibg=#E1E1E1
           " onedark
-          autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234 guifg=#252629 guibg=#1A1B1E
-          autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235 guifg=#1A1B1E guibg=#252629
+          " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234 guifg=#252629 guibg=#1A1B1E
+          " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235 guifg=#1A1B1E guibg=#252629
+          " transparent
+          autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=none guifg=#252629 guibg=#1A1B1E
+          autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=none guifg=#1A1B1E guibg=#252629
         augroup END
 
       endif
