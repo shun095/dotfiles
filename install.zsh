@@ -9,6 +9,7 @@ unlink=
 update=
 relinkprezto=
 relinkfzf=
+uninstall=
 
 # directories
 FZFDIR="$HOME/.fzf"
@@ -48,6 +49,7 @@ help() {
     --reinstall         Refetch zsh-plugins from repository and reinstall.
     --relink            Delete symbolic link and link again.
     --update            Update plugins
+    --uninstall         Uninstall
 EOF
 }
 
@@ -64,6 +66,11 @@ for opt in "$@"; do
             ;;
         --relink) unlink=1 ;;
         --update) update=1 ;;
+        --uninstall) 
+            reinstall=1
+            unlink=1
+            uninstall=1
+            ;;
         *)
             echo "unknown option: $opt"
             help
@@ -134,59 +141,61 @@ git config --global core.editor vim
 git config --global alias.graph "log --graph --all --pretty=format:'%C(auto)%h%d%n  %s %C(magenta)(%cr)%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset' --abbrev-commit --date=relative"
 
 # install fzf
-if [[ ! -e ${FZFDIR} ]]; then
-    echo "\n==========Download fzf==========\n"
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    relinkfzf=1
-fi
+if [[ -z "$uninstall" ]]; then
+    if [[ ! -e ${FZFDIR} ]]; then
+        echo "\n==========Download fzf==========\n"
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        relinkfzf=1
+    fi
 
-# download zprezto
-if [[ ! -e ${ZPREZTODIR} ]]; then
-    echo "\n==========Download zprezto==========\n"
-    git clone --recursive https://github.com/zsh-users/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-    #   git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
-    relinkprezto=1
-fi
+    # download zprezto
+    if [[ ! -e ${ZPREZTODIR} ]]; then
+        echo "\n==========Download zprezto==========\n"
+        git clone --recursive https://github.com/zsh-users/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+        #   git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
+        relinkprezto=1
+    fi
 
-# relink prezto files
-if [[ ! -z "$relinkprezto" ]]; then
-    echo "\n==========Install prezto==========\n"
-    setopt EXTENDED_GLOB
-    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-        if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
-            echo "Link .${rcfile:t}"
-            ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+    # relink prezto files
+    if [[ ! -z "$relinkprezto" ]]; then
+        echo "\n==========Install prezto==========\n"
+        setopt EXTENDED_GLOB
+        for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+            if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
+                echo "Link .${rcfile:t}"
+                ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+            fi
+        done
+
+        rm ${ZDOTDIR:-$HOME}/.zpreztorc
+        ln -s ${MYDOTFILES}/zsh/zpreztorc ${ZDOTDIR:-$HOME}/.zpreztorc
+
+        if [[ -e "$HOME/.zshrc.bak" ]]; then
+            echo "Restore backup of zshrc"
+            cat ~/.zshrc.bak > ~/.zshrc
+            rm ~/.zshrc.bak
+        else
+            touch ~/.zshrc
+            echo "Add a line for source dotfiles to zshrc"
+            echo "source $MYDOTFILES/zsh/zshrc" >> ~/.zshrc
+        fi
+    fi
+
+    if [[ ! -z "$relinkfzf" ]]; then
+        echo "\n==========Install fzf==========\n"
+        ~/.fzf/install --completion --key-bindings --update-rc
+    fi
+
+    # make symlinks
+    echo "\n==========Install RC files==========\n"
+    for i in ${SYMRANGE}; do
+        if [[ ! -e ${SYMLINKS[${i}]} ]]; then
+            touch ${SYMTARGET[${i}]}
+            ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
+            echo "Link" ${SYMLINKS[${i}]:t}
         fi
     done
-
-    rm ${ZDOTDIR:-$HOME}/.zpreztorc
-    ln -s ${MYDOTFILES}/zsh/zpreztorc ${ZDOTDIR:-$HOME}/.zpreztorc
-
-    if [[ -e "$HOME/.zshrc.bak" ]]; then
-        echo "Restore backup of zshrc"
-        cat ~/.zshrc.bak > ~/.zshrc
-        rm ~/.zshrc.bak
-    else
-        touch ~/.zshrc
-        echo "Add a line for source dotfiles to zshrc"
-        echo "source $MYDOTFILES/zsh/zshrc" >> ~/.zshrc
-    fi
 fi
-
-if [[ ! -z "$relinkfzf" ]]; then
-    echo "\n==========Install fzf==========\n"
-    ~/.fzf/install --completion --key-bindings --update-rc
-fi
-
-# make symlinks
-echo "\n==========Install RC files==========\n"
-for i in ${SYMRANGE}; do
-    if [[ ! -e ${SYMLINKS[${i}]} ]]; then
-        touch ${SYMTARGET[${i}]}
-        ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
-        echo "Link" ${SYMLINKS[${i}]:t}
-    fi
-done
 
 # Not symlink
 if [[ ! -e ${TMUXLOCAL} ]]; then

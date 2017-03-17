@@ -59,6 +59,7 @@ bind index,pager gr group-reply
 push <first-entry>
 
 set alias_file = "~/.mutt/alias"
+set quit=ask-no
 
 source "~/.mutt/alias"
 source "~/.mutt/colors"

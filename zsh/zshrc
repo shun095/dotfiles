@@ -10,7 +10,7 @@ setopt AUTO_CD
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
 	export TERM=xterm-256color
-	# tmux attach || tmux new-session
+	tmux attach || tmux new-session
 	# else
 	# export TERM=screen-256color
 fi
