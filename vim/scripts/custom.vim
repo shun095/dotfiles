@@ -615,13 +615,13 @@ if dein#tap('denite.nvim')
   call denite#custom#option('default','auto_resize','1')
 
   " Change file_rec command.
-  if has("win32")
+  " if has("win32")
     call denite#custom#var('file_rec', 'command',
-          \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g:', ''])
-  else
-    call denite#custom#var('file_rec', 'command',
-          \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
-  endif
+          \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g', ''])
+  " else
+  "   call denite#custom#var('file_rec', 'command',
+  "         \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
+  " endif
   " call denite#custom#var('file_rec', 'command',
   "       \ ['ag','--follow','--nocolor','--nogroup','-g',''])
   " call denite#custom#source(
