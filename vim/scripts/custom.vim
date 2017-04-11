@@ -616,8 +616,8 @@ if dein#tap('denite.nvim')
 
   " Change file_rec command.
   " if has("win32")
-    call denite#custom#var('file_rec', 'command',
-          \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g', ''])
+    " call denite#custom#var('file_rec', 'command',
+    "       \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g', ''])
   " else
   "   call denite#custom#var('file_rec', 'command',
   "         \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
