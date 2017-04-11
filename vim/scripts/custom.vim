@@ -82,7 +82,7 @@ if dein#tap('ctrlp.vim')
   nnoremap <Leader><Leader> :<C-u>CtrlP<cr>
 
   if executable('pt')
-    let s:ctrlp_command_options = '--nocolor --nogroup --hidden -g ""'
+    let s:ctrlp_command_options = '--nocolor --nogroup --follow -g ""'
     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
   endif
   " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
@@ -620,7 +620,7 @@ if dein#tap('denite.nvim')
           \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g:', ''])
   else
     call denite#custom#var('file_rec', 'command',
-          \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g=', ''])
+          \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
   endif
   " call denite#custom#var('file_rec', 'command',
   "       \ ['ag','--follow','--nocolor','--nogroup','-g',''])
