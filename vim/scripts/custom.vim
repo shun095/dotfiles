@@ -45,7 +45,7 @@ if dein#tap('YouCompleteMe')
   " setting of the which python is used
   if has('unix')
     " let g:ycm_python_binary_path = 'python' . g:myvimrc_python_version
-    let g:ycm_python_binary_path = 'python2'
+    let g:ycm_python_binary_path = 'python'
   endif
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
