@@ -68,7 +68,7 @@ if dein#tap('ctrlp.vim')
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
   " if has('unix')
-  " let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
+  let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
   " elseif has('win32')
   " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
   " endif
@@ -616,8 +616,8 @@ if dein#tap('denite.nvim')
 
   " Change file_rec command.
   " if has("win32")
-    " call denite#custom#var('file_rec', 'command',
-    "       \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g', ''])
+  call denite#custom#var('file_rec', 'command',
+        \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g', ''])
   " else
   "   call denite#custom#var('file_rec', 'command',
   "         \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
