@@ -1,12 +1,12 @@
 # vim: set foldmethod=marker:
 # [[plugins]]
 # repo = 'scrooloose/nerdtree'
-# [[plugins]]
-# repo = 'Shougo/vimfiler.vim'
-# on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
-# depends = 'unite.vim'
 [[plugins]]
-repo = 'cocopon/vaffle.vim'
+repo = 'Shougo/vimfiler.vim'
+on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
+depends = 'unite.vim'
+# [[plugins]]
+# repo = 'cocopon/vaffle.vim'
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 [[plugins]]
