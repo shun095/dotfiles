@@ -38,7 +38,7 @@ elseif has('unix')
   set t_ut=
   set ttymouse=xterm2
   if v:version >= 800
-    set notermguicolors
+    set termguicolors
   endif
   if executable('gsettings') && has("job")
     augroup VIMRC1
@@ -433,10 +433,10 @@ if g:use_plugins == s:true
       highlight! MatchParen gui=none cterm=none term=none
 
       " transparent
-      highlight! Folded cterm=underline ctermbg=none
-      highlight! FoldColumn ctermbg=none
-      highlight! Normal ctermbg=none
-      highlight! Vertsplit term=reverse ctermfg=145 ctermbg=none guifg=#282C34 guibg=#282C34
+      " highlight! Folded cterm=underline ctermbg=none
+      " highlight! FoldColumn ctermbg=none
+      " highlight! Normal ctermbg=none
+      " highlight! Vertsplit term=reverse ctermfg=145 ctermbg=none guifg=#282C34 guibg=#282C34
 
       " highlight! StatusLine ctermbg=235 guibg=#282C34
       " highlight! StatusLineNC ctermbg=235 guibg=#282C34

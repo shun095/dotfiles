@@ -668,3 +668,9 @@ if dein#tap('denite.nvim')
   nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
   nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
 endif
+
+if dein#tap('vaffle.vim')
+  nnoremap <silent> <Leader>e :Vaffle %:p:h<CR>
+  nnoremap <silent> <Leader>E :Vaffle .<CR>
+  let g:vaffle_auto_cd = 1
+endif
