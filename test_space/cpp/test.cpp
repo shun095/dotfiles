@@ -14,7 +14,7 @@ int main(void){
 	std::cout << "Start debuging\n";
 	int i[12] = {};
 	for(int j = 0; j< 5; j++){
-		std::cout << i[j] << std::endl;
+		std::cout << j << i[j] << std::endl;
 		// std::cout << func(i[j]) << std::endl;
 		sleep(1);
 	}
