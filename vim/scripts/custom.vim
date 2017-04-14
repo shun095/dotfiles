@@ -674,3 +674,7 @@ if dein#tap('vaffle.vim')
   nnoremap <silent> <Leader>E :Vaffle .<CR>
   let g:vaffle_auto_cd = 1
 endif
+
+if dein#tap('deoplete.nvim')
+  call deoplete#enable()
+endif

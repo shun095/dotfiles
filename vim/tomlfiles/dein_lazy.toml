@@ -116,7 +116,10 @@ on_cmd = ['Unite', 'UniteWithBufferDir']
 repo = 'Valloric/YouCompleteMe'
 # build = 'install.py --clang-completer'
 merged = 0
+if = "!has('nvim')"
 on_event = ['InsertEnter', 'CursorHold']
+
+
 [[plugins]]
 repo = 'ishitaku5522/TweetVim'
 on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']

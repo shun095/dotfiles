@@ -30,19 +30,28 @@ let g:mapleader = "\<space>"
 
 " OSの判定
 if has('win32')
-  set t_Co=16                    " cmd.exeならターミナルで16色を使う
+  set t_Co=16         " cmd.exeならターミナルで16色を使う
   let g:solarized_termcolors = 16
+
 elseif has('unix')
-  set t_Co=256                   " ターミナルで256色を使う
+  set t_Co=256        " ターミナルで256色を使う
   let g:solarized_termcolors = 256
-  set t_ut=
-  set ttymouse=xterm2
-  if v:version >= 800
-    set termguicolors
+
+  if v:version >= 800 || has('nvim')
+    set termguicolors " ターミナルでTrueColorを使う
   endif
+
+  " 背景をクリア
+  set t_ut=
+
+  if !has('nvim')
+    set ttymouse=xterm2 " 通常vim用
+  endif
+
   if executable('gsettings') && has("job")
     augroup VIMRC1
       autocmd!
+      " カーソルの形をモードによって変更
       let s:curshape_str = 'profile=$(gsettings get org.gnome.Terminal.ProfilesList default);profile=${profile:1:-1};gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" cursor-shape '
       autocmd InsertEnter * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'ibeam'])
       autocmd InsertLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
@@ -51,6 +60,7 @@ elseif has('unix')
   endif
 endif
 
+" ビープ音を鳴らなくする
 set visualbell
 set t_vb=
 
@@ -134,6 +144,7 @@ endif
 if !isdirectory($HOME . '/.vim/undofiles')
   call mkdir($HOME . '/.vim/undofiles','p')
 endif
+
 set undodir=$HOME/.vim/undofiles
 set undofile
 
@@ -142,9 +153,11 @@ set undofile
 if !isdirectory($HOME . '/.vim/backupfiles')
   call mkdir($HOME . '/.vim/backupfiles','p')
 endif
+
 set backupdir=$HOME/.vim/backupfiles
 set backup
 " }}}
+
 " Mapping {{{
 " 折り返しがあっても真下に移動できるようになる
 nnoremap j gj
@@ -181,6 +194,7 @@ nnoremap <Leader>. <ESC>:<C-u>edit $MYVIMHOME/vimrc.vim<CR>
 nnoremap <C-]> g<C-]>
 
 " }}}
+
 " Commands {{{
 " Sudoで強制保存
 if has('unix')
@@ -193,6 +207,7 @@ command! CopyPath call myvimrc#copypath()
 command! Ctags call myvimrc#ctags_project()
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 " }}}
+
 " Autocmds {{{
 augroup VIMRC2
   autocmd!
@@ -281,10 +296,12 @@ augroup VIMRC2
   autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 augroup END
 "}}}
+
 " Build in plugins {{{
 set runtimepath+=$VIMRUNTIME/pack/dist/opt/editexisting
 set runtimepath+=$VIMRUNTIME/pack/dist/opt/matchit
 " }}}
+
 " General Netrw settings {{{
 " let g:netrw_winsize = 30 " 起動時用の初期化。起動中には使われない
 " let g:netrw_browse_split = 4
@@ -313,12 +330,14 @@ augroup CustomNetrw
   " autocmd FileType netrw nnoremap <silent><buffer>qq :quit<CR>
 augroup END
 " }}}
+
 " Self constructed plugins {{{
 let s:myplugins = $MYDOTFILES . '/vim'
 exe 'set runtimepath+=' . escape(s:myplugins, ' \')
 set runtimepath+=$HOME/.fzf/
 nnoremap <silent><expr><Leader><C-f> myvimrc#command_at_destdir(myvimrc#find_project_dir(['.git','tags']),['FZF'])
 "}}}
+
 " Confirm whether or not install dein if not exists {{{
 let s:plugin_dir = $HOME . '/.vim/dein'
 let s:dein_dir = s:plugin_dir . '/repos/github.com/Shougo/dein.vim'
@@ -346,6 +365,7 @@ if g:use_plugins == s:true
     source $MYDOTFILES/vim-local.vim
   endif
   "}}}
+
   " Plugin pre settings {{{
   " vimprocが呼ばれる前に設定
   let g:vimproc#download_windows_dll = 1
@@ -354,6 +374,7 @@ if g:use_plugins == s:true
     let g:myvimrc_python_version = '3'
   endif
   " }}}
+
   " " Vim-Plug (test){{{
   " " VIM-PLUG 試験利用
   " " 起動時に該当ファイルがなければ自動でvim-plugをインストール
@@ -374,6 +395,7 @@ if g:use_plugins == s:true
 
   " " Vim-plug END
   " " }}}
+
   " Dein main settings {{{
   exe 'set runtimepath+=' . escape(s:dein_dir, ' \')
 
@@ -413,6 +435,7 @@ if g:use_plugins == s:true
     source $MYDOTFILES/vim-localafter.vim'
   endif
   " }}}
+
   " Color settings {{{
   " ターミナルでの色設定
   if has('win32') && !has('gui_running')
@@ -474,6 +497,7 @@ if g:use_plugins == s:true
     endtry
   endif
   " }}}
+
   " Netrw Mapping {{{
   " バッファファイルのディレクトリで開く
   nnoremap <Leader>n :call myvimrc#NiceLexplore(1)<CR>

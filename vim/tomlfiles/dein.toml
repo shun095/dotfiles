@@ -116,6 +116,10 @@ on_ft = 'javascript'
 [[plugins]]
 repo = 'vim-jp/autofmt'
 
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+if = "has('nvim')"
+
 # [[plugins]]
 # repo = 'altercation/vim-colors-solarized'
 # [[plugins]]
