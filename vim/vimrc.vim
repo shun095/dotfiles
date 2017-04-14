@@ -65,7 +65,7 @@ set visualbell
 set t_vb=
 
 set diffopt=filler,iwhite,vertical                    " diffのときの挙動
-set nocursorline                                        " カーソル行のハイライト
+set cursorline                                        " カーソル行のハイライト
 set nocursorcolumn
 set backspace=indent,eol,start                        " バックスペース挙動のおまじない
 set clipboard=unnamed,unnamedplus                     " コピーした文字列がclipboardに入る(逆も）
@@ -102,7 +102,7 @@ set scrolloff=5                                       " カーソルが端まで
 set ambiwidth=double                                  " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a                                           " マウスを有効化
 set nomousehide                                       " 入力中にポインタを消すかどうか
-set lazyredraw
+set lazyredraw                                        " スクロールが間に合わない時などに描画を省略する
 set sessionoptions=folds,help,tabpages,buffers
 set splitbelow
 set splitright
