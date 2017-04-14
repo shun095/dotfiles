@@ -102,7 +102,7 @@ set scrolloff=5                                       " カーソルが端まで
 set ambiwidth=double                                  " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a                                           " マウスを有効化
 set nomousehide                                       " 入力中にポインタを消すかどうか
-set nolazyredraw
+set lazyredraw
 set sessionoptions=folds,help,tabpages,buffers
 set splitbelow
 set splitright
