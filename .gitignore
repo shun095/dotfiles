@@ -1,0 +1,11 @@
+*-local*
+*.sw[po]
+*.exe
+*.pyc
+*.out
+*tags
+*GTAGS
+*GRTAGS
+*GPATH
+*gtags.vim
+*gtags-cscope.vim

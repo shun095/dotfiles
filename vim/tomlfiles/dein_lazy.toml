@@ -1,0 +1,211 @@
+# vim:set foldmethod=marker:
+[[plugins]]
+repo = "bkad/CamelCaseMotion"
+on_map = ['n', ',']
+hook_post_source = ''' " {{{
+
+call camelcasemotion#CreateMotionMappings(',')
+
+''' # }}}
+[[plugins]]
+repo = "cohama/lexima.vim"
+on_event = "InsertEnter"
+hook_post_source = ''' " {{{
+
+" call lexima#add_rule({'char': '<', 'input_after': '>'})
+call lexima#add_rule({'char': '>', 'at': '\%#>', 'leave': 1})
+call lexima#add_rule({'char': '<BS>', 'at': '<\%#>', 'input': '<BS>', 'delete' : 1})
+
+for [begin, end] in [['(', ')'], ['{','}'], ['[',']']]
+  call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': begin, 'input': begin})
+  call lexima#add_rule({'at': '\%#\n\s*'.end , 'char': end, 'input': '<CR>'.end, 'delete': end})
+endfor
+
+for mark in ['"', "'"]
+  call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': mark, 'input': mark})
+endfor
+
+call lexima#init()
+" <BS>,<CR>が文字列ではなく展開されてしまうためうまくいかないので<lt>を利用
+inoremap <silent><expr> <C-h> lexima#expand('<lt>BS>', 'i')
+imap <silent><expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
+
+''' # }}}
+[[plugins]]
+repo = 'iamcco/markdown-preview.vim'
+on_ft = 'markdown'
+# [[plugins]]
+# repo = "kannokanno/previm"
+# on_ft = 'markdown'
+# [[plugins]]
+# repo = "osyo-manga/vim-brightest"
+# on_event = ['CursorHold']
+# # on_cmd = ['BrightestEnable']
+[[plugins]]
+repo = "osyo-manga/vim-watchdogs"
+on_event = 'CursorHold'
+depends = [ 'shabadou.vim', 'vim-quickrun' ]
+hook_post_source = ''' " {{{
+" quickrun-hook-add-include-option {{{
+let s:hook = {
+      \ 'name': 'add_include_option',
+      \ 'kind': 'hook',
+      \ 'config': {
+      \   'enable': 0,
+      \   },
+      \ }
+
+function! s:hook.on_module_loaded(session, context)
+  let paths = filter(split(&path, ','), "len(v:val) && v:val !='.' && v:val !~ 'mingw'")
+  if len(paths)
+    let a:session.config.cmdopt .= ' -I'.join(paths, ' -I')
+  endif
+endfunction
+
+try
+  call quickrun#module#register(s:hook, 1)
+catch
+  echom v:exception
+endtry
+unlet s:hook
+" }}}
+
+let g:watchdogs_check_BufWritePost_enable = 1
+let g:watchdogs_check_BufWritePost_enables = {
+      \'cpp' : 0
+      \}
+let g:watchdogs_check_CursorHold_enable = 0
+
+let s:config = {
+      \'watchdogs_checker/_' : {
+      \	'runner' : 'vimproc',
+      \	'runner/vimproc/updatetime' : 40,
+      \	'outputter' : 'quickfix',
+      \	'outputter/quickfix/open_cmd' : 'copen 8'
+      \	},
+      \'cpp' : {
+      \	'hook/add_include_option/enable' : 1
+      \	},
+      \'cpp/watchdogs_checker' : {
+      \	'type' : 'watchdogs_checker/clang++',
+      \	'hook/add_include_option/enable' : 1,
+      \	'cmdopt' : '-std=c++11 -Wall'
+      \	}
+      \}
+call extend(g:quickrun_config, s:config)
+unlet s:config
+try
+  call watchdogs#setup(g:quickrun_config)
+catch
+  echom v:exception
+endtry
+
+''' # }}}
+[[plugins]]
+repo = "thinca/vim-quickrun"
+depends = ['vim-watchdogs','shabadou.vim']
+on_event = "VimEnter"
+on_event = "CursorHold"
+# on_cmd = 'QuickRun'
+[[plugins]]
+repo = 'osyo-manga/shabadou.vim'
+[[plugins]]
+repo = 'Shougo/unite.vim'
+on_cmd = ['Unite', 'UniteWithBufferDir']
+[[plugins]]
+repo = 'Valloric/YouCompleteMe'
+# build = 'install.py --clang-completer'
+merged = 0
+if = "!has('nvim')"
+on_event = ['InsertEnter', 'CursorHold']
+
+
+[[plugins]]
+repo = 'ishitaku5522/TweetVim'
+on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
+depends = ['bitly.vim', 'twibill.vim',  'open-browser.vim']
+[[plugins]]
+repo = 'ishitaku5522/twibill.vim'
+# [[plugins]]
+# repo = 'basyura/twibill.vim'
+# HTML CSS JS PLUGINS
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+[[plugins]]
+repo = 'csscomb/vim-csscomb'
+on_ft = 'css'
+[[plugins]]
+repo = 'glidenote/memolist.vim'
+on_cmd = ['MemoNew', 'MemoList']
+[[plugins]]
+repo = 'kana/vim-submode'
+on_map = ['n', '<C-w>']
+hook_post_source = ''' " {{{
+
+call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+call submode#map('winsize', 'n', '', '>', '5<C-w>>')
+call submode#map('winsize', 'n', '', '<', '5<C-w><')
+call submode#map('winsize', 'n', '', '+', '5<C-w>+')
+call submode#map('winsize', 'n', '', '-', '5<C-w>-')
+
+''' # }}}
+[[plugins]]
+repo = 'lervag/vimtex'
+on_ft = ['tex']
+[[plugins]]
+repo = 'osyo-manga/vim-precious'
+on_event = "CursorHold"
+# on_cmd = ["PreciousReset", "PreciousSwitch"]
+depends = ['context_filetype.vim']
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+[[plugins]]
+repo = 'rdnetto/YCM-Generator'
+on_cmd = 'YcmGenerator'
+depends = "YouCompleteMe"
+[[plugins]]
+repo = 'rhysd/vim-clang-format'
+on_ft = ['c','cpp']
+# [[plugins]]
+# repo = 't9md/vim-choosewin'
+# on_event = "VimEnter"
+# [[plugins]]
+# repo = 'davidhalter/jedi-vim'
+# on_ft = 'python'
+[[plugins]]
+repo = 'tell-k/vim-autopep8'
+on_ft = 'python'
+# [[plugins]]
+# repo = 'chrisbra/csv.vim'
+# on_ft = 'csv'
+[[plugins]]
+repo = 'nixprime/cpsm'
+# on_if = 'has("unix")'
+on_event = 'VimEnter'
+[[plugins]]
+repo = 'FelikZ/ctrlp-py-matcher'
+on_if = 'has("win32")'
+on_event = 'VimEnter'
+[[plugins]]
+repo = 'mattn/benchvimrc-vim'
+on_cmd = 'BenchVimrc'
+[[plugins]]
+repo = 'jasonm23/markdown-css-themes'
+[[plugins]]
+repo = 'itchyny/calendar.vim'
+on_event = 'VimEnter'
+[[plugins]]
+repo = 'itchyny/thumbnail.vim'
+on_event = 'VimEnter'
+[[plugins]]
+repo = 'itchyny/vim-cursorword'
+on_event = 'VimEnter'
+[[plugins]]
+repo = 'majutsushi/tagbar'
+on_cmd = ['TagbarToggle', 'TagbarOpen']
+[[plugins]]
+repo = 'yuratomo/gmail.vim'

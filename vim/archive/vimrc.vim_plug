@@ -1,0 +1,5 @@
+call plug#begin('~/.vim/plugged')
+
+Plug 'tomasr/molokai'
+
+call plug#end()

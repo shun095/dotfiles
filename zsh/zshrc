@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+
+export EDITOR=vim
+export MYDOTFILES=$HOME/dotfiles
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
+export PATH=$HOME/usr/bin:$PATH
+echo -ne '\e]12;#aaaaaa\a'
+
+setopt AUTO_CD
+
+function chpwd() {ls}
+if [[ ! -n $TMUX ]]; then
+	export TERM=xterm-256color
+	tmux attach || tmux new-session
+	# else
+	# export TERM=screen-256color
+fi
+
+if [[ -x "`which trash-put`" ]]; then
+	alias rm="trash-put"
+else
+	echo "Recommended to install 'trash-cli'"
+	to_trash() {
+		for file in $@
+		do
+			mv $file ~/.trash
+		done
+	}
+	alias rm="to_trash"
+fi
+
+alias tgvim="gvim --remote-tab"
+alias tvim="gvim --remote-tab"
+

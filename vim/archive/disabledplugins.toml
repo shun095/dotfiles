@@ -1,0 +1,416 @@
+# lazy plugins
+
+[[plugins]]
+repo = 'honza/vim-snippets'# {{{
+on_i = 1# }}}
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'# {{{
+depends = ['vim-snippets']
+on_i = 1
+hook_add = '''
+" Plugin key-mappings.
+    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    xmap <C-k>     <Plug>(neosnippet_expand_target)
+    " SuperTab like snippets' behavior.
+    imap <expr><TAB>
+                \ pumvisible() ? "\<C-n>" :
+                \ neosnippet#expandable_or_jumpable() ?
+                \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+                \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+    " For conceal markers.
+    " if has('conceal')
+    "   set conceallevel=2 concealcursor=niv
+    " endif
+    " Enable snipMate compatibility feature.
+    let g:neosnippet#enable_snipmate_compatibility = 1
+    " Tell Neosnippet about the other snippets
+    let g:neosnippet#snippets_directory='~/.vim/dein/repos/github.com/honza/vim-snippets/snippets'
+'''# }}}
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'# {{{
+depends = ['neosnippet.vim']
+on_i = 1# }}}
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'# {{{
+on_i = 1
+if = "has('lua')"
+hook_add = '''
+    "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+    " Use neocomplete.
+    let g:neocomplete#enable_at_startup = 1
+    " Use smartcase.
+    let g:neocomplete#enable_smart_case = 1
+    " _(アンダースコア)区切りの補完を有効化
+    let g:neocomplete#enable_underbar_completion = 1
+    " let g:neocomplete#enable_camel_case_completion  =  1
+    " ポップアップメニューで表示される候補の数
+    let g:neocomplete#max_list = 30
+    " Set minimum syntax keyword length.
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    let g:neocomplete#enable_multibyte_completion = 1
+    " let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+    " setting for cache limit size
+
+    " Define dictionary.
+    let g:neocomplete#sources#dictionary#dictionaries = {
+                \ 'default' : '',
+                \ 'vimshell' : $HOME.'/.vimshell_hist',
+                \ }
+    " \ 'scheme' : $HOME.'/.gosh_completions',
+
+    " Define keyword.
+    if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns._ = '\h\w*'
+
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+    " Disabled features {{{
+    " 補完に時間がかかってもスキップしない
+    " let g:neocomplete#skip_auto_completion_time = "1"
+    "
+    " 使いづらいためDisable
+    " Plugin key-mappings.
+    " inoremap <expr><C-g> neocomplete#undo_completion()
+    " inoremap <expr><C-l> neocomplete#complete_common_string()
+
+
+    " 自動カッコ閉じと衝突のためDisable
+    " " Recommended key-mappings.
+    "
+    " " <CR>: close popup and save indent.
+    "
+    " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    "
+    " function! s:my_cr_function()
+    "     " return (pumvisible() ? "\<C-y>" : "" ) . "\<CR><ESC>"
+    "     " For no inserting <CR> key.
+    "     return pumvisible() ? "\<C-y>" : "\<CR>"
+    " endfunction
+    "
+    " " <C-h>, <BS>: close popup and delete backword char.
+    "
+    " inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+
+    " " Close popup by <Space>.
+    "
+    " inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+    " }}}
+''' # }}}
+[[plugins]]
+repo = 'justmao945/vim-clang'# {{{
+depends = ["neocomplete"]
+on_ft = ['c', 'cpp']
+hook_add = '''
+    let g:clang_enable_format_command = 0
+'''
+hook_post_source = '''
+    " Enable heavy omni completion.
+    "
+    " Enable these lines or ...
+    " if !exists('g:neocomplete#sources#omni#input_patterns')
+    "     let g:neocomplete#sources#omni#input_patterns = {}
+    " endif
+    " let g:neocomplete#sources#omni#input_patterns.c =
+    "             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
+    " let g:neocomplete#sources#omni#input_patterns.cpp =
+    "             \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+
+    " ...these lines.
+    if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.c =
+                \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?'
+    let g:neocomplete#force_omni_input_patterns.cpp =
+                \ '[^.[:digit:] *\t]\%(\.\|->\)\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+
+
+    " disable auto completion for vim-clang
+    let g:clang_auto = 0
+    let g:clang_complete_auto = 0
+    let g:clang_check_syntax_auto = 0
+    let g:clang_diagsopt = 'rightbelow:1'
+    " let g:clang_diagsopt = ''
+
+    " clangのバージョン検索
+    let g:clang_exec = 'clang'
+    for minorversion in range(10)
+        if executable('clang-3.' . minorversion)
+            let g:clang_exec = 'clang-3.' . minorversion
+        endif
+    endfor
+
+    let g:clang_format_exec = 'clang-format'
+    for minorversion in range(10)
+        if executable('clang-format-3.' . minorversion)
+            let g:clang_format_exec = 'clang-format-3.' . minorversion
+        endif
+    endfor
+
+    " 何故かコメントアウトしたら動いた -stdlib=libc++がうまく動かない
+    let g:clang_c_options = '-std=c11'
+    let g:clang_cpp_options = '-std=c++11' " -stdlib=libc++
+
+    " default 'longest' can not work with neocomplete
+    " noselect オプションで最初の候補が自動選択されなくなる
+    let g:clang_c_completeopt = 'menuone,noselect,preview'
+    let g:clang_cpp_completeopt = 'menuone,noselect,preview'
+
+''' # }}}
+[[plugins]]
+repo = 'yomi322/unite-tweetvim.git'
+}}}
+[[plugins]]
+# on_i = 1
+on_event = "CursorHold"
+repo = 'vim-scripts/TagHighlight'
+[[plugins]]
+repo = 'mattn/ctrlp-filer'# {{{
+depends = 'ctrlpvim/ctrlp.vim'# }}}
+
+# not lazy plugins
+
+[[plugins]]
+repo = "Yggdroot/indentLine"# {{{
+hook_add = '''
+    let g:indentLine_color_term = 238
+    let g:indentLine_color_gui = "#3B4048"
+'''# }}}
+[[plugins]]
+repo = "szw/vim-tags"# {{{
+hook_add = '''
+    let g:vim_tags_auto_generate = 1
+    let g:vim_tags_use_vim_dispatch = 1
+    let g:vim_tags_project_tags_command = "{CTAGS} -R {OPTIONS} {DIRECTORY}"
+'''# }}}
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'#{{{
+hook_add = '''
+if v:version >= 800 " バージョン８以降ならTimer使って時刻表示 " {{{
+    let g:currenttime = strftime("%H時%M分%S秒")
+
+    function! SetCurrentTime()
+        let tempTimer = timer_start(1000, 'CheckTemp', {'repeat' : -1})
+        function! CheckTemp(tempTimer)
+            let g:currenttime = strftime("%H時%M分%S秒")
+            try
+                call lightline#update()
+            catch /.*/
+                call timer_stop(a:tempTimer)
+            endtry
+        endfunction
+    endfunction
+
+    call SetCurrentTime()
+
+else
+    let g:currenttime = ""
+endif " }}}
+
+function! ReturnCurrentTime() " {{{
+    if &filetype == 'vimfiler'
+        return ''
+    else
+    return g:currenttime
+endfunction# }}}
+
+
+" {{{
+let g:lightline = {
+            \ 'colorscheme': 'onedark_custom',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark', 'ctrlpcurrent', 'ctrlpnext'] ],
+            \   'right': [ [ 'syntastic','lineinfo','currenttime' ,'truncate'], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+            \ },
+            \ 'inactive': {
+            \ 'left': [ [ 'filename' ] ],
+            \ 'right': [ [ 'lineinfo'],
+            \            [ 'percent' ] ]
+            \ },
+            " \ 'tab': {
+            " \ 'active': [ 'tabnum', 'absolutepath', 'modified' ]
+            " \ },
+            " \ 'tabline': {
+            " \ 'left': [['tabs']],
+            " \ 'right': [['currenttime','close']]
+            " \ },
+            \ 'component_function': {
+            \   'fugitive': 'LightLineFugitive',
+            \   'filename': 'LightLineFilename',
+            \   'fileformat': 'LightLineFileformat',
+            \   'filetype': 'LightLineFiletype',
+            \   'fileencoding': 'LightLineFileencoding',
+            \   'mode': 'LightLineMode',
+            \   'ctrlpmark': 'CtrlPMark',
+            \   'ctrlpnext': 'CtrlPNext',
+            \   'currenttime': 'ReturnCurrentTime',
+            \ },
+            \ 'component_expand': {
+            \   'syntastic': 'SyntasticStatuslineFlag',
+            \    'ctrlpcurrent': 'CtrlPCurrent'
+            \ },
+             \ 'component': {
+             \    'truncate': '%<',
+            " \    'absolutepath': '%F'
+            \ },
+            \ 'component_type': {
+            \   'syntastic': 'error',
+            \   'ctrlpcurrent': 'left',
+            \ },
+            \ 'subseparator': { 'left': '|', 'right': '|' }
+            \ }
+            if has("gui_running")
+                let g:lightline.separator = {
+                            \    'left': '⮀', 'right': '⮂'
+                            \    }
+                let g:lightline.subseparator = {
+                            \    'left': '⮁', 'right': '⮃'
+                            \}
+            endif " }}}
+
+    function! LightLineModified() " {{{
+      return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+    endfunction " }}}
+
+    function! LightLineReadonly() " {{{
+        if has("gui_running")
+            return &ft !~? 'help\|vimfiler' && &readonly ? '⭤' : ''
+        else
+            return &ft !~? 'help\|vimfiler' && &readonly ? '[RO]' : ''
+        endif
+    endfunction " }}}
+
+    function! LightLineFilename() " {{{
+      let fname = expand('%:t')
+      return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ?
+                  \ lightline#concatenate([g:lightline.ctrlp_byfname, g:lightline.ctrlp_regex_string],0) :
+            \ fname == '__Tagbar__' ? g:lightline.fname :
+            \ fname =~ '__Gundo\|NERD_tree' ? '' :
+            \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+            \ &ft == 'unite' ? unite#get_status_string() :
+            \ &ft == 'vimshell' ? vimshell#get_status_string() :
+            \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+            \ ('' != fname ? fname : '[No Name]') .
+            \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+    endfunction  " }}}
+
+    function! LightLineFugitive() " {{{
+        try
+            if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+                let branch = fugitive#head()
+                " return branch !=# '' ? mark.branch : ''
+                if has("gui_running")
+                    return branch !=# '' ? '⭠ '.branch : ''
+                else
+                    return branch !=# '' ? 'BR:['.branch.']' : ''
+                endif
+            endif
+        catch
+        endtry
+        return ''
+    endfunction " }}}
+
+    function! LightLineFileformat() " {{{
+      return winwidth(0) > 70 ? &fileformat : ''
+    endfunction " }}}
+
+    function! LightLineFiletype() " {{{
+      return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+    endfunction " }}}
+
+    function! LightLineFileencoding() " {{{
+      return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+    endfunction " }}}
+
+    function! LightLineMode() " {{{
+      let fname = expand('%:t')
+      return fname == '__Tagbar__' ? 'Tagbar' :
+            \ fname == 'ControlP' ? 'CtrlP' :
+            \ fname == '__Gundo__' ? 'Gundo' :
+            \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+            \ fname =~ 'NERD_tree' ? 'NERDTree' :
+            \ &ft == 'unite' ? 'Unite' :
+            \ &ft == 'vimfiler' ? 'VimFiler' :
+            \ &ft == 'vimshell' ? 'VimShell' :
+            \ lightline#mode()
+            " \ winwidth(0) > 60 ? lightline#mode() : ''
+    endfunction " }}}
+
+    function! CtrlPMark() " {{{
+        if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
+            call lightline#link('iv'[g:lightline.ctrlp_regex])
+            return g:lightline.ctrlp_prev
+            " return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+            "       \ , g:lightline.ctrlp_next], 0)
+        else
+            return ''
+        endif
+    endfunction " }}}
+
+    function! CtrlPCurrent() " {{{
+        if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
+            return g:lightline.ctrlp_item
+        else
+            return ''
+        endif
+    endfunction " }}}
+
+    function! CtrlPNext() abort " {{{
+        if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
+            return g:lightline.ctrlp_next
+        else
+            return ''
+        endif
+    endfunction " }}}
+
+    let g:ctrlp_status_func = {}
+    let g:ctrlp_status_func = {
+      \ 'main': 'CtrlPStatusFunc_1',
+      \ 'prog': 'CtrlPStatusFunc_2',
+      \ }
+
+    function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked) " {{{
+        let g:lightline.ctrlp_byfname = a:byfname
+        let g:lightline.ctrlp_regex = a:regex
+        let g:lightline.ctrlp_regex_string = a:regex==1 ? "regex" : ""
+        let g:lightline.ctrlp_prev = a:prev
+        let g:lightline.ctrlp_item = a:item
+        let g:lightline.ctrlp_next = a:next
+        return lightline#statusline(0)
+    endfunction " }}}
+
+    function! CtrlPStatusFunc_2(str) " {{{
+        return a:str
+    endfunction " }}}
+
+    let g:tagbar_status_func = 'TagbarStatusFunc'
+
+    function! TagbarStatusFunc(current, sort, fname, ...) abort " {{{
+        let g:lightline.fname = a:fname
+      return lightline#statusline(0)
+    endfunction " }}}
+
+     " augroup AutoSyntastic
+     "   autocmd!
+     "   autocmd BufWritePost *.c,*.cpp call s:syntastic()
+     " augroup END
+    function! s:syntastic() " {{{
+      SyntasticCheck
+      call lightline#update()
+    endfunction " }}}
+
+    let g:unite_force_overwrite_statusline = 0
+    let g:vimfiler_force_overwrite_statusline = 0
+    let g:vimshell_force_overwrite_statusline = 0
+'''
+# }}}
+}}}
