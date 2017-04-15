@@ -302,6 +302,8 @@ if dein#tap('vim-airline')
     let g:airline_right_sep		  = ''
     let g:airline_right_alt_sep	  = ''
   endif " }}}
+  let g:airline_symbols.maxlinenr = ''
+  let g:airline_symbols.linenr = ''
   " unicode symobols# {{{
   " let g:airline_symbols.crypt = '🔒'
   " let g:airline_symbols.linenr = '␊'

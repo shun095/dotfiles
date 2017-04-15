@@ -117,7 +117,7 @@ set omnifunc=syntaxcomplete#Complete
 set iminsert=0                                        " IMEの管理
 set imsearch=0
 
-if v:version >= 800                                   " バージョン検出
+if v:version >= 800 || has('nvim')                    " バージョン検出
   set breakindent                                     " version8以降搭載の便利オプション
   set display=truncate
   set emoji                                           " 絵文字を全角表示
