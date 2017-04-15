@@ -39,7 +39,7 @@ SYMTARGET=(
 SYMRANGE=(1 2 3 4)
 
 # actual files
-TMUXLOCAL="$MYDOTFILES/tmux-local"
+TMUXLOCAL="$HOME/localrcs/tmux-local"
 TRASH="$HOME/.trash"
 
 help() {
@@ -199,7 +199,8 @@ fi
 
 # Not symlink
 if [[ ! -e ${TMUXLOCAL} ]]; then
-    touch $MYDOTFILES/tmux-local
+    mkdir -p $HOME/localrcs
+    touch $HOME/localrcs/tmux-local
     echo "tmuxlocal is made"
 fi
 

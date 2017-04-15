@@ -245,7 +245,7 @@ augroup VIMRC2
   autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
   autocmd FileType mail call s:add_signature()
   fun s:add_signature()
-    let l:file = $MYDOTFILES . '/vim-local-signature.vim'
+    let l:file = $HOME . '/localrcs/vim-local-signature.vim'
     if filereadable(l:file)
       let l:signature = []
       for line in readfile(l:file)
@@ -361,8 +361,8 @@ endif
 " ============================== "
 if g:use_plugins == s:true
   " Load local settings"{{{
-  if filereadable($MYDOTFILES . '/vim-local.vim')
-    source $MYDOTFILES/vim-local.vim
+  if filereadable($HOME . '/localrcs/vim-local.vim')
+    source $HOME/localrcs/vim-local.vim
   endif
   "}}}
 
@@ -431,8 +431,8 @@ if g:use_plugins == s:true
   " load settings of plugins
   source $MYVIMHOME/scripts/custom.vim
   " Dein end
-  if filereadable($MYDOTFILES . '/vim-localafter.vim')
-    source $MYDOTFILES/vim-localafter.vim'
+  if filereadable($HOME . '/localrcs/vim-localafter.vim')
+    source $HOME/localrcs/vim-localafter.vim'
   endif
   " }}}
 
