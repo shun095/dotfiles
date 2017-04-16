@@ -93,6 +93,7 @@ if dein#tap('ctrlp.vim')
   if executable('pt')
     let s:ctrlp_command_options = '--nocolor --nogroup --follow -g ""'
     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+    unlet s:ctrlp_command_options
   endif
   " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
   " else
@@ -135,6 +136,7 @@ if dein#tap('markdown-preview.vim')
     if executable(s:google_chrome_path)
       let g:mkdp_path_to_chrome=shellescape(s:google_chrome_path)
     endif
+    unlet s:google_chrome_path
   endif
 endif
 
@@ -553,6 +555,7 @@ if dein#tap('vim-quickrun')
           \ 'exec' : ['%c %o %s -o %s:p:r' . '.exe', '%s:p:r' . '.exe %a'],
           \ }
     call extend(g:quickrun_config['cpp'], s:quickrun_win_config['cpp'])
+    unlet s:quickrun_win_config
   endif
 
   nmap <silent> <Leader>R :CdCurrent<CR><Plug>(quickrun)
@@ -566,11 +569,11 @@ if dein#tap('vim-quickrun')
 " watchdogs settings
   let g:watchdogs_check_BufWritePost_enable = 1
   let g:watchdogs_check_BufWritePost_enables = {
-        \'cpp' : 0
+        \'cpp' : 1
         \}
   let g:watchdogs_check_CursorHold_enable = 0
 
-  let s:config = {
+  let s:watchdogs_config = {
         \'watchdogs_checker/_' : {
         \	'runner' : 'job',
         \	'runner/job/updatetime' : 40,
@@ -583,8 +586,8 @@ if dein#tap('vim-quickrun')
         \	'cmdopt' : '-std=c++11 -Wall'
         \	}
         \}
-  call extend(g:quickrun_config, s:config)
-  unlet s:config
+  call extend(g:quickrun_config, s:watchdogs_config)
+  unlet s:watchdogs_config
   try
     call watchdogs#setup(g:quickrun_config)
   catch
