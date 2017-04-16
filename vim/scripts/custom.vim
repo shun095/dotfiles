@@ -505,8 +505,8 @@ if dein#tap('vim-quickrun')
         \	'hook/inu/enable' : 1,
         \	'hook/inu/wait' : 1,
         \	'outputter/buffer/split' : ':botright 8',
-        \	'runner' : 'vimproc',
-        \	'runner/vimproc/updatetime' : 40,
+        \	'runner' : 'job',
+        \	'runner/job/interval' : 40,
         \	},
         \'python' : {
         \	'command' : 'python',
