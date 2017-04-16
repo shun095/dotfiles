@@ -72,14 +72,23 @@ if dein#tap('ctrlp.vim')
   " elseif has('win32')
   " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
   " endif
-  nnoremap <Leader>mr :<c-u>CtrlPMRUFiles<cr>
-  nnoremap <Leader>r :<C-u>CtrlPRegister<cr>
-  nnoremap <Leader>c :<C-u>CtrlPCurWD<cr>
-  nnoremap <Leader>T :<C-u>CtrlPTag<cr>
-  " nnoremap <Leader>r :<C-u>CtrlPClearCache<cr>
-  nnoremap <Leader>b :<C-u>CtrlPBuffer<cr>
-  nnoremap <Leader>l :<C-u>CtrlPLine<cr>
-  nnoremap <Leader><Leader> :<C-u>CtrlP<cr>
+  " 
+  fun! s:ctrlpcmd_with_matcher(ctrlpcmd, matcher) abort
+    if a:matcher !=# ''
+      let g:ctrlp_match_func = {'match':a:matcher}
+    else
+      let g:ctrlp_match_func = {}
+    endif
+    execute a:ctrlpcmd
+  endf
+  
+  nnoremap <Leader>mr :call <SID>ctrlpcmd_with_matcher('CtrlPMRUFiles', '')<CR>
+  nnoremap <Leader>r :call <SID>ctrlpcmd_with_matcher('CtrlPRegister','cpsm#CtrlPMatch')<CR>
+  nnoremap <Leader>c :call <SID>ctrlpcmd_with_matcher('CtrlPCurWD','cpsm#CtrlPMatch')<CR>
+  nnoremap <Leader>T :call <SID>ctrlpcmd_with_matcher('CtrlPTag','cpsm#CtrlPMatch')<CR>
+  nnoremap <Leader>b :call <SID>ctrlpcmd_with_matcher('CtrlPBuffer','cpsm#CtrlPMatch')<CR>
+  nnoremap <Leader>l :call <SID>ctrlpcmd_with_matcher('CtrlPLine','cpsm#CtrlPMatch')<CR>
+  nnoremap <Leader><Leader> :call <SID>ctrlpcmd_with_matcher('CtrlP','cpsm#CtrlPMatch')<CR>
 
   if executable('pt')
     let s:ctrlp_command_options = '--nocolor --nogroup --follow -g ""'
@@ -561,7 +570,9 @@ if dein#tap('yankround.vim')
   xmap gp <Plug>(yankround-gp)
   nmap gP <Plug>(yankround-gP)
   nnoremap <silent><SID>(ctrlp) :<C-u>CtrlP<CR>
-  nmap <expr><C-p> yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
+  nmap <expr><C-p> yankround#is_active() ? 
+        \ "\<Plug>(yankround-prev)" :
+        \ ":call <SID>ctrlpcmd_with_matcher('CtrlP','cpsm#CtrlPMatch')<CR>"
   nmap <C-n> <Plug>(yankround-next)
 endif
 
@@ -617,19 +628,25 @@ if dein#tap('denite.nvim')
   call denite#custom#option('default','auto_resize','1')
 
   " Change file_rec command.
-  " if has("win32")
-  call denite#custom#var('file_rec', 'command',
-        \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g', ''])
-  " else
-  "   call denite#custom#var('file_rec', 'command',
-  "         \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
-  " endif
-  " call denite#custom#var('file_rec', 'command',
-  "       \ ['ag','--follow','--nocolor','--nogroup','-g',''])
-  " call denite#custom#source(
-  "       \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
-  " call denite#custom#source(
-  " \ 'file_rec', 'matchers', ['matcher_cpsm'])
+  if executable('pt')
+    " if has("win32")
+    call denite#custom#var('file_rec', 'command',
+          \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g', ''])
+    " else
+    "   call denite#custom#var('file_rec', 'command',
+    "         \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
+    " endif
+  else
+    call denite#custom#var('file_rec', 'command',
+          \ ['ag','--follow','--nocolor','--nogroup','-g',''])
+  endif
+
+  call denite#custom#source(
+        \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
+  call denite#custom#source(
+        \ 'line', 'matchers', ['matcher_cpsm'])
+  call denite#custom#source(
+        \ 'file_rec', 'matchers', ['matcher_cpsm'])
   " Change mappings.
   call denite#custom#map(
         \ 'insert',
@@ -651,15 +668,6 @@ if dein#tap('denite.nvim')
   call denite#custom#var('grep', 'pattern_opt', [])
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
-
-  " nnoremap <silent> <leader>df :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
-  " nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>
-  " nnoremap <silent> <Leader>dc :<C-u>Denite file_rec<CR>
-  " nnoremap <silent> <Leader>dl :<C-u>Denite line<CR>
-  " nnoremap <silent> <Leader>dg :<C-u>Denite grep -no-quit<CR>
-  " nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
-  " nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
-  " nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
 
   nnoremap <silent> <leader>df :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
   nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>

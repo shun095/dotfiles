@@ -134,7 +134,9 @@ set statusline+=%4p%%%5l:%-3c
 
 " agがあればgrepの代わりにagを使う
 if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor\ --column\ $*
+  set grepprg=pt\ --nogroup\ --nocolor\ --column
+elseif executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor\ --column
 else
   set grepprg=grep\ -rn\ $*
 endif
