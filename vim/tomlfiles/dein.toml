@@ -136,5 +136,15 @@ if = "has('nvim')"
 # repo = 'tomasr/molokai'
 [[plugins]]
 repo = 'joshdick/onedark.vim'
+[[plugins]]
+repo = "thinca/vim-quickrun"
+depends = ['vim-watchdogs','shabadou.vim']
+on_event = "VimEnter"
+on_event = "CursorHold"
+[[plugins]]
+repo = "osyo-manga/vim-watchdogs"
+on_event = 'CursorHold'
+depends = [ 'shabadou.vim', 'vim-quickrun' ]
+# on_cmd = 'QuickRun'
 # [[plugins]]
 # repo = 'rakr/vim-one'

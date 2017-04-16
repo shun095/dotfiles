@@ -9,7 +9,7 @@ if dein#tap('TweetVim')
   let g:tweetvim_tweet_per_page = 100
   " F6と,uvでTweetVimのtimeline選択
   let g:tweetvim_expand_t_co = 1
-  let g:tweetvim_open_buffer_cmd = "40vsplit!"
+  let g:tweetvim_open_buffer_cmd = '40vsplit!'
   let g:tweetvim_display_source = 1
   let g:tweetvim_display_username = 1
   let g:tweetvim_display_icon = 1
@@ -81,7 +81,7 @@ if dein#tap('ctrlp.vim')
     endif
     execute a:ctrlpcmd
   endf
-  
+
   nnoremap <Leader>mr :call <SID>ctrlpcmd_with_matcher('CtrlPMRUFiles', '')<CR>
   nnoremap <Leader>r :call <SID>ctrlpcmd_with_matcher('CtrlPRegister','cpsm#CtrlPMatch')<CR>
   nnoremap <Leader>c :call <SID>ctrlpcmd_with_matcher('CtrlPCurWD','cpsm#CtrlPMatch')<CR>
@@ -492,32 +492,68 @@ if dein#tap('vim-precious')
 endif
 
 if dein#tap('vim-quickrun')
+
+  " quickrun modules
+  " quickrun-hook-add-include-option {{{
+  let s:hook = {
+        \ 'name': 'add_include_option',
+        \ 'kind': 'hook',
+        \ 'config': {
+        \   'enable': 0,
+        \   },
+        \ }
+
+  function! s:hook.on_module_loaded(session, context)
+    let paths = filter(split(&path, ','), "len(v:val) && v:val !=#'.' && v:val !~# 'mingw'")
+    if len(paths)
+      let a:session.config.cmdopt .= ' -I'.join(paths, ' -I')
+    endif
+  endfunction
+
+  try
+    call quickrun#module#register(s:hook, 1)
+  catch
+    echom v:exception
+  endtry
+  unlet s:hook
+  " }}}
+
+
   let g:quickrun_no_default_key_mappings = 1
   let g:quickrun_config = get(g:, 'quickrun_config', {})
-  let g:quickrun_config = {
-        \'_' : {
-        \	'hook/close_quickfix/enable_hook_loaded' : 1,
-        \	'hook/close_quickfix/enable_success' : 1,
-        \	'hook/close_buffer/enable_failure' : 1,
-        \	'hook/close_buffer/enable_empty_data' : 1,
-        \	'outputter' : 'multi:buffer:quickfix',
-        \	'outputter/quickfix/open_cmd' : 'copen 8',
-        \	'hook/inu/enable' : 1,
-        \	'hook/inu/wait' : 1,
-        \	'outputter/buffer/split' : ':botright 8',
-        \	'runner' : 'job',
-        \	'runner/job/interval' : 40,
-        \	},
-        \'python' : {
-        \	'command' : 'python',
-        \	'cmdopt' : '-u',
-        \	},
-        \'markdown' : {
-        \	'type': 'markdown/pandoc',
-        \	'cmdopt': '-s',
-        \	'outputter' : 'multi:buffer:quickfix:browser'
-        \	}
-        \}
+  let g:quickrun_config['_'] = {
+        \ 'hook/close_quickfix/enable_hook_loaded' : 1,
+        \ 'hook/close_quickfix/enable_success' : 1,
+        \ 'hook/close_buffer/enable_failure' : 1,
+        \ 'hook/close_buffer/enable_empty_data' : 1,
+        \ 'outputter' : 'multi:buffer:quickfix',
+        \ 'outputter/quickfix/open_cmd' : 'copen 8',
+        \ 'hook/inu/enable' : 1,
+        \ 'hook/inu/wait' : 1,
+        \ 'outputter/buffer/split' : ':botright 8',
+        \ 'runner' : 'job',
+        \ 'runner/job/interval' : 40,
+        \ }
+  let g:quickrun_config['python'] = {
+        \ 'command' : 'python',
+        \ 'cmdopt' : '-u',
+        \ }
+  let g:quickrun_config['markdown'] = {
+        \ 'type': 'markdown/pandoc',
+        \ 'cmdopt': '-s',
+        \ 'outputter' : 'multi:buffer:quickfix:browser'
+        \ }
+  let g:quickrun_config['cpp'] = {
+        \ 'hook/add_include_option/enable' : 1
+        \ }
+
+  if has('win32')
+    let s:quickrun_win_config = get(g:, 'quickrun_win_config', {})
+    let s:quickrun_win_config['cpp'] = {
+          \ 'exec' : ['%c %o %s -o %s:p:r' . '.exe', '%s:p:r' . '.exe %a'],
+          \ }
+    call extend(g:quickrun_config['cpp'], s:quickrun_win_config['cpp'])
+  endif
 
   nmap <silent> <Leader>R :CdCurrent<CR><Plug>(quickrun)
   nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>myvimrc_quickrun_sweep() : "\<C-c>"
@@ -526,6 +562,35 @@ if dein#tap('vim-quickrun')
     echo 'Quickrun Sweep'
     call quickrun#sweep_sessions()
   endf
+
+" watchdogs settings
+  let g:watchdogs_check_BufWritePost_enable = 1
+  let g:watchdogs_check_BufWritePost_enables = {
+        \'cpp' : 0
+        \}
+  let g:watchdogs_check_CursorHold_enable = 0
+
+  let s:config = {
+        \'watchdogs_checker/_' : {
+        \	'runner' : 'job',
+        \	'runner/job/updatetime' : 40,
+        \	'outputter' : 'quickfix',
+        \	'outputter/quickfix/open_cmd' : 'copen 8'
+        \	},
+        \'cpp/watchdogs_checker' : {
+        \	'type' : 'watchdogs_checker/clang++',
+        \	'hook/add_include_option/enable' : 1,
+        \	'cmdopt' : '-std=c++11 -Wall'
+        \	}
+        \}
+  call extend(g:quickrun_config, s:config)
+  unlet s:config
+  try
+    call watchdogs#setup(g:quickrun_config)
+  catch
+    echom v:exception
+  endtry
+
 endif
 
 if dein#tap('vimshell.vim')
