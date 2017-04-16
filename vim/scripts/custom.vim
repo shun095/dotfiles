@@ -72,7 +72,7 @@ if dein#tap('ctrlp.vim')
   " elseif has('win32')
   " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
   " endif
-  " 
+  "
   fun! s:ctrlpcmd_with_matcher(ctrlpcmd, matcher) abort
     if a:matcher !=# ''
       let g:ctrlp_match_func = {'match':a:matcher}
@@ -228,12 +228,12 @@ if dein#tap('unite.vim')
   " UniteOutLine
   nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
   let g:unite_force_overwrite_statusline = 0
-  call unite#filters#sorter_default#use(['sorter_length'])
-  call unite#custom#profile('default', 'context', {
-        \	'start_insert': 1,
-        \	'winheight': 10,
-        \	'direction': 'botright'
-        \ })
+  " call unite#filters#sorter_default#use(['sorter_length'])
+  " call unite#custom#profile('default', 'context', {
+  "       \	'start_insert': 1,
+  "       \	'winheight': 10,
+  "       \	'direction': 'botright'
+  "       \ })
   " ウィンドウを分割して開く
   augroup CustomUnite
     autocmd!
@@ -638,7 +638,7 @@ if dein#tap('yankround.vim')
   xmap gp <Plug>(yankround-gp)
   nmap gP <Plug>(yankround-gP)
   nnoremap <silent><SID>(ctrlp) :<C-u>CtrlP<CR>
-  nmap <expr><C-p> yankround#is_active() ? 
+  nmap <expr><C-p> yankround#is_active() ?
         \ "\<Plug>(yankround-prev)" :
         \ ":call <SID>ctrlpcmd_with_matcher('CtrlP','cpsm#CtrlPMatch')<CR>"
   nmap <C-n> <Plug>(yankround-next)
