@@ -112,22 +112,16 @@ repo = 'osyo-manga/shabadou.vim'
 [[plugins]]
 repo = 'Shougo/unite.vim'
 on_cmd = ['Unite', 'UniteWithBufferDir']
-[[plugins]]
-repo = 'Valloric/YouCompleteMe'
-# build = 'install.py --clang-completer'
-merged = 0
-if = "!has('nvim')"
-on_event = ['InsertEnter', 'CursorHold']
 
 
 [[plugins]]
 repo = 'ishitaku5522/TweetVim'
 on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
 depends = ['bitly.vim', 'twibill.vim',  'open-browser.vim']
-[[plugins]]
-repo = 'ishitaku5522/twibill.vim'
 # [[plugins]]
-# repo = 'basyura/twibill.vim'
+# repo = 'ishitaku5522/twibill.vim'
+[[plugins]]
+repo = 'basyura/twibill.vim'
 # HTML CSS JS PLUGINS
 [[plugins]]
 repo = 'cespare/vim-toml'
@@ -165,11 +159,17 @@ depends = ['context_filetype.vim']
 repo = 'Shougo/context_filetype.vim'
 [[plugins]]
 repo = 'rdnetto/YCM-Generator'
-on_cmd = 'YcmGenerator'
+on_cmd = 'YcmGenerateConfig'
 depends = "YouCompleteMe"
 [[plugins]]
 repo = 'rhysd/vim-clang-format'
 on_ft = ['c','cpp']
+[[plugins]]
+repo = 'Valloric/YouCompleteMe'
+if = "!has('nvim')"
+merged = 0
+on_event = ['InsertEnter', 'CursorHold']
+# build = 'install.py --clang-completer'
 # [[plugins]]
 # repo = 't9md/vim-choosewin'
 # on_event = "VimEnter"
