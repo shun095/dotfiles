@@ -30,7 +30,7 @@ read ans
 
 case $ans in
     [Yy] | [Yy][Ee][Ss] )
-        make -j${CPUNUM} install
+        sudo make -j${CPUNUM} install
         ;;
     * )
         echo "Terminated.";;
