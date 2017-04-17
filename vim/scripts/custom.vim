@@ -93,11 +93,14 @@ if dein#tap('ctrlp.vim')
   nnoremap <Leader>l :call <SID>ctrlpcmd_with_matcher('CtrlPLine','cpsm#CtrlPMatch')<CR>
   nnoremap <Leader><Leader> :call <SID>ctrlpcmd_with_matcher('CtrlP','cpsm#CtrlPMatch')<CR>
 
+  let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
   if executable('pt')
-    let s:ctrlp_command_options = '--nocolor --nogroup --follow -g ""'
     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-    unlet s:ctrlp_command_options
+  elseif executable('ag')
+    let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
   endif
+  unlet s:ctrlp_command_options
+
   " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
   " else
   "   let g:ctrlp_use_caching=1
@@ -702,14 +705,14 @@ if dein#tap('denite.nvim')
   if executable('pt')
     " if has("win32")
     call denite#custom#var('file_rec', 'command',
-          \ ['pt', '--follow', '--nocolor', '--nogroup',  '-g', ''])
+          \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
     " else
     "   call denite#custom#var('file_rec', 'command',
     "         \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
     " endif
   else
     call denite#custom#var('file_rec', 'command',
-          \ ['ag','--follow','--nocolor','--nogroup','-g',''])
+          \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g',''])
   endif
 
   call denite#custom#source(
@@ -734,7 +737,7 @@ if dein#tap('denite.nvim')
   " pt command on grep source
   call denite#custom#var('grep', 'command', ['pt'])
   call denite#custom#var('grep', 'default_opts',
-        \ ['--nogroup', '--nocolor', '--smart-case'])
+        \ ['--nogroup', '--nocolor', '--follow', '--smart-case'])
   call denite#custom#var('grep', 'recursive_opts', [])
   call denite#custom#var('grep', 'pattern_opt', [])
   call denite#custom#var('grep', 'separator', ['--'])

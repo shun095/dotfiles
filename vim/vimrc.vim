@@ -48,7 +48,7 @@ elseif has('unix')
     set ttymouse=xterm2 " 通常vim用
   endif
 
-  if executable('gsettings') && has("job")
+  if executable('gsettings') && has('job')
     augroup VIMRC1
       autocmd!
       " カーソルの形をモードによって変更
@@ -134,9 +134,9 @@ set statusline+=%4p%%%5l:%-3c
 
 " agがあればgrepの代わりにagを使う
 if executable('pt')
-  set grepprg=pt\ --nogroup\ --nocolor\ --column
+  set grepprg=pt\ --nogroup\ --nocolor\ --column\ --follow
 elseif executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor\ --column
+  set grepprg=ag\ --nogroup\ --nocolor\ --column\ --follow
 elseif has('unix')
   set grepprg=grep\ -rinIH\ --exclude-dir='.*'\ $*
 endif
@@ -253,10 +253,10 @@ augroup VIMRC2
       for line in readfile(l:file)
         call add(l:signature,line)
       endfor
-      if !exists("b:mailsignature")
+      if !exists('b:mailsignature')
         let b:mailsignature = 1
         silent call append(0,l:signature)
-        normal gg
+        normal! gg
       endif
     else
       echomsg 'There is no signature file'
@@ -282,7 +282,7 @@ augroup VIMRC2
   " クリップボードが無名レジスタと違ったら
   " (他のソフトでコピーしてきたということなので)
   " 他のレジスタに保存しておく
-  if has("job")
+  if has('job')
     fun! Vimrc_clipboard_sync(timer)
       if @* != @"
         " let @" = @*
