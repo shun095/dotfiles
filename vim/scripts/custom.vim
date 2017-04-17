@@ -288,8 +288,9 @@ if dein#tap('vim-airline')
   let g:airline#extensions#tabline#show_tab_type = 0
   " プレビューウィンドウのステータスライン(Airline優先:0か,他のプラグイン優先:1)
   let g:airline#extensions#tabline#exclude_preview = 0
+
   let g:airline#extensions#tabline#show_tabs = 1
-  let g:airline#extensions#tabline#show_splits   = 0
+  let g:airline#extensions#tabline#show_splits   = 1
   let g:airline#extensions#tabline#show_buffers = 0
   let g:airline#extensions#tabline#tab_nr_type   = 2 " splits and tab number
   let g:airline#extensions#tabline#show_close_button = 0 "}}}
@@ -731,9 +732,9 @@ if dein#tap('denite.nvim')
         \ 'noremap'
         \)
   " pt command on grep source
-  call denite#custom#var('grep', 'command', ['pt'])
+  call denite#custom#var('grep', 'command', ['grep'])
   call denite#custom#var('grep', 'default_opts',
-        \ ['--nogroup', '--nocolor', '--smart-case'])
+        \ ['-rinIH', '--exclude-dir=''.*'''])
   call denite#custom#var('grep', 'recursive_opts', [])
   call denite#custom#var('grep', 'pattern_opt', [])
   call denite#custom#var('grep', 'separator', ['--'])

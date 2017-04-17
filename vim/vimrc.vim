@@ -133,12 +133,13 @@ set statusline+=%4p%%%5l:%-3c
 " }}}
 
 " agがあればgrepの代わりにagを使う
-if executable('ag')
-  set grepprg=pt\ --nogroup\ --nocolor\ --column
-elseif executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor\ --column
-else
-  set grepprg=grep\ -rn\ $*
+" if executable('ag')
+"   set grepprg=pt\ --nogroup\ --nocolor\ --column
+" elseif executable('ag')
+"   set grepprg=ag\ --nogroup\ --nocolor\ --column
+" else
+if has('unix')
+  set grepprg=grep\ -rinIH\ --exclude-dir='.*'\ $*
 endif
 
 " set undofileでアンドゥデータをファイルを閉じても残しておく
@@ -246,7 +247,7 @@ augroup VIMRC2
   " ヘルプをqで閉じれるようにする
   autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
   autocmd FileType mail call s:add_signature()
-  fun s:add_signature()
+  fun! s:add_signature()
     let l:file = $HOME . '/localrcs/vim-local-signature.vim'
     if filereadable(l:file)
       let l:signature = []
