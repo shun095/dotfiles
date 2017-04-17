@@ -42,8 +42,6 @@ on_ft = 'markdown'
 # on_event = ['CursorHold']
 # # on_cmd = ['BrightestEnable']
 [[plugins]]
-repo = 'osyo-manga/shabadou.vim'
-[[plugins]]
 repo = 'Shougo/unite.vim'
 on_cmd = ['Unite', 'UniteWithBufferDir']
 

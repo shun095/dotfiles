@@ -765,27 +765,33 @@ endif
 
 if dein#tap('nerdcommenter')
   let g:NERDSpaceDelims = 1
-  nmap gca <Plug>NERDCommenterAltDelims
+  nmap gcA <Plug>NERDCommenterAltDelims
+
   xmap gcu <Plug>NERDCommenterUncomment
   nmap gcu <Plug>NERDCommenterUncomment
+
   xmap gcb <Plug>NERDCommenterAlignBoth
   nmap gcb <Plug>NERDCommenterAlignBoth
   xmap gcl <Plug>NERDCommenterAlignLeft
   nmap gcl <Plug>NERDCommenterAlignLeft
-  nmap gcA <Plug>NERDCommenterAppend
-  xmap gcy <Plug>NERDCommenterYank
-  nmap gcy <Plug>NERDCommenterYank
   xmap gcs <Plug>NERDCommenterSexy
   nmap gcs <Plug>NERDCommenterSexy
-  xmap gci <Plug>NERDCommenterInvert
-  nmap gci <Plug>NERDCommenterInvert
+
+  xmap gcy <Plug>NERDCommenterYank
+  nmap gcy <Plug>NERDCommenterYank
+
   nmap gc$ <Plug>NERDCommenterToEOL
+
+  xmap gcI <Plug>NERDCommenterInvert
+  nmap gcI <Plug>NERDCommenterInvert
   xmap gcn <Plug>NERDCommenterNested
   nmap gcn <Plug>NERDCommenterNested
   xmap gcm <Plug>NERDCommenterMinimal
   nmap gcm <Plug>NERDCommenterMinimal
-  xmap gc<Space> <Plug>NERDCommenterToggle
-  nmap gc<Space> <Plug>NERDCommenterToggle
-  xmap gcc <Plug>NERDCommenterComment
-  nmap gcc <Plug>NERDCommenterComment
+
+  xmap gcc <Plug>NERDCommenterToggle
+  nmap gcc <Plug>NERDCommenterToggle
+  xmap gci <Plug>NERDCommenterComment
+  nmap gci <Plug>NERDCommenterComment
+  nmap gca <Plug>NERDCommenterAppend
 endif
