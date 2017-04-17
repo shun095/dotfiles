@@ -129,8 +129,10 @@ if [[ ! -z "$unlink" ]]; then
     relinkfzf=1
 
     for item in ${SYMLINKS[@]}; do
-        echo "Remove ${item}"
-        \unlink ${item}
+        if [[ -e ${item} ]]; then
+            echo "Remove ${item}"
+            \unlink ${item}
+        fi
     done
     unset item
 fi
