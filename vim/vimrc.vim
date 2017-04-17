@@ -450,13 +450,15 @@ if g:use_plugins == s:true
       " colorscheme summerfruit256
       colorscheme onedark
       let g:airline_theme='onedark'
-      highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
+      " highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
       highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
       highlight! FoldColumn ctermbg=233 guibg=#0e1013
       highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
       highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235 guifg=#282C34 guibg=#282C34
-      highlight! MatchParen gui=none cterm=none term=none
+      " highlight! MatchParen gui=none cterm=none term=none
 
+      " for YCM's warning area
+      highlight! SpellCap cterm=underline gui=underline
       " transparent
       " highlight! Folded cterm=underline ctermbg=none
       " highlight! FoldColumn ctermbg=none

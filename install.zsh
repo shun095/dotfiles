@@ -21,12 +21,14 @@ VIMRC="$HOME/.vimrc"
 GVIMRC="$HOME/.gvimrc"
 TMUXCONF="$HOME/.tmux.conf"
 FLAKE8="$HOME/.config/flake8"
+VINTRC="$HOME/.vintrc.yml"
 
 SYMLINKS=(
 ${VIMRC}
 ${GVIMRC}
 ${TMUXCONF}
 ${FLAKE8}
+${VINTRC}
 )
 
 SYMTARGET=(
@@ -34,6 +36,7 @@ SYMTARGET=(
 "${MYDOTFILES}/vim/gvimrc.vim"
 "${MYDOTFILES}/tmux/tmux.conf"
 "${MYDOTFILES}/flake8"
+"${MYDOTFILES}/vintrc.yml"
 )
 
 SYMRANGE=(1 2 3 4)

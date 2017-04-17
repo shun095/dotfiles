@@ -31,9 +31,9 @@ if dein#tap('TweetVim')
 endif
 
 if dein#tap('YouCompleteMe')
-  let g:ycm_global_ycm_extra_conf =
-        \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
-        \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+  " let g:ycm_global_ycm_extra_conf =
+  "       \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
+  "       \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
   let g:ycm_min_num_of_chars_for_completion = 1
   let g:ycm_cache_omnifunc = 0
   let g:ycm_complete_in_comments = 1
@@ -42,11 +42,14 @@ if dein#tap('YouCompleteMe')
   let g:ycm_seed_identifiers_with_syntax = 1
   let g:ycm_add_preview_to_completeopt = 1
   let g:ycm_autoclose_preview_window_after_insertion = 1
+
+
   " setting of the which python is used
   if has('unix')
     " let g:ycm_python_binary_path = 'python' . g:myvimrc_python_version
     let g:ycm_python_binary_path = 'python'
   endif
+
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
   " autocmd VIMRCCUSTOM FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
@@ -398,7 +401,7 @@ if dein#tap('vim-dirvish')
       quit
     else
       nmap <buffer> q <plug>(dirvish_quit)
-      normal q
+      normal! q
     endif
   endf
   fun s:mydirvish_selectprevdir()
@@ -494,7 +497,6 @@ if dein#tap('vim-precious')
 endif
 
 if dein#tap('vim-quickrun')
-
   " quickrun modules
   " quickrun-hook-add-include-option {{{
   let s:hook = {
@@ -520,11 +522,10 @@ if dein#tap('vim-quickrun')
   unlet s:hook
   " }}}
 
-
   let g:quickrun_no_default_key_mappings = 1
   let g:quickrun_config = get(g:, 'quickrun_config', {})
   let g:quickrun_config['_'] = {
-        \ 'hook/close_quickfix/enable_hook_loaded' : 1,
+        \ 'hook/close_quickfix/enable_hook_loaded' : 0,
         \ 'hook/close_quickfix/enable_success' : 1,
         \ 'hook/close_buffer/enable_failure' : 1,
         \ 'hook/close_buffer/enable_empty_data' : 1,
@@ -566,34 +567,35 @@ if dein#tap('vim-quickrun')
     call quickrun#sweep_sessions()
   endf
 
-" watchdogs settings
-  let g:watchdogs_check_BufWritePost_enable = 1
-  let g:watchdogs_check_BufWritePost_enables = {
-        \'cpp' : 1
-        \}
-  let g:watchdogs_check_CursorHold_enable = 0
+  if dein#tap('vim-watchdogs')
+    " watchdogs settings
+    let g:watchdogs_check_BufWritePost_enable = 1
+    let g:watchdogs_check_BufWritePost_enables = {
+          \'cpp' : 1
+          \}
+    let g:watchdogs_check_CursorHold_enable = 0
 
-  let s:watchdogs_config = {
-        \'watchdogs_checker/_' : {
-        \	'runner' : 'job',
-        \	'runner/job/updatetime' : 40,
-        \	'outputter' : 'quickfix',
-        \	'outputter/quickfix/open_cmd' : 'copen 8'
-        \	},
-        \'cpp/watchdogs_checker' : {
-        \	'type' : 'watchdogs_checker/clang++',
-        \	'hook/add_include_option/enable' : 1,
-        \	'cmdopt' : '-std=c++11 -Wall'
-        \	}
-        \}
-  call extend(g:quickrun_config, s:watchdogs_config)
-  unlet s:watchdogs_config
-  try
-    call watchdogs#setup(g:quickrun_config)
-  catch
-    echom v:exception
-  endtry
-
+    let s:watchdogs_config = {
+          \'watchdogs_checker/_' : {
+          \	'runner' : 'job',
+          \	'runner/job/updatetime' : 40,
+          \	'outputter' : 'quickfix',
+          \	'outputter/quickfix/open_cmd' : 'copen 8'
+          \	},
+          \'cpp/watchdogs_checker' : {
+          \	'type' : 'watchdogs_checker/clang++',
+          \	'hook/add_include_option/enable' : 1,
+          \	'cmdopt' : '-std=c++11 -Wall'
+          \	}
+          \}
+    call extend(g:quickrun_config, s:watchdogs_config)
+    unlet s:watchdogs_config
+    try
+      call watchdogs#setup(g:quickrun_config)
+    catch
+      echom v:exception
+    endtry
+  endif
 endif
 
 if dein#tap('vimshell.vim')
