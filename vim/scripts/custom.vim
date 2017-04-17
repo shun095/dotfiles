@@ -587,7 +587,7 @@ if dein#tap('vim-quickrun')
           \	'outputter/quickfix/open_cmd' : 'copen 8'
           \	},
           \'cpp/watchdogs_checker' : {
-          \	'type' : 'watchdogs_checker/clang++',
+          \	'type' : 'watchdogs_checker/g++',
           \	'hook/add_include_option/enable' : 1,
           \	'cmdopt' : '-std=c++11 -Wall'
           \	}

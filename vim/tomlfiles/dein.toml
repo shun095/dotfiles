@@ -154,29 +154,29 @@ repo = 'Shougo/deoplete.nvim'
 if = "has('nvim')"
 
 # COLOR SCHEMES {{{
-[[plugins]]
-repo = 'altercation/vim-colors-solarized'
+# [[plugins]]
+# repo = 'altercation/vim-colors-solarized'
 
-[[plugins]]
-repo = 'vim-scripts/summerfruit256.vim'
+# [[plugins]]
+# repo = 'vim-scripts/summerfruit256.vim'
 
-[[plugins]]
-repo = 'chriskempson/base16-vim'
+# [[plugins]]
+# repo = 'chriskempson/base16-vim'
 
-[[plugins]]
-repo = 'ciaranm/inkpot'
+# [[plugins]]
+# repo = 'ciaranm/inkpot'
 
-[[plugins]]
-repo = 'flazz/vim-colorschemes'
+# [[plugins]]
+# repo = 'flazz/vim-colorschemes'
 
-[[plugins]]
-repo = 'tomasr/molokai'
+# [[plugins]]
+# repo = 'tomasr/molokai'
 
 [[plugins]]
 repo = 'joshdick/onedark.vim'
 
-[[plugins]]
-repo = 'rakr/vim-one'
+# [[plugins]]
+# repo = 'rakr/vim-one'
 # }}}
 
 # QUICK RUN {{{
