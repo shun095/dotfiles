@@ -39,7 +39,7 @@ SYMTARGET=(
 "${MYDOTFILES}/vintrc.yml"
 )
 
-SYMRANGE=(1 2 3 4)
+SYMRANGE=(1 2 3 4 5)
 
 # actual files
 TMUXLOCAL="$HOME/localrcs/tmux-local"
