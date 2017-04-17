@@ -148,3 +148,5 @@ depends = [ 'shabadou.vim', 'vim-quickrun' ]
 # on_cmd = 'QuickRun'
 # [[plugins]]
 # repo = 'rakr/vim-one'
+[[plugins]]
+repo = 'AndrewRadev/linediff.vim'
