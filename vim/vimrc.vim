@@ -133,12 +133,11 @@ set statusline+=%4p%%%5l:%-3c
 " }}}
 
 " agがあればgrepの代わりにagを使う
-" if executable('ag')
-"   set grepprg=pt\ --nogroup\ --nocolor\ --column
-" elseif executable('ag')
-"   set grepprg=ag\ --nogroup\ --nocolor\ --column
-" else
-if has('unix')
+if executable('pt')
+  set grepprg=pt\ --nogroup\ --nocolor\ --column
+elseif executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor\ --column
+elseif has('unix')
   set grepprg=grep\ -rinIH\ --exclude-dir='.*'\ $*
 endif
 

@@ -732,9 +732,9 @@ if dein#tap('denite.nvim')
         \ 'noremap'
         \)
   " pt command on grep source
-  call denite#custom#var('grep', 'command', ['grep'])
+  call denite#custom#var('grep', 'command', ['pt'])
   call denite#custom#var('grep', 'default_opts',
-        \ ['-rinIH', '--exclude-dir=''.*'''])
+        \ ['--nogroup', '--nocolor', '--smart-case'])
   call denite#custom#var('grep', 'recursive_opts', [])
   call denite#custom#var('grep', 'pattern_opt', [])
   call denite#custom#var('grep', 'separator', ['--'])
