@@ -186,6 +186,7 @@ cnoremap <C-a> <C-b>
 cnoremap <C-@> <C-a>
 cnoremap <C-p> <up>
 cnoremap <C-n> <down>
+cnoremap <C-u> <C-e><C-u>
 
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
