@@ -762,3 +762,30 @@ endif
 if dein#tap('deoplete.nvim')
   call deoplete#enable()
 endif
+
+if dein#tap('nerdcommenter')
+  let g:NERDSpaceDelims = 1
+ nmap gca <Plug>NERDCommenterAltDelims
+ xmap gcu <Plug>NERDCommenterUncomment
+ nmap gcu <Plug>NERDCommenterUncomment
+ xmap gcb <Plug>NERDCommenterAlignBoth
+ nmap gcb <Plug>NERDCommenterAlignBoth
+ xmap gcl <Plug>NERDCommenterAlignLeft
+ nmap gcl <Plug>NERDCommenterAlignLeft
+ nmap gcA <Plug>NERDCommenterAppend
+ xmap gcy <Plug>NERDCommenterYank
+ nmap gcy <Plug>NERDCommenterYank
+ xmap gcs <Plug>NERDCommenterSexy
+ nmap gcs <Plug>NERDCommenterSexy
+ xmap gci <Plug>NERDCommenterInvert
+ nmap gci <Plug>NERDCommenterInvert
+ nmap gc$ <Plug>NERDCommenterToEOL
+ xmap gcn <Plug>NERDCommenterNested
+ nmap gcn <Plug>NERDCommenterNested
+ xmap gcm <Plug>NERDCommenterMinimal
+ nmap gcm <Plug>NERDCommenterMinimal
+ xmap gc<Space> <Plug>NERDCommenterToggle
+ nmap gc<Space> <Plug>NERDCommenterToggle
+ xmap gcc <Plug>NERDCommenterComment
+ nmap gcc <Plug>NERDCommenterComment
+endif
