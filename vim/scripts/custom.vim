@@ -700,6 +700,7 @@ if dein#tap('denite.nvim')
   call denite#custom#option('default','vertical_preview','0')
   call denite#custom#option('default','highlight_matched_char','Special')
   call denite#custom#option('default','auto_resize','1')
+  call denite#custom#option('default','updatetime','10')
 
   " Change file_rec command.
   if executable('pt')
