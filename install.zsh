@@ -186,11 +186,6 @@ if [[ -z "$uninstall" ]]; then
         fi
     fi
 
-    if [[ ! -z "$relinkfzf" ]]; then
-        echo "\n==========Install fzf==========\n"
-        ~/.fzf/install --completion --key-bindings --update-rc
-    fi
-
     # make symlinks
     echo "\n==========Install RC files==========\n"
     for i in ${SYMRANGE}; do
@@ -200,6 +195,11 @@ if [[ -z "$uninstall" ]]; then
             echo "Link" ${SYMLINKS[${i}]:t}
         fi
     done
+
+    if [[ ! -z "$relinkfzf" ]]; then
+        echo "\n==========Install fzf==========\n"
+        ~/.fzf/install --completion --key-bindings --update-rc
+    fi
 fi
 
 # Not symlink
