@@ -76,7 +76,6 @@ set foldmethod=marker                                 " syntaxに応じて折り
 set tabstop=4                                         " タブキーの挙動設定。タブをスペース4つ分とする
 set shiftwidth=4                                      " インデントでスペース４つ分下げる
 set expandtab                                         " タブをスペースに変換
-set smartindent                                       " 自動インデントを有効にする
 set autoindent
 set softtabstop=4                                     " バックスペース等でスペースを消す幅
 set list                                              " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
@@ -224,7 +223,7 @@ augroup VIMRC2
 
   " python関係の設定
   let g:python_highlight_all = 1
-  autocmd FileType python setl autoindent nosmartindent
+  " autocmd FileType python setl autoindent nosmartindent
   autocmd FileType python setl foldmethod=indent
   " autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
   autocmd FileType python inoremap <buffer> # X#
