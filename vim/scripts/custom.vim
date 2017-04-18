@@ -487,7 +487,10 @@ if dein#tap('vim-precious')
     autocmd!
     autocmd InsertEnter * :PreciousSwitch
     autocmd InsertLeave * :PreciousSwitch
+    autocmd FileType toml :syntax sync fromstart
   augroup END
+
+  
   " setfiletype を無効
   " let g:precious_enable_switchers = {
   " \	"*" : {

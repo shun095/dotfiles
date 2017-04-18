@@ -194,3 +194,6 @@ depends = ['vim-quickrun']
 
 [[plugins]]
 repo = 'AndrewRadev/linediff.vim'
+
+[[plugins]]
+repo = 'plasticboy/vim-markdown'
