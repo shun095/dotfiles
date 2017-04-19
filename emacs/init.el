@@ -23,6 +23,9 @@
 (global-linum-mode)
 (setq line-number-display-limit-width 10000)
 
+(require 'mozc)
+(setq default-input-method "japanese-mozc")
+
 ;;
 ;; whitespace
 ;;
