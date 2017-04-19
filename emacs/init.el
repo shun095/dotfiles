@@ -26,6 +26,8 @@
 (require 'mozc)
 (setq default-input-method "japanese-mozc")
 
+(desktop-save-mode 1)
+
 ;;
 ;; whitespace
 ;;
