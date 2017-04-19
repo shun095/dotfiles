@@ -19,9 +19,26 @@
 
 (setq inhibit-startup-message t)
 
-(require 'linum)            ;\左に行番号表示
+(require 'linum)
 (global-linum-mode)
 (setq line-number-display-limit-width 10000)
+
+;;
+;; whitespace
+;;
+(require 'whitespace)
+(setq whitespace-style '(face           ; faceで可視化
+                         trailing       ; 行末
+                         tabs           ;
+			 ;; empty       ; 先頭/末尾の空行
+                         space-mark     ; 表示のマッピング
+                         tab-mark
+                         ))
+
+(setq whitespace-display-mappings
+      '((tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t])))
+
+(global-whitespace-mode 1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -31,11 +48,14 @@
  '(package-selected-packages (quote (auto-complete))))
 
 ;;(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+;; custom-set-faces was added by Custom.
+;; If you edit it by hand, you could mess it up, so be careful.
+;; Your init file should contain only one such instance.
+;; If there is more than one, they won't work right.
 ;; '(default ((t (:family "Ricty Diminished for Powerline" :foundry "PfEd" :slant normal :weight normal :height 128 :width normal)))))
+
+(setq scroll-conservatively 1)
+(setq scroll-margin 5)
 ;;
 ;; Auto Complete
 ;;
