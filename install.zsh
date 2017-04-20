@@ -41,13 +41,16 @@ TRASH="$HOME/.trash"
 
 help() {
     cat << EOF
-    usage: $0 [arg]
+
+usage: $0 [arg]
+
     --help    Show this message
     reinstall Refetch zsh-plugins from repository and reinstall.
     redeploy  Delete symbolic link and link again.
     update    Update plugins
     undeploy  Delete symbolic link
     uninstall Uninstall
+
 EOF
 }
 
@@ -66,6 +69,7 @@ EOF
 }
 
 update_repositories() {
+        echo "\n===== Checking plugin repositories ===================================\n"
         echo "Checking zprezto repository"
         pushd ${ZPREZTODIR}
         git pull && git submodule update --init --recursive
@@ -81,12 +85,12 @@ backup_file() {
     if [[ -e "$1" ]]; then
         for idx in `seq 3 -1 0`; do
             if [[ -e "$1.bak$idx" ]]; then
-                echo "Renaming exist backup $1.bak$idx to $1.bak$(($idx+1))"
+                echo "Renaming exist backup\n\tfrom: $1.bak$idx\n\tto:   $1.bak$(($idx+1))"
                 mv "$1.bak$idx" "$1.bak$(($idx+1))"
             fi
         done
 
-        echo "Making backup of $1 to $1.bak0"
+        echo "Making backup\n\tfrom: $1\n\tto:   $1.bak0"
         cp $1 $1.bak0
     fi
 }
@@ -104,7 +108,7 @@ remove_rcfiles_symlink() {
 }
 
 remove_rcfiles() {
-        echo "\n==========Remove existing RC files==========\n"
+        echo "\n===== Remove existing RC files =======================================\n"
 
         setopt EXTENDED_GLOB
         for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
@@ -119,8 +123,9 @@ remove_rcfiles() {
 
 uninstall_plugins() {
     echo "Remove fzf and zprezto directory"
-    \rm -rf $ZPREZTODIR
     $HOME/.fzf/uninstall
+    \rm -rf $ZPREZTODIR
+    \rm -rf $FZFDIR
 }
 
 git_configulation() {
@@ -132,13 +137,13 @@ git_configulation() {
 download_repositories(){
     # install fzf
     if [[ ! -e ${FZFDIR} ]]; then
-        echo "\n==========Download fzf==========\n"
+        echo "\n===== Download fzf ===================================================\n"
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     fi
 
     # download zprezto
     if [[ ! -e ${ZPREZTODIR} ]]; then
-        echo "\n==========Download zprezto==========\n"
+        echo "\n===== Download zprezto ===============================================\n"
         git clone --recursive https://github.com/zsh-users/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
         #   git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
     fi
@@ -172,12 +177,11 @@ append_line() {
             echo "    ~ Skipped"
         fi
     fi
-    echo
     set +e
 }
 
 deploy_prezto_files() {
-    echo "\n==========Install prezto==========\n"
+    echo "\n===== Install prezto =================================================\n"
     setopt EXTENDED_GLOB
     for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
         if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
@@ -204,7 +208,7 @@ deploy_prezto_files() {
 
 deploy_selfmade_rcfiles() {
     # make symlinks
-    echo "\n==========Install RC files==========\n"
+    echo "\n===== Install RC files ===============================================\n"
     for i in `seq 1 ${#SYMLINKS[@]}`; do
         if [[ ! -e ${SYMLINKS[${i}]} ]]; then
             touch ${SYMTARGET[${i}]}
@@ -217,13 +221,15 @@ deploy_selfmade_rcfiles() {
 }
 
 deploy_fzf() {
-    echo "\n==========Install fzf==========\n"
+    echo "\n===== Install fzf ====================================================\n"
     ~/.fzf/install --completion --key-bindings --update-rc
 }
 
-
 #MAIN COMMANDS
 backup() {
+    if [[ -e $ZSHRC ]]; then
+        echo "\n===== Back up ========================================================\n"
+    fi
     backup_file $ZSHRC
 }
 
@@ -234,7 +240,6 @@ deploy() {
 }
 
 install() {
-    ascii_art
     download_repositories
     update_repositories
     remove_rcfiles
@@ -252,9 +257,12 @@ redeploy() {
 }
 
 update() {
-    ascii_art
     update_repositories
     redeploy
+}
+
+undeploy() {
+    remove_rcfiles
 }
 
 uninstall() {
@@ -262,50 +270,44 @@ uninstall() {
     remove_rcfiles
 }
 
-# MAIN
+check_arguments() {
+    case $1 in
+        --help)
+            help
+            exit 0
+            ;;
+        install)   ;;
+        reinstall) ;;
+        redeploy)  ;;
+        update)    ;;
+        undeploy)  ;;
+        uninstall) ;;
+        debug)     ;;
+        *)
+            echo "Unknown argument: $arg"
+            help
+            exit 1
+            ;;
+    esac
+}
+
+########## MAIN ##########
 if [[ $# -eq 0 ]]; then
     arg="install"
-    echo "install"
 else
     arg=$1
 fi
 
+check_arguments $arg
+ascii_art
+
 if [[ $arg != "debug" ]]; then
     backup
+    $arg
+else
+    # debug function
+    # backup_file $2
 fi
-
-case $arg in
-    --help)
-        help
-        exit 0
-        ;;
-    install)
-        install
-        ;;
-    reinstall)
-        reinstall
-        ;;
-    redeploy) 
-        redeploy
-        ;;
-    update)
-        update
-        ;;
-    undeploy)
-        remove_rcfiles
-        ;;
-    uninstall) 
-        uninstall
-        ;;
-    debug)
-        backup_file $2
-        ;;
-    *)
-        echo "Unknown argument: $arg"
-        help
-        exit 1
-        ;;
-esac
 
 git_configulation
 
@@ -319,3 +321,5 @@ fi
 if [[ ! -e ${TRASH} ]]; then
     mkdir ${TRASH}
 fi
+
+echo "\nFINISHED!!!\n"
