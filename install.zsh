@@ -133,7 +133,6 @@ git_configulation() {
     git config --global alias.graph "log --graph --all --pretty=format:'%C(auto)%h%d%n  %s %C(magenta)(%cr)%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset' --abbrev-commit --date=relative"
 }
 
-
 download_repositories(){
     # install fzf
     if [[ ! -e ${FZFDIR} ]]; then
@@ -225,7 +224,10 @@ deploy_fzf() {
     ~/.fzf/install --completion --key-bindings --update-rc
 }
 
-#MAIN COMMANDS
+##############################################
+#               MAIN COMMANDS                #
+##############################################
+
 backup() {
     if [[ -e $ZSHRC ]]; then
         echo "\n===== Back up ========================================================\n"
@@ -241,7 +243,6 @@ deploy() {
 
 install() {
     download_repositories
-    update_repositories
     remove_rcfiles
     deploy
 }
@@ -291,7 +292,10 @@ check_arguments() {
     esac
 }
 
-########## MAIN ##########
+##############################################
+#                    MAIN                    #
+##############################################
+
 if [[ $# -eq 0 ]]; then
     arg="install"
 else
