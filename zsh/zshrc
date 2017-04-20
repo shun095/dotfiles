@@ -29,6 +29,10 @@ else
 	alias rm="to_trash"
 fi
 
+if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
+    source "$HOME/localrcs/zsh-local.zsh"
+fi
+
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 alias tgvim="gvim --remote-tab"

@@ -37,12 +37,10 @@ SYMTARGET=(
 "${MYDOTFILES}/vim/vimrc.vim"
 "${MYDOTFILES}/vim/gvimrc.vim"
 "${MYDOTFILES}/tmux/tmux.conf"
-"${MYDOTFILES}/flake8"
-"${MYDOTFILES}/vintrc.yml"
+"${MYDOTFILES}/python/lint/flake8"
+"${MYDOTFILES}/python/lint/vintrc.yml"
 "${MYDOTFILES}/emacs/init.el"
 )
-
-SYMRANGE=(1 2 3 4 5 6)
 
 # actual files
 TMUXLOCAL="$HOME/localrcs/tmux-local"
@@ -132,9 +130,13 @@ if [[ ! -z "$unlink" ]]; then
     relinkfzf=1
 
     for item in ${SYMLINKS[@]}; do
-        if [[ -e ${item} ]]; then
+        if [[ -L ${item} ]]; then
             echo "Remove ${item}"
             \unlink ${item}
+        elif [[ -e ${item} ]]; then
+            echo "${item} is not symlink"
+        else
+            echo "${item} does not exists"
         fi
     done
     unset item
@@ -191,7 +193,7 @@ if [[ -z "$uninstall" ]]; then
 
     # make symlinks
     echo "\n==========Install RC files==========\n"
-    for i in ${SYMRANGE}; do
+    for i in `seq 1 ${#SYMLINKS[@]}`; do
         if [[ ! -e ${SYMLINKS[${i}]} ]]; then
             touch ${SYMTARGET[${i}]}
             ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
