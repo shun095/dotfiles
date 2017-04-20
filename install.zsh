@@ -4,13 +4,6 @@ set -eu
 
 export MYDOTFILES=$HOME/dotfiles
 
-reinstall=
-unlink=
-update=
-relinkprezto=
-relinkfzf=
-uninstall=
-
 # directories
 FZFDIR="$HOME/.fzf"
 ZPREZTODIR="${ZDOTDIR:-$HOME}/.zprezto"
@@ -48,114 +41,99 @@ TRASH="$HOME/.trash"
 
 help() {
     cat << EOF
-    usage: $0 [OPTIONS]
-    --help              Show this message
-    --reinstall         Refetch zsh-plugins from repository and reinstall.
-    --relink            Delete symbolic link and link again.
-    --update            Update plugins
-    --uninstall         Uninstall
+    usage: $0 [arg]
+    --help    Show this message
+    reinstall Refetch zsh-plugins from repository and reinstall.
+    redeploy  Delete symbolic link and link again.
+    update    Update plugins
+    undeploy  Delete symbolic link
+    uninstall Uninstall
 EOF
 }
 
 
-for opt in "$@"; do
-    case $opt in
-        --help)
-            help
-            exit 0
-            ;;
-        --reinstall)
-            reinstall=1
-            unlink=1
-            ;;
-        --relink) unlink=1 ;;
-        --update) update=1 ;;
-        --uninstall) 
-            reinstall=1
-            unlink=1
-            uninstall=1
-            ;;
-        *)
-            echo "unknown option: $opt"
-            help
-            exit 1
-            ;;
-    esac
-done
+ascii_art() {
+    cat << EOF
+        ____  ____  __________________    ___________
+       / __ \/ __ \/_  __/ ____/  _/ /   / ____/ ___/
+      / / / / / / / / / / /_   / // /   / __/  \__ \ 
+     / /_/ / /_/ / / / / __/ _/ // /___/ /___ ___/ / 
+    /_____/\____/ /_/ /_/   /___/_____/_____//____/  
 
-
-cat << EOF
-    ____  ____  __________________    ___________
-   / __ \/ __ \/_  __/ ____/  _/ /   / ____/ ___/
-  / / / / / / / / / / /_   / // /   / __/  \__ \ 
- / /_/ / /_/ / / / / __/ _/ // /___/ /___ ___/ / 
-/_____/\____/ /_/ /_/   /___/_____/_____//____/  
-
-Author: ishitaku5522
+    Author: ishitaku5522
 
 EOF
+}
 
-if [[ ! -z "$update" ]]; then
-    echo "Checking zprezto repository"
-    pushd ${ZPREZTODIR}
-    git pull && git submodule update --init --recursive
-    popd
-    echo "Checking fzf repository"
-    pushd ${FZFDIR}
-    git pull
-    popd
+update_repositories() {
+        echo "Checking zprezto repository"
+        pushd ${ZPREZTODIR}
+        git pull && git submodule update --init --recursive
+        popd
 
-    unlink=1
-fi
+        echo "Checking fzf repository"
+        pushd ${FZFDIR}
+        git pull
+        popd
+}
 
-if [[ ! -z "$unlink" ]]; then
-    echo "\n==========Remove existing RC files==========\n"
-    if [[ -e "$ZSHRC" ]]; then
-        if [[ -e "~/.zshrc.bak" ]]; then
-            echo "Remove exist backup of zshrc"
-            rm ~/.zshrc.bak
-        fi
-        cp $ZSHRC ~/.zshrc.bak
-        echo "Make backup of zshrc"
+backup_file() {
+    if [[ -e "$1" ]]; then
+        for idx in `seq 3 -1 0`; do
+            if [[ -e "$1.bak$idx" ]]; then
+                echo "Renaming exist backup $1.bak$idx to $1.bak$(($idx+1))"
+                mv "$1.bak$idx" "$1.bak$(($idx+1))"
+            fi
+        done
+
+        echo "Making backup of $1 to $1.bak0"
+        cp $1 $1.bak0
     fi
+}
 
-    setopt EXTENDED_GLOB
-    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-        if [[ -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
-            echo "Remove .${rcfile:t}"
-            \unlink "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-        fi
-    done
-    relinkprezto=1
-    relinkfzf=1
+remove_rcfiles_symlink() {
+    if [[ -L $1 ]]; then
+        echo "Removing symlink: $1"
+        \unlink $1
+    elif [[ -f $1 ]]; then
+        echo "$1 is not symlink."
+        \rm -i $1
+    else
+        echo "$1 does not exists. Doing nothing."
+    fi
+}
 
-    for item in ${SYMLINKS[@]}; do
-        if [[ -L ${item} ]]; then
-            echo "Remove ${item}"
-            \unlink ${item}
-        elif [[ -e ${item} ]]; then
-            echo "${item} is not symlink"
-        else
-            echo "${item} does not exists"
-        fi
-    done
-    unset item
-fi
+remove_rcfiles() {
+        echo "\n==========Remove existing RC files==========\n"
 
-if [[ ! -z "$reinstall" ]]; then
+        setopt EXTENDED_GLOB
+        for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+            remove_rcfiles_symlink "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+        done
+
+        for item in ${SYMLINKS[@]}; do
+            remove_rcfiles_symlink $item
+        done
+        unset item
+}
+
+uninstall_plugins() {
     echo "Remove fzf and zprezto directory"
-    \rm -rf $FZFDIR $ZPREZTODIR
-fi
+    \rm -rf $ZPREZTODIR
+    $HOME/.fzf/uninstall
+}
 
-git config --global core.editor vim
-git config --global alias.graph "log --graph --all --pretty=format:'%C(auto)%h%d%n  %s %C(magenta)(%cr)%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset' --abbrev-commit --date=relative"
+git_configulation() {
+    git config --global core.editor vim
+    git config --global alias.graph "log --graph --all --pretty=format:'%C(auto)%h%d%n  %s %C(magenta)(%cr)%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset' --abbrev-commit --date=relative"
+}
 
-# install fzf
-if [[ -z "$uninstall" ]]; then
+
+download_repositories(){
+    # install fzf
     if [[ ! -e ${FZFDIR} ]]; then
         echo "\n==========Download fzf==========\n"
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-        relinkfzf=1
     fi
 
     # download zprezto
@@ -163,34 +141,68 @@ if [[ -z "$uninstall" ]]; then
         echo "\n==========Download zprezto==========\n"
         git clone --recursive https://github.com/zsh-users/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
         #   git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
-        relinkprezto=1
     fi
+}
 
-    # relink prezto files
-    if [[ ! -z "$relinkprezto" ]]; then
-        echo "\n==========Install prezto==========\n"
-        setopt EXTENDED_GLOB
-        for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-            if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
-                echo "Link .${rcfile:t}"
-                ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-            fi
-        done
+append_line() {
+    set -e
 
-        rm ${ZDOTDIR:-$HOME}/.zpreztorc
-        ln -s ${MYDOTFILES}/zsh/zpreztorc ${ZDOTDIR:-$HOME}/.zpreztorc
+    local update line file pat lno
+    update="$1"
+    line="$2"
+    file="$3"
+    pat="${4:-}"
 
-        if [[ -e "$HOME/.zshrc.bak" ]]; then
-            echo "Restore backup of zshrc"
-            cat ~/.zshrc.bak > ~/.zshrc
-            rm ~/.zshrc.bak
+    echo "Update $file:"
+    echo "  - $line"
+    [ -f "$file" ] || touch "$file"
+    if [ $# -lt 4 ]; then
+        lno=$(\grep -nF "$line" "$file" | sed 's/:.*//' | tr '\n' ' ')
+    else
+        lno=$(\grep -nF "$pat" "$file" | sed 's/:.*//' | tr '\n' ' ')
+    fi
+    if [ -n "$lno" ]; then
+        echo "    - Already exists: line #$lno"
+    else
+        if [ $update -eq 1 ]; then
+            echo >> "$file"
+            echo "$line" >> "$file"
+            echo "    + Added"
         else
-            touch ~/.zshrc
-            echo "Add a line for source dotfiles to zshrc"
-            echo "source $MYDOTFILES/zsh/zshrc" >> ~/.zshrc
+            echo "    ~ Skipped"
         fi
     fi
+    echo
+    set +e
+}
 
+deploy_prezto_files() {
+    echo "\n==========Install prezto==========\n"
+    setopt EXTENDED_GLOB
+    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+        if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
+            echo "Link .${rcfile:t}"
+            ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+        else
+            echo "${rcfile:t} already exists!!"
+        fi
+    done
+
+    # use customized zpreztorc
+    rm ${ZDOTDIR:-$HOME}/.zpreztorc
+    ln -s ${MYDOTFILES}/zsh/zpreztorc ${ZDOTDIR:-$HOME}/.zpreztorc
+
+    # restore zshrc backup if exists
+    if [[ -e "$HOME/.zshrc.bak0" ]]; then
+        echo "Restore backup of zshrc"
+        cat ~/.zshrc.bak0 > ~/.zshrc
+    fi
+
+    # append line if zshrc doesn't has below line
+    append_line 1 "source $MYDOTFILES/zsh/zshrc" "$HOME/.zshrc"
+}
+
+deploy_selfmade_rcfiles() {
     # make symlinks
     echo "\n==========Install RC files==========\n"
     for i in `seq 1 ${#SYMLINKS[@]}`; do
@@ -198,14 +210,104 @@ if [[ -z "$uninstall" ]]; then
             touch ${SYMTARGET[${i}]}
             ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
             echo "Link" ${SYMLINKS[${i}]:t}
+        else
+            echo "${SYMLINKS[${i}} already exists!!"
         fi
     done
+}
 
-    if [[ ! -z "$relinkfzf" ]]; then
-        echo "\n==========Install fzf==========\n"
-        ~/.fzf/install --completion --key-bindings --update-rc
-    fi
+deploy_fzf() {
+    echo "\n==========Install fzf==========\n"
+    ~/.fzf/install --completion --key-bindings --update-rc
+}
+
+
+#MAIN COMMANDS
+backup() {
+    backup_file $ZSHRC
+}
+
+deploy() {
+    deploy_prezto_files
+    deploy_selfmade_rcfiles
+    deploy_fzf
+}
+
+install() {
+    ascii_art
+    download_repositories
+    update_repositories
+    remove_rcfiles
+    deploy
+}
+
+reinstall() {
+    uninstall_plugins
+    install
+}
+
+redeploy() {
+    remove_rcfiles
+    deploy
+}
+
+update() {
+    ascii_art
+    update_repositories
+    redeploy
+}
+
+uninstall() {
+    uninstall_plugins
+    remove_rcfiles
+}
+
+# MAIN
+if [[ $# -eq 0 ]]; then
+    arg="install"
+    echo "install"
+else
+    arg=$1
 fi
+
+if [[ $arg != "debug" ]]; then
+    backup
+fi
+
+case $arg in
+    --help)
+        help
+        exit 0
+        ;;
+    install)
+        install
+        ;;
+    reinstall)
+        reinstall
+        ;;
+    redeploy) 
+        redeploy
+        ;;
+    update)
+        update
+        ;;
+    undeploy)
+        remove_rcfiles
+        ;;
+    uninstall) 
+        uninstall
+        ;;
+    debug)
+        backup_file $2
+        ;;
+    *)
+        echo "Unknown argument: $arg"
+        help
+        exit 1
+        ;;
+esac
+
+git_configulation
 
 # Not symlink
 if [[ ! -e ${TMUXLOCAL} ]]; then
@@ -217,4 +319,3 @@ fi
 if [[ ! -e ${TRASH} ]]; then
     mkdir ${TRASH}
 fi
-
