@@ -14,7 +14,7 @@ git checkout master
 git pull origin master
 ./configure --prefix=${PREFIX} \
     --enable-fail-if-missing \
-    --enable-gui=gtk2 \
+    --enable-gui=gtk3 \
     --enable-luainterp=dynamic \
     --enable-perlinterp=dynamic \
     --enable-python3interp=dynamic \
