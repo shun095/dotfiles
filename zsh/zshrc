@@ -14,7 +14,8 @@ if [[ ! -n $TMUX ]]; then
     if [[ `tmux list-sessions|wc -l` == `tmux list-sessions | grep attached | wc -l` ]]; then
         tmux new-session
     else
-        tmux attach
+        tmux attach -t `tmux list-sessions | grep -v attached | sed "s/:.*//"`
+
     fi
 	# else
 	# export TERM=screen-256color
