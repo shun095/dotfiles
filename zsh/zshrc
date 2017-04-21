@@ -11,14 +11,18 @@ setopt AUTO_CD
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
     export TERM=xterm-256color
-    if [[ `tmux list-sessions|wc -l` == `tmux list-sessions | grep attached | wc -l` ]]; then
-        tmux new-session
+    exist_sessions=(`tmux list-sessions|sed "s/:.*//"`)
+    attached_sessions=(`tmux list-sessions|grep attached|sed "s/:.*//"`)
+    detached_sessions=(`tmux list-sessions|grep -v attached|sed "s/:.*//"`)
+    if [[ $#exist_sessions == $#attached_sessions ]]; then
+        idx=0
+        while [[ -n ${exist_sessions[(re)$idx]} ]]; do
+            (( idx++ ))
+        done
+        tmux new-session -s $idx
     else
-        tmux attach -t `tmux list-sessions | grep -v attached | sed "s/:.*//"`
-
+        tmux attach -t ${detached_sessions[1]}
     fi
-	# else
-	# export TERM=screen-256color
 fi
 
 if [[ -x "`which trash-put`" ]]; then
