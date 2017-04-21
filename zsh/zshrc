@@ -33,8 +33,17 @@ if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
     source "$HOME/localrcs/zsh-local.zsh"
 fi
 
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 alias tgvim="gvim --remote-tab"
 alias tvim="gvim --remote-tab"
 alias em="emacs"
+
+# zstyle ':completion:*' completer _complete _match _approximate
+# zstyle ':completion:*' group-name ''
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# zstyle ':completion:*' use-cache true
+# zstyle ':completion:*' verbose yes
+# zstyle ':completion:*:default' menu select=2
+# zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
+# zstyle ':completion:*:options' description 'yes'

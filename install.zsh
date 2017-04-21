@@ -179,6 +179,38 @@ append_line() {
     set +e
 }
 
+insert_line() {
+    set -e
+
+    local update line file pat lno
+    update="$1"
+    line="$2"
+    file="$3"
+    pat="${4:-}"
+
+    echo "Update $file:"
+    echo "  - $line"
+    [ -f "$file" ] || touch "$file"
+    if [ $# -lt 4 ]; then
+        lno=$(\grep -nF "$line" "$file" | sed 's/:.*//' | tr '\n' ' ')
+    else
+        lno=$(\grep -nF "$pat" "$file" | sed 's/:.*//' | tr '\n' ' ')
+    fi
+    if [ -n "$lno" ]; then
+        echo "    - Already exists: line #$lno"
+    else
+        if [ $update -eq 1 ]; then
+            sed --in-place --follow-symlinks "1s/^/$line\n/" $file
+            # echo >> "$file"
+            # echo "$line" >> "$file"
+            echo "    + Added"
+        else
+            echo "    ~ Skipped"
+        fi
+    fi
+    set +e
+}
+
 deploy_prezto_files() {
     echo "\n===== Install prezto =================================================\n"
     setopt EXTENDED_GLOB
@@ -203,6 +235,7 @@ deploy_prezto_files() {
 
     # append line if zshrc doesn't has below line
     append_line 1 "source $MYDOTFILES/zsh/zshrc" "$HOME/.zshrc"
+    insert_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
 }
 
 deploy_selfmade_rcfiles() {
