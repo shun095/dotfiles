@@ -5,6 +5,8 @@
 (defvar my-favorite-package-list
   '(undo-tree
     helm
+    mozc
+    molokai-theme
     auto-complete)
   "packages to be installed")
 
@@ -22,34 +24,44 @@
 (require 'linum)
 (global-linum-mode)
 (setq line-number-display-limit-width 10000)
+
 (when (eq system-type 'gnu/linux)
   (require 'mozc)
   (setq default-input-method "japanese-mozc"))
 
+(setq desktop-globals-to-save '(extended-command-history))
 (desktop-save-mode 1)
+
+(require 'molokai-theme)
+(load-theme 'molokai t)
 
 ;;
 ;; whitespace
 ;;
-(require 'whitespace)
-(setq whitespace-style '(face           ; faceで可視化
-                         trailing       ; 行末
-                         tabs           ;
-			 ;; empty       ; 先頭/末尾の空行
-                         space-mark     ; 表示のマッピング
-                         tab-mark
-                         ))
 
-(setq whitespace-display-mappings
-      '((tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t])))
+;; (require 'whitespace)
+;; (setq whitespace-style '(face           ; faceで可視化
+;;                          trailing       ; 行末
+;;                          tabs           ;
+;; 			 ;; empty       ; 先頭/末尾の空行
+;;                          space-mark     ; 表示のマッピング
+;;                          tab-mark
+;;                          ))
+;; 
+;; (setq whitespace-display-mappings
+;;       '((tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t])))
 
-(global-whitespace-mode 1)
+;; (global-whitespace-mode 1)
+(global-set-key "\C-h" 'delete-backward-char)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("b571f92c9bfaf4a28cb64ae4b4cdbda95241cd62cf07d942be44dc8f46c491f4" default)))
  '(package-selected-packages (quote (auto-complete))))
 
 ;;(custom-set-faces
@@ -66,13 +78,10 @@
 ;;
 ;; auto-complete-config の設定ファイルを読み込む。
 (require 'auto-complete-config)
-
 ;; よくわからない
 (ac-config-default)
-
 ;; TABキーで自動補完を有効にする
 (ac-set-trigger-key "TAB")
-
 ;; auto-complete-mode を起動時に有効にする
 (global-auto-complete-mode t)
 
@@ -92,6 +101,7 @@
   (interactive)
   (setq-local eww-disable-colorize nil)
   (eww-reload))
+
 (setq eww-search-prefix "http://www.google.co.jp/search?q=")
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
