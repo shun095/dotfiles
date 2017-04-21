@@ -7,6 +7,8 @@
     helm
     mozc
     molokai-theme
+    flycheck
+    vimrc-mode
     auto-complete)
   "packages to be installed")
 
@@ -35,6 +37,7 @@
 (require 'molokai-theme)
 (load-theme 'molokai t)
 
+(require 'vimrc-mode)
 ;;
 ;; whitespace
 ;;

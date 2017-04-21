@@ -37,4 +37,4 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 alias tgvim="gvim --remote-tab"
 alias tvim="gvim --remote-tab"
-
+alias em="emacs"
