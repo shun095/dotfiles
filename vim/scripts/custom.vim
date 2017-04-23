@@ -541,8 +541,8 @@ if dein#tap('vim-quickrun')
         \ 'hook/inu/enable' : 1,
         \ 'hook/inu/wait' : 1,
         \ 'outputter/buffer/split' : ':botright 8',
-        \ 'runner' : 'job',
-        \ 'runner/job/interval' : 40,
+        \ 'runner' : 'vimproc',
+        \ 'runner/vimproc/interval' : 40,
         \ }
   let g:quickrun_config['python'] = {
         \ 'command' : 'python',
@@ -578,17 +578,20 @@ if dein#tap('vim-quickrun')
     " watchdogs settings
     let g:watchdogs_check_BufWritePost_enable = 1
     let g:watchdogs_check_BufWritePost_enables = {
-          \'cpp' : 1
+          \'cpp' : 1,
+          \'java': 0
           \}
     let g:watchdogs_check_CursorHold_enable = 0
 
     let s:watchdogs_config = {
           \'watchdogs_checker/_' : {
-          \	'runner' : 'job',
-          \	'runner/job/updatetime' : 40,
+          \	'runner' : 'vimproc',
+          \	'runner/vimproc/updatetime' : 40,
           \	'outputter' : 'quickfix',
           \	'outputter/quickfix/open_cmd' : 'copen 8'
           \	},
+          \'watchdogs_checker/javac' : {
+          \ },
           \'cpp/watchdogs_checker' : {
           \	'type' : 'watchdogs_checker/g++',
           \	'hook/add_include_option/enable' : 1,
@@ -596,6 +599,12 @@ if dein#tap('vim-quickrun')
           \	}
           \}
     call extend(g:quickrun_config, s:watchdogs_config)
+
+    let s:watchdogs_config_javac={
+          \ 'exec' : '%c %o -d %S:p:h %S:p'
+          \ }
+    call extend(g:quickrun_config["watchdogs_checker/javac"], s:watchdogs_config_javac)
+
     unlet s:watchdogs_config
     try
       call watchdogs#setup(g:quickrun_config)
@@ -798,4 +807,8 @@ if dein#tap('nerdcommenter')
   xmap gci <Plug>NERDCommenterComment
   nmap gci <Plug>NERDCommenterComment
   nmap gca <Plug>NERDCommenterAppend
+endif
+
+if dein#tap('vim-javacomplete2')
+  autocmd Filetype java setlocal omnifunc=javacomplete#Complete
 endif

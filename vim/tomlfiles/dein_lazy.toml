@@ -141,3 +141,6 @@ repo = 'majutsushi/tagbar'
 on_cmd = ['TagbarToggle', 'TagbarOpen']
 [[plugins]]
 repo = 'yuratomo/gmail.vim'
+[[plugins]]
+repo = 'artur-shaik/vim-javacomplete2'
+on_ft = 'java'

@@ -11,9 +11,12 @@ setopt AUTO_CD
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
     export TERM=xterm-256color
-    exist_sessions=(`tmux list-sessions|sed "s/:.*//"`)
-    attached_sessions=(`tmux list-sessions|grep attached|sed "s/:.*//"`)
-    detached_sessions=(`tmux list-sessions|grep -v attached|sed "s/:.*//"`)
+    if [[ `tmux list-sessions 2>/dev/null` ]]; then
+        exist_sessions=(`tmux list-sessions|sed "s/:.*//"`)
+        attached_sessions=(`tmux list-sessions|grep attached|sed "s/:.*//"`)
+        detached_sessions=(`tmux list-sessions|grep -v attached|sed "s/:.*//"`)
+    fi
+
     if [[ $#exist_sessions == $#attached_sessions ]]; then
         idx=0
         while [[ -n ${exist_sessions[(re)$idx]} ]]; do
@@ -47,12 +50,12 @@ alias tgvim="gvim --remote-tab"
 alias tvim="gvim --remote-tab"
 alias em="emacs"
 
-zstyle ':completion:*' completer _complete _match _approximate
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-zstyle ':completion:*' use-cache true
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*:default' menu select=2
-zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
-zstyle ':completion:*:options' description 'yes'
+# zstyle ':completion:*' completer _complete _match _approximate
+# zstyle ':completion:*' group-name ''
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# zstyle ':completion:*' use-cache true
+# zstyle ':completion:*' verbose yes
+# zstyle ':completion:*:default' menu select=2
+# zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
+# zstyle ':completion:*:options' description 'yes'
