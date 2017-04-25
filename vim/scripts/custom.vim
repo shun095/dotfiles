@@ -145,7 +145,7 @@ endif
 if dein#tap('memolist.vim')
   " let g:memolist_memo_suffix = 'txt'
   " let g:memolist_unite = 1
-  let g:memolist_denite = 1
+  " let g:memolist_denite = 1
   " let g:memolist_ex_cmd = 'Denite file_rec '
   
   nmap <Leader>mn :MemoNew<cr>
@@ -768,7 +768,11 @@ endif
 if dein#tap('vaffle.vim')
   nnoremap <silent> <Leader>e :Vaffle %:p:h<CR>
   nnoremap <silent> <Leader>E :Vaffle .<CR>
-  let g:vaffle_auto_cd = 1
+  function! s:customize_vaffle_mappings() abort
+    " Customize key mappings here
+    nmap <buffer> <tab> <Plug>(vaffle-toggle-current)
+  endfunction
+  autocmd FileType vaffle call s:customize_vaffle_mappings()
 endif
 
 if dein#tap('deoplete.nvim')
