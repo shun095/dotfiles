@@ -5,8 +5,13 @@
 # on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
 # depends = 'unite.vim'
 
+# [[plugins]]
+# repo = 'cocopon/vaffle.vim'
+
 [[plugins]]
-repo = 'cocopon/vaffle.vim'
+repo = 'justinmk/vim-dirvish'
+# on_event = 'VimEnter'
+# on_cmd = 'Dirvish'
 
 [[plugins]]
 repo = 'Shougo/denite.nvim'
@@ -69,11 +74,6 @@ rev = 'dev'
 
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
-
-# [[plugins]]
-# repo = 'justinmk/vim-dirvish'
-# # on_event = 'VimEnter'
-# # on_cmd = 'Dirvish'
 
 [[plugins]]
 repo = 'mattn/ctrlp-register'
@@ -197,3 +197,6 @@ repo = 'AndrewRadev/linediff.vim'
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
+
+[[plugins]]
+repo = 'aperezdc/vim-template'
