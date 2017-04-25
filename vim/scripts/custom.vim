@@ -71,27 +71,23 @@ if dein#tap('ctrlp.vim')
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
   " if has('unix')
-  let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
+  let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+  let g:ctrlp_match_func = s:ctrlp_my_match_func
   " elseif has('win32')
   " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
   " endif
   "
-  fun! s:ctrlpcmd_with_matcher(ctrlpcmd, matcher) abort
-    if a:matcher !=# ''
-      let g:ctrlp_match_func = {'match':a:matcher}
-    else
-      let g:ctrlp_match_func = {}
-    endif
-    execute a:ctrlpcmd
-  endf
+  autocmd VimEnter * com! -n=? -com=dir CtrlPMRUFiles let g:ctrlp_match_func = {} |
+        \ cal ctrlp#init('mru', { 'dir': <q-args> }) |
+        \ let g:ctrlp_match_func = s:ctrlp_my_match_func
 
-  nnoremap <Leader>mr :call <SID>ctrlpcmd_with_matcher('CtrlPMRUFiles', '')<CR>
-  nnoremap <Leader>r :call <SID>ctrlpcmd_with_matcher('CtrlPRegister','cpsm#CtrlPMatch')<CR>
-  nnoremap <Leader>c :call <SID>ctrlpcmd_with_matcher('CtrlPCurWD','cpsm#CtrlPMatch')<CR>
-  nnoremap <Leader>T :call <SID>ctrlpcmd_with_matcher('CtrlPTag','cpsm#CtrlPMatch')<CR>
-  nnoremap <Leader>b :call <SID>ctrlpcmd_with_matcher('CtrlPBuffer','cpsm#CtrlPMatch')<CR>
-  nnoremap <Leader>l :call <SID>ctrlpcmd_with_matcher('CtrlPLine','cpsm#CtrlPMatch')<CR>
-  nnoremap <Leader><Leader> :call <SID>ctrlpcmd_with_matcher('CtrlP','cpsm#CtrlPMatch')<CR>
+  nnoremap <Leader>mr       :CtrlPMRUFiles<CR>
+  nnoremap <Leader>r        :CtrlPRegister<CR>
+  nnoremap <Leader>c        :CtrlPCurWD<CR>
+  nnoremap <Leader>T        :CtrlPTag<CR>
+  nnoremap <Leader>b        :CtrlPBuffer<CR>
+  nnoremap <Leader>l        :CtrlPLine<CR>
+  nnoremap <Leader><Leader> :CtrlP<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
   if executable('pt')
@@ -149,10 +145,12 @@ endif
 if dein#tap('memolist.vim')
   " let g:memolist_memo_suffix = 'txt'
   " let g:memolist_unite = 1
-  " let g:memolist_ex_cmd = 'Denite file_rec -path='
+  let g:memolist_denite = 1
+  " let g:memolist_ex_cmd = 'Denite file_rec '
+  
   nmap <Leader>mn :MemoNew<cr>
-  " nmap <Leader>ml :MemoList<cr>
-  nmap <Leader>ml :execute "Denite file_rec -path=" . g:memolist_path<cr>
+  nmap <Leader>ml :MemoList<cr>
+  " nmap <Leader>ml :execute "Denite file_rec -path=" . g:memolist_path<cr>
 endif
 
 if dein#tap('nerdtree')
@@ -710,7 +708,7 @@ endif
 if dein#tap('denite.nvim')
   call denite#custom#option('default','winheight','10')
   call denite#custom#option('default','reversed','1')
-  call denite#custom#option('default','vertical_preview','0')
+  call denite#custom#option('default','vertical_preview','1')
   call denite#custom#option('default','highlight_matched_char','Special')
   call denite#custom#option('default','auto_resize','1')
   call denite#custom#option('default','updatetime','10')
