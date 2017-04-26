@@ -11,7 +11,7 @@ setopt AUTO_CD
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
     export TERM=xterm-256color
-    if [[ `tmux list-sessions 2>/dev/null` ]]; then
+    if [[ `tmux list-sessions 2>/dev/null` == 0 ]]; then
         exist_sessions=(`tmux list-sessions|sed "s/:.*//"`)
         attached_sessions=(`tmux list-sessions|grep attached|sed "s/:.*//"`)
         detached_sessions=(`tmux list-sessions|grep -v attached|sed "s/:.*//"`)
@@ -24,7 +24,7 @@ if [[ ! -n $TMUX ]]; then
         done
         tmux new-session -s $idx
     else
-        tmux attach -t ${detached_sessions[1]}
+        # tmux attach -t ${detached_sessions[1]}
     fi
 fi
 
