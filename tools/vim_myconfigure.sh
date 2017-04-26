@@ -1,4 +1,9 @@
 #!/bin/sh
+#
+# Copyright (C) 2017 ishitaku5522
+#
+# Distributed under terms of the MIT license.
+#
 set -eu
 
 # ${0} の dirname を取得
