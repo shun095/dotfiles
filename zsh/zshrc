@@ -6,7 +6,7 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
 export PATH=$HOME/usr/bin:$PATH
 echo -ne '\e]12;#aaaaaa\a'
 
-setopt AUTO_CD
+setopt auto_cd
 
 function chpwd() {ls}
 if [[ ! -n $TMUX ]]; then
