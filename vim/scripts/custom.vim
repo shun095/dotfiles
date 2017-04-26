@@ -71,15 +71,17 @@ if dein#tap('ctrlp.vim')
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
   " if has('unix')
-  let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+  " let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+  let s:ctrlp_my_match_func = {'match' : 'pymatcher#PyMatch'}
   let g:ctrlp_match_func = s:ctrlp_my_match_func
   " elseif has('win32')
-  " let g:ctrlp_match_func = {'match' : 'pymatcher#PyMatch'}
   " endif
   "
-  autocmd VimEnter * com! -n=? -com=dir CtrlPMRUFiles let g:ctrlp_match_func = {} |
-        \ cal ctrlp#init('mru', { 'dir': <q-args> }) |
-        \ let g:ctrlp_match_func = s:ctrlp_my_match_func
+  augroup vimrc_ctrlp
+    autocmd VimEnter * com! -n=? -com=dir CtrlPMRUFiles let g:ctrlp_match_func = {} |
+          \ cal ctrlp#init('mru', { 'dir': <q-args> }) |
+          \ let g:ctrlp_match_func = s:ctrlp_my_match_func
+  augroup END
 
   nnoremap <Leader>mr       :CtrlPMRUFiles<CR>
   nnoremap <Leader>r        :CtrlPRegister<CR>
@@ -603,7 +605,7 @@ if dein#tap('vim-quickrun')
     let s:watchdogs_config_javac={
           \ 'exec' : '%c %o -d %S:p:h %S:p'
           \ }
-    call extend(g:quickrun_config["watchdogs_checker/javac"], s:watchdogs_config_javac)
+    call extend(g:quickrun_config['watchdogs_checker/javac'], s:watchdogs_config_javac)
 
     unlet s:watchdogs_config
     try
@@ -774,7 +776,9 @@ if dein#tap('vaffle.vim')
     " Customize key mappings here
     nmap <buffer> <tab> <Plug>(vaffle-toggle-current)
   endfunction
-  autocmd FileType vaffle call s:customize_vaffle_mappings()
+  augroup vimrc_vaffle
+    autocmd FileType vaffle call s:customize_vaffle_mappings()
+  augroup END
 endif
 
 if dein#tap('deoplete.nvim')
