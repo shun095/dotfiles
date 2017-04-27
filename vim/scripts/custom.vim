@@ -644,7 +644,7 @@ if dein#tap('yankround.vim')
   nnoremap <silent><SID>(ctrlp) :<C-u>CtrlP<CR>
   nmap <expr><C-p> yankround#is_active() ?
         \ "\<Plug>(yankround-prev)" :
-        \ ":call <SID>ctrlpcmd_with_matcher('CtrlP','cpsm#CtrlPMatch')<CR>"
+        \ ":CtrlP<CR>"
   nmap <C-n> <Plug>(yankround-next)
 endif
 
