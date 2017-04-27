@@ -262,16 +262,6 @@ augroup VIMRC2
       echomsg 'There is no signature file'
     endif
   endf
-  " vim-local-signature 雛形
-  " let s:signature = [
-  " (ここに署名を書く)
-  "       \ ]
-  " if !exists("b:mailsignature")
-  "   let b:mailsignature = 1
-  "   silent call append(0,s:signature)
-  "   normal gg
-  "   startinsert
-  " endif
 
   " misc
   if has('unix')
@@ -279,6 +269,7 @@ augroup VIMRC2
     autocmd InsertLeave * call myvimrc#ImInActivate()
   endif
   autocmd VimEnter * call myvimrc#git_auto_updating()
+
   " クリップボードが無名レジスタと違ったら
   " (他のソフトでコピーしてきたということなので)
   " 他のレジスタに保存しておく
@@ -376,27 +367,6 @@ if g:use_plugins == s:true
     let g:myvimrc_python_version = '3'
   endif
   " }}}
-
-  " " Vim-Plug (test){{{
-  " " VIM-PLUG 試験利用
-  " " 起動時に該当ファイルがなければ自動でvim-plugをインストール
-  " set runtimepath+=~/.vim/
-  " if !filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
-  "     if executable("curl")
-  "         echo "vim-plug will be installed."
-  "         execute printf("!curl -fLo %s/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim", expand("$HOME"))
-  "     else
-  "         echoerr "curlをインストールするか手動でvim-plugをインストールしてください。"
-  "     endif
-  " endif
-  "
-  " if filereadable(expand("$HOME") . "/.vim/autoload/plug.vim")
-  "     call plug#begin('~/.vim/plugged')
-  "     call plug#end()
-  " endif
-
-  " " Vim-plug END
-  " " }}}
 
   " Dein main settings {{{
   exe 'set runtimepath+=' . escape(s:dein_dir, ' \')

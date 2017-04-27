@@ -323,20 +323,7 @@ if dein#tap('vim-airline')
   endif " }}}
   let g:airline_symbols.maxlinenr = ''
   let g:airline_symbols.linenr = ''
-  " unicode symobols# {{{
-  " let g:airline_symbols.crypt = '🔒'
-  " let g:airline_symbols.linenr = '␊'
-  " let g:airline_symbols.linenr = '␤'
-  " let g:airline_symbols.linenr = '¶'
-  " let g:airline_symbols.maxlinenr = '☰'
-  " let g:airline_symbols.maxlinenr = ''
-  " let g:airline_symbols.branch = '⎇'
-  " let g:airline_symbols.paste = 'ρ'
-  " let g:airline_symbols.paste = 'Þ'
-  " let g:airline_symbols.paste = '∥'
-  " let g:airline_symbols.spell = 'Ꞩ'
-  " let g:airline_symbols.notexists = '∄'
-  " let g:airline_symbols.whitespace = 'Ξ'# }}}
+
   " disable warning " {{{
   " let g:airline#extensions#default#layout = [
   "			 \ [ 'a', 'b', 'c' ],
@@ -350,10 +337,6 @@ if dein#tap('vim-anzu')
   nmap N <Plug>(anzu-N-with-echo)
   nmap * <Plug>(anzu-star-with-echo)
   nmap # <Plug>(anzu-sharp-with-echo)
-  " if start anzu-mode key mapping
-  " anzu-mode is anzu(12/51) in screen
-  " nmap n <Plug>(anzu-mode-n)
-  " nmap N <Plug>(anzu-mode-N)
 endif
 
 if dein#tap('vim-brightest')
@@ -779,6 +762,7 @@ if dein#tap('vaffle.vim')
   endfunction
   augroup vimrc_vaffle
     autocmd FileType vaffle call s:customize_vaffle_mappings()
+    autocmd FileType vaffle command! -buffer CdCurrent execute printf('cd %s', vaffle#buffer#get_env().dir)
   augroup END
 endif
 

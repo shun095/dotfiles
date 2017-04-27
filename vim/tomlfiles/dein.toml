@@ -5,11 +5,11 @@
 # on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
 # depends = 'unite.vim'
 
-# [[plugins]]
-# repo = 'cocopon/vaffle.vim'
-
 [[plugins]]
-repo = 'justinmk/vim-dirvish'
+repo = 'cocopon/vaffle.vim'
+
+# [[plugins]]
+# repo = 'justinmk/vim-dirvish'
 # on_event = 'VimEnter'
 # on_cmd = 'Dirvish'
 
