@@ -120,7 +120,7 @@ repo = 'nixprime/cpsm'
 on_event = 'VimEnter'
 [[plugins]]
 repo = 'FelikZ/ctrlp-py-matcher'
-on_if = 'has("win32")'
+# on_if = 'has("win32")'
 on_event = 'VimEnter'
 [[plugins]]
 repo = 'mattn/benchvimrc-vim'
