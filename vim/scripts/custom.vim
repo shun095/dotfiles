@@ -92,13 +92,13 @@ if dein#tap('ctrlp.vim')
   nnoremap <Leader>l        :CtrlPLine<CR>
   nnoremap <Leader><Leader> :CtrlP<CR>
 
-  " let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
-  " if executable('pt')
-    " let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-  " elseif executable('ag')
-    " let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
-  " endif
-  " unlet s:ctrlp_command_options
+  let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
+  if executable('pt')
+    let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+  elseif executable('ag')
+    let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
+  endif
+  unlet s:ctrlp_command_options
 
   " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
   " else
