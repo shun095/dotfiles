@@ -6,7 +6,7 @@ endif
 
 if dein#tap('TweetVim')
   " 1ページに表示する最大数
-  let g:tweetvim_tweet_per_page = 100
+  " let g:tweetvim_tweet_per_page = 100
   " F6と,uvでTweetVimのtimeline選択
   let g:tweetvim_expand_t_co = 1
   let g:tweetvim_open_buffer_cmd = '40vsplit!'
