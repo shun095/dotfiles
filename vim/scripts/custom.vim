@@ -17,9 +17,8 @@ if dein#tap('TweetVim')
   let g:tweetvim_async_post = 1
   let g:tweetvim_buffer_name = 'TweetVimBuffer'
   " let g:tweetvim_updatetime = 10
-  nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
+  " nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
   nnoremap <Leader>Tm :<C-u>TweetVimMentions<CR>
-  " nnoremap <Leader>Tl :<C-u>TweetVimListStatuses
   nnoremap <Leader>Tu :<C-u>TweetVimUserStream<CR>
   nnoremap <Leader>Ts :<C-u>TweetVimSay<CR>
   nnoremap <Leader>Tc :<C-u>TweetVimCommandSay<CR>

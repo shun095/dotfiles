@@ -18,11 +18,11 @@ repo = 'Shougo/denite.nvim'
 
 [[plugins]]
 repo = 'Shougo/neomru.vim'
-depends = ['unite.vim']
+depends = ['denite.nvim']
 
 [[plugins]]
 repo = 'Shougo/unite-outline'
-depends = ['unite.vim']
+depends = ['denite.nvim']
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
@@ -127,7 +127,7 @@ repo = 'tyru/restart.vim'
 
 [[plugins]]
 repo = 'ujihisa/unite-colorscheme'
-depends = ['unite.vim']
+depends = ['denite.nvim']
 
 [[plugins]]
 repo = 'vim-airline/vim-airline'
