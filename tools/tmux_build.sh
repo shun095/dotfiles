@@ -9,8 +9,8 @@ if [ ! -d tmux ]; then
 fi
 CPUNUM=`cat /proc/cpuinfo | grep -c processor`
 cd tmux
-git checkout 2.3
+git checkout 2.4
 sh autogen.sh
-./configure --prefix=/home/ogasa/usr/
+./configure --prefix=$HOME/usr/
 make -j${CPUNUM} 
 make install

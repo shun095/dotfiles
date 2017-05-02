@@ -48,6 +48,7 @@ elseif has('unix')
 
   if !has('nvim')
     set ttymouse=xterm2 " 通常vim用
+    set cryptmethod=blowfish2
   endif
 
   if executable('gsettings') && has('job')
@@ -117,7 +118,6 @@ set completeopt=menuone,preview                       " 補完関係の設定
 set omnifunc=syntaxcomplete#Complete
 set iminsert=0                                        " IMEの管理
 set imsearch=0
-set cryptmethod=blowfish2
 
 if v:version >= 800 || has('nvim')                    " バージョン検出
   set breakindent                                     " version8以降搭載の便利オプション
