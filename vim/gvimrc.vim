@@ -13,9 +13,9 @@ if has('gui_running')
   set guioptions=rchb
   " フォントを設定
   if has('win32')
-    set guifont=Ricty_Diminished_for_Powerline:h11
+    set guifont=Ricty_Diminished_for_Powerline:h10
   elseif has('unix')
-    set guifont=Ricty\ Diminished\ for\ Powerline\ 11
+    set guifont=Ricty\ Diminished\ for\ Powerline\ 10
   endif
 
   set vb t_vb=
