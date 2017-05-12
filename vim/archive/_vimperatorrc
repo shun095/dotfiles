@@ -22,11 +22,12 @@ nnoremap S H
 nnoremap D L
 " inoremap <C-a> <Ins><C-a><Ins>
 
+set visualbell
 
 
-autocmd LocationChange .* js modes.passAllKeys = false 
-autocmd LocationChange https://twitter.com.* js modes.passAllKeys = true 
-autocmd LocationChange https://tweetdeck.twitter.com/ js modes.passAllKeys = true 
+" autocmd LocationChange .* js modes.passAllKeys = false 
+" autocmd LocationChange https://twitter.com.* js modes.passAllKeys = true 
+" autocmd LocationChange https://tweetdeck.twitter.com/ js modes.passAllKeys = true 
 
 " Ctrl+F11でオフ
 let g:ime_activate_wkey='^{F11}'
@@ -36,4 +37,4 @@ let g:ime_deactivate_wkey='^+{F11}'
 
 " コマンドラインで自動的にオフ(他にinsertおよびcmd,insertを指定可能)
 let g:imeoff='cmd'
-colorscheme indigo 
+colorscheme indigo
