@@ -285,7 +285,7 @@ augroup VIMRC2
     " endf
     " call timer_start(500,'Vimrc_clipboard_sync',{'repeat':-1})
   " else
-    autocmd CursorMoved,CursorMovedI,CursorHold,CursorHoldI
+    autocmd FocusGained,CursorMoved,CursorMovedI,CursorHold,CursorHoldI
           \ * if @* != @" | let @0 = @* | endif
   " endif
 
