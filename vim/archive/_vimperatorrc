@@ -1,6 +1,7 @@
+" vim: set ft=vim:
 map j 6<C-e>
 map k 6<C-y>
-set complete=Sslb
+" set complete=Sslb
 " set suggestengines=g
 " set defsearch=g
 set hintchars=fewadsvbgtqcxz
@@ -24,10 +25,10 @@ nnoremap D L
 
 set visualbell
 
-
-" autocmd LocationChange .* js modes.passAllKeys = false 
+autocmd LocationChange .* js modes.passAllKeys = false 
+autocmd LocationChange https://tweetdeck.twitter.com/ js modes.passAllKeys = true
+autocmd LocationChange https://.*.google.com.* js modes.passAllKeys = true
 " autocmd LocationChange https://twitter.com.* js modes.passAllKeys = true 
-" autocmd LocationChange https://tweetdeck.twitter.com/ js modes.passAllKeys = true 
 
 " Ctrl+F11でオフ
 let g:ime_activate_wkey='^{F11}'
