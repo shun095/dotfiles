@@ -276,18 +276,18 @@ augroup VIMRC2
   " クリップボードが無名レジスタと違ったら
   " (他のソフトでコピーしてきたということなので)
   " 他のレジスタに保存しておく
-  if has('job')
-    fun! Vimrc_clipboard_sync(timer)
-      if @* != @"
-        " let @" = @*
-        let @0 = @*
-      endif
-    endf
-    call timer_start(500,'Vimrc_clipboard_sync',{'repeat':-1})
-  else
-    autocmd CursorHold,CursorHoldI
-          \ * if @* != @" | let @" = @* | let @0 = @* | endif
-  endif
+  " if has('job')
+    " fun! Vimrc_clipboard_sync(timer)
+      " if @* != @"
+        " " let @" = @*
+        " let @0 = @*
+      " endif
+    " endf
+    " call timer_start(500,'Vimrc_clipboard_sync',{'repeat':-1})
+  " else
+    autocmd CursorMoved,CursorMovedI,CursorHold,CursorHoldI
+          \ * if @* != @" | let @0 = @* | endif
+  " endif
 
   autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 augroup END
