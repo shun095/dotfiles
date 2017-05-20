@@ -36,7 +36,7 @@ fun myvimrc#git_auto_updating() abort
   if !exists("g:called_mygit_func")
     let s:save_cd = getcwd()
     exe 'cd ' . $MYDOTFILES
-    let s:git_callback_count = 0
+    let s:git_newer_exists = v:true
     let s:git_qflist = []
     if has('job')
       call job_start('git pull', {'callback': 'myvimrc#git_callback', 'exit_cb': 'myvimrc#git_end_callback'})
@@ -52,7 +52,7 @@ endf
 
 fun myvimrc#git_callback(ch, msg) abort
   if match(a:msg,'Already up-to-date.') == 0
-    let s:git_callback_count = 1
+    let s:git_newer_exists = v:false
   endif
   call add(s:git_qflist, {'text':a:msg})
   " echom "Myvimrc: " . a:msg
@@ -60,7 +60,7 @@ endf
 
 fun myvimrc#git_end_callback(ch, msg) abort
   call setqflist(s:git_qflist)
-  if s:git_callback_count < 1
+  if s:git_newer_exists == v:true
     echohl WarningMsg
     echom "New vimrc was downloaded. Please restart to use it!!"
     echohl none

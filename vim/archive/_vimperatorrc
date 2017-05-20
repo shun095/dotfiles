@@ -1,10 +1,9 @@
+" vim: set ft=vim:
 map j 6<C-e>
-
 map k 6<C-y>
-set complete=Sslb
-set suggestengines=g
-set defsearch=g
-set hintchars=hjklasdfgyuiopqwertnmzxcvb
+set suggestengines=duckduckgo
+set defsearch=duckduckgo
+set hintchars=fewadsvbgtqcxz
 
 "highlight! Hint font-size: 14pt; background:red; color:white; font-family:monospace; font-weight:bold; opacity:0.7; 
 
@@ -15,13 +14,20 @@ inoremap <C-n> <Down>
 inoremap <C-p> <Up>
 nnoremap <C-n> <Down>
 nnoremap <C-p> <Up>
-inoremap <C-a> <Ins><C-a><Ins>
+nnoremap d <C-d>
+nnoremap e <C-u>
+nnoremap s 6<C-e>
+nnoremap w 6<C-y>
+nnoremap S H
+nnoremap D L
+" inoremap <C-a> <Ins><C-a><Ins>
 
-
+set visualbell
 
 autocmd LocationChange .* js modes.passAllKeys = false 
-autocmd LocationChange https://twitter.com.* js modes.passAllKeys = true 
-autocmd LocationChange https://tweetdeck.twitter.com/ js modes.passAllKeys = true 
+autocmd LocationChange https://tweetdeck.twitter.com/ js modes.passAllKeys = true
+autocmd LocationChange https://.*.google.com.* js modes.passAllKeys = true
+" autocmd LocationChange https://twitter.com.* js modes.passAllKeys = true 
 
 " Ctrl+F11でオフ
 let g:ime_activate_wkey='^{F11}'
@@ -31,4 +37,4 @@ let g:ime_deactivate_wkey='^+{F11}'
 
 " コマンドラインで自動的にオフ(他にinsertおよびcmd,insertを指定可能)
 let g:imeoff='cmd'
-colorscheme indigo 
+colorscheme indigo

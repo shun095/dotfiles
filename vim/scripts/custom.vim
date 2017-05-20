@@ -53,6 +53,9 @@ if dein#tap('YouCompleteMe')
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
   " autocmd VIMRCCUSTOM FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
   nnoremap <leader><c-]> :<C-u>YcmCompleter GoTo<CR>
+  augroup CustomYCM
+    autocmd filetype python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR><C-w>P:<C-u>set ft=rst<CR>
+  augroup END
 endif
 
 if dein#tap('ctrlp-filer')
