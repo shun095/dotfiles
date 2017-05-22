@@ -149,3 +149,7 @@ repo = 'yuratomo/gmail.vim'
 [[plugins]]
 repo = 'artur-shaik/vim-javacomplete2'
 on_ft = 'java'
+[[plugins]]
+repo = 'AndrewRadev/linediff.vim'
+on_cmd = 'Linediff'
+

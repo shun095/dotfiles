@@ -152,7 +152,7 @@ if dein#tap('memolist.vim')
   " let g:memolist_unite = 1
   " let g:memolist_denite = 1
   " let g:memolist_ex_cmd = 'Denite file_rec '
-  
+
   nmap <Leader>mn :MemoNew<cr>
   nmap <Leader>ml :MemoList<cr>
   " nmap <Leader>ml :execute "Denite file_rec -path=" . g:memolist_path<cr>
@@ -478,7 +478,7 @@ if dein#tap('vim-precious')
     autocmd FileType toml :syntax sync fromstart
   augroup END
 
-  
+
   " setfiletype を無効
   " let g:precious_enable_switchers = {
   " \	"*" : {
@@ -561,45 +561,45 @@ if dein#tap('vim-quickrun')
     echo 'Quickrun Sweep'
     call quickrun#sweep_sessions()
   endf
+endif
 
-  if dein#tap('vim-watchdogs')
-    " watchdogs settings
-    let g:watchdogs_check_BufWritePost_enable = 1
-    let g:watchdogs_check_BufWritePost_enables = {
-          \'cpp' : 1,
-          \'java': 0
-          \}
-    let g:watchdogs_check_CursorHold_enable = 0
+if dein#tap('vim-watchdogs')
+  " watchdogs settings
+  let g:watchdogs_check_BufWritePost_enable = 1
+  let g:watchdogs_check_BufWritePost_enables = {
+        \'cpp' : 1,
+        \'java': 0
+        \}
+  let g:watchdogs_check_CursorHold_enable = 0
 
-    let s:watchdogs_config = {
-          \'watchdogs_checker/_' : {
-          \	'runner' : 'vimproc',
-          \	'runner/vimproc/updatetime' : 40,
-          \	'outputter' : 'quickfix',
-          \	'outputter/quickfix/open_cmd' : 'copen 8'
-          \	},
-          \'watchdogs_checker/javac' : {
-          \ },
-          \'cpp/watchdogs_checker' : {
-          \	'type' : 'watchdogs_checker/g++',
-          \	'hook/add_include_option/enable' : 1,
-          \	'cmdopt' : '-std=c++11 -Wall'
-          \	}
-          \}
-    call extend(g:quickrun_config, s:watchdogs_config)
+  let s:watchdogs_config = {
+        \'watchdogs_checker/_' : {
+        \	'runner' : 'vimproc',
+        \	'runner/vimproc/updatetime' : 40,
+        \	'outputter' : 'quickfix',
+        \	'outputter/quickfix/open_cmd' : 'copen 8'
+        \	},
+        \'watchdogs_checker/javac' : {
+        \ },
+        \'cpp/watchdogs_checker' : {
+        \	'type' : 'watchdogs_checker/g++',
+        \	'hook/add_include_option/enable' : 1,
+        \	'cmdopt' : '-std=c++11 -Wall'
+        \	}
+        \}
+  call extend(g:quickrun_config, s:watchdogs_config)
 
-    let s:watchdogs_config_javac={
-          \ 'exec' : '%c %o -d %S:p:h %S:p'
-          \ }
-    call extend(g:quickrun_config['watchdogs_checker/javac'], s:watchdogs_config_javac)
+  let s:watchdogs_config_javac={
+        \ 'exec' : '%c %o -d %S:p:h %S:p'
+        \ }
+  call extend(g:quickrun_config['watchdogs_checker/javac'], s:watchdogs_config_javac)
 
-    unlet s:watchdogs_config
-    try
-      call watchdogs#setup(g:quickrun_config)
-    catch
-      echom v:exception
-    endtry
-  endif
+  unlet s:watchdogs_config
+  try
+    call watchdogs#setup(g:quickrun_config)
+  catch
+    echom v:exception
+  endtry
 endif
 
 if dein#tap('vimshell.vim')

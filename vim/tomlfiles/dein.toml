@@ -119,16 +119,16 @@ repo = 'tmux-plugins/vim-tmux'
 [[plugins]]
 repo = 'tpope/vim-dispatch'
 
-
 [[plugins]]
 repo = 'tpope/vim-surround'
-# on_event = 'CursorMoved'
 
+# Comment Out{{{
 [[plugins]]
 repo = 'scrooloose/nerdcommenter'
 
 # [[plugins]]
 # repo = 'tyru/caw.vim'
+# }}}
 
 [[plugins]]
 repo = 'tyru/open-browser.vim'
@@ -159,7 +159,6 @@ on_ft = 'javascript'
 
 [[plugins]]
 repo = 'vim-jp/autofmt'
-
 
 # COLOR SCHEMES {{{
 # [[plugins]]
@@ -199,9 +198,6 @@ depends = ['vim-quickrun']
 repo = "osyo-manga/vim-watchdogs"
 depends = ['vim-quickrun']
 # }}}
-
-[[plugins]]
-repo = 'AndrewRadev/linediff.vim'
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
