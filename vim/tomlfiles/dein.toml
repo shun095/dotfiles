@@ -1,17 +1,22 @@
 # vim: set foldmethod=marker:
 
-# [[plugins]]
-# repo = 'Shougo/vimfiler.vim'
-# on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
-# depends = 'unite.vim'
-
+# Filer {{{
 [[plugins]]
-repo = 'cocopon/vaffle.vim'
+repo = 'Shougo/vimfiler.vim'
+depends = 'unite.vim'
+# on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
+
+# [[plugins]]
+# repo = 'cocopon/vaffle.vim'
 
 # [[plugins]]
 # repo = 'justinmk/vim-dirvish'
 # on_event = 'VimEnter'
 # on_cmd = 'Dirvish'
+
+# }}}
+
+# Shougo Ware {{{
 
 [[plugins]]
 repo = 'Shougo/denite.nvim'
@@ -29,28 +34,36 @@ repo = 'Shougo/vimproc.vim'
 build = 'make'
 
 [[plugins]]
+repo = 'Shougo/deoplete.nvim'
+if = "has('nvim')"
+
+# }}}
+
+[[plugins]]
 repo = 'Konfekt/FastFold'
 
 [[plugins]]
 repo = 'LeafCage/foldCC.vim'
 
 [[plugins]]
-repo = 'LeafCage/yankround.vim'
-
-[[plugins]]
 repo = 'SirVer/ultisnips'
 
+[[plugins]]
+repo = 'ervandew/supertab'
+
+# Git{{{
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
-repo = 'basyura/bitly.vim'
+repo = 'tpope/vim-fugitive'
+# }}}
+
+[[plugins]]
+repo = 'LeafCage/yankround.vim'
 
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'
-
-[[plugins]]
-repo = 'ervandew/supertab'
 
 [[plugins]]
 repo = 'gregsexton/MatchTag'
@@ -106,8 +119,6 @@ repo = 'tmux-plugins/vim-tmux'
 [[plugins]]
 repo = 'tpope/vim-dispatch'
 
-[[plugins]]
-repo = 'tpope/vim-fugitive'
 
 [[plugins]]
 repo = 'tpope/vim-surround'
@@ -149,9 +160,6 @@ on_ft = 'javascript'
 [[plugins]]
 repo = 'vim-jp/autofmt'
 
-[[plugins]]
-repo = 'Shougo/deoplete.nvim'
-if = "has('nvim')"
 
 # COLOR SCHEMES {{{
 # [[plugins]]

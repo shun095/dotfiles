@@ -650,6 +650,19 @@ if dein#tap('yankround.vim')
   nmap <C-n> <Plug>(yankround-next)
 endif
 
+if dein#tap('vaffle.vim')
+  nnoremap <silent> <Leader>e :Vaffle %:p:h<CR>
+  nnoremap <silent> <Leader>E :Vaffle .<CR>
+  function! s:customize_vaffle_mappings() abort
+    " Customize key mappings here
+    nmap <buffer> <tab> <Plug>(vaffle-toggle-current)
+  endfunction
+  augroup vimrc_vaffle
+    autocmd FileType vaffle call s:customize_vaffle_mappings()
+    autocmd FileType vaffle command! -buffer CdCurrent execute printf('cd %s', vaffle#buffer#get_env().dir)
+  augroup END
+endif
+
 if dein#tap('vimfiler.vim')
   " let g:vimfiler_force_overwrite_statusline = 0
   let g:vimfiler_enable_auto_cd = 1
@@ -753,19 +766,6 @@ if dein#tap('denite.nvim')
   nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
   nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
   nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
-endif
-
-if dein#tap('vaffle.vim')
-  nnoremap <silent> <Leader>e :Vaffle %:p:h<CR>
-  nnoremap <silent> <Leader>E :Vaffle .<CR>
-  function! s:customize_vaffle_mappings() abort
-    " Customize key mappings here
-    nmap <buffer> <tab> <Plug>(vaffle-toggle-current)
-  endfunction
-  augroup vimrc_vaffle
-    autocmd FileType vaffle call s:customize_vaffle_mappings()
-    autocmd FileType vaffle command! -buffer CdCurrent execute printf('cd %s', vaffle#buffer#get_env().dir)
-  augroup END
 endif
 
 if dein#tap('deoplete.nvim')

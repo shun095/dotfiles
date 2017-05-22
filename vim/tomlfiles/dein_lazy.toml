@@ -42,10 +42,10 @@ on_ft = 'markdown'
 # on_event = ['CursorHold']
 # # on_cmd = ['BrightestEnable']
 # [[plugins]]
-# repo = 'Shougo/unite.vim'
-# on_cmd = ['Unite', 'UniteWithBufferDir']
+repo = 'Shougo/unite.vim'
+on_cmd = ['Unite', 'UniteWithBufferDir']
 
-
+# TweetVim {{{
 [[plugins]]
 repo = 'ishitaku5522/TweetVim'
 on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
@@ -54,6 +54,11 @@ depends = ['bitly.vim', 'twibill.vim',  'open-browser.vim']
 # repo = 'ishitaku5522/twibill.vim'
 [[plugins]]
 repo = 'basyura/twibill.vim'
+[[plugins]]
+repo = 'basyura/bitly.vim'
+
+# }}}
+
 # HTML CSS JS PLUGINS
 [[plugins]]
 repo = 'cespare/vim-toml'
