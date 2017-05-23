@@ -35,9 +35,17 @@ if [[ ! -n $TMUX ]]; then
         while [[ -n ${exist_sessions[(re)$idx]} ]]; do
             (( idx++ ))
         done
-        tmux new-session -s $idx
+        if [[ $TERM = 'linux' ]]; then
+            tmux -2 new-session -s $idx
+        else
+            tmux new-session -s $idx
+        fi
     else
-        tmux attach -t ${detached_sessions[1]}
+        if [[ $TERM = 'linux' ]]; then
+            tmux -2 attach -t ${detached_sessions[1]}
+        else
+            tmux attach -t ${detached_sessions[1]}
+        fi
     fi
 fi
 
@@ -58,8 +66,6 @@ if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
     source "$HOME/localrcs/zsh-local.zsh"
 fi
 
-
-alias tgvim="gvim --remote-tab"
 alias tvim="gvim --remote-tab"
 alias em="emacs"
 
