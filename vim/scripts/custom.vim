@@ -360,10 +360,12 @@ endif
 if dein#tap('vim-clang-format')
   let g:clang_format#auto_format = 0
   let g:clang_format#command = 'clang-format'
-  for minorversion in range(10)
-    if executable('clang-format-3.' . minorversion)
-      let g:clang_format#command = 'clang-format-3.' . minorversion
-    endif
+  for majorversion in range(3,4)
+    for minorversion in range(10)
+      if executable('clang-format-' . majorversion . minorversion)
+        let g:clang_format#command = 'clang-format-' . majorversion . minorversion
+      endif
+    endfor
   endfor
   let g:clang_format#style_options = {
         \ 'AllowShortIfStatementsOnASingleLine':'true',
