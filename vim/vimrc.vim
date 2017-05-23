@@ -434,10 +434,15 @@ if g:use_plugins == s:true
       colorscheme onedark
       let g:airline_theme='onedark'
       " highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
-      highlight! Folded ctermbg=235 ctermfg=none guibg=#282C34 guifg=#abb2bf
-      highlight! FoldColumn ctermbg=233 guibg=#0e1013
-      highlight! Normal ctermbg=233 guifg=#abb2bf guibg=#0e1013
-      highlight! Vertsplit term=reverse ctermfg=235 ctermbg=235 guifg=#282C34 guibg=#282C34
+      "
+      " highlight! Folded     ctermbg=235   ctermfg=none guibg=#282C34 guifg=#abb2bf
+      " highlight! FoldColumn ctermbg=233   guibg=#0e1013
+      " highlight! Normal ctermbg=233 guifg=#ABB2BF guibg=#0E1013
+      " highlight! Vertsplit  term=reverse  ctermfg=235  ctermbg=235   guifg=#282C34 guibg=#282C34
+      highlight! Folded     guibg=#282C34 guifg=#abb2bf
+      highlight! FoldColumn guibg=#0e1013
+      highlight! Normal     guifg=#ABB2BF guibg=#0E1013
+      highlight! Vertsplit  guifg=#282C34 guibg=#282C34
       " highlight! MatchParen gui=none cterm=none term=none
 
       " for YCM's warning area
@@ -479,6 +484,7 @@ if g:use_plugins == s:true
 
       endif
     catch
+        echoerr 'error occured on loading color'
       colorscheme default
       set background=light
     endtry
