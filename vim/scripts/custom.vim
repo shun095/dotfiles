@@ -238,11 +238,11 @@ if dein#tap('unite.vim')
   nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
   let g:unite_force_overwrite_statusline = 0
   " call unite#filters#sorter_default#use(['sorter_length'])
-  " call unite#custom#profile('default', 'context', {
-  "       \	'start_insert': 1,
-  "       \	'winheight': 10,
-  "       \	'direction': 'botright'
-  "       \ })
+  call unite#custom#profile('default', 'context', {
+        \	'start_insert': 1,
+        \	'winheight': 10,
+        \	'direction': 'botright'
+        \ })
   " ウィンドウを分割して開く
   augroup CustomUnite
     autocmd!
@@ -261,7 +261,7 @@ if dein#tap('unite.vim')
     autocmd FileType unite imap <silent> <buffer> <C-k> <Plug>(unite_select_previous_line)
     autocmd FileType unite imap <silent> <buffer> <Tab> <Plug>(unite_complete)
     autocmd FileType unite imap <silent> <buffer> <C-Tab> <Plug>(unite_choose_action)
-    autocmd FileType unite call unite#filters#matcher_default#use(['matcher_fuzzy'])
+    " autocmd FileType unite call unite#filters#matcher_default#use(['matcher_fuzzy'])
   augroup END
   let g:unite_source_history_yank_enable = 1
   " if has('win32')
@@ -737,7 +737,7 @@ if dein#tap('denite.nvim')
     "   call denite#custom#var('file_rec', 'command',
     "         \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
     " endif
-  else
+  elseif executable('ag')
     call denite#custom#var('file_rec', 'command',
           \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g',''])
   endif
