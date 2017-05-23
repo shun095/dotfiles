@@ -51,16 +51,24 @@ elseif has('unix')
     set cryptmethod=blowfish2
   endif
 
-  if executable('gsettings') && has('job')
-    augroup VIMRC1
-      autocmd!
-      " カーソルの形をモードによって変更
-      let s:curshape_str = 'profile=$(gsettings get org.gnome.Terminal.ProfilesList default);profile=${profile:1:-1};gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" cursor-shape '
-      autocmd InsertEnter * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'ibeam'])
-      autocmd InsertLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
-      autocmd VimLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
-    augroup END
+  if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+  else
+    let &t_SI = '[5 q'
+    let &t_EI = '[2 q'
   endif
+
+  " if executable('gsettings') && has('job')
+    " augroup VIMRC1
+      " autocmd!
+      " " カーソルの形をモードによって変更
+      " let s:curshape_str = 'profile=$(gsettings get org.gnome.Terminal.ProfilesList default);profile=${profile:1:-1};gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" cursor-shape '
+      " autocmd InsertEnter * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'ibeam'])
+      " autocmd InsertLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
+      " autocmd VimLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
+    " augroup END
+  " endif
 endif
 
 " ビープ音を鳴らなくする
