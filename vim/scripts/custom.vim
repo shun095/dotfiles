@@ -366,18 +366,18 @@ if dein#tap('vim-clang-format')
     endif
   endfor
   let g:clang_format#style_options = {
-        \ 'AllowShortIfStatementsOnASingleLine' : 'true',
-        \ 'AllowShortBlocksOnASingleLine' : 'true',
-        \ 'AllowShortCaseLabelsOnASingleLine' : 'true',
-        \ 'AllowShortFunctionsOnASingleLine' : 'true',
-        \ 'AllowShortLoopsOnASingleLine' : 'true',
-        \ 'AlignAfterOpenBracket' : 'AlwaysBreak',
-        \ 'AlignConsecutiveAssignments' : 'true',
-        \ 'AlignConsecutiveDeclarations' : 'true',
-        \ 'AlignTrailingComments' : 'true',
-        \ 'TabWidth' : '4',
-        \ 'UseTab' : 'Always',
-        \ 'ColumnLimit' : '120'
+        \ 'AllowShortIfStatementsOnASingleLine':'true',
+        \ 'AllowShortBlocksOnASingleLine'      :'true',
+        \ 'AllowShortCaseLabelsOnASingleLine'  :'true',
+        \ 'AllowShortFunctionsOnASingleLine'   :'true',
+        \ 'AllowShortLoopsOnASingleLine'       :'true',
+        \ 'AlignAfterOpenBracket'              :'AlwaysBreak',
+        \ 'AlignConsecutiveAssignments'        :'true',
+        \ 'AlignConsecutiveDeclarations'       :'true',
+        \ 'AlignTrailingComments'              :'true',
+        \ 'TabWidth'                           :'4',
+        \ 'UseTab'                             :'Always',
+        \ 'ColumnLimit'                        :'120'
         \ }
 endif
 
