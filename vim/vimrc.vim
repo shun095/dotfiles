@@ -51,12 +51,14 @@ elseif has('unix')
     set cryptmethod=blowfish2
   endif
 
-  if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
-  else
-    let &t_SI = '[5 q'
-    let &t_EI = '[2 q'
+  if $TERM !=# 'linux'
+    if exists('$TMUX')
+      let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
+      let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+    else
+      let &t_SI = '[5 q'
+      let &t_EI = '[2 q'
+    endif
   endif
 
   " if executable('gsettings') && has('job')

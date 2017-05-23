@@ -10,8 +10,20 @@ setopt auto_cd
 
 function chpwd() {ls}
 
+function hima(){
+    i=1
+    while :;do
+        for j in $(seq 1 ${i});do
+            echo -n 暇 
+        done
+        (( i++ ))
+        echo
+        sleep 1
+    done
+}
+
 if [[ ! -n $TMUX ]]; then
-    export TERM=xterm-256color
+    # export TERM=xterm-256color
     if [[ `tmux list-sessions 2>/dev/null|wc -l` -ne 0 ]]; then
         exist_sessions=(`tmux list-sessions|sed "s/:.*//"`)
         attached_sessions=(`tmux list-sessions|grep attached|sed "s/:.*//"`)
