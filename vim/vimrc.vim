@@ -115,7 +115,11 @@ set ambiwidth=double                                  " 全角記号（「→」
 set mouse=a                                           " マウスを有効化
 set nomousehide                                       " 入力中にポインタを消すかどうか
 set lazyredraw                                        " スクロールが間に合わない時などに描画を省略する
-set sessionoptions=folds,help,tabpages,buffers
+set sessionoptions&
+set sessionoptions-=options
+if has('gui_running')
+  set sessionoptions+=winpos,resize
+endif
 set splitbelow
 set splitright
 set updatetime=1000
@@ -341,7 +345,8 @@ augroup END
 let s:myplugins = $MYDOTFILES . '/vim'
 exe 'set runtimepath+=' . escape(s:myplugins, ' \')
 set runtimepath+=$HOME/.fzf/
-nnoremap <silent><expr><Leader><C-f> myvimrc#command_at_destdir(myvimrc#find_project_dir(['.git','tags']),['FZF'])
+nnoremap <silent><expr><Leader><C-f><C-f> myvimrc#command_at_destdir(myvimrc#find_project_dir(['.git','tags']),['FZF'])
+nnoremap <silent> <Leader><C-f>c :FZF .<CR>
 "}}}
 
 " Confirm whether or not install dein if not exists {{{
