@@ -52,12 +52,17 @@ elseif has('unix')
   endif
 
   if $TERM !=# 'linux'
-    if exists('$TMUX')
-      let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-      let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
-    else
-      let &t_SI = '[5 q'
-      let &t_EI = '[2 q'
+    if executable("gnome-terminal")
+      let s:gnome_term_ver = split(split(system("gnome-terminal --version"))[2], '\.')
+      if s:gnome_term_ver[0] == 3 && s:gnome_term_ver[1] > 12
+        if exists('$TMUX')
+          let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
+          let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+        else
+          let &t_SI = '[5 q'
+          let &t_EI = '[2 q'
+        endif
+      endif
     endif
   endif
 
