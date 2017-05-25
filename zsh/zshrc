@@ -23,7 +23,10 @@ function hima(){
 }
 
 if [[ ! -n $TMUX ]]; then
-    # export TERM=xterm-256color
+    if [[ $TERM = 'xterm' ]]; then
+        export TERM=xterm-256color
+    fi
+
     if [[ `tmux list-sessions 2>/dev/null|wc -l` -ne 0 ]]; then
         exist_sessions=(`tmux list-sessions|sed "s/:.*//"`)
         attached_sessions=(`tmux list-sessions|grep attached|sed "s/:.*//"`)
