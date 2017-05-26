@@ -76,7 +76,7 @@ if dein#tap('ctrlp.vim')
   " let s:ctrlp_my_match_func = {}
   " 
   " let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
-  let g:cpsm_query_inverting_delimiter = ' '
+  " let g:cpsm_query_inverting_delimiter = ' '
 
   let s:ctrlp_my_match_func = {'match' : 'pymatcher#PyMatch'}
   let g:ctrlp_match_func = s:ctrlp_my_match_func
@@ -264,7 +264,7 @@ if dein#tap('unite.vim')
     autocmd FileType unite imap <silent> <buffer> <C-k> <Plug>(unite_select_previous_line)
     autocmd FileType unite imap <silent> <buffer> <Tab> <Plug>(unite_complete)
     autocmd FileType unite imap <silent> <buffer> <C-Tab> <Plug>(unite_choose_action)
-    " autocmd FileType unite call unite#filters#matcher_default#use(['matcher_fuzzy'])
+    autocmd FileType unite call unite#filters#matcher_default#use(['matcher_fuzzy'])
   augroup END
   let g:unite_source_history_yank_enable = 1
   " if has('win32')
@@ -729,7 +729,7 @@ if dein#tap('denite.nvim')
   call denite#custom#option('default','vertical_preview','1')
   call denite#custom#option('default','highlight_matched_char','Special')
   call denite#custom#option('default','auto_resize','1')
-  call denite#custom#option('default','updatetime','10')
+  call denite#custom#option('default','updatetime','1')
 
   " Change file_rec command.
   if executable('pt')
