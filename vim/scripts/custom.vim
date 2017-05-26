@@ -94,7 +94,8 @@ if dein#tap('ctrlp.vim')
   nnoremap <Leader>c        :CtrlPCurWD<CR>
   nnoremap <Leader>T        :CtrlPTag<CR>
   nnoremap <Leader>b        :CtrlPBuffer<CR>
-  nnoremap <Leader>l        :CtrlPLine<CR>
+  nnoremap <Leader>l        :CtrlPLine %<CR>
+  nnoremap <Leader>al        :CtrlPLine<CR>
   nnoremap <Leader><Leader> :CtrlP<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
