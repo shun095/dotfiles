@@ -37,6 +37,7 @@ case $ans in
     [Yy] | [Yy][Ee][Ss] )
         make -j${CPUNUM} 
         sudo make install
+        sudo checkinstall --install=no
         ;;
     * )
         echo "Terminated.";;

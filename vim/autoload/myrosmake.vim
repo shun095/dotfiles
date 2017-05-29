@@ -45,6 +45,7 @@ fun myrosmake#get_make_command() abort
     let l:config = {
           \ 'rosmake' : {
           \	'outputter/quickfix/errorformat' : &errorformat . s:rosmake_errorformat,
+          \ 'outputter/quickfix/open_cmd' : 'copen 8 | cbottom',
           \	'command' : 'rosmake',
           \	'args' : '--threads=12',
           \	'exec' : '%c %a',

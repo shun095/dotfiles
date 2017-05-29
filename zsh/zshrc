@@ -9,8 +9,24 @@ echo -ne '\e]12;#aaaaaa\a'
 setopt auto_cd
 
 function chpwd() {ls}
+
+function hima(){
+    i=1
+    while :;do
+        for j in $(seq 1 ${i});do
+            echo -n 暇 
+        done
+        (( i++ ))
+        echo
+        sleep 1
+    done
+}
+
 if [[ ! -n $TMUX ]]; then
-    export TERM=xterm-256color
+    if [[ $TERM = 'xterm' ]]; then
+        export TERM=xterm-256color
+    fi
+
     if [[ `tmux list-sessions 2>/dev/null|wc -l` -ne 0 ]]; then
         exist_sessions=(`tmux list-sessions|sed "s/:.*//"`)
         attached_sessions=(`tmux list-sessions|grep attached|sed "s/:.*//"`)
@@ -22,9 +38,17 @@ if [[ ! -n $TMUX ]]; then
         while [[ -n ${exist_sessions[(re)$idx]} ]]; do
             (( idx++ ))
         done
-        tmux new-session -s $idx
+        if [[ $TERM = 'linux' ]]; then
+            tmux -2 new-session -s $idx
+        else
+            tmux new-session -s $idx
+        fi
     else
-        tmux attach -t ${detached_sessions[1]}
+        if [[ $TERM = 'linux' ]]; then
+            tmux -2 attach -t ${detached_sessions[1]}
+        else
+            tmux attach -t ${detached_sessions[1]}
+        fi
     fi
 fi
 
@@ -45,8 +69,6 @@ if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
     source "$HOME/localrcs/zsh-local.zsh"
 fi
 
-
-alias tgvim="gvim --remote-tab"
 alias tvim="gvim --remote-tab"
 alias em="emacs"
 

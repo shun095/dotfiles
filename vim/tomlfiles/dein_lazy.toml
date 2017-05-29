@@ -1,4 +1,5 @@
 # vim:set foldmethod=marker:
+
 [[plugins]]
 repo = "bkad/CamelCaseMotion"
 on_map = ['n', ',']
@@ -7,6 +8,7 @@ hook_post_source = ''' " {{{
 call camelcasemotion#CreateMotionMappings(',')
 
 ''' # }}}
+
 [[plugins]]
 repo = "cohama/lexima.vim"
 on_event = "InsertEnter"
@@ -31,6 +33,7 @@ inoremap <silent><expr> <C-h> lexima#expand('<lt>BS>', 'i')
 imap <silent><expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
 
 ''' # }}}
+
 [[plugins]]
 repo = 'iamcco/markdown-preview.vim'
 on_ft = 'markdown'
@@ -42,9 +45,10 @@ on_ft = 'markdown'
 # on_event = ['CursorHold']
 # # on_cmd = ['BrightestEnable']
 # [[plugins]]
-# repo = 'Shougo/unite.vim'
-# on_cmd = ['Unite', 'UniteWithBufferDir']
+repo = 'Shougo/unite.vim'
+on_cmd = ['Unite', 'UniteWithBufferDir']
 
+# TweetVim {{{
 
 [[plugins]]
 repo = 'ishitaku5522/TweetVim'
@@ -52,23 +56,44 @@ on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVim
 depends = ['bitly.vim', 'twibill.vim',  'open-browser.vim']
 # [[plugins]]
 # repo = 'ishitaku5522/twibill.vim'
+
 [[plugins]]
 repo = 'basyura/twibill.vim'
+
+[[plugins]]
+repo = 'basyura/bitly.vim'
+
+# }}}
+
 # HTML CSS JS PLUGINS
 [[plugins]]
 repo = 'cespare/vim-toml'
 on_ft = 'toml'
+
 [[plugins]]
 repo = 'csscomb/vim-csscomb'
 on_ft = 'css'
+
+[[plugins]]
+repo = 'gregsexton/MatchTag'
+on_ft = ['html','xml']
+
+[[plugins]]
+repo = 'othree/html5.vim'
+on_ft = ['html']
+
+[[plugins]]
+repo = 'vim-scripts/JavaScript-Indent'
+on_ft = 'javascript'
+
 [[plugins]]
 repo = 'glidenote/memolist.vim'
 on_cmd = ['MemoNew', 'MemoList']
+
 [[plugins]]
 repo = 'kana/vim-submode'
 on_map = ['n', '<C-w>']
 hook_post_source = ''' " {{{
-
 call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
 call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
 call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
@@ -77,25 +102,29 @@ call submode#map('winsize', 'n', '', '>', '5<C-w>>')
 call submode#map('winsize', 'n', '', '<', '5<C-w><')
 call submode#map('winsize', 'n', '', '+', '5<C-w>+')
 call submode#map('winsize', 'n', '', '-', '5<C-w>-')
-
 ''' # }}}
+
 [[plugins]]
 repo = 'lervag/vimtex'
 on_ft = ['tex']
+
 [[plugins]]
 repo = 'osyo-manga/vim-precious'
 on_event = "CursorHold"
-# on_cmd = ["PreciousReset", "PreciousSwitch"]
 depends = ['context_filetype.vim']
+
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
+
 [[plugins]]
 repo = 'rdnetto/YCM-Generator'
 on_cmd = 'YcmGenerateConfig'
 depends = "YouCompleteMe"
+
 [[plugins]]
 repo = 'rhysd/vim-clang-format'
 on_ft = ['c','cpp']
+
 [[plugins]]
 repo = 'Valloric/YouCompleteMe'
 if = "!has('nvim')"
@@ -108,39 +137,46 @@ on_event = ['InsertEnter', 'CursorHold']
 # [[plugins]]
 # repo = 'davidhalter/jedi-vim'
 # on_ft = 'python'
+
 [[plugins]]
 repo = 'tell-k/vim-autopep8'
 on_ft = 'python'
+
 # [[plugins]]
 # repo = 'chrisbra/csv.vim'
 # on_ft = 'csv'
-[[plugins]]
-repo = 'nixprime/cpsm'
-# on_if = 'has("unix")'
-on_event = 'VimEnter'
-[[plugins]]
-repo = 'FelikZ/ctrlp-py-matcher'
-# on_if = 'has("win32")'
-on_event = 'VimEnter'
+# [[plugins]]
+# repo = 'nixprime/cpsm'
+# # on_if = 'has("unix")'
+# on_event = 'VimEnter'
+
 [[plugins]]
 repo = 'mattn/benchvimrc-vim'
 on_cmd = 'BenchVimrc'
+
 [[plugins]]
 repo = 'jasonm23/markdown-css-themes'
+
+# [[plugins]]
+# repo = 'itchyny/thumbnail.vim'
+# on_event = 'VimEnter'
+
 [[plugins]]
 repo = 'itchyny/calendar.vim'
-on_event = 'VimEnter'
-[[plugins]]
-repo = 'itchyny/thumbnail.vim'
-on_event = 'VimEnter'
-[[plugins]]
-repo = 'itchyny/vim-cursorword'
-on_event = 'VimEnter'
+on_cmd = 'Calender'
+
 [[plugins]]
 repo = 'majutsushi/tagbar'
 on_cmd = ['TagbarToggle', 'TagbarOpen']
-[[plugins]]
-repo = 'yuratomo/gmail.vim'
+
+# [[plugins]]
+# repo = 'yuratomo/gmail.vim'
+
 [[plugins]]
 repo = 'artur-shaik/vim-javacomplete2'
 on_ft = 'java'
+
+[[plugins]]
+repo = 'AndrewRadev/linediff.vim'
+on_cmd = 'Linediff'
+

@@ -73,10 +73,13 @@ if dein#tap('ctrlp.vim')
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
   " if has('unix')
-  let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
-  " let s:ctrlp_my_match_func = {'match' : 'pymatcher#PyMatch'}
+  " let s:ctrlp_my_match_func = {}
+  " 
+  " let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+  " let g:cpsm_query_inverting_delimiter = ' '
+
+  let s:ctrlp_my_match_func = {'match' : 'pymatcher#PyMatch'}
   let g:ctrlp_match_func = s:ctrlp_my_match_func
-  let g:cpsm_query_inverting_delimiter = ' '
   " elseif has('win32')
   " endif
   "
@@ -91,7 +94,8 @@ if dein#tap('ctrlp.vim')
   nnoremap <Leader>c        :CtrlPCurWD<CR>
   nnoremap <Leader>T        :CtrlPTag<CR>
   nnoremap <Leader>b        :CtrlPBuffer<CR>
-  nnoremap <Leader>l        :CtrlPLine<CR>
+  nnoremap <Leader>l        :CtrlPLine %<CR>
+  nnoremap <Leader>al        :CtrlPLine<CR>
   nnoremap <Leader><Leader> :CtrlP<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
@@ -152,7 +156,7 @@ if dein#tap('memolist.vim')
   " let g:memolist_unite = 1
   " let g:memolist_denite = 1
   " let g:memolist_ex_cmd = 'Denite file_rec '
-  
+
   nmap <Leader>mn :MemoNew<cr>
   nmap <Leader>ml :MemoList<cr>
   " nmap <Leader>ml :execute "Denite file_rec -path=" . g:memolist_path<cr>
@@ -238,11 +242,11 @@ if dein#tap('unite.vim')
   nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
   let g:unite_force_overwrite_statusline = 0
   " call unite#filters#sorter_default#use(['sorter_length'])
-  " call unite#custom#profile('default', 'context', {
-  "       \	'start_insert': 1,
-  "       \	'winheight': 10,
-  "       \	'direction': 'botright'
-  "       \ })
+  call unite#custom#profile('default', 'context', {
+        \	'start_insert': 1,
+        \	'winheight': 10,
+        \	'direction': 'botright'
+        \ })
   " ウィンドウを分割して開く
   augroup CustomUnite
     autocmd!
@@ -306,25 +310,35 @@ if dein#tap('vim-airline')
   endif
   " powerline symbols" {{{
   if has('gui_running')
-    let g:airline#extensions#tabline#left_sep	  = '⮀'
-    let g:airline#extensions#tabline#left_alt_sep  = '⮁'
-    let g:airline#extensions#tabline#right_sep	 = '⮂'
-    let g:airline#extensions#tabline#right_alt_sep = '⮃'
-    let g:airline_left_sep		   = '⮀'
-    let g:airline_left_alt_sep	   = '⮁'
-    let g:airline_right_sep		  = '⮂'
-    let g:airline_right_alt_sep	  = '⮃'
-    let g:airline_symbols.branch	 = '⭠'
-    let g:airline_symbols.readonly   = '⭤'
-    let g:airline_symbols.linenr	 = '⭡'
+    " let g:airline#extensions#tabline#left_sep      = '⮀'
+    " let g:airline#extensions#tabline#left_alt_sep  = '⮁'
+    " let g:airline#extensions#tabline#right_sep     = '⮂'
+    " let g:airline#extensions#tabline#right_alt_sep = '⮃'
+    " let g:airline_left_sep                         = '⮀'
+    " let g:airline_left_alt_sep                     = '⮁'
+    " let g:airline_right_sep                        = '⮂'
+    " let g:airline_right_alt_sep                    = '⮃'
+
+    let g:airline#extensions#tabline#left_sep      = ''
+    let g:airline#extensions#tabline#left_alt_sep  = ''
+    let g:airline#extensions#tabline#right_sep     = ''
+    let g:airline#extensions#tabline#right_alt_sep = ''
+    let g:airline_left_sep                         = ''
+    let g:airline_left_alt_sep                     = ''
+    let g:airline_right_sep                        = ''
+    let g:airline_right_alt_sep                    = ''
+
+    let g:airline_symbols.branch                   = '⭠'
+    let g:airline_symbols.readonly                 = '⭤'
+    let g:airline_symbols.linenr                   = '⭡'
   else
-    let g:airline_left_sep		   = ''
-    let g:airline_left_alt_sep	   = ''
-    let g:airline_right_sep		  = ''
-    let g:airline_right_alt_sep	  = ''
+    let g:airline_left_sep                         = ''
+    let g:airline_left_alt_sep                     = ''
+    let g:airline_right_sep                        = ''
+    let g:airline_right_alt_sep                    = ''
   endif " }}}
-  let g:airline_symbols.maxlinenr = ''
-  let g:airline_symbols.linenr = ''
+  let g:airline_symbols.maxlinenr                  = ''
+  let g:airline_symbols.linenr                     = ''
 
   " disable warning " {{{
   " let g:airline#extensions#default#layout = [
@@ -350,24 +364,26 @@ endif
 if dein#tap('vim-clang-format')
   let g:clang_format#auto_format = 0
   let g:clang_format#command = 'clang-format'
-  for minorversion in range(10)
-    if executable('clang-format-3.' . minorversion)
-      let g:clang_format#command = 'clang-format-3.' . minorversion
-    endif
+  for majorversion in range(3,4)
+    for minorversion in range(10)
+      if executable('clang-format-' . majorversion . minorversion)
+        let g:clang_format#command = 'clang-format-' . majorversion . minorversion
+      endif
+    endfor
   endfor
   let g:clang_format#style_options = {
-        \ 'AllowShortIfStatementsOnASingleLine' : 'true',
-        \ 'AllowShortBlocksOnASingleLine' : 'true',
-        \ 'AllowShortCaseLabelsOnASingleLine' : 'true',
-        \ 'AllowShortFunctionsOnASingleLine' : 'true',
-        \ 'AllowShortLoopsOnASingleLine' : 'true',
-        \ 'AlignAfterOpenBracket' : 'AlwaysBreak',
-        \ 'AlignConsecutiveAssignments' : 'true',
-        \ 'AlignConsecutiveDeclarations' : 'true',
-        \ 'AlignTrailingComments' : 'true',
-        \ 'TabWidth' : '4',
-        \ 'UseTab' : 'Always',
-        \ 'ColumnLimit' : '120'
+        \ 'AllowShortIfStatementsOnASingleLine':'true',
+        \ 'AllowShortBlocksOnASingleLine'      :'true',
+        \ 'AllowShortCaseLabelsOnASingleLine'  :'true',
+        \ 'AllowShortFunctionsOnASingleLine'   :'true',
+        \ 'AllowShortLoopsOnASingleLine'       :'true',
+        \ 'AlignAfterOpenBracket'              :'AlwaysBreak',
+        \ 'AlignConsecutiveAssignments'        :'true',
+        \ 'AlignConsecutiveDeclarations'       :'true',
+        \ 'AlignTrailingComments'              :'true',
+        \ 'TabWidth'                           :'4',
+        \ 'UseTab'                             :'Always',
+        \ 'ColumnLimit'                        :'120'
         \ }
 endif
 
@@ -478,7 +494,7 @@ if dein#tap('vim-precious')
     autocmd FileType toml :syntax sync fromstart
   augroup END
 
-  
+
   " setfiletype を無効
   " let g:precious_enable_switchers = {
   " \	"*" : {
@@ -561,45 +577,45 @@ if dein#tap('vim-quickrun')
     echo 'Quickrun Sweep'
     call quickrun#sweep_sessions()
   endf
+endif
 
-  if dein#tap('vim-watchdogs')
-    " watchdogs settings
-    let g:watchdogs_check_BufWritePost_enable = 1
-    let g:watchdogs_check_BufWritePost_enables = {
-          \'cpp' : 1,
-          \'java': 0
-          \}
-    let g:watchdogs_check_CursorHold_enable = 0
+if dein#tap('vim-watchdogs')
+  " watchdogs settings
+  let g:watchdogs_check_BufWritePost_enable = 1
+  let g:watchdogs_check_BufWritePost_enables = {
+        \'cpp' : 1,
+        \'java': 0
+        \}
+  let g:watchdogs_check_CursorHold_enable = 0
 
-    let s:watchdogs_config = {
-          \'watchdogs_checker/_' : {
-          \	'runner' : 'vimproc',
-          \	'runner/vimproc/updatetime' : 40,
-          \	'outputter' : 'quickfix',
-          \	'outputter/quickfix/open_cmd' : 'copen 8'
-          \	},
-          \'watchdogs_checker/javac' : {
-          \ },
-          \'cpp/watchdogs_checker' : {
-          \	'type' : 'watchdogs_checker/g++',
-          \	'hook/add_include_option/enable' : 1,
-          \	'cmdopt' : '-std=c++11 -Wall'
-          \	}
-          \}
-    call extend(g:quickrun_config, s:watchdogs_config)
+  let s:watchdogs_config = {
+        \'watchdogs_checker/_' : {
+        \	'runner' : 'vimproc',
+        \	'runner/vimproc/updatetime' : 40,
+        \	'outputter' : 'quickfix',
+        \	'outputter/quickfix/open_cmd' : 'copen 8'
+        \	},
+        \'watchdogs_checker/javac' : {
+        \ },
+        \'cpp/watchdogs_checker' : {
+        \	'type' : 'watchdogs_checker/g++',
+        \	'hook/add_include_option/enable' : 1,
+        \	'cmdopt' : '-std=c++11 -Wall'
+        \	}
+        \}
+  call extend(g:quickrun_config, s:watchdogs_config)
 
-    let s:watchdogs_config_javac={
-          \ 'exec' : '%c %o -d %S:p:h %S:p'
-          \ }
-    call extend(g:quickrun_config['watchdogs_checker/javac'], s:watchdogs_config_javac)
+  let s:watchdogs_config_javac={
+        \ 'exec' : '%c %o -d %S:p:h %S:p'
+        \ }
+  call extend(g:quickrun_config['watchdogs_checker/javac'], s:watchdogs_config_javac)
 
-    unlet s:watchdogs_config
-    try
-      call watchdogs#setup(g:quickrun_config)
-    catch
-      echom v:exception
-    endtry
-  endif
+  unlet s:watchdogs_config
+  try
+    call watchdogs#setup(g:quickrun_config)
+  catch
+    echom v:exception
+  endtry
 endif
 
 if dein#tap('vimshell.vim')
@@ -648,6 +664,19 @@ if dein#tap('yankround.vim')
         \ "\<Plug>(yankround-prev)" :
         \ ":CtrlP<CR>"
   nmap <C-n> <Plug>(yankround-next)
+endif
+
+if dein#tap('vaffle.vim')
+  nnoremap <silent> <Leader>e :Vaffle %:p:h<CR>
+  nnoremap <silent> <Leader>E :Vaffle .<CR>
+  function! s:customize_vaffle_mappings() abort
+    " Customize key mappings here
+    nmap <buffer> <tab> <Plug>(vaffle-toggle-current)
+  endfunction
+  augroup vimrc_vaffle
+    autocmd FileType vaffle call s:customize_vaffle_mappings()
+    autocmd FileType vaffle command! -buffer CdCurrent execute printf('cd %s', vaffle#buffer#get_env().dir)
+  augroup END
 endif
 
 if dein#tap('vimfiler.vim')
@@ -701,7 +730,7 @@ if dein#tap('denite.nvim')
   call denite#custom#option('default','vertical_preview','1')
   call denite#custom#option('default','highlight_matched_char','Special')
   call denite#custom#option('default','auto_resize','1')
-  call denite#custom#option('default','updatetime','10')
+  " call denite#custom#option('default','updatetime','1')
 
   " Change file_rec command.
   if executable('pt')
@@ -712,17 +741,17 @@ if dein#tap('denite.nvim')
     "   call denite#custom#var('file_rec', 'command',
     "         \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
     " endif
-  else
+  elseif executable('ag')
     call denite#custom#var('file_rec', 'command',
           \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g',''])
   endif
 
   call denite#custom#source(
         \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
-  call denite#custom#source(
-        \ 'line', 'matchers', ['matcher_cpsm'])
-  call denite#custom#source(
-        \ 'file_rec', 'matchers', ['matcher_cpsm'])
+  " call denite#custom#source(
+        " \ 'line', 'matchers', ['matcher_cpsm'])
+  " call denite#custom#source(
+        " \ 'file_rec', 'matchers', ['matcher_cpsm'])
   " Change mappings.
   call denite#custom#map(
         \ 'insert',
@@ -753,19 +782,6 @@ if dein#tap('denite.nvim')
   nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
   nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
   nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
-endif
-
-if dein#tap('vaffle.vim')
-  nnoremap <silent> <Leader>e :Vaffle %:p:h<CR>
-  nnoremap <silent> <Leader>E :Vaffle .<CR>
-  function! s:customize_vaffle_mappings() abort
-    " Customize key mappings here
-    nmap <buffer> <tab> <Plug>(vaffle-toggle-current)
-  endfunction
-  augroup vimrc_vaffle
-    autocmd FileType vaffle call s:customize_vaffle_mappings()
-    autocmd FileType vaffle command! -buffer CdCurrent execute printf('cd %s', vaffle#buffer#get_env().dir)
-  augroup END
 endif
 
 if dein#tap('deoplete.nvim')
