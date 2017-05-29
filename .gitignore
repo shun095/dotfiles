@@ -1,5 +1,5 @@
 *-local*
-#*#
+\#*\#
 *.sw[po]
 *.exe
 *.pyc
