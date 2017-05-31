@@ -83,18 +83,18 @@ if dein#tap('ctrlp.vim')
       " let s:cpsmbuild_boost_dir = substitute(s:cpsmbuild_boost_dir,'\\$','','g')
 
       " call system($MYDOTFILES . '/tools/cpsm_winmake.bat ' . s:cpsmbuild_python_dir . ' ' . s:cpsmbuild_boost_dir)
-      " if v:shell_error == 0
-        " let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
-      " else
-        " echomsg 'Couldn''t build cpsm correctry'
-        echomsg 'There is no cpsm binaries'
-      " endif
+      exe '!' . $MYDOTFILES . '/tools/cpsm_winmake.bat'
+      if v:shell_error == 0
+        let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+      else
+        echomsg 'Couldn''t build cpsm correctly'
+      endif
     else
       call system($HOME . '/.vim/dein/repos/github.com/nixprime/cpsm/install.sh')
       if v:shell_error == 0
         let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
       else
-        echomsg 'Couldn''t build cpsm correctry'
+        echomsg 'Couldn''t build cpsm correctly'
       endif
     endif
   else

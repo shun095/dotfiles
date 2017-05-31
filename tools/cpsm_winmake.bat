@@ -1,5 +1,6 @@
 @echo off
 setlocal
+echo cpsmをビルドします
 
 if "%1" EQU "" (
         set /p python3_dir="Python3のディレクトリ："
