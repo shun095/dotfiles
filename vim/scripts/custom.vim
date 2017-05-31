@@ -74,11 +74,34 @@ if dein#tap('ctrlp.vim')
   let g:ctrlp_mruf_default_order = 1
   " if has('unix')
   " let s:ctrlp_my_match_func = {}
-  " 
-  let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+  if !filereadable(expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm/bin/cpsm_py.so' )
+    let s:ctrlp_my_match_func = {}
+    if has('win32')
+      " let s:cpsmbuild_python_dir = input('Cpsm needs to build: Python3 directory:', '', 'file')
+      " let s:cpsmbuild_boost_dir = input('Cpsm need to build: Boost directory:', '', 'file')
+      " let s:cpsmbuild_python_dir = substitute(s:cpsmbuild_python_dir,'\\$','','g')
+      " let s:cpsmbuild_boost_dir = substitute(s:cpsmbuild_boost_dir,'\\$','','g')
+
+      " call system($MYDOTFILES . '/tools/cpsm_winmake.bat ' . s:cpsmbuild_python_dir . ' ' . s:cpsmbuild_boost_dir)
+      " if v:shell_error == 0
+        " let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+      " else
+        " echomsg 'Couldn''t build cpsm correctry'
+        echomsg 'There is no cpsm binaries'
+      " endif
+    else
+      call system($HOME . '/.vim/dein/repos/github.com/nixprime/cpsm/install.sh')
+      if v:shell_error == 0
+        let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+      else
+        echomsg 'Couldn''t build cpsm correctry'
+      endif
+    endif
+  else
+    let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+  endif
   let g:cpsm_query_inverting_delimiter = ' '
 
-  " let s:ctrlp_my_match_func = {'match' : 'pymatcher#PyMatch'}
   let g:ctrlp_match_func = s:ctrlp_my_match_func
   " elseif has('win32')
   " endif
@@ -748,10 +771,12 @@ if dein#tap('denite.nvim')
 
   call denite#custom#source(
         \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
-  call denite#custom#source(
-        \ 'line', 'matchers', ['matcher_cpsm'])
-  call denite#custom#source(
-        \ 'file_rec', 'matchers', ['matcher_cpsm'])
+  if g:ctrlp_match_func != {} && g:ctrlp_match_func["match"] ==# 'cpsm#CtrlPMatch'
+    call denite#custom#source(
+          \ 'line', 'matchers', ['matcher_cpsm'])
+    call denite#custom#source(
+          \ 'file_rec', 'matchers', ['matcher_cpsm'])
+  endif
   " Change mappings.
   call denite#custom#map(
         \ 'insert',

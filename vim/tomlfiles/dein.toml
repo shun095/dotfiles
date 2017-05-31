@@ -193,3 +193,4 @@ repo = 'itchyny/vim-cursorword'
 
 [[plugins]]
 repo = 'nixprime/cpsm'
+merged = 0
