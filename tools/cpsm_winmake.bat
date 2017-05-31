@@ -42,7 +42,8 @@ if not "%ERRORLEVEL%"  == "0" (
     mkdir bin
     copy cpsm_cli.exe bin\
     copy cpsm_py.dll bin\cpsm_py.pyd
-    copy cpsm_py.dll bin\cpsm_py.so
+    REM  copy cpsm_py.dll bin\cpsm_py.so
+    title >bin\cpsm_py.so
 )
 
 popd
