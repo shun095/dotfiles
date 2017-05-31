@@ -163,7 +163,7 @@ repo = 'jasonm23/markdown-css-themes'
 
 [[plugins]]
 repo = 'itchyny/calendar.vim'
-on_cmd = 'Calender'
+on_cmd = 'Calendar'
 
 [[plugins]]
 repo = 'majutsushi/tagbar'
