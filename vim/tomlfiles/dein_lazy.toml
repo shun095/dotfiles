@@ -145,10 +145,6 @@ on_ft = 'python'
 # [[plugins]]
 # repo = 'chrisbra/csv.vim'
 # on_ft = 'csv'
-# [[plugins]]
-# repo = 'nixprime/cpsm'
-# # on_if = 'has("unix")'
-# on_event = 'VimEnter'
 
 [[plugins]]
 repo = 'mattn/benchvimrc-vim'
