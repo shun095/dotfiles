@@ -75,10 +75,10 @@ if dein#tap('ctrlp.vim')
   " if has('unix')
   " let s:ctrlp_my_match_func = {}
   " 
-  " let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
-  " let g:cpsm_query_inverting_delimiter = ' '
+  let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+  let g:cpsm_query_inverting_delimiter = ' '
 
-  let s:ctrlp_my_match_func = {'match' : 'pymatcher#PyMatch'}
+  " let s:ctrlp_my_match_func = {'match' : 'pymatcher#PyMatch'}
   let g:ctrlp_match_func = s:ctrlp_my_match_func
   " elseif has('win32')
   " endif
@@ -748,10 +748,10 @@ if dein#tap('denite.nvim')
 
   call denite#custom#source(
         \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
-  " call denite#custom#source(
-        " \ 'line', 'matchers', ['matcher_cpsm'])
-  " call denite#custom#source(
-        " \ 'file_rec', 'matchers', ['matcher_cpsm'])
+  call denite#custom#source(
+        \ 'line', 'matchers', ['matcher_cpsm'])
+  call denite#custom#source(
+        \ 'file_rec', 'matchers', ['matcher_cpsm'])
   " Change mappings.
   call denite#custom#map(
         \ 'insert',

@@ -1,2 +1,0 @@
-del /S/Q CMakeFiles CMakeCache.txt
-cmake CMakeLists.txt -G "Visual Studio 15 2017 Win64" -DPYTHON_LIBRARIES=C:\Python27\libs\python27.dll -DPYTHON_EXECUTABLE=C:\Python27\python.exe -DBOOST_ROOT=E:\boost_1_63_0 -DBoost_USE_STATIC_LIBS=ON
