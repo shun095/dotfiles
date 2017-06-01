@@ -8,10 +8,14 @@ if &compatible
   set nocompatible
 endif
 
-set guioptions+=M
-
 let s:true = 1
 let s:false = 0
+
+if filereadable($HOME . '/.vim/not_confirms.vim')
+  source $HOME/.vim/not_confirms.vim
+endif
+
+set guioptions+=M
 
 if !exists('$MYDOTFILES')
   let $MYDOTFILES = $HOME . '/dotfiles'
@@ -52,8 +56,8 @@ elseif has('unix')
   endif
 
   if $TERM !=# 'linux'
-    if executable("gnome-terminal")
-      let s:gnome_term_ver = split(split(system("gnome-terminal --version"))[2], '\.')
+    if executable('gnome-terminal')
+      let s:gnome_term_ver = split(split(system('gnome-terminal --version'))[2], '\.')
       if s:gnome_term_ver[0] == 3 && s:gnome_term_ver[1] > 12
         if exists('$TMUX')
           let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
@@ -363,12 +367,22 @@ if !isdirectory(s:dein_dir) && g:use_plugins == s:true
   let g:use_plugins = s:false
 
   let s:install_dein_diag_mes = 'Dein is not installed yet.Install now?'
-  if confirm(s:install_dein_diag_mes,"&yes\n&no",2) == 1
+  let s:dein_install_confirm = confirm(s:install_dein_diag_mes,"&yes\n&no\nn&ever",2)
+  unlet s:install_dein_diag_mes
+
+  if s:dein_install_confirm == 1
     call mkdir(s:dein_dir, 'p')
     exe printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
     " インストールが完了したらフラグを立てる
-    let g:use_plugins = s:true
+    if v:shell_error == 0
+      let g:use_plugins = s:true
+    else
+      echoerr "Dein couldn't be installed correctly."
+    endif
+  elseif s:dein_install_confirm == 3
+    call writefile(['let g:use_plugins = 0'], $HOME . '/.vim/not_confirms.vim', 'a')
   endif
+  unlet s:dein_install_confirm
 endif
 "}}}
 
@@ -396,7 +410,7 @@ if g:use_plugins == s:true
 
   let s:plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
   let s:plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
-
+  let g:dein#install_progress_type = 'tabline'
   if dein#load_state(s:plugin_dir)
     call dein#begin(s:plugin_dir)
     call dein#add('Shougo/dein.vim')

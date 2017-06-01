@@ -76,27 +76,32 @@ if dein#tap('ctrlp.vim')
   " let s:ctrlp_my_match_func = {}
   if !filereadable(expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm/bin/cpsm_py.so' )
     let s:ctrlp_my_match_func = {}
-    if has('win32')
-      " let s:cpsmbuild_python_dir = input('Cpsm needs to build: Python3 directory:', '', 'file')
-      " let s:cpsmbuild_boost_dir = input('Cpsm need to build: Boost directory:', '', 'file')
-      " let s:cpsmbuild_python_dir = substitute(s:cpsmbuild_python_dir,'\\$','','g')
-      " let s:cpsmbuild_boost_dir = substitute(s:cpsmbuild_boost_dir,'\\$','','g')
+    augroup vimrc_cpsm
+      autocmd VimEnter * call s:cpsm_build()
+    augroup END
 
-      " call system($MYDOTFILES . '/tools/cpsm_winmake.bat ' . s:cpsmbuild_python_dir . ' ' . s:cpsmbuild_boost_dir)
-      exe '!' . $MYDOTFILES . '/tools/cpsm_winmake.bat'
-      if v:shell_error == 0
-        let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+    fun! s:cpsm_build()
+      if has('win32')
+        let s:cpsm_install_confirm = confirm('Build cpsm now?',"&yes\n&no",2)
+        if s:cpsm_install_confirm == 1
+          exe '!' . $MYDOTFILES . '/tools/cpsm_winmake.bat'
+          if v:shell_error == 0
+            let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+          else
+            echomsg 'Couldn''t build cpsm correctly'
+          endif
+        endif
       else
-        echomsg 'Couldn''t build cpsm correctly'
+        " call system($HOME . '/.vim/dein/repos/github.com/nixprime/cpsm/install.sh')
+        " if v:shell_error == 0
+        " let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+        " else
+        echomsg 'Please build cpsm with install.sh'
+        " endif
       endif
-    else
-      call system($HOME . '/.vim/dein/repos/github.com/nixprime/cpsm/install.sh')
-      if v:shell_error == 0
-        let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
-      else
-        echomsg 'Couldn''t build cpsm correctly'
-      endif
-    endif
+      " code
+    endf
+
   else
     let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
   endif
@@ -568,8 +573,8 @@ if dein#tap('vim-quickrun')
         \ 'hook/inu/enable' : 1,
         \ 'hook/inu/wait' : 1,
         \ 'outputter/buffer/split' : ':botright 8',
-        \ 'runner' : 'vimproc',
-        \ 'runner/vimproc/interval' : 40,
+        \ 'runner' : 'job',
+        \ 'runner/job/interval' : 40,
         \ }
   let g:quickrun_config['python'] = {
         \ 'command' : 'python',
@@ -613,8 +618,8 @@ if dein#tap('vim-watchdogs')
 
   let s:watchdogs_config = {
         \'watchdogs_checker/_' : {
-        \	'runner' : 'vimproc',
-        \	'runner/vimproc/updatetime' : 40,
+        \	'runner' : 'job',
+        \	'runner/job/updatetime' : 40,
         \	'outputter' : 'quickfix',
         \	'outputter/quickfix/open_cmd' : 'copen 8'
         \	},
@@ -771,7 +776,7 @@ if dein#tap('denite.nvim')
 
   call denite#custom#source(
         \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
-  if g:ctrlp_match_func != {} && g:ctrlp_match_func["match"] ==# 'cpsm#CtrlPMatch'
+  if g:ctrlp_match_func != {} && g:ctrlp_match_func['match'] ==# 'cpsm#CtrlPMatch'
     call denite#custom#source(
           \ 'line', 'matchers', ['matcher_cpsm'])
     call denite#custom#source(
