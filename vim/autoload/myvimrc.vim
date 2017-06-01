@@ -58,7 +58,7 @@ fun myvimrc#git_auto_updating() abort
 endf
 
 fun myvimrc#git_callback(ch, msg) abort
-  if match(a:msg,'Already up-to-date.') != 0
+  if match(a:msg,'Already up-to-date.') == 0
     let s:git_newer_exists = s:false
   endif
 
