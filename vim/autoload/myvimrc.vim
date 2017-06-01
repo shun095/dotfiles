@@ -1,3 +1,10 @@
+scriptencoding utf-8
+if &compatible
+  set nocompatible
+endif
+
+let s:true = 1
+let s:false = 0
 
 fun myvimrc#ImInActivate() abort
   let fcitx_dbus = system('fcitx-remote -a')
@@ -36,7 +43,7 @@ fun myvimrc#git_auto_updating() abort
   if !exists("g:called_mygit_func")
     let s:save_cd = getcwd()
     exe 'cd ' . $MYDOTFILES
-    let s:git_newer_exists = v:false
+    let s:git_newer_exists = s:true
     let s:git_qflist = []
     if has('job')
       call job_start('git pull', {'callback': 'myvimrc#git_callback', 'exit_cb': 'myvimrc#git_end_callback'})
@@ -52,7 +59,7 @@ endf
 
 fun myvimrc#git_callback(ch, msg) abort
   if match(a:msg,'Already up-to-date.') != 0
-    let s:git_newer_exists = v:true
+    let s:git_newer_exists = s:false
   endif
 
   call add(s:git_qflist, {'text':a:msg})
@@ -61,7 +68,7 @@ endf
 
 fun myvimrc#git_end_callback(ch, msg) abort
   call setqflist(s:git_qflist)
-  if s:git_newer_exists == v:true
+  if s:git_newer_exists == s:true
     echohl WarningMsg
     echom "New vimrc was downloaded. Please restart to use it!!"
     echohl none
