@@ -52,7 +52,9 @@ elseif has('unix')
 
   if !has('nvim')
     set ttymouse=xterm2 " 通常vim用
-    set cryptmethod=blowfish2
+    if v:version > 800
+      set cryptmethod=blowfish2
+    endif
   endif
 
   if $TERM !=# 'linux'

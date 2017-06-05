@@ -74,8 +74,8 @@ if dein#tap('ctrlp.vim')
   let g:ctrlp_mruf_default_order = 1
   " if has('unix')
   " let s:ctrlp_my_match_func = {}
+  let s:ctrlp_my_match_func = {}
   if !filereadable(expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm/bin/cpsm_py.so' )
-    let s:ctrlp_my_match_func = {}
     augroup vimrc_cpsm
       autocmd VimEnter * call s:cpsm_build()
     augroup END
@@ -103,7 +103,9 @@ if dein#tap('ctrlp.vim')
     endf
 
   else
-    let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+    if has('python3')
+      let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+    endif
   endif
   let g:cpsm_query_inverting_delimiter = ' '
 
@@ -239,7 +241,7 @@ if dein#tap('ultisnips')
   let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
   " let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips"
   if has('unix')
-    if !g:myvimrc_python_version ==? ''
+    if !g:myvimrc_python_version ==? '' && has('python3')
       let g:UltiSnipsUsePythonVersion = g:myvimrc_python_version
       " let g:UltiSnipsUsePythonVersion = 2
     else
@@ -573,9 +575,18 @@ if dein#tap('vim-quickrun')
         \ 'hook/inu/enable' : 1,
         \ 'hook/inu/wait' : 1,
         \ 'outputter/buffer/split' : ':botright 8',
-        \ 'runner' : 'job',
-        \ 'runner/job/interval' : 40,
+        \ 'runner' : 'vimproc',
+        \ 'runner/vimproc/interval' : 40,
         \ }
+
+  if has('job')
+    call extend(g:quickrun_config['_'], {
+          \ 'runner' : 'job',
+          \ 'runner/job/interval' : 40,
+          \ })
+
+  endif
+
   let g:quickrun_config['python'] = {
         \ 'command' : 'python',
         \ 'cmdopt' : '-u',
@@ -618,8 +629,8 @@ if dein#tap('vim-watchdogs')
 
   let s:watchdogs_config = {
         \'watchdogs_checker/_' : {
-        \	'runner' : 'job',
-        \	'runner/job/updatetime' : 40,
+        \	'runner' : 'vimproc',
+        \	'runner/vimproc/updatetime' : 40,
         \	'outputter' : 'quickfix',
         \	'outputter/quickfix/open_cmd' : 'copen 8'
         \	},
@@ -631,6 +642,12 @@ if dein#tap('vim-watchdogs')
         \	'cmdopt' : '-std=c++11 -Wall'
         \	}
         \}
+  if has('job')
+    call extend(s:watchdogs_config['watchdogs_checker/_'], {
+          \ 'runner' : 'job',
+          \ 'runner/job/interval' : 40,
+          \ })
+  endif
   call extend(g:quickrun_config, s:watchdogs_config)
 
   let s:watchdogs_config_javac={
