@@ -20,6 +20,8 @@ depends = 'unite.vim'
 
 [[plugins]]
 repo = 'Shougo/denite.nvim'
+if = "has('python3')"
+merged = 0
 
 [[plugins]]
 repo = 'Shougo/neomru.vim'
