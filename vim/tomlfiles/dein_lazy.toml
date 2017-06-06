@@ -45,8 +45,8 @@ on_ft = 'markdown'
 # on_event = ['CursorHold']
 # # on_cmd = ['BrightestEnable']
 # [[plugins]]
-repo = 'Shougo/unite.vim'
-on_cmd = ['Unite', 'UniteWithBufferDir']
+# repo = 'Shougo/unite.vim'
+# on_cmd = ['Unite', 'UniteWithBufferDir']
 
 # TweetVim {{{
 

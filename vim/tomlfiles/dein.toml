@@ -1,16 +1,16 @@
 # vim: set foldmethod=marker:
 
 # Filer {{{
-[[plugins]]
-repo = 'Shougo/vimfiler.vim'
-depends = 'unite.vim'
+# [[plugins]]
+# repo = 'Shougo/vimfiler.vim'
+# depends = 'unite.vim'
 # on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
 
 # [[plugins]]
 # repo = 'cocopon/vaffle.vim'
 
-# [[plugins]]
-# repo = 'justinmk/vim-dirvish'
+[[plugins]]
+repo = 'justinmk/vim-dirvish'
 # on_event = 'VimEnter'
 # on_cmd = 'Dirvish'
 
