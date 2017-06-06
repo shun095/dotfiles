@@ -1,17 +1,16 @@
 @echo off
 setlocal
-echo cpsmをビルドします
+echo Start building cpsm
 
 if "%1" EQU "" (
-        set /p python3_dir="Python3のディレクトリ："
-        set /p boost_dir="Boostのディレクトリ："
+        set /p python3_dir="Root directory of Python3："
+        set /p boost_dir="Root directory of Boost："
 ) else (
         set python3_dir=%1
         set boost_dir=%2
 )
 echo Python_dir: %python3_dir%
 echo Boost_dir: %boost_dir%
-
 
 pushd %USERPROFILE%\.vim\dein\repos\github.com\nixprime\cpsm\
 
@@ -32,10 +31,16 @@ cmake CMakeLists.txt -G "MinGW Makefiles" ^
 -DBOOST_ROOT=%boost_dir%
 
 if not "%ERRORLEVEL%"  == "0" (
-    echo 失敗したよん
+    echo Build failed.
+    exit /b
 ) else (
-
     mingw32-make
+)
+
+if not "%ERRORLEVEL%"  == "0" (
+    echo Build failed.
+    exit /b
+) else (
     del /s/q autoload\cpsm_cli.exe autoload\cpsm_py.pyd
     copy cpsm_cli.exe autoload\
     copy cpsm_py.dll autoload\cpsm_py.pyd
