@@ -452,9 +452,7 @@ if dein#tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_open()
-    if match(getline('.'), '\V' . w:dirvishbefore[1])
-      call remove(w:dirvishbefore,0,1)
-    endif
+    call remove(w:dirvishbefore,0,1)
     call dirvish#open('edit', 0)
   endf
 
