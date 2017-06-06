@@ -426,7 +426,7 @@ if dein#tap('vim-dirvish')
   " nnoremap <silent> <Leader>E :Dirvish .<CR>
 
   fun! s:open_mydirvish()
-    let savepre = 'let w:dirvishbefore = [expand("%:p")]'
+    let savepre = 'let w:dirvish_before = [expand("%:p")]'
     if len(tabpagebuflist()) > 1
       let w:dirvish_splited = 0
       return savepre . '| Dirvish %:p:h'
@@ -444,21 +444,25 @@ if dein#tap('vim-dirvish')
     else
       nmap <buffer> q <plug>(dirvish_quit)
       exe 'normal q'
+      unlet w:dirvish_before
     endif
   endf
 
   fun! s:mydirvish_selectprevdir()
-    if len(w:dirvishbefore) > 0
-      call search('\V\^'.escape(w:dirvishbefore[0], '\').'\$', 'cw')
+    if !exists('w:dirvish_before')
+      let w:dirvish_before = []
+    endif
+    if len(w:dirvish_before) > 0
+      call search('\V\^'.escape(w:dirvish_before[0], '\').'\$', 'cw')
     endif
   endf
 
   fun! s:mydirvish_open()
 
-    if len(w:dirvishbefore) > 1
-      call remove(w:dirvishbefore,0,1)
-    elseif len(w:dirvishbefore) == 1
-      call remove(w:dirvishbefore,0)
+    if len(w:dirvish_before) > 1
+      call remove(w:dirvish_before,0,1)
+    elseif len(w:dirvish_before) == 1
+      call remove(w:dirvish_before,0)
     endif
 
     call dirvish#open('edit', 0)
@@ -490,9 +494,9 @@ if dein#tap('vim-dirvish')
     autocmd FileType dirvish nnoremap <silent><buffer> cc :Shdo cp {}<CR>
     autocmd FileType dirvish vnoremap <silent><buffer> c :Shdo cp {}<CR>
 
-    " 開いていたファイルやDirectory(w:dirvishbefore)にカーソルをあわせる
+    " 開いていたファイルやDirectory(w:dirvish_before)にカーソルをあわせる
     autocmd FileType dirvish call <SID>mydirvish_selectprevdir()
-    autocmd FileType dirvish call insert(w:dirvishbefore,expand("%:p"))
+    autocmd FileType dirvish call insert(w:dirvish_before,expand("%:p"))
   augroup END
 endif
 
