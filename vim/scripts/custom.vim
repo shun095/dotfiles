@@ -446,14 +446,21 @@ if dein#tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_selectprevdir()
-    if exists('w:dirvishbefore')
+    if len(w:dirvishbefore) > 0
       call search('\V\^'.escape(w:dirvishbefore[0], '\').'\$', 'cw')
     endif
   endf
 
   fun! s:mydirvish_open()
-    call remove(w:dirvishbefore,0,1)
+
+    if len(w:dirvishbefore) > 1
+      call remove(w:dirvishbefore,0,1)
+    elseif len(w:dirvishbefore) == 1
+      call remove(w:dirvishbefore,0)
+    endif
+
     call dirvish#open('edit', 0)
+
   endf
 
   augroup CustomDirvish
