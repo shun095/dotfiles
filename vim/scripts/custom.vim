@@ -129,9 +129,9 @@ if dein#tap('ctrlp.vim')
   nnoremap <Leader><Leader> :CtrlP<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
-  if executable('pt')
+  if g:myvimrc_pt_isAvalable
     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-  elseif executable('ag')
+  elseif g:myvimrc_ag_isAvalable
     let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
   endif
   unlet s:ctrlp_command_options
@@ -394,13 +394,15 @@ endif
 if dein#tap('vim-clang-format')
   let g:clang_format#auto_format = 0
   let g:clang_format#command = 'clang-format'
-  for majorversion in range(3,4)
-    for minorversion in range(10)
-      if executable('clang-format-' . majorversion . minorversion)
-        let g:clang_format#command = 'clang-format-' . majorversion . minorversion
-      endif
+  if has('unix')
+    for majorversion in range(3,4)
+      for minorversion in range(10)
+        if executable('clang-format-' . majorversion . minorversion)
+          let g:clang_format#command = 'clang-format-' . majorversion . minorversion
+        endif
+      endfor
     endfor
-  endfor
+  endif
   let g:clang_format#style_options = {
         \ 'AllowShortIfStatementsOnASingleLine':'true',
         \ 'AllowShortBlocksOnASingleLine'      :'true',
@@ -634,51 +636,6 @@ if dein#tap('vim-quickrun')
   endf
 endif
 
-if dein#tap('vim-watchdogs')
-  " watchdogs settings
-  let g:watchdogs_check_BufWritePost_enable = 1
-  let g:watchdogs_check_BufWritePost_enables = {
-        \'cpp' : 1,
-        \'java': 0
-        \}
-  let g:watchdogs_check_CursorHold_enable = 0
-
-  let s:watchdogs_config = {
-        \'watchdogs_checker/_' : {
-        \	'runner' : 'vimproc',
-        \	'runner/vimproc/updatetime' : 40,
-        \	'outputter' : 'quickfix',
-        \	'outputter/quickfix/open_cmd' : 'copen 8'
-        \	},
-        \'watchdogs_checker/javac' : {
-        \ },
-        \'cpp/watchdogs_checker' : {
-        \	'type' : 'watchdogs_checker/g++',
-        \	'hook/add_include_option/enable' : 1,
-        \	'cmdopt' : '-std=c++11 -Wall'
-        \	}
-        \}
-  if has('job')
-    call extend(s:watchdogs_config['watchdogs_checker/_'], {
-          \ 'runner' : 'job',
-          \ 'runner/job/interval' : 40,
-          \ })
-  endif
-  call extend(g:quickrun_config, s:watchdogs_config)
-
-  let s:watchdogs_config_javac={
-        \ 'exec' : '%c %o -d %S:p:h %S:p'
-        \ }
-  call extend(g:quickrun_config['watchdogs_checker/javac'], s:watchdogs_config_javac)
-
-  unlet s:watchdogs_config
-  try
-    call watchdogs#setup(g:quickrun_config)
-  catch
-    echom v:exception
-  endtry
-endif
-
 if dein#tap('vimshell.vim')
   let g:vimshell_prompt = '% '
   let g:vimshell_secondary_prompt = '> '
@@ -794,7 +751,7 @@ if dein#tap('denite.nvim')
   " call denite#custom#option('default','updatetime','1')
 
   " Change file_rec command.
-  if executable('pt')
+  if g:myvimrc_pt_isAvalable
     " if has("win32")
     call denite#custom#var('file_rec', 'command',
           \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
@@ -802,7 +759,7 @@ if dein#tap('denite.nvim')
     "   call denite#custom#var('file_rec', 'command',
     "         \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
     " endif
-  elseif executable('ag')
+  elseif g:myvimrc_ag_isAvalable
     call denite#custom#var('file_rec', 'command',
           \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g',''])
   endif

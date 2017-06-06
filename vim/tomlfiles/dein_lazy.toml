@@ -176,3 +176,52 @@ on_ft = 'java'
 repo = 'AndrewRadev/linediff.vim'
 on_cmd = 'Linediff'
 
+[[plugins]]
+repo = "osyo-manga/vim-watchdogs"
+on_event = ['BufWrite','CursorHold']
+depends = ['vim-quickrun']
+on_cmd = ['WatchdogsRun']
+hook_post_source = ''' " {{{
+  " watchdogs settings
+  let g:watchdogs_check_BufWritePost_enable = 1
+  let g:watchdogs_check_BufWritePost_enables = {
+        \'cpp' : 1,
+        \'java': 0
+        \}
+  let g:watchdogs_check_CursorHold_enable = 0
+
+  let s:watchdogs_config = {
+        \'watchdogs_checker/_' : {
+        \	'runner' : 'vimproc',
+        \	'runner/vimproc/updatetime' : 40,
+        \	'outputter' : 'quickfix',
+        \	'outputter/quickfix/open_cmd' : 'copen 8'
+        \	},
+        \'watchdogs_checker/javac' : {
+        \ },
+        \'cpp/watchdogs_checker' : {
+        \	'type' : 'watchdogs_checker/g++',
+        \	'hook/add_include_option/enable' : 1,
+        \	'cmdopt' : '-std=c++11 -Wall'
+        \	}
+        \}
+  if has('job')
+    call extend(s:watchdogs_config['watchdogs_checker/_'], {
+          \ 'runner' : 'job',
+          \ 'runner/job/interval' : 40,
+          \ })
+  endif
+  call extend(g:quickrun_config, s:watchdogs_config)
+
+  let s:watchdogs_config_javac={
+        \ 'exec' : '%c %o -d %S:p:h %S:p'
+        \ }
+  call extend(g:quickrun_config['watchdogs_checker/javac'], s:watchdogs_config_javac)
+
+  unlet s:watchdogs_config
+  try
+    call watchdogs#setup(g:quickrun_config)
+  catch
+    echom v:exception
+  endtry
+''' # }}}

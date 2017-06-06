@@ -159,10 +159,22 @@ set statusline+=%y
 set statusline+=%4p%%%5l:%-3c
 " }}}
 
-" agがあればgrepの代わりにagを使う
 if executable('pt')
+  let g:myvimrc_pt_isAvalable = 1
+else
+  let g:myvimrc_pt_isAvalable = 0
+endif
+
+if executable('ag')
+  let g:myvimrc_ag_isAvalable = 1
+else
+  let g:myvimrc_ag_isAvalable = 0
+endif
+
+" agがあればgrepの代わりにagを使う
+if g:myvimrc_pt_isAvalable
   set grepprg=pt\ --nogroup\ --nocolor\ --column\ --follow
-elseif executable('ag')
+elseif g:myvimrc_ag_isAvalable
   set grepprg=ag\ --nogroup\ --nocolor\ --column\ --follow
 elseif has('unix')
   set grepprg=grep\ -rinIH\ --exclude-dir='.*'\ $*
@@ -412,7 +424,6 @@ if g:use_plugins == s:true
 
   let s:plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
   let s:plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
-  let g:dein#install_progress_type = 'tabline'
   if dein#load_state(s:plugin_dir)
     call dein#begin(s:plugin_dir)
     call dein#add('Shougo/dein.vim')

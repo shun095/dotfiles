@@ -178,10 +178,6 @@ repo = "thinca/vim-quickrun"
 [[plugins]]
 repo = 'osyo-manga/shabadou.vim'
 depends = ['vim-quickrun']
-
-[[plugins]]
-repo = "osyo-manga/vim-watchdogs"
-depends = ['vim-quickrun']
 # }}}
 
 [[plugins]]
