@@ -456,6 +456,7 @@ if g:use_plugins == s:true
   if filereadable($HOME . '/localrcs/vim-localafter.vim')
     source $HOME/localrcs/vim-localafter.vim'
   endif
+  set runtimepath+=$MYDOTFILES/vim/after/
   " }}}
 
   " Color settings {{{
