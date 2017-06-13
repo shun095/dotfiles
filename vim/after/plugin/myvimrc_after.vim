@@ -7,5 +7,5 @@ fun! myvimrc_after#write_log()
 endf
 
 augroup myvimrc_after
-  autocmd VimLeave * call myvimrc_after#write_log()
+  " autocmd VimLeave * call myvimrc_after#write_log()
 augroup END
