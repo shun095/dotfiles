@@ -397,8 +397,8 @@ if dein#tap('vim-clang-format')
   if has('unix')
     for majorversion in range(3,4)
       for minorversion in range(10)
-        if executable('clang-format-' . majorversion . minorversion)
-          let g:clang_format#command = 'clang-format-' . majorversion . minorversion
+        if executable('clang-format-' . majorversion . '.' . minorversion)
+          let g:clang_format#command = 'clang-format-' . majorversion . '.' . minorversion
         endif
       endfor
     endfor
