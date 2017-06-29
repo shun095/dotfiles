@@ -9,7 +9,8 @@
     molokai-theme
     flycheck
     vimrc-mode
-    auto-complete)
+    auto-complete
+    elpy)
   "packages to be installed")
 
 (require 'package)
@@ -37,48 +38,16 @@
 (require 'molokai-theme)
 (load-theme 'molokai t)
 
+(set-face-attribute 'default nil :family "Ricty Diminished for Powerline" :height 120)
+
 (require 'vimrc-mode)
-;;
-;; whitespace
-;;
 
-;; (require 'whitespace)
-;; (setq whitespace-style '(face           ; faceで可視化
-;;                          trailing       ; 行末
-;;                          tabs           ;
-;; 			 ;; empty       ; 先頭/末尾の空行
-;;                          space-mark     ; 表示のマッピング
-;;                          tab-mark
-;;                          ))
-;; 
-;; (setq whitespace-display-mappings
-;;       '((tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t])))
-
-;; (global-whitespace-mode 1)
 (global-set-key "\C-h" 'delete-backward-char)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("b571f92c9bfaf4a28cb64ae4b4cdbda95241cd62cf07d942be44dc8f46c491f4" default)))
- '(package-selected-packages (quote (auto-complete))))
-
-;;(custom-set-faces
-;; custom-set-faces was added by Custom.
-;; If you edit it by hand, you could mess it up, so be careful.
-;; Your init file should contain only one such instance.
-;; If there is more than one, they won't work right.
-;; '(default ((t (:family "Ricty Diminished for Powerline" :foundry "PfEd" :slant normal :weight normal :height 128 :width normal)))))
 
 (setq scroll-conservatively 1)
 (setq scroll-margin 5)
-;;
+
 ;; Auto Complete
-;;
 ;; auto-complete-config の設定ファイルを読み込む。
 (require 'auto-complete-config)
 ;; よくわからない
@@ -113,3 +82,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (elpy vimrc-mode undo-tree mozc molokai-theme helm flycheck auto-complete))))
