@@ -427,12 +427,12 @@ if dein#tap('vim-dirvish')
 
   fun! s:open_mydirvish()
     let savepre = 'let w:dirvish_before = [expand("%:p")]'
-    if len(tabpagebuflist()) > 1
+    " if len(tabpagebuflist()) > 1
       let w:dirvish_splited = 0
       return savepre . '| Dirvish %:p:h'
-    else
-      return 'leftabove vsplit|' . savepre .'| let w:dirvish_splited = 1 | Dirvish %:p:h'
-    endif
+    " else
+      " return 'leftabove vsplit|' . savepre .'| let w:dirvish_splited = 1 | Dirvish %:p:h'
+    " endif
   endf
 
   fun! s:quit_mydirvish()
