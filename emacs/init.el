@@ -88,6 +88,7 @@
 ;; auto-complete-mode を起動時に有効にする
 (global-auto-complete-mode t)
 
+;; eww設定
 (defvar eww-disable-colorize t)
 (defun shr-colorize-region--disable (orig start end fg &optional bg &rest _)
   (unless eww-disable-colorize
