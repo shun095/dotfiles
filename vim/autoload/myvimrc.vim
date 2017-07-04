@@ -6,14 +6,14 @@ endif
 let s:true = 1
 let s:false = 0
 
-fun myvimrc#ImInActivate() abort
+fun! myvimrc#ImInActivate() abort
   let fcitx_dbus = system('fcitx-remote -a')
   if fcitx_dbus != ''
     call system('fcitx-remote -c')
   endif
 endf
 
-fun myvimrc#confirm_do_dein_install() abort
+fun! myvimrc#confirm_do_dein_install() abort
   augroup vimrc_dein_install_plugs
     autocmd!
   augroup END
@@ -28,7 +28,7 @@ fun myvimrc#confirm_do_dein_install() abort
   endif
 endf
 
-fun myvimrc#NiceLexplore(open_on_bufferdir) abort
+fun! myvimrc#NiceLexplore(open_on_bufferdir) abort
   " 常に幅35で開く
   let g:netrw_winsize = float2nr(round(30.0 / winwidth(0) * 100))
   if a:open_on_bufferdir == 1
@@ -39,7 +39,7 @@ fun myvimrc#NiceLexplore(open_on_bufferdir) abort
   let g:netrw_winsize = 50
 endf
 " Auto updating vimrc
-fun myvimrc#git_auto_updating() abort
+fun! myvimrc#git_auto_updating() abort
   if !exists("g:called_mygit_func")
     let s:save_cd = getcwd()
     exe 'cd ' . $MYDOTFILES
@@ -57,7 +57,7 @@ fun myvimrc#git_auto_updating() abort
   endif
 endf
 
-fun myvimrc#git_callback(ch, msg) abort
+fun! myvimrc#git_callback(ch, msg) abort
   if match(a:msg,'Already up-to-date.') == 0
     let s:git_newer_exists = s:false
   endif
@@ -66,7 +66,7 @@ fun myvimrc#git_callback(ch, msg) abort
   " echom "Myvimrc: " . a:msg
 endf
 
-fun myvimrc#git_end_callback(ch, msg) abort
+fun! myvimrc#git_end_callback(ch, msg) abort
   call setqflist(s:git_qflist)
   if s:git_newer_exists == s:true
     echohl WarningMsg
@@ -85,13 +85,13 @@ fun myvimrc#git_end_callback(ch, msg) abort
   endif
 endf
 
-fun myvimrc#copypath()
+fun! myvimrc#copypath()
   let @" = expand("%:p")
   let @* = expand("%:p")
   let @+ = expand("%:p")
 endf
 
-fun myvimrc#command_at_destdir(destination,commandlist)
+fun! myvimrc#command_at_destdir(destination,commandlist)
   let l:previous_cwd = getcwd()
   exe 'cd ' . a:destination
   for command in a:commandlist
@@ -100,7 +100,7 @@ fun myvimrc#command_at_destdir(destination,commandlist)
   exe 'cd ' . l:previous_cwd
 endf
 
-fun myvimrc#find_project_dir(searchname_arg) abort
+fun! myvimrc#find_project_dir(searchname_arg) abort
 
   if type(a:searchname_arg) == 1 " stringのとき
     let l:arg_is_string = 1
@@ -149,7 +149,7 @@ fun myvimrc#find_project_dir(searchname_arg) abort
   return l:destdir
 endf
 
-fun myvimrc#ctags_project() abort
+fun! myvimrc#ctags_project() abort
   let l:tags_dir = myvimrc#find_project_dir('tags')
 
   if l:tags_dir ==# ''
@@ -162,5 +162,6 @@ fun myvimrc#ctags_project() abort
     echohl none
   else
     call myvimrc#command_at_destdir(l:tags_dir,['call system("ctags -R")'])
+    echo "tags file made at " . l:tags_dir
   endif
 endf
