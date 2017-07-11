@@ -429,6 +429,7 @@ if dein#tap('vim-dirvish')
     let savepre = 'let w:dirvish_before = [expand("%:p")]'
     " if len(tabpagebuflist()) > 1
       let w:dirvish_splited = 0
+      let w:dirvish_start_cd = getcwd()
       return savepre . '| Dirvish %:p:h'
     " else
       " return 'leftabove vsplit|' . savepre .'| let w:dirvish_splited = 1 | Dirvish %:p:h'
@@ -445,6 +446,10 @@ if dein#tap('vim-dirvish')
       nmap <buffer> q <plug>(dirvish_quit)
       exe 'normal q'
       unlet w:dirvish_before
+    endif
+    if(exists('w:dirvish_start_cd'))
+      exe 'cd ' . w:dirvish_start_cd
+      unlet w:dirvish_start_cd
     endif
   endf
 
@@ -497,6 +502,7 @@ if dein#tap('vim-dirvish')
     " 開いていたファイルやDirectory(w:dirvish_before)にカーソルをあわせる
     autocmd FileType dirvish call <SID>mydirvish_selectprevdir()
     autocmd FileType dirvish call insert(w:dirvish_before,expand("%:p"))
+    autocmd FileType dirvish CdCurrent
   augroup END
 endif
 
