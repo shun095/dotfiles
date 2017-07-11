@@ -69,7 +69,7 @@ if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
     source "$HOME/localrcs/zsh-local.zsh"
 fi
 
-alias tvim="gvim --remote-tab"
+alias gvim='(){gvim --remote-tab-silent $* || gvim $*}'
 alias em="emacs"
 alias dir="dir --group-directories-first --color=auto"
 
