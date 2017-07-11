@@ -69,7 +69,16 @@ if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
     source "$HOME/localrcs/zsh-local.zsh"
 fi
 
-alias gvim='(){gvim --remote-tab-silent $* || gvim $*}'
+gvim_call(){
+    if [[ `\gvim --serverlist 2>/dev/null|wc -l` -ne 0 ]]; then
+        \gvim --remote-tab-silent $*
+    else
+        \gvim $*
+    fi
+
+}
+
+alias gvim=gvim_call $*
 alias em="emacs"
 alias dir="dir --group-directories-first --color=auto"
 
