@@ -45,6 +45,8 @@ elseif has('unix')
 
   if v:version >= 800 || has('nvim')
     set termguicolors " ターミナルでTrueColorを使う
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   endif
 
   " 背景をクリア
