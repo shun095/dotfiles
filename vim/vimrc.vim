@@ -215,6 +215,8 @@ vnoremap <Up> gk
 
 noremap <C-j> <ESC>
 noremap! <C-j> <ESC>
+noremap <C-g><C-g> <ESC>
+noremap! <C-g><C-g> <ESC>
 nnoremap <C-Tab> gt
 nnoremap <C-S-TAB> gT
 
