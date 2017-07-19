@@ -185,7 +185,7 @@ hook_post_source = ''' " {{{
   " watchdogs settings
   let g:watchdogs_check_BufWritePost_enable = 1
   let g:watchdogs_check_BufWritePost_enables = {
-        \'cpp' : 1,
+        \'cpp' : 0,
         \'java': 0
         \}
   let g:watchdogs_check_CursorHold_enable = 0
@@ -205,12 +205,12 @@ hook_post_source = ''' " {{{
         \	'cmdopt' : '-std=c++11 -Wall'
         \	}
         \}
-  if has('job')
-    call extend(s:watchdogs_config['watchdogs_checker/_'], {
-          \ 'runner' : 'job',
-          \ 'runner/job/interval' : 40,
-          \ })
-  endif
+  " if has('job')
+    " call extend(s:watchdogs_config['watchdogs_checker/_'], {
+          " \ 'runner' : 'job',
+          " \ 'runner/job/interval' : 40,
+          " \ })
+  " endif
   call extend(g:quickrun_config, s:watchdogs_config)
 
   let s:watchdogs_config_javac={
