@@ -30,7 +30,7 @@ if dein#tap('TweetVim')
 endif
 
 if dein#tap('YouCompleteMe')
-  " let g:ycm_global_ycm_extra_conf =
+  let g:ycm_global_ycm_extra_conf = $MYDOTFILES . '/vim/scripts/.ycm_extra_conf.py'
   "       \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
   "       \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
   let g:ycm_min_num_of_chars_for_completion = 1
