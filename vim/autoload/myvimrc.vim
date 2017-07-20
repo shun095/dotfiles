@@ -1,4 +1,4 @@
-scriptencoding utf-8
+﻿scriptencoding utf-8
 if &compatible
   set nocompatible
 endif
@@ -8,7 +8,7 @@ let s:false = 0
 
 fun! myvimrc#ImInActivate() abort
   let fcitx_dbus = system('fcitx-remote -a')
-  if fcitx_dbus != ''
+  if fcitx_dbus !=# ''
     call system('fcitx-remote -c')
   endif
 endf
@@ -18,13 +18,13 @@ fun! myvimrc#confirm_do_dein_install() abort
     autocmd!
   augroup END
   let l:confirm_plugins_install = confirm(
-        \"Some plugins are not installed yet. Install now?",
+        \'Some plugins are not installed yet. Install now?',
         \"&yes\n&no",2
         \)
   if l:confirm_plugins_install == 1
     call dein#install()
   else
-    echomsg "Plugins were not installed. Please install after."
+    echomsg 'Plugins were not installed. Please install after.'
   endif
 endf
 
@@ -40,7 +40,7 @@ fun! myvimrc#NiceLexplore(open_on_bufferdir) abort
 endf
 " Auto updating vimrc
 fun! myvimrc#git_auto_updating() abort
-  if !exists("g:called_mygit_func")
+  if !exists('g:called_mygit_func')
     let s:save_cd = getcwd()
     exe 'cd ' . $MYDOTFILES
     let s:git_newer_exists = s:true
@@ -48,10 +48,10 @@ fun! myvimrc#git_auto_updating() abort
     if has('job')
       call job_start('git pull', {'callback': 'myvimrc#git_callback', 'exit_cb': 'myvimrc#git_end_callback'})
     else
-      call vimproc#system("git pull &")
+      call vimproc#system('git pull &')
     endif
     " call system("git pull")
-    execute "cd " . s:save_cd
+    execute 'cd ' . s:save_cd
     unlet s:save_cd
     let g:called_mygit_func = 1
   endif
@@ -75,12 +75,12 @@ fun! myvimrc#git_end_callback(ch, msg) abort
   call setqflist(s:git_qflist)
   if s:git_newer_exists == s:true
     echohl WarningMsg
-    echom "New vimrc was downloaded. Please restart to use it!!"
+    echom 'New vimrc was downloaded. Please restart to use it!!'
     echohl none
     cope
     if has('gui_running')
       sleep 1
-      let l:confirm = confirm("Restart Now?", "&yes\n&no", 2)
+      let l:confirm = confirm('Restart Now?', "&yes\n&no", 2)
       if l:confirm == 1
         Restart
       endif
@@ -167,6 +167,23 @@ fun! myvimrc#ctags_project() abort
     echohl none
   else
     call myvimrc#command_at_destdir(l:tags_dir,['call system("ctags -R")'])
-    echo "tags file made at " . l:tags_dir
+    echomsg "tags file made at " . l:tags_dir
+  endif
+endf
+
+fun! myvimrc#gnometerm_detection(ch, msg)
+  let gnome_term_ver = split(split(a:msg)[2], '\.')
+  call myvimrc#set_tmux_code(gnome_term_ver)
+endf
+
+fun! myvimrc#set_tmux_code(gnome_term_ver)
+  if a:gnome_term_ver[0] == 3 && a:gnome_term_ver[1] > 12
+    if exists('$TMUX')
+      let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
+      let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+    else
+      let &t_SI = '[5 q'
+      let &t_EI = '[2 q'
+    endif
   endif
 endf

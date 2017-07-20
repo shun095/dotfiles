@@ -61,16 +61,16 @@ elseif has('unix')
 
   if $TERM !=# 'linux'
     if executable('gnome-terminal')
-      let s:gnome_term_ver = split(split(system('gnome-terminal --version'))[2], '\.')
-      if s:gnome_term_ver[0] == 3 && s:gnome_term_ver[1] > 12
-        if exists('$TMUX')
-          let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-          let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
-        else
-          let &t_SI = '[5 q'
-          let &t_EI = '[2 q'
-        endif
+
+
+      if has('job')
+        call job_start('gnome-terminal --version',{'callback':'myvimrc#gnometerm_detection'})
+
+      else
+        let s:gnome_term_ver = split(split(system('gnome-terminal --version'))[2], '\.')
+        call myvimrc#set_tmux_code(s:gnome_term_ver)
       endif
+
     endif
   endif
 
@@ -99,6 +99,7 @@ set clipboard=unnamed,unnamedplus                     " コピーした文字列
 set ignorecase                                        " 大文字小文字無視
 set smartcase                                         " 大文字で始まる場合は無視しない
 set foldmethod=marker                                 " syntaxに応じて折りたたまれる
+set foldlevel=3
 set tabstop=4                                         " タブキーの挙動設定。タブをスペース4つ分とする
 set shiftwidth=4                                      " インデントでスペース４つ分下げる
 set expandtab                                         " タブをスペースに変換
