@@ -197,6 +197,12 @@ endif
 if dein#tap('nerdtree')
   nnoremap <Leader>e :NERDTreeFind<CR>
   nnoremap <Leader>E :NERDTreeCWD<CR>
+
+  " let g:NERDTreeMapActivateNode = 'l'
+  " let g:NERDTreeMapOpenSplit = 's'
+  " let g:NERDTreeMapOpenVSplit = 'v'
+  " let g:NERDTreeMapOpenRecursively = 'L'
+
   let NERDTreeMinimalUI = 1
 endif
 

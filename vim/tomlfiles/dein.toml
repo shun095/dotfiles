@@ -10,7 +10,10 @@
 # repo = 'cocopon/vaffle.vim'
 
 [[plugins]]
-repo = 'justinmk/vim-dirvish'
+repo = 'scrooloose/nerdtree'
+
+# [[plugins]]
+# repo = 'justinmk/vim-dirvish'
 # on_event = 'VimEnter'
 # on_cmd = 'Dirvish'
 
