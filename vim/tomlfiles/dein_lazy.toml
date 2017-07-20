@@ -226,9 +226,9 @@ hook_post_source = ''' " {{{
   endtry
 ''' # }}}
 
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-on_cmd = ['NERDTreeFind','NERDTreeCWD','NERDTree']
+# [[plugins]]
+# repo = 'scrooloose/nerdtree'
+# on_cmd = ['NERDTreeFind','NERDTreeCWD','NERDTree']
 
 # [[plugins]]
 # repo = 'OmniSharp/omnisharp-vim'
