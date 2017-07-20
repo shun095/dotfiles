@@ -198,6 +198,10 @@ if dein#tap('nerdtree')
   nnoremap <Leader>e :NERDTreeFind<CR>
   nnoremap <Leader>E :NERDTreeCWD<CR>
 
+  let g:NERDTreeQuitOnOpen = 1
+  let g:NERDTreeHijackNetrw = 1
+  let g:NERDTreeShowHidden = 1
+
   " let g:NERDTreeMapActivateNode = 'l'
   " let g:NERDTreeMapOpenSplit = 's'
   " let g:NERDTreeMapOpenVSplit = 'v'
