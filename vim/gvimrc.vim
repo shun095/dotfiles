@@ -6,7 +6,10 @@ if has('gui_running')
   let s:false = 0
 
   if v:version >= 800
-    set rop=type:directx
+    augroup GVIMRC
+      autocmd!
+      autocmd VimEnter * set rop=type:directx
+    augroup END
   endif
   set linespace=1
   set cmdheight=2
@@ -14,6 +17,7 @@ if has('gui_running')
   " フォントを設定
   if has('win32')
     set guifont=Ricty_Diminished_for_Powerline:h12
+    " set guifont=ＭＳ_ゴシック:h12
   elseif has('unix')
     set guifont=Ricty\ Diminished\ for\ Powerline\ 12
   endif
