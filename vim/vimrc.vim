@@ -99,7 +99,7 @@ set clipboard=unnamed,unnamedplus                     " コピーした文字列
 set ignorecase                                        " 大文字小文字無視
 set smartcase                                         " 大文字で始まる場合は無視しない
 set foldmethod=marker                                 " syntaxに応じて折りたたまれる
-set foldlevel=3
+set nofoldenable
 set tabstop=4                                         " タブキーの挙動設定。タブをスペース4つ分とする
 set shiftwidth=4                                      " インデントでスペース４つ分下げる
 set expandtab                                         " タブをスペースに変換
