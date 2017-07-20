@@ -178,6 +178,8 @@ if dein#tap('markdown-preview.vim')
       let g:mkdp_path_to_chrome=shellescape(s:google_chrome_path)
     endif
     unlet s:google_chrome_path
+  else
+    let g:mkdp_path_to_chrome = 'firefox'
   endif
 endif
 

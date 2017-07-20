@@ -62,6 +62,11 @@ fun! myvimrc#git_callback(ch, msg) abort
     let s:git_newer_exists = s:false
   endif
 
+  if match(a:msg,'fatal: unable to access') == 0
+    let s:git_newer_exists = s:false
+    echomsg 'Couldn''t connect to github'
+  endif
+
   call add(s:git_qflist, {'text':a:msg})
   " echom "Myvimrc: " . a:msg
 endf
