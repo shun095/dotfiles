@@ -616,13 +616,13 @@ if dein#tap('vim-quickrun')
         \ 'hook/inu/wait' : 1,
         \ 'outputter/buffer/split' : ':botright 8',
         \ 'runner' : 'vimproc',
-        \ 'runner/vimproc/interval' : 40,
+        \ 'runner/vimproc/updatetime' : 100,
         \ }
 
   if has('job')
     call extend(g:quickrun_config['_'], {
           \ 'runner' : 'job',
-          \ 'runner/job/interval' : 40,
+          \ 'runner/job/interval' : 100,
           \ })
 
   endif

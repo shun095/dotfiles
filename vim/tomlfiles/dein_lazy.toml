@@ -146,12 +146,12 @@ on_ft = 'python'
 # repo = 'chrisbra/csv.vim'
 # on_ft = 'csv'
 
-[[plugins]]
-repo = 'mattn/benchvimrc-vim'
-on_cmd = 'BenchVimrc'
+# [[plugins]]
+# repo = 'mattn/benchvimrc-vim'
+# on_cmd = 'BenchVimrc'
 
-[[plugins]]
-repo = 'jasonm23/markdown-css-themes'
+# [[plugins]]
+# repo = 'jasonm23/markdown-css-themes'
 
 # [[plugins]]
 # repo = 'itchyny/thumbnail.vim'
@@ -193,7 +193,7 @@ hook_post_source = ''' " {{{
   let s:watchdogs_config = {
         \'watchdogs_checker/_' : {
         \	'runner' : 'vimproc',
-        \	'runner/vimproc/updatetime' : 40,
+        \	'runner/vimproc/updatetime' : 100,
         \	'outputter' : 'quickfix',
         \	'outputter/quickfix/open_cmd' : 'copen 8'
         \	},
