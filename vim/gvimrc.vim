@@ -8,7 +8,8 @@ if has('gui_running')
   if v:version >= 800
     augroup GVIMRC
       autocmd!
-      autocmd VimEnter * set rop=type:directx
+      " autocmd VimEnter * set rop=type:directx
+      autocmd VimEnter * set rop=type:directx,geom:1,renmode:4,taamode:3
     augroup END
   endif
   set linespace=1
