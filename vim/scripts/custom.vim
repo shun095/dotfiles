@@ -112,7 +112,7 @@ if dein#tap('ctrlp.vim')
   let g:ctrlp_match_func = s:ctrlp_my_match_func
   " elseif has('win32')
   " endif
-  "
+
   augroup vimrc_ctrlp
     autocmd VimEnter * com! -n=? -com=dir CtrlPMRUFiles let g:ctrlp_match_func = {} |
           \ cal ctrlp#init('mru', { 'dir': <q-args> }) |
@@ -122,10 +122,10 @@ if dein#tap('ctrlp.vim')
   nnoremap <Leader>mr       :CtrlPMRUFiles<CR>
   nnoremap <Leader>r        :CtrlPRegister<CR>
   nnoremap <Leader>c        :CtrlPCurWD<CR>
-  nnoremap <Leader>T        :CtrlPTag<CR>
+  nnoremap <Leader>T        :CtrlPBufTag<CR>
   nnoremap <Leader>b        :CtrlPBuffer<CR>
   nnoremap <Leader>l        :CtrlPLine %<CR>
-  nnoremap <Leader>al        :CtrlPLine<CR>
+  nnoremap <Leader>al       :CtrlPLine<CR>
   nnoremap <Leader><Leader> :CtrlP<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
