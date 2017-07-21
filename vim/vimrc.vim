@@ -34,6 +34,11 @@ endif
 " Set options {{{
 let g:mapleader = "\<space>"
 
+augroup VIMRC
+  " このスクリプトで使うautocmdを初期化
+  autocmd!
+augroup END
+
 " OSの判定
 if has('win32')
   set t_Co=16         " cmd.exeならターミナルで16色を使う
@@ -68,21 +73,22 @@ elseif has('unix')
 
       else
         let s:gnome_term_ver = split(split(system('gnome-terminal --version'))[2], '\.')
-        call myvimrc#set_tmux_code(s:gnome_term_ver)
+        augroup VIMRC
+          autocmd VimEnter * call myvimrc#set_tmux_code(s:gnome_term_ver)
+        augroup END
       endif
 
     endif
   endif
 
   " if executable('gsettings') && has('job')
-    " augroup VIMRC1
-      " autocmd!
-      " " カーソルの形をモードによって変更
-      " let s:curshape_str = 'profile=$(gsettings get org.gnome.Terminal.ProfilesList default);profile=${profile:1:-1};gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" cursor-shape '
-      " autocmd InsertEnter * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'ibeam'])
-      " autocmd InsertLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
-      " autocmd VimLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
-    " augroup END
+  " augroup VIMRC1
+  " " カーソルの形をモードによって変更
+  " let s:curshape_str = 'profile=$(gsettings get org.gnome.Terminal.ProfilesList default);profile=${profile:1:-1};gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" cursor-shape '
+  " autocmd InsertEnter * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'ibeam'])
+  " autocmd InsertLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
+  " autocmd VimLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
+  " augroup END
   " endif
 endif
 
@@ -256,8 +262,7 @@ command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | d
 " }}}
 
 " Autocmds {{{
-augroup VIMRC2
-  autocmd!
+augroup VIMRC
   " タグを</で自動で閉じる。completeoptに依存している
   autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
 
@@ -319,16 +324,16 @@ augroup VIMRC2
   " (他のソフトでコピーしてきたということなので)
   " 他のレジスタに保存しておく
   " if has('job')
-    " fun! Vimrc_clipboard_sync(timer)
-      " if @* != @"
-        " " let @" = @*
-        " let @0 = @*
-      " endif
-    " endf
-    " call timer_start(500,'Vimrc_clipboard_sync',{'repeat':-1})
+  " fun! Vimrc_clipboard_sync(timer)
+  " if @* != @"
+  " " let @" = @*
+  " let @0 = @*
+  " endif
+  " endf
+  " call timer_start(500,'Vimrc_clipboard_sync',{'repeat':-1})
   " else
-    autocmd FocusGained,CursorHold,CursorHoldI
-          \ * if @* != @" | let @0 = @* | endif
+  autocmd FocusGained,CursorHold,CursorHoldI
+        \ * if @* != @" | let @0 = @* | endif
   " endif
 
   autocmd FilterWritePre * if &diff | setlocal wrap< | endif
@@ -504,8 +509,7 @@ if g:use_plugins == s:true
       else
         let g:indent_guides_auto_colors = 0
         " solarized(light)
-        augroup VIMRC4
-          autocmd!
+        augroup VIMRC
           " solarized
           " autcmd VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#0C3540 guibg=#183F49
           " autcmd VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#183F49 guibg=#0C3540
@@ -527,7 +531,7 @@ if g:use_plugins == s:true
 
       endif
     catch
-        echoerr 'error occured on loading color'
+      echoerr 'error occured on loading color'
       colorscheme default
       set background=light
     endtry
