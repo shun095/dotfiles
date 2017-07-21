@@ -466,7 +466,7 @@ if g:use_plugins == s:true
 
   " Color settings {{{
   " ターミナルでの色設定
-  if has('win32') && !has('gui_running')
+  if has('win32') && !has('gui_running') && (!has('nvim'))
     colorscheme elflord
   else
     try
@@ -499,7 +499,7 @@ if g:use_plugins == s:true
       " highlight! StatusLine ctermbg=235 guibg=#282C34
       " highlight! StatusLineNC ctermbg=235 guibg=#282C34
 
-      if has('gui_running')
+      if has('gui_running') && (!has('nvim'))
         let g:indent_guides_auto_colors = 1
       else
         let g:indent_guides_auto_colors = 0
