@@ -86,14 +86,11 @@ repo = 'tpope/vim-fugitive'
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'
 
-[[plugins]]
-repo = 'haya14busa/dein-command.vim'
+# [[plugins]]
+# repo = 'haya14busa/dein-command.vim'
 
 # [[plugins]]
 # repo = 'haya14busa/vim-migemo'
-
-[[plugins]]
-repo = 'haya14busa/vim-open-googletranslate'
 
 [[plugins]]
 repo = 'honza/vim-snippets'
@@ -108,9 +105,6 @@ repo = 'junegunn/vim-easy-align'
 [[plugins]]
 repo = 'mattn/ctrlp-register'
 depends = 'ctrlp.vim'
-
-[[plugins]]
-repo = 'mbbill/undotree'
 
 [[plugins]]
 repo = 'nathanaelkane/vim-indent-guides'
@@ -155,8 +149,8 @@ repo = 'vim-airline/vim-airline'
 # repo = 'vim-airline/vim-airline-themes'
 # depends = 'vim-airline'
 
-[[plugins]]
-repo = 'vim-jp/vimdoc-ja'
+# [[plugins]]
+# repo = 'vim-jp/vimdoc-ja'
 
 # [[plugins]]
 # repo = 'vim-jp/vital.vim'
@@ -198,9 +192,6 @@ repo = "thinca/vim-quickrun"
 repo = 'osyo-manga/shabadou.vim'
 depends = ['vim-quickrun']
 # }}}
-
-[[plugins]]
-repo = 'plasticboy/vim-markdown'
 
 [[plugins]]
 repo = 'aperezdc/vim-template'

@@ -37,6 +37,11 @@ imap <silent><expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
 [[plugins]]
 repo = 'iamcco/markdown-preview.vim'
 on_ft = 'markdown'
+
+[[plugins]]
+repo = 'plasticboy/vim-markdown'
+on_ft = 'markdown'
+
 # [[plugins]]
 # repo = "kannokanno/previm"
 # on_ft = 'markdown'
@@ -225,6 +230,14 @@ hook_post_source = ''' " {{{
     echom v:exception
   endtry
 ''' # }}}
+
+[[plugins]]
+repo = 'haya14busa/vim-open-googletranslate'
+on_cmd = 'OpenGoogleTranslate'
+
+[[plugins]]
+repo = 'mbbill/undotree'
+on_cmd = ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']
 
 # [[plugins]]
 # repo = 'scrooloose/nerdtree'

@@ -8,14 +8,21 @@ if dein#tap('TweetVim')
   " 1ページに表示する最大数
   " let g:tweetvim_tweet_per_page = 100
   " F6と,uvでTweetVimのtimeline選択
+
+
+  " fork original option
+  let g:tweetvim_panewidth = 40
+
   let g:tweetvim_expand_t_co = 1
-  let g:tweetvim_open_buffer_cmd = '40vsplit!'
+  let g:tweetvim_open_buffer_cmd = g:tweetvim_panewidth . 'vsplit!'
   let g:tweetvim_display_source = 1
   let g:tweetvim_display_username = 1
   let g:tweetvim_display_icon = 1
   let g:tweetvim_display_separator = 1
   let g:tweetvim_async_post = 1
   let g:tweetvim_buffer_name = 'TweetVimBuffer'
+
+
   " let g:tweetvim_updatetime = 10
   " nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
   nnoremap <Leader>Tm :<C-u>TweetVimMentions<CR>
