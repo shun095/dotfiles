@@ -137,6 +137,9 @@ set nomousehide                                       " 入力中にポインタ
 set lazyredraw                                        " スクロールが間に合わない時などに描画を省略する
 set sessionoptions&
 set sessionoptions-=options
+set sessionoptions-=folds
+set sessionoptions-=blank
+set sessionoptions+=slash
 if has('gui_running')
   set sessionoptions+=winpos,resize
 endif
