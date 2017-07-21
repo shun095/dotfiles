@@ -765,13 +765,11 @@ if dein#tap('autofmt')
 endif
 
 if dein#tap('denite.nvim')
-  call denite#custom#option('default','winheight','10')
-  call denite#custom#option('default','reversed','1')
-  call denite#custom#option('default','vertical_preview','1')
-  call denite#custom#option('default','highlight_matched_char','Special')
-  call denite#custom#option('default','auto_resize','1')
-  " call denite#custom#option('default','updatetime','1')
-
+  if has('job')
+    call timer_start(100, 'async_custom#dein',{'repeat':1})
+  else
+    call async_custom#dein()
+  endif
   " Change file_rec command.
   if g:myvimrc_pt_isAvalable
     " if has("win32")
