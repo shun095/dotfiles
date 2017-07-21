@@ -240,13 +240,14 @@ endif
 
 if dein#tap('tagbar')
   nnoremap <silent> <Leader>t :TagbarOpen j<CR>
-  let g:tagbar_show_linenumbers = 1
+  let g:tagbar_show_linenumbers = 0
   let g:tagbar_sort = 0
   let g:tagbar_indent = 1
   let g:tagbar_autoshowtag = 1
   let g:tagbar_autopreview = 0
   let g:tagbar_autofocus = 1
   let g:tagbar_autoclose = 1
+  " let g:tagbar_width = 30
   augroup CustomTagbar
     autocmd!
     autocmd FileType help let b:tagbar_ignore = 1
