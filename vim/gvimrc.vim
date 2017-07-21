@@ -6,11 +6,19 @@ if has('gui_running')
   let s:false = 0
 
   if v:version >= 800
-    augroup GVIMRC
-      autocmd!
-      " autocmd VimEnter * set rop=type:directx
-      autocmd VimEnter * set rop=type:directx,geom:1,renmode:4,taamode:3
-    augroup END
+    fun! s:set_rop(...)
+      set rop=type:directx,geom:1,renmode:4,taamode:3
+    endf
+    if has('job')
+      " to improve launch speed
+      call timer_start(10, function('s:set_rop'), {'repeat':1})
+    else
+      augroup GVIMRC
+        autocmd!
+        " autocmd VimEnter * set rop=type:directx
+        autocmd VimEnter * call <SID>set_rop()
+      augroup END
+    endif
   endif
   set linespace=1
   set cmdheight=2
