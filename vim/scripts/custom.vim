@@ -195,6 +195,7 @@ if dein#tap('memolist.vim')
   " let g:memolist_unite = 1
   " let g:memolist_denite = 1
   " let g:memolist_ex_cmd = 'Denite file_rec '
+  let g:memolist_ex_cmd = 'NERDTree'
 
   nmap <Leader>mn :MemoNew<cr>
   nmap <Leader>ml :MemoList<cr>
