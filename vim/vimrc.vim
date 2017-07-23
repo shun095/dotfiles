@@ -68,7 +68,7 @@ elseif has('unix')
     if executable('gnome-terminal')
 
 
-      if has('job')
+      if has('job') && v:version >= 800
         call job_start('gnome-terminal --version',{'callback':'myvimrc#gnometerm_detection'})
 
       else
