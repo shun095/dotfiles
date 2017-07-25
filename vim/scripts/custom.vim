@@ -416,13 +416,15 @@ if dein#tap('vim-clang-format')
   let g:clang_format#auto_format = 0
   let g:clang_format#command = 'clang-format'
   if has('unix')
-    for majorversion in range(3,4)
-      for minorversion in range(10)
-        if executable('clang-format-' . majorversion . '.' . minorversion)
-          let g:clang_format#command = 'clang-format-' . majorversion . '.' . minorversion
-        endif
+    if !executable('clang-format')
+      for majorversion in range(3,4)
+        for minorversion in range(10)
+          if executable('clang-format-' . majorversion . '.' . minorversion)
+            let g:clang_format#command = 'clang-format-' . majorversion . '.' . minorversion
+          endif
+        endfor
       endfor
-    endfor
+    endif
   endif
   let g:clang_format#style_options = {
         \ 'AllowShortIfStatementsOnASingleLine':'true',
@@ -438,6 +440,24 @@ if dein#tap('vim-clang-format')
         \ 'UseTab'                             :'Always',
         \ 'ColumnLimit'                        :'120'
         \ }
+  " function! s:safeundo()
+    " let s:pos = getpos( '. ')
+    " let s:view = winsaveview()        
+    " undo
+    " call setpos( '.', s:pos )
+    " call winrestview( s:view )
+  " endfunc
+
+  " function! s:saferedo()
+    " let s:pos = getpos( '.' )
+    " let s:view = winsaveview()
+    " redo
+    " call setpos( '.', s:pos )
+    " call winrestview( s:view )
+  " endfunc
+
+  " nnoremap u :call <SID>safeundo()<CR>
+  " nnoremap <C-r> :call <SID>saferedo()<CR>
 endif
 
 if dein#tap('vim-dirvish')

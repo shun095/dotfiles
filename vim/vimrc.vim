@@ -102,7 +102,7 @@ set nocursorcolumn
 set backspace=indent,eol,start                        " バックスペース挙動のおまじない
 set clipboard=unnamed,unnamedplus                     " コピーした文字列がclipboardに入る(逆も）
 " Vimrc_clipboard_syncからの依存に注意
-set ignorecase                                        " 大文字小文字無視
+set ignorecase                                        " 検索時大文字小文字無視
 set smartcase                                         " 大文字で始まる場合は無視しない
 set foldmethod=marker                                 " syntaxに応じて折りたたまれる
 set nofoldenable
