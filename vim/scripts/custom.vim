@@ -60,7 +60,7 @@ if dein#tap('YouCompleteMe')
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
   " autocmd VIMRCCUSTOM FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
   nnoremap <leader><c-]> :<C-u>YcmCompleter GoTo<CR>
-  augroup CustomYCM
+  augroup vimrc_ycm
     autocmd filetype python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR><C-w>P:<C-u>set ft=rst<CR>
   augroup END
 endif
@@ -249,7 +249,7 @@ if dein#tap('tagbar')
   let g:tagbar_autofocus = 1
   let g:tagbar_autoclose = 1
   " let g:tagbar_width = 30
-  augroup CustomTagbar
+  augroup vimrc_tagbar
     autocmd!
     autocmd FileType help let b:tagbar_ignore = 1
   augroup END
@@ -299,7 +299,7 @@ if dein#tap('unite.vim')
         \	'direction': 'botright'
         \ })
   " ウィンドウを分割して開く
-  augroup CustomUnite
+  augroup vimrc_unite
     autocmd!
     " autocmd FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
     " autocmd FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
@@ -495,7 +495,7 @@ if dein#tap('vim-dirvish')
 
   endf
 
-  augroup CustomDirvish
+  augroup vimrc_dirvish
     autocmd!
     " hとlによる移動
     autocmd FileType dirvish nnoremap <silent><buffer> l :call <SID>mydirvish_open()<CR>
@@ -566,7 +566,7 @@ if dein#tap('vim-precious')
         \	'help' : 0
         \}
   " INSERTモードのON／OFFに合わせてトグル
-  augroup CustomPrecious
+  augroup vimrc_precious
     autocmd!
     autocmd InsertEnter * :PreciousSwitch
     autocmd InsertLeave * :PreciousSwitch
@@ -752,7 +752,7 @@ if dein#tap('jedi-vim')
 endif
 
 if dein#tap('calendar.vim')
-  augroup CustomCalendar
+  augroup vimrc_calendar
     autocmd!
     autocmd FileType calendar IndentGuidesDisable
   augroup END
@@ -763,7 +763,7 @@ if dein#tap('calendar.vim')
 endif
 
 if dein#tap('thumbnail.vim')
-  augroup CustomThumbnail
+  augroup vimrc_thumbnail
     autocmd!
     autocmd FileType thumbnail IndentGuidesDisable
   augroup END
