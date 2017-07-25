@@ -149,8 +149,8 @@ repo = 'vim-airline/vim-airline'
 # repo = 'vim-airline/vim-airline-themes'
 # depends = 'vim-airline'
 
-# [[plugins]]
-# repo = 'vim-jp/vimdoc-ja'
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
 
 # [[plugins]]
 # repo = 'vim-jp/vital.vim'
