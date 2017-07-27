@@ -417,8 +417,8 @@ if dein#tap('vim-clang-format')
   let g:clang_format#command = 'clang-format'
   if has('unix')
     if !executable('clang-format')
-      for majorversion in range(3,4)
-        for minorversion in range(10)
+      for majorversion in range(4, 3, -1)
+        for minorversion in range(9, 1, -1)
           if executable('clang-format-' . majorversion . '.' . minorversion)
             let g:clang_format#command = 'clang-format-' . majorversion . '.' . minorversion
           endif
@@ -437,7 +437,7 @@ if dein#tap('vim-clang-format')
         \ 'AlignConsecutiveDeclarations'       :'true',
         \ 'AlignTrailingComments'              :'true',
         \ 'TabWidth'                           :'4',
-        \ 'UseTab'                             :'Always',
+        \ 'UseTab'                             :'Never',
         \ 'ColumnLimit'                        :'120'
         \ }
   " function! s:safeundo()
