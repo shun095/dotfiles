@@ -11,22 +11,25 @@ cwd=`dirname "${0}"`
 # ${0} が 相対パスの場合は cd して pwd を取得
 expr "${0}" : "/.*" > /dev/null || cwd=`(cd "${cwd}" && pwd)`
 
-PREFIX=$HOME/usr
+PREFIX=/usr/local
 CPUNUM=`cat /proc/cpuinfo | grep -c processor`
 
 cd ${cwd}/vim
 git checkout master
 git pull origin master
 ./configure --prefix=${PREFIX} \
+    --with-features=huge \
     --enable-fail-if-missing \
-    --enable-gui=gtk3 \
+    --enable-fontset \
+    --enable-multibyte \
+    --enable-gui=auto \
     --enable-luainterp=dynamic \
+    --with-luajit \
     --enable-perlinterp=dynamic \
     --enable-python3interp=dynamic \
     --enable-pythoninterp=dynamic \
     --enable-rubyinterp=dynamic \
-    --with-features=huge \
-    --with-luajit
+    --enable-terminal
 
 echo 
 echo "This program will be installed in ${PREFIX}."
@@ -37,7 +40,7 @@ case $ans in
     [Yy] | [Yy][Ee][Ss] )
         make -j${CPUNUM} 
         sudo make install
-        sudo checkinstall --install=no
+        # sudo checkinstall --install=no
         ;;
     * )
         echo "Terminated.";;

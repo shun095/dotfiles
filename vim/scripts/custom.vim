@@ -893,3 +893,10 @@ endif
 if dein#tap('vim-javacomplete2')
   autocmd Filetype java setlocal omnifunc=javacomplete#Complete
 endif
+
+if dein#tap('vim-cpp-enhanced-highlight')
+  let g:cpp_class_scope_highlight = 1
+  let g:cpp_member_variable_highlight = 1
+  let g:cpp_class_decl_highlight = 1
+  let g:cpp_concepts_highlight = 1
+endif

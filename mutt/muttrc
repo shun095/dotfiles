@@ -6,7 +6,8 @@ set editor='vim'
 set sort = threads
 set sort_aux=reverse-last-date-received
 
-set sleep_time = 0
+set sleep_time=0
+set connect_timeout=10
 set imap_check_subscribed
 set mail_check=60
 
@@ -14,7 +15,7 @@ set pager_index_lines=10
 
 auto_view text/html                                      # view html automatically
 # alternative_order text/plain text/enriched text/html     # save html for last
-alternative_order text/html text/plain text/enriched      # save html for last
+alternative_order text/enriched text/html text/plain      # save html for last
 
 bind pager,index j next-entry
 bind pager,index k previous-entry
@@ -63,7 +64,8 @@ set quit=ask-no
 
 source "~/.mutt/alias"
 source "~/.mutt/colors"
-source "~/.mutt/account2"
+source "~/.mutt/account1"
 
-macro pager,index <f2> '<sync-mailbox><refresh><enter-command>source ~/.mutt/account2<enter><change-folder>!<enter>'
-macro pager,index <f3> '<sync-mailbox><refresh><enter-command>source ~/.mutt/account1<enter><change-folder>!<enter>'
+macro pager,index <f2> '<sync-mailbox><enter-command>source ~/.mutt/account1<enter><change-folder>!<enter>'
+macro pager,index <f3> '<sync-mailbox><enter-command>source ~/.mutt/account2<enter><change-folder>!<enter>'
+macro pager,index <f4> '<sync-mailbox><enter-command>source ~/.mutt/account3<enter><change-folder>!<enter>'

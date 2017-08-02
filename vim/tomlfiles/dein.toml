@@ -202,3 +202,7 @@ repo = 'itchyny/vim-cursorword'
 [[plugins]]
 repo = 'nixprime/cpsm'
 merged = 0
+
+[[plugins]]
+repo = 'octol/vim-cpp-enhanced-highlight'
+
