@@ -15,4 +15,5 @@
     --with-gnutls \
     --with-sasl \
     --with-included-gettext \
-    --with-idn
+    --with-idn \
+    --with-homespool=$HOME/spool/

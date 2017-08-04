@@ -51,7 +51,7 @@ fun! myvimrc#git_auto_updating() abort
       call vimproc#system('git pull &')
     endif
     " call system("git pull")
-    execute 'cd ' . s:save_cd
+    execute 'cd ' . escape(s:save_cd, ' ')
     unlet s:save_cd
     let g:called_mygit_func = 1
   endif
