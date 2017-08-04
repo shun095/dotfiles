@@ -135,11 +135,6 @@ depends = "YouCompleteMe"
 repo = 'rhysd/vim-clang-format'
 on_ft = ['c','cpp']
 
-[[plugins]]
-repo = 'Valloric/YouCompleteMe'
-if = "!has('nvim')"
-merged = 0
-on_event = ['InsertEnter', 'CursorHold']
 # build = 'install.py --clang-completer'
 # [[plugins]]
 # repo = 't9md/vim-choosewin'
