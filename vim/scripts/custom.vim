@@ -441,19 +441,19 @@ if dein#tap('vim-clang-format')
         \ 'ColumnLimit'                        :'120'
         \ }
   " function! s:safeundo()
-    " let s:pos = getpos( '. ')
-    " let s:view = winsaveview()        
-    " undo
-    " call setpos( '.', s:pos )
-    " call winrestview( s:view )
+  " let s:pos = getpos( '. ')
+  " let s:view = winsaveview()        
+  " undo
+  " call setpos( '.', s:pos )
+  " call winrestview( s:view )
   " endfunc
 
   " function! s:saferedo()
-    " let s:pos = getpos( '.' )
-    " let s:view = winsaveview()
-    " redo
-    " call setpos( '.', s:pos )
-    " call winrestview( s:view )
+  " let s:pos = getpos( '.' )
+  " let s:view = winsaveview()
+  " redo
+  " call setpos( '.', s:pos )
+  " call winrestview( s:view )
   " endfunc
 
   " nnoremap u :call <SID>safeundo()<CR>
@@ -469,11 +469,11 @@ if dein#tap('vim-dirvish')
   fun! s:open_mydirvish()
     let savepre = 'let w:dirvish_before = [expand("%:p")]'
     " if len(tabpagebuflist()) > 1
-      let w:dirvish_splited = 0
-      let w:dirvish_start_cd = getcwd()
-      return savepre . '| Dirvish %:p:h'
+    let w:dirvish_splited = 0
+    let w:dirvish_start_cd = getcwd()
+    return savepre . '| Dirvish %:p:h'
     " else
-      " return 'leftabove vsplit|' . savepre .'| let w:dirvish_splited = 1 | Dirvish %:p:h'
+    " return 'leftabove vsplit|' . savepre .'| let w:dirvish_splited = 1 | Dirvish %:p:h'
     " endif
   endf
 
@@ -821,12 +821,12 @@ if dein#tap('denite.nvim')
 
   call denite#custom#source(
         \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
-  if g:ctrlp_match_func != {} && g:ctrlp_match_func['match'] ==# 'cpsm#CtrlPMatch'
-    call denite#custom#source(
-          \ 'line', 'matchers', ['matcher_cpsm'])
-    call denite#custom#source(
-          \ 'file_rec', 'matchers', ['matcher_cpsm'])
-  endif
+  " if g:ctrlp_match_func != {} && g:ctrlp_match_func['match'] ==# 'cpsm#CtrlPMatch'
+    " call denite#custom#source(
+          " \ 'line', 'matchers', ['matcher_cpsm'])
+    " call denite#custom#source(
+          " \ 'file_rec', 'matchers', ['matcher_cpsm'])
+  " endif
   " Change mappings.
   call denite#custom#map(
         \ 'insert',

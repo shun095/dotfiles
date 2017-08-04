@@ -44,7 +44,7 @@ build = 'make'
 repo = 'Valloric/YouCompleteMe'
 if = "!has('nvim')"
 merged = 0
-on_event = ['InsertEnter', 'CursorHold']
+# on_event = ['InsertEnter', 'CursorHold']
 
 [[plugins]]
 repo = 'Shougo/deoplete.nvim'
@@ -58,6 +58,15 @@ let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
 '''
 on_ft = ['c', 'cpp', 'cmake']
 depends = ['deoplete.nvim']
+
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+depends = 'deoplete.nvim'
+
+[[plugins]]
+repo = 'carlitux/deoplete-ternjs'
+depends = 'deoplete.nvim'
 
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
