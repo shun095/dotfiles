@@ -589,6 +589,7 @@ if dein#tap('vim-precious')
   let g:precious_enable_switch_CursorHold = {
         \	'*' : 0,
         \   'toml' : 1,
+        \   'help' : 1,
         \}
   " INSERTモードのON／OFFに合わせてトグル
   augroup vimrc_precious

@@ -2,6 +2,7 @@
 " Initialize {{{
 set encoding=utf-8
 set langmenu=ja_JP.utf-8
+set helplang=ja
 
 scriptencoding utf-8
 if &compatible
@@ -96,7 +97,7 @@ endif
 set visualbell
 set t_vb=
 
-set diffopt=filler,iwhite,vertical                    " diffのときの挙動
+" set diffopt=filler,iwhite                   " diffのときの挙動
 set cursorline                                        " カーソル行のハイライト
 set nocursorcolumn
 set backspace=indent,eol,start                        " バックスペース挙動のおまじない
@@ -143,8 +144,8 @@ set sessionoptions+=slash
 if has('gui_running')
   set sessionoptions+=winpos,resize
 endif
-set splitbelow
-set splitright
+" set splitbelow
+" set splitright
 set updatetime=1000
 set timeoutlen=1000
 set ttimeoutlen=100
@@ -286,6 +287,7 @@ augroup VIMRC
   autocmd FileType c,cpp setl foldmethod=syntax
 
   autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2
+  autocmd BufEnter *.vim execute 'setl iskeyword+=:'
 
   let g:vimsyn_folding = 'aflmpPrt'
   autocmd BufRead *.vim setl foldmethod=syntax
@@ -298,6 +300,7 @@ augroup VIMRC
 
   " ヘルプをqで閉じれるようにする
   autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
+  autocmd FileType help let &l:iskeyword = '!-~,^*,^|,^",' . &iskeyword
   autocmd FileType mail call s:add_signature()
   fun! s:add_signature()
     let l:file = $HOME . '/localrcs/vim-local-signature.vim'
