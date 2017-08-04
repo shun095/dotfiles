@@ -9,6 +9,9 @@ echo -ne '\e]12;#aaaaaa\a'
 setopt auto_cd
 
 function chpwd() {ls}
+function mails(){
+    tmux source ~/dotfiles/tmux/mutt_tile
+}
 
 function hima(){
     i=1
