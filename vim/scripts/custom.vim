@@ -580,16 +580,21 @@ endif
 
 if dein#tap('vim-precious')
   " let g:context_filetype#search_offset = 300
-  let g:precious_enable_switch_CursorMoved = { '*' : 0 }
+  let g:precious_enable_switch_CursorMoved = {
+        \   '*' : 0,
+        \}
+  let g:precious_enable_switch_CursorMoved_i = {
+        \   '*' : 0,
+        \}
   let g:precious_enable_switch_CursorHold = {
-        \	'*' : 1,
-        \	'help' : 0
+        \	'*' : 0,
+        \   'toml' : 1,
         \}
   " INSERTモードのON／OFFに合わせてトグル
   augroup vimrc_precious
     autocmd!
-    autocmd InsertEnter * :PreciousSwitch
-    autocmd InsertLeave * :PreciousSwitch
+    " autocmd InsertEnter * :PreciousSwitch
+    " autocmd InsertLeave * :PreciousSwitch
     autocmd FileType toml :syntax sync fromstart
   augroup END
 

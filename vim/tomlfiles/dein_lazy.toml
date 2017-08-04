@@ -38,13 +38,14 @@ imap <silent><expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
 repo = 'iamcco/markdown-preview.vim'
 on_ft = 'markdown'
 
+# [[plugins]]
+# repo = "kannokanno/previm"
+# on_ft = 'markdown'
+
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
 on_ft = 'markdown'
 
-# [[plugins]]
-# repo = "kannokanno/previm"
-# on_ft = 'markdown'
 # [[plugins]]
 # repo = "osyo-manga/vim-brightest"
 # on_event = ['CursorHold']
@@ -88,6 +89,10 @@ repo = 'othree/html5.vim'
 on_ft = ['html']
 
 [[plugins]]
+repo = 'mattn/emmet-vim'
+on_ft = ['html']
+
+[[plugins]]
 repo = 'pangloss/vim-javascript'
 on_ft = 'javascript'
 
@@ -95,19 +100,19 @@ on_ft = 'javascript'
 repo = 'glidenote/memolist.vim'
 on_cmd = ['MemoNew', 'MemoList']
 
-[[plugins]]
-repo = 'kana/vim-submode'
-on_map = ['n', '<C-w>']
-hook_post_source = ''' " {{{
-call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
-call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
-call submode#map('winsize', 'n', '', '>', '5<C-w>>')
-call submode#map('winsize', 'n', '', '<', '5<C-w><')
-call submode#map('winsize', 'n', '', '+', '5<C-w>+')
-call submode#map('winsize', 'n', '', '-', '5<C-w>-')
-''' # }}}
+# [[plugins]]
+# repo = 'kana/vim-submode'
+# on_map = ['n', '<C-w>']
+# hook_post_source = ''' " {{{
+# call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+# call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+# call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+# call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+# call submode#map('winsize', 'n', '', '>', '5<C-w>>')
+# call submode#map('winsize', 'n', '', '<', '5<C-w><')
+# call submode#map('winsize', 'n', '', '+', '5<C-w>+')
+# call submode#map('winsize', 'n', '', '-', '5<C-w>-')
+# ''' # }}}
 
 [[plugins]]
 repo = 'lervag/vimtex'
@@ -154,9 +159,6 @@ on_ft = 'python'
 # [[plugins]]
 # repo = 'mattn/benchvimrc-vim'
 # on_cmd = 'BenchVimrc'
-
-# [[plugins]]
-# repo = 'jasonm23/markdown-css-themes'
 
 # [[plugins]]
 # repo = 'itchyny/thumbnail.vim'

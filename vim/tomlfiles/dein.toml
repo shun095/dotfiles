@@ -145,9 +145,9 @@ repo = 'tyru/restart.vim'
 [[plugins]]
 repo = 'vim-airline/vim-airline'
 
-# [[plugins]]
-# repo = 'vim-airline/vim-airline-themes'
-# depends = 'vim-airline'
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+depends = 'vim-airline'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
@@ -159,8 +159,8 @@ repo = 'vim-jp/vimdoc-ja'
 repo = 'vim-jp/autofmt'
 
 # COLOR SCHEMES {{{
-# [[plugins]]
-# repo = 'altercation/vim-colors-solarized'
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
 
 # [[plugins]]
 # repo = 'vim-scripts/summerfruit256.vim'
@@ -174,8 +174,8 @@ repo = 'vim-jp/autofmt'
 # [[plugins]]
 # repo = 'flazz/vim-colorschemes'
 
-# [[plugins]]
-# repo = 'tomasr/molokai'
+[[plugins]]
+repo = 'tomasr/molokai'
 
 [[plugins]]
 repo = 'joshdick/onedark.vim'

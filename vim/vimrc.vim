@@ -478,26 +478,35 @@ if g:use_plugins == s:true
     colorscheme elflord
   else
     try
-      set background=light
+      " set background=light
       " let g:airline_theme="molokai"
       " colorscheme molokai
       " colorscheme summerfruit256
+      "----------ONEDARK----------
       colorscheme onedark
       let g:airline_theme='onedark'
+      highlight! Folded     guibg=#282C34 guifg=#abb2bf
+      highlight! FoldColumn guibg=#0e1013
+      highlight! Normal     guifg=#ABB2BF guibg=#0E1013
+      highlight! Vertsplit  guifg=#282C34 guibg=#282C34
+      highlight! link htmlH1 Function
+      "----------ONEDARK----------
+      " for YCM's warning area
+      highlight! SpellCap cterm=underline gui=underline
+
+
+
+
       " highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
       "
       " highlight! Folded     ctermbg=235   ctermfg=none guibg=#282C34 guifg=#abb2bf
       " highlight! FoldColumn ctermbg=233   guibg=#0e1013
       " highlight! Normal ctermbg=233 guifg=#ABB2BF guibg=#0E1013
       " highlight! Vertsplit  term=reverse  ctermfg=235  ctermbg=235   guifg=#282C34 guibg=#282C34
-      highlight! Folded     guibg=#282C34 guifg=#abb2bf
-      highlight! FoldColumn guibg=#0e1013
-      highlight! Normal     guifg=#ABB2BF guibg=#0E1013
-      highlight! Vertsplit  guifg=#282C34 guibg=#282C34
+      " 
       " highlight! MatchParen gui=none cterm=none term=none
 
-      " for YCM's warning area
-      highlight! SpellCap cterm=underline gui=underline
+
       " transparent
       " highlight! Folded cterm=underline ctermbg=none
       " highlight! FoldColumn ctermbg=none
@@ -512,26 +521,30 @@ if g:use_plugins == s:true
       else
         let g:indent_guides_auto_colors = 0
         " solarized(light)
-        augroup VIMRC
-          " solarized
-          " autcmd VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#0C3540 guibg=#183F49
-          " autcmd VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#183F49 guibg=#0C3540
-          " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
-          " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
-          " summerfruit
-          " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
-          " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
-          " one(light)
-          " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254 guifg=#E1E1E1 guibg=#EDEDED
-          " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253 guifg=#EDEDED guibg=#E1E1E1
-          " onedark
-          " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234 guifg=#252629 guibg=#1A1B1E
-          " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235 guifg=#1A1B1E guibg=#252629
-          " transparent
-          autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=none guifg=#252629 guibg=#1A1B1E
-          autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=none guifg=#1A1B1E guibg=#252629
-        augroup END
-
+          if g:colors_name ==# 'molokai'
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#303233 guibg=#262829
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#262829 guibg=#303233
+          elseif g:colors_name ==# 'onedark'
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234 guifg=#252629 guibg=#1A1B1E
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235 guifg=#1A1B1E guibg=#252629
+          elseif g:colors_name ==# 'solarized'
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#0C3540 guibg=#183F49
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#183F49 guibg=#0C3540
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
+            " summerfruit
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
+            " one(light)
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254 guifg=#E1E1E1 guibg=#EDEDED
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253 guifg=#EDEDED guibg=#E1E1E1
+            " onedark
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234 guifg=#252629 guibg=#1A1B1E
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235 guifg=#1A1B1E guibg=#252629
+            " transparent
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=none guifg=#252629 guibg=#1A1B1E
+            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=none guifg=#1A1B1E guibg=#252629
+          endif
       endif
     catch
       echoerr 'error occured on loading color'
