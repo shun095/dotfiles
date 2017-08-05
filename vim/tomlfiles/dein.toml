@@ -180,6 +180,9 @@ repo = 'vim-jp/autofmt'
 [[plugins]]
 repo = 'altercation/vim-colors-solarized'
 
+[[plugins]]
+repo = 'nanotech/jellybeans.vim'
+
 # [[plugins]]
 # repo = 'vim-scripts/summerfruit256.vim'
 

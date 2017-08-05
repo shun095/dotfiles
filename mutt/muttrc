@@ -74,6 +74,7 @@ macro attach,pager,index <f2> '<enter-command>source ~/.mutt/account1<enter><cha
 macro attach,pager,index <f3> '<enter-command>source ~/.mutt/account2<enter><change-folder>!<enter>'
 macro attach,pager,index <f4> '<enter-command>source ~/.mutt/account3<enter><change-folder>!<enter>'
 macro attach,pager,index <f5> '<enter-command>source ~/.mutt/account4<enter><change-folder>!<enter>'
+macro attach,pager,index <f6> '<enter-command>source ~/.mutt/account5<enter><change-folder>!<enter>'
 # macro attach,pager,index <f2> '<sync-mailbox><enter-command>source ~/.mutt/account1<enter><change-folder>!<enter>'
 # macro attach,pager,index <f3> '<sync-mailbox><enter-command>source ~/.mutt/account2<enter><change-folder>!<enter>'
 # macro attach,pager,index <f4> '<sync-mailbox><enter-command>source ~/.mutt/account3<enter><change-folder>!<enter>'

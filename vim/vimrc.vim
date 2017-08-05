@@ -485,14 +485,18 @@ if g:use_plugins == s:true
       " let g:airline_theme="molokai"
       " colorscheme molokai
       " colorscheme summerfruit256
+      "----------JELLYBEANS----------
+      colorscheme jellybeans
+      "----------JELLYBEANS----------
+      " 
       "----------ONEDARK----------
-      colorscheme onedark
-      let g:airline_theme='onedark'
-      highlight! Folded     guibg=#282C34 guifg=#abb2bf
-      highlight! FoldColumn guibg=#0e1013
-      highlight! Normal     guifg=#ABB2BF guibg=#0E1013
-      highlight! Vertsplit  guifg=#282C34 guibg=#282C34
-      highlight! link htmlH1 Function
+      " colorscheme onedark
+      " let g:airline_theme='onedark'
+      " highlight! Folded     guibg=#282C34 guifg=#abb2bf
+      " highlight! FoldColumn guibg=#0e1013
+      " highlight! Normal     guifg=#ABB2BF guibg=#0E1013
+      " highlight! Vertsplit  guifg=#282C34 guibg=#282C34
+      " highlight! link htmlH1 Function
       "----------ONEDARK----------
       " for YCM's warning area
       highlight! SpellCap cterm=underline gui=underline
