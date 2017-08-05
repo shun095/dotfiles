@@ -187,3 +187,12 @@ fun! myvimrc#set_tmux_code(gnome_term_ver)
     endif
   endif
 endf
+
+fun! myvimrc#print_callback(ch,msg)
+  echom a:msg
+endf
+
+fun! myvimrc#job_start(cmd)
+  call job_start(a:cmd,{'callback':'myvimrc#print_callback'})
+endfun
+

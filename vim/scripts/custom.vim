@@ -74,8 +74,8 @@ if dein#tap('ctrlp.vim')
   " yankroundのところでマッピングし直している
   let g:ctrlp_map = ''
   " let g:ctrlp_extensions = ['mixed']
-  let g:ctrlp_max_files = 100000
-  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
+  let g:ctrlp_max_files = 50000
+  " let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
@@ -140,6 +140,12 @@ if dein#tap('ctrlp.vim')
     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
   elseif g:myvimrc_ag_isAvalable
     let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
+  else
+    if has('unix')
+      let g:ctrlp_user_command = 'find %s -type f'
+    else
+      let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'
+    endif
   endif
   unlet s:ctrlp_command_options
 
@@ -155,7 +161,6 @@ endif
 if dein#tap('foldCC.vim')
   let g:foldCCtext_enable_autofdc_adjuster = 1
   let g:foldCCtext_head = ''
-  " let g:foldCCtext_tail = '"(ﾟｪﾟ  )". (v:foldend-v:foldstart+1)'
   let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
   set foldtext=FoldCCtext()
   set fillchars=vert:\|
@@ -822,10 +827,10 @@ if dein#tap('denite.nvim')
   call denite#custom#source(
         \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
   " if g:ctrlp_match_func != {} && g:ctrlp_match_func['match'] ==# 'cpsm#CtrlPMatch'
-    " call denite#custom#source(
-          " \ 'line', 'matchers', ['matcher_cpsm'])
-    " call denite#custom#source(
-          " \ 'file_rec', 'matchers', ['matcher_cpsm'])
+  " call denite#custom#source(
+  " \ 'line', 'matchers', ['matcher_cpsm'])
+  " call denite#custom#source(
+  " \ 'file_rec', 'matchers', ['matcher_cpsm'])
   " endif
   " Change mappings.
   call denite#custom#map(
