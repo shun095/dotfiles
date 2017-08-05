@@ -200,7 +200,9 @@ if dein#tap('memolist.vim')
   " let g:memolist_unite = 1
   " let g:memolist_denite = 1
   " let g:memolist_ex_cmd = 'Denite file_rec '
-  let g:memolist_ex_cmd = 'NERDTree'
+  " if dein#tap('nerdtree')
+    " let g:memolist_ex_cmd = 'e'
+  " endif
 
   nmap <Leader>mn :MemoNew<cr>
   nmap <Leader>ml :MemoList<cr>
@@ -298,11 +300,11 @@ if dein#tap('unite.vim')
   nnoremap <silent> <Leader>uo :<C-u>Unite -vertical -no-quit -winwidth=40 outline -direction=botright<CR>
   let g:unite_force_overwrite_statusline = 0
   " call unite#filters#sorter_default#use(['sorter_length'])
-  call unite#custom#profile('default', 'context', {
-        \	'start_insert': 1,
-        \	'winheight': 10,
-        \	'direction': 'botright'
-        \ })
+  " call unite#custom#profile('default', 'context', {
+        " \	'start_insert': 1,
+        " \	'winheight': 10,
+        " \	'direction': 'botright'
+        " \ })
   " ウィンドウを分割して開く
   augroup vimrc_unite
     autocmd!

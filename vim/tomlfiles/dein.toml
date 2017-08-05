@@ -1,19 +1,19 @@
 # vim: set foldmethod=marker:
 
 # Filer {{{
-[[plugins]]
-repo = 'Shougo/vimfiler.vim'
-depends = 'unite.vim'
-on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
+# [[plugins]]
+# repo = 'Shougo/vimfiler.vim'
+# depends = 'unite.vim'
+# on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
 
-[[plugins]]
-repo = 'Shougo/unite.vim'
+# [[plugins]]
+# repo = 'Shougo/unite.vim'
 
 # [[plugins]]
 # repo = 'cocopon/vaffle.vim'
 
-# [[plugins]]
-# repo = 'scrooloose/nerdtree'
+[[plugins]]
+repo = 'scrooloose/nerdtree'
 
 # [[plugins]]
 # repo = 'justinmk/vim-dirvish'
