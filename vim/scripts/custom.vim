@@ -201,7 +201,7 @@ if dein#tap('memolist.vim')
   " let g:memolist_denite = 1
   " let g:memolist_ex_cmd = 'Denite file_rec '
   " if dein#tap('nerdtree')
-    " let g:memolist_ex_cmd = 'e'
+  " let g:memolist_ex_cmd = 'e'
   " endif
 
   nmap <Leader>mn :MemoNew<cr>
@@ -301,10 +301,10 @@ if dein#tap('unite.vim')
   let g:unite_force_overwrite_statusline = 0
   " call unite#filters#sorter_default#use(['sorter_length'])
   " call unite#custom#profile('default', 'context', {
-        " \	'start_insert': 1,
-        " \	'winheight': 10,
-        " \	'direction': 'botright'
-        " \ })
+  " \	'start_insert': 1,
+  " \	'winheight': 10,
+  " \	'direction': 'botright'
+  " \ })
   " ウィンドウを分割して開く
   augroup vimrc_unite
     autocmd!
@@ -403,6 +403,188 @@ if dein#tap('vim-airline')
   "			 \ [ 'a', 'b', 'c' ],
   "			 \ [ 'x', 'y', 'z' ]
   "			 \ ] " }}}
+endif
+
+if dein#tap('lightline.vim')
+  let g:lightline = {
+        \ 'colorscheme': 'jellybeans',
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'relativepath' ], ['ctrlpmark'] ],
+        \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+        \ },
+        \ 'inactive': {
+        \   'left': [ [ 'fugitive', 'relativepath' ] ],
+        \   'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+        \ },
+        \ 'tab': {
+        \   'active': [ 'tabnum', 'filename', 'modified' ],
+        \   'inactive': [ 'tabnum', 'filename', 'modified' ],
+        \ },
+        \ 'tab_component_function': {
+        \   'filename': 'LightlineTabFilename',
+        \   'modified': 'lightline#tab#modified',
+        \   'readonly': 'lightline#tab#readonly',
+        \   'tabnum':   'lightline#tab#tabnum'
+        \ },
+        \ 'component_function': {
+        \   'fugitive': 'LightlineFugitive',
+        \   'filename': 'LightlineFilename',
+        \   'fileformat': 'LightlineFileformat',
+        \   'filetype': 'LightlineFiletype',
+        \   'fileencoding': 'LightlineFileencoding',
+        \   'mode': 'LightlineMode',
+        \   'ctrlpmark': 'CtrlPMark',
+        \ },
+        \ 'component_expand': {
+        \   'syntastic': 'SyntasticStatuslineFlag',
+        \ },
+        \ 'component_type': {
+        \   'syntastic': 'error',
+        \ },
+        \ 'separator': { 'left': '⮀', 'right': '⮂' },
+        \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+        \ }
+
+  function! LightlineModified()
+    return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+  endfunction
+
+  function! LightlineReadonly()
+    return &ft !~? 'help' && &readonly ? '⭤' : ''
+  endfunction
+
+  function! LightlineFilename()
+    let fname = expand('%:t')
+    return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
+          \ fname == '__Tagbar__' ? g:lightline.fname :
+          \ fname =~ '__Gundo\|NERD_tree' ? '' :
+          \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+          \ &ft == 'unite' ? unite#get_status_string() :
+          \ &ft == 'vimshell' ? vimshell#get_status_string() :
+          \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+          \ ('' != fname ? fname : '[No Name]') .
+          \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+  endfunction
+
+  " let s:fnamecollapse = 1
+  " let s:fnametruncate = 0
+  " let s:buf_nr_format = '%s: '
+  " let s:buf_nr_show = 0
+  " let s:buf_modified_symbol = '+'
+
+  function! LightlineTabFilename(n) abort
+    let buflist = tabpagebuflist(a:n)
+    let winnr = tabpagewinnr(a:n)
+    let name = expand('#'.buflist[winnr - 1].':p')
+    let fmod = ':~:.'
+    let _ = ''
+
+    if empty(name)
+      let _ .= '[No Name]'
+    else
+      " if s:fnamecollapse
+      let _ .= substitute(fnamemodify(name, fmod), '\v\w\zs.{-}\ze(\\|/)', '', 'g')
+      " else
+      " let _ .= fnamemodify(name, fmod)
+      " endif
+      " if a:bufnr != bufnr('%') && s:fnametruncate && strlen(_) > s:fnametruncate
+      " let _ = strpart(_, 0, s:fnametruncate)
+      " endif
+    endif
+
+    " let _ = s:buf_nr_show ? printf(s:buf_nr_format, a:bufnr) : ''
+    let _ = substitute(_, '\\', '/', 'g')
+
+    " if getbufvar(a:bufnr, '&modified') == 1
+    " let _ .= s:buf_modified_symbol
+    " endif
+    return _
+    " return LightlineTabFilenameWrapName(a:bufnr, _)
+  endfunction
+
+  function! LightlineFugitive()
+    try
+      if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+        let mark = '⭠'  " edit here for cool mark
+        let branch = fugitive#head()
+        return branch !=# '' ? mark.branch : ''
+      endif
+    catch
+    endtry
+    return ''
+  endfunction
+
+  function! LightlineFileformat()
+    return winwidth(0) > 70 ? &fileformat : ''
+  endfunction
+
+  function! LightlineFiletype()
+    return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+  endfunction
+
+  function! LightlineFileencoding()
+    return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+  endfunction
+
+  function! LightlineMode()
+    let fname = expand('%:t')
+    return fname == '__Tagbar__' ? 'Tagbar' :
+          \ fname == 'ControlP' ? 'CtrlP' :
+          \ fname == '__Gundo__' ? 'Gundo' :
+          \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+          \ fname =~ 'NERD_tree' ? 'NERDTree' :
+          \ &ft == 'unite' ? 'Unite' :
+          \ &ft == 'vimfiler' ? 'VimFiler' :
+          \ &ft == 'vimshell' ? 'VimShell' :
+          \ winwidth(0) > 60 ? lightline#mode() : ''
+  endfunction
+
+  function! CtrlPMark()
+    if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
+      call lightline#link('iR'[g:lightline.ctrlp_regex])
+      return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+            \ , g:lightline.ctrlp_next], 0)
+    else
+      return ''
+    endif
+  endfunction
+
+  let g:ctrlp_status_func = {
+        \ 'main': 'CtrlPStatusFunc_1',
+        \ 'prog': 'CtrlPStatusFunc_2',
+        \ }
+
+  function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+    let g:lightline.ctrlp_regex = a:regex
+    let g:lightline.ctrlp_prev = a:prev
+    let g:lightline.ctrlp_item = a:item
+    let g:lightline.ctrlp_next = a:next
+    return lightline#statusline(0)
+  endfunction
+
+  function! CtrlPStatusFunc_2(str)
+    return lightline#statusline(0)
+  endfunction
+
+  let g:tagbar_status_func = 'TagbarStatusFunc'
+
+  function! TagbarStatusFunc(current, sort, fname, ...) abort
+    let g:lightline.fname = a:fname
+    return lightline#statusline(0)
+  endfunction
+
+  augroup AutoSyntastic
+    autocmd!
+    autocmd BufWritePost *.c,*.cpp call s:syntastic()
+  augroup END
+  function! s:syntastic()
+    SyntasticCheck
+    call lightline#update()
+  endfunction
+
+  let g:unite_force_overwrite_statusline = 0
+  let g:vimfiler_force_overwrite_statusline = 0
+  let g:vimshell_force_overwrite_statusline = 0
 endif
 
 if dein#tap('vim-anzu')
