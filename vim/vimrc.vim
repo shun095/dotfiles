@@ -134,7 +134,7 @@ set noautochdir                                       " 今開いてるファイ
 set scrolloff=5                                       " カーソルが端まで行く前にスクロールし始める行数
 set ambiwidth=double                                  " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a                                           " マウスを有効化
-set nomousehide                                       " 入力中にポインタを消すかどうか
+set mousehide                                       " 入力中にポインタを消すかどうか
 set lazyredraw                                        " スクロールが間に合わない時などに描画を省略する
 set sessionoptions&
 set sessionoptions-=options
