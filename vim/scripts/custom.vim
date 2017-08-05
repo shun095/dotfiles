@@ -346,54 +346,57 @@ if dein#tap('unite.vim')
 endif
 
 if dein#tap('vim-airline')
-  let g:airline#extensions#tagbar#enabled = 0
-  let g:airline#extensions#branch#enabled		= 1
-  let g:airline#extensions#branch#empty_message  = ''
+  let g:airline#extensions#tagbar#enabled            = 0
+  let g:airline#extensions#branch#enabled            = 1
+  let g:airline#extensions#branch#empty_message      = ''
   " let g:airline#extensions#whitespace#checks	 = [ 'indent',  'mixed-indent-file' ]
-  let g:airline#extensions#syntastic#enabled	 = 0
-  let g:airline#extensions#tabline#enabled	   = 1 "{{{
+  let g:airline#extensions#syntastic#enabled         = 0
+  let g:airline#extensions#tabline#enabled           = 1 "{{{
   " right side show mode
-  let g:airline#extensions#tabline#show_tab_type = 0
+  let g:airline#extensions#tabline#show_tab_type     = 0
   " プレビューウィンドウのステータスライン(Airline優先:0か,他のプラグイン優先:1)
-  let g:airline#extensions#tabline#exclude_preview = 0
+  let g:airline#extensions#tabline#exclude_preview   = 0
 
-  let g:airline#extensions#tabline#show_tabs = 1
-  let g:airline#extensions#tabline#show_splits   = 1
-  let g:airline#extensions#tabline#show_buffers = 0
-  let g:airline#extensions#tabline#tab_nr_type   = 2 " splits and tab number
+  let g:airline#extensions#tabline#show_tabs         = 1
+  let g:airline#extensions#tabline#show_splits       = 1
+  let g:airline#extensions#tabline#show_buffers      = 0
+  let g:airline#extensions#tabline#tab_nr_type       = 2 " splits and tab number
   let g:airline#extensions#tabline#show_close_button = 0 "}}}
+
+  let g:airline#extensions#tabline#buffer_idx_mode = 1
+  nmap <leader>1 <Plug>AirlineSelectTab1
+  nmap <leader>2 <Plug>AirlineSelectTab2
+  nmap <leader>3 <Plug>AirlineSelectTab3
+  nmap <leader>4 <Plug>AirlineSelectTab4
+  nmap <leader>5 <Plug>AirlineSelectTab5
+  nmap <leader>6 <Plug>AirlineSelectTab6
+  nmap <leader>7 <Plug>AirlineSelectTab7
+  nmap <leader>8 <Plug>AirlineSelectTab8
+  nmap <leader>9 <Plug>AirlineSelectTab9
+
   " let g:airline_powerline_fonts=1
   if !exists('g:airline_symbols')
     let g:airline_symbols = {}
   endif
   " powerline symbols" {{{
-  if has('gui_running')
-    " let g:airline#extensions#tabline#left_sep      = '⮀'
-    " let g:airline#extensions#tabline#left_alt_sep  = '⮁'
-    " let g:airline#extensions#tabline#right_sep     = '⮂'
-    " let g:airline#extensions#tabline#right_alt_sep = '⮃'
-    " let g:airline_left_sep                         = '⮀'
-    " let g:airline_left_alt_sep                     = '⮁'
-    " let g:airline_right_sep                        = '⮂'
-    " let g:airline_right_alt_sep                    = '⮃'
-
-    let g:airline#extensions#tabline#left_sep      = ''
-    let g:airline#extensions#tabline#left_alt_sep  = ''
-    let g:airline#extensions#tabline#right_sep     = ''
-    let g:airline#extensions#tabline#right_alt_sep = ''
+  if has('win32') && (!has('gui_running'))
     let g:airline_left_sep                         = ''
     let g:airline_left_alt_sep                     = ''
     let g:airline_right_sep                        = ''
     let g:airline_right_alt_sep                    = ''
+  else
+    let g:airline#extensions#tabline#left_sep      = '⮀'
+    let g:airline#extensions#tabline#left_alt_sep  = '⮁'
+    let g:airline#extensions#tabline#right_sep     = '⮂'
+    let g:airline#extensions#tabline#right_alt_sep = '⮃'
+    let g:airline_left_sep                         = '⮀'
+    let g:airline_left_alt_sep                     = '⮁'
+    let g:airline_right_sep                        = '⮂'
+    let g:airline_right_alt_sep                    = '⮃'
 
     let g:airline_symbols.branch                   = '⭠'
     let g:airline_symbols.readonly                 = '⭤'
     let g:airline_symbols.linenr                   = '⭡'
-  else
-    let g:airline_left_sep                         = ''
-    let g:airline_left_alt_sep                     = ''
-    let g:airline_right_sep                        = ''
-    let g:airline_right_alt_sep                    = ''
   endif " }}}
   let g:airline_symbols.maxlinenr                  = ''
   let g:airline_symbols.linenr                     = ''
@@ -409,12 +412,13 @@ if dein#tap('lightline.vim')
   let g:lightline = {
         \ 'colorscheme': 'jellybeans',
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'relativepath' ], ['ctrlpmark'] ],
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], [ 'ctrlpmark' ] ],
+        \   'middle': [ 'concatenate' ],
         \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
         \ },
         \ 'inactive': {
-        \   'left': [ [ 'fugitive', 'relativepath' ] ],
-        \   'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+        \   'left': [ [ 'fugitive', 'filename' ] ],
+        \   'right': [ [ 'lineinfo' ], [ 'percent' ], ['fileformat', 'fileencoding', 'filetype' ] ]
         \ },
         \ 'tab': {
         \   'active': [ 'tabnum', 'filename', 'modified' ],
@@ -425,6 +429,10 @@ if dein#tap('lightline.vim')
         \   'modified': 'lightline#tab#modified',
         \   'readonly': 'lightline#tab#readonly',
         \   'tabnum':   'lightline#tab#tabnum'
+        \ },
+        \ 'component': {
+        \   'lineinfo_concatenete': '%4l:%-2v%<',
+        \   'concatenate': '%<',
         \ },
         \ 'component_function': {
         \   'fugitive': 'LightlineFugitive',
@@ -446,7 +454,7 @@ if dein#tap('lightline.vim')
         \ }
 
   function! LightlineModified()
-    return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+    return &ft =~# 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
   endfunction
 
   function! LightlineReadonly()
@@ -455,15 +463,15 @@ if dein#tap('lightline.vim')
 
   function! LightlineFilename()
     let fname = expand('%:t')
-    return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
-          \ fname == '__Tagbar__' ? g:lightline.fname :
-          \ fname =~ '__Gundo\|NERD_tree' ? '' :
-          \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-          \ &ft == 'unite' ? unite#get_status_string() :
-          \ &ft == 'vimshell' ? vimshell#get_status_string() :
-          \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-          \ ('' != fname ? fname : '[No Name]') .
-          \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+    return fname ==# 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
+          \ fname =~# '__Tagbar__' ? g:lightline.fname :
+          \ fname =~# '__Gundo\|NERD_tree' ? '' :
+          \ &ft ==# 'vimfiler' ? vimfiler#get_status_string() :
+          \ &ft ==# 'unite' ? unite#get_status_string() :
+          \ &ft ==# 'vimshell' ? vimshell#get_status_string() :
+          \ ('' !=# LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+          \ ('' !=# fname ? fname : '[No Name]') .
+          \ ('' !=# LightlineModified() ? ' ' . LightlineModified() : '')
   endfunction
 
   " let s:fnamecollapse = 1
@@ -487,7 +495,7 @@ if dein#tap('lightline.vim')
       " else
       " let _ .= fnamemodify(name, fmod)
       " endif
-      " if a:bufnr != bufnr('%') && s:fnametruncate && strlen(_) > s:fnametruncate
+      " if a:bufnr !=# bufnr('%') && s:fnametruncate && strlen(_) > s:fnametruncate
       " let _ = strpart(_, 0, s:fnametruncate)
       " endif
     endif
@@ -505,7 +513,7 @@ if dein#tap('lightline.vim')
   function! LightlineFugitive()
     try
       if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-        let mark = '⭠'  " edit here for cool mark
+        let mark = '⭠ '  " edit here for cool mark
         let branch = fugitive#head()
         return branch !=# '' ? mark.branch : ''
       endif
@@ -528,19 +536,19 @@ if dein#tap('lightline.vim')
 
   function! LightlineMode()
     let fname = expand('%:t')
-    return fname == '__Tagbar__' ? 'Tagbar' :
-          \ fname == 'ControlP' ? 'CtrlP' :
-          \ fname == '__Gundo__' ? 'Gundo' :
-          \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-          \ fname =~ 'NERD_tree' ? 'NERDTree' :
-          \ &ft == 'unite' ? 'Unite' :
-          \ &ft == 'vimfiler' ? 'VimFiler' :
-          \ &ft == 'vimshell' ? 'VimShell' :
+    return fname =~# '__Tagbar__' ? 'Tagbar' :
+          \ fname ==# 'ControlP' ? 'CtrlP' :
+          \ fname ==# '__Gundo__' ? 'Gundo' :
+          \ fname ==# '__Gundo_Preview__' ? 'Gundo Preview' :
+          \ fname =~# 'NERD_tree' ? 'NERDTree' :
+          \ &ft ==# 'unite' ? 'Unite' :
+          \ &ft ==# 'vimfiler' ? 'VimFiler' :
+          \ &ft ==# 'vimshell' ? 'VimShell' :
           \ winwidth(0) > 60 ? lightline#mode() : ''
   endfunction
 
   function! CtrlPMark()
-    if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
+    if expand('%:t') =~# 'ControlP' && has_key(g:lightline, 'ctrlp_item')
       call lightline#link('iR'[g:lightline.ctrlp_regex])
       return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
             \ , g:lightline.ctrlp_next], 0)
@@ -631,7 +639,7 @@ if dein#tap('vim-clang-format')
         \ }
   " function! s:safeundo()
   " let s:pos = getpos( '. ')
-  " let s:view = winsaveview()        
+  " let s:view = winsaveview()
   " undo
   " call setpos( '.', s:pos )
   " call winrestview( s:view )

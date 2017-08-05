@@ -215,15 +215,15 @@ set backup
 
 " Mapping {{{
 " 折り返しがあっても真下に移動できるようになる
-nnoremap j gj
-nnoremap k gk
-nnoremap <Down> gj
-nnoremap <Up> gk
+" nnoremap j gj
+" nnoremap k gk
+" nnoremap <Down> gj
+" nnoremap <Up> gk
 
-vnoremap j gj
-vnoremap k gk
-vnoremap <Down> gj
-vnoremap <Up> gk
+" vnoremap j gj
+" vnoremap k gk
+" vnoremap <Down> gj
+" vnoremap <Up> gk
 
 noremap <C-j> <ESC>
 noremap! <C-j> <ESC>
@@ -486,8 +486,13 @@ if g:use_plugins == s:true
       " let g:airline_theme="molokai"
       " colorscheme molokai
       " colorscheme summerfruit256
+
+      colorscheme iceberg
+      let g:airline_theme = 'iceberg'
+      set background=dark
+
       "----------JELLYBEANS----------
-      colorscheme jellybeans
+      " colorscheme jellybeans
       "----------JELLYBEANS----------
       " 
       "----------ONEDARK----------
