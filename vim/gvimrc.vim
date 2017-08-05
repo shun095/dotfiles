@@ -22,7 +22,7 @@ if has('gui_running')
   endif
   set linespace=1
   set cmdheight=2
-  set guioptions=rchb
+  set guioptions=rchbm
   " フォントを設定
   if has('win32')
     set guifont=Ricty_Diminished_for_Powerline:h10

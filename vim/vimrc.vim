@@ -16,7 +16,7 @@ if filereadable($HOME . '/.vim/not_confirms.vim')
   source $HOME/.vim/not_confirms.vim
 endif
 
-set guioptions+=M
+" set guioptions+=M
 
 if !exists('$MYDOTFILES')
   let $MYDOTFILES = $HOME . '/dotfiles'
@@ -135,6 +135,7 @@ set scrolloff=5                                       " カーソルが端まで
 set ambiwidth=double                                  " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a                                           " マウスを有効化
 set mousehide                                       " 入力中にポインタを消すかどうか
+set mousemodel=popup
 set lazyredraw                                        " スクロールが間に合わない時などに描画を省略する
 set sessionoptions&
 set sessionoptions-=options
