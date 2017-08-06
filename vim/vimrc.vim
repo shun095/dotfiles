@@ -235,13 +235,19 @@ nnoremap <C-S-TAB> gT
 
 " !マークは挿入モードとコマンドラインモードへのマッピング
 " インサートモードとコマンドモードで一部emacsキーバインド
+" emacs like in insert/command mode
 noremap! <C-f> <Right>
 noremap! <C-b> <Left>
-cnoremap <C-a> <C-b>
+noremap! <M-b> <C-left>
+noremap! <M-f> <C-right>
+noremap! <M-BS> <C-w>
+noremap! <C-a> <Home>
+noremap! <C-e> <End>
+noremap! <C-k> <End><C-u>
+
 cnoremap <C-@> <C-a>
 cnoremap <C-p> <up>
 cnoremap <C-n> <down>
-cnoremap <C-u> <C-e><C-u>
 
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
@@ -494,7 +500,7 @@ if g:use_plugins == s:true
       "----------JELLYBEANS----------
       " colorscheme jellybeans
       "----------JELLYBEANS----------
-      " 
+
       "----------ONEDARK----------
       " colorscheme onedark
       " let g:airline_theme='onedark'
@@ -516,9 +522,8 @@ if g:use_plugins == s:true
       " highlight! FoldColumn ctermbg=233   guibg=#0e1013
       " highlight! Normal ctermbg=233 guifg=#ABB2BF guibg=#0E1013
       " highlight! Vertsplit  term=reverse  ctermfg=235  ctermbg=235   guifg=#282C34 guibg=#282C34
-      " 
-      " highlight! MatchParen gui=none cterm=none term=none
 
+      " highlight! MatchParen gui=none cterm=none term=none
 
       " transparent
       " highlight! Folded cterm=underline ctermbg=none

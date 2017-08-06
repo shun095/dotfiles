@@ -85,6 +85,8 @@ alias gvim=gvim_call $*
 alias em="emacs"
 alias dir="dir --group-directories-first --color=auto"
 
+bindkey \^U backward-kill-line
+
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 # zstyle ':completion:*' completer _complete _match _approximate
 # zstyle ':completion:*' group-name ''
