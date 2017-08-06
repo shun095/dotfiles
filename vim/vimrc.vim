@@ -268,6 +268,7 @@ endif
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
 command! CdCurrent cd\ %:h
 command! CopyPath call myvimrc#copypath()
+command! CopyDirPath call myvimrc#copydirpath()
 command! Ctags call myvimrc#ctags_project()
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 " }}}

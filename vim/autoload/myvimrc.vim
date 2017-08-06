@@ -96,6 +96,12 @@ fun! myvimrc#copypath()
   let @+ = expand("%:p")
 endf
 
+fun! myvimrc#copydirpath()
+  let @" = expand("%:h")
+  let @* = expand("%:h")
+  let @+ = expand("%:h")
+endf
+
 fun! myvimrc#command_at_destdir(destination,commandlist)
   let l:previous_cwd = getcwd()
   exe 'cd ' . a:destination
