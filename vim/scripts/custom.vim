@@ -1062,15 +1062,21 @@ endif
 
 if dein#tap('nerdcommenter')
   let g:NERDSpaceDelims = 1
-  nmap gcA <Plug>NERDCommenterAltDelims
+  xmap gcc <Plug>NERDCommenterComment
+  nmap gcc <Plug>NERDCommenterComment
 
-  xmap gcu <Plug>NERDCommenterUncomment
-  nmap gcu <Plug>NERDCommenterUncomment
+  xmap gcn <Plug>NERDCommenterNested
+  nmap gcn <Plug>NERDCommenterNested
 
-  xmap gcb <Plug>NERDCommenterAlignBoth
-  nmap gcb <Plug>NERDCommenterAlignBoth
-  xmap gcl <Plug>NERDCommenterAlignLeft
-  nmap gcl <Plug>NERDCommenterAlignLeft
+  xmap gc<space> <Plug>NERDCommenterToggle
+  nmap gc<space> <Plug>NERDCommenterToggle
+
+  xmap gcm <Plug>NERDCommenterMinimal
+  nmap gcm <Plug>NERDCommenterMinimal
+
+  xmap gci <Plug>NERDCommenterInvert
+  nmap gci <Plug>NERDCommenterInvert
+
   xmap gcs <Plug>NERDCommenterSexy
   nmap gcs <Plug>NERDCommenterSexy
 
@@ -1079,18 +1085,18 @@ if dein#tap('nerdcommenter')
 
   nmap gc$ <Plug>NERDCommenterToEOL
 
-  xmap gcI <Plug>NERDCommenterInvert
-  nmap gcI <Plug>NERDCommenterInvert
-  xmap gcn <Plug>NERDCommenterNested
-  nmap gcn <Plug>NERDCommenterNested
-  xmap gcm <Plug>NERDCommenterMinimal
-  nmap gcm <Plug>NERDCommenterMinimal
+  nmap gcA <Plug>NERDCommenterAppend
 
-  xmap gcc <Plug>NERDCommenterToggle
-  nmap gcc <Plug>NERDCommenterToggle
-  xmap gci <Plug>NERDCommenterComment
-  nmap gci <Plug>NERDCommenterComment
-  nmap gca <Plug>NERDCommenterAppend
+  nmap gca <Plug>NERDCommenterAltDelims
+
+  xmap gcl <Plug>NERDCommenterAlignLeft
+  nmap gcl <Plug>NERDCommenterAlignLeft
+
+  xmap gcb <Plug>NERDCommenterAlignBoth
+  nmap gcb <Plug>NERDCommenterAlignBoth
+
+  xmap gcu <Plug>NERDCommenterUncomment
+  nmap gcu <Plug>NERDCommenterUncomment
 endif
 
 if dein#tap('vim-javacomplete2')
