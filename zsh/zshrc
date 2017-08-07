@@ -84,6 +84,7 @@ gvim_call(){
 alias gvim=gvim_call $*
 alias em="emacs"
 alias dir="dir --group-directories-first --color=auto"
+stty stop undef
 
 bindkey \^U backward-kill-line
 
