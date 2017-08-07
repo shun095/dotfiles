@@ -98,7 +98,7 @@ set visualbell
 set t_vb=
 
 " set diffopt=filler,iwhite                   " diffのときの挙動
-set cursorline                                        " カーソル行のハイライト
+set nocursorline                                        " カーソル行のハイライト
 set nocursorcolumn
 set backspace=indent,eol,start                        " バックスペース挙動のおまじない
 set clipboard=unnamed,unnamedplus                     " コピーした文字列がclipboardに入る(逆も）
