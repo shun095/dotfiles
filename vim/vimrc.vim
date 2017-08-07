@@ -172,6 +172,11 @@ set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding
 set statusline+=%y
 set statusline+=%4p%%%5l:%-3c
 " }}}
+if executable('files')
+  let g:myvimrc_files_isAvalable = 1
+else
+  let g:myvimrc_files_isAvalable = 0
+endif
 
 if executable('pt')
   let g:myvimrc_pt_isAvalable = 1
