@@ -137,7 +137,7 @@ if dein#tap('ctrlp.vim')
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
   if g:myvimrc_files_isAvalable
-    let g:ctrlp_user_command = 'files -a -A %s'
+    let g:ctrlp_user_command = 'files -a -A -i "^$" %s'
   elseif g:myvimrc_pt_isAvalable
     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
   elseif g:myvimrc_ag_isAvalable
@@ -1006,7 +1006,7 @@ if dein#tap('denite.nvim')
   endif
   " Change file_rec command.
   if g:myvimrc_files_isAvalable
-    call denite#custom#var('file_rec', 'command', ['files', '-a', '-A'])
+    call denite#custom#var('file_rec', 'command', ['files', '-a', '-A', '-i', '^$'])
   elseif g:myvimrc_pt_isAvalable
     " if has("win32")
     call denite#custom#var('file_rec', 'command',
