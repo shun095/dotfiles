@@ -3,7 +3,8 @@
 export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
-export PATH=$HOME/usr/bin:$PATH
+export GOPATH=$HOME/gocode
+export PATH=$HOME/usr/bin:$GOPATH/bin:$PATH
 echo -ne '\e]12;#aaaaaa\a'
 
 setopt auto_cd
