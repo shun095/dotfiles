@@ -1023,12 +1023,13 @@ if dein#tap('denite.nvim')
   call denite#custom#source(
         \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
 
-  " if g:ctrlp_match_func != {} && g:ctrlp_match_func['match'] ==# 'cpsm#CtrlPMatch'
-    " call denite#custom#source(
-          " \ 'line', 'matchers', ['matcher_cpsm'])
-    " call denite#custom#source(
-          " \ 'file_rec', 'matchers', ['matcher_cpsm'])
-  " endif
+  if g:ctrlp_match_func != {} && g:ctrlp_match_func['match'] ==# 'cpsm#CtrlPMatch'
+    call denite#custom#source(
+          \ 'line', 'matchers', ['matcher_fuzzy', 'matcher_cpsm'])
+    call denite#custom#source(
+          \ 'file_rec', 'matchers', ['matcher_fuzzy', 'matcher_cpsm'])
+  endif
+
   " Change mappings.
   call denite#custom#map(
         \ 'insert',
