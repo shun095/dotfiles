@@ -237,7 +237,7 @@ endif
 
 if dein#tap('previm')
   let g:previm_enable_realtime = 1
-  let g:previm_custom_css_path = $HOME . '/.vim/dein/repos/github.com/jasonm23/markdown-css-themes/markdown.css'
+  " let g:previm_custom_css_path = $HOME . '/.vim/dein/repos/github.com/jasonm23/markdown-css-themes/markdown.css'
 endif
 
 if dein#tap('restart.vim')
