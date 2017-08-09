@@ -6,6 +6,9 @@ endif
 let s:true = 1
 let s:false = 0
 
+let s:V = vital#myvimrc#new()
+let s:File = s:V.import('System.File')
+
 fun! myvimrc#ImInActivate() abort
   let fcitx_dbus = system('fcitx-remote -a')
   if fcitx_dbus !=# ''
@@ -90,19 +93,19 @@ fun! myvimrc#git_end_callback(ch, msg) abort
   endif
 endf
 
-fun! myvimrc#copypath()
-  let @" = expand("%:p")
-  let @* = expand("%:p")
-  let @+ = expand("%:p")
+fun! myvimrc#copypath() abort
+  let @" = expand('%:p')
+  let @* = expand('%:p')
+  let @+ = expand('%:p')
 endf
 
-fun! myvimrc#copydirpath()
-  let @" = expand("%:h")
-  let @* = expand("%:h")
-  let @+ = expand("%:h")
+fun! myvimrc#copydirpath() abort
+  let @" = expand('%:p:h')
+  let @* = expand('%:p:h')
+  let @+ = expand('%:p:h')
 endf
 
-fun! myvimrc#command_at_destdir(destination,commandlist)
+fun! myvimrc#command_at_destdir(destination,commandlist) abort
   let l:previous_cwd = getcwd()
   exe 'cd ' . a:destination
   for command in a:commandlist
@@ -127,7 +130,7 @@ fun! myvimrc#find_project_dir(searchname_arg) abort
 
   let l:destdir = ''
 
-  while l:destdir == '' && l:searchname !=# ''
+  while l:destdir ==# '' && l:searchname !=# ''
     let l:target = findfile(l:searchname, expand('%:p').';')
 
     if l:target ==# ''
@@ -173,16 +176,16 @@ fun! myvimrc#ctags_project() abort
     echohl none
   else
     call myvimrc#command_at_destdir(l:tags_dir,['call system("ctags -R")'])
-    echomsg "tags file made at " . l:tags_dir
+    echomsg 'tags file made at ' . l:tags_dir
   endif
 endf
 
-fun! myvimrc#gnometerm_detection(ch, msg)
+fun! myvimrc#gnometerm_detection(ch, msg) abort
   let gnome_term_ver = split(split(a:msg)[2], '\.')
   call myvimrc#set_tmux_code(gnome_term_ver)
 endf
 
-fun! myvimrc#set_tmux_code(gnome_term_ver)
+fun! myvimrc#set_tmux_code(gnome_term_ver) abort
   if a:gnome_term_ver[0] == 3 && a:gnome_term_ver[1] > 12
     if exists('$TMUX')
       let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
@@ -194,11 +197,29 @@ fun! myvimrc#set_tmux_code(gnome_term_ver)
   endif
 endf
 
-fun! myvimrc#print_callback(ch,msg)
+fun! myvimrc#print_callback(ch,msg) abort
   echom a:msg
 endf
 
-fun! myvimrc#job_start(cmd)
+fun! myvimrc#job_start(cmd) abort
   call job_start(a:cmd,{'callback':'myvimrc#print_callback'})
 endfun
+
+fun! myvimrc#previm_save_html(dirpath) abort
+  if a:dirpath ==# ''
+    let dirpath = './' . expand('%:t:r')
+  endif
+
+  let dirpath = fnamemodify(dirpath,':p')
+
+  if s:File.copy_dir(fnamemodify(previm#make_preview_file_path('.'),':p'), dirpath)
+    echomsg 'Previm HTML saved at :' . dirpath
+  else
+    echoerr 'Previm HTML save failed'
+  endif
+endf
+
+fun! myvimrc#test() abort
+  return s:File.copy(expand('~/old.txt'),expand('~/new.txt'))
+endf
 

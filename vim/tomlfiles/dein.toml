@@ -178,6 +178,7 @@ repo = 'vim-jp/vimdoc-ja'
 
 [[plugins]]
 repo = 'vim-jp/vital.vim'
+merged = 0
 
 [[plugins]]
 repo = 'vim-jp/autofmt'

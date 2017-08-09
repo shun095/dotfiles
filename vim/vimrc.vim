@@ -395,6 +395,8 @@ augroup END
 " Self constructed plugins {{{
 let s:myplugins = $MYDOTFILES . '/vim'
 exe 'set runtimepath+=' . escape(s:myplugins, ' \')
+let s:my_testplugin = $HOME . '/localrcs/testplugin'
+exe 'set runtimepath+=' . escape(s:my_testplugin, ' \')
 set runtimepath+=$HOME/.fzf/
 nnoremap <silent><expr><Leader><C-f><C-f> myvimrc#command_at_destdir(myvimrc#find_project_dir(['.git','tags']),['FZF'])
 nnoremap <silent> <Leader><C-f>c :FZF .<CR>

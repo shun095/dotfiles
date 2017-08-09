@@ -238,6 +238,15 @@ endif
 if dein#tap('previm')
   let g:previm_enable_realtime = 1
   " let g:previm_custom_css_path = $HOME . '/.vim/dein/repos/github.com/jasonm23/markdown-css-themes/markdown.css'
+  let g:previm_show_header = 0
+  function! s:setup_setting()
+    command! -buffer -nargs=? -complete=dir PrevimSaveHTML call myvimrc#previm_save_html('<args>')
+  endfunction
+
+  augroup vimrc_previm
+    autocmd!
+    autocmd FileType *{mkd,markdown,rst,textile}* call <SID>setup_setting()
+  augroup END
 endif
 
 if dein#tap('restart.vim')
