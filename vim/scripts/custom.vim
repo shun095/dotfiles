@@ -1021,9 +1021,11 @@ if dein#tap('denite.nvim')
   endif
 
   call denite#custom#source(
-        \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
+        \ 'file_mru', 'matchers', ['matcher_fuzzy'])
 
   if g:ctrlp_match_func != {} && g:ctrlp_match_func['match'] ==# 'cpsm#CtrlPMatch'
+    call denite#custom#source(
+          \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_cpsm'])
     call denite#custom#source(
           \ 'line', 'matchers', ['matcher_fuzzy', 'matcher_cpsm'])
     call denite#custom#source(
