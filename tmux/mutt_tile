@@ -4,6 +4,7 @@ new-window
 split -v
 split -v
 split -v
+split -v
 select-layout main-vertical
 select-pane -t 0
 send-keys 'mutt -e "source ~/.mutt/account1"' C-m
@@ -13,3 +14,5 @@ select-pane -t 2
 send-keys 'mutt -e "source ~/.mutt/account3"' C-m
 select-pane -t 3
 send-keys 'mutt -e "source ~/.mutt/account4"' C-m
+select-pane -t 4
+send-keys 'mutt -e "source ~/.mutt/account5"' C-m
