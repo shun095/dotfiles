@@ -12,7 +12,7 @@ if dein#tap('TweetVim')
 
   " fork original option
   let g:tweetvim_panewidth = 40
-
+  let g:tweetvim_say_insert_account = 1
   let g:tweetvim_expand_t_co = 1
   let g:tweetvim_open_buffer_cmd = g:tweetvim_panewidth . 'vsplit!'
   let g:tweetvim_display_source = 1
@@ -21,6 +21,7 @@ if dein#tap('TweetVim')
   let g:tweetvim_display_separator = 1
   let g:tweetvim_async_post = 1
   let g:tweetvim_buffer_name = 'TweetVimBuffer'
+  let g:tweetvim_default_account = 'NUSH06'
 
 
   " let g:tweetvim_updatetime = 10

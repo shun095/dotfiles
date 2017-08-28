@@ -4,8 +4,9 @@ new-window
 split -v
 split -v
 split -v
+select-layout tiled
 split -v
-select-layout main-vertical
+select-layout tiled
 select-pane -t 0
 send-keys 'mutt -e "source ~/.mutt/account1"' C-m
 select-pane -t 1

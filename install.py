@@ -45,18 +45,18 @@ class RcfilesConfigurator(object):
                 "vimrc"     : HOME + "/.vimrc",
                 "gvimrc"    : HOME + "/.gvimrc",
                 "tmuxconf"  : HOME + "/.tmux.conf",
-                "emacsinit" : HOME + "/.emacs.d/init.el"
-                "flake8"    : HOME + "/.config/flake8"
-                "vintrc"    : HOME + "/.vimtrc.yml"
+                "emacsinit" : HOME + "/.emacs.d/init.el",
+                "flake8"    : HOME + "/.config/flake8",
+                "vintrc"    : HOME + "/.vimtrc.yml",
                 }
 
         self.symlinks_target = {
                 "vimrc"     : DOTFILES + "/vim/vimrc.vim",
                 "gvimrc"    : DOTFILES + "/vim/gvimrc.vim",
                 "tmuxconf"  : DOTFILES + "/tmux/tmux.conf",
-                "emacsinit" : DOTFILES + "/emacs/init.el"
-                "flake8"    : DOTFILES + "/python/lint/flake8"
-                "vintrc"    : DOTFILES + "/python/lint/vintrc.yml"
+                "emacsinit" : DOTFILES + "/emacs/init.el",
+                "flake8"    : DOTFILES + "/python/lint/flake8",
+                "vintrc"    : DOTFILES + "/python/lint/vintrc.yml",
                 }
         
 
@@ -69,12 +69,14 @@ def download_repos(plugin_dirs):
 
     if plugin_dirs.has_key("zprezto"):
         if not os.path.isdir("zprezto"):
+            pass
+
 
 def main():
     """TODO: Docstring for main.
     :returns: TODO
-
     """
+    print("main")
 
 
 if __name__ == "__main__":
