@@ -132,6 +132,12 @@ on_cmd = 'YcmGenerateConfig'
 depends = "YouCompleteMe"
 
 [[plugins]]
+repo = 'Valloric/YouCompleteMe'
+if = "!has('nvim')"
+on_event = ['InsertEnter', 'CursorHold']
+merged = 0
+
+[[plugins]]
 repo = 'rhysd/vim-clang-format'
 on_ft = ['c','cpp']
 

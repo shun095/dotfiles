@@ -44,12 +44,6 @@ repo = 'Shougo/vimproc.vim'
 build = 'make'
 
 [[plugins]]
-repo = 'Valloric/YouCompleteMe'
-if = "!has('nvim')"
-merged = 0
-# on_event = ['InsertEnter', 'CursorHold']
-
-[[plugins]]
 repo = 'Shougo/deoplete.nvim'
 if = "has('nvim')"
 
