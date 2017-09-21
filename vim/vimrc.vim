@@ -520,9 +520,7 @@ if g:use_plugins == s:true
       "----------ONEDARK----------
       " for YCM's warning area
       highlight! SpellCap cterm=underline gui=underline
-
-
-
+      highlight! Terminal ctermbg=black guibg=black
 
       " highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
       "
