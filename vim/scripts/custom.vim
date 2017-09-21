@@ -266,7 +266,7 @@ if dein#tap('tagbar')
   let g:tagbar_autoshowtag = 1
   let g:tagbar_autopreview = 0
   let g:tagbar_autofocus = 1
-  let g:tagbar_autoclose = 1
+  let g:tagbar_autoclose = 0
   " let g:tagbar_width = 30
   augroup vimrc_tagbar
     autocmd!

@@ -500,9 +500,10 @@ if g:use_plugins == s:true
       " colorscheme molokai
       " colorscheme summerfruit256
 
+      set background=dark
+      " colorscheme default
       colorscheme iceberg
       let g:airline_theme = 'iceberg'
-      set background=dark
 
       "----------JELLYBEANS----------
       " colorscheme jellybeans
@@ -546,6 +547,7 @@ if g:use_plugins == s:true
       else
         let g:indent_guides_auto_colors = 0
         " solarized(light)
+        if exists("g:colors_name")
           if g:colors_name ==# 'molokai'
             autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#303233 guibg=#262829
             autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#262829 guibg=#303233
@@ -570,6 +572,7 @@ if g:use_plugins == s:true
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=none guifg=#252629 guibg=#1A1B1E
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=none guifg=#1A1B1E guibg=#252629
           endif
+        endif
       endif
     catch
       echoerr 'error occured on loading color'
