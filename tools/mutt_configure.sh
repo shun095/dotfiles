@@ -1,3 +1,5 @@
+#!/bin/sh
+
 ./configure --enable-dependency-tracking \
     --enable-sidebar \
     --enable-compressed \
