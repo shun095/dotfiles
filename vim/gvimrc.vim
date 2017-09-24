@@ -23,10 +23,10 @@ if has('gui_running')
   set guioptions=rchb
   " フォントを設定
   if has('win32')
-    set guifont=Ricty_Diminished_for_Powerline:h12
+    set guifont=Ricty_Diminished_for_Powerline:h10
     " set guifont=ＭＳ_ゴシック:h12
   elseif has('unix')
-    set guifont=Ricty\ Diminished\ for\ Powerline\ 12
+    set guifont=Ricty\ Diminished\ for\ Powerline\ 10
   endif
 
   set vb t_vb=

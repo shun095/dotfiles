@@ -557,7 +557,6 @@ if g:use_plugins == g:true
         endif
       endif
     catch
-      echoerr 'error occured on loading color'
       colorscheme default
       set background=light
     endtry
