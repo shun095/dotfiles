@@ -279,12 +279,11 @@ if dein#tap('ultisnips')
   let g:UltiSnipsExpandTrigger = '<Tab>'
   let g:UltiSnipsJumpForwardTrigger = '<Tab>'
   let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
-  " let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips"
+
   if has('unix')
-    if !g:myvimrc_python_version ==? '' && has('python3')
-      let g:UltiSnipsUsePythonVersion = g:myvimrc_python_version
-      " let g:UltiSnipsUsePythonVersion = 2
-    else
+    if has('python3')
+      let g:UltiSnipsUsePythonVersion = 3
+    elseif has('python')
       let g:UltiSnipsUsePythonVersion = 2
     endif
   endif

@@ -2,8 +2,6 @@
 scriptencoding utf-8
 
 if has('gui_running')
-  let s:true = 1
-  let s:false = 0
 
   if v:version >= 800
     fun! s:set_rop(...)

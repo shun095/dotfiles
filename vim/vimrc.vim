@@ -9,8 +9,8 @@ if &compatible
   set nocompatible
 endif
 
-let s:true = 1
-let s:false = 0
+let g:true = 1
+let g:false = 0
 
 if filereadable($HOME . '/.vim/not_confirms.vim')
   source $HOME/.vim/not_confirms.vim
@@ -25,7 +25,7 @@ endif
 let $MYVIMHOME=$MYDOTFILES . '/vim'
 
 if !exists('g:use_plugins')
-  let g:use_plugins = s:true
+  let g:use_plugins = g:true
 endif
 " }}}
 
@@ -102,7 +102,6 @@ set nocursorline                                        " カーソル行のハ�
 set nocursorcolumn
 set backspace=indent,eol,start                        " バックスペース挙動のおまじない
 set clipboard=unnamed,unnamedplus                     " コピーした文字列がclipboardに入る(逆も）
-" Vimrc_clipboard_syncからの依存に注意
 set ignorecase                                        " 検索時大文字小文字無視
 set smartcase                                         " 大文字で始まる場合は無視しない
 set foldmethod=marker                                 " syntaxに応じて折りたたまれる
@@ -134,17 +133,16 @@ set noautochdir                                       " 今開いてるファイ
 set scrolloff=5                                       " カーソルが端まで行く前にスクロールし始める行数
 set ambiwidth=double                                  " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a                                           " マウスを有効化
-set mousehide                                       " 入力中にポインタを消すかどうか
+set mousehide                                         " 入力中にポインタを消すかどうか
 set mousemodel=popup
 set lazyredraw                                        " スクロールが間に合わない時などに描画を省略する
-set sessionoptions&
+set sessionoptions&                                   " セッションファイルに保存する内容
 set sessionoptions-=options
 set sessionoptions-=folds
 set sessionoptions-=blank
 set sessionoptions+=slash
-if has('gui_running')
-  set sessionoptions+=winpos,resize
-endif
+set sessionoptions+=winpos
+set sessionoptions+=resize
 " set splitbelow
 " set splitright
 set updatetime=1000
@@ -173,21 +171,21 @@ set statusline+=%y
 set statusline+=%4p%%%5l:%-3c
 " }}}
 if executable('files')
-  let g:myvimrc_files_isAvalable = 1
+  let g:myvimrc_files_isAvalable = g:true
 else
-  let g:myvimrc_files_isAvalable = 0
+  let g:myvimrc_files_isAvalable = g:false
 endif
 
 if executable('pt')
-  let g:myvimrc_pt_isAvalable = 1
+  let g:myvimrc_pt_isAvalable = g:true
 else
-  let g:myvimrc_pt_isAvalable = 0
+  let g:myvimrc_pt_isAvalable = g:false
 endif
 
 if executable('ag')
-  let g:myvimrc_ag_isAvalable = 1
+  let g:myvimrc_ag_isAvalable = g:true
 else
-  let g:myvimrc_ag_isAvalable = 0
+  let g:myvimrc_ag_isAvalable = g:false
 endif
 
 " agがあればgrepの代わりにagを使う
@@ -238,7 +236,6 @@ nnoremap <C-S-TAB> gT
 
 
 " !マークは挿入モードとコマンドラインモードへのマッピング
-" インサートモードとコマンドモードで一部emacsキーバインド
 " emacs like in insert/command mode
 noremap! <C-f> <Right>
 noremap! <C-b> <Left>
@@ -341,19 +338,10 @@ augroup VIMRC
   " クリップボードが無名レジスタと違ったら
   " (他のソフトでコピーしてきたということなので)
   " 他のレジスタに保存しておく
-  " if has('job')
-  " fun! Vimrc_clipboard_sync(timer)
-  " if @* != @"
-  " " let @" = @*
-  " let @0 = @*
-  " endif
-  " endf
-  " call timer_start(500,'Vimrc_clipboard_sync',{'repeat':-1})
-  " else
   autocmd FocusGained,CursorHold,CursorHoldI
         \ * if @* != @" | let @0 = @* | endif
-  " endif
 
+  " diff時に必ずwrapする
   autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 augroup END
 "}}}
@@ -406,9 +394,9 @@ nnoremap <silent> <Leader><C-f>c :FZF .<CR>
 let s:plugin_dir = $HOME . '/.vim/dein'
 let s:dein_dir = s:plugin_dir . '/repos/github.com/Shougo/dein.vim'
 
-if !isdirectory(s:dein_dir) && g:use_plugins == s:true
+if !isdirectory(s:dein_dir) && g:use_plugins == g:true
   " deinがインストールされてない場合そのままではプラグインは使わない
-  let g:use_plugins = s:false
+  let g:use_plugins = g:false
 
   let s:install_dein_diag_mes = 'Dein is not installed yet.Install now?'
   let s:dein_install_confirm = confirm(s:install_dein_diag_mes,"&yes\n&no\nn&ever",2)
@@ -419,7 +407,7 @@ if !isdirectory(s:dein_dir) && g:use_plugins == s:true
     exe printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
     " インストールが完了したらフラグを立てる
     if v:shell_error == 0
-      let g:use_plugins = s:true
+      let g:use_plugins = g:true
     else
       echoerr "Dein couldn't be installed correctly."
     endif
@@ -433,7 +421,7 @@ endif
 " ============================== "
 " Plugin Settings START          "
 " ============================== "
-if g:use_plugins == s:true
+if g:use_plugins == g:true
   " Load local settings"{{{
   if filereadable($HOME . '/localrcs/vim-local.vim')
     source $HOME/localrcs/vim-local.vim
@@ -443,10 +431,6 @@ if g:use_plugins == s:true
   " Plugin pre settings {{{
   " vimprocが呼ばれる前に設定
   let g:vimproc#download_windows_dll = 1
-  " プラグインで使われるpythonのバージョンを決定
-  if !exists('g:myvimrc_python_version')
-    let g:myvimrc_python_version = '3'
-  endif
   " }}}
 
   " Dein main settings {{{
@@ -545,7 +529,7 @@ if g:use_plugins == s:true
       else
         let g:indent_guides_auto_colors = 0
         " solarized(light)
-        if exists("g:colors_name")
+        if exists('g:colors_name')
           if g:colors_name ==# 'molokai'
             autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#303233 guibg=#262829
             autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#262829 guibg=#303233

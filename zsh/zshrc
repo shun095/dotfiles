@@ -75,7 +75,7 @@ fi
 
 gvim_call(){
     if [[ `\gvim --serverlist 2>/dev/null|wc -l` -ne 0 ]]; then
-        \gvim --remote-tab-silent $*
+        \gvim --remote $*
     else
         \gvim $*
     fi
