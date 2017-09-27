@@ -151,12 +151,19 @@ download_repositories(){
 
     if [[ ! -e ${OHMYZSHDIR} ]]; then
         echo "\n===== Download oh my zsh ===============================================\n"
-        git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+        git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
         pushd ~/.oh-my-zsh/custom/plugins
-            git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
+            git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
             git clone https://github.com/zsh-users/zsh-autosuggestions
         popd
-        #   git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
+
+        if [[ ! -e ${OHMYZSHDIR}/custom/themes ]]; then
+            mkdir -p ${OHMYZSHDIR}/custom/themes
+        fi
+
+        pushd ~/.oh-my-zsh/custom/themes
+            wget https://raw.githubusercontent.com/halfo/lambda-mod-zsh-theme/master/lambda-mod.zsh-theme
+        popd
     fi
 }
 
