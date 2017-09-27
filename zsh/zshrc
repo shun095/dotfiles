@@ -14,18 +14,6 @@ function mails(){
     tmux source ~/dotfiles/tmux/mutt_tile
 }
 
-function hima(){
-    i=1
-    while :;do
-        for j in $(seq 1 ${i});do
-            echo -n 暇 
-        done
-        (( i++ ))
-        echo
-        sleep 1
-    done
-}
-
 if [[ ! -n $TMUX ]]; then
     if [[ $TERM = 'xterm' ]]; then
         export TERM=xterm-256color

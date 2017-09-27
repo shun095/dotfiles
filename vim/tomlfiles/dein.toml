@@ -50,7 +50,7 @@ if = "has('nvim')"
 [[plugins]]
 repo = 'zchee/deoplete-clang'
 hook_source = '''
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang-3.8.so.1'
+let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang-3.8.so'
 let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
 '''
 on_ft = ['c', 'cpp', 'cmake']
