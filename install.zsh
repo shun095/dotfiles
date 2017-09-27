@@ -125,7 +125,7 @@ remove_rcfiles() {
 uninstall_plugins() {
     echo "Remove fzf and zprezto directory"
     $HOME/.fzf/uninstall
-    # \rm -rf $ZPREZTODIR
+    \rm -rf $ZPREZTODIR
     \rm -rf $FZFDIR
     \rm -rf $OHMYZSHDIR
 }
