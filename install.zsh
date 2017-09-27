@@ -161,9 +161,11 @@ download_repositories(){
             mkdir -p ${OHMYZSHDIR}/custom/themes
         fi
 
-        pushd ~/.oh-my-zsh/custom/themes
-            wget https://raw.githubusercontent.com/halfo/lambda-mod-zsh-theme/master/lambda-mod.zsh-theme
-        popd
+        cp $MYDOTFILES/zsh/lambda-mod-mod.zsh-theme ${OHMYZSHDIR}/custom/themes/
+
+        # pushd ~/.oh-my-zsh/custom/themes
+            # wget https://raw.githubusercontent.com/halfo/lambda-mod-zsh-theme/master/lambda-mod.zsh-theme
+        # popd
     fi
 }
 
