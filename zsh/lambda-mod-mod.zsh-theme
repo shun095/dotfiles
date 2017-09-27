@@ -28,8 +28,7 @@ function get_right_prompt() {
     fi
 }
 
-# PROMPT=$'\n'$LAMBDA'\
-PROMPT=$'\n''\
+PROMPT=$'\n'$LAMBDA'\
  %{$fg_bold[$USERCOLOR]%}%n\
  %{$fg_no_bold[blue]%}%m\
  %{$fg_no_bold[green]%}[%4~]\
