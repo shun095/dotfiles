@@ -258,7 +258,7 @@ deploy_prezto_files() {
 }
 
 deploy_ohmyzsh_files() {
-    echo "\n===== Install prezto =================================================\n"
+    echo "\n===== Install OhMyZSH =================================================\n"
 
     cp $MYDOTFILES/zsh/ohmyzshrc ~/.zshrc
 
