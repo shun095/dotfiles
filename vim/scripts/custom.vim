@@ -61,6 +61,8 @@ if dein#tap('YouCompleteMe')
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
   " autocmd VIMRCCUSTOM FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
   nnoremap <leader><c-]> :<C-u>YcmCompleter GoTo<CR>
+  nnoremap <leader>} :<C-u>YcmCompleter GoToDefinition<CR>
+  nnoremap <leader>{ :<C-u>YcmCompleter GoToDeclaration<CR>
   augroup vimrc_ycm
     autocmd filetype python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR><C-w>P:<C-u>set ft=rst<CR>
   augroup END
