@@ -7,6 +7,7 @@ export MYDOTFILES=$HOME/dotfiles
 # directories
 FZFDIR="$HOME/.fzf"
 ZPREZTODIR="${ZDOTDIR:-$HOME}/.zprezto"
+OHMYZSHDIR="$HOME/.oh-my-zsh"
 
 # symlinks
 ZSHRC="$HOME/.zshrc"
@@ -70,10 +71,10 @@ EOF
 
 update_repositories() {
         echo "\n===== Checking plugin repositories ===================================\n"
-        echo "Checking zprezto repository"
-        pushd ${ZPREZTODIR}
-        git pull && git submodule update --init --recursive
-        popd
+        # echo "Checking zprezto repository"
+        # pushd ${ZPREZTODIR}
+        # git pull && git submodule update --init --recursive
+        # popd
 
         echo "Checking fzf repository"
         pushd ${FZFDIR}
@@ -124,8 +125,9 @@ remove_rcfiles() {
 uninstall_plugins() {
     echo "Remove fzf and zprezto directory"
     $HOME/.fzf/uninstall
-    \rm -rf $ZPREZTODIR
+    # \rm -rf $ZPREZTODIR
     \rm -rf $FZFDIR
+    \rm -rf $OHMYZSHDIR
 }
 
 git_configulation() {
@@ -140,10 +142,20 @@ download_repositories(){
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     fi
 
-    # download zprezto
-    if [[ ! -e ${ZPREZTODIR} ]]; then
-        echo "\n===== Download zprezto ===============================================\n"
-        git clone --recursive https://github.com/zsh-users/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+    # # download zprezto
+    # if [[ ! -e ${ZPREZTODIR} ]]; then
+        # echo "\n===== Download zprezto ===============================================\n"
+        # git clone --recursive https://github.com/zsh-users/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+        # #   git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
+    # fi
+
+    if [[ ! -e ${OHMYZSHDIR} ]]; then
+        echo "\n===== Download oh my zsh ===============================================\n"
+        git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+        pushd ~/.oh-my-zsh/custom/plugins
+            git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
+            git clone https://github.com/zsh-users/zsh-autosuggestions
+        popd
         #   git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
     fi
 }
@@ -238,6 +250,22 @@ deploy_prezto_files() {
     insert_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
 }
 
+deploy_ohmyzsh_files() {
+    echo "\n===== Install prezto =================================================\n"
+
+    cp $MYDOTFILES/zsh/ohmyzshrc ~/.zshrc
+
+    # restore zshrc backup if exists
+    if [[ -e "$HOME/.zshrc.bak0" ]]; then
+        echo "Restore backup of zshrc"
+        cat ~/.zshrc.bak0 > ~/.zshrc
+    fi
+
+    # append line if zshrc doesn't has below line
+    # append_line 1 "source $MYDOTFILES/zsh/zshrc" "$HOME/.zshrc"
+    insert_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
+}
+
 deploy_selfmade_rcfiles() {
     # make symlinks
     echo "\n===== Install RC files ===============================================\n"
@@ -269,7 +297,8 @@ backup() {
 }
 
 deploy() {
-    deploy_prezto_files
+    # deploy_prezto_files
+    deploy_ohmyzsh_files
     deploy_selfmade_rcfiles
     deploy_fzf
 }
