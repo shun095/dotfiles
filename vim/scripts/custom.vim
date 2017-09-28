@@ -392,25 +392,26 @@ if dein#tap('vim-airline')
     let g:airline_symbols = {}
   endif
   " powerline symbols" {{{
-  if has('win32') && (!has('gui_running'))
+  " if has('win32') && (!has('gui_running'))
     let g:airline_left_sep                         = ''
     let g:airline_left_alt_sep                     = ''
     let g:airline_right_sep                        = ''
     let g:airline_right_alt_sep                    = ''
-  else
-    let g:airline#extensions#tabline#left_sep      = '⮀'
-    let g:airline#extensions#tabline#left_alt_sep  = '⮁'
-    let g:airline#extensions#tabline#right_sep     = '⮂'
-    let g:airline#extensions#tabline#right_alt_sep = '⮃'
-    let g:airline_left_sep                         = '⮀'
-    let g:airline_left_alt_sep                     = '⮁'
-    let g:airline_right_sep                        = '⮂'
-    let g:airline_right_alt_sep                    = '⮃'
+    let g:airline_symbols.branch                   = ''
+  " else
+    " let g:airline#extensions#tabline#left_sep      = '⮀'
+    " let g:airline#extensions#tabline#left_alt_sep  = '⮁'
+    " let g:airline#extensions#tabline#right_sep     = '⮂'
+    " let g:airline#extensions#tabline#right_alt_sep = '⮃'
+    " let g:airline_left_sep                         = '⮀'
+    " let g:airline_left_alt_sep                     = '⮁'
+    " let g:airline_right_sep                        = '⮂'
+    " let g:airline_right_alt_sep                    = '⮃'
 
-    let g:airline_symbols.branch                   = '⭠'
-    let g:airline_symbols.readonly                 = '⭤'
-    let g:airline_symbols.linenr                   = '⭡'
-  endif " }}}
+    " let g:airline_symbols.branch                   = '⭠'
+    " let g:airline_symbols.readonly                 = '⭤'
+    " let g:airline_symbols.linenr                   = '⭡'
+  " endif " }}}
   let g:airline_symbols.maxlinenr                  = ''
   let g:airline_symbols.linenr                     = ''
 
