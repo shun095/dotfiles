@@ -1,3 +1,4 @@
+# vim:ft=zsh
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -51,7 +52,14 @@ ZSH_THEME="lambda-mod-mod"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions history-substring-search)
+plugins=(
+git
+pip
+command-not-found
+zsh-syntax-highlighting
+zsh-autosuggestions
+history-substring-search
+)
 
 source $ZSH/oh-my-zsh.sh
 
