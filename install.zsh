@@ -161,8 +161,6 @@ download_repositories(){
             mkdir -p ${OHMYZSHDIR}/custom/themes
         fi
 
-        ln -s $MYDOTFILES/zsh/lambda-mod-mod.zsh-theme ${OHMYZSHDIR}/custom/themes/
-
         # pushd ~/.oh-my-zsh/custom/themes
             # wget https://raw.githubusercontent.com/halfo/lambda-mod-zsh-theme/master/lambda-mod.zsh-theme
         # popd
@@ -269,6 +267,8 @@ deploy_ohmyzsh_files() {
         echo "Restore backup of zshrc"
         cat ~/.zshrc.bak0 > ~/.zshrc
     fi
+
+    ln -s $MYDOTFILES/zsh/lambda-mod-mod.zsh-theme ${OHMYZSHDIR}/custom/themes/
 
     # append line if zshrc doesn't has below line
     append_line 1 "source $MYDOTFILES/zsh/zshrc" "$HOME/.zshrc"
