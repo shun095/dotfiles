@@ -141,8 +141,8 @@ set sessionoptions-=options
 set sessionoptions-=folds
 set sessionoptions-=blank
 set sessionoptions+=slash
-set sessionoptions+=winpos
-set sessionoptions+=resize
+" set sessionoptions+=winpos
+" set sessionoptions+=resize
 " set splitbelow
 " set splitright
 set updatetime=1000
