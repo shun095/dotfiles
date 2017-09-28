@@ -161,7 +161,7 @@ download_repositories(){
             mkdir -p ${OHMYZSHDIR}/custom/themes
         fi
 
-        cp $MYDOTFILES/zsh/lambda-mod-mod.zsh-theme ${OHMYZSHDIR}/custom/themes/
+        ln -s $MYDOTFILES/zsh/lambda-mod-mod.zsh-theme ${OHMYZSHDIR}/custom/themes/
 
         # pushd ~/.oh-my-zsh/custom/themes
             # wget https://raw.githubusercontent.com/halfo/lambda-mod-zsh-theme/master/lambda-mod.zsh-theme
@@ -260,9 +260,9 @@ deploy_prezto_files() {
 }
 
 deploy_ohmyzsh_files() {
-    echo "\n===== Install OhMyZSH =================================================\n"
+    echo "\n===== Install oh my zsh =================================================\n"
 
-    cp $MYDOTFILES/zsh/ohmyzshrc ~/.zshrc
+    touch ~/.zshrc
 
     # restore zshrc backup if exists
     if [[ -e "$HOME/.zshrc.bak0" ]]; then
@@ -271,7 +271,7 @@ deploy_ohmyzsh_files() {
     fi
 
     # append line if zshrc doesn't has below line
-    # append_line 1 "source $MYDOTFILES/zsh/zshrc" "$HOME/.zshrc"
+    append_line 1 "source $MYDOTFILES/zsh/zshrc" "$HOME/.zshrc"
     insert_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
 }
 
