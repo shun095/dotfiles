@@ -296,7 +296,7 @@ augroup VIMRC
   " cpp関係の設定
   autocmd FileType c,cpp setl foldmethod=syntax
 " パス名置換によるヘッダファイル、ソースファイル切り替えハック
-  autocmd FileType cpp nnoremap <buffer> <F4> :e %:p:s/.h$/.XXX/:s/.cpp$/.h/:s/.XXX$/.cpp/<CR>
+  " autocmd FileType cpp nnoremap <buffer> <F4> :e %:p:s/.h$/.XXX/:s/.cpp$/.h/:s/.XXX$/.cpp/<CR>
 
   autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2
   autocmd BufEnter *.vim execute 'setl iskeyword+=:'

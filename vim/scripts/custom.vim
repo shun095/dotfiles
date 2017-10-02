@@ -1133,3 +1133,7 @@ if dein#tap('vim-cpp-enhanced-highlight')
   let g:cpp_class_decl_highlight = 1
   let g:cpp_concepts_highlight = 1
 endif
+
+if dein#tap('next-alter.vim')
+  nnoremap <F4> :OpenNAlter<CR>
+endif
