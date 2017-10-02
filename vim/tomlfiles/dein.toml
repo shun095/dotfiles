@@ -58,23 +58,20 @@ if = "has('nvim')"
 
 [[plugins]]
 repo = 'https://github.com/Rip-Rip/clang_complete'
-hook_source = '''
-    let g:clang_library_path='/usr/lib/llvm-3.8/lib'
-'''
-depends = 'deoplete.nvim'
+if = "dein#tap('deoplete.nvim')"
 
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
-depends = 'deoplete.nvim'
+if = "dein#tap('deoplete.nvim')"
 
 [[plugins]]
 repo = 'carlitux/deoplete-ternjs'
-depends = 'deoplete.nvim'
+if = "dein#tap('deoplete.nvim')"
 
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
 on_ft = ['python']
-depends = ['deoplete.nvim']
+if = "dein#tap('deoplete.nvim')"
 
 # }}}
 

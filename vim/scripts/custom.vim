@@ -671,6 +671,10 @@ if dein#tap('vim-clang-format')
   " nnoremap <C-r> :call <SID>saferedo()<CR>
 endif
 
+if dein#tap('clang_complete')
+    let g:clang_library_path='/usr/lib/llvm-3.8/lib'
+endif
+
 if dein#tap('vim-dirvish')
   nnoremap <silent> <Leader>e :exe ":" . <SID>open_mydirvish()<CR>
   nnoremap <silent> <Leader>E :Dirvish .<cr>
