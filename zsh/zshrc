@@ -16,47 +16,50 @@ function mails(){
     tmux source ~/dotfiles/tmux/mutt_tile
 }
 
-if [[ ! -n $TMUX ]]; then
-    if [[ $TERM = 'xterm' ]]; then
-        export TERM=xterm-256color
-    fi
-
-    if [[ `tmux list-sessions 2>/dev/null|wc -l` -ne 0 ]]; then
-        exist_sessions=(`tmux list-sessions|sed "s/:.*//"`)
-        attached_sessions=(`tmux list-sessions|grep attached|sed "s/:.*//"`)
-        detached_sessions=(`tmux list-sessions|grep -v attached|sed "s/:.*//"`)
-    fi
-
-    if [[ $#exist_sessions -eq $#attached_sessions ]]; then
-        idx=0
-        while [[ -n ${exist_sessions[(re)$idx]} ]]; do
-            (( idx++ ))
-        done
-        if [[ $TERM = 'linux' ]]; then
-            tmux -2 new-session -s $idx
-        else
-            tmux new-session -s $idx
+function tmux_call(){
+    if [[ ! -n $TMUX ]]; then
+        if [[ $TERM = 'xterm' ]]; then
+            export TERM=xterm-256color
         fi
-    else
-        if [[ $TERM = 'linux' ]]; then
-            tmux -2 attach -t ${detached_sessions[1]}
+
+        if [[ `\tmux list-sessions 2>/dev/null|wc -l` -ne 0 ]]; then
+            exist_sessions=(`\tmux list-sessions|sed "s/:.*//"`)
+            attached_sessions=(`\tmux list-sessions|grep attached|sed "s/:.*//"`)
+            detached_sessions=(`\tmux list-sessions|grep -v attached|sed "s/:.*//"`)
+        fi
+
+        if [[ $#exist_sessions -eq $#attached_sessions ]]; then
+            idx=0
+            while [[ -n ${exist_sessions[(re)$idx]} ]]; do
+                (( idx++ ))
+            done
+            if [[ $TERM = 'linux' ]]; then
+                \tmux -2 new-session -s $idx
+            else
+                \tmux new-session -s $idx
+            fi
         else
-            tmux attach -t ${detached_sessions[1]}
+            if [[ $TERM = 'linux' ]]; then
+                \tmux -2 attach -t ${detached_sessions[1]}
+            else
+                \tmux attach -t ${detached_sessions[1]}
+            fi
         fi
     fi
-fi
+}
+
 
 if [[ -x "`which trash-put`" ]]; then
-	alias rm="trash-put"
+    alias rm="trash-put"
 else
-	echo "Recommended to install 'trash-cli'"
-	to_trash() {
-		for file in $@
-		do
-			mv $file ~/.trash
-		done
-	}
-	alias rm="to_trash"
+    echo "Recommended to install 'trash-cli'"
+    to_trash() {
+        for file in $@
+        do
+            mv $file ~/.trash
+        done
+    }
+    alias rm="to_trash"
 fi
 
 if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
@@ -72,7 +75,9 @@ gvim_call(){
 
 }
 
-alias gvim=gvim_call $*
+tmux_call
+
+# alias gvim=gvim_call $*
 alias em="emacs"
 alias dir="dir --group-directories-first --color=auto"
 stty stop undef
