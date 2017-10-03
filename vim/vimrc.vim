@@ -98,45 +98,45 @@ set visualbell
 set t_vb=
 
 " set diffopt=filler,iwhite                   " diffのときの挙動
-set nocursorline                                        " カーソル行のハイライト
+set nocursorline                  " カーソル行のハイライト
 set nocursorcolumn
-set backspace=indent,eol,start                        " バックスペース挙動のおまじない
-set clipboard=unnamed,unnamedplus                     " コピーした文字列がclipboardに入る(逆も）
-set ignorecase                                        " 検索時大文字小文字無視
-set smartcase                                         " 大文字で始まる場合は無視しない
-set foldmethod=marker                                 " syntaxに応じて折りたたまれる
+set backspace=indent,eol,start    " バックスペース挙動のおまじない
+set clipboard=unnamed,unnamedplus " コピーした文字列がclipboardに入る(逆も）
+set ignorecase                    " 検索時大文字小文字無視
+set smartcase                     " 大文字で始まる場合は無視しない
+set foldmethod=marker             " syntaxに応じて折りたたまれる
 set nofoldenable
-set tabstop=4                                         " タブキーの挙動設定。タブをスペース4つ分とする
-set shiftwidth=4                                      " インデントでスペース４つ分下げる
-set expandtab                                         " タブをスペースに変換
+set tabstop=4                     " タブキーの挙動設定。タブをスペース4つ分とする
+set shiftwidth=4                  " インデントでスペース４つ分下げる
+set expandtab                     " タブをスペースに変換
 set autoindent
-set softtabstop=4                                     " バックスペース等でスペースを消す幅
-set list                                              " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
+set softtabstop=4                 " バックスペース等でスペースを消す幅
+set list                          " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
 set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<,nbsp:%
-set wildmenu                                          " コマンドの補完設定
-set wildmode=longest:full,full                        " コマンドの補完スタイル
-set laststatus=2                                      " 下のステータスバーの表示
-set display=lastline                                  " 一行が長い場合でも@にせずちゃんと表示
-set showcmd                                           " 入力中のコマンドを右下に表示
-set cmdheight=2                                       " コマンドラインの高さ
-set showtabline=2                                     " タブバーを常に表示
-set number                                            " 行番号表示
+set wildmenu                      " コマンドの補完設定
+set wildmode=longest:full,full    " コマンドの補完スタイル
+set laststatus=2                  " 下のステータスバーの表示
+set display=lastline              " 一行が長い場合でも@にせずちゃんと表示
+set showcmd                       " 入力中のコマンドを右下に表示
+set cmdheight=2                   " コマンドラインの高さ
+set showtabline=2                 " タブバーを常に表示
+set number                        " 行番号表示
 set norelativenumber
-set hlsearch                                          " 文字列検索時にハイライトする
-set incsearch                                         " 文字入力中に検索を開始
-set ruler                                             " 右下の現在行の表示
+set hlsearch                      " 文字列検索時にハイライトする
+set incsearch                     " 文字入力中に検索を開始
+set ruler                         " 右下の現在行の表示
 set hidden
-set noequalalways                                     " splitしたときにウィンドウが同じ大きさになるよう調節する
-set tags+=./tags;,./tags-ja;                          " タグファイルを上層に向かって探す
-set autoread                                          " 他のソフトで、編集中ファイルが変更されたとき自動Reload
-set noautochdir                                       " 今開いてるファイルにカレントディレクトリを移動するか
-set scrolloff=5                                       " カーソルが端まで行く前にスクロールし始める行数
-set ambiwidth=double                                  " 全角記号（「→」など）の文字幅を半角２つ分にする
-set mouse=a                                           " マウスを有効化
-set mousehide                                         " 入力中にポインタを消すかどうか
+set noequalalways                 " splitしたときにウィンドウが同じ大きさになるよう調節する
+set tags+=./tags;,./tags-ja;      " タグファイルを上層に向かって探す
+set autoread                      " 他のソフトで、編集中ファイルが変更されたとき自動Reload
+set noautochdir                   " 今開いてるファイルにカレントディレクトリを移動するか
+set scrolloff=5                   " カーソルが端まで行く前にスクロールし始める行数
+set ambiwidth=double              " 全角記号（「→」など）の文字幅を半角２つ分にする
+set mouse=a                       " マウスを有効化
+set mousehide                     " 入力中にポインタを消すかどうか
 set mousemodel=popup
-set lazyredraw                                        " スクロールが間に合わない時などに描画を省略する
-set sessionoptions&                                   " セッションファイルに保存する内容
+set lazyredraw                    " スクロールが間に合わない時などに描画を省略する
+set sessionoptions&               " セッションファイルに保存する内容
 set sessionoptions-=options
 set sessionoptions-=folds
 set sessionoptions-=blank
@@ -149,17 +149,17 @@ set updatetime=1000
 set timeoutlen=1000
 set ttimeoutlen=100
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判別優先順位の設定
-set fileformats=unix,dos,mac                          " 改行コード自動判別優先順位の設定
+set fileformats=unix,dos,mac       " 改行コード自動判別優先順位の設定
 set complete=.,w,b,u,k,s,t,i,d,t
-set completeopt=menuone                       " 補完関係の設定
+set completeopt=menuone            " 補完関係の設定
 set omnifunc=syntaxcomplete#Complete
-set iminsert=0                                        " IMEの管理
+set iminsert=0                     " IMEの管理
 set imsearch=0
 
-if v:version >= 800 || has('nvim')                    " バージョン検出
-  set breakindent                                     " version8以降搭載の便利オプション
+if v:version >= 800 || has('nvim') " バージョン検出
+  set breakindent                  " version8以降搭載の便利オプション
   set display=truncate
-  set emoji                                           " 絵文字を全角表示
+  set emoji                        " 絵文字を全角表示
   set completeopt+=noselect
 endif
 
@@ -206,7 +206,7 @@ endif
 set undodir=$HOME/.vim/undofiles
 set undofile
 
-"  set backupでスワップファイルを保存する
+" set backupでスワップファイルを保存する
 " 該当フォルダがなければ作成
 if !isdirectory($HOME . '/.vim/backupfiles')
   call mkdir($HOME . '/.vim/backupfiles','p')
@@ -295,7 +295,7 @@ augroup VIMRC
 
   " cpp関係の設定
   autocmd FileType c,cpp setl foldmethod=syntax
-" パス名置換によるヘッダファイル、ソースファイル切り替えハック
+  " パス名置換によるヘッダファイル、ソースファイル切り替えハック
   " autocmd FileType cpp nnoremap <buffer> <F4> :e %:p:s/.h$/.XXX/:s/.cpp$/.h/:s/.XXX$/.cpp/<CR>
 
   autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2
@@ -506,8 +506,8 @@ if g:use_plugins == g:true
       " highlight! link htmlH1 Function
       "----------ONEDARK----------
       " for YCM's warning area
-      highlight! SpellCap cterm=underline gui=underline
-      highlight! Terminal ctermbg=black guibg=black
+      " highlight! SpellCap cterm=underline gui=underline
+      " highlight! Terminal ctermbg=black guibg=black
 
       " highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
       "
@@ -544,6 +544,9 @@ if g:use_plugins == g:true
             autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#183F49 guibg=#0C3540
             autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
             autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
+          elseif g:colors_name ==# 'iceberg'
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#21232C guibg=#2C2E36
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#2C2E36 guibg=#21232C
             " summerfruit
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
