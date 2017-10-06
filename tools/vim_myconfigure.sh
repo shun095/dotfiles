@@ -33,8 +33,9 @@ git pull origin master
 
 echo 
 echo "This program will be installed in ${PREFIX}."
-echo "Install now???[y/n]"
-read ans
+# echo "Install now???[y/n]"
+# read ans
+ans=y
 
 case $ans in
     [Yy] | [Yy][Ee][Ss] )

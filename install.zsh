@@ -268,7 +268,9 @@ deploy_ohmyzsh_files() {
         cat ~/.zshrc.bak0 > ~/.zshrc
     fi
 
-    ln -s $MYDOTFILES/zsh/lambda-mod-mod.zsh-theme ${OHMYZSHDIR}/custom/themes/
+    if [[ ! -e ${OHMYZSHDIR}/custom/themes/lambda-mod-mod.zsh-theme ]]; then
+        ln -s $MYDOTFILES/zsh/lambda-mod-mod.zsh-theme ${OHMYZSHDIR}/custom/themes/
+    fi
 
     # append line if zshrc doesn't has below line
     append_line 1 "source $MYDOTFILES/zsh/zshrc" "$HOME/.zshrc"
