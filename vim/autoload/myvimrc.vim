@@ -96,6 +96,12 @@ fun! myvimrc#copypath() abort
   let @+ = expand('%:p')
 endf
 
+fun! myvimrc#copyfname() abort
+  let @" = expand('%:t')
+  let @* = expand('%:t')
+  let @+ = expand('%:t')
+endfun
+
 fun! myvimrc#copydirpath() abort
   let @" = expand('%:p:h')
   let @* = expand('%:p:h')
