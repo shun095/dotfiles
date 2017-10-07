@@ -243,9 +243,9 @@ repo = 'mopp/next-alter.vim'
 [[plugins]]
 repo = 'chiel92/vim-autoformat'
 
-[[plugins]]
-repo = 'xolox/vim-misc'
+# [[plugins]]
+# repo = 'xolox/vim-misc'
 
-[[plugins]]
-repo = 'xolox/vim-easytags'
-depends = 'vim-misc'
+# [[plugins]]
+# repo = 'xolox/vim-easytags'
+# depends = 'vim-misc'

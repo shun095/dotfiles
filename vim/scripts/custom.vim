@@ -371,7 +371,7 @@ if dein#tap('vim-airline')
   let g:airline#extensions#tabline#exclude_preview   = 0
 
   let g:airline#extensions#tabline#show_tabs         = 1
-  let g:airline#extensions#tabline#show_splits       = 1
+  let g:airline#extensions#tabline#show_splits       = 0
   let g:airline#extensions#tabline#show_buffers      = 0
   let g:airline#extensions#tabline#tab_nr_type       = 2 " splits and tab number
   let g:airline#extensions#tabline#show_close_button = 0 "}}}
@@ -1135,5 +1135,5 @@ if dein#tap('vim-cpp-enhanced-highlight')
 endif
 
 if dein#tap('next-alter.vim')
-  nnoremap <F4> :OpenNAlter<CR>
+  nmap <F4> <Plug>(next-alter-open)
 endif
