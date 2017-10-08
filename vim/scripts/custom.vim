@@ -4,7 +4,7 @@ if &compatible
   set nocompatible
 endif
 
-if dein#tap('TweetVim')
+if myvimrc#plug_tap('TweetVim')
   " 1ページに表示する最大数
   " let g:tweetvim_tweet_per_page = 100
   " F6と,uvでTweetVimのtimeline選択
@@ -37,7 +37,7 @@ if dein#tap('TweetVim')
   " augroup END
 endif
 
-if dein#tap('YouCompleteMe')
+if myvimrc#plug_tap('YouCompleteMe')
   let g:ycm_global_ycm_extra_conf = $MYDOTFILES . '/vim/scripts/.ycm_extra_conf.py'
   "       \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
   "       \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
@@ -68,11 +68,11 @@ if dein#tap('YouCompleteMe')
   augroup END
 endif
 
-if dein#tap('ctrlp-filer')
+if myvimrc#plug_tap('ctrlp-filer')
   nnoremap <Leader>f :<C-u>CtrlPFiler<cr>
 endif
 
-if dein#tap('ctrlp.vim')
+if myvimrc#plug_tap('ctrlp.vim')
   " let g:ctrlp_cmd = 'CtrlPMRUFiles'
   " yankroundのところでマッピングし直している
   let g:ctrlp_map = ''
@@ -163,7 +163,7 @@ if dein#tap('ctrlp.vim')
   " endif
 endif
 
-if dein#tap('foldCC.vim')
+if myvimrc#plug_tap('foldCC.vim')
   let g:foldCCtext_enable_autofdc_adjuster = 1
   let g:foldCCtext_head = ''
   let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
@@ -178,14 +178,14 @@ if dein#tap('foldCC.vim')
   " augroup END "}}}
 endif
 
-if dein#tap('html5.vim')
+if myvimrc#plug_tap('html5.vim')
   let g:html5_event_handler_attributes_complete = 1
   let g:html5_rdfa_attributes_complete = 1
   let g:html5_microdata_attributes_complete = 1
   let g:html5_aria_attributes_complete = 1
 endif
 
-if dein#tap('markdown-preview.vim')
+if myvimrc#plug_tap('markdown-preview.vim')
   let g:mkdp_auto_close = 0
   let g:mkdp_auto_open = 0
   let g:mkdp_auto_start = 0
@@ -200,12 +200,12 @@ if dein#tap('markdown-preview.vim')
   endif
 endif
 
-if dein#tap('memolist.vim')
+if myvimrc#plug_tap('memolist.vim')
   " let g:memolist_memo_suffix = 'txt'
   " let g:memolist_unite = 1
   " let g:memolist_denite = 1
   " let g:memolist_ex_cmd = 'Denite file_rec '
-  " if dein#tap('nerdtree')
+  " if myvimrc#plug_tap('nerdtree')
   " let g:memolist_ex_cmd = 'e'
   " endif
 
@@ -214,7 +214,7 @@ if dein#tap('memolist.vim')
   " nmap <Leader>ml :execute "Denite file_rec -path=" . g:memolist_path<cr>
 endif
 
-if dein#tap('nerdtree')
+if myvimrc#plug_tap('nerdtree')
   nnoremap <Leader>e :NERDTreeFind<CR>
   nnoremap <Leader>E :NERDTreeCWD<CR>
 
@@ -230,7 +230,7 @@ if dein#tap('nerdtree')
   let NERDTreeMinimalUI = 1
 endif
 
-if dein#tap('open-browser.vim')
+if myvimrc#plug_tap('open-browser.vim')
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
@@ -238,7 +238,7 @@ if dein#tap('open-browser.vim')
   nnoremap <Leader>os :<C-u>OpenBrowserSearch<Space>
 endif
 
-if dein#tap('previm')
+if myvimrc#plug_tap('previm')
   let g:previm_enable_realtime = 1
   " let g:previm_custom_css_path = $HOME . '/.vim/dein/repos/github.com/jasonm23/markdown-css-themes/markdown.css'
   let g:previm_show_header = 0
@@ -252,15 +252,15 @@ if dein#tap('previm')
   augroup END
 endif
 
-if dein#tap('restart.vim')
+if myvimrc#plug_tap('restart.vim')
   let g:restart_sessionoptions = &sessionoptions
 endif
 
-if dein#tap('supertab')
+if myvimrc#plug_tap('supertab')
   let g:SuperTabDefaultCompletionType = '<c-n>'
 endif
 
-if dein#tap('tagbar')
+if myvimrc#plug_tap('tagbar')
   nnoremap <silent> <Leader>t :TagbarOpen j<CR>
   let g:tagbar_show_linenumbers = 0
   let g:tagbar_sort = 0
@@ -276,7 +276,7 @@ if dein#tap('tagbar')
   augroup END
 endif
 
-if dein#tap('ultisnips')
+if myvimrc#plug_tap('ultisnips')
   " better key bindings for UltiSnipsExpandTrigger
   let g:UltiSnipsExpandTrigger = '<Tab>'
   let g:UltiSnipsJumpForwardTrigger = '<Tab>'
@@ -291,13 +291,13 @@ if dein#tap('ultisnips')
   endif
 endif
 
-if dein#tap('undotree')
+if myvimrc#plug_tap('undotree')
   let g:undotree_WindowLayout = 2
   let g:undotree_SplitWidth = 30
   nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
 endif
 
-if dein#tap('unite.vim')
+if myvimrc#plug_tap('unite.vim')
   nnoremap <silent> <Leader>ub :<C-u>Unite buffer<CR>
   " if has('win32')
   nnoremap <silent> <Leader>uf :call myvimrc#command_at_destdir(expand('%:h'),['UniteWithProjectDir file_rec'])<CR>
@@ -358,7 +358,7 @@ if dein#tap('unite.vim')
   " nnoremap <space>r <Plug>(unite_restart)
 endif
 
-if dein#tap('vim-airline')
+if myvimrc#plug_tap('vim-airline')
   let g:airline#extensions#tagbar#enabled            = 0
   let g:airline#extensions#branch#enabled            = 1
   let g:airline#extensions#branch#empty_message      = ''
@@ -422,7 +422,7 @@ if dein#tap('vim-airline')
   "			 \ ] " }}}
 endif
 
-if dein#tap('lightline.vim')
+if myvimrc#plug_tap('lightline.vim')
   let g:lightline = {
         \ 'colorscheme': 'iceberg',
         \ 'active': {
@@ -580,7 +580,7 @@ if dein#tap('lightline.vim')
   let g:vimshell_force_overwrite_statusline = 0
 endif
 
-if dein#tap('vim-anzu')
+if myvimrc#plug_tap('vim-anzu')
   " mapping
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
@@ -588,13 +588,13 @@ if dein#tap('vim-anzu')
   nmap # <Plug>(anzu-sharp-with-echo)
 endif
 
-if dein#tap('vim-brightest')
+if myvimrc#plug_tap('vim-brightest')
   let g:brightest#highlight = {
         \   'group' : 'BrightestUnderline'
         \}
 endif
 
-if dein#tap('vim-clang-format')
+if myvimrc#plug_tap('vim-clang-format')
   let g:clang_format#auto_format = 0
   let g:clang_format#command = 'clang-format'
   if has('unix')
@@ -642,11 +642,11 @@ if dein#tap('vim-clang-format')
   " nnoremap <C-r> :call <SID>saferedo()<CR>
 endif
 
-if dein#tap('clang_complete')
+if myvimrc#plug_tap('clang_complete')
     let g:clang_library_path='/usr/lib/llvm-3.8/lib'
 endif
 
-if dein#tap('vim-dirvish')
+if myvimrc#plug_tap('vim-dirvish')
   nnoremap <silent> <Leader>e :exe ":" . <SID>open_mydirvish()<CR>
   nnoremap <silent> <Leader>E :Dirvish .<cr>
   " nnoremap <silent> <Leader>e :Dirvish %:p:h<CR>
@@ -733,7 +733,7 @@ if dein#tap('vim-dirvish')
   augroup END
 endif
 
-if dein#tap('vim-easy-align')
+if myvimrc#plug_tap('vim-easy-align')
   " ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
   vmap <Enter> <Plug>(LiveEasyAlign)
   " easy-align を呼んだ上で，移動したりテキストオブジェクトを指定して整形．(e.g. gaip)
@@ -742,19 +742,19 @@ if dein#tap('vim-easy-align')
   " xmap ga <Plug>(EasyAlign)
 endif
 
-if dein#tap('vim-easymotion')
+if myvimrc#plug_tap('vim-easymotion')
   let g:EasyMotion_do_mapping = 0
   nmap <Leader>s <Plug>(easymotion-overwin-f2)
 endif
 
-if dein#tap('vim-indent-guides')
+if myvimrc#plug_tap('vim-indent-guides')
   let g:indent_guides_guide_size = 0
   let g:indent_guides_color_change_percent = 5
   let g:indent_guides_start_level = 1
   let g:indent_guides_enable_on_vim_startup = 1
 endif
 
-if dein#tap('vim-multiple-cursors')
+if myvimrc#plug_tap('vim-multiple-cursors')
   let g:multi_cursor_use_default_mapping = 0
   " Default mapping
   let g:multi_cursor_start_key = 'g<C-n>'
@@ -764,7 +764,7 @@ if dein#tap('vim-multiple-cursors')
   let g:multi_cursor_quit_key = '<Esc>'
 endif
 
-if dein#tap('vim-precious')
+if myvimrc#plug_tap('vim-precious')
   " let g:context_filetype#search_offset = 300
   let g:precious_enable_switch_CursorMoved = {
         \   '*' : 0,
@@ -798,7 +798,7 @@ if dein#tap('vim-precious')
   " augroup END
 endif
 
-if dein#tap('vim-quickrun')
+if myvimrc#plug_tap('vim-quickrun')
   " quickrun modules
   " quickrun-hook-add-include-option {{{
   let s:hook = {
@@ -879,13 +879,13 @@ if dein#tap('vim-quickrun')
   endf
 endif
 
-if dein#tap('vimshell.vim')
+if myvimrc#plug_tap('vimshell.vim')
   let g:vimshell_prompt = '% '
   let g:vimshell_secondary_prompt = '> '
   let g:vimshell_user_prompt = 'getcwd()'
 endif
 
-if dein#tap('vimtex')
+if myvimrc#plug_tap('vimtex')
   if has('win32')
     let g:vimtex_latexmk_continuous = 1
     let g:vimtex_latexmk_background = 1
@@ -913,7 +913,7 @@ if dein#tap('vimtex')
   endif
 endif
 
-if dein#tap('yankround.vim')
+if myvimrc#plug_tap('yankround.vim')
   nmap p <Plug>(yankround-p)
   xmap p <Plug>(yankround-p)
   nmap P <Plug>(yankround-P)
@@ -927,7 +927,7 @@ if dein#tap('yankround.vim')
   nmap <C-n> <Plug>(yankround-next)
 endif
 
-if dein#tap('vaffle.vim')
+if myvimrc#plug_tap('vaffle.vim')
   nnoremap <silent> <Leader>e :Vaffle %:p:h<CR>
   nnoremap <silent> <Leader>E :Vaffle .<CR>
   function! s:customize_vaffle_mappings() abort
@@ -940,7 +940,7 @@ if dein#tap('vaffle.vim')
   augroup END
 endif
 
-if dein#tap('vimfiler.vim')
+if myvimrc#plug_tap('vimfiler.vim')
   " let g:vimfiler_force_overwrite_statusline = 0
   let g:vimfiler_enable_auto_cd = 1
   let g:vimfiler_as_default_explorer = 1
@@ -954,16 +954,16 @@ if dein#tap('vimfiler.vim')
   " nnoremap <silent> <Leader>E :VimFilerCurrentDir -split -toggle -force-quit -status -winwidth=35 -simple -split-action=below<CR>
 endif
 
-if dein#tap('revimses')
+if myvimrc#plug_tap('revimses')
   let g:revimses#sessionoptions = &sessionoptions
 endif
 
-if dein#tap('jedi-vim')
+if myvimrc#plug_tap('jedi-vim')
   " let g:jedi#completions_enabled = 0
   let g:jedi#show_call_signatures = 2
 endif
 
-if dein#tap('calendar.vim')
+if myvimrc#plug_tap('calendar.vim')
   augroup vimrc_calendar
     autocmd!
     autocmd FileType calendar IndentGuidesDisable
@@ -974,18 +974,18 @@ if dein#tap('calendar.vim')
 
 endif
 
-if dein#tap('thumbnail.vim')
+if myvimrc#plug_tap('thumbnail.vim')
   augroup vimrc_thumbnail
     autocmd!
     autocmd FileType thumbnail IndentGuidesDisable
   augroup END
 endif
 
-if dein#tap('autofmt')
+if myvimrc#plug_tap('autofmt')
   set formatexpr=autofmt#japanese#formatexpr()
 endif
 
-if dein#tap('denite.nvim')
+if myvimrc#plug_tap('denite.nvim')
   if has('job')
     call timer_start(100, 'async_custom#dein',{'repeat':1})
   else
@@ -1051,11 +1051,11 @@ if dein#tap('denite.nvim')
   nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
 endif
 
-if dein#tap('deoplete.nvim')
+if myvimrc#plug_tap('deoplete.nvim')
   call deoplete#enable()
 endif
 
-if dein#tap('nerdcommenter')
+if myvimrc#plug_tap('nerdcommenter')
   let g:NERDSpaceDelims = 1
   xmap gcc <Plug>NERDCommenterComment
   nmap gcc <Plug>NERDCommenterComment
@@ -1094,17 +1094,17 @@ if dein#tap('nerdcommenter')
   nmap gcu <Plug>NERDCommenterUncomment
 endif
 
-if dein#tap('vim-javacomplete2')
+if myvimrc#plug_tap('vim-javacomplete2')
   autocmd Filetype java setlocal omnifunc=javacomplete#Complete
 endif
 
-if dein#tap('vim-cpp-enhanced-highlight')
+if myvimrc#plug_tap('vim-cpp-enhanced-highlight')
   let g:cpp_class_scope_highlight = 1
   let g:cpp_member_variable_highlight = 1
   let g:cpp_class_decl_highlight = 1
   let g:cpp_concepts_highlight = 1
 endif
 
-if dein#tap('next-alter.vim')
+if myvimrc#plug_tap('next-alter.vim')
   nmap <F4> <Plug>(next-alter-open)
 endif

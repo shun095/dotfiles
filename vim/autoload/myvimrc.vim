@@ -283,5 +283,15 @@ function! myvimrc#tabname(n) abort
     return _
 endfunction
 
+fun! myvimrc#plug_tap(name) abort
+  if exists('*dein#tap')
+    return dein#tap(a:name)
+  elseif exists(':Plug')
+    return has_key(g:plugs,a:name)
+  else
+    return g:false
+  endif
+endf
+
 " set tabline=%!myvimrc#tabline()
 

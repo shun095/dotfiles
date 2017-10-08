@@ -2,6 +2,10 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+if exists("g:plugin_mgr")
+  finish
+endif
+
 let g:plugin_mgr = {
       \ 'plugin_dir': escape(substitute($HOME.'/.vim/dein','\','/','g'),' '),
       \ 'manager_dir': escape(substitute($HOME.'/.vim/dein/repos/github.com/Shougo/dein.vim','\','/','g'),' '),
@@ -28,6 +32,17 @@ fun! g:plugin_mgr.install() abort
   return succeeded
 endfun
 
+fun! g:plugin_mgr.deploy() abort
+  " Confirm whether or not install dein if not exists
+  if !isdirectory(self.manager_dir) && self.enabled == g:true
+    " deinがインストールされてない場合そのままではプラグインは使わない
+    let self.enabled = g:false
+    if self.install()
+      self.enabled = g:true
+    endif
+  endif
+endf
+
 fun! g:plugin_mgr.plug_install() abort
   augroup vimrc_dein_install_plugs
     autocmd!
@@ -39,17 +54,6 @@ fun! g:plugin_mgr.plug_install() abort
     call dein#install()
   else
     echomsg 'Plugins are not installed. Please install later.'
-  endif
-endf
-
-fun! g:plugin_mgr.deploy() abort
-  " Confirm whether or not install dein if not exists
-  if !isdirectory(self.manager_dir) && self.enabled == g:true
-    " deinがインストールされてない場合そのままではプラグインは使わない
-    let self.enabled = g:false
-    if self.install()
-      self.enabled = g:true
-    endif
   endif
 endf
 

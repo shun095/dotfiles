@@ -207,7 +207,7 @@ repo = 'joshdick/onedark.vim'
 
 # QUICK RUN {{{
 [[plugins]]
-repo = "thinca/vim-quickrun"
+repo = 'thinca/vim-quickrun'
 
 [[plugins]]
 repo = 'osyo-manga/shabadou.vim'
