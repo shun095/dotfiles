@@ -398,37 +398,17 @@ nnoremap <silent> <Leader><C-f>c :FZF .<CR>
 "}}}
 
 " Confirm whether or not install dein if not exists {{{
-let s:plugin_dir = $HOME . '/.vim/dein'
-let s:dein_dir = s:plugin_dir . '/repos/github.com/Shougo/dein.vim'
+source $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
 
-if !isdirectory(s:dein_dir) && g:use_plugins == g:true
-  " deinがインストールされてない場合そのままではプラグインは使わない
-  let g:use_plugins = g:false
+let g:plugin_mgr.enabled = g:use_plugins
 
-  let s:install_dein_diag_mes = 'Dein is not installed yet.Install now?'
-  let s:dein_install_confirm = confirm(s:install_dein_diag_mes,"&yes\n&no\nn&ever",2)
-  unlet s:install_dein_diag_mes
-
-  if s:dein_install_confirm == 1
-    call mkdir(s:dein_dir, 'p')
-    exe printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . s:dein_dir . '"')
-    " インストールが完了したらフラグを立てる
-    if v:shell_error == 0
-      let g:use_plugins = g:true
-    else
-      echoerr "Dein couldn't be installed correctly."
-    endif
-  elseif s:dein_install_confirm == 3
-    call writefile(['let g:use_plugins = 0'], $HOME . '/.vim/not_confirms.vim', 'a')
-  endif
-  unlet s:dein_install_confirm
-endif
-"}}}
+" Install plugin manager if it's not available
+call g:plugin_mgr.deploy()
 
 " ============================== "
 " Plugin Settings START          "
 " ============================== "
-if g:use_plugins == g:true
+if g:plugin_mgr.enabled == g:true
   " Load local settings"{{{
   if filereadable($HOME . '/localrcs/vim-local.vim')
     source $HOME/localrcs/vim-local.vim
@@ -436,47 +416,18 @@ if g:use_plugins == g:true
   "}}}
 
   " Plugin pre settings {{{
-  " vimprocが呼ばれる前に設定
   let g:vimproc#download_windows_dll = 1
   " }}}
 
-  " Dein main settings {{{
-  exe 'set runtimepath+=' . escape(s:dein_dir, ' \')
-
-  let s:plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
-  let s:plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
-  if dein#load_state(s:plugin_dir)
-    call dein#begin(s:plugin_dir)
-    call dein#add('Shougo/dein.vim')
-
-    call dein#load_toml(s:plugins_toml,{'lazy' : 0})
-    call dein#load_toml(s:plugins_lazy_toml,{'lazy' : 1})
-
-    call dein#end()
-    call dein#save_state()
-  endif
-
-  filetype plugin indent on
-  syntax enable
-
-  if dein#check_install()
-    " インストールされていないプラグインがあれば確認
-    if has('vim_starting')
-      augroup vimrc_dein_install_plugs
-        autocmd!
-        autocmd VimEnter * call myvimrc#confirm_do_dein_install()
-      augroup END
-    else
-      call myvimrc#confirm_do_dein_install()
-    endif
-  endif
+  " initialize plugin manager
+  call g:plugin_mgr.init()
 
   " load settings of plugins
   source $MYVIMHOME/scripts/custom.vim
-  " Dein end
   if filereadable($HOME . '/localrcs/vim-localafter.vim')
     source $HOME/localrcs/vim-localafter.vim'
   endif
+
   set runtimepath+=$MYDOTFILES/vim/after/
   " }}}
 

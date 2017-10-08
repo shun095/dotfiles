@@ -13,21 +13,6 @@ fun! myvimrc#ImInActivate() abort
   endif
 endf
 
-fun! myvimrc#confirm_do_dein_install() abort
-  augroup vimrc_dein_install_plugs
-    autocmd!
-  augroup END
-  let l:confirm_plugins_install = confirm(
-        \'Some plugins are not installed yet. Install now?',
-        \"&yes\n&no",2
-        \)
-  if l:confirm_plugins_install == 1
-    call dein#install()
-  else
-    echomsg 'Plugins were not installed. Please install after.'
-  endif
-endf
-
 fun! myvimrc#NiceLexplore(open_on_bufferdir) abort
   " 常に幅35で開く
   let g:netrw_winsize = float2nr(round(30.0 / winwidth(0) * 100))
