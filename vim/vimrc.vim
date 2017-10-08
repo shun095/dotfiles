@@ -81,16 +81,6 @@ elseif has('unix')
 
     endif
   endif
-
-  " if executable('gsettings') && has('job')
-  " augroup VIMRC1
-  " " カーソルの形をモードによって変更
-  " let s:curshape_str = 'profile=$(gsettings get org.gnome.Terminal.ProfilesList default);profile=${profile:1:-1};gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$profile/" cursor-shape '
-  " autocmd InsertEnter * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'ibeam'])
-  " autocmd InsertLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
-  " autocmd VimLeave * silent call job_start(['/bin/bash', '-c', s:curshape_str . 'block'])
-  " augroup END
-  " endif
 endif
 
 " ビープ音を鳴らなくする
@@ -165,19 +155,86 @@ if v:version >= 800 || has('nvim') " バージョン検出
 endif
 
 " Statusline settings {{{
-highlight link User1 TabLineSel
+highlight link User1 Normal
 highlight link User2 Title
+highlight link User3 Directory
 
 set statusline=%m%r%h%w%q
-set statusline+=\ %f\ %=
-set statusline+=%1*
-set statusline+=\ [%{&fileformat}]
-set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
-set statusline+=%y
-set statusline+=%{fugitive#statusline()}
-set statusline+=\ %p%%\ %l:%-2c\ %*
+set statusline+=%<\ %f\ %=
+set statusline+=%{tagbar#currenttag('[%s]','')}
+set statusline+=\ %2*
+set statusline+=%{myvimrc#fugitive_head()}
+set statusline+=%3*
+set statusline+=\ %y
+set statusline+=%1*\ %{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}
+set statusline+=\ (%{&fileformat})
+set statusline+=\ %p%%\ %3l:%-2c\ %*
+
+function! MyTabLine() abort
+  let s = ''
+  for i in range(tabpagenr('$'))
+    " 強調表示グループの選択
+    if i + 1 == tabpagenr()
+      let s .= '%#TabLineSel#'
+    else
+      let s .= '%#TabLine#'
+    endif
+
+    " タブページ番号の設定 (マウスクリック用)
+    let s .= '%' . (i + 1) . 'T'
+
+    if i + 1 == tabpagenr()
+        let s .= '%4*'
+    else
+        let s .= '%5*'
+    endif
+
+    let s .= (i + 1) 
+    let s .= '(' . tabpagewinnr(i + 1, '$') . ')'
+
+    if i + 1 == tabpagenr()
+      let s .= '%#TabLineSel#'
+    else
+      let s .= '%#TabLine#'
+    endif
+
+    " ラベルは MyTabLabel() で作成する
+    let s .= ' %{MyTabName(' . (i + 1) . ')} '
+  endfor
+
+  " 最後のタブページの後は TabLineFill で埋め、タブページ番号をリセッ
+  " トする
+  let s .= '%#TabLineFill#%T'
+
+  " カレントタブページを閉じるボタンのラベルを右添えで作成
+  if tabpagenr('$') > 1
+    let s .= '%=%#TabLine#%XX'
+  endif
+
+  return s
+endfunction
+
+function! MyTabName(n) abort
+    let buflist = tabpagebuflist(a:n)
+    let winnr = tabpagewinnr(a:n)
+    let name = expand('#'.buflist[winnr - 1].':p')
+    let fmod = ':~:.'
+    let _ = ''
+
+    if empty(name)
+      let _ .= '[No Name]'
+    else
+      let _ .= substitute(fnamemodify(name, fmod), '\v\w\zs.{-}\ze(\\|/)', '', 'g')
+    endif
+
+    let _ = substitute(_, '\\', '/', 'g')
+    return _
+endfunction
+
+" set tabline=%!MyTabLine()
 
 " }}}
+
 if executable('files')
   let g:myvimrc_files_isAvalable = g:true
 else
@@ -578,6 +635,25 @@ if g:use_plugins == g:true
       set background=light
     endtry
   endif
+
+  let s:tabline_highlight = []
+  let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLineSel")), "fg")]
+  let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLineSel")), "bg")]
+  if has('gui_running')
+    execute 'highlight User4 gui=bold guifg=' . s:tabline_highlight[0] . ' guibg=' . s:tabline_highlight[1]
+  else
+    execute 'highlight User4 cterm=bold ctermfg=' . s:tabline_highlight[0] . ' ctermbg=' . s:tabline_highlight[1]
+  endif
+
+  let s:tabline_highlight = []
+  let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLine")), "fg")]
+  let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLine")), "bg")]
+  if has('gui_running')
+    execute 'highlight User5 gui=bold guifg=' . s:tabline_highlight[0] . ' guibg=' . s:tabline_highlight[1]
+  else
+    execute 'highlight User5 cterm=bold ctermfg=' . s:tabline_highlight[0] . ' ctermbg=' . s:tabline_highlight[1]
+  endif
+
   " }}}
 
   " Netrw Mapping {{{

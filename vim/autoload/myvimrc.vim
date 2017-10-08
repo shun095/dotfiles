@@ -228,7 +228,10 @@ endf
 
 fun! myvimrc#fugitive_head() abort
   if exists('*fugitive#head()') 
+    if fugitive#head() !=# ''
     return ' ' . fugitive#head()
+  else
+    return ''
   else
     return
   endif
