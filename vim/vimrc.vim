@@ -170,69 +170,6 @@ set statusline+=%1*\ %{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&enco
 set statusline+=\ (%{&fileformat})
 set statusline+=\ %p%%\ %3l:%-2c\ %*
 
-function! MyTabLine() abort
-  let s = ''
-  for i in range(tabpagenr('$'))
-    " 強調表示グループの選択
-    if i + 1 == tabpagenr()
-      let s .= '%#TabLineSel#'
-    else
-      let s .= '%#TabLine#'
-    endif
-
-    " タブページ番号の設定 (マウスクリック用)
-    let s .= '%' . (i + 1) . 'T'
-
-    if i + 1 == tabpagenr()
-        let s .= '%4*'
-    else
-        let s .= '%5*'
-    endif
-
-    let s .= (i + 1) 
-    let s .= '(' . tabpagewinnr(i + 1, '$') . ')'
-
-    if i + 1 == tabpagenr()
-      let s .= '%#TabLineSel#'
-    else
-      let s .= '%#TabLine#'
-    endif
-
-    " ラベルは MyTabLabel() で作成する
-    let s .= ' %{MyTabName(' . (i + 1) . ')} '
-  endfor
-
-  " 最後のタブページの後は TabLineFill で埋め、タブページ番号をリセッ
-  " トする
-  let s .= '%#TabLineFill#%T'
-
-  " カレントタブページを閉じるボタンのラベルを右添えで作成
-  if tabpagenr('$') > 1
-    let s .= '%=%#TabLine#%XX'
-  endif
-
-  return s
-endfunction
-
-function! MyTabName(n) abort
-    let buflist = tabpagebuflist(a:n)
-    let winnr = tabpagewinnr(a:n)
-    let name = expand('#'.buflist[winnr - 1].':p')
-    let fmod = ':~:.'
-    let _ = ''
-
-    if empty(name)
-      let _ .= '[No Name]'
-    else
-      let _ .= substitute(fnamemodify(name, fmod), '\v\w\zs.{-}\ze(\\|/)', '', 'g')
-    endif
-
-    let _ = substitute(_, '\\', '/', 'g')
-    return _
-endfunction
-
-" set tabline=%!MyTabLine()
-
 " }}}
 
 if executable('files')
@@ -635,26 +572,6 @@ if g:use_plugins == g:true
       set background=light
     endtry
   endif
-
-  let s:tabline_highlight = []
-  let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLineSel")), "fg")]
-  let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLineSel")), "bg")]
-  if has('gui_running') || &termguicolors
-    execute 'highlight User4 gui=bold guifg=' . s:tabline_highlight[0] . ' guibg=' . s:tabline_highlight[1]
-  else
-    execute 'highlight User4 cterm=bold ctermfg=' . s:tabline_highlight[0] . ' ctermbg=' . s:tabline_highlight[1]
-  endif
-
-  let s:tabline_highlight = []
-  let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLine")), "fg")]
-  let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLine")), "bg")]
-  if has('gui_running') || &termguicolors
-    execute 'highlight User5 gui=bold guifg=' . s:tabline_highlight[0] . ' guibg=' . s:tabline_highlight[1]
-  else
-    execute 'highlight User5 cterm=bold ctermfg=' . s:tabline_highlight[0] . ' ctermbg=' . s:tabline_highlight[1]
-  endif
-
-  unlet s:tabline_highlight
 
   " }}}
 

@@ -237,3 +237,66 @@ fun! myvimrc#fugitive_head() abort
   endif
 endf
 
+function! myvimrc#tabline() abort
+  let s = ''
+  for i in range(tabpagenr('$'))
+    " 強調表示グループの選択
+    if i + 1 == tabpagenr()
+      let s .= '%#TabLineSel#'
+    else
+      let s .= '%#TabLine#'
+    endif
+
+    " タブページ番号の設定 (マウスクリック用)
+    let s .= '%' . (i + 1) . 'T'
+
+    if i + 1 == tabpagenr()
+        let s .= '%4*'
+    else
+        let s .= '%5*'
+    endif
+
+    let s .= (i + 1) 
+    let s .= '(' . tabpagewinnr(i + 1, '$') . ')'
+
+    if i + 1 == tabpagenr()
+      let s .= '%#TabLineSel#'
+    else
+      let s .= '%#TabLine#'
+    endif
+
+    " ラベルは MyTabLabel() で作成する
+    let s .= ' %{myvimrc#tabname(' . (i + 1) . ')} '
+  endfor
+
+  " 最後のタブページの後は TabLineFill で埋め、タブページ番号をリセッ
+  " トする
+  let s .= '%#TabLineFill#%T'
+
+  " カレントタブページを閉じるボタンのラベルを右添えで作成
+  if tabpagenr('$') > 1
+    let s .= '%=%#TabLine#%XX'
+  endif
+
+  return s
+endfunction
+
+function! myvimrc#tabname(n) abort
+    let buflist = tabpagebuflist(a:n)
+    let winnr = tabpagewinnr(a:n)
+    let name = expand('#'.buflist[winnr - 1].':p')
+    let fmod = ':~:.'
+    let _ = ''
+
+    if empty(name)
+      let _ .= '[No Name]'
+    else
+      let _ .= substitute(fnamemodify(name, fmod), '\v\w\zs.{-}\ze(\\|/)', '', 'g')
+    endif
+
+    let _ = substitute(_, '\\', '/', 'g')
+    return _
+endfunction
+
+" set tabline=%!myvimrc#tabline()
+
