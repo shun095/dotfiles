@@ -397,7 +397,6 @@ nnoremap <silent><expr><Leader><C-f><C-f> myvimrc#command_at_destdir(myvimrc#fin
 nnoremap <silent> <Leader><C-f>c :FZF .<CR>
 "}}}
 
-" Confirm whether or not install dein if not exists {{{
 source $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
 
 let g:plugin_mgr.enabled = g:use_plugins
@@ -424,6 +423,7 @@ if g:plugin_mgr.enabled == g:true
 
   " load settings of plugins
   source $MYVIMHOME/scripts/custom.vim
+
   if filereadable($HOME . '/localrcs/vim-localafter.vim')
     source $HOME/localrcs/vim-localafter.vim'
   endif
