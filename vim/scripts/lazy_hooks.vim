@@ -1,9 +1,9 @@
 
-fun g:plugin_mgr._lazy_CamelCaseMotion()
+fun g:plugin_mgr._CamelCaseMotion()
   call camelcasemotion#CreateMotionMappings(',')
 endf
 
-fun g:plugin_mgr._lazy_lexima()
+fun g:plugin_mgr._lexima_vim()
   " call lexima#add_rule({'char': '<', 'input_after': '>'})
   call lexima#add_rule({'char': '>', 'at': '\%#>', 'leave': 1})
   call lexima#add_rule({'char': '<BS>', 'at': '<\%#>', 'input': '<BS>', 'delete' : 1})
@@ -23,7 +23,7 @@ fun g:plugin_mgr._lazy_lexima()
   imap <silent><expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
 endf
 
-fun g:plugin_mgr._lazy_submode()
+fun g:plugin_mgr._vim_submode()
   call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
   call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
   call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
@@ -34,7 +34,7 @@ fun g:plugin_mgr._lazy_submode()
   call submode#map('winsize', 'n', '', '-', '5<C-w>-')
 endf
 
-fun g:plugin_mgr._lazy_watchdogs()
+fun g:plugin_mgr._vim_watchdogs()
   " watchdogs settings
   let g:watchdogs_check_BufWritePost_enable = 1
   let g:watchdogs_check_BufWritePost_enables = {
@@ -80,13 +80,14 @@ fun g:plugin_mgr._lazy_watchdogs()
   endtry
 endf
 
-let g:plugin_mgr.func_dict = {
-      \ 'vim-submode': function(g:plugin_mgr._lazy_submode),
-      \ 'vim-watchdogs': function(g:plugin_mgr._lazy_watchdogs),
-      \ 'lexima.vim': function(g:plugin_mgr._lazy_lexima),
-      \ 'CamelCaseMotion': function(g:plugin_mgr._lazy_CamelCaseMotion),
-      \}
+fun g:plugin_mgr.lazy_available(name)
+  let name = substitute(a:name,'\-','_','g')
+  let name = substitute(name,'\.','_','g')
+  return has_key(self,'_'.name)
+endfun
 
-fun g:plugin_mgr.posthook(name)
-  call self.func_dict[a:name]()
+fun g:plugin_mgr.lazy_hook(name)
+  let name = substitute(a:name,'\-','_','g')
+  let name = substitute(name,'\.','_','g')
+  call self['_' . name]()
 endf

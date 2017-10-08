@@ -115,12 +115,14 @@ call plug#end()
 
 augroup _myplug
   autocmd!
-  autocmd VimEnter * call PlugPostHook()
+  autocmd VimEnter * call <SID>plugPostHook()
 augroup END
 
-fun PlugPostHook()
-  for func in keys(g:plugin_mgr.func_dict)
-    call g:plugin_mgr.posthook(func)
+fun s:plugPostHook()
+  for plugname in keys(g:plugs)
+    if g:plugin_mgr.lazy_available(plugname)
+      call g:plugin_mgr.lazy_hook(plugname)
+    endif
   endfor
 endf
 
