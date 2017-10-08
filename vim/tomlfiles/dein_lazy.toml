@@ -4,34 +4,14 @@
 repo = "bkad/CamelCaseMotion"
 on_map = ['n', ',']
 hook_post_source = ''' " {{{
-
-call camelcasemotion#CreateMotionMappings(',')
-
+  call g:plugin_mgr.posthook('CamelCaseMotion')
 ''' # }}}
 
 [[plugins]]
 repo = "cohama/lexima.vim"
 on_event = "InsertEnter"
 hook_post_source = ''' " {{{
-
-" call lexima#add_rule({'char': '<', 'input_after': '>'})
-call lexima#add_rule({'char': '>', 'at': '\%#>', 'leave': 1})
-call lexima#add_rule({'char': '<BS>', 'at': '<\%#>', 'input': '<BS>', 'delete' : 1})
-
-for [begin, end] in [['(', ')'], ['{','}'], ['[',']']]
-  call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': begin, 'input': begin})
-  call lexima#add_rule({'at': '\%#\n\s*'.end , 'char': end, 'input': '<CR>'.end, 'delete': end})
-endfor
-
-for mark in ['"', "'"]
-  call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': mark, 'input': mark})
-endfor
-
-call lexima#init()
-" <BS>,<CR>が文字列ではなく展開されてしまうためうまくいかないので<lt>を利用
-inoremap <silent><expr> <C-h> lexima#expand('<lt>BS>', 'i')
-imap <silent><expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
-
+  call g:plugin_mgr.posthook('lexima.vim')
 ''' # }}}
 
 [[plugins]]
@@ -104,14 +84,7 @@ on_cmd = ['MemoNew', 'MemoList']
 repo = 'kana/vim-submode'
 on_map = ['n', '<C-w>']
 hook_post_source = ''' " {{{
-call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
-call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
-call submode#map('winsize', 'n', '', '>', '5<C-w>>')
-call submode#map('winsize', 'n', '', '<', '5<C-w><')
-call submode#map('winsize', 'n', '', '+', '5<C-w>+')
-call submode#map('winsize', 'n', '', '-', '5<C-w>-')
+  call g:plugin_mgr.posthook('vim-submode')
 ''' # }}}
 
 [[plugins]]
@@ -194,49 +167,7 @@ on_event = ['BufWrite','CursorHold']
 depends = ['vim-quickrun']
 on_cmd = ['WatchdogsRun']
 hook_post_source = ''' " {{{
-  " watchdogs settings
-  let g:watchdogs_check_BufWritePost_enable = 1
-  let g:watchdogs_check_BufWritePost_enables = {
-        \ 'cpp' : 0,
-        \ 'java': 0
-        \}
-  let g:watchdogs_check_CursorHold_enable = 0
-
-  let s:watchdogs_config = {
-        \   'watchdogs_checker/_' : {
-        \     'runner' : 'vimproc',
-        \     'runner/vimproc/updatetime' : 100,
-        \     'outputter' : 'quickfix',
-        \     'outputter/quickfix/open_cmd' : 'copen 8'
-        \   },
-        \   'watchdogs_checker/javac' : {
-        \   },
-        \   'cpp/watchdogs_checker' : {
-        \     'type' : 'watchdogs_checker/g++',
-        \     'hook/add_include_option/enable' : 1,
-        \     'cmdopt' : '-std=c++11 -Wall'
-        \   }
-        \ }
-
-  if has('job')
-    call extend(s:watchdogs_config['watchdogs_checker/_'], {
-          \ 'runner' : 'job',
-          \ 'runner/job/interval' : 100,
-          \ })
-  endif
-  call extend(g:quickrun_config, s:watchdogs_config)
-
-  let s:watchdogs_config_javac={
-        \ 'exec' : '%c %o -d %S:p:h %S:p'
-        \ }
-  call extend(g:quickrun_config['watchdogs_checker/javac'], s:watchdogs_config_javac)
-
-  unlet s:watchdogs_config
-  try
-    call watchdogs#setup(g:quickrun_config)
-  catch
-    echom v:exception
-  endtry
+  call g:plugin_mgr.posthook('vim-watchdogs')
 ''' # }}}
 
 [[plugins]]
@@ -264,48 +195,11 @@ on_ft = ['c','cpp']
 # if = 'has("win32")'
 # merged = 0
 
-# Comment Out{{{
-[[plugins]]
-repo = 'scrooloose/nerdcommenter'
-on_cmd = [
-'NERDCommenterComment',
-'NERDCommenterComment',
-'NERDCommenterNested',
-'NERDCommenterNested',
-'NERDCommenterToggle',
-'NERDCommenterToggle',
-'NERDCommenterMinimal',
-'NERDCommenterMinimal',
-'NERDCommenterInvert',
-'NERDCommenterInvert',
-'NERDCommenterSexy',
-'NERDCommenterSexy',
-'NERDCommenterYank',
-'NERDCommenterYank',
-'NERDCommenterToEOL',
-'NERDCommenterAppend',
-'NERDCommenterAltDelims',
-'NERDCommenterAlignLeft',
-'NERDCommenterAlignLeft',
-'NERDCommenterAlignBoth',
-'NERDCommenterAlignBoth',
-'NERDCommenterUncomment',
-'NERDCommenterUncomment',
-]
-
 [[plugins]]
 repo = 'tyru/open-browser.vim'
-on_cmd = [
-'OpenBrowser',
-'OpenBrowserSearch',
-'OpenBrowserSmartSearch'
-]
+on_cmd = [ 'OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch' ]
 
 [[plugins]]
 repo = 'tyru/restart.vim'
 on_cmd = 'Restart'
-
-# [[plugins]]
-# repo = 'tyru/caw.vim'
-# }}}
 

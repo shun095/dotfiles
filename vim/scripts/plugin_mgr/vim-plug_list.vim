@@ -43,8 +43,9 @@ Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
-Plug 'tyru/open-browser.vim'
-Plug 'tyru/restart.vim'
+Plug 'tyru/open-browser.vim', {'on': [ 'OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch' ]}
+Plug 'tyru/restart.vim', {'on': 'Restart'}
+
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
@@ -81,31 +82,34 @@ Plug 'ishitaku5522/TweetVim', {'on': ['TweetVimHomeTimeline', 'TweetVimUserStrea
 
 Plug 'cespare/vim-toml', { 'for': 'toml' }
 Plug 'csscomb/vim-csscomb', { 'for': 'css' }
-Plug 'gregsexton/MatchTag'
-Plug 'othree/html5.vim'
-Plug 'mattn/emmet-vim'
-Plug 'pangloss/vim-javascript'
-Plug 'glidenote/memolist.vim'
+Plug 'gregsexton/MatchTag', {'for': ['html','xml']}
+Plug 'othree/html5.vim', {'for': 'html'}
+Plug 'mattn/emmet-vim', {'for': 'html'}
+Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+Plug 'glidenote/memolist.vim', {'on':['MemoNew', 'MemoList']}
 
 Plug 'kana/vim-submode'
 
-Plug 'lervag/vimtex'
+Plug 'lervag/vimtex',{'for': ['tex']}
 Plug 'osyo-manga/vim-precious'
 Plug 'Shougo/context_filetype.vim'
-Plug 'rdnetto/YCM-Generator'
-Plug 'Valloric/YouCompleteMe'
-Plug 'tell-k/vim-autopep8'
-Plug 'itchyny/calendar.vim'
+Plug 'rdnetto/YCM-Generator',{'branch' : 'stable' ,'on': 'YcmGenerateConfig'}
+
+if !has('nvim')
+  Plug 'Valloric/YouCompleteMe'
+endif
+Plug 'tell-k/vim-autopep8',{'for': 'python'}
+Plug 'itchyny/calendar.vim', {'on': 'Calendar'}
 Plug 'majutsushi/tagbar'
-Plug 'artur-shaik/vim-javacomplete2'
-Plug 'AndrewRadev/linediff.vim'
+Plug 'artur-shaik/vim-javacomplete2', {'for': 'java'}
+Plug 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
 
 Plug 'osyo-manga/vim-watchdogs'
 
-Plug 'haya14busa/vim-open-googletranslate'
-Plug 'mbbill/undotree'
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'mopp/next-alter.vim'
+Plug 'haya14busa/vim-open-googletranslate', {'on': 'OpenGoogleTranslate'}
+Plug 'mbbill/undotree', {'on': ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']}
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c','cpp']}
+Plug 'mopp/next-alter.vim', {'for': ['c','cpp']}
 
 call plug#end()
 
@@ -114,78 +118,10 @@ augroup _myplug
   autocmd VimEnter * call PlugPostHook()
 augroup END
 
-fun! PlugPostHook()
-  call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-  call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-  call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
-  call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
-  call submode#map('winsize', 'n', '', '>', '5<C-w>>')
-  call submode#map('winsize', 'n', '', '<', '5<C-w><')
-  call submode#map('winsize', 'n', '', '+', '5<C-w>+')
-  call submode#map('winsize', 'n', '', '-', '5<C-w>-')
-
-  " watchdogs settings
-  let g:watchdogs_check_BufWritePost_enable = 1
-  let g:watchdogs_check_BufWritePost_enables = {
-        \ 'cpp' : 0,
-        \ 'java': 0
-        \}
-  let g:watchdogs_check_CursorHold_enable = 0
-
-  let s:watchdogs_config = {
-        \   'watchdogs_checker/_' : {
-        \     'runner' : 'vimproc',
-        \     'runner/vimproc/updatetime' : 100,
-        \     'outputter' : 'quickfix',
-        \     'outputter/quickfix/open_cmd' : 'copen 8'
-        \   },
-        \   'watchdogs_checker/javac' : {
-        \   },
-        \   'cpp/watchdogs_checker' : {
-        \     'type' : 'watchdogs_checker/g++',
-        \     'hook/add_include_option/enable' : 1,
-        \     'cmdopt' : '-std=c++11 -Wall'
-        \   }
-        \ }
-
-  if has('job')
-    call extend(s:watchdogs_config['watchdogs_checker/_'], {
-          \ 'runner' : 'job',
-          \ 'runner/job/interval' : 100,
-          \ })
-  endif
-  call extend(g:quickrun_config, s:watchdogs_config)
-
-  let s:watchdogs_config_javac={
-        \ 'exec' : '%c %o -d %S:p:h %S:p'
-        \ }
-  call extend(g:quickrun_config['watchdogs_checker/javac'], s:watchdogs_config_javac)
-
-  unlet s:watchdogs_config
-  try
-    call watchdogs#setup(g:quickrun_config)
-  catch
-    echom v:exception
-  endtry
-  call camelcasemotion#CreateMotionMappings(',')
-
-  " call lexima#add_rule({'char': '<', 'input_after': '>'})
-  call lexima#add_rule({'char': '>', 'at': '\%#>', 'leave': 1})
-  call lexima#add_rule({'char': '<BS>', 'at': '<\%#>', 'input': '<BS>', 'delete' : 1})
-
-  for [begin, end] in [['(', ')'], ['{','}'], ['[',']']]
-    call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': begin, 'input': begin})
-    call lexima#add_rule({'at': '\%#\n\s*'.end , 'char': end, 'input': '<CR>'.end, 'delete': end})
+fun PlugPostHook()
+  for func in keys(g:plugin_mgr.func_dict)
+    call g:plugin_mgr.posthook(func)
   endfor
-
-  for mark in ['"', "'"]
-    call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': mark, 'input': mark})
-  endfor
-
-  call lexima#init()
-  " <BS>,<CR>が文字列ではなく展開されてしまうためうまくいかないので<lt>を利用
-  inoremap <silent><expr> <C-h> lexima#expand('<lt>BS>', 'i')
-  imap <silent><expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
 endf
 
 let &cpo = s:save_cpo

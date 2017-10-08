@@ -397,8 +397,8 @@ nnoremap <silent><expr><Leader><C-f><C-f> myvimrc#command_at_destdir(myvimrc#fin
 nnoremap <silent> <Leader><C-f>c :FZF .<CR>
 "}}}
 
-source $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
-" source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
+" source $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
+source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
 
 let g:plugin_mgr.enabled = g:use_plugins
 
@@ -424,6 +424,7 @@ if g:plugin_mgr.enabled == g:true
 
   " load settings of plugins
   source $MYVIMHOME/scripts/custom.vim
+  source $MYVIMHOME/scripts/lazy_hooks.vim
 
   if filereadable($HOME . '/localrcs/vim-localafter.vim')
     source $HOME/localrcs/vim-localafter.vim'

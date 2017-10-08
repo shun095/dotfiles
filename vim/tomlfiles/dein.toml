@@ -213,6 +213,9 @@ merged = 0
 [[plugins]]
 repo = 'chiel92/vim-autoformat'
 
+[[plugins]]
+repo = 'scrooloose/nerdcommenter'
+
 # [[plugins]]
 # repo = 'xolox/vim-misc'
 
