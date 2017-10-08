@@ -639,7 +639,7 @@ if g:use_plugins == g:true
   let s:tabline_highlight = []
   let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLineSel")), "fg")]
   let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLineSel")), "bg")]
-  if has('gui_running')
+  if has('gui_running') || &termguicolors
     execute 'highlight User4 gui=bold guifg=' . s:tabline_highlight[0] . ' guibg=' . s:tabline_highlight[1]
   else
     execute 'highlight User4 cterm=bold ctermfg=' . s:tabline_highlight[0] . ' ctermbg=' . s:tabline_highlight[1]
@@ -648,11 +648,13 @@ if g:use_plugins == g:true
   let s:tabline_highlight = []
   let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLine")), "fg")]
   let s:tabline_highlight += [synIDattr(synIDtrans(hlID("TabLine")), "bg")]
-  if has('gui_running')
+  if has('gui_running') || &termguicolors
     execute 'highlight User5 gui=bold guifg=' . s:tabline_highlight[0] . ' guibg=' . s:tabline_highlight[1]
   else
     execute 'highlight User5 cterm=bold ctermfg=' . s:tabline_highlight[0] . ' ctermbg=' . s:tabline_highlight[1]
   endif
+
+  unlet s:tabline_highlight
 
   " }}}
 
