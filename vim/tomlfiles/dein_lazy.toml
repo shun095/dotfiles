@@ -263,3 +263,49 @@ on_ft = ['c','cpp']
 # repo = 'OmniSharp/omnisharp-vim'
 # if = 'has("win32")'
 # merged = 0
+
+# Comment Out{{{
+[[plugins]]
+repo = 'scrooloose/nerdcommenter'
+on_cmd = [
+'NERDCommenterComment',
+'NERDCommenterComment',
+'NERDCommenterNested',
+'NERDCommenterNested',
+'NERDCommenterToggle',
+'NERDCommenterToggle',
+'NERDCommenterMinimal',
+'NERDCommenterMinimal',
+'NERDCommenterInvert',
+'NERDCommenterInvert',
+'NERDCommenterSexy',
+'NERDCommenterSexy',
+'NERDCommenterYank',
+'NERDCommenterYank',
+'NERDCommenterToEOL',
+'NERDCommenterAppend',
+'NERDCommenterAltDelims',
+'NERDCommenterAlignLeft',
+'NERDCommenterAlignLeft',
+'NERDCommenterAlignBoth',
+'NERDCommenterAlignBoth',
+'NERDCommenterUncomment',
+'NERDCommenterUncomment',
+]
+
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+on_cmd = [
+'OpenBrowser',
+'OpenBrowserSearch',
+'OpenBrowserSmartSearch'
+]
+
+[[plugins]]
+repo = 'tyru/restart.vim'
+on_cmd = 'Restart'
+
+# [[plugins]]
+# repo = 'tyru/caw.vim'
+# }}}
+

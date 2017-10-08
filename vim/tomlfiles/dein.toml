@@ -128,20 +128,6 @@ repo = 'tpope/vim-dispatch'
 [[plugins]]
 repo = 'tpope/vim-surround'
 
-# Comment Out{{{
-[[plugins]]
-repo = 'scrooloose/nerdcommenter'
-
-# [[plugins]]
-# repo = 'tyru/caw.vim'
-# }}}
-
-[[plugins]]
-repo = 'tyru/open-browser.vim'
-
-[[plugins]]
-repo = 'tyru/restart.vim'
-
 # [[plugins]]
 # repo = 'ujihisa/unite-colorscheme'
 # depends = ['denite.nvim']
