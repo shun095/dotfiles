@@ -108,10 +108,11 @@ set foldmethod=marker             " syntaxに応じて折りたたまれる
 set nofoldenable
 set tabstop=4                     " タブキーの挙動設定。タブをスペース4つ分とする
 set shiftwidth=4                  " インデントでスペース４つ分下げる
+set softtabstop=4                 " バックスペース等でスペースを消す幅
 set expandtab                     " タブをスペースに変換
 set autoindent
-set softtabstop=4                 " バックスペース等でスペースを消す幅
-set list                          " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
+set list                          " 不可視文字を可視化
+" タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
 set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<,nbsp:%
 set wildmenu                      " コマンドの補完設定
 set wildmode=longest:full,full    " コマンドの補完スタイル
@@ -164,11 +165,18 @@ if v:version >= 800 || has('nvim') " バージョン検出
 endif
 
 " Statusline settings {{{
-set statusline=%F%m%r%h%w%q%=
-set statusline+=[%{&fileformat}]
+highlight link User1 TabLineSel
+highlight link User2 Title
+
+set statusline=%m%r%h%w%q
+set statusline+=\ %f\ %=
+set statusline+=%1*
+set statusline+=\ [%{&fileformat}]
 set statusline+=[%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}]
 set statusline+=%y
-set statusline+=%4p%%%5l:%-3c
+set statusline+=%{fugitive#statusline()}
+set statusline+=\ %p%%\ %l:%-2c\ %*
+
 " }}}
 if executable('files')
   let g:myvimrc_files_isAvalable = g:true
@@ -296,6 +304,7 @@ augroup VIMRC
 
   " cpp関係の設定
   autocmd FileType c,cpp setl foldmethod=syntax
+  autocmd FileType c,cpp setl expandtab softtabstop=2 shiftwidth=2
   " パス名置換によるヘッダファイル、ソースファイル切り替えハック
   " autocmd FileType cpp nnoremap <buffer> <F4> :e %:p:s/.h$/.XXX/:s/.cpp$/.h/:s/.XXX$/.cpp/<CR>
 
@@ -478,6 +487,7 @@ if g:use_plugins == g:true
   " }}}
 
   " Color settings {{{
+
   " ターミナルでの色設定
   if has('win32') && !has('gui_running') && (!has('nvim'))
     colorscheme elflord

@@ -157,18 +157,19 @@ repo = 'tyru/restart.vim'
 # repo = 'ujihisa/unite-colorscheme'
 # depends = ['denite.nvim']
 
-[[plugins]]
-repo = 'vim-airline/vim-airline'
+# [[plugins]]
+# repo = 'vim-airline/vim-airline'
 
-[[plugins]]
-repo = 'NLKNguyen/papercolor-theme'
+# [[plugins]]
+# repo = 'vim-airline/vim-airline-themes'
+# depends = 'vim-airline'
 
 # [[plugins]]
 # repo = 'itchyny/lightline.vim'
 
 [[plugins]]
-repo = 'vim-airline/vim-airline-themes'
-depends = 'vim-airline'
+repo = 'NLKNguyen/papercolor-theme'
+
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
@@ -233,12 +234,6 @@ repo = 'itchyny/vim-cursorword'
 [[plugins]]
 repo = 'nixprime/cpsm'
 merged = 0
-
-[[plugins]]
-repo = 'octol/vim-cpp-enhanced-highlight'
-
-[[plugins]]
-repo = 'mopp/next-alter.vim'
 
 [[plugins]]
 repo = 'chiel92/vim-autoformat'

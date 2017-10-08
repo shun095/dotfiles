@@ -247,6 +247,14 @@ on_cmd = 'OpenGoogleTranslate'
 repo = 'mbbill/undotree'
 on_cmd = ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']
 
+[[plugins]]
+repo = 'octol/vim-cpp-enhanced-highlight'
+on_ft = ['c','cpp']
+
+[[plugins]]
+repo = 'mopp/next-alter.vim'
+on_ft = ['c','cpp']
+
 # [[plugins]]
 # repo = 'scrooloose/nerdtree'
 # on_cmd = ['NERDTreeFind','NERDTreeCWD','NERDTree']

@@ -424,10 +424,9 @@ endif
 
 if dein#tap('lightline.vim')
   let g:lightline = {
-        \ 'colorscheme': 'jellybeans',
+        \ 'colorscheme': 'iceberg',
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], [ 'ctrlpmark' ] ],
-        \   'middle': [ 'concatenate' ],
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename'], [ 'ctrlpmark' ] ],
         \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
         \ },
         \ 'inactive': {
@@ -463,8 +462,8 @@ if dein#tap('lightline.vim')
         \ 'component_type': {
         \   'syntastic': 'error',
         \ },
-        \ 'separator': { 'left': '⮀', 'right': '⮂' },
-        \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+        \ 'separator': { 'left': '', 'right': '' },
+        \ 'subseparator': { 'left': '|', 'right': '|' }
         \ }
 
   function! LightlineModified()
@@ -488,12 +487,6 @@ if dein#tap('lightline.vim')
           \ ('' !=# LightlineModified() ? ' ' . LightlineModified() : '')
   endfunction
 
-  " let s:fnamecollapse = 1
-  " let s:fnametruncate = 0
-  " let s:buf_nr_format = '%s: '
-  " let s:buf_nr_show = 0
-  " let s:buf_modified_symbol = '+'
-
   function! LightlineTabFilename(n) abort
     let buflist = tabpagebuflist(a:n)
     let winnr = tabpagewinnr(a:n)
@@ -504,24 +497,11 @@ if dein#tap('lightline.vim')
     if empty(name)
       let _ .= '[No Name]'
     else
-      " if s:fnamecollapse
       let _ .= substitute(fnamemodify(name, fmod), '\v\w\zs.{-}\ze(\\|/)', '', 'g')
-      " else
-      " let _ .= fnamemodify(name, fmod)
-      " endif
-      " if a:bufnr !=# bufnr('%') && s:fnametruncate && strlen(_) > s:fnametruncate
-      " let _ = strpart(_, 0, s:fnametruncate)
-      " endif
     endif
 
-    " let _ = s:buf_nr_show ? printf(s:buf_nr_format, a:bufnr) : ''
     let _ = substitute(_, '\\', '/', 'g')
-
-    " if getbufvar(a:bufnr, '&modified') == 1
-    " let _ .= s:buf_modified_symbol
-    " endif
     return _
-    " return LightlineTabFilenameWrapName(a:bufnr, _)
   endfunction
 
   function! LightlineFugitive()
@@ -571,10 +551,10 @@ if dein#tap('lightline.vim')
     endif
   endfunction
 
-  let g:ctrlp_status_func = {
-        \ 'main': 'CtrlPStatusFunc_1',
-        \ 'prog': 'CtrlPStatusFunc_2',
-        \ }
+  " let g:ctrlp_status_func = {
+        " \ 'main': 'CtrlPStatusFunc_1',
+        " \ 'prog': 'CtrlPStatusFunc_2',
+        " \ }
 
   function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
     let g:lightline.ctrlp_regex = a:regex
@@ -593,15 +573,6 @@ if dein#tap('lightline.vim')
   function! TagbarStatusFunc(current, sort, fname, ...) abort
     let g:lightline.fname = a:fname
     return lightline#statusline(0)
-  endfunction
-
-  augroup AutoSyntastic
-    autocmd!
-    autocmd BufWritePost *.c,*.cpp call s:syntastic()
-  augroup END
-  function! s:syntastic()
-    SyntasticCheck
-    call lightline#update()
   endfunction
 
   let g:unite_force_overwrite_statusline = 0

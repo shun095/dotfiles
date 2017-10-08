@@ -226,3 +226,11 @@ fun! myvimrc#test() abort
   return s:File.copy(expand('~/old.txt'),expand('~/new.txt'))
 endf
 
+fun! myvimrc#fugitive_head() abort
+  if exists('*fugitive#head()') 
+    return ' ' . fugitive#head()
+  else
+    return
+  endif
+endf
+
