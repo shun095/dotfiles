@@ -123,9 +123,6 @@ repo = 'osyo-manga/vim-anzu'
 repo = 'tmux-plugins/vim-tmux'
 
 [[plugins]]
-repo = 'tpope/vim-dispatch'
-
-[[plugins]]
 repo = 'tpope/vim-surround'
 
 # [[plugins]]
@@ -222,3 +219,6 @@ repo = 'scrooloose/nerdcommenter'
 # [[plugins]]
 # repo = 'xolox/vim-easytags'
 # depends = 'vim-misc'
+
+[[plugins]]
+repo = 'kana/vim-submode'

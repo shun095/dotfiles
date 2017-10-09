@@ -1108,3 +1108,9 @@ endif
 if myvimrc#plug_tap('next-alter.vim')
   nmap <F4> <Plug>(next-alter-open)
 endif
+
+if myvimrc#plug_tap('vim-submode')
+  augroup mysubmode
+    autocmd VimEnter * call g:plugin_mgr.lazy_hook('vim-submode')
+  augroup END
+endif

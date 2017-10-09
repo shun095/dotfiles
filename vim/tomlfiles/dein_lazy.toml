@@ -81,23 +81,16 @@ repo = 'glidenote/memolist.vim'
 on_cmd = ['MemoNew', 'MemoList']
 
 [[plugins]]
-repo = 'kana/vim-submode'
-on_map = ['n', '<C-w>']
-hook_post_source = ''' " {{{
-  call g:plugin_mgr.lazy_hook('vim-submode')
-''' # }}}
-
-[[plugins]]
 repo = 'lervag/vimtex'
 on_ft = ['tex']
 
-[[plugins]]
-repo = 'osyo-manga/vim-precious'
-on_event = "CursorHold"
-depends = ['context_filetype.vim']
+# [[plugins]]
+# repo = 'osyo-manga/vim-precious'
+# on_event = "CursorHold"
+# depends = ['context_filetype.vim']
 
-[[plugins]]
-repo = 'Shougo/context_filetype.vim'
+# [[plugins]]
+# repo = 'Shougo/context_filetype.vim'
 
 [[plugins]]
 repo = 'rdnetto/YCM-Generator'
@@ -202,4 +195,12 @@ on_cmd = [ 'OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch' ]
 [[plugins]]
 repo = 'tyru/restart.vim'
 on_cmd = 'Restart'
+
+[[plugins]]
+repo = 'tpope/vim-dispatch'
+on_cmd = 'Dispatch'
+
+[[plugins]]
+repo = 'chiel92/vim-autoformat'
+on_cmd = 'Autoformat'
 
