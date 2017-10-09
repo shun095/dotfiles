@@ -161,9 +161,13 @@ highlight link User3 Directory
 
 set statusline=%m%r%h%w%q
 set statusline+=%<\ %f\ %=
-set statusline+=%{tagbar#currenttag('[%s]','')}
+if g:use_plugins
+  set statusline+=%{tagbar#currenttag('[%s]','')}
+endif
 set statusline+=\ %2*
-set statusline+=%{myvimrc#fugitive_head()}
+if g:use_plugins
+  set statusline+=%{myvimrc#fugitive_head()}
+endif
 set statusline+=%3*
 set statusline+=\ %y
 set statusline+=%1*\ %{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}
@@ -535,6 +539,8 @@ if g:plugin_mgr.enabled == g:true
   nnoremap <Leader>N :call myvimrc#NiceLexplore(0)<CR>
   " }}}
 else
+  filetype plugin indent on
+  syntax enable
   " Without plugins settings {{{
   colorscheme default
   set background=light
