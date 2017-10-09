@@ -35,7 +35,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-register'
 
 Plug 'honza/vim-snippets'
-Plug 'ishitaku5522/revimses', {'branch': 'dev'}
 Plug 'junegunn/vim-easy-align'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'osyo-manga/vim-anzu'
@@ -70,7 +69,7 @@ Plug 'chiel92/vim-autoformat'
 
 Plug 'bkad/CamelCaseMotion'
 
-Plug 'cohama/lexima.vim'
+Plug 'cohama/lexima.vim', { 'event': 'InsertEnter' }
 
 Plug 'iamcco/markdown-preview.vim', {'for': 'markdown'}
 Plug 'kannokanno/previm', {'for': 'markdown'}
@@ -104,27 +103,40 @@ Plug 'majutsushi/tagbar'
 Plug 'artur-shaik/vim-javacomplete2', {'for': 'java'}
 Plug 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
 
-Plug 'osyo-manga/vim-watchdogs'
+Plug 'osyo-manga/vim-watchdogs', {'event': ['BufWrite','CursorHold']}
 
 Plug 'haya14busa/vim-open-googletranslate', {'on': 'OpenGoogleTranslate'}
 Plug 'mbbill/undotree', {'on': ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c','cpp']}
 Plug 'mopp/next-alter.vim', {'for': ['c','cpp']}
+Plug 'ishitaku5522/revimses', {'branch': 'dev'}
 
 call plug#end()
 
+source $MYVIMHOME/scripts/lazy_hooks.vim
+
 augroup _myplug
   autocmd!
-  autocmd VimEnter * call <SID>plugPostHook()
-augroup END
 
-fun s:plugPostHook()
   for plugname in keys(g:plugs)
-    if g:plugin_mgr.lazy_available(plugname)
-      call g:plugin_mgr.lazy_hook(plugname)
+    if has_key(g:plugs[plugname], 'event')
+      if type(g:plugs[plugname]['event']) == v:t_string
+        execute 'autocmd ' . g:plugs[plugname]['event'] . ' * call g:plugin_mgr.lazy_hook(''' . plugname . ''')'
+
+      elseif type(g:plugs[plugname]['event']) == v:t_list
+        for cmd in g:plugs[plugname]['event']
+          execute 'autocmd ' . cmd . ' * call g:plugin_mgr.lazy_hook(''' . plugname . ''')'
+        endfor
+
+      endif
+    elseif g:plugin_mgr.lazy_hook_available(plugname)
+      execute 'autocmd VimEnter * call g:plugin_mgr.lazy_hook('''.plugname.''')'
     endif
   endfor
-endf
+
+
+augroup END
+
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

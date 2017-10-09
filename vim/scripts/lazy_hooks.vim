@@ -1,3 +1,10 @@
+let s:save_cpo = &cpo
+set cpo&vim
+
+if exists('g:loaded_lazy_hooks')
+  finish
+endif
+let g:loaded_lazy_hooks = 1
 
 fun g:plugin_mgr._CamelCaseMotion()
   call camelcasemotion#CreateMotionMappings(',')
@@ -80,14 +87,22 @@ fun g:plugin_mgr._vim_watchdogs()
   endtry
 endf
 
-fun g:plugin_mgr.lazy_available(name)
+let g:plugin_mgr.lazy_hooked = []
+
+fun g:plugin_mgr.lazy_hook_available(name)
   let name = substitute(a:name,'\-','_','g')
   let name = substitute(name,'\.','_','g')
   return has_key(self,'_'.name)
 endfun
 
 fun g:plugin_mgr.lazy_hook(name)
-  let name = substitute(a:name,'\-','_','g')
-  let name = substitute(name,'\.','_','g')
-  call self['_' . name]()
+  if !count(g:plugin_mgr.lazy_hooked, a:name)
+    let name = substitute(a:name,'\-','_','g')
+    let name = substitute(name,'\.','_','g')
+    call self['_' . name]()
+    let g:plugin_mgr.lazy_hooked += [a:name]
+  endif
 endf
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
