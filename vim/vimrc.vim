@@ -509,6 +509,11 @@ if g:plugin_mgr.enabled == g:true
           elseif g:colors_name ==# 'iceberg'
             autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#21232C guibg=#2C2E36
             autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#2C2E36 guibg=#21232C
+          elseif g:colors_name ==# 'spacegray'
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#1C1E1F guibg=#27292A
+            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#27292A guibg=#1C1E1F
+
+            
             " summerfruit
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
