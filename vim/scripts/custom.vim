@@ -75,7 +75,7 @@ endif
 if myvimrc#plug_tap('ctrlp.vim')
   " let g:ctrlp_cmd = 'CtrlPMRUFiles'
   " yankroundのところでマッピングし直している
-  let g:ctrlp_map = ''
+  " let g:ctrlp_map = ''
   " let g:ctrlp_extensions = ['mixed']
   let g:ctrlp_max_files = 50000
   let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
@@ -987,9 +987,9 @@ endif
 
 if myvimrc#plug_tap('denite.nvim')
   if has('job')
-    call timer_start(100, 'async_custom#dein',{'repeat':1})
+    call timer_start(100, 'async_custom#denite',{'repeat':1})
   else
-    call async_custom#dein()
+    call async_custom#denite()
   endif
   " Change file_rec command.
   " if g:myvimrc_files_isAvalable
@@ -1041,14 +1041,15 @@ if myvimrc#plug_tap('denite.nvim')
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
 
-  nnoremap <silent> <leader>df :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
-  nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>
-  nnoremap <silent> <Leader>dc :<C-u>Denite file_rec<CR>
-  nnoremap <silent> <Leader>dl :<C-u>Denite line<CR>
-  nnoremap <silent> <Leader>dg :<C-u>Denite grep -no-quit<CR>
-  nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
-  nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
-  nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
+  nnoremap <silent> <leader><Leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
+  nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
+  nnoremap <silent> <Leader>c :<C-u>Denite file_rec<CR>
+  nnoremap <silent> <Leader>l :<C-u>Denite line<CR>
+  nnoremap <silent> <Leader>g :<C-u>Denite grep -no-quit<CR>
+  nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
+  nnoremap <silent> <Leader>mr :<C-u>Denite file_mru<CR>
+  nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
+  exe 'nnoremap <silent> <Leader>ml :<C-u>Denite file_rec -path='. g:memolist_path. '<CR>'
 endif
 
 if myvimrc#plug_tap('deoplete.nvim')
