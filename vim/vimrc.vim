@@ -171,8 +171,8 @@ endif
 set statusline+=%3*
 set statusline+=\ %y
 set statusline+=%1*\ %{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}
-set statusline+=\ (%{&fileformat})
-set statusline+=\ %p%%\ %3l:%-2c\ %*
+set statusline+=\(%{&fileformat})
+set statusline+=\%3p%%\ %4l:%-3c\ %*
 
 " }}}
 
