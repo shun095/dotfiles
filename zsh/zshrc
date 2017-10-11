@@ -34,13 +34,13 @@ function tmux_call(){
                 (( idx++ ))
             done
             if [[ $TERM = 'linux' ]]; then
-                \tmux -2 new-session -s $idx
+                # \tmux -2 new-session -s $idx
             else
                 \tmux new-session -s $idx
             fi
         else
             if [[ $TERM = 'linux' ]]; then
-                \tmux -2 attach -t ${detached_sessions[1]}
+                # \tmux -2 attach -t ${detached_sessions[1]}
             else
                 \tmux attach -t ${detached_sessions[1]}
             fi
