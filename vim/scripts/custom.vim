@@ -138,21 +138,21 @@ if myvimrc#plug_tap('ctrlp.vim')
   nnoremap <Leader>al       :CtrlPLine<CR>
   nnoremap <Leader><Leader> :CtrlP<CR>
 
-  let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
-  " if g:myvimrc_files_isAvalable
-    " let g:ctrlp_user_command = 'files -a -i "^$" %s'
-  if g:myvimrc_pt_isAvalable
-    let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-  elseif g:myvimrc_ag_isAvalable
-    let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
-  else
-    if has('unix')
-      let g:ctrlp_user_command = 'find %s -type f'
-    else
-      let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'
-    endif
-  endif
-  unlet s:ctrlp_command_options
+  " let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
+  " " if g:myvimrc_files_isAvalable
+    " " let g:ctrlp_user_command = 'files -a -i "^$" %s'
+  " if g:myvimrc_pt_isAvalable
+    " let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+  " elseif g:myvimrc_ag_isAvalable
+    " let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
+  " else
+    " if has('unix')
+      " let g:ctrlp_user_command = 'find %s -type f'
+    " else
+      " let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'
+    " endif
+  " endif
+  " unlet s:ctrlp_command_options
 
   " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
   " else
@@ -531,8 +531,8 @@ if myvimrc#plug_tap('lightline.vim')
 
   function! LightlineMode()
     if &ft ==# 'denite'
-      let mode_str = substitute(denite#get_status_mode(), "-\\| ", "", "g")
-      call lightline#link(tolower(mode_str[0]))
+      let mode_str = substitute(denite#get_status_mode(), '-\| ', '', 'g')
+      " call lightline#link(tolower(mode_str[0]))
       return mode_str
     else
       let fname = expand('%:t')
@@ -1051,14 +1051,14 @@ if myvimrc#plug_tap('denite.nvim')
   call denite#custom#var('grep', 'separator', ['--'])
   call denite#custom#var('grep', 'final_opts', [])
 
-  nnoremap <silent> <leader><Leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
-  nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
-  nnoremap <silent> <Leader>c :<C-u>Denite file_rec<CR>
-  nnoremap <silent> <Leader>l :<C-u>Denite line<CR>
-  nnoremap <silent> <Leader>g :<C-u>Denite grep -no-quit<CR>
-  nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
-  nnoremap <silent> <Leader>mr :<C-u>Denite file_mru<CR>
-  nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
+  nnoremap <silent> <leader>d<Leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
+  nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>
+  nnoremap <silent> <Leader>dc :<C-u>Denite file_rec<CR>
+  nnoremap <silent> <Leader>dl :<C-u>Denite line<CR>
+  nnoremap <silent> <Leader>dg :<C-u>Denite grep -no-quit<CR>
+  nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
+  nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
+  nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
   exe 'nnoremap <silent> <Leader>ml :<C-u>Denite file_rec -path='. g:memolist_path. '<CR>'
 endif
 
