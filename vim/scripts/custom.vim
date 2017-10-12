@@ -424,7 +424,7 @@ endif
 
 if myvimrc#plug_tap('lightline.vim')
   let g:lightline = {
-        \ 'colorscheme': '',
+        \ 'colorscheme': 'jellybeans',
         \ 'active': {
         \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename'], [ 'ctrlpmark' ] ],
         \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
@@ -434,8 +434,8 @@ if myvimrc#plug_tap('lightline.vim')
         \   'right': [ [ 'lineinfo' ], [ 'percent' ], ['fileformat', 'fileencoding', 'filetype' ] ]
         \ },
         \ 'tab': {
-        \   'active': [ 'tabnum', 'filename', 'modified' ],
-        \   'inactive': [ 'tabnum', 'filename', 'modified' ],
+        \   'active': [ 'tabnum', 'filename', 'readonly', 'modified' ],
+        \   'inactive': [ 'tabnum', 'filename', 'readonly', 'modified' ],
         \ },
         \ 'tab_component_function': {
         \   'filename': 'LightlineTabFilename',
@@ -444,7 +444,6 @@ if myvimrc#plug_tap('lightline.vim')
         \   'tabnum':   'lightline#tab#tabnum'
         \ },
         \ 'component': {
-        \   'lineinfo_concatenete': '%4l:%-2v%<',
         \   'concatenate': '%<',
         \ },
         \ 'component_function': {
@@ -476,9 +475,11 @@ if myvimrc#plug_tap('lightline.vim')
 
   function! LightlineFilename()
     let fname = expand('%:t')
-    return fname ==# 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
+    " return fname ==# 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
+    return fname ==# 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? '' :
           \ fname =~# '__Tagbar__' ? g:lightline.fname :
           \ fname =~# '__Gundo\|NERD_tree' ? '' :
+          \ &ft ==# 'denite' ? denite#get_status_path() :
           \ &ft ==# 'vimfiler' ? vimfiler#get_status_string() :
           \ &ft ==# 'unite' ? unite#get_status_string() :
           \ &ft ==# 'vimshell' ? vimshell#get_status_string() :
@@ -529,16 +530,22 @@ if myvimrc#plug_tap('lightline.vim')
   endfunction
 
   function! LightlineMode()
-    let fname = expand('%:t')
-    return fname =~# '__Tagbar__' ? 'Tagbar' :
-          \ fname ==# 'ControlP' ? 'CtrlP' :
-          \ fname ==# '__Gundo__' ? 'Gundo' :
-          \ fname ==# '__Gundo_Preview__' ? 'Gundo Preview' :
-          \ fname =~# 'NERD_tree' ? 'NERDTree' :
-          \ &ft ==# 'unite' ? 'Unite' :
-          \ &ft ==# 'vimfiler' ? 'VimFiler' :
-          \ &ft ==# 'vimshell' ? 'VimShell' :
-          \ winwidth(0) > 60 ? lightline#mode() : ''
+    if &ft ==# 'denite'
+      let mode_str = substitute(denite#get_status_mode(), "-\\| ", "", "g")
+      call lightline#link(tolower(mode_str[0]))
+      return mode_str
+    else
+      let fname = expand('%:t')
+      return fname =~# '__Tagbar__' ? 'Tagbar' :
+            \ fname ==# 'ControlP' ? 'CtrlP' :
+            \ fname ==# '__Gundo__' ? 'Gundo' :
+            \ fname ==# '__Gundo_Preview__' ? 'Gundo Preview' :
+            \ fname =~# 'NERD_tree' ? 'NERDTree' :
+            \ &ft ==# 'unite' ? 'Unite' :
+            \ &ft ==# 'vimfiler' ? 'VimFiler' :
+            \ &ft ==# 'vimshell' ? 'VimShell' :
+            \ winwidth(0) > 60 ? lightline#mode() : ''
+    endif
   endfunction
 
   function! CtrlPMark()
@@ -551,10 +558,10 @@ if myvimrc#plug_tap('lightline.vim')
     endif
   endfunction
 
-  " let g:ctrlp_status_func = {
-        " \ 'main': 'CtrlPStatusFunc_1',
-        " \ 'prog': 'CtrlPStatusFunc_2',
-        " \ }
+  let g:ctrlp_status_func = {
+        \ 'main': 'CtrlPStatusFunc_1',
+        \ 'prog': 'CtrlPStatusFunc_2',
+        \ }
 
   function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
     let g:lightline.ctrlp_regex = a:regex
@@ -578,6 +585,9 @@ if myvimrc#plug_tap('lightline.vim')
   let g:unite_force_overwrite_statusline = 0
   let g:vimfiler_force_overwrite_statusline = 0
   let g:vimshell_force_overwrite_statusline = 0
+
+  " lightline.vim側で描画するのでdeniteでstatuslineを描画しないようにする
+  call denite#custom#option('default', 'statusline', v:false)
 endif
 
 if myvimrc#plug_tap('vim-anzu')
