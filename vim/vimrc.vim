@@ -451,7 +451,7 @@ if g:plugin_mgr.enabled == g:true
 
       set background=dark
       " colorscheme default
-      colorscheme jellybeans
+      colorscheme spacegray
       let g:airline_theme = 'spacegray'
 
       "----------JELLYBEANS----------

@@ -9,7 +9,7 @@ if has('gui_running')
     endf
     if has('job')
       " to improve launch speed
-      call timer_start(10, function('s:set_rop'), {'repeat':1})
+      call timer_start(0, function('s:set_rop'), {'repeat':1})
     else
       augroup GVIMRC
         autocmd!
