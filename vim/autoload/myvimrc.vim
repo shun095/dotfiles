@@ -211,15 +211,37 @@ fun! myvimrc#test() abort
   return s:File.copy(expand('~/old.txt'),expand('~/new.txt'))
 endf
 
-fun! myvimrc#fugitive_head() abort
+fun! myvimrc#statusline_tagbar() abort
+  let str = ''
+  if exists('*tagbar#currenttag()')
+    let str .= tagbar#currenttag('[%s]','')
+  endif
+  return str
+endf
+
+fun! myvimrc#statusline_fugitive() abort
+  let str = ''
   if exists('*fugitive#head()') 
     if fugitive#head() !=# ''
-    return ' ' . fugitive#head()
-  else
-    return ''
-  else
-    return
+      let str .= ' ' . fugitive#head() . ' '
+    endif
   endif
+  return str
+endf
+
+fun! myvimrc#statusline_gitgutter() abort
+  let str = ''
+  if exists('*fugitive#head()') 
+    if fugitive#head() !=# ''
+      if exists('*GitGutterGetHunkSummary()')
+        let gutter_lst = GitGutterGetHunkSummary()
+        let str .= '+' . gutter_lst[0] 
+        let str .= '~' . gutter_lst[1] 
+        let str .= '-' . gutter_lst[2]
+      endif
+    endif
+  endif
+  return str
 endf
 
 function! myvimrc#tabline() abort
@@ -236,9 +258,9 @@ function! myvimrc#tabline() abort
     let s .= '%' . (i + 1) . 'T'
 
     if i + 1 == tabpagenr()
-        let s .= '%4*'
+      let s .= '%4*'
     else
-        let s .= '%5*'
+      let s .= '%5*'
     endif
 
     let s .= (i + 1) 
@@ -267,20 +289,20 @@ function! myvimrc#tabline() abort
 endfunction
 
 function! myvimrc#tabname(n) abort
-    let buflist = tabpagebuflist(a:n)
-    let winnr = tabpagewinnr(a:n)
-    let name = expand('#'.buflist[winnr - 1].':p')
-    let fmod = ':~:.'
-    let _ = ''
+  let buflist = tabpagebuflist(a:n)
+  let winnr = tabpagewinnr(a:n)
+  let name = expand('#'.buflist[winnr - 1].':p')
+  let fmod = ':~:.'
+  let _ = ''
 
-    if empty(name)
-      let _ .= '[No Name]'
-    else
-      let _ .= substitute(fnamemodify(name, fmod), '\v\w\zs.{-}\ze(\\|/)', '', 'g')
-    endif
+  if empty(name)
+    let _ .= '[No Name]'
+  else
+    let _ .= substitute(fnamemodify(name, fmod), '\v\w\zs.{-}\ze(\\|/)', '', 'g')
+  endif
 
-    let _ = substitute(_, '\\', '/', 'g')
-    return _
+  let _ = substitute(_, '\\', '/', 'g')
+  return _
 endfunction
 
 fun! myvimrc#plug_tap(name) abort

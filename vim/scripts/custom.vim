@@ -424,7 +424,7 @@ endif
 
 if myvimrc#plug_tap('lightline.vim')
   let g:lightline = {
-        \ 'colorscheme': 'iceberg',
+        \ 'colorscheme': '',
         \ 'active': {
         \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename'], [ 'ctrlpmark' ] ],
         \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]

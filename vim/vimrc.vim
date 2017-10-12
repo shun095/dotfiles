@@ -158,21 +158,21 @@ endif
 highlight link User1 Normal
 highlight link User2 Title
 highlight link User3 Directory
+highlight link User4 Special
+highlight link User5 Comment
 
 set statusline=%m%r%h%w%q
 set statusline+=%<\ %f\ %=
-if g:use_plugins
-  set statusline+=%{tagbar#currenttag('[%s]','')}
-endif
+set statusline+=%{myvimrc#statusline_tagbar()}
 set statusline+=\ %2*
-if g:use_plugins
-  set statusline+=%{myvimrc#fugitive_head()}
-endif
+set statusline+=%{myvimrc#statusline_fugitive()}
+set statusline+=%4*
+set statusline+=%{myvimrc#statusline_gitgutter()}
 set statusline+=%3*
 set statusline+=\ %y
 set statusline+=%1*\ %{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}
 set statusline+=\(%{&fileformat})
-set statusline+=\%3p%%\ %4l:%-3c\ %*
+set statusline+=\ %5*%3p%%\ %4l:%-3c\ %*
 
 " }}}
 
