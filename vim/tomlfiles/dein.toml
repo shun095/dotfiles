@@ -213,6 +213,9 @@ repo = 'chiel92/vim-autoformat'
 [[plugins]]
 repo = 'scrooloose/nerdcommenter'
 
+[[plugins]]
+repo = 'tpope/vim-dispatch'
+
 # [[plugins]]
 # repo = 'xolox/vim-misc'
 

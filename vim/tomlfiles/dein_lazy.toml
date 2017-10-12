@@ -197,10 +197,6 @@ repo = 'tyru/restart.vim'
 on_cmd = 'Restart'
 
 [[plugins]]
-repo = 'tpope/vim-dispatch'
-on_cmd = 'Dispatch'
-
-[[plugins]]
 repo = 'chiel92/vim-autoformat'
 on_cmd = 'Autoformat'
 
