@@ -225,6 +225,3 @@ repo = 'tpope/vim-dispatch'
 
 [[plugins]]
 repo = 'kana/vim-submode'
-
-[[plugins]]
-repo = 'machakann/vim-colorscheme-kemonofriends'
