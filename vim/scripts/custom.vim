@@ -85,7 +85,7 @@ if myvimrc#plug_tap('ctrlp.vim')
   " if has('unix')
   " let s:ctrlp_my_match_func = {}
   let s:ctrlp_my_match_func = {}
-  if !filereadable(expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm/bin/cpsm_py.so' )
+  if !filereadable(expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm/bin/cpsm_py.pyd' )
     augroup vimrc_cpsm
       autocmd VimEnter * call s:cpsm_build()
     augroup END

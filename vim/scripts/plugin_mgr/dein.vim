@@ -38,7 +38,7 @@ fun! g:plugin_mgr.deploy() abort
     " deinがインストールされてない場合そのままではプラグインは使わない
     let self.enabled = g:false
     if self.install()
-      self.enabled = g:true
+      let self.enabled = g:true
     endif
   endif
 endf
