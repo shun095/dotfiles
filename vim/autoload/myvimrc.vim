@@ -57,6 +57,11 @@ fun! myvimrc#git_callback(ch, msg) abort
 endf
 
 fun! myvimrc#git_end_callback(ch, msg) abort
+  if s:git_qflist == []
+    echom 'Couldn''t get git of vimrc information'
+    return
+  endif
+
   call setqflist(s:git_qflist)
   if s:git_newer_exists == g:true
     echohl WarningMsg
