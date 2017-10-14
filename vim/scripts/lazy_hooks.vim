@@ -46,7 +46,10 @@ fun g:plugin_mgr._vim_watchdogs()
   let g:watchdogs_check_BufWritePost_enable = 1
   let g:watchdogs_check_BufWritePost_enables = {
         \ 'cpp' : 0,
-        \ 'java': 0
+        \ 'java': 0,
+        \ 'go': 0,
+        \ 'cs': 0,
+        \ 'javascript': 0,
         \}
   let g:watchdogs_check_CursorHold_enable = 0
 
