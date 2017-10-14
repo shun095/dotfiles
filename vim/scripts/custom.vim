@@ -138,6 +138,9 @@ if myvimrc#plug_tap('ctrlp.vim')
   nnoremap <Leader>al       :CtrlPLine<CR>
   nnoremap <Leader><Leader> :CtrlP<CR>
 
+  if executable('files')
+    let g:ctrlp_user_command = 'files -a %s'
+  endif
   " let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
   " " if g:myvimrc_files_isAvalable
     " " let g:ctrlp_user_command = 'files -a -i "^$" %s'
