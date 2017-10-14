@@ -146,6 +146,7 @@ set completeopt=menuone            " 補完関係の設定
 set omnifunc=syntaxcomplete#Complete
 set iminsert=0                     " IMEの管理
 set imsearch=0
+set pumheight=10
 
 if v:version >= 800 || has('nvim') " バージョン検出
   set breakindent                  " version8以降搭載の便利オプション
@@ -308,6 +309,8 @@ augroup VIMRC
   autocmd FileType c,cpp setl expandtab softtabstop=2 shiftwidth=2
   " パス名置換によるヘッダファイル、ソースファイル切り替えハック
   " autocmd FileType cpp nnoremap <buffer> <F4> :e %:p:s/.h$/.X123X/:s/.cpp$/.h/:s/.X123X$/.cpp/<CR>
+
+  autocmd FileType cs setl noexpandtab
 
   autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2
   autocmd BufEnter *.vim execute 'setl iskeyword+=:'
