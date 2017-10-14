@@ -240,6 +240,8 @@ noremap! <C-g><C-g> <ESC>
 nnoremap <C-Tab> gt
 nnoremap <C-S-TAB> gT
 
+vnoremap <c-a> <c-a>gv
+vnoremap <c-x> <c-x>gv
 
 " !マークは挿入モードとコマンドラインモードへのマッピング
 " emacs like in insert/command mode
@@ -260,7 +262,8 @@ cnoremap <C-n> <down>
 nnoremap <silent> <ESC><ESC> :noh<CR>
 nnoremap <C-g> 2<C-g>
 " ビジュアルモードでも*検索が使えるようにする
-vnoremap * "zy:let @/ = @z <CR>n
+vnoremap * "zy:let @/ = '\<'.@z.'\>' <CR>n
+vnoremap g* "zy:let @/ = @z <CR>n
 nnoremap <Leader>. <ESC>:<C-u>edit $MYVIMHOME/vimrc.vim<CR>
 nnoremap <C-]> g<C-]>
 
