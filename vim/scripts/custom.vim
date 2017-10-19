@@ -1128,3 +1128,7 @@ if myvimrc#plug_tap('vim-submode')
     autocmd VimEnter * call g:plugin_mgr.lazy_hook('vim-submode')
   augroup END
 endif
+
+if myvimrc#plug_tap('indentLine')
+  " let g:indentLine_showFirstIndentLevel=1
+endif

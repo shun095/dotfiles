@@ -457,8 +457,8 @@ if g:plugin_mgr.enabled == g:true
 
       set background=dark
       " colorscheme default
-      colorscheme spacegray
-      let g:airline_theme = 'spacegray'
+      colorscheme iceberg
+      let g:airline_theme = 'iceberg'
 
       "----------JELLYBEANS----------
       " colorscheme jellybeans
@@ -519,7 +519,7 @@ if g:plugin_mgr.enabled == g:true
             autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#1C1E1F guibg=#27292A
             autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#27292A guibg=#1C1E1F
 
-            
+
             " summerfruit
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
             " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
