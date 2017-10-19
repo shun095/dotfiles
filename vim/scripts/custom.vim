@@ -138,19 +138,17 @@ if myvimrc#plug_tap('ctrlp.vim')
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
-  " if g:myvimrc_files_isAvalable
-    " let g:ctrlp_user_command = 'files -a %s'
-  " elseif g:myvimrc_pt_isAvalable
-    " let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-  " elseif g:myvimrc_ag_isAvalable
-    " let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
-  " else
-    if has('win32')
-      let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'
-    else
-      let g:ctrlp_user_command = 'find %s -type f'
+  if has('win32')
+    if g:myvimrc_files_isAvalable
+      let g:ctrlp_user_command = 'files -a %s'
+    elseif g:myvimrc_pt_isAvalable
+      let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+    elseif g:myvimrc_ag_isAvalable
+      let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
     endif
-  " endif
+  else
+    let g:ctrlp_user_command = 'find %s -type f'
+  endif
 
   unlet s:ctrlp_command_options
 endif
@@ -979,13 +977,15 @@ if myvimrc#plug_tap('denite.nvim')
     augroup END
   endif
   " Change file_rec command.
-  " if g:myvimrc_files_isAvalable
-    " call denite#custom#var('file_rec', 'command', ['files', '-a', '-i', '^$'])
-  " if g:myvimrc_pt_isAvalable
-    " call denite#custom#var('file_rec','command',['pt','--follow','--nocolor','--nogroup','--hidden','-g',''])
-  " elseif g:myvimrc_ag_isAvalable
-    " call denite#custom#var('file_rec','command',['ag','--follow','--nocolor','--nogroup','--hidden','-g',''])
-  " endif
+  if has('win32')
+    if g:myvimrc_files_isAvalable
+      call denite#custom#var('file_rec', 'command', ['files', '-a'])
+    elseif g:myvimrc_pt_isAvalable
+      call denite#custom#var('file_rec','command',['pt','--follow','--nocolor','--nogroup','--hidden','-g',''])
+    elseif g:myvimrc_ag_isAvalable
+      call denite#custom#var('file_rec','command',['ag','--follow','--nocolor','--nogroup','--hidden','-g',''])
+    endif
+  endif
 
   " change matchers
   call denite#custom#source('file_mru','matchers',['matcher_fuzzy'])
