@@ -284,6 +284,8 @@ command! CopyFileName call myvimrc#copyfname()
 command! CopyDirPath call myvimrc#copydirpath()
 command! Ctags call myvimrc#ctags_project()
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+
+command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
 " }}}
 
 " Autocmds {{{
