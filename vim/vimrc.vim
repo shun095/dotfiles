@@ -183,6 +183,12 @@ else
   let g:myvimrc_files_isAvalable = g:false
 endif
 
+if executable('rg')
+  let g:myvimrc_rg_isAvalable = g:true
+else
+  let g:myvimrc_rg_isAvalable = g:false
+endif
+
 if executable('pt')
   let g:myvimrc_pt_isAvalable = g:true
 else
@@ -196,7 +202,9 @@ else
 endif
 
 " agがあればgrepの代わりにagを使う
-if g:myvimrc_pt_isAvalable
+if g:myvimrc_rg_isAvalable
+  set grepprg=rg\ --vimgrep\ --follow
+elseif g:myvimrc_pt_isAvalable
   set grepprg=pt\ --nogroup\ --nocolor\ --column\ --follow
 elseif g:myvimrc_ag_isAvalable
   set grepprg=ag\ --nogroup\ --nocolor\ --column\ --follow

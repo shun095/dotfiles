@@ -85,43 +85,41 @@ if myvimrc#plug_tap('ctrlp.vim')
   " if has('unix')
   " let s:ctrlp_my_match_func = {}
   let s:ctrlp_my_match_func = {}
-  if !filereadable(expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm/bin/cpsm_py.pyd' )
+
+  " ========== For cpsm ==========
+  let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
+
+  fun! s:cpsm_build()
+    let s:cpsm_install_confirm = confirm('Build cpsm now?',"&yes\n&no",2)
+
+    if s:cpsm_install_confirm == 1
+      if has('win32')
+        exe '!' . $MYDOTFILES . '/tools/cpsm_winmake.bat'
+      else
+        exe '!' . s:cpsm_path . '/install.sh'
+      endif
+
+      if v:shell_error == 0
+        let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+      else
+        echoerr 'Couldn''t build cpsm correctly. Please build cpsm later.'
+      endif
+    else
+      echomsg 'Please build cpsm later.'
+    endif
+  endf
+
+  if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
     augroup vimrc_cpsm
       autocmd VimEnter * call s:cpsm_build()
     augroup END
-
-    fun! s:cpsm_build()
-      if has('win32')
-        let s:cpsm_install_confirm = confirm('Build cpsm now?',"&yes\n&no",2)
-        if s:cpsm_install_confirm == 1
-          exe '!' . $MYDOTFILES . '/tools/cpsm_winmake.bat'
-          if v:shell_error == 0
-            let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
-          else
-            echomsg 'Couldn''t build cpsm correctly'
-          endif
-        endif
-      else
-        " call system($HOME . '/.vim/dein/repos/github.com/nixprime/cpsm/install.sh')
-        " if v:shell_error == 0
-        " let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
-        " else
-        echomsg 'Please build cpsm with install.sh'
-        " endif
-      endif
-      " code
-    endf
-
   else
-    if has('python3')
-      let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
-    endif
+    let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
   endif
+
   let g:cpsm_query_inverting_delimiter = ' '
 
   let g:ctrlp_match_func = s:ctrlp_my_match_func
-  " elseif has('win32')
-  " endif
 
   augroup vimrc_ctrlp
     autocmd VimEnter * com! -n=? -com=dir CtrlPMRUFiles let g:ctrlp_match_func = {} |
@@ -138,32 +136,23 @@ if myvimrc#plug_tap('ctrlp.vim')
   nnoremap <Leader>al       :CtrlPLine<CR>
   nnoremap <Leader><Leader> :CtrlP<CR>
 
-  if executable('files')
-    let g:ctrlp_user_command = 'files -a %s'
-  endif
-  " let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
-  " " if g:myvimrc_files_isAvalable
-    " " let g:ctrlp_user_command = 'files -a -i "^$" %s'
-  " if g:myvimrc_pt_isAvalable
+  let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
+
+  " if g:myvimrc_files_isAvalable
+    " let g:ctrlp_user_command = 'files -a %s'
+  " elseif g:myvimrc_pt_isAvalable
     " let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
   " elseif g:myvimrc_ag_isAvalable
     " let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
   " else
-    " if has('unix')
-      " let g:ctrlp_user_command = 'find %s -type f'
-    " else
-      " let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'
-    " endif
+    if has('win32')
+      let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'
+    else
+      let g:ctrlp_user_command = 'find %s -type f'
+    endif
   " endif
-  " unlet s:ctrlp_command_options
 
-  " let g:ctrlp_user_command = 'chcp 65001| dir %s /-n /b /s /a-d | findstr /v /l ".jpg \\tmp\\ .git\\ .svn\\ .hg\\"' " Windows
-  " else
-  "   let g:ctrlp_use_caching=1
-  " let g:ctrlp_user_command = 'ag %s ' . s:ctrlp_ag_options
-  " let g:ctrlp_user_command = 'find %s -type f | grep -v -P "\.git/|\.svn/|\.hg/|\.jpg$|/tmp/"'          " MacOSX/Linux
-  " endif
-  " endif
+  unlet s:ctrlp_command_options
 endif
 
 if myvimrc#plug_tap('foldCC.vim')
@@ -635,24 +624,6 @@ if myvimrc#plug_tap('vim-clang-format')
         \ 'UseTab'                             :'Never',
         \ 'ColumnLimit'                        :'120'
         \ }
-  " function! s:safeundo()
-  " let s:pos = getpos( '. ')
-  " let s:view = winsaveview()
-  " undo
-  " call setpos( '.', s:pos )
-  " call winrestview( s:view )
-  " endfunc
-
-  " function! s:saferedo()
-  " let s:pos = getpos( '.' )
-  " let s:view = winsaveview()
-  " redo
-  " call setpos( '.', s:pos )
-  " call winrestview( s:view )
-  " endfunc
-
-  " nnoremap u :call <SID>safeundo()<CR>
-  " nnoremap <C-r> :call <SID>saferedo()<CR>
 endif
 
 if myvimrc#plug_tap('clang_complete')
@@ -1002,58 +973,42 @@ if myvimrc#plug_tap('denite.nvim')
   if has('job')
     call timer_start(100, 'async_custom#denite',{'repeat':1})
   else
-    call async_custom#denite()
+    augroup vimrc_denite
+      autocmd!
+      autocmd VimEnter * call async_custom#denite()
+    augroup END
   endif
   " Change file_rec command.
   " if g:myvimrc_files_isAvalable
     " call denite#custom#var('file_rec', 'command', ['files', '-a', '-i', '^$'])
-  if g:myvimrc_pt_isAvalable
-    " if has("win32")
-    call denite#custom#var('file_rec', 'command',
-          \ ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
-    " else
-    "   call denite#custom#var('file_rec', 'command',
-    "         \ ['pt', '--follow', '--nocolor', '--nogroup', '-g', ''])
-    " endif
-  elseif g:myvimrc_ag_isAvalable
-    call denite#custom#var('file_rec', 'command',
-          \ ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g',''])
-  endif
+  " if g:myvimrc_pt_isAvalable
+    " call denite#custom#var('file_rec','command',['pt','--follow','--nocolor','--nogroup','--hidden','-g',''])
+  " elseif g:myvimrc_ag_isAvalable
+    " call denite#custom#var('file_rec','command',['ag','--follow','--nocolor','--nogroup','--hidden','-g',''])
+  " endif
 
-  call denite#custom#source(
-        \ 'file_mru', 'matchers', ['matcher_fuzzy'])
-
+  " change matchers
+  call denite#custom#source('file_mru','matchers',['matcher_fuzzy'])
+  call denite#custom#source('file_rec','matchers',['matcher_fuzzy'])
+  call denite#custom#source('line',    'matchers',['matcher_fuzzy'])
   if g:ctrlp_match_func != {} && g:ctrlp_match_func['match'] ==# 'cpsm#CtrlPMatch'
-    call denite#custom#source(
-          \ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_cpsm'])
-    call denite#custom#source(
-          \ 'line', 'matchers', ['matcher_fuzzy', 'matcher_cpsm'])
-    call denite#custom#source(
-          \ 'file_rec', 'matchers', ['matcher_fuzzy', 'matcher_cpsm'])
+    call denite#custom#source('file_mru','matchers',['matcher_cpsm'])
+    call denite#custom#source('file_rec','matchers',['matcher_cpsm'])
+    call denite#custom#source('line',    'matchers',['matcher_cpsm'])
   endif
-
   " Change mappings.
-  call denite#custom#map(
-        \ 'insert',
-        \ '<C-j>',
-        \ '<denite:move_to_next_line>',
-        \ 'noremap'
-        \)
-  call denite#custom#map(
-        \ 'insert',
-        \ '<C-k>',
-        \ '<denite:move_to_previous_line>',
-        \ 'noremap'
-        \)
-  " pt command on grep source
-  call denite#custom#var('grep', 'command', ['pt'])
-  call denite#custom#var('grep', 'default_opts',
-        \ ['--nogroup', '--nocolor', '--follow', '--smart-case'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'pattern_opt', [])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'final_opts', [])
-
+  call denite#custom#map('insert','<C-j>','<denite:move_to_next_line>',    'noremap')
+  call denite#custom#map('insert','<C-k>','<denite:move_to_previous_line>','noremap')
+  " rg command on grep source
+  if g:myvimrc_rg_isAvalable
+    call denite#custom#var('grep', 'command', ['rg'])
+    call denite#custom#var('grep', 'default_opts', ['--vimgrep'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+  endif
+  " mappgins
   nnoremap <silent> <leader>d<Leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
   nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>
   nnoremap <silent> <Leader>dc :<C-u>Denite file_rec<CR>
@@ -1062,7 +1017,9 @@ if myvimrc#plug_tap('denite.nvim')
   nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
   nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
   nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
-  exe 'nnoremap <silent> <Leader>ml :<C-u>Denite file_rec -path='. g:memolist_path. '<CR>'
+  if exists('g:memolist_path')
+    exe 'nnoremap <silent> <Leader>ml :<C-u>Denite file_rec -path='. g:memolist_path. '<CR>'
+  endif
 endif
 
 if myvimrc#plug_tap('deoplete.nvim')
@@ -1073,37 +1030,25 @@ if myvimrc#plug_tap('nerdcommenter')
   let g:NERDSpaceDelims = 1
   xmap gcc <Plug>NERDCommenterComment
   nmap gcc <Plug>NERDCommenterComment
-
   xmap gcn <Plug>NERDCommenterNested
   nmap gcn <Plug>NERDCommenterNested
-
   xmap gc<space> <Plug>NERDCommenterToggle
   nmap gc<space> <Plug>NERDCommenterToggle
-
   xmap gcm <Plug>NERDCommenterMinimal
   nmap gcm <Plug>NERDCommenterMinimal
-
   xmap gci <Plug>NERDCommenterInvert
   nmap gci <Plug>NERDCommenterInvert
-
   xmap gcs <Plug>NERDCommenterSexy
   nmap gcs <Plug>NERDCommenterSexy
-
   xmap gcy <Plug>NERDCommenterYank
   nmap gcy <Plug>NERDCommenterYank
-
   nmap gc$ <Plug>NERDCommenterToEOL
-
   nmap gcA <Plug>NERDCommenterAppend
-
   nmap gca <Plug>NERDCommenterAltDelims
-
   xmap gcl <Plug>NERDCommenterAlignLeft
   nmap gcl <Plug>NERDCommenterAlignLeft
-
   xmap gcb <Plug>NERDCommenterAlignBoth
   nmap gcb <Plug>NERDCommenterAlignBoth
-
   xmap gcu <Plug>NERDCommenterUncomment
   nmap gcu <Plug>NERDCommenterUncomment
 endif
@@ -1124,7 +1069,7 @@ if myvimrc#plug_tap('next-alter.vim')
 endif
 
 if myvimrc#plug_tap('vim-submode')
-  augroup mysubmode
+  augroup vimrc_submode
     autocmd VimEnter * call g:plugin_mgr.lazy_hook('vim-submode')
   augroup END
 endif
