@@ -58,6 +58,7 @@ pip
 command-not-found
 zsh-syntax-highlighting
 zsh-autosuggestions
+zsh-completions
 history-substring-search
 )
 

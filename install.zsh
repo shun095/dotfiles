@@ -112,7 +112,9 @@ remove_rcfiles() {
         echo "\n===== Remove existing RC files =======================================\n"
 
         setopt EXTENDED_GLOB
-        for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+        # for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+        ZSHFILES=("zlogin" "zlogout" "zpreztorc" "zprofile" "zshenv" "zshrc")
+        for rcfile in ${ZSHFILES}; do
             remove_rcfiles_symlink "${ZDOTDIR:-$HOME}/.${rcfile:t}"
         done
 
@@ -124,7 +126,9 @@ remove_rcfiles() {
 
 uninstall_plugins() {
     echo "Remove fzf and zprezto directory"
-    $HOME/.fzf/uninstall
+    if [[ -e $HOME/.fzf/uninstall ]]; then
+        $HOME/.fzf/uninstall
+    fi
     \rm -rf $ZPREZTODIR
     \rm -rf $FZFDIR
     \rm -rf $OHMYZSHDIR
@@ -139,7 +143,7 @@ download_repositories(){
     # install fzf
     if [[ ! -e ${FZFDIR} ]]; then
         echo "\n===== Download fzf ===================================================\n"
-        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf &
     fi
 
     # # download zprezto
@@ -150,12 +154,15 @@ download_repositories(){
     # fi
 
     if [[ ! -e ${OHMYZSHDIR} ]]; then
-        echo "\n===== Download oh my zsh ===============================================\n"
-        git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+        echo "\n===== Download oh my zsh =============================================\n"
+        git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
         pushd ~/.oh-my-zsh/custom/plugins
-            git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-            git clone https://github.com/zsh-users/zsh-autosuggestions
+            git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git & \
+            git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions & \
+            git clone --depth 1 https://github.com/zsh-users/zsh-completions 
         popd
+
+        wait
 
         if [[ ! -e ${OHMYZSHDIR}/custom/themes ]]; then
             mkdir -p ${OHMYZSHDIR}/custom/themes
@@ -258,7 +265,7 @@ deploy_prezto_files() {
 }
 
 deploy_ohmyzsh_files() {
-    echo "\n===== Install oh my zsh =================================================\n"
+    echo "\n===== Install oh my zsh ==============================================\n"
 
     touch ~/.zshrc
 
