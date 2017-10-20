@@ -147,7 +147,7 @@ if myvimrc#plug_tap('ctrlp.vim')
       let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
     endif
   else
-    let g:ctrlp_user_command = 'find %s -type f'
+    let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
   endif
 
   unlet s:ctrlp_command_options
