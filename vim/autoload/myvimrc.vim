@@ -179,15 +179,15 @@ fun! myvimrc#gnometerm_detection(ch, msg) abort
 endf
 
 fun! myvimrc#set_tmux_code(gnome_term_ver) abort
-  if a:gnome_term_ver[0] == 3 && a:gnome_term_ver[1] > 12
-    if exists('$TMUX')
-      let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-      let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
-    else
-      let &t_SI = '[5 q'
-      let &t_EI = '[2 q'
-    endif
-  endif
+  " if a:gnome_term_ver[0] == 3 && a:gnome_term_ver[1] > 12
+    " if exists('$TMUX')
+      " let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
+      " let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+    " else
+      " let &t_SI = '[5 q'
+      " let &t_EI = '[2 q'
+    " endif
+  " endif
 endf
 
 fun! myvimrc#print_callback(ch,msg) abort
