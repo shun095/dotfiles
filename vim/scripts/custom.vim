@@ -96,7 +96,10 @@ if myvimrc#plug_tap('ctrlp.vim')
       if has('win32')
         exe '!' . $MYDOTFILES . '/tools/cpsm_winmake.bat'
       else
-        exe '!' . s:cpsm_path . '/install.sh'
+        if !isdirectory(s:cpsm_path . '/bin')
+          call mkdir(s:cpsm_path . '/bin')
+        endif
+        exe '!pushd ' . s:cpsm_path . '/bin; cmake -DPY3=ON ..; make -j'
       endif
 
       if v:shell_error == 0
