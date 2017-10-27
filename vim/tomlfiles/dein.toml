@@ -228,3 +228,6 @@ repo = 'tpope/vim-dispatch'
 
 [[plugins]]
 repo = 'kana/vim-submode'
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
