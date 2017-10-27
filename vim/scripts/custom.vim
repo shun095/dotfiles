@@ -990,6 +990,10 @@ if myvimrc#plug_tap('denite.nvim')
     endif
   endif
 
+  if !exists('g:ctrlp_match_func')
+    let g:ctrlp_match_func = {}
+  endif
+
   " change matchers
   call denite#custom#source('file_mru','matchers',['matcher_fuzzy'])
   call denite#custom#source('file_rec','matchers',['matcher_fuzzy'])
