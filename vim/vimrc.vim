@@ -161,6 +161,7 @@ highlight link User2 Title
 highlight link User3 Directory
 highlight link User4 Special
 highlight link User5 Comment
+highlight Terminal guibg=black
 
 set statusline=%m%r%h%w%q
 set statusline+=%<\ %f\ %=

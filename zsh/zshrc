@@ -12,8 +12,11 @@ source $MYDOTFILES/zsh/ohmyzshrc
 setopt auto_cd
 
 function chpwd() {ls}
-function mails(){
+function maila(){
     tmux source ~/dotfiles/tmux/mutt_tile
+}
+function mailb(){
+    tmux source ~/dotfiles/tmux/mutt_tile2
 }
 
 function tmux_call(){
