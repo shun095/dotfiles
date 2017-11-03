@@ -244,8 +244,8 @@ set backup
 " vnoremap <Down> gj
 " vnoremap <Up> gk
 
-noremap <C-j> <ESC>
-noremap! <C-j> <ESC>
+" noremap <C-j> <ESC>
+" noremap! <C-j> <ESC>
 noremap! <C-g><C-g> <ESC>
 nnoremap <C-Tab> gt
 nnoremap <C-S-TAB> gT
