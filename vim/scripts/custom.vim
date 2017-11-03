@@ -1073,6 +1073,10 @@ endif
 
 if myvimrc#plug_tap('next-alter.vim')
   nmap <F4> <Plug>(next-alter-open)
+  augroup vimrc_nextalter
+    autocmd!
+    autocmd BufEnter * let g:next_alter#search_dir = [ expand('%:h'), '.' , '..', './include', '../include' ]
+  augroup END
 endif
 
 if myvimrc#plug_tap('vim-submode')
