@@ -951,8 +951,10 @@ endif
 if myvimrc#plug_tap('calendar.vim')
   augroup vimrc_calendar
     autocmd!
-    autocmd FileType calendar IndentGuidesDisable
   augroup END
+  if myvimrc#plug_tap('vim-indent-guides')
+    autocmd vimrc_calendar FileType calendar IndentGuidesDisable
+  endif
   let g:calendar_google_calendar = 1
   let g:calendar_google_task = 1
   let g:calendar_time_zone = '+0900'
@@ -962,8 +964,10 @@ endif
 if myvimrc#plug_tap('thumbnail.vim')
   augroup vimrc_thumbnail
     autocmd!
-    autocmd FileType thumbnail IndentGuidesDisable
   augroup END
+  if myvimrc#plug_tap('vim-indent-guides')
+    autocmd vimrc_thumbnail FileType thumbnail IndentGuidesDisable
+  endif
 endif
 
 if myvimrc#plug_tap('autofmt')

@@ -82,6 +82,9 @@ repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'tpope/vim-rhubarb'
 # }}}
 
 # [[plugins]]
@@ -144,7 +147,6 @@ repo = 'tpope/vim-surround'
 
 [[plugins]]
 repo = 'NLKNguyen/papercolor-theme'
-
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
@@ -231,3 +233,7 @@ repo = 'kana/vim-submode'
 
 [[plugins]]
 repo = 'junegunn/fzf.vim'
+
+[[plugins]]
+repo = 'junegunn/gv.vim'
+
