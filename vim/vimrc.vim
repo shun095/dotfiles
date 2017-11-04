@@ -1,8 +1,11 @@
 ﻿" vim:set foldmethod=marker:
 " Initialize {{{
 set encoding=utf-8
-set langmenu=ja_JP.utf-8
-set helplang=ja
+" set langmenu=ja_JP.utf-8
+" set helplang=ja
+language C
+" set langmenu=C
+" set helplang=en
 
 scriptencoding utf-8
 if &compatible
