@@ -75,6 +75,8 @@
 (require 'ycmd)
 (add-hook 'after-init-hook #'global-ycmd-mode)
 (set-variable 'ycmd-server-command `("python" ,(file-truename "~/.ycmd/ycmd")))
+(set-variable 'ycmd-global-config (file-truename "~/.ycmd/examples/.ycm_extra_conf.py"))
+
 (require 'company-ycmd)
 (company-ycmd-setup)
 
@@ -111,5 +113,5 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (fzf company-ycmd ycmd company vimrc-mode flycheck atom-dark-theme molokai-theme mozc undo-tree)))
+    (magit fzf company-ycmd ycmd company vimrc-mode flycheck atom-dark-theme molokai-theme mozc undo-tree)))
  '(tool-bar-mode nil))
