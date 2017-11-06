@@ -4,13 +4,14 @@
 ;; You may delete these explanatory comments.
 (defvar my-favorite-package-list
   '(undo-tree
-    helm
+    fiplr
     mozc
     molokai-theme
     flycheck
     vimrc-mode
-    auto-complete
-    elpy)
+    company
+    ycmd
+    )
   "packages to be installed")
 
 (require 'package)
@@ -38,22 +39,38 @@
 (require 'molokai-theme)
 (load-theme 'molokai t)
 
-(require 'vimrc-mode)
-
 (global-set-key "\C-h" 'delete-backward-char)
-
 (setq scroll-conservatively 1)
 (setq scroll-margin 5)
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-;; Auto Complete
-;; auto-complete-config の設定ファイルを読み込む。
-(require 'auto-complete-config)
-;; よくわからない
-(ac-config-default)
-;; TABキーで自動補完を有効にする
-(ac-set-trigger-key "TAB")
-;; auto-complete-mode を起動時に有効にする
-(global-auto-complete-mode t)
+(require 'vimrc-mode)
+
+(require 'company)
+(global-company-mode +1)
+(global-set-key (kbd "C-M-i") 'company-complete)
+
+;; C-n, C-pで補完候補を次/前の候補を選択
+(define-key company-active-map (kbd "C-n") 'company-select-next)
+(define-key company-active-map (kbd "C-p") 'company-select-previous)
+(define-key company-search-map (kbd "C-n") 'company-select-next)
+(define-key company-search-map (kbd "C-p") 'company-select-previous)
+
+;; C-sで絞り込む
+(define-key company-active-map (kbd "C-s") 'company-filter-candidates)
+
+;; TABで候補を設定
+(define-key company-active-map (kbd "C-i") 'company-complete-selection)
+
+;; 各種メジャーモードでも C-M-iで company-modeの補完を使う
+(define-key emacs-lisp-mode-map (kbd "C-M-i") 'company-complete)
+
+;; ycmd
+(require 'ycmd)
+(add-hook 'after-init-hook #'global-ycmd-mode)
+(set-variable 'ycmd-server-command `("python" ,(file-truename "~/.vim/dein/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/ycmd/")))
 
 ;; eww設定
 (defvar eww-disable-colorize t)
@@ -74,17 +91,10 @@
   (eww-reload))
 
 (setq eww-search-prefix "http://www.google.co.jp/search?q=")
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Ricty Diminished for Powerline" :foundry "PfEd" :slant normal :weight normal :height 98 :width normal)))))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (elpy vimrc-mode undo-tree mozc molokai-theme helm flycheck auto-complete))))
