@@ -11,6 +11,7 @@
     vimrc-mode
     company
     ycmd
+    company-ycmd
     )
   "packages to be installed")
 
@@ -70,7 +71,9 @@
 ;; ycmd
 (require 'ycmd)
 (add-hook 'after-init-hook #'global-ycmd-mode)
-(set-variable 'ycmd-server-command `("python" ,(file-truename "~/.vim/dein/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/ycmd/")))
+(set-variable 'ycmd-server-command `("python" ,(file-truename "~/.ycmd/ycmd")))
+(require 'company-ycmd)
+(company-ycmd-setup)
 
 ;; eww設定
 (defvar eww-disable-colorize t)
@@ -98,3 +101,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Ricty Diminished for Powerline" :foundry "PfEd" :slant normal :weight normal :height 98 :width normal)))))
+
