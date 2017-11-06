@@ -4,14 +4,16 @@
 ;; You may delete these explanatory comments.
 (defvar my-favorite-package-list
   '(undo-tree
-    fiplr
     mozc
     molokai-theme
+    atom-dark-theme
     flycheck
     vimrc-mode
     company
     ycmd
     company-ycmd
+    fzf
+    magit
     )
   "packages to be installed")
 
@@ -37,8 +39,10 @@
 (setq desktop-globals-to-save '(extended-command-history))
 (desktop-save-mode 1)
 
-(require 'molokai-theme)
-(load-theme 'molokai t)
+;; (require 'molokai-theme)
+;; (load-theme 'molokai t)
+(require 'atom-dark-theme)
+(load-theme 'atom-dark t)
 
 (global-set-key "\C-h" 'delete-backward-char)
 (setq scroll-conservatively 1)
@@ -46,6 +50,9 @@
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+(require 'fzf)
+(global-set-key "\C-x\ p" 'fzf-git)
 
 (require 'vimrc-mode)
 
@@ -97,7 +104,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Ricty Diminished" :foundry "PfEd" :slant normal :weight normal :height 113 :width normal)))))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -105,4 +111,5 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-ycmd ycmd company vimrc-mode flycheck molokai-theme mozc fiplr undo-tree))))
+    (fzf company-ycmd ycmd company vimrc-mode flycheck atom-dark-theme molokai-theme mozc undo-tree)))
+ '(tool-bar-mode nil))
