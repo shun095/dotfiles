@@ -114,4 +114,5 @@
  '(package-selected-packages
    (quote
     (magit fzf company-ycmd ycmd company vimrc-mode flycheck atom-dark-theme molokai-theme mozc undo-tree)))
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(tramp-syntax (quote default) nil (tramp)))
