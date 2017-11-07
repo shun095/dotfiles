@@ -1,3 +1,4 @@
+scriptencoding utf-8
 let s:save_cpo = &cpo
 set cpo&vim
 
@@ -31,10 +32,11 @@ fun g:plugin_mgr._lexima_vim()
 endf
 
 fun g:plugin_mgr._vim_submode()
-  call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-  call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-  call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
-  call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+  let g:submode_timeoutlen = 3000
+  call submode#enter_with('winsize', 'n', '', '<C-w>>', '5<C-w>>')
+  call submode#enter_with('winsize', 'n', '', '<C-w><', '5<C-w><')
+  call submode#enter_with('winsize', 'n', '', '<C-w>+', '5<C-w>+')
+  call submode#enter_with('winsize', 'n', '', '<C-w>-', '5<C-w>-')
   call submode#map('winsize', 'n', '', '>', '5<C-w>>')
   call submode#map('winsize', 'n', '', '<', '5<C-w><')
   call submode#map('winsize', 'n', '', '+', '5<C-w>+')

@@ -78,7 +78,7 @@ if myvimrc#plug_tap('ctrlp.vim')
   " let g:ctrlp_map = ''
   " let g:ctrlp_extensions = ['mixed']
   let g:ctrlp_max_files = 50000
-  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
+  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:10'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
@@ -86,42 +86,44 @@ if myvimrc#plug_tap('ctrlp.vim')
   " let s:ctrlp_my_match_func = {}
   let s:ctrlp_my_match_func = {}
 
-  " ========== For cpsm ==========
-  let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
+  if myvimrc#plug_tap('cpsm')
+    " ========== For cpsm ==========
+    let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
 
-  fun! s:cpsm_build()
-    let s:cpsm_install_confirm = confirm('Build cpsm now?',"&yes\n&no",2)
+    fun! s:cpsm_build()
+      let s:cpsm_install_confirm = confirm('Build cpsm now?',"&yes\n&no",2)
 
-    if s:cpsm_install_confirm == 1
-      if has('win32')
-        exe '!' . $MYDOTFILES . '/tools/cpsm_winmake.bat'
-      else
-        if !isdirectory(s:cpsm_path . '/bin')
-          call mkdir(s:cpsm_path . '/bin')
+      if s:cpsm_install_confirm == 1
+        if has('win32')
+          exe '!' . $MYDOTFILES . '/tools/cpsm_winmake.bat'
+        else
+          if !isdirectory(s:cpsm_path . '/bin')
+            call mkdir(s:cpsm_path . '/bin')
+          endif
+          exe '!pushd ' . s:cpsm_path . '/bin; cmake -DPY3=ON ..; make -j'
         endif
-        exe '!pushd ' . s:cpsm_path . '/bin; cmake -DPY3=ON ..; make -j'
-      endif
 
-      if v:shell_error == 0
-        let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+        if v:shell_error == 0
+          let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+        else
+          echoerr 'Couldn''t build cpsm correctly. Please build cpsm later.'
+        endif
       else
-        echoerr 'Couldn''t build cpsm correctly. Please build cpsm later.'
+        echomsg 'Please build cpsm later.'
       endif
+    endf
+
+    if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
+      augroup vimrc_cpsm
+        autocmd VimEnter * call s:cpsm_build()
+      augroup END
     else
-      echomsg 'Please build cpsm later.'
+      let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
     endif
-  endf
-
-  if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
-    augroup vimrc_cpsm
-      autocmd VimEnter * call s:cpsm_build()
-    augroup END
-  else
-    let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+    let g:cpsm_query_inverting_delimiter = ' '
+  elseif myvimrc#plug_tap('ctrlp-py-matcher')
+    let s:ctrlp_my_match_func = { 'match' : 'pymatcher#PyMatch' }
   endif
-
-  let g:cpsm_query_inverting_delimiter = ' '
-
   let g:ctrlp_match_func = s:ctrlp_my_match_func
 
   augroup vimrc_ctrlp

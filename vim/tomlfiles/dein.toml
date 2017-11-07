@@ -208,9 +208,12 @@ repo = 'aperezdc/vim-template'
 [[plugins]]
 repo = 'itchyny/vim-cursorword'
 
+# [[plugins]]
+# repo = 'nixprime/cpsm'
+# merged = 0
+
 [[plugins]]
-repo = 'nixprime/cpsm'
-merged = 0
+repo = 'FelikZ/ctrlp-py-matcher'
 
 [[plugins]]
 repo = 'chiel92/vim-autoformat'
