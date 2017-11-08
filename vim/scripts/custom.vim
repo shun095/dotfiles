@@ -143,17 +143,17 @@ if myvimrc#plug_tap('ctrlp.vim')
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
-  if has('win32')
-    if g:myvimrc_files_isAvalable
-      let g:ctrlp_user_command = 'files -a %s'
-    elseif g:myvimrc_pt_isAvalable
-      let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-    elseif g:myvimrc_ag_isAvalable
-      let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
-    endif
-  else
-    let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
-  endif
+  " if has('win32')
+    " if g:myvimrc_files_isAvalable
+      " let g:ctrlp_user_command = 'files -a %s'
+    " elseif g:myvimrc_pt_isAvalable
+      " let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+    " elseif g:myvimrc_ag_isAvalable
+      " let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
+    " endif
+  " else
+    " let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
+  " endif
 
   unlet s:ctrlp_command_options
 endif
