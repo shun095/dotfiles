@@ -12,6 +12,7 @@
     company
     ycmd
     company-ycmd
+    flycheck-ycmd
     fzf
     magit
     )
@@ -111,8 +112,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (magit fzf company-ycmd ycmd company vimrc-mode flycheck atom-dark-theme molokai-theme mozc undo-tree)))
- '(tool-bar-mode nil)
- '(tramp-syntax (quote default) nil (tramp)))
+ '(tool-bar-mode nil))
