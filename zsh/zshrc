@@ -11,7 +11,12 @@ source $MYDOTFILES/zsh/ohmyzshrc
 
 setopt auto_cd
 
-function chpwd() {ls}
+function chpwd() {
+    ls
+    sed "s#^$PWD\$##g" ~/.cd_history | sed "/^\s*$/d" > ~/.cd_history
+    pwd >> ~/.cd_history
+}
+
 function maila(){
     tmux source ~/dotfiles/tmux/mutt_tile
 }
@@ -37,9 +42,27 @@ function cdscuts_glob_echo(){
     echo -e "$system_wide_filelist\n$user_filelist" | sed '/^\s*$/d'
 }
 
-unalias cdg 2> /dev/null
-function cdg() {
+unalias bkm 2> /dev/null
+function bkm() {
    local dest_dir=$(cdscuts_glob_echo | fzf )
+   if [[ $dest_dir != '' ]]; then
+      cd "$dest_dir"
+   fi
+}
+
+function cd_hist_echo(){
+    cd_history_file=''
+
+    if [ -r ~/.cd_history ]; then
+        cd_history_file=$(cdscuts_list_echo ~/.cd_history)
+    fi
+
+    echo -e "$cd_history_file" | sed '/^\s*$/d'
+}
+
+unalias cdh 2> /dev/null
+function cdh() {
+   local dest_dir=$(cd_hist_echo | fzf )
    if [[ $dest_dir != '' ]]; then
       cd "$dest_dir"
    fi
