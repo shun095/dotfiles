@@ -593,6 +593,9 @@ if myvimrc#plug_tap('lightline.vim')
   endfunction
 
   function! CtrlPStatusFunc_2(str)
+    let g:lightline.ctrlp_prev = ''
+    let g:lightline.ctrlp_item = ''
+    let g:lightline.ctrlp_next = printf('%s',a:str)
     return lightline#statusline(0)
   endfunction
 
