@@ -419,14 +419,14 @@ endif
 
 if myvimrc#plug_tap('lightline.vim')
   let g:lightline = {
-        \ 'colorscheme': 'jellybeans',
+        \ 'colorscheme': 'iceberg',
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename'], [ 'ctrlpmark' ] ],
-        \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename', 'ctrlpmark' ], [ 'gitgutter' ] ],
+        \   'right': [ [ 'lineinfo' ], ['percent'], [ 'tagbar', 'fileformat', 'fileencoding', 'filetype' ] ]
         \ },
         \ 'inactive': {
         \   'left': [ [ 'fugitive', 'filename' ] ],
-        \   'right': [ [ 'lineinfo' ], [ 'percent' ], ['fileformat', 'fileencoding', 'filetype' ] ]
+        \   'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
         \ },
         \ 'tab': {
         \   'active': [ 'tabnum', 'filename', 'readonly', 'modified' ],
@@ -436,7 +436,7 @@ if myvimrc#plug_tap('lightline.vim')
         \   'filename': 'LightlineTabFilename',
         \   'modified': 'lightline#tab#modified',
         \   'readonly': 'lightline#tab#readonly',
-        \   'tabnum':   'lightline#tab#tabnum'
+        \   'tabnum':   'lightline#tab#tabnum',
         \ },
         \ 'component': {
         \   'concatenate': '%<',
@@ -447,8 +447,12 @@ if myvimrc#plug_tap('lightline.vim')
         \   'fileformat': 'LightlineFileformat',
         \   'filetype': 'LightlineFiletype',
         \   'fileencoding': 'LightlineFileencoding',
+        \   'lineinfo': 'LightlineLineinfo',
+        \   'percent': 'LightlinePercent',
         \   'mode': 'LightlineMode',
         \   'ctrlpmark': 'CtrlPMark',
+        \   'gitgutter': 'LightlineGitgutter',
+        \   'tagbar': 'LightlineTagbar',
         \ },
         \ 'component_expand': {
         \   'syntastic': 'SyntasticStatuslineFlag',
@@ -456,8 +460,8 @@ if myvimrc#plug_tap('lightline.vim')
         \ 'component_type': {
         \   'syntastic': 'error',
         \ },
-        \ 'separator': { 'left': '', 'right': '' },
-        \ 'subseparator': { 'left': '|', 'right': '|' }
+		\ 'separator': { 'left': '⮀', 'right': '⮂' },
+		\ 'subseparator': { 'left': '⮁', 'right': '⮃' }
         \ }
 
   function! LightlineModified()
@@ -500,6 +504,14 @@ if myvimrc#plug_tap('lightline.vim')
     return _
   endfunction
 
+  function! LightlineGitgutter()
+    let str = ''
+    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler'
+      let str = myvimrc#statusline_gitgutter()
+    endif
+    return str
+  endfunction
+
   function! LightlineFugitive()
     try
       if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
@@ -524,6 +536,18 @@ if myvimrc#plug_tap('lightline.vim')
     return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
   endfunction
 
+  function! LightlineTagbar()
+    return winwidth(0) > 90 ? myvimrc#statusline_tagbar() : ''
+  endfunction
+
+  function! LightlineLineinfo()
+    return winwidth(0) > 40 ? printf('%4d:%3d',line('.'),col('.')) : ''
+  endfunction
+
+  function! LightlinePercent()
+    return winwidth(0) > 40 ? printf('%3d%%',float2nr(1.0*line('.')/line('$')*100)) : ''
+  endfunction
+
   function! LightlineMode()
     if &ft ==# 'denite'
       let mode_str = substitute(denite#get_status_mode(), '-\| ', '', 'g')
@@ -539,7 +563,7 @@ if myvimrc#plug_tap('lightline.vim')
             \ &ft ==# 'unite' ? 'Unite' :
             \ &ft ==# 'vimfiler' ? 'VimFiler' :
             \ &ft ==# 'vimshell' ? 'VimShell' :
-            \ winwidth(0) > 60 ? lightline#mode() : ''
+            \ winwidth(0) > 90 ? lightline#mode() : lightline#mode()[0:2]
     endif
   endfunction
 
