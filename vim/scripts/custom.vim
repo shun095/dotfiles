@@ -421,7 +421,7 @@ if myvimrc#plug_tap('lightline.vim')
   let g:lightline = {
         \ 'colorscheme': 'iceberg',
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename', 'ctrlpmark' ], [ 'gitgutter' ] ],
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'gitgutter', 'ctrlpmark' ], [ 'filename' ] ],
         \   'right': [ [ 'lineinfo' ], ['percent'], [ 'tagbar', 'fileformat', 'fileencoding', 'filetype' ] ]
         \ },
         \ 'inactive': {
@@ -459,6 +459,8 @@ if myvimrc#plug_tap('lightline.vim')
         \ },
         \ 'component_type': {
         \   'syntastic': 'error',
+        \   'lineinfo': 'error',
+        \   'percent': 'error',
         \ },
 		\ 'separator': { 'left': '⮀', 'right': '⮂' },
 		\ 'subseparator': { 'left': '⮁', 'right': '⮃' }
