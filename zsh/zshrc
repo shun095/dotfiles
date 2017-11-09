@@ -12,9 +12,10 @@ source $MYDOTFILES/zsh/ohmyzshrc
 setopt auto_cd
 
 function chpwd() {
-    ls
-    sed "s#^$PWD\$##g" ~/.cd_history | sed "/^\s*$/d" > ~/.cd_history
+    sed -i -e "s?^${PWD}\$??g" ~/.cd_history 
+    sed -i -e '/^\s*$/d' ~/.cd_history
     pwd >> ~/.cd_history
+    ls
 }
 
 function maila(){
@@ -44,7 +45,7 @@ function cdscuts_glob_echo(){
 
 unalias bkm 2> /dev/null
 function bkm() {
-   local dest_dir=$(cdscuts_glob_echo | fzf )
+   local dest_dir=$(cdscuts_glob_echo | fzf --height 40%)
    if [[ $dest_dir != '' ]]; then
       cd "$dest_dir"
    fi
@@ -62,7 +63,7 @@ function cd_hist_echo(){
 
 unalias cdh 2> /dev/null
 function cdh() {
-   local dest_dir=$(cd_hist_echo | fzf )
+   local dest_dir=$(cd_hist_echo | fzf --height 40%)
    if [[ $dest_dir != '' ]]; then
       cd "$dest_dir"
    fi
