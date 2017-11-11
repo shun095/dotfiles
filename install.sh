@@ -4,6 +4,11 @@ set -eu
 
 export MYDOTFILES=$HOME/dotfiles
 
+if [ ! -z ${ZSH_NAME:-} ];then
+  setopt localoptions ksharrays
+  echo "runnning on zsh"
+fi
+
 # directories
 FZFDIR="$HOME/.fzf"
 ZPREZTODIR="${ZDOTDIR:-$HOME}/.zprezto"
@@ -287,13 +292,14 @@ deploy_ohmyzsh_files() {
 deploy_selfmade_rcfiles() {
     # make symlinks
     echo "\n===== Install RC files ===============================================\n"
-    for i in `seq 1 ${#SYMLINKS[@]}`; do
+    final_idx_simlinks=`expr ${#SYMLINKS[@]} - 1`
+    for i in `seq 0 ${final_idx_simlinks}`; do
         if [[ ! -e ${SYMLINKS[${i}]} ]]; then
             touch ${SYMTARGET[${i}]}
             ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
             echo "Link" ${SYMLINKS[${i}]:t}
         else
-            echo "${SYMLINKS[${i}} already exists!!"
+            echo "${SYMLINKS[${i}]} already exists!!"
         fi
     done
 }

@@ -421,7 +421,7 @@ if myvimrc#plug_tap('lightline.vim')
   let g:lightline = {
         \ 'colorscheme': 'iceberg',
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'gitgutter', 'ctrlpmark' ], [ 'filename' ] ],
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'gitgutter','ctrlpprev', 'ctrlpcur','ctrlpnext' ], [ 'filename' ] ],
         \   'right': [ [ 'lineinfo' ], ['percent'], [ 'tagbar', 'fileformat', 'fileencoding', 'filetype' ] ]
         \ },
         \ 'inactive': {
@@ -450,17 +450,18 @@ if myvimrc#plug_tap('lightline.vim')
         \   'lineinfo': 'LightlineLineinfo',
         \   'percent': 'LightlinePercent',
         \   'mode': 'LightlineMode',
-        \   'ctrlpmark': 'CtrlPMark',
+        \   'ctrlpprev': 'CtrlPPrev',
+        \   'ctrlpnext': 'CtrlPNext',
         \   'gitgutter': 'LightlineGitgutter',
         \   'tagbar': 'LightlineTagbar',
         \ },
         \ 'component_expand': {
         \   'syntastic': 'SyntasticStatuslineFlag',
+        \   'ctrlpcur': 'CtrlPCur',
         \ },
         \ 'component_type': {
         \   'syntastic': 'error',
-        \   'lineinfo': 'error',
-        \   'percent': 'error',
+        \   'ctrlpcur': 'insert',
         \ },
 		\ 'separator': { 'left': '⮀', 'right': '⮂' },
 		\ 'subseparator': { 'left': '⮁', 'right': '⮃' }
@@ -569,11 +570,26 @@ if myvimrc#plug_tap('lightline.vim')
     endif
   endfunction
 
-  function! CtrlPMark()
+  function! CtrlPCur()
+    if expand('%:t') =~# 'ControlP' && has_key(g:lightline, 'ctrlp_item')
+      return g:lightline.ctrlp_item
+    else
+      return ''
+    endif
+  endfunction
+
+  function! CtrlPPrev()
     if expand('%:t') =~# 'ControlP' && has_key(g:lightline, 'ctrlp_item')
       call lightline#link('iR'[g:lightline.ctrlp_regex])
-      return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-            \ , g:lightline.ctrlp_next], 0)
+      return g:lightline.ctrlp_prev
+    else
+      return ''
+    endif
+  endfunction
+
+  function! CtrlPNext()
+    if expand('%:t') =~# 'ControlP' && has_key(g:lightline, 'ctrlp_item')
+      return g:lightline.ctrlp_next
     else
       return ''
     endif
