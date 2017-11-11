@@ -528,15 +528,15 @@ if myvimrc#plug_tap('lightline.vim')
   endfunction
 
   function! LightlineFileformat()
-    return winwidth(0) > 70 ? &fileformat : ''
+    return winwidth(0) > 85 ? &fileformat : ''
   endfunction
 
   function! LightlineFiletype()
-    return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+    return winwidth(0) > 85 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
   endfunction
 
   function! LightlineFileencoding()
-    return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+    return winwidth(0) > 85 ? (&fenc !=# '' ? &fenc : &enc) : ''
   endfunction
 
   function! LightlineTagbar()
