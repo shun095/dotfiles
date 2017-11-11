@@ -15,6 +15,10 @@
 [[plugins]]
 repo = 'scrooloose/nerdtree'
 
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+depends = 'nerdtree'
+
 # [[plugins]]
 # repo = 'justinmk/vim-dirvish'
 # on_event = 'VimEnter'

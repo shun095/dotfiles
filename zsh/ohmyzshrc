@@ -60,6 +60,7 @@ zsh-syntax-highlighting
 zsh-autosuggestions
 zsh-completions
 history-substring-search
+dirhistory
 )
 
 source $ZSH/oh-my-zsh.sh

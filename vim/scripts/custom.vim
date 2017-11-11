@@ -213,9 +213,9 @@ if myvimrc#plug_tap('nerdtree')
   nnoremap <Leader>e :NERDTreeFind<CR>
   nnoremap <Leader>E :NERDTreeCWD<CR>
 
-  let g:NERDTreeQuitOnOpen = 1
   let g:NERDTreeHijackNetrw = 1
-  let g:NERDTreeShowHidden = 1
+  let g:NERDTreeQuitOnOpen = 0
+  let g:NERDTreeShowHidden = 0
 
   " let g:NERDTreeMapActivateNode = 'l'
   " let g:NERDTreeMapOpenSplit = 's'
@@ -463,16 +463,24 @@ if myvimrc#plug_tap('lightline.vim')
         \   'syntastic': 'error',
         \   'ctrlpcur': 'insert',
         \ },
-		\ 'separator': { 'left': '⮀', 'right': '⮂' },
-		\ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+        \ 'separator': { 'left': '', 'right': '' },
+        \ 'subseparator': { 'left': '', 'right': '' }
         \ }
+  if !has('gui_running')
+    let g:lightline["separator"] = { 'left': '', 'right': '' }
+    let g:lightline["subseparator"] = { 'left': '|', 'right': '|' }
+  endif
 
   function! LightlineModified()
     return &ft =~# 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
   endfunction
 
   function! LightlineReadonly()
-    return &ft !~? 'help' && &readonly ? '⭤' : ''
+    if has('gui_running')
+      return &ft !~? 'help' && &readonly ? '' : ''
+    else
+      return &ft !~? 'help' && &readonly ? '🚫' : ''
+    endif
   endfunction
 
   function! LightlineFilename()
@@ -518,7 +526,11 @@ if myvimrc#plug_tap('lightline.vim')
   function! LightlineFugitive()
     try
       if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-        let mark = '⭠ '  " edit here for cool mark
+        if has('gui_running')
+          let mark = ''  " edit here for cool mark
+        else
+          let mark = ''
+        endif
         let branch = fugitive#head()
         return branch !=# '' ? mark.branch : ''
       endif

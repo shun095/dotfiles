@@ -110,7 +110,7 @@ set wildmode=longest:full,full    " コマンドの補完スタイル
 set laststatus=2                  " 下のステータスバーの表示
 set display=lastline              " 一行が長い場合でも@にせずちゃんと表示
 set showcmd                       " 入力中のコマンドを右下に表示
-set cmdheight=2                   " コマンドラインの高さ
+set cmdheight=1                   " コマンドラインの高さ
 set showtabline=2                 " タブバーを常に表示
 set number                        " 行番号表示
 set norelativenumber
@@ -162,7 +162,6 @@ highlight link User2 Title
 highlight link User3 Directory
 highlight link User4 Special
 highlight link User5 Comment
-highlight Terminal guibg=black
 
 set statusline=%m%r%h%w%q
 set statusline+=%<\ %f\ %=
@@ -472,6 +471,7 @@ if g:plugin_mgr.enabled == g:true
       colorscheme iceberg
       let g:airline_theme = 'iceberg'
 
+      highlight Terminal guibg=black
       "----------JELLYBEANS----------
       " colorscheme jellybeans
       "----------JELLYBEANS----------
