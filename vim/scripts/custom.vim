@@ -469,8 +469,8 @@ if myvimrc#plug_tap('lightline.vim')
         \   'syntastic': 'error',
         \   'ctrlpcur': 'insert',
         \ },
-        \ 'separator': { 'left': '', 'right': '' },
-        \ 'subseparator': { 'left': '', 'right': '' }
+        \ 'separator': { 'left': "\ue0c8", 'right': "\ue0ca" },
+        \ 'subseparator': { 'left': ":", 'right': ':' }
         \ }
   if !has('gui_running')
     let g:lightline["separator"] = { 'left': '', 'right': '' }
@@ -485,7 +485,7 @@ if myvimrc#plug_tap('lightline.vim')
     if has('gui_running')
       return &ft !~? 'help' && &readonly ? '' : ''
     else
-      return &ft !~? 'help' && &readonly ? '🚫' : ''
+      return &ft !~? 'help' && &readonly ? 'RO' : ''
     endif
   endfunction
 
