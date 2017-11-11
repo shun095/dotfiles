@@ -8,13 +8,12 @@ export PATH=$HOME/usr/bin:$GOPATH/bin:$PATH
 # echo -ne '\e]12;#aaaaaa\a'
 
 source $MYDOTFILES/zsh/ohmyzshrc
+source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 
 setopt auto_cd
 
 function chpwd() {
-    sed -i -e "s?^${PWD}\$??g" ~/.cd_history 
-    sed -i -e '/^\s*$/d' ~/.cd_history
-    pwd >> ~/.cd_history
+    _cd_history_bookmark_save_cd_history
     ls
 }
 
@@ -23,50 +22,6 @@ function maila(){
 }
 function mailb(){
     tmux source ~/dotfiles/tmux/mutt_tile2
-}
-
-function cdscuts_list_echo(){
-    cat $1 | sed 's/#.*//g' | sed '/^\s*$/d'
-}
-
-function cdscuts_glob_echo(){
-    system_wide_filelist=''
-    user_filelist=''
-
-    if [ -r /etc/cdg_paths ]; then
-        system_wide_filelist=$(cdscuts_list_echo /etc/cdg_paths)
-    fi
-    if [ -r ~/.cdg_paths ]; then
-        user_filelist=$(cdscuts_list_echo ~/.cdg_paths)
-    fi
-
-    echo -e "$system_wide_filelist\n$user_filelist" | sed '/^\s*$/d'
-}
-
-unalias bkm 2> /dev/null
-function bkm() {
-   local dest_dir=$(cdscuts_glob_echo | fzf --height 40%)
-   if [[ $dest_dir != '' ]]; then
-      cd "$dest_dir"
-   fi
-}
-
-function cd_hist_echo(){
-    cd_history_file=''
-
-    if [ -r ~/.cd_history ]; then
-        cd_history_file=$(cdscuts_list_echo ~/.cd_history)
-    fi
-
-    echo -e "$cd_history_file" | sed '/^\s*$/d'
-}
-
-unalias cdh 2> /dev/null
-function cdh() {
-   local dest_dir=$(cd_hist_echo | fzf --height 40%)
-   if [[ $dest_dir != '' ]]; then
-      cd "$dest_dir"
-   fi
 }
 
 function tmux_call(){
