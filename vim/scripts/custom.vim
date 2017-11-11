@@ -223,6 +223,12 @@ if myvimrc#plug_tap('nerdtree')
   " let g:NERDTreeMapOpenRecursively = 'L'
 
   let NERDTreeMinimalUI = 1
+
+  let g:webdevicons_enable_nerdtree = 1
+  let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
+  let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+  let g:DevIconsEnableFoldersOpenClose = 1
+  let g:DevIconsEnableFolderExtensionPatternMatching = 1
 endif
 
 if myvimrc#plug_tap('open-browser.vim')

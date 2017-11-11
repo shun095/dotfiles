@@ -104,7 +104,7 @@ set expandtab                     " タブをスペースに変換
 set autoindent
 set list                          " 不可視文字を可視化
 " タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
-set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<,nbsp:%
+set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<
 set wildmenu                      " コマンドの補完設定
 set wildmode=longest:full,full    " コマンドの補完スタイル
 set laststatus=2                  " 下のステータスバーの表示
