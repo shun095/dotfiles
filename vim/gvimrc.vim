@@ -19,7 +19,6 @@ if has('gui_running')
     endif
   endif
   set linespace=1
-  set cmdheight=2
   set guioptions=rchb
   " フォントを設定
   if has('win32')

@@ -132,28 +132,29 @@ if myvimrc#plug_tap('ctrlp.vim')
           \ let g:ctrlp_match_func = s:ctrlp_my_match_func
   augroup END
 
+  nnoremap <Leader><Leader> :CtrlP<CR>
+  nnoremap <Leader>T        :CtrlPBufTag<CR>
+  nnoremap <Leader>al       :CtrlPLine<CR>
+  nnoremap <Leader>b        :CtrlPBuffer<CR>
+  nnoremap <Leader>c        :CtrlPCurWD<CR>
+  nnoremap <Leader>l        :CtrlPLine %<CR>
   nnoremap <Leader>mr       :CtrlPMRUFiles<CR>
   nnoremap <Leader>r        :CtrlPRegister<CR>
-  nnoremap <Leader>c        :CtrlPCurWD<CR>
-  nnoremap <Leader>T        :CtrlPBufTag<CR>
-  nnoremap <Leader>b        :CtrlPBuffer<CR>
-  nnoremap <Leader>l        :CtrlPLine %<CR>
-  nnoremap <Leader>al       :CtrlPLine<CR>
-  nnoremap <Leader><Leader> :CtrlP<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
-  " if has('win32')
-    " if g:myvimrc_files_isAvalable
-      " let g:ctrlp_user_command = 'files -a %s'
-    " elseif g:myvimrc_pt_isAvalable
-      " let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-    " elseif g:myvimrc_ag_isAvalable
-      " let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
-    " endif
-  " else
-    " let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
-  " endif
+  if has('win32')
+    if g:myvimrc_files_isAvalable
+      let g:ctrlp_user_command = 'files -a %s'
+    elseif g:myvimrc_pt_isAvalable
+      let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+    elseif g:myvimrc_ag_isAvalable
+      let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
+    endif
+  else
+    " Brought from denite 
+    let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
+  endif
 
   unlet s:ctrlp_command_options
 endif
@@ -214,13 +215,9 @@ if myvimrc#plug_tap('nerdtree')
   nnoremap <Leader>E :NERDTreeCWD<CR>
 
   let g:NERDTreeHijackNetrw = 1
-  let g:NERDTreeQuitOnOpen = 0
+  let g:NERDTreeQuitOnOpen = 1
   let g:NERDTreeShowHidden = 0
 
-  " let g:NERDTreeMapActivateNode = 'l'
-  " let g:NERDTreeMapOpenSplit = 's'
-  " let g:NERDTreeMapOpenVSplit = 'v'
-  " let g:NERDTreeMapOpenRecursively = 'L'
   let NERDTreeMinimalUI = 1
   let NERDTreeShowBookmarks = 1
 endif
@@ -1099,14 +1096,16 @@ if myvimrc#plug_tap('denite.nvim')
     call denite#custom#var('grep', 'final_opts', [])
   endif
   " mappgins
-  nnoremap <silent> <leader>d<Leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
-  nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>
-  nnoremap <silent> <Leader>dc :<C-u>Denite file_rec<CR>
-  nnoremap <silent> <Leader>dl :<C-u>Denite line<CR>
-  nnoremap <silent> <Leader>dg :<C-u>Denite grep -no-quit<CR>
-  nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
-  nnoremap <silent> <Leader>dm :<C-u>Denite file_mru<CR>
-  nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
+  nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
+  nnoremap <silent> <Leader>T :<C-u>Denite tag<CR>
+  nnoremap <silent> <Leader>c :<C-u>Denite file_rec<CR>
+  nnoremap <silent> <Leader>g :<C-u>Denite grep -no-quit<CR>
+  nnoremap <silent> <Leader>l :<C-u>Denite line<CR>
+  nnoremap <silent> <Leader>mr :<C-u>Denite file_mru<CR>
+  nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
+  nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
+  nnoremap <silent> <leader><Leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
+
   if exists('g:memolist_path')
     exe 'nnoremap <silent> <Leader>ml :<C-u>Denite file_rec -path='. g:memolist_path. '<CR>'
   endif

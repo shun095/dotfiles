@@ -98,8 +98,8 @@ repo = 'tpope/vim-rhubarb'
 # [[plugins]]
 # repo = 'LeafCage/yankround.vim'
 
-[[plugins]]
-repo = 'ctrlpvim/ctrlp.vim'
+# [[plugins]]
+# repo = 'ctrlpvim/ctrlp.vim'
 
 # [[plugins]]
 # repo = 'haya14busa/dein-command.vim'
@@ -220,8 +220,8 @@ repo = 'itchyny/vim-cursorword'
 # repo = 'nixprime/cpsm'
 # merged = 0
 
-[[plugins]]
-repo = 'FelikZ/ctrlp-py-matcher'
+# [[plugins]]
+# repo = 'FelikZ/ctrlp-py-matcher'
 
 [[plugins]]
 repo = 'chiel92/vim-autoformat'
