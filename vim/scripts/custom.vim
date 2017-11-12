@@ -430,7 +430,7 @@ if myvimrc#plug_tap('lightline.vim')
         \   'right': [ [ 'lineinfo' ], ['percent'], [ 'tagbar', 'filetype', 'fileenc_and_fomat' ] ]
         \ },
         \ 'inactive': {
-        \   'left': [ [ 'fugitive', 'filename' ] ],
+        \   'left': [ [ 'fugitive', 'gitgutter', 'truncate_path' ] ],
         \   'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'filetype', 'fileenc_and_fomat' ] ]
         \ },
         \ 'tab': {
@@ -469,8 +469,8 @@ if myvimrc#plug_tap('lightline.vim')
         \   'syntastic': 'error',
         \   'ctrlpcur': 'insert',
         \ },
-        \ 'separator': { 'left': "\ue0c8", 'right': "\ue0ca" },
-        \ 'subseparator': { 'left': '', 'right': '' }
+        \   'separator': { 'left': "\ue0c8", 'right': "\ue0ca" },
+        \   'subseparator': { 'left': '', 'right': '' }
         \ }
   if !has('gui_running')
     let g:lightline['separator'] = { 'left': '', 'right': '' }

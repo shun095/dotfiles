@@ -150,8 +150,8 @@ repo = 'tpope/vim-surround'
 # repo = 'vim-airline/vim-airline-themes'
 # depends = 'vim-airline'
 
-[[plugins]]
-repo = 'itchyny/lightline.vim'
+# [[plugins]]
+# repo = 'itchyny/lightline.vim'
 
 [[plugins]]
 repo = 'NLKNguyen/papercolor-theme'
