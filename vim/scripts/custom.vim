@@ -221,9 +221,11 @@ if myvimrc#plug_tap('nerdtree')
   " let g:NERDTreeMapOpenSplit = 's'
   " let g:NERDTreeMapOpenVSplit = 'v'
   " let g:NERDTreeMapOpenRecursively = 'L'
-
   let NERDTreeMinimalUI = 1
+  let NERDTreeShowBookmarks = 1
+endif
 
+if myvimrc#plug_tap('vim-devicons')
   let g:webdevicons_enable_nerdtree = 1
   let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
   let g:WebDevIconsUnicodeDecorateFolderNodes = 1
@@ -470,11 +472,11 @@ if myvimrc#plug_tap('lightline.vim')
         \   'ctrlpcur': 'insert',
         \ },
         \ 'separator': { 'left': "\ue0c8", 'right': "\ue0ca" },
-        \ 'subseparator': { 'left': ":", 'right': ':' }
+        \ 'subseparator': { 'left': ':', 'right': ':' }
         \ }
   if !has('gui_running')
-    let g:lightline["separator"] = { 'left': '', 'right': '' }
-    let g:lightline["subseparator"] = { 'left': '|', 'right': '|' }
+    let g:lightline['separator'] = { 'left': '', 'right': '' }
+    let g:lightline['subseparator'] = { 'left': '|', 'right': '|' }
   endif
 
   function! LightlineModified()

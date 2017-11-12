@@ -15,13 +15,9 @@
 [[plugins]]
 repo = 'scrooloose/nerdtree'
 
-[[plugins]]
-repo = 'ryanoasis/vim-devicons'
-depends = 'nerdtree'
-
-[[plugins]]
-repo = 'tiagofumo/vim-nerdtree-syntax-highlight'
-depends = 'nerdtree'
+# [[plugins]]
+# repo = 'tiagofumo/vim-nerdtree-syntax-highlight'
+# depends = 'nerdtree'
 
 # [[plugins]]
 # repo = 'Xuyuanp/nerdtree-git-plugin'
