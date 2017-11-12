@@ -429,12 +429,12 @@ if myvimrc#plug_tap('lightline.vim')
   let g:lightline = {
         \ 'colorscheme': 'iceberg',
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'gitgutter','ctrlpprev', 'ctrlpcur','ctrlpnext' ], [ 'filename' ] ],
-        \   'right': [ [ 'lineinfo' ], ['percent'], [ 'tagbar', 'fileformat', 'fileencoding', 'filetype' ] ]
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'gitgutter','ctrlpprev', 'ctrlpcur','ctrlpnext' ], [ 'truncate_path' ] ],
+        \   'right': [ [ 'lineinfo' ], ['percent'], [ 'tagbar', 'filetype', 'fileenc_and_fomat' ] ]
         \ },
         \ 'inactive': {
         \   'left': [ [ 'fugitive', 'filename' ] ],
-        \   'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+        \   'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'filetype', 'fileenc_and_fomat' ] ]
         \ },
         \ 'tab': {
         \   'active': [ 'tabnum', 'filename', 'readonly', 'modified' ],
@@ -447,7 +447,7 @@ if myvimrc#plug_tap('lightline.vim')
         \   'tabnum':   'lightline#tab#tabnum',
         \ },
         \ 'component': {
-        \   'concatenate': '%<',
+        \   'truncate_path': '%<%{LightlineFilename()}',
         \ },
         \ 'component_function': {
         \   'fugitive': 'LightlineFugitive',
@@ -455,6 +455,7 @@ if myvimrc#plug_tap('lightline.vim')
         \   'fileformat': 'LightlineFileformat',
         \   'filetype': 'LightlineFiletype',
         \   'fileencoding': 'LightlineFileencoding',
+        \   'fileenc_and_fomat': 'LightlineFileEncAndFomat',
         \   'lineinfo': 'LightlineLineinfo',
         \   'percent': 'LightlinePercent',
         \   'mode': 'LightlineMode',
@@ -472,7 +473,7 @@ if myvimrc#plug_tap('lightline.vim')
         \   'ctrlpcur': 'insert',
         \ },
         \ 'separator': { 'left': "\ue0c8", 'right': "\ue0ca" },
-        \ 'subseparator': { 'left': ':', 'right': ':' }
+        \ 'subseparator': { 'left': '', 'right': '' }
         \ }
   if !has('gui_running')
     let g:lightline['separator'] = { 'left': '', 'right': '' }
@@ -493,16 +494,21 @@ if myvimrc#plug_tap('lightline.vim')
 
   function! LightlineFilename()
     let fname = expand('%:t')
+    let abspath = expand('%:p')
+    let tagbar_sort = g:tagbar_sort
     " return fname ==# 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
-    return fname ==# 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? '' :
-          \ fname =~# '__Tagbar__' ? g:lightline.fname :
+    return fname ==# 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? getcwd() :
+          \ fname =~# '__Tagbar__' ? 
+          \   (tagbar_sort ? 
+          \   '[Name]  ' . g:lightline.fname : 
+          \   '[Order] ' . g:lightline.fname) :
           \ fname =~# '__Gundo\|NERD_tree' ? '' :
           \ &ft ==# 'denite' ? denite#get_status_path() :
           \ &ft ==# 'vimfiler' ? vimfiler#get_status_string() :
           \ &ft ==# 'unite' ? unite#get_status_string() :
           \ &ft ==# 'vimshell' ? vimshell#get_status_string() :
           \ ('' !=# LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-          \ ('' !=# fname ? fname : '[No Name]') .
+          \ ('' !=# fname ? abspath : '[No Name]') .
           \ ('' !=# LightlineModified() ? ' ' . LightlineModified() : '')
   endfunction
 
@@ -557,6 +563,12 @@ if myvimrc#plug_tap('lightline.vim')
 
   function! LightlineFileencoding()
     return winwidth(0) > 85 ? (&fenc !=# '' ? &fenc : &enc) : ''
+  endfunction
+
+  function! LightlineFileEncAndFomat()
+    let str = winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+    let str .= winwidth(0) > 70 ? '[' . &fileformat . ']' : ''
+    return str
   endfunction
 
   function! LightlineTagbar()
