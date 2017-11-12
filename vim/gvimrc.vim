@@ -22,8 +22,7 @@ if has('gui_running')
   set guioptions=rchb
   " フォントを設定
   if has('win32')
-    set guifont=Cica:12
-    " set guifont=ＭＳ_ゴシック:h12
+    set guifont=Cica:h12
   elseif has('unix')
     set guifont=Cica\ 12
   endif
