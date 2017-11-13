@@ -87,6 +87,14 @@ tmux_call
 
 # alias gvim=gvim_call $*
 alias em="emacs"
+
+if command -v /usr/local/bin/vim > /dev/null;then
+    alias vim=/usr/local/bin/vim
+fi
+if command -v /usr/local/bin/gvim > /dev/null;then
+    alias gvim=/usr/local/bin/gvim
+fi
+
 alias dir="dir --group-directories-first --color=auto"
 stty stop undef
 

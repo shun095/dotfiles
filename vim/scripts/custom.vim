@@ -426,8 +426,8 @@ if myvimrc#plug_tap('lightline.vim')
   let g:lightline = {
         \ 'colorscheme': 'iceberg',
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'gitgutter','ctrlpprev', 'ctrlpcur','ctrlpnext' ], [ 'truncate_path' ] ],
-        \   'right': [ [ 'lineinfo' ], ['percent'], [ 'tagbar', 'filetype', 'fileenc_and_fomat' ] ]
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'gitgutter', 'ctrlpprev', 'ctrlpcur', 'ctrlpnext' ], [ 'truncate_path' ] ],
+        \   'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'tagbar', 'filetype', 'fileenc_and_fomat' ] ]
         \ },
         \ 'inactive': {
         \   'left': [ [ 'fugitive', 'gitgutter', 'truncate_path' ] ],
@@ -1074,6 +1074,8 @@ if myvimrc#plug_tap('denite.nvim')
     let g:ctrlp_match_func = {}
   endif
 
+  call denite#custom#source('file_mru', 'sorters', [])
+  call denite#custom#source('buffer', 'sorters', [])
   " change matchers
   call denite#custom#source('file_mru','matchers',['matcher_fuzzy'])
   call denite#custom#source('file_rec','matchers',['matcher_fuzzy'])
