@@ -5,7 +5,8 @@ if has('gui_running')
 
   if v:version >= 800
     fun! s:set_rop(...)
-      set rop=type:directx,geom:1,renmode:4,taamode:3
+      set rop=type:directx
+      " set rop=type:directx,geom:1,renmode:4,taamode:3
     endf
     if has('job')
       " to improve launch speed
