@@ -39,6 +39,7 @@ augroup VIMRC
   autocmd!
 augroup END
 
+
 " OSの判定
 if has('win32')
   set t_Co=16         " cmd.exeならターミナルで16色を使う
