@@ -73,7 +73,7 @@ Plug 'mattn/emmet-vim',                  { 'for':  ['html','xml'] }
 Plug 'pangloss/vim-javascript',          { 'for':  'javascript' }
 Plug 'glidenote/memolist.vim',           { 'on' : ['MemoNew', 'MemoList'] }
 Plug 'lervag/vimtex',                    { 'for':  ['tex'] }
-Plug 'rdnetto/YCM-Generator',            { 'on' : 'YcmGenerateConfig' }
+Plug 'rdnetto/YCM-Generator',            { 'on' : 'YcmGenerateConfig', 'branch': 'stable' }
 Plug 'itchyny/calendar.vim',             { 'on' : 'Calendar' }
 Plug 'majutsushi/tagbar',                { 'on' : ['TagbarToggle', 'TagbarOpen'] }
 Plug 'artur-shaik/vim-javacomplete2',    { 'for':  'java' }
