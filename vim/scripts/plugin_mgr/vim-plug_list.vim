@@ -36,8 +36,10 @@ Plug 'vim-jp/autofmt'
 Plug 'cocopon/iceberg.vim'
 Plug 'thinca/vim-quickrun'
       \ | Plug 'osyo-manga/shabadou.vim'
+      \ | Plug 'osyo-manga/vim-watchdogs', { 'on' : ['WatchdogsRun'] }
 Plug 'aperezdc/vim-template'
-Plug 'itchyny/vim-cursorword'
+highlight CursorWord0 term=underline
+      \ | Plug 'itchyny/vim-cursorword'
 Plug 'chiel92/vim-autoformat'
 Plug 'scrooloose/nerdcommenter'
 Plug 'kana/vim-submode'
@@ -50,104 +52,37 @@ else
   Plug 'Valloric/YouCompleteMe'
 endif
 Plug 'raimondi/delimitmate'
-if !has('job')
-  Plug 'Shougo/vimproc.vim'
-endif
 
 " lazy
-Plug "bkad/CamelCaseMotion"
-on_map = ['n', ',']
-hook_post_source = ''' " {{{
-call g:plugin_mgr.lazy_hook('CamelCaseMotion')
-''' # }}}
-# call g:plugin_mgr.lazy_hook('lexima.vim')
-Plug 'iamcco/markdown-preview.vim'
-on_ft = 'markdown'
-Plug 'kannokanno/previm'
-on_ft = 'markdown'
-Plug 'plasticboy/vim-markdown'
-on_ft = 'markdown'
-Plug 'ishitaku5522/TweetVim'
-on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
-depends = ['bitly.vim', 'twibill.vim',  'open-browser.vim']
-Plug 'basyura/twibill.vim'
-Plug 'basyura/bitly.vim'
-Plug 'cespare/vim-toml'
-on_ft = 'toml'
-Plug 'csscomb/vim-csscomb'
-on_ft = 'css'
-Plug 'gregsexton/MatchTag'
-on_ft = ['html','xml']
-Plug 'othree/html5.vim'
-on_ft = ['html']
-Plug 'mattn/emmet-vim'
-on_ft = ['html','xml']
-Plug 'pangloss/vim-javascript'
-on_ft = 'javascript'
-Plug 'glidenote/memolist.vim'
-on_cmd = ['MemoNew', 'MemoList']
-Plug 'lervag/vimtex'
-on_ft = ['tex']
-Plug 'rdnetto/YCM-Generator'
-on_cmd = 'YcmGenerateConfig'
-depends = "YouCompleteMe"
-Plug 'itchyny/calendar.vim'
-on_cmd = 'Calendar'
-Plug 'majutsushi/tagbar'
-on_cmd = ['TagbarToggle', 'TagbarOpen']
-Plug 'artur-shaik/vim-javacomplete2'
-on_ft = 'java'
-Plug 'AndrewRadev/linediff.vim'
-on_cmd = 'Linediff'
-Plug "osyo-manga/vim-watchdogs"
-on_event = ['BufWrite','CursorHold']
-depends = ['vim-quickrun']
-on_cmd = ['WatchdogsRun']
-hook_post_source = ''' " {{{
-call g:plugin_mgr.lazy_hook('vim-watchdogs')
-''' # }}}
-Plug 'haya14busa/vim-open-googletranslate'
-on_cmd = 'OpenGoogleTranslate'
-depends = ['open-browser']
-Plug 'mbbill/undotree'
-on_cmd = ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']
-Plug 'octol/vim-cpp-enhanced-highlight'
-on_ft = ['c','cpp']
-Plug 'mopp/next-alter.vim'
-on_ft = ['c','cpp']
+Plug 'bkad/CamelCaseMotion'
+Plug 'iamcco/markdown-preview.vim', { 'for':  'markdown' }
+Plug 'kannokanno/previm',           { 'for':  'markdown' }
+Plug 'plasticboy/vim-markdown',     { 'for':  'markdown' }
 Plug 'tyru/open-browser.vim'
-on_cmd = [ 'OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch' ]
-Plug 'tyru/restart.vim'
-on_cmd = 'Restart'
-Plug 'chiel92/vim-autoformat'
-on_cmd = 'Autoformat'
+      \ | Plug 'basyura/twibill.vim'
+      \ | Plug 'basyura/bitly.vim'
+      \ | Plug 'Shougo/vimproc.vim'
+      \ | Plug 'ishitaku5522/TweetVim',               { 'on' : ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay'] }
+      \ | Plug 'haya14busa/vim-open-googletranslate', { 'on' : 'OpenGoogleTranslate' }
 
-call plug#end()
-
-source $MYVIMHOME/scripts/lazy_hooks.vim
-
-augroup _myplug
-  autocmd!
-
-  for plugname in keys(g:plugs)
-    if has_key(g:plugs[plugname], 'event')
-      if type(g:plugs[plugname]['event']) == v:t_string
-        execute 'autocmd ' . g:plugs[plugname]['event'] . ' * call g:plugin_mgr.lazy_hook(''' . plugname . ''')'
-
-      elseif type(g:plugs[plugname]['event']) == v:t_list
-        for cmd in g:plugs[plugname]['event']
-          execute 'autocmd ' . cmd . ' * call g:plugin_mgr.lazy_hook(''' . plugname . ''')'
-        endfor
-
-      endif
-    elseif g:plugin_mgr.lazy_hook_available(plugname)
-      execute 'autocmd VimEnter * call g:plugin_mgr.lazy_hook('''.plugname.''')'
-    endif
-  endfor
-
-
-augroup END
-
+Plug 'cespare/vim-toml',                 { 'for':  'toml' }
+Plug 'csscomb/vim-csscomb',              { 'for':  'css' }
+Plug 'gregsexton/MatchTag',              { 'for':  ['html','xml'] }
+Plug 'othree/html5.vim',                 { 'for':  ['html'] }
+Plug 'mattn/emmet-vim',                  { 'for':  ['html','xml'] }
+Plug 'pangloss/vim-javascript',          { 'for':  'javascript' }
+Plug 'glidenote/memolist.vim',           { 'on' : ['MemoNew', 'MemoList'] }
+Plug 'lervag/vimtex',                    { 'for':  ['tex'] }
+Plug 'rdnetto/YCM-Generator',            { 'on' : 'YcmGenerateConfig' }
+Plug 'itchyny/calendar.vim',             { 'on' : 'Calendar' }
+Plug 'majutsushi/tagbar',                { 'on' : ['TagbarToggle', 'TagbarOpen'] }
+Plug 'artur-shaik/vim-javacomplete2',    { 'for':  'java' }
+Plug 'AndrewRadev/linediff.vim',         { 'on' : 'Linediff' }
+Plug 'mbbill/undotree',                  { 'on' : ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle'] }
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for':  ['c','cpp'] }
+Plug 'mopp/next-alter.vim',              { 'for':  ['c','cpp'] }
+Plug 'tyru/restart.vim',                 { 'on' : 'Restart' }
+Plug 'chiel92/vim-autoformat',           { 'on' : 'Autoformat' }
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

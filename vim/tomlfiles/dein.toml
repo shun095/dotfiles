@@ -214,4 +214,3 @@ repo = 'raimondi/delimitmate'
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
-if = "!has('job')"
