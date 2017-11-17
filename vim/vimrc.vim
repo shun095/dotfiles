@@ -83,26 +83,26 @@ elseif has('unix')
   endif
 endif
 
-" ビープ音を鳴らなくする
+" Disable beep sounds
 set visualbell
 set t_vb=
 
-" set diffopt=filler,iwhite                   " diffのときの挙動
-set nocursorline                  " カーソル行のハイライト
+" set diffopt=filler,iwhite                   " Diff options
+set nocursorline                  " Highlight of cursor line/column
 set nocursorcolumn
-set backspace=indent,eol,start    " バックスペース挙動のおまじない
-set clipboard=unnamed,unnamedplus " コピーした文字列がclipboardに入る(逆も）
-set ignorecase                    " 検索時大文字小文字無視
-set smartcase                     " 大文字で始まる場合は無視しない
-set foldmethod=marker             " syntaxに応じて折りたたまれる
-set nofoldenable
-set tabstop=4                     " タブキーの挙動設定。タブをスペース4つ分とする
-set shiftwidth=4                  " インデントでスペース４つ分下げる
-set softtabstop=4                 " バックスペース等でスペースを消す幅
-set expandtab                     " タブをスペースに変換
-set autoindent
-set list                          " 不可視文字を可視化
-" タブ,行末スペース、改行等の可視化,また,その可視化時のマーク
+set backspace=indent,eol,start    " Make backspace's behavior good
+set clipboard=unnamed,unnamedplus " Enable clipboard
+set ignorecase                    " Ignore case when search
+set smartcase                     " When search word starts with uppercase, it doesn't ignore case
+set foldmethod=marker             " Set methods for folding
+set nofoldenable                  " Set fold disable as default
+set tabstop=4                     " Make width of TAB character as rhs
+set shiftwidth=4                  " Set number of spaces used by indenting (eg. >> or <<)
+set softtabstop=4                 " Set number of spaces deleted by backspace
+set expandtab                     " Expand tabs to spaces
+set autoindent                    " Enable auto indenting
+set list                          " Show invisible characters
+" How invisible characters will be shown
 set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<
 set wildmenu                      " コマンドの補完設定
 set wildmode=longest:full,full    " コマンドの補完スタイル
