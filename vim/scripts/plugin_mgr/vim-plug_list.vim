@@ -38,8 +38,11 @@ Plug 'thinca/vim-quickrun'
       \ | Plug 'osyo-manga/shabadou.vim'
       \ | Plug 'osyo-manga/vim-watchdogs', { 'on' : ['WatchdogsRun'] }
 Plug 'aperezdc/vim-template'
-highlight CursorWord0 term=underline
+
+highlight link CursorWord0 Title
       \ | Plug 'itchyny/vim-cursorword'
+call timer_start(0,{-> execute('highlight! link CursorWord0 MoreMsg')})
+
 Plug 'chiel92/vim-autoformat'
 Plug 'scrooloose/nerdcommenter'
 Plug 'kana/vim-submode'
