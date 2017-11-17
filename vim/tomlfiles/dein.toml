@@ -54,14 +54,6 @@ repo = 'Shougo/deoplete.nvim'
 if = "has('nvim')"
 
 [[plugins]]
-repo = 'https://github.com/Rip-Rip/clang_complete'
-if = "dein#tap('deoplete.nvim')"
-
-[[plugins]]
-repo = 'zchee/deoplete-jedi'
-if = "dein#tap('deoplete.nvim')"
-
-[[plugins]]
 repo = 'carlitux/deoplete-ternjs'
 if = "dein#tap('deoplete.nvim')"
 
@@ -70,6 +62,9 @@ repo = 'zchee/deoplete-jedi'
 on_ft = ['python']
 if = "dein#tap('deoplete.nvim')"
 
+[[plugins]]
+repo = 'https://github.com/Rip-Rip/clang_complete'
+if = "dein#tap('deoplete.nvim')"
 # }}}
 
 [[plugins]]
