@@ -1159,7 +1159,7 @@ if myvimrc#plug_tap('next-alter.vim')
   nmap <F4> <Plug>(next-alter-open)
   augroup vimrc_nextalter
     autocmd!
-    autocmd BufEnter * let g:next_alter#search_dir = [ expand('%:h'), '.' , '..', './include', '../include' ]
+    autocmd BufEnter * let g:next_alter#search_dir = [ expand('%:h'), '.' , '..', './include', '../include', './src', '../src' ]
   augroup END
 endif
 
@@ -1171,4 +1171,17 @@ endif
 
 if myvimrc#plug_tap('indentLine')
   " let g:indentLine_showFirstIndentLevel=1
+endif
+
+if myvimrc#plug_tap('delimitmate')
+  let delimitMate_expand_cr = 1
+  let delimitMate_expand_space = 1
+  let delimitMate_expand_inside_quotes = 1
+  let delimitMate_jump_expansion = 1
+  let delimitMate_balance_matchpairs = 1
+  imap <silent><expr> <CR> pumvisible() ? "\<C-Y>" : "<Plug>delimitMateCR"
+endif
+
+if myvimrc#plug_tap('vim-autoformat')
+  let g:autoformat_verbosemode = 1
 endif

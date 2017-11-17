@@ -7,12 +7,12 @@ hook_post_source = ''' " {{{
   call g:plugin_mgr.lazy_hook('CamelCaseMotion')
 ''' # }}}
 
-[[plugins]]
-repo = "cohama/lexima.vim"
-on_event = "InsertEnter"
-hook_post_source = ''' " {{{
-  call g:plugin_mgr.lazy_hook('lexima.vim')
-''' # }}}
+# [[plugins]]
+# repo = "cohama/lexima.vim"
+# on_event = "InsertEnter"
+# hook_post_source = ''' " {{{
+  # call g:plugin_mgr.lazy_hook('lexima.vim')
+# ''' # }}}
 
 [[plugins]]
 repo = 'iamcco/markdown-preview.vim'
@@ -26,29 +26,17 @@ on_ft = 'markdown'
 repo = 'plasticboy/vim-markdown'
 on_ft = 'markdown'
 
-# [[plugins]]
-# repo = "osyo-manga/vim-brightest"
-# on_event = ['CursorHold']
-# # on_cmd = ['BrightestEnable']
-# [[plugins]]
-# repo = 'Shougo/unite.vim'
-# on_cmd = ['Unite', 'UniteWithBufferDir']
-
 # TweetVim {{{
-
 [[plugins]]
 repo = 'ishitaku5522/TweetVim'
 on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay']
 depends = ['bitly.vim', 'twibill.vim',  'open-browser.vim']
-# [[plugins]]
-# repo = 'ishitaku5522/twibill.vim'
 
 [[plugins]]
 repo = 'basyura/twibill.vim'
 
 [[plugins]]
 repo = 'basyura/bitly.vim'
-
 # }}}
 
 # HTML CSS JS PLUGINS
@@ -70,7 +58,7 @@ on_ft = ['html']
 
 [[plugins]]
 repo = 'mattn/emmet-vim'
-on_ft = ['html']
+on_ft = ['html','xml']
 
 [[plugins]]
 repo = 'pangloss/vim-javascript'
@@ -97,43 +85,9 @@ repo = 'rdnetto/YCM-Generator'
 on_cmd = 'YcmGenerateConfig'
 depends = "YouCompleteMe"
 
-[[plugins]]
-repo = 'Valloric/YouCompleteMe'
-if = "!has('nvim')"
-on_event = ['InsertEnter', 'CursorHold']
-merged = 0
-
-# [[plugins]]
-# repo = 'davidhalter/jedi-vim'
-# on_ft = ['python', 'python3']
-
-# [[plugins]]
-# repo = 'rhysd/vim-clang-format'
-# on_ft = ['c','cpp']
-
-# build = 'install.py --clang-completer'
-# [[plugins]]
-# repo = 't9md/vim-choosewin'
-# on_event = "VimEnter"
-# [[plugins]]
-# repo = 'davidhalter/jedi-vim'
-# on_ft = 'python'
-
-[[plugins]]
-repo = 'tell-k/vim-autopep8'
-on_ft = 'python'
-
 # [[plugins]]
 # repo = 'chrisbra/csv.vim'
 # on_ft = 'csv'
-
-# [[plugins]]
-# repo = 'mattn/benchvimrc-vim'
-# on_cmd = 'BenchVimrc'
-
-# [[plugins]]
-# repo = 'itchyny/thumbnail.vim'
-# on_event = 'VimEnter'
 
 [[plugins]]
 repo = 'itchyny/calendar.vim'
@@ -166,6 +120,7 @@ hook_post_source = ''' " {{{
 [[plugins]]
 repo = 'haya14busa/vim-open-googletranslate'
 on_cmd = 'OpenGoogleTranslate'
+depends = ['open-browser']
 
 [[plugins]]
 repo = 'mbbill/undotree'
@@ -179,15 +134,6 @@ on_ft = ['c','cpp']
 repo = 'mopp/next-alter.vim'
 on_ft = ['c','cpp']
 
-# [[plugins]]
-# repo = 'scrooloose/nerdtree'
-# on_cmd = ['NERDTreeFind','NERDTreeCWD','NERDTree']
-
-# [[plugins]]
-# repo = 'OmniSharp/omnisharp-vim'
-# if = 'has("win32")'
-# merged = 0
-
 [[plugins]]
 repo = 'tyru/open-browser.vim'
 on_cmd = [ 'OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch' ]
@@ -199,8 +145,3 @@ on_cmd = 'Restart'
 [[plugins]]
 repo = 'chiel92/vim-autoformat'
 on_cmd = 'Autoformat'
-
-# [[plugins]]
-# repo = 'ryanoasis/vim-devicons'
-# if = "has('gui_running')"
-# on_event = 'VimEnter'

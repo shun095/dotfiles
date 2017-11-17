@@ -301,9 +301,7 @@ augroup VIMRC
   " タグを</で自動で閉じる。completeoptに依存している
   autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
 
-  " タグ系のファイルならインデントを浅くする
-  autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2
-  autocmd Filetype html,xml setl foldmethod=indent
+  autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
   autocmd Filetype css setl foldmethod=syntax
 
   " python関係の設定
@@ -315,17 +313,13 @@ augroup VIMRC
   autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
 
   " cpp関係の設定
-  autocmd FileType c,cpp setl foldmethod=syntax
-  autocmd FileType c,cpp setl expandtab softtabstop=2 shiftwidth=2
-  " パス名置換によるヘッダファイル、ソースファイル切り替えハック
-  " autocmd FileType cpp nnoremap <buffer> <F4> :e %:p:s/.h$/.X123X/:s/.cpp$/.h/:s/.X123X$/.cpp/<CR>
+  autocmd FileType c,cpp setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
 
   autocmd FileType cs setl noexpandtab
 
+  let g:vimsyn_folding = 'aflmpPrt'
   autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2
   autocmd BufEnter *.vim execute 'setl iskeyword+=:'
-
-  let g:vimsyn_folding = 'aflmpPrt'
   autocmd BufRead *.vim setl foldmethod=syntax
 
   " QuickFixを自動で開く
@@ -443,8 +437,8 @@ if g:plugin_mgr.enabled == g:true
   call g:plugin_mgr.init()
 
   " load settings of plugins
-  source $MYVIMHOME/scripts/custom.vim
   source $MYVIMHOME/scripts/lazy_hooks.vim
+  source $MYVIMHOME/scripts/custom.vim
 
   if filereadable($HOME . '/localrcs/vim-localafter.vim')
     source $HOME/localrcs/vim-localafter.vim'
