@@ -361,6 +361,8 @@ augroup VIMRC
   " 他のレジスタに保存しておく
   autocmd FocusGained,CursorHold,CursorHoldI
         \ * if @* != @" | let @0 = @* | endif
+  autocmd FocusGained,CursorHold,CursorHoldI
+        \ * if @+ != @" | let @0 = @+ | endif
 
   " diff時に必ずwrapする
   autocmd FilterWritePre * if &diff | setlocal wrap< | endif

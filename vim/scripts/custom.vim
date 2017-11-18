@@ -51,6 +51,10 @@ if myvimrc#plug_tap('YouCompleteMe')
   let g:ycm_autoclose_preview_window_after_insertion = 1
 
 
+  let g:ycm_filetype_specific_completion_to_disable = {
+        \ 'gitcommit': 1,
+        \ 'python': 1,
+        \}
   " setting of the which python is used
   if has('unix')
     " let g:ycm_python_binary_path = 'python' . g:myvimrc_python_version
@@ -1114,7 +1118,7 @@ if myvimrc#plug_tap('denite.nvim')
 endif
 
 if myvimrc#plug_tap('deoplete.nvim')
-  call deoplete#enable()
+  let g:deoplete#enable_at_startup = 1
 endif
 
 if myvimrc#plug_tap('nerdcommenter')

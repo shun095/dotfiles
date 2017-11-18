@@ -14,11 +14,12 @@ if has('python3')
 endif
 if has('nvim')
   Plug 'Shougo/deoplete.nvim'
-        \ | Plug 'carlitux/deoplete-ternjs'
+        \ | Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
         \ | Plug 'zchee/deoplete-jedi', { 'for': ['python'] }
-        \ | Plug 'https://github.com/Rip-Rip/clang_complete'
+        \ | Plug 'Rip-Rip/clang_complete', { 'for': ['c', 'cpp'] }
 else
   Plug 'Valloric/YouCompleteMe'
+  Plug 'davidhalter/jedi-vim'
 endif
 highlight link CursorWord0 Title
       \ | Plug 'itchyny/vim-cursorword'
@@ -29,8 +30,8 @@ Plug 'tyru/open-browser.vim'
       \ | Plug 'ishitaku5522/TweetVim',               { 'on' : ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay'] }
       \ | Plug 'haya14busa/vim-open-googletranslate', { 'on' : 'OpenGoogleTranslate' }
 Plug 'thinca/vim-quickrun'
-      \ | Plug 'osyo-manga/shabadou.vim'
-      \ | Plug 'osyo-manga/vim-watchdogs', { 'on' : ['WatchdogsRun'] }
+      " \ | Plug 'osyo-manga/shabadou.vim'
+      " \ | Plug 'osyo-manga/vim-watchdogs'
 Plug 'AndrewRadev/linediff.vim',         { 'on' : 'Linediff' }
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
@@ -79,6 +80,7 @@ Plug 'tyru/restart.vim',                 { 'on' : 'Restart' }
 Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
+Plug 'w0rp/ale'
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
