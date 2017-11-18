@@ -20,7 +20,7 @@ if has('gui_running')
   " フォントを設定
   if has('win32')
     set guifont=Cica:h12:qCLEARTYPE
-  elseif has('unix')
+  else
     set guifont=Cica\ 12
   endif
 

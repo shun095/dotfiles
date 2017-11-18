@@ -43,11 +43,9 @@ augroup END
 " OSの判定
 if has('win32')
   set t_Co=16         " cmd.exeならターミナルで16色を使う
-  let g:solarized_termcolors = 16
 
 elseif has('unix')
   set t_Co=256        " ターミナルで256色を使う
-  let g:solarized_termcolors = 256
 
   if v:version >= 800 || has('nvim')
     set termguicolors " ターミナルでTrueColorを使う
