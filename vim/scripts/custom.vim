@@ -1064,15 +1064,15 @@ if myvimrc#plug_tap('denite.nvim')
     augroup END
   endif
   " Change file_rec command.
-  " if has('win32')
-    " if g:myvimrc_files_isAvalable
-      " call denite#custom#var('file_rec', 'command', ['files', '-a'])
-    " elseif g:myvimrc_pt_isAvalable
-      " call denite#custom#var('file_rec','command',['pt','--follow','--nocolor','--nogroup','--hidden','-g',''])
-    " elseif g:myvimrc_ag_isAvalable
-      " call denite#custom#var('file_rec','command',['ag','--follow','--nocolor','--nogroup','--hidden','-g',''])
-    " endif
-  " endif
+  if has('win32')
+    if g:myvimrc_files_isAvalable
+      call denite#custom#var('file_rec', 'command', ['files', '-a'])
+    elseif g:myvimrc_pt_isAvalable
+      call denite#custom#var('file_rec','command',['pt','--follow','--nocolor','--nogroup','--hidden','-g',''])
+    elseif g:myvimrc_ag_isAvalable
+      call denite#custom#var('file_rec','command',['ag','--follow','--nocolor','--nogroup','--hidden','-g',''])
+    endif
+  endif
 
   if !exists('g:ctrlp_match_func')
     let g:ctrlp_match_func = {}
