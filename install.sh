@@ -162,9 +162,9 @@ download_repositories(){
         echo "\n===== Download oh my zsh =============================================\n"
         git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
         pushd ~/.oh-my-zsh/custom/plugins
-            git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git & \
-            git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions & \
-            git clone --depth 1 https://github.com/zsh-users/zsh-completions 
+            git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git &
+            git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions &
+            git clone --depth 1 https://github.com/zsh-users/zsh-completions &
         popd
 
         wait
