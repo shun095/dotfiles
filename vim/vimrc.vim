@@ -112,8 +112,8 @@ set number                        " 行番号表示
 set norelativenumber
 set hlsearch                      " 文字列検索時にハイライトする
 set incsearch                     " 文字入力中に検索を開始
-set ruler                         " 右下の現在行の表示
-set hidden
+set ruler                         " Show line number of right bottom
+set hidden                        " You can hide buffer to background without saving
 set noequalalways                 " splitしたときにウィンドウが同じ大きさになるよう調節する
 set tags+=./tags;,./tags-ja;      " タグファイルを上層に向かって探す
 set autoread                      " 他のソフトで、編集中ファイルが変更されたとき自動Reload
