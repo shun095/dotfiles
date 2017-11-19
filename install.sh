@@ -82,18 +82,30 @@ update_repositories() {
         pushd ${FZFDIR}
         git pull
         popd
+        sh ${OHMYZSHDIR}/tools/upgrade.sh
 }
 
 backup_file() {
-    if [[ -e "$1" ]]; then
-        for idx in `seq 3 -1 0`; do
-            if [[ -e "$1.bak$idx" ]]; then
-                echo -e "Renaming exist backup\n  from: $1.bak$idx\n  to:   $1.bak$(($idx+1))"
-                mv "$1.bak$idx" "$1.bak$(($idx+1))"
+    # .~rc exists
+    if [[ -e "$1" ]]; then 
+        # .~rc.bak0 exists
+        if [[ -e "$1.bak0" ]]; then 
+            # .~rc differs from .~rc.bak0
+            if [[ $(diff "$1" "$1.bak0") ]]; then 
+                for idx in `seq 3 -1 0`; do
+                    if [[ -e "$1.bak$idx" ]]; then
+                        echo "Renaming exist backup"
+                        echo "  from: $1.bak$idx"
+                        echo "  to:   $1.bak$(($idx+1))"
+                        mv "$1.bak$idx" "$1.bak$(($idx+1))"
+                    fi
+                done
             fi
-        done
+        fi
 
-        echo -e "Making backup\n  from: $1\n  to:   $1.bak0"
+        echo "Making backup"
+        echo "  from: $1"
+        echo "  to:   $1.bak0"
         cp $1 $1.bak0
     fi
 }
@@ -104,7 +116,7 @@ remove_rcfiles_symlink() {
         \unlink $1
     elif [[ -f $1 ]]; then
         echo "$1 is not symlink."
-        \rm -i $1
+        \rm -f $1
     else
         echo "$1 does not exists. Doing nothing."
     fi
@@ -228,12 +240,21 @@ insert_line() {
 deploy_ohmyzsh_files() {
     echo -e "\n===== Install oh my zsh ==============================================\n"
 
-    touch ~/.zshrc
-
     # restore zshrc backup if exists
     if [[ -e "$HOME/.zshrc.bak0" ]]; then
-        echo "Restore backup of zshrc"
-        cat ~/.zshrc.bak0 > ~/.zshrc
+        if [[ -e "$HOME/.zshrc" ]]; then
+            read -r -p ".zshrc already exists. Overwrite with .zshrc.bak0? [y/N] " response
+            case "$response" in
+                [yY][eE][sS]|[yY]) 
+                    echo "Restore backup of zshrc"
+                    cat ~/.zshrc.bak0 > ~/.zshrc
+                    ;;
+                *)  ;;
+            esac
+        else
+            echo "Restore backup of zshrc"
+            cat ~/.zshrc.bak0 > ~/.zshrc
+        fi
     fi
 
     if [[ ! -e ${OHMYZSHDIR}/custom/themes/lambda-mod-mod.zsh-theme ]]; then
@@ -253,8 +274,8 @@ deploy_selfmade_rcfiles() {
         if [[ ! -e ${SYMLINKS[${i}]} ]]; then
             touch ${SYMTARGET[${i}]}
             ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
-            name=$(basename ${SYMLINKS[${i}]})
-            echo "Link" ${name}
+            echo "Made link: ${SYMLINKS[${i}]}"
+            echo "       to: ${SYMTARGET[${i}]}"
         else
             echo "${SYMLINKS[${i}]} already exists!!"
         fi
@@ -271,10 +292,15 @@ deploy_fzf() {
 ##############################################
 
 backup() {
-    if [[ -e $ZSHRC ]]; then
         echo -e "\n===== Back up ========================================================\n"
+    if [[ -e $ZSHRC ]]; then
+        backup_file $ZSHRC
     fi
-    backup_file $ZSHRC
+    for item in ${SYMLINKS[@]}; do
+        if [[ -e $item ]]; then
+            backup_file $item
+        fi
+    done
 }
 
 deploy() {
@@ -283,19 +309,12 @@ deploy() {
     deploy_fzf
 }
 
-install() {
-    download_repositories
+undeploy() {
     remove_rcfiles
-    deploy
-}
-
-reinstall() {
-    uninstall_plugins
-    install
 }
 
 redeploy() {
-    remove_rcfiles
+    undeploy
     deploy
 }
 
@@ -304,13 +323,20 @@ update() {
     redeploy
 }
 
-undeploy() {
-    remove_rcfiles
+install() {
+    download_repositories
+    undeploy
+    deploy
 }
 
 uninstall() {
     uninstall_plugins
-    remove_rcfiles
+    undeploy
+}
+
+reinstall() {
+    uninstall
+    install
 }
 
 check_arguments() {
