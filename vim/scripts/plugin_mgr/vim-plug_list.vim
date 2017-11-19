@@ -15,11 +15,11 @@ endif
 if has('nvim')
   Plug 'Shougo/deoplete.nvim'
         \ | Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
-        \ | Plug 'zchee/deoplete-jedi', { 'for': ['python'] }
-        \ | Plug 'Rip-Rip/clang_complete', { 'for': ['c', 'cpp'] }
+        \ | Plug 'zchee/deoplete-jedi',      { 'for': ['python'] }
+        \ | Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
 else
   Plug 'Valloric/YouCompleteMe'
-  Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+  Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
 endif
 highlight link CursorWord0 Title
       \ | Plug 'itchyny/vim-cursorword'
@@ -30,8 +30,7 @@ Plug 'tyru/open-browser.vim'
       \ | Plug 'ishitaku5522/TweetVim',               { 'on' : ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay'] }
       \ | Plug 'haya14busa/vim-open-googletranslate', { 'on' : 'OpenGoogleTranslate' }
 Plug 'thinca/vim-quickrun'
-      " \ | Plug 'osyo-manga/shabadou.vim'
-      " \ | Plug 'osyo-manga/vim-watchdogs'
+      \ | Plug 'osyo-manga/shabadou.vim'
 Plug 'AndrewRadev/linediff.vim',         { 'on' : 'Linediff' }
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
@@ -39,34 +38,33 @@ Plug 'SirVer/ultisnips'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'aperezdc/vim-template'
-Plug 'artur-shaik/vim-javacomplete2',    { 'for':  'java' }
+Plug 'artur-shaik/vim-javacomplete2',    { 'for': 'java' }
 Plug 'bkad/CamelCaseMotion'
-Plug 'cespare/vim-toml',                 { 'for':  'toml' }
+Plug 'cespare/vim-toml',                 { 'for': 'toml' }
 Plug 'chiel92/vim-autoformat',           { 'on' : 'Autoformat' }
 Plug 'cocopon/iceberg.vim'
-Plug 'csscomb/vim-csscomb',              { 'for':  'css' }
+Plug 'csscomb/vim-csscomb',              { 'for': 'css' }
 Plug 'ervandew/supertab'
 Plug 'glidenote/memolist.vim',           { 'on' : ['MemoNew', 'MemoList'] }
-Plug 'gregsexton/MatchTag',              { 'for':  ['html','xml'] }
+Plug 'gregsexton/MatchTag',              { 'for': ['html','xml'] }
 Plug 'honza/vim-snippets'
-Plug 'iamcco/markdown-preview.vim', { 'for':  'markdown' }
-Plug 'ishitaku5522/revimses', { 'branch': 'dev' }
+Plug 'iamcco/markdown-preview.vim',      { 'for':  'markdown' }
 Plug 'itchyny/calendar.vim',             { 'on' : 'Calendar' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-submode'
-Plug 'kannokanno/previm',           { 'for':  'markdown' }
-Plug 'lervag/vimtex',                    { 'for':  ['tex'] }
+Plug 'kannokanno/previm',                { 'for': 'markdown' }
+Plug 'lervag/vimtex',                    { 'for': 'tex' }
 Plug 'majutsushi/tagbar',                { 'on' : ['TagbarToggle', 'TagbarOpen'] }
-Plug 'mattn/emmet-vim',                  { 'for':  ['html','xml'] }
+Plug 'mattn/emmet-vim',                  { 'for': ['html','xml'] }
 Plug 'mbbill/undotree',                  { 'on' : ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle'] }
-Plug 'mopp/next-alter.vim',              { 'for':  ['c','cpp'] }
-Plug 'octol/vim-cpp-enhanced-highlight', { 'for':  ['c','cpp'] }
+Plug 'mopp/next-alter.vim',              { 'for': ['c','cpp'] }
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c','cpp'] }
 Plug 'osyo-manga/vim-anzu'
-Plug 'othree/html5.vim',                 { 'for':  ['html'] }
-Plug 'pangloss/vim-javascript',          { 'for':  'javascript' }
-Plug 'plasticboy/vim-markdown',     { 'for':  'markdown' }
+Plug 'othree/html5.vim',                 { 'for': 'html' }
+Plug 'pangloss/vim-javascript',          { 'for': 'javascript' }
+Plug 'plasticboy/vim-markdown',          { 'for': 'markdown' }
 Plug 'raimondi/delimitmate'
 Plug 'rdnetto/YCM-Generator',            { 'on' : 'YcmGenerateConfig', 'branch': 'stable' }
 Plug 'scrooloose/nerdcommenter'
@@ -81,6 +79,7 @@ Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
 Plug 'w0rp/ale'
+Plug 'ishitaku5522/revimses',            { 'branch': 'dev' }
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

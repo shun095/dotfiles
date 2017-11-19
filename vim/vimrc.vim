@@ -82,8 +82,7 @@ elseif has('unix')
 endif
 
 " Disable beep sounds
-set visualbell
-set t_vb=
+set vb t_vb=
 
 " set diffopt=filler,iwhite                   " Diff options
 set nocursorline                  " Highlight of cursor line/column
