@@ -709,6 +709,9 @@ endif
 
 if myvimrc#plug_tap('clang_complete')
     let g:clang_library_path='/usr/lib/llvm-3.8/lib'
+    let g:deoplete#omni_patterns = {}
+    let g:deoplete#omni_patterns['cpp'] = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+    inoremap <C-Space> <C-x><C-o>
 endif
 
 if myvimrc#plug_tap('vim-dirvish')

@@ -13,10 +13,11 @@ if has('python3')
         \ | Plug 'Shougo/unite-outline'
 endif
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim'
-        \ | Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
-        \ | Plug 'zchee/deoplete-jedi',      { 'for': ['python'] }
-        \ | Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
+  " Plug 'Shougo/deoplete.nvim'
+        " \ | Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
+        " \ | Plug 'zchee/deoplete-jedi',      { 'for': ['python'] }
+        " \ | Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
+        Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
 else
   Plug 'Valloric/YouCompleteMe'
   Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
