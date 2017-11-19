@@ -72,6 +72,7 @@ ascii_art() {
     Author: ishitaku5522
 
 EOF
+sleep 1
 }
 
 update_repositories() {
