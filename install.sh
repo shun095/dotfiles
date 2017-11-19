@@ -76,11 +76,7 @@ sleep 1
 }
 
 update_repositories() {
-        echo "\n===== Checking plugin repositories ===================================\n"
-        # echo "Checking zprezto repository"
-        # pushd ${ZPREZTODIR}
-        # git pull && git submodule update --init --recursive
-        # popd
+        echo -e "\n===== Checking plugin repositories ===================================\n"
 
         echo "Checking fzf repository"
         pushd ${FZFDIR}
@@ -92,12 +88,12 @@ backup_file() {
     if [[ -e "$1" ]]; then
         for idx in `seq 3 -1 0`; do
             if [[ -e "$1.bak$idx" ]]; then
-                echo "Renaming exist backup\n\tfrom: $1.bak$idx\n\tto:   $1.bak$(($idx+1))"
+                echo -e "Renaming exist backup\n  from: $1.bak$idx\n  to:   $1.bak$(($idx+1))"
                 mv "$1.bak$idx" "$1.bak$(($idx+1))"
             fi
         done
 
-        echo "Making backup\n\tfrom: $1\n\tto:   $1.bak0"
+        echo -e "Making backup\n  from: $1\n  to:   $1.bak0"
         cp $1 $1.bak0
     fi
 }
@@ -115,13 +111,12 @@ remove_rcfiles_symlink() {
 }
 
 remove_rcfiles() {
-        echo "\n===== Remove existing RC files =======================================\n"
+        echo -e "\n===== Remove existing RC files =======================================\n"
 
-        setopt EXTENDED_GLOB
-        # for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
         ZSHFILES=("zlogin" "zlogout" "zpreztorc" "zprofile" "zshenv" "zshrc")
-        for rcfile in ${ZSHFILES}; do
-            remove_rcfiles_symlink "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+        for rcfile in ${ZSHFILES[@]}; do
+            name=$(basename $rcfile)
+            remove_rcfiles_symlink "${ZDOTDIR:-$HOME}/.${name}"
         done
 
         for item in ${SYMLINKS[@]}; do
@@ -148,19 +143,12 @@ git_configulation() {
 download_repositories(){
     # install fzf
     if [[ ! -e ${FZFDIR} ]]; then
-        echo "\n===== Download fzf ===================================================\n"
+        echo -e "\n===== Download fzf ===================================================\n"
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf &
     fi
 
-    # # download zprezto
-    # if [[ ! -e ${ZPREZTODIR} ]]; then
-        # echo "\n===== Download zprezto ===============================================\n"
-        # git clone --recursive https://github.com/zsh-users/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-        # #   git -C ${ZDOTDIR:-$HOME}/.zprezto submodule foreach git pull origin master
-    # fi
-
     if [[ ! -e ${OHMYZSHDIR} ]]; then
-        echo "\n===== Download oh my zsh =============================================\n"
+        echo -e "\n===== Download oh my zsh =============================================\n"
         git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
         pushd ~/.oh-my-zsh/custom/plugins
             git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git &
@@ -173,10 +161,6 @@ download_repositories(){
         if [[ ! -e ${OHMYZSHDIR}/custom/themes ]]; then
             mkdir -p ${OHMYZSHDIR}/custom/themes
         fi
-
-        # pushd ~/.oh-my-zsh/custom/themes
-            # wget https://raw.githubusercontent.com/halfo/lambda-mod-zsh-theme/master/lambda-mod.zsh-theme
-        # popd
     fi
 }
 
@@ -233,8 +217,6 @@ insert_line() {
     else
         if [ $update -eq 1 ]; then
             sed --in-place --follow-symlinks "1s/^/$line\n/" $file
-            # echo >> "$file"
-            # echo "$line" >> "$file"
             echo "    + Added"
         else
             echo "    ~ Skipped"
@@ -243,35 +225,8 @@ insert_line() {
     set +e
 }
 
-deploy_prezto_files() {
-    echo "\n===== Install prezto =================================================\n"
-    setopt EXTENDED_GLOB
-    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-        if [[ ! -e "${ZDOTDIR:-$HOME}/.${rcfile:t}" ]]; then
-            echo "Link .${rcfile:t}"
-            ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-        else
-            echo "${rcfile:t} already exists!!"
-        fi
-    done
-
-    # use customized zpreztorc
-    rm ${ZDOTDIR:-$HOME}/.zpreztorc
-    ln -s ${MYDOTFILES}/zsh/zpreztorc ${ZDOTDIR:-$HOME}/.zpreztorc
-
-    # restore zshrc backup if exists
-    if [[ -e "$HOME/.zshrc.bak0" ]]; then
-        echo "Restore backup of zshrc"
-        cat ~/.zshrc.bak0 > ~/.zshrc
-    fi
-
-    # append line if zshrc doesn't has below line
-    append_line 1 "source $MYDOTFILES/zsh/zshrc" "$HOME/.zshrc"
-    insert_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
-}
-
 deploy_ohmyzsh_files() {
-    echo "\n===== Install oh my zsh ==============================================\n"
+    echo -e "\n===== Install oh my zsh ==============================================\n"
 
     touch ~/.zshrc
 
@@ -292,13 +247,14 @@ deploy_ohmyzsh_files() {
 
 deploy_selfmade_rcfiles() {
     # make symlinks
-    echo "\n===== Install RC files ===============================================\n"
+    echo -e "\n===== Install RC files ===============================================\n"
     final_idx_simlinks=`expr ${#SYMLINKS[@]} - 1`
     for i in `seq 0 ${final_idx_simlinks}`; do
         if [[ ! -e ${SYMLINKS[${i}]} ]]; then
             touch ${SYMTARGET[${i}]}
             ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
-            echo "Link" ${SYMLINKS[${i}]:t}
+            name=$(basename ${SYMLINKS[${i}]})
+            echo "Link" ${name}
         else
             echo "${SYMLINKS[${i}]} already exists!!"
         fi
@@ -306,7 +262,7 @@ deploy_selfmade_rcfiles() {
 }
 
 deploy_fzf() {
-    echo "\n===== Install fzf ====================================================\n"
+    echo -e "\n===== Install fzf ====================================================\n"
     ~/.fzf/install --completion --key-bindings --update-rc
 }
 
@@ -316,13 +272,12 @@ deploy_fzf() {
 
 backup() {
     if [[ -e $ZSHRC ]]; then
-        echo "\n===== Back up ========================================================\n"
+        echo -e "\n===== Back up ========================================================\n"
     fi
     backup_file $ZSHRC
 }
 
 deploy() {
-    # deploy_prezto_files
     deploy_ohmyzsh_files
     deploy_selfmade_rcfiles
     deploy_fzf
@@ -395,9 +350,9 @@ ascii_art
 if [[ $arg != "debug" ]]; then
     backup
     $arg
-else
-    # debug function
-    # backup_file $2
+# else
+#     debug function
+#     backup_file $2
 fi
 
 git_configulation
@@ -413,4 +368,4 @@ if [[ ! -e ${TRASH} ]]; then
     mkdir ${TRASH}
 fi
 
-echo "\nFINISHED!!!\n"
+echo -e "\nFINISHED!!!\n"
