@@ -16,7 +16,8 @@ CPUNUM=`cat /proc/cpuinfo | grep -c processor`
 
 cd ${cwd}/vim
 git checkout master
-git pull origin master
+git pull
+
 ./configure --prefix=${PREFIX} \
     --with-features=huge \
     --enable-fail-if-missing \
@@ -31,15 +32,15 @@ git pull origin master
     --enable-rubyinterp=dynamic \
     --enable-terminal
 
+
+make -j${CPUNUM} 
 echo 
 echo "This program will be installed in ${PREFIX}."
-# echo "Install now???[y/n]"
-# read ans
-ans=y
+echo "Install now???[y/n]"
+read ans
 
 case $ans in
     [Yy] | [Yy][Ee][Ss] )
-        make -j${CPUNUM} 
         sudo make install
         # sudo checkinstall --install=no
         ;;
