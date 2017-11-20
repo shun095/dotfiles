@@ -5,7 +5,6 @@
 (defvar my-favorite-package-list
   '(undo-tree
     mozc
-    molokai-theme
     atom-dark-theme
     flycheck
     vimrc-mode
@@ -13,10 +12,13 @@
     ycmd
     company-ycmd
     flycheck-ycmd
-    fzf
+    helm
+    helm-package
+    restart-emacs
     magit
     )
   "packages to be installed")
+
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -52,8 +54,11 @@
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-(require 'fzf)
-(global-set-key "\C-x\ p" 'fzf-git)
+;;(require 'fzf)
+;;(global-set-key "\C-x\ p" 'fzf-git)
+
+(require 'helm-config)
+(helm-mode 1)
 
 (require 'vimrc-mode)
 
@@ -112,7 +117,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (flycheck-ycmd vimrc-mode undo-tree mozc molokai-theme magit fzf flycheck company-ycmd atom-dark-theme)))
  '(tool-bar-mode nil))
