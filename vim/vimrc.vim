@@ -134,6 +134,8 @@ set sessionoptions+=slash
 " set splitbelow
 " set splitright
 set updatetime=1000
+set timeout
+set ttimeout
 set timeoutlen=1000
 set ttimeoutlen=100
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判別優先順位の設定
@@ -253,9 +255,15 @@ vnoremap <c-x> <c-x>gv
 " emacs like in insert/command mode
 noremap! <C-f> <Right>
 noremap! <C-b> <Left>
-noremap! <M-b> <C-left>
-noremap! <M-f> <C-right>
-noremap! <M-BS> <C-w>
+if has('gui_running')
+  noremap! <M-b> <C-left>
+  noremap! <M-f> <C-right>
+  noremap! <M-BS> <C-w>
+else
+  noremap! b <C-left>
+  noremap! f <C-right>
+  noremap! <BS> <C-w>
+endif
 noremap! <C-a> <Home>
 noremap! <C-e> <End>
 noremap! <C-k> <End><C-u>
