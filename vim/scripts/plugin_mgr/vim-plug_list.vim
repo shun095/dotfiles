@@ -7,6 +7,7 @@ if exists('g:loaded_vim_plug_list')
 endif
 let g:loaded_vim_plug_list = 1
 
+Plug 'cocopon/iceberg.vim'
 if has('python3')
   Plug 'Shougo/denite.nvim'
         \ | Plug 'Shougo/neomru.vim'
@@ -44,7 +45,6 @@ Plug 'artur-shaik/vim-javacomplete2',    { 'for': 'java' }
 Plug 'bkad/CamelCaseMotion'
 Plug 'cespare/vim-toml',                 { 'for': 'toml' }
 Plug 'chiel92/vim-autoformat',           { 'on' : 'Autoformat' }
-Plug 'cocopon/iceberg.vim'
 Plug 'csscomb/vim-csscomb',              { 'for': 'css' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nixprime/cpsm'
