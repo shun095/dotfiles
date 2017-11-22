@@ -50,9 +50,17 @@ if myvimrc#plug_tap('YouCompleteMe')
   let g:ycm_add_preview_to_completeopt = 1
   let g:ycm_autoclose_preview_window_after_insertion = 1
 
-
-  let g:ycm_filetype_specific_completion_to_disable = {
-        \ 'gitcommit': 1,
+  let g:ycm_filetype_blacklist = {
+        \ 'tagbar' : 1,
+        \ 'qf' : 1,
+        \ 'notes' : 1,
+        \ 'markdown' : 1,
+        \ 'unite' : 1,
+        \ 'text' : 1,
+        \ 'vimwiki' : 1,
+        \ 'pandoc' : 1,
+        \ 'infolog' : 1,
+        \ 'mail' : 1,
         \ 'python': 1,
         \}
   " setting of the which python is used
@@ -261,7 +269,7 @@ if myvimrc#plug_tap('restart.vim')
 endif
 
 if myvimrc#plug_tap('supertab')
-  let g:SuperTabDefaultCompletionType = '<c-n>'
+  let g:SuperTabDefaultCompletionType = 'context'
 endif
 
 if myvimrc#plug_tap('tagbar')
@@ -714,6 +722,12 @@ if myvimrc#plug_tap('clang_complete')
     inoremap <C-Space> <C-x><C-o>
 endif
 
+if myvimrc#plug_tap('jedi-vim')
+  " let g:jedi#completions_enabled = 0
+  let g:jedi#show_call_signatures = 2
+  inoremap <C-Space> <C-x><C-o>
+endif
+
 if myvimrc#plug_tap('vim-dirvish')
   nnoremap <silent> <Leader>e :exe ":" . <SID>open_mydirvish()<CR>
   nnoremap <silent> <Leader>E :Dirvish .<cr>
@@ -1024,11 +1038,6 @@ endif
 
 if myvimrc#plug_tap('revimses')
   let g:revimses#sessionoptions = &sessionoptions
-endif
-
-if myvimrc#plug_tap('jedi-vim')
-  " let g:jedi#completions_enabled = 0
-  let g:jedi#show_call_signatures = 2
 endif
 
 if myvimrc#plug_tap('calendar.vim')

@@ -19,8 +19,9 @@ if has('nvim')
         " \ | Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
         Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
 else
-  Plug 'Valloric/YouCompleteMe'
-  Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
+  " Plug 'Valloric/YouCompleteMe'
+  Plug 'Rip-Rip/clang_complete', { 'for': ['c', 'cpp'] }
+  Plug 'davidhalter/jedi-vim',   { 'for' : 'python' }
 endif
 highlight link CursorWord0 Title
       \ | Plug 'itchyny/vim-cursorword'
