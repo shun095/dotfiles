@@ -96,7 +96,8 @@ if myvimrc#plug_tap('ctrlp.vim')
 
   if myvimrc#plug_tap('cpsm')
     " ========== For cpsm ==========
-    let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
+    " let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
+    let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
 
     fun! s:cpsm_build()
       let s:cpsm_install_confirm = confirm('Build cpsm now?',"&yes\n&no",2)
