@@ -4,10 +4,23 @@
 # Copyright (C) 2017 ishitaku5522 <ishitaku5522@gmail.com>
 #
 # Distributed under terms of the MIT license.
-#
 
-# You have to install fzf to use this script.
-# https://github.com/junegunn/fzf
+# 1. You have to install fzf to use this script.
+#    https://github.com/junegunn/fzf
+# 
+# 2. Please write _cd_history_bookmark_save_cd_history in your chpwd() function.
+#    ~/.zshrc:
+#    function chpwd() {
+#       _cd_history_bookmark_save_cd_history
+#       ls
+#    }
+# 
+# 3. You can use book mark and cd history.
+#    commands:
+#    cdhi -> cd using your history
+#    cdbk -> cd usign your bookmarks
+#    bkmk -> bookmark current directory
+#    delbkmk -> delete current direcotry from bookmark list
 
 function _cd_history_bookmark_filter(){
     sed -e "s?^${PWD}\$??g" | sed 's/#.*//g' | sed '/^\s*$/d' | cat
