@@ -12,7 +12,7 @@ if "%1" EQU "" (
 echo Python_dir: %python3_dir%
 echo Boost_dir: %boost_dir%
 
-pushd %USERPROFILE%\.vim\dein\repos\github.com\nixprime\cpsm\
+pushd %USERPROFILE%\.vim\plugged\cpsm\
 
 set header_flag=false
 for /f "usebackq delims=" %%a in (`findstr cmath src\python_extension.cc`) do set header_flag=true
