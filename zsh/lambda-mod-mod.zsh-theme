@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
-local LAMBDA="%(?,%{$fg_bold[green]%}▶,%{$fg_bold[red]%}[%?]
+local LAMBDA="%(?,%{$fg_bold[blue]%}▶,%{$fg_bold[red]%}[%?]
 ▶)"
-if [[ "$USER" == "root" ]]; then USERCOLOR="red"; else USERCOLOR="yellow"; fi
+if [[ "$USER" == "root" ]]; then USERCOLOR="red"; else USERCOLOR="green"; fi
 
 # Git sometimes goes into a detached head state. git_prompt_info doesn't
 # return anything in this case. So wrap it in another function and check
