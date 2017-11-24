@@ -15,8 +15,6 @@ if filereadable($HOME . '/.vim/not_confirms.vim')
   source $HOME/.vim/not_confirms.vim
 endif
 
-" set guioptions+=M
-
 if !exists('$MYDOTFILES')
   let $MYDOTFILES = $HOME . '/dotfiles'
 endif
@@ -35,12 +33,12 @@ endif
 let g:mapleader = "\<space>"
 
 augroup VIMRC
-  " このスクリプトで使うautocmdを初期化
+  " Initialize augroup
   autocmd!
 augroup END
 
 
-" OSの判定
+" Detect OS
 if has('win32')
   set t_Co=16         " cmd.exeならターミナルで16色を使う
 
