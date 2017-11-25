@@ -99,9 +99,9 @@ set autoindent                    " Enable auto indenting
 set list                          " Show invisible characters
 " How invisible characters will be shown
 set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<
-set wildmenu                      " コマンドの補完設定
-set wildmode=longest:full,full    " コマンドの補完スタイル
-set laststatus=2                  " 下のステータスバーの表示
+set wildmenu                      " Enable completion for commands
+set wildmode=longest:full,full    " Behavior config for wildmenu
+set laststatus=2                  " Enable status line
 set display=lastline              " 一行が長い場合でも@にせずちゃんと表示
 set showcmd                       " 入力中のコマンドを右下に表示
 set cmdheight=2                   " コマンドラインの高さ
