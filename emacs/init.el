@@ -2,34 +2,38 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(defvar my-favorite-package-list
-  '(undo-tree
-    mozc
-    molokai-theme
-    atom-dark-theme
-    flycheck
-    flycheck-irony
-    vimrc-mode
-    company
-    company-jedi
-    company-irony
-    helm
-    helm-package
-    restart-emacs
-    magit
-    yasnippet
-    yasnippet-snippets
-    )
-  "packages to be installed")
+(setq package-list
+      '(undo-tree
+	mozc
+	molokai-theme
+	atom-dark-theme
+	flycheck
+	flycheck-irony
+	vimrc-mode
+	company
+	company-jedi
+	company-irony
+	helm
+	helm-package
+	restart-emacs
+	magit
+	yasnippet
+	yasnippet-snippets
+	))
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+					; list the repositories containing them
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+					; activate all the packages (in particular autoloads)
 (package-initialize)
-(unless package-archive-contents (package-refresh-contents))
-(dolist (pkg my-favorite-package-list)
-  (unless (package-installed-p pkg)
-    (package-install pkg)))
+					; fetch the list of packages available 
+(unless package-archive-contents
+  (package-refresh-contents))
+					; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
 
 (setq inhibit-startup-message t)
 
