@@ -5,7 +5,7 @@ export MYDOTFILES=$HOME/dotfiles
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
 export GOPATH=$HOME/gocode
 export PATH=$HOME/usr/bin:$GOPATH/bin:$PATH
-# echo -ne '\e]12;#aaaaaa\a'
+echo -ne '\e]12;#aaaaaa\a'
 
 source $MYDOTFILES/zsh/ohmyzshrc
 source $MYDOTFILES/zsh/cd_history_bookmark.zsh
@@ -113,7 +113,7 @@ setopt print_eight_bit       # 日本語ファイル名等8ビットを通す
 setopt extended_glob         # 拡張グロブで補完(~とか^とか。例えばless *.txt~memo.txt ならmemo.txt 以外の *.txt にマッチ)
 setopt globdots              # 明確なドットの指定なしで.から始まるファイルをマッチ
 
-zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
+zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' verbose yes

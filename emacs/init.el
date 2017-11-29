@@ -5,6 +5,7 @@
 (defvar my-favorite-package-list
   '(undo-tree
     mozc
+    molokai-theme
     atom-dark-theme
     flycheck
     flycheck-irony
@@ -16,9 +17,9 @@
     helm-package
     restart-emacs
     magit
+    yasnippet
     )
   "packages to be installed")
-
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -45,10 +46,8 @@
 (setq desktop-globals-to-save '(extended-command-history))
 (desktop-save-mode 1)
 
-;; (require 'molokai-theme)
-;; (load-theme 'molokai t)
-(require 'atom-dark-theme)
-(load-theme 'atom-dark t)
+(require 'molokai-theme)
+(load-theme 'molokai t)
 
 (global-set-key "\C-h" 'delete-backward-char)
 (setq scroll-conservatively 1)
@@ -56,9 +55,6 @@
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-
-;;(require 'fzf)
-;;(global-set-key "\C-x\ p" 'fzf-git)
 
 (require 'helm-config)
 (helm-mode 1)
@@ -126,8 +122,6 @@
 (add-to-list 'helm-source-buffers-list
 	     '(pattern-transformer helm-buffers-list-pattern-transformer))
 
-
-
 (require 'vimrc-mode)
 
 (require 'company)
@@ -162,14 +156,11 @@
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 (add-to-list 'company-backends 'company-irony) ; backend追加
 
-
-;;(require 'ycmd)
-;;(add-hook 'after-init-hook #'global-ycmd-mode)
-;;(set-variable 'ycmd-server-command `("python" ,(file-truename "~/.ycmd/ycmd")))
-;;(set-variable 'ycmd-global-config (file-truename "~/.ycmd/examples/.ycm_extra_conf.py"))
-
-;;(require 'company-ycmd)
-;;(company-ycmd-setup)
+(eval-after-load "yasnippet"
+  '(progn
+     ;; companyと競合するのでyasnippetのフィールド移動は "C-i" のみにする
+     (define-key yas-keymap (kbd "<tab>") nil)
+     (yas-global-mode 1)))
 
 ;; eww設定
 (defvar eww-disable-colorize t)

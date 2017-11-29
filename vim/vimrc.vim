@@ -62,6 +62,8 @@ elseif has('unix')
   endif
 
   if $TERM !=# 'linux'
+    let &t_SI = '[5 q'
+    let &t_EI = '[2 q'
     if executable('gnome-terminal')
 
 
