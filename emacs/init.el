@@ -32,7 +32,7 @@
 (setq inhibit-startup-message t)
 
 (require 'undo-tree)
-(undo-tree-mode 1)
+(global-undo-tree-mode)
 
 (require 'linum)
 (global-linum-mode)
@@ -137,8 +137,8 @@
 (global-set-key (kbd "C-M-i") 'company-complete)
 ;; 待たずに補完開始
 (setq company-idle-delay 0)
-;; ２文字打ったら補完開始
-(setq company-minimum-prefix-length 2)
+;; 1文字打ったら補完開始
+(setq company-minimum-prefix-length 1)
 ;; バックエンドのサーバーに補完候補を問い合わせるタイムアウト時間(sec)
 (setq company-async-timeout 10)
 ;; ctrl+n/pで補完候補を次/前の候補を選択
