@@ -7,11 +7,11 @@
     mozc
     atom-dark-theme
     flycheck
+    flycheck-irony
     vimrc-mode
     company
-    ycmd
-    company-ycmd
-    flycheck-ycmd
+    company-jedi
+    company-irony
     helm
     helm-package
     restart-emacs
@@ -30,6 +30,9 @@
     (package-install pkg)))
 
 (setq inhibit-startup-message t)
+
+(require 'undo-tree)
+(undo-tree-mode 1)
 
 (require 'linum)
 (global-linum-mode)
@@ -128,28 +131,45 @@
 (require 'vimrc-mode)
 
 (require 'company)
+;; 常にcompanyを有効化
 (global-company-mode +1)
+;; ctrl+alt+iで強制補完
 (global-set-key (kbd "C-M-i") 'company-complete)
-;; C-n, C-pで補完候補を次/前の候補を選択
+;; 待たずに補完開始
+(setq company-idle-delay 0)
+;; ２文字打ったら補完開始
+(setq company-minimum-prefix-length 2)
+;; バックエンドのサーバーに補完候補を問い合わせるタイムアウト時間(sec)
+(setq company-async-timeout 10)
+;; ctrl+n/pで補完候補を次/前の候補を選択
 (define-key company-active-map (kbd "C-n") 'company-select-next)
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 (define-key company-search-map (kbd "C-n") 'company-select-next)
 (define-key company-search-map (kbd "C-p") 'company-select-previous)
-;; C-sで絞り込む
-(define-key company-active-map (kbd "C-s") 'company-filter-candidates)
-;; TABで候補を設定
+;; TABで候補を決定
 (define-key company-active-map (kbd "C-i") 'company-complete-selection)
-;; 各種メジャーモードでも C-M-iで company-modeの補完を使う
-(define-key emacs-lisp-mode-map (kbd "C-M-i") 'company-complete)
 
-;; ycmd
-(require 'ycmd)
-(add-hook 'after-init-hook #'global-ycmd-mode)
-(set-variable 'ycmd-server-command `("python" ,(file-truename "~/.ycmd/ycmd")))
-(set-variable 'ycmd-global-config (file-truename "~/.ycmd/examples/.ycm_extra_conf.py"))
+(require 'jedi-core)
+(setq jedi:complete-on-dot t)
+(setq jedi:use-shortcuts t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(add-to-list 'company-backends 'company-jedi)
 
-(require 'company-ycmd)
-(company-ycmd-setup)
+(require 'irony)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+(add-to-list 'company-backends 'company-irony) ; backend追加
+
+
+;;(require 'ycmd)
+;;(add-hook 'after-init-hook #'global-ycmd-mode)
+;;(set-variable 'ycmd-server-command `("python" ,(file-truename "~/.ycmd/ycmd")))
+;;(set-variable 'ycmd-global-config (file-truename "~/.ycmd/examples/.ycm_extra_conf.py"))
+
+;;(require 'company-ycmd)
+;;(company-ycmd-setup)
 
 ;; eww設定
 (defvar eww-disable-colorize t)
