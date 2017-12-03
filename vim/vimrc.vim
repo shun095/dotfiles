@@ -40,13 +40,13 @@ augroup END
 
 " Detect OS
 if has('win32')
-  set t_Co=16         " cmd.exeならターミナルで16色を使う
+  set t_Co=16         " 16 colors on cmd.exe
 
 elseif has('unix')
-  set t_Co=256        " ターミナルで256色を使う
+  set t_Co=256        " 256 colors on terminal
 
   if v:version >= 800 || has('nvim')
-    set termguicolors " ターミナルでTrueColorを使う
+    set termguicolors " TrueColor on terminal
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   endif
