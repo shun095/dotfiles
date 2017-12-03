@@ -5,7 +5,8 @@ if has('gui_running')
   set vb t_vb=
   set guioptions=rchb
   if has('win32')
-    set guifont=Cica:h12:qCLEARTYPE
+    set renderoptions=type:directx
+    set guifont=Cica:h12
   else
     set guifont=Cica\ 12
   endif
