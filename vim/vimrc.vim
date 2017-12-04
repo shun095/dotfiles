@@ -4,9 +4,6 @@ set encoding=utf-8
 language C
 
 scriptencoding utf-8
-if &compatible
-  set nocompatible
-endif
 
 let g:true = 1
 let g:false = 0
@@ -82,7 +79,7 @@ elseif has('unix')
 endif
 
 " Disable beep sounds
-set vb t_vb=
+set visualbell t_vb=
 
 " set diffopt=filler,iwhite                   " Diff options
 set nocursorline                  " Highlight of cursor line/column
@@ -343,8 +340,8 @@ augroup VIMRC
     let l:file = $HOME . '/localrcs/vim-local-signature.vim'
     if filereadable(l:file)
       let l:signature = []
-      for line in readfile(l:file)
-        call add(l:signature,line)
+      for l:line in readfile(l:file)
+        call add(l:signature,l:line)
       endfor
       if !exists('b:mailsignature')
         let b:mailsignature = 1
