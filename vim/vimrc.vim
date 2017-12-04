@@ -136,19 +136,17 @@ set ttimeout
 set timeoutlen=1000
 set ttimeoutlen=100
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp " 文字コード自動判別優先順位の設定
-set fileformats=unix,dos,mac       " 改行コード自動判別優先順位の設定
+set fileformats=unix,dos,mac                          " 改行コード自動判別優先順位の設定
 set complete=.,w,b,u,U,k,kspell,s,t,t
-set completeopt=menuone            " 補完関係の設定
+set completeopt&                                      " 補完関係の設定,Ycmで自動設定される
 set omnifunc=syntaxcomplete#Complete
-set iminsert=0                     " IMEの管理
+set iminsert=0                                        " IMEの管理
 set imsearch=0
-set pumheight=10
 
-if v:version >= 800 || has('nvim') " バージョン検出
-  set breakindent                  " version8以降搭載の便利オプション
+if v:version >= 800 || has('nvim')                    " バージョン検出
+  set breakindent                                     " version8以降搭載の便利オプション
   set display=truncate
-  set emoji                        " 絵文字を全角表示
-  set completeopt+=noselect
+  set emoji                                           " 絵文字を全角表示
 endif
 
 " Statusline settings {{{

@@ -39,35 +39,14 @@ endif
 
 if myvimrc#plug_tap('YouCompleteMe')
   let g:ycm_global_ycm_extra_conf = $MYDOTFILES . '/vim/scripts/.ycm_extra_conf.py'
-  "       \'~/.vim/dein/repos/github.com/Valloric/YouCompleteMe
-  "       \/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
   let g:ycm_min_num_of_chars_for_completion = 1
-  let g:ycm_max_num_candidates = 100
   let g:ycm_complete_in_comments = 1
   let g:ycm_collect_identifiers_from_comments_and_strings = 1
   let g:ycm_collect_identifiers_from_tags_files = 1
   let g:ycm_seed_identifiers_with_syntax = 1
   let g:ycm_add_preview_to_completeopt = 1
-  let g:ycm_autoclose_preview_window_after_insertion = 1
-
-  let g:ycm_filetype_blacklist = {
-        \ 'tagbar' : 1,
-        \ 'qf' : 1,
-        \ 'notes' : 1,
-        \ 'markdown' : 1,
-        \ 'unite' : 1,
-        \ 'text' : 1,
-        \ 'vimwiki' : 1,
-        \ 'pandoc' : 1,
-        \ 'infolog' : 1,
-        \ 'mail' : 1,
-        \ 'python': 1,
-        \}
-  " setting of the which python is used
-  if has('unix')
-    " let g:ycm_python_binary_path = 'python' . g:myvimrc_python_version
-    let g:ycm_python_binary_path = 'python'
-  endif
+  let g:ycm_autoclose_preview_window_after_insertion = 0
+  let g:ycm_python_binary_path = 'python'
 
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -86,7 +65,7 @@ if myvimrc#plug_tap('ctrlp.vim')
   " let g:ctrlp_map = ''
   " let g:ctrlp_extensions = ['mixed']
   let g:ctrlp_max_files = 50000
-  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:10'
+  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
