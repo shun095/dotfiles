@@ -4,22 +4,22 @@
 ;; You may delete these explanatory comments.
 (setq package-list
       '(undo-tree
-	mozc
-	molokai-theme
-	atom-dark-theme
-	flycheck
-	flycheck-irony
-	vimrc-mode
-	company
-	company-jedi
-	company-irony
-	helm
-	helm-package
-	restart-emacs
-	magit
-	yasnippet
-	yasnippet-snippets
-	))
+        mozc
+        molokai-theme
+        atom-dark-theme
+        flycheck
+        flycheck-irony
+        vimrc-mode
+        company
+        company-jedi
+        company-irony
+        helm
+        helm-package
+        restart-emacs
+        magit
+        yasnippet
+        yasnippet-snippets
+        ))
 
 (require 'package)
 ;; list the repositories containing them
@@ -35,6 +35,8 @@
   (unless (package-installed-p package)
     (package-install package)))
 (setq inhibit-startup-message t)
+
+(setq-default indent-tabs-mode nil)
 
 (require 'undo-tree)
 (global-undo-tree-mode)
