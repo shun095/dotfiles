@@ -231,19 +231,21 @@ set backup
 " }}}
 
 " Mapping {{{
-" 折り返しがあっても真下に移動できるようになる
-" nnoremap j gj
-" nnoremap k gk
-" nnoremap <Down> gj
-" nnoremap <Up> gk
+" Move cursor in display lines method
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+nnoremap <Down> gj
+nnoremap <Up> gk
 
-" vnoremap j gj
-" vnoremap k gk
-" vnoremap <Down> gj
-" vnoremap <Up> gk
+vnoremap j gj
+vnoremap k gk
+vnoremap gj j
+vnoremap gk k
+vnoremap <Down> gj
+vnoremap <Up> gk
 
-" noremap <C-j> <ESC>
-" noremap! <C-j> <ESC>
 noremap! <C-g><C-g> <ESC>
 nnoremap <C-Tab> gt
 nnoremap <C-S-TAB> gT
