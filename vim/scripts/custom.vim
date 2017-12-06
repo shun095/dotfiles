@@ -45,7 +45,7 @@ if myvimrc#plug_tap('YouCompleteMe')
   let g:ycm_collect_identifiers_from_tags_files = 1
   let g:ycm_seed_identifiers_with_syntax = 1
   let g:ycm_add_preview_to_completeopt = 1
-  let g:ycm_autoclose_preview_window_after_insertion = 0
+  let g:ycm_autoclose_preview_window_after_insertion = 1
   let g:ycm_python_binary_path = 'python'
 
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -237,7 +237,7 @@ if myvimrc#plug_tap('restart.vim')
 endif
 
 if myvimrc#plug_tap('supertab')
-  let g:SuperTabDefaultCompletionType = 'context'
+  let g:SuperTabDefaultCompletionType = '<c-n>'
 endif
 
 if myvimrc#plug_tap('tagbar')
@@ -287,8 +287,6 @@ endif
 
 if myvimrc#plug_tap('clang_complete')
     let g:clang_library_path='/usr/lib/llvm-3.8/lib'
-    let g:deoplete#omni_patterns = {}
-    let g:deoplete#omni_patterns['cpp'] = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
     inoremap <C-Space> <C-x><C-o>
 endif
 
@@ -508,6 +506,10 @@ endif
 
 if myvimrc#plug_tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
+  if myvimrc#plug_tap('deoplete-clang')
+    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so'
+    let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/include/clang'
+  endif
 endif
 
 if myvimrc#plug_tap('nerdcommenter')
@@ -576,5 +578,5 @@ if myvimrc#plug_tap('delimitmate')
 endif
 
 if myvimrc#plug_tap('vim-autoformat')
-  let g:autoformat_verbosemode = 1
+  let g:autoformat_verbosemode = 0
 endif
