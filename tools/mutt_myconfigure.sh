@@ -1,5 +1,6 @@
 #!/bin/sh
 
+LANG=ja_JP.UTF-8 LANGUAGE=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8 \
 ./configure --enable-dependency-tracking \
     --enable-sidebar \
     --enable-compressed \
