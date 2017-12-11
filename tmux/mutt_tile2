@@ -1,6 +1,5 @@
 # vim: set ft=tmux:
 
-new-window
 split -v
 split -v
 select-layout tiled
