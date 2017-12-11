@@ -30,7 +30,8 @@ fun! g:plugin_mgr.deploy() abort
   if !filereadable(self.manager_dir . '/plug.vim')
     let self.enabled = g:false
     if self.install()
-      self.enabled = g:true
+      exe 'source ' . self.manager_dir . '/plug.vim'
+      let self.enabled = g:true
     endif
   endif
 endf
