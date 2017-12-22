@@ -43,7 +43,8 @@ Plug 'cespare/vim-toml',                 { 'for': 'toml' }
 Plug 'chiel92/vim-autoformat',           { 'on' : 'Autoformat' }
 Plug 'csscomb/vim-csscomb',              { 'for': 'css' }
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'nixprime/cpsm'
+" Plug 'nixprime/cpsm'
+Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'ervandew/supertab'
 Plug 'glidenote/memolist.vim',           { 'on' : ['MemoNew', 'MemoList'] }
 Plug 'gregsexton/MatchTag',              { 'for': ['html','xml'] }
