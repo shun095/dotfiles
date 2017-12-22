@@ -4,7 +4,7 @@ export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
 export GOPATH=$HOME/gocode
-export PATH=$HOME/usr/bin:$GOPATH/bin:$PATH
+export PATH=$HOME/usr/bin:$GOPATH/bin:/usr/local/go/bin:$PATH
 echo -ne '\e]12;#aaaaaa\a'
 
 source $MYDOTFILES/zsh/ohmyzshrc
@@ -18,10 +18,10 @@ function chpwd() {
 }
 
 function maila(){
-    tmux source ~/dotfiles/tmux/mutt_tile
+    \tmux source ~/dotfiles/tmux/mutt_tile
 }
 function mailb(){
-    tmux source ~/dotfiles/tmux/mutt_tile2
+    \tmux source ~/dotfiles/tmux/mutt_tile2
 }
 
 function tmux_call(){
@@ -41,17 +41,9 @@ function tmux_call(){
             while [[ -n ${exist_sessions[(re)$idx]} ]]; do
                 (( idx++ ))
             done
-            if [[ $TERM = 'linux' ]]; then
-                # \tmux -2 new-session -s $idx
-            else
-                \tmux new-session -s $idx
-            fi
+            \tmux new-session -s $idx
         else
-            if [[ $TERM = 'linux' ]]; then
-                # \tmux -2 attach -t ${detached_sessions[1]}
-            else
-                \tmux attach -t ${detached_sessions[1]}
-            fi
+            \tmux attach -t ${detached_sessions[1]}
         fi
     fi
 }
@@ -83,7 +75,10 @@ gvim_call(){
 
 }
 
-tmux_call
+if [[ ! $TERM = 'linux' ]]; then
+    tmux_call
+    alias tmux=tmux_call
+fi
 
 # alias gvim=gvim_call $*
 alias em="emacs"

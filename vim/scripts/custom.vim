@@ -580,3 +580,7 @@ endif
 if myvimrc#plug_tap('vim-autoformat')
   let g:autoformat_verbosemode = 0
 endif
+
+if myvimrc#plug_tap('vim-startify')
+  let g:startify_files_number = 20
+endif

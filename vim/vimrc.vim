@@ -445,7 +445,7 @@ if g:plugin_mgr.enabled == g:true
   source $MYVIMHOME/scripts/custom.vim
 
   if filereadable($HOME . '/localrcs/vim-localafter.vim')
-    source $HOME/localrcs/vim-localafter.vim'
+    source $HOME/localrcs/vim-localafter.vim
   endif
 
   set runtimepath+=$MYDOTFILES/vim/after/
