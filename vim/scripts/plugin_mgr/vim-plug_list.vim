@@ -89,7 +89,6 @@ Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
 Plug 'w0rp/ale'
-Plug 'mhinz/vim-startify'
 Plug 'elzr/vim-json'
 Plug 'ishitaku5522/revimses',            { 'branch': 'dev' }
 
