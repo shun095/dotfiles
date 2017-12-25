@@ -10,9 +10,9 @@ fun mytimer#TimerAlert(timer)
 endf
 
 fun mytimer#TimerStart() abort
-  let time_min = input("How long? [min]: ")
+  let time_sec = input("How long? [sec]: ")
   "converting min to milisec.
-  let time_milisec = time_min*60*1000
+  let time_milisec = time_sec*1000
   if !exists("g:timer")
     let g:timer = timer_start(time_milisec, 'mytimer#TimerAlert',
           \ {'repeat': 1})

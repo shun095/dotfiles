@@ -252,15 +252,6 @@ vnoremap <c-x> <c-x>gv
 " emacs like in insert/command mode
 noremap! <C-f> <Right>
 noremap! <C-b> <Left>
-if has('gui_running')
-  noremap! <M-b> <C-left>
-  noremap! <M-f> <C-right>
-  noremap! <M-BS> <C-w>
-else
-  noremap! b <C-left>
-  noremap! f <C-right>
-  noremap! <BS> <C-w>
-endif
 noremap! <C-a> <Home>
 noremap! <C-e> <End>
 noremap! <C-k> <End><C-u>
@@ -300,13 +291,16 @@ command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKe
 
 " Autocmds {{{
 augroup VIMRC
+  " HTML,XML,CSS
   " タグを</で自動で閉じる。completeoptに依存している
   autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
-
   autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
   autocmd Filetype css setl foldmethod=syntax
 
-  " python関係の設定
+  " Json
+  let g:vim_json_syntax_conceal = 0
+
+  " Python
   let g:python_highlight_all = 1
   " autocmd FileType python setl autoindent nosmartindent
   autocmd FileType python setl foldmethod=indent
@@ -314,11 +308,13 @@ augroup VIMRC
   autocmd FileType python inoremap <buffer> # X#
   autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
 
-  " cpp関係の設定
+  " C++
   autocmd FileType c,cpp setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
 
+  " C#
   autocmd FileType cs setl noexpandtab
 
+  " vim
   let g:vimsyn_folding = 'aflmpPrt'
   autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2
   autocmd BufEnter *.vim execute 'setl iskeyword+=:'
@@ -469,6 +465,7 @@ if g:plugin_mgr.enabled == g:true
       let g:airline_theme = 'iceberg'
 
       highlight Terminal guibg=black
+      let g:vmail_flagged_color = 'term=bold ctermfg=109 guifg=#89b8c2'
       "----------JELLYBEANS----------
       " colorscheme jellybeans
       "----------JELLYBEANS----------
