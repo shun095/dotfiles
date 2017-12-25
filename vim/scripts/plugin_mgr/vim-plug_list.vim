@@ -16,19 +16,19 @@ endif
 if has('nvim')
   Plug 'Shougo/deoplete.nvim',   {'do': ':UpdateRemotePlugins' }
 else
-  Plug 'Shougo/deoplete.nvim'
+  " Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
-  " Plug 'Valloric/YouCompleteMe'
+  Plug 'Valloric/YouCompleteMe'
 endif
 
 " deoplete completer
-Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
-Plug 'zchee/deoplete-jedi',      { 'for': ['python'] }
-Plug 'davidhalter/jedi-vim',     { 'for': ['python'] }
-Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
-Plug 'zchee/deoplete-go',        { 'for': ['go']  }
-Plug 'fatih/vim-go',             { 'for': ['go'] }
+" Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
+" Plug 'zchee/deoplete-jedi',      { 'for': ['python'] }
+" Plug 'davidhalter/jedi-vim',     { 'for': ['python'] }
+" Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
+" Plug 'zchee/deoplete-go',        { 'for': ['go']  }
+" Plug 'fatih/vim-go',             { 'for': ['go'] }
 Plug 'artur-shaik/vim-javacomplete2',    { 'for': 'java' }
 
 Plug 'itchyny/vim-cursorword'

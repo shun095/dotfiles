@@ -16,6 +16,16 @@ OHMYZSHDIR="$HOME/.oh-my-zsh"
 
 # symlinks
 ZSHRC="$HOME/.zshrc"
+
+ZSHFILES=(
+"$HOME/.zshrc"
+"$HOME/.zlogin" 
+"$HOME/.zlogout"
+"$HOME/.zpreztorc"
+"$HOME/.zprofile"
+"$HOME/.zshenv"
+)
+
 VIMRC="$HOME/.vimrc"
 GVIMRC="$HOME/.gvimrc"
 TMUXCONF="$HOME/.tmux.conf"
@@ -125,10 +135,9 @@ remove_rcfiles_symlink() {
 remove_rcfiles() {
         echo -e "\n===== Remove existing RC files =======================================\n"
 
-        ZSHFILES=("zlogin" "zlogout" "zpreztorc" "zprofile" "zshenv" "zshrc")
         for rcfile in ${ZSHFILES[@]}; do
             name=$(basename $rcfile)
-            remove_rcfiles_symlink "${ZDOTDIR:-$HOME}/.${name}"
+            remove_rcfiles_symlink "${ZDOTDIR:-$HOME}/${name}"
         done
 
         for item in ${SYMLINKS[@]}; do
@@ -228,7 +237,11 @@ insert_line() {
         echo "    - Already exists: line #$lno"
     else
         if [ $update -eq 1 ]; then
-            sed --in-place --follow-symlinks "1s/^/$line\n/" $file
+            if [ -s "$file" ]; then
+                sed --in-place --follow-symlinks "1s/^/$line\n/" $file
+            else
+                echo $line > $file
+            fi
             echo "    + Added"
         else
             echo "    ~ Skipped"
@@ -240,22 +253,24 @@ insert_line() {
 deploy_ohmyzsh_files() {
     echo -e "\n===== Install oh my zsh ==============================================\n"
 
-    # restore zshrc backup if exists
-    if [[ -e "$HOME/.zshrc.bak0" ]]; then
-        if [[ -e "$HOME/.zshrc" ]]; then
-            read -r -p ".zshrc already exists. Overwrite with .zshrc.bak0? [y/N] " response
-            case "$response" in
-                [yY][eE][sS]|[yY]) 
-                    echo "Restore backup of zshrc"
-                    cat ~/.zshrc.bak0 > ~/.zshrc
-                    ;;
-                *)  ;;
-            esac
-        else
-            echo "Restore backup of zshrc"
-            cat ~/.zshrc.bak0 > ~/.zshrc
+    for item in ${ZSHFILES[@]}; do
+        # restore zshfiles backup if exists
+        if [[ -e "${item}.bak0" ]]; then
+            if [[ -e "${item}" ]]; then
+                read -r -p "${item} already exists. Overwrite with ${item}.bak0? [y/N] " response
+                case "$response" in
+                    [yY][eE][sS]|[yY]) 
+                        echo "Restore backup of ${item}"
+                        cat ${item}.bak0 > ${item}
+                        ;;
+                    *)  ;;
+                esac
+            else
+                echo "Restore backup of ${item}"
+                cat ${item}.bak0 > ${item}
+            fi
         fi
-    fi
+    done
 
     if [[ ! -e ${OHMYZSHDIR}/custom/themes/lambda-mod-mod.zsh-theme ]]; then
         ln -s $MYDOTFILES/zsh/lambda-mod-mod.zsh-theme ${OHMYZSHDIR}/custom/themes/
@@ -293,9 +308,12 @@ deploy_fzf() {
 
 backup() {
         echo -e "\n===== Back up ========================================================\n"
-    if [[ -e $ZSHRC ]]; then
-        backup_file $ZSHRC
-    fi
+    for item in ${ZSHFILES[@]}; do
+        if [[ -e $item ]]; then
+            backup_file $item
+        fi
+    done
+
     for item in ${SYMLINKS[@]}; do
         if [[ -e $item ]]; then
             backup_file $item
