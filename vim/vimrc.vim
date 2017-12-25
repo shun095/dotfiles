@@ -462,6 +462,7 @@ if g:plugin_mgr.enabled == g:true
       set background=dark
       " colorscheme default
       colorscheme iceberg
+      autocmd VIMRC VimEnter * :set background=dark
       let g:airline_theme = 'iceberg'
 
       highlight Terminal guibg=black

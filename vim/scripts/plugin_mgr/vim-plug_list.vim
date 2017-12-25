@@ -14,13 +14,23 @@ if has('python3')
         \ | Plug 'Shougo/unite-outline'
 endif
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim'
-        \ | Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
-        \ | Plug 'zchee/deoplete-jedi',      { 'for': ['python'] }
-        \ | Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
+  Plug 'Shougo/deoplete.nvim',   {'do': ':UpdateRemotePlugins' }
 else
-  Plug 'Valloric/YouCompleteMe'
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+  " Plug 'Valloric/YouCompleteMe'
 endif
+
+" deoplete completer
+Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
+Plug 'zchee/deoplete-jedi',      { 'for': ['python'] }
+Plug 'davidhalter/jedi-vim',     { 'for': ['python'] }
+Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
+Plug 'zchee/deoplete-go',        { 'for': ['go']  }
+Plug 'fatih/vim-go',             { 'for': ['go'] }
+Plug 'artur-shaik/vim-javacomplete2',    { 'for': 'java' }
+
 Plug 'itchyny/vim-cursorword'
 Plug 'tyru/open-browser.vim'
       \ | Plug 'basyura/twibill.vim'
@@ -37,7 +47,6 @@ Plug 'SirVer/ultisnips'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'aperezdc/vim-template'
-Plug 'artur-shaik/vim-javacomplete2',    { 'for': 'java' }
 Plug 'bkad/CamelCaseMotion'
 Plug 'cespare/vim-toml',                 { 'for': 'toml' }
 Plug 'chiel92/vim-autoformat',           { 'on' : 'Autoformat' }

@@ -3,7 +3,7 @@
 export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
-export GOPATH=$HOME/gocode
+export GOPATH=$HOME/.gopath
 export PATH=$HOME/usr/bin:$GOPATH/bin:/usr/local/go/bin:$PATH
 echo -ne '\e]12;#aaaaaa\a'
 

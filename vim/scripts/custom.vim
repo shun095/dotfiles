@@ -285,17 +285,6 @@ if myvimrc#plug_tap('vim-anzu')
   nmap # <Plug>(anzu-sharp-with-echo)
 endif
 
-if myvimrc#plug_tap('clang_complete')
-    let g:clang_library_path='/usr/lib/llvm-3.8/lib'
-    inoremap <C-Space> <C-x><C-o>
-endif
-
-if myvimrc#plug_tap('jedi-vim')
-  " let g:jedi#completions_enabled = 0
-  let g:jedi#show_call_signatures = 2
-  inoremap <C-Space> <C-x><C-o>
-endif
-
 if myvimrc#plug_tap('vim-easy-align')
   " ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
   vmap <Enter> <Plug>(LiveEasyAlign)
@@ -506,11 +495,27 @@ endif
 
 if myvimrc#plug_tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
+  let g:deoplete#auto_complete_start_length = 1
   if myvimrc#plug_tap('deoplete-clang')
     let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so'
     let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/include/clang'
   endif
+  if myvimrc#plug_tap('deoplete-jedi')
+    let g:deoplete#sources#jedi#server_timeout = 30
+  endif
 endif
+
+if myvimrc#plug_tap('clang_complete')
+  let g:clang_library_path='/usr/lib/llvm-3.8/lib'
+endif
+
+if myvimrc#plug_tap('jedi-vim')
+  if myvimrc#plug_tap('deoplete-jedi')
+    let g:jedi#completions_enabled = 0
+  endif
+  let g:jedi#show_call_signatures = 2
+endif
+
 
 if myvimrc#plug_tap('nerdcommenter')
   let g:NERDSpaceDelims = 1
