@@ -306,6 +306,9 @@ if myvimrc#plug_tap('vim-quickrun')
         \ }
 
   function! s:hook.on_module_loaded(session, context)
+    let l:clang_complete = findfile(".clang_complete",".;")
+    let a:session.config.cmdopt .= ' '.join(readfile(l:clang_complete))
+
     let paths = filter(split(&path, ','), "len(v:val) && v:val !=#'.' && v:val !~# 'mingw'")
     if len(paths)
       let a:session.config.cmdopt .= ' -I'.join(paths, ' -I')
@@ -323,10 +326,10 @@ if myvimrc#plug_tap('vim-quickrun')
   let g:quickrun_no_default_key_mappings = 1
   let g:quickrun_config = get(g:, 'quickrun_config', {})
   let g:quickrun_config['_'] = {
-        \ 'hook/close_quickfix/enable_hook_loaded' : 0,
+        \ 'hook/close_quickfix/enable_hook_loaded' : 1,
         \ 'hook/close_quickfix/enable_success' : 1,
+        \ 'hook/close_buffer/enable_hook_loaded' : 1,
         \ 'hook/close_buffer/enable_failure' : 1,
-        \ 'hook/close_buffer/enable_empty_data' : 1,
         \ 'outputter' : 'multi:buffer:quickfix',
         \ 'outputter/quickfix/open_cmd' : 'copen 8',
         \ 'hook/inu/enable' : 1,
@@ -341,7 +344,6 @@ if myvimrc#plug_tap('vim-quickrun')
           \ 'runner' : 'job',
           \ 'runner/job/interval' : 100,
           \ })
-
   endif
 
   let g:quickrun_config['python'] = {
@@ -417,13 +419,18 @@ if myvimrc#plug_tap('calendar.vim')
   augroup vimrc_calendar
     autocmd!
   augroup END
+
   if myvimrc#plug_tap('vim-indent-guides')
     autocmd vimrc_calendar FileType calendar IndentGuidesDisable
   endif
+
+  if myvimrc#plug_tap('indentLine')
+    autocmd vimrc_calendar FileType calendar IndentLinesDisable
+  endif
+
   let g:calendar_google_calendar = 1
   let g:calendar_google_task = 1
   let g:calendar_time_zone = '+0900'
-
 endif
 
 if myvimrc#plug_tap('autofmt')
