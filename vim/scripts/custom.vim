@@ -346,6 +346,12 @@ if myvimrc#plug_tap('vim-quickrun')
           \ })
   endif
 
+  if has('terminal')
+    call extend(g:quickrun_config['_'], {
+          \ 'runner' : 'terminal',
+          \ })
+  endif
+
   let g:quickrun_config['python'] = {
         \ 'command' : 'python',
         \ 'cmdopt' : '-u',
@@ -504,8 +510,8 @@ if myvimrc#plug_tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
   let g:deoplete#auto_complete_start_length = 1
   if myvimrc#plug_tap('deoplete-clang')
-    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so'
-    let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/include/clang'
+    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
+    let g:deoplete#sources#clang#clang_header = '/usr/include/clang/'
   endif
   if myvimrc#plug_tap('deoplete-jedi')
     let g:deoplete#sources#jedi#server_timeout = 30
