@@ -16,20 +16,20 @@ endif
 if has('nvim')
   Plug 'Shougo/deoplete.nvim',   {'do': ':UpdateRemotePlugins' }
 else
-  Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
-  " Plug 'Valloric/YouCompleteMe'
+  " Plug 'Shougo/deoplete.nvim'
+  "
+  Plug 'Valloric/YouCompleteMe'
 endif
 " deoplete completers
-Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
-Plug 'davidhalter/jedi-vim',     { 'for': ['python'] }
-Plug 'zchee/deoplete-jedi',      { 'for': ['python'] }
-Plug 'zchee/deoplete-go',        { 'for': ['go']  }
-Plug 'fatih/vim-go',             { 'for': ['go'] }
-" Plug 'zchee/deoplete-clang',     { 'for': ['c', 'cpp'] }
-Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
+" Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript'] }
+" Plug 'zchee/deoplete-jedi',      { 'for': ['python'] }
+" Plug 'zchee/deoplete-go',        { 'for': ['go']  }
+" Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
 
+Plug 'davidhalter/jedi-vim',     { 'for': ['python'] }
+Plug 'fatih/vim-go',             { 'for': ['go'] }
 Plug 'artur-shaik/vim-javacomplete2',    { 'for': 'java' }
 
 Plug 'itchyny/vim-cursorword'
@@ -53,7 +53,7 @@ Plug 'cespare/vim-toml',                 { 'for': 'toml' }
 Plug 'chiel92/vim-autoformat',           { 'on' : 'Autoformat' }
 Plug 'csscomb/vim-csscomb',              { 'for': 'css' }
 Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'nixprime/cpsm'
+Plug 'nixprime/cpsm'
 Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'ervandew/supertab'
 Plug 'glidenote/memolist.vim',           { 'on' : ['MemoNew', 'MemoList'] }
@@ -91,6 +91,7 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
 Plug 'w0rp/ale'
 Plug 'elzr/vim-json'
+Plug 'ryanoasis/vim-devicons'
 Plug 'ishitaku5522/revimses',            { 'branch': 'dev' }
 
 let &cpo = s:save_cpo

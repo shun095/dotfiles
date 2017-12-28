@@ -69,6 +69,7 @@ if myvimrc#plug_tap('ctrlp.vim')
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
+  " let g:ctrlp_user_command_async = 1
   " if has('unix')
   " let s:ctrlp_my_match_func = {}
   let s:ctrlp_my_match_func = {}
@@ -453,14 +454,12 @@ if myvimrc#plug_tap('denite.nvim')
     augroup END
   endif
   " Change file_rec command.
-  if has('win32')
-    if g:myvimrc_files_isAvalable
-      call denite#custom#var('file_rec', 'command', ['files', '-a'])
-    elseif g:myvimrc_pt_isAvalable
-      call denite#custom#var('file_rec','command',['pt','--follow','--nocolor','--nogroup','--hidden','-g',''])
-    elseif g:myvimrc_ag_isAvalable
-      call denite#custom#var('file_rec','command',['ag','--follow','--nocolor','--nogroup','--hidden','-g',''])
-    endif
+  if g:myvimrc_files_isAvalable
+    call denite#custom#var('file_rec', 'command', ['files', '-a'])
+  elseif g:myvimrc_pt_isAvalable
+    call denite#custom#var('file_rec','command',['pt','--follow','--nocolor','--nogroup','--hidden','-g',''])
+  elseif g:myvimrc_ag_isAvalable
+    call denite#custom#var('file_rec','command',['ag','--follow','--nocolor','--nogroup','--hidden','-g',''])
   endif
 
   if !exists('g:ctrlp_match_func')
@@ -601,4 +600,12 @@ endif
 
 if myvimrc#plug_tap('vim-startify')
   let g:startify_files_number = 20
+endif
+
+if myvimrc#plug_tap('vim-devicons')
+  let g:webdevicons_enable = 1
+  let g:webdevicons_enable = 1
+  let g:webdevicons_enable_nerdtree = 1
+  let g:webdevicons_enable_ctrlp = 1
+  let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
 endif
