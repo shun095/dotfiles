@@ -27,8 +27,8 @@ endif
 " Plug 'zchee/deoplete-jedi',      { 'for': ['python'] }
 " Plug 'zchee/deoplete-go',        { 'for': ['go']  }
 " Plug 'Rip-Rip/clang_complete',   { 'for': ['c', 'cpp'] }
+" Plug 'davidhalter/jedi-vim',     { 'for': ['python'] }
 
-Plug 'davidhalter/jedi-vim',     { 'for': ['python'] }
 Plug 'fatih/vim-go',             { 'for': ['go'] }
 Plug 'artur-shaik/vim-javacomplete2',    { 'for': 'java' }
 
