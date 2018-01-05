@@ -286,6 +286,16 @@ command! Ctags call myvimrc#ctags_project()
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 command! -nargs=1 Weblio OpenBrowser http://ejje.weblio.jp/content/<args>
 command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
+command! FollowSymlink call s:SwitchToActualFile()
+function! s:SwitchToActualFile()
+    let l:fname = resolve(expand('%:p'))
+    let l:pos = getpos('.')
+    let l:bufname = bufname('%')
+    enew
+    exec 'bw '. l:bufname
+    exec "e" . fname
+    call setpos('.', pos)
+endfunction
 " }}}
 
 " Autocmds {{{

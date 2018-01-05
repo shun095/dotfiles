@@ -30,6 +30,7 @@ git pull
     --enable-python3interp=dynamic \
     --enable-pythoninterp=dynamic \
     --enable-rubyinterp=dynamic \
+    --enable-autoservername \
     --enable-terminal
 
 
