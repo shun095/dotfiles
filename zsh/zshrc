@@ -66,6 +66,13 @@ if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
     source "$HOME/localrcs/zsh-local.zsh"
 fi
 
+
+if [[ -x `which colordiff` ]]; then
+  alias diff='colordiff -u'
+else
+  alias diff='diff -u'
+fi
+
 gvim_call(){
     if [[ `\gvim --serverlist 2>/dev/null|wc -l` -ne 0 ]]; then
         \gvim --remote $*
