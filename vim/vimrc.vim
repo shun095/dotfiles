@@ -338,23 +338,23 @@ augroup VIMRC
   " ヘルプをqで閉じれるようにする
   autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
   autocmd FileType help let &l:iskeyword = '!-~,^*,^|,^",' . &iskeyword
-  autocmd FileType mail call s:add_signature()
-  fun! s:add_signature()
-    let l:file = $HOME . '/localrcs/vim-local-signature.vim'
-    if filereadable(l:file)
-      let l:signature = []
-      for l:line in readfile(l:file)
-        call add(l:signature,l:line)
-      endfor
-      if !exists('b:mailsignature')
-        let b:mailsignature = 1
-        silent call append(0,l:signature)
-        normal! gg
-      endif
-    else
-      echomsg 'There is no signature file'
-    endif
-  endf
+  " autocmd FileType mail call s:add_signature()
+  " fun! s:add_signature()
+    " let l:file = $HOME . '/localrcs/vim-local-signature.vim'
+    " if filereadable(l:file)
+      " let l:signature = []
+      " for l:line in readfile(l:file)
+        " call add(l:signature,l:line)
+      " endfor
+      " if !exists('b:mailsignature')
+        " let b:mailsignature = 1
+        " silent call append(0,l:signature)
+        " normal! gg
+      " endif
+    " else
+      " echomsg 'There is no signature file'
+    " endif
+  " endf
 
   " misc
   if has('unix')
