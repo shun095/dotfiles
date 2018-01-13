@@ -91,7 +91,7 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
 Plug 'w0rp/ale'
 Plug 'elzr/vim-json'
-Plug 'ryanoasis/vim-devicons'
+" Plug 'ryanoasis/vim-devicons'
 Plug 'ishitaku5522/revimses',            { 'branch': 'dev' }
 
 let &cpo = s:save_cpo
