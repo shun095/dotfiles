@@ -19,4 +19,5 @@ LANG=ja_JP.UTF-8 LANGUAGE=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8 \
     --with-sasl \
     --with-included-gettext \
     --with-idn \
-    --with-homespool=$HOME/spool/
+    --with-kyotocabinet \
+    --with-homespool=$HOME/Maildir/
