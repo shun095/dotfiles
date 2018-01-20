@@ -438,6 +438,7 @@ if myvimrc#plug_tap('calendar.vim')
   let g:calendar_google_calendar = 1
   let g:calendar_google_task = 1
   let g:calendar_time_zone = '+0900'
+  let g:calendar_first_day='sunday'
 endif
 
 if myvimrc#plug_tap('autofmt')
