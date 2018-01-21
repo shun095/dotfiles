@@ -1,8 +1,18 @@
 # vim: set ft=tmux:
-split -v
-select-layout tiled
 
+# split -v
+# select-layout tiled
+
+# select-pane -t 0
+# send-keys 'mutt -e "source ~/.mutt/account1"' C-m
+# select-pane -t 1
+# send-keys 'mutt -e "source ~/.mutt/account2"' C-m
+
+new-window
+split -v 
 select-pane -t 0
-send-keys 'mutt -e "source ~/.mutt/account1"' C-m
+resize-pane -y 10
+send-keys 'python2 /usr/local/bin/offlineimap -u blinkenlights' C-m
+
 select-pane -t 1
-send-keys 'mutt -e "source ~/.mutt/account2"' C-m
+send-keys 'mutt' C-m
