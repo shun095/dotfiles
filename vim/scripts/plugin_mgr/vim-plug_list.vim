@@ -84,6 +84,7 @@ Plug 'raimondi/delimitmate'
 Plug 'rdnetto/YCM-Generator',            { 'on' : 'YcmGenerateConfig', 'branch': 'stable' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
+" Plug 'suan/vim-instant-markdown'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'

@@ -62,6 +62,25 @@ if myvimrc#plug_tap('YouCompleteMe')
   augroup END
 endif
 
+if myvimrc#plug_tap('ultisnips')
+  " better key bindings for UltiSnipsExpandTrigger
+  let g:UltiSnipsExpandTrigger = '<Tab>'
+  let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+  let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+
+  if has('unix')
+    if has('python3')
+      let g:UltiSnipsUsePythonVersion = 3
+    elseif has('python')
+      let g:UltiSnipsUsePythonVersion = 2
+    endif
+  endif
+endif
+
+if myvimrc#plug_tap('supertab')
+  let g:SuperTabDefaultCompletionType = '<c-n>'
+endif
+
 if myvimrc#plug_tap('ctrlp.vim')
   " let g:ctrlp_cmd = 'CtrlPMRUFiles'
   " yankroundのところでマッピングし直している
@@ -174,9 +193,9 @@ if myvimrc#plug_tap('html5.vim')
 endif
 
 if myvimrc#plug_tap('markdown-preview.vim')
-  let g:mkdp_auto_close = 0
-  let g:mkdp_auto_open = 0
-  let g:mkdp_auto_start = 0
+  let g:mkdp_auto_close = 1
+  let g:mkdp_auto_open = 1
+  let g:mkdp_auto_start = 1
   if has('win32')
     let s:google_chrome_path='C:\Program Files\Mozilla Firefox\firefox.exe'
     if executable(s:google_chrome_path)
@@ -184,7 +203,7 @@ if myvimrc#plug_tap('markdown-preview.vim')
     endif
     unlet s:google_chrome_path
   else
-    let g:mkdp_path_to_chrome = 'firefox'
+    let g:mkdp_path_to_chrome = 'xdg-open'
   endif
 endif
 
@@ -242,10 +261,6 @@ if myvimrc#plug_tap('restart.vim')
   let g:restart_sessionoptions = &sessionoptions
 endif
 
-if myvimrc#plug_tap('supertab')
-  let g:SuperTabDefaultCompletionType = '<c-n>'
-endif
-
 if myvimrc#plug_tap('tagbar')
   nnoremap <silent> <Leader>t :TagbarOpen j<CR>
   let g:tagbar_show_linenumbers = 0
@@ -260,21 +275,6 @@ if myvimrc#plug_tap('tagbar')
     autocmd!
     autocmd FileType help let b:tagbar_ignore = 1
   augroup END
-endif
-
-if myvimrc#plug_tap('ultisnips')
-  " better key bindings for UltiSnipsExpandTrigger
-  let g:UltiSnipsExpandTrigger = '<c-j>'
-  let g:UltiSnipsJumpForwardTrigger = '<c-j>'
-  let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
-
-  if has('unix')
-    if has('python3')
-      let g:UltiSnipsUsePythonVersion = 3
-    elseif has('python')
-      let g:UltiSnipsUsePythonVersion = 2
-    endif
-  endif
 endif
 
 if myvimrc#plug_tap('undotree')
