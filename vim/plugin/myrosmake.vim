@@ -8,6 +8,7 @@ let g:loaded_myrosmake_plugin = 1
 command Rosmake call myrosmake#rosmake(['manifest.xml', 'stack.xml'])
 command RosmakePackage call myrosmake#rosmake("manifest.xml")
 command RosmakeWorkspace call myrosmake#rosmake("stack.xml")
+command Catkinmake call myrosmake#catkinmake(".catkin_workspace")
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

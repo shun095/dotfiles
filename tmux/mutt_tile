@@ -11,8 +11,9 @@
 new-window
 split -v 
 select-pane -t 0
-resize-pane -y 10
-send-keys 'python2 /usr/local/bin/offlineimap -u blinkenlights' C-m
+resize-pane -y 2
+# send-keys 'python2 /usr/local/bin/offlineimap -u blinkenlights' C-m
+send-keys "while true; do python2 /usr/local/bin/offlineimap -o; sleep 300; done" C-m
 
 select-pane -t 1
 send-keys 'mutt' C-m

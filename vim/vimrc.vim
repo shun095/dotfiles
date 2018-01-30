@@ -254,7 +254,7 @@ noremap! <C-f> <Right>
 noremap! <C-b> <Left>
 noremap! <C-a> <Home>
 noremap! <C-e> <End>
-noremap! <C-k> <End><C-u>
+" noremap! <C-k> <End><C-u>
 
 cnoremap <C-@> <C-a>
 cnoremap <C-p> <up>

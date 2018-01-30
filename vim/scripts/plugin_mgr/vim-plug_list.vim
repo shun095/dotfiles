@@ -8,6 +8,7 @@ endif
 let g:loaded_vim_plug_list = 1
 
 Plug 'cocopon/iceberg.vim'
+Plug 'tomasr/molokai'
 if has('python3')
   Plug 'Shougo/denite.nvim'
         \ | Plug 'Shougo/neomru.vim'
@@ -55,9 +56,11 @@ Plug 'csscomb/vim-csscomb',              { 'for': 'css' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nixprime/cpsm'
 Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'elzr/vim-json'
 Plug 'ervandew/supertab'
 Plug 'glidenote/memolist.vim',           { 'on' : ['MemoNew', 'MemoList'] }
 Plug 'gregsexton/MatchTag',              { 'for': ['html','xml'] }
+Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
 Plug 'iamcco/markdown-preview.vim',      { 'for':  'markdown' }
 Plug 'itchyny/calendar.vim',             { 'on' : 'Calendar' }
@@ -68,6 +71,7 @@ Plug 'kana/vim-submode'
 Plug 'kannokanno/previm',                { 'for': 'markdown' }
 Plug 'lervag/vimtex',                    { 'for': 'tex' }
 Plug 'majutsushi/tagbar',                { 'on' : ['TagbarToggle', 'TagbarOpen'] }
+Plug 'mattn/ctrlp-register'
 Plug 'mattn/emmet-vim',                  { 'for': ['html','xml'] }
 Plug 'mbbill/undotree',                  { 'on' : ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle'] }
 Plug 'mopp/next-alter.vim',              { 'for': ['c','cpp'] }
@@ -85,14 +89,14 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 Plug 'tyru/restart.vim',                 { 'on' : 'Restart' }
 Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
 Plug 'w0rp/ale'
-Plug 'elzr/vim-json'
-" Plug 'ryanoasis/vim-devicons'
 Plug 'yuratomo/gmail.vim'
+
 Plug 'ishitaku5522/revimses',            { 'branch': 'dev' }
 
 let &cpo = s:save_cpo

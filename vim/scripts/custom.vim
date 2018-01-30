@@ -48,6 +48,9 @@ if myvimrc#plug_tap('YouCompleteMe')
   let g:ycm_autoclose_preview_window_after_insertion = 1
   let g:ycm_python_binary_path = 'python'
 
+  let g:ycm_error_symbol = ''
+  let g:ycm_warning_symbol = ''
+
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
   " autocmd VIMRCCUSTOM FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
@@ -206,9 +209,11 @@ if myvimrc#plug_tap('nerdtree')
   let g:NERDTreeHijackNetrw = 1
   let g:NERDTreeQuitOnOpen = 1
   let g:NERDTreeShowHidden = 0
+  let g:NERDTreeWinSize = 40
 
   let NERDTreeMinimalUI = 1
   let NERDTreeShowBookmarks = 1
+  let NERDTreeIgnore = ['\~$', '\.pyc$', '\.sw[po]$']
 endif
 
 if myvimrc#plug_tap('open-browser.vim')
@@ -259,9 +264,9 @@ endif
 
 if myvimrc#plug_tap('ultisnips')
   " better key bindings for UltiSnipsExpandTrigger
-  let g:UltiSnipsExpandTrigger = '<Tab>'
-  let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-  let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+  let g:UltiSnipsExpandTrigger = '<c-j>'
+  let g:UltiSnipsJumpForwardTrigger = '<c-j>'
+  let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 
   if has('unix')
     if has('python3')
@@ -350,6 +355,8 @@ if myvimrc#plug_tap('vim-quickrun')
   if has('terminal')
     call extend(g:quickrun_config['_'], {
           \ 'runner' : 'terminal',
+          \ 'runner/terminal/opener': 'botright 8split',
+          \ 'runner/terminal/into': 1
           \ })
   endif
 
@@ -609,4 +616,17 @@ if myvimrc#plug_tap('vim-devicons')
   let g:webdevicons_enable_nerdtree = 1
   let g:webdevicons_enable_ctrlp = 1
   let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
+endif
+
+if myvimrc#plug_tap('ale')
+  let g:ale_fixers = {
+        \ 'javascript': 'eslint',
+        \ 'python': 'autopep8'
+        \ }
+  let g:ale_fix_on_save = 1
+  let g:ale_linters = {
+        \ 'cpp': '',
+        \ }
+  let g:ale_sign_error = ''
+  let g:ale_sign_warning = ''
 endif

@@ -26,12 +26,47 @@ fun myrosmake#rosmake(filename) abort
   endif
 endf
 
-fun myrosmake#make() abort
+fun myrosmake#catkinmake(filename) abort
+  if !executable('rosmake')
+    echohl WarningMsg
+    echomsg "Command 'rosmake' is not executable. Please source setup.bash/sh/zsh first."
+    echohl none
+  else
+
+    let l:package_dir = myrosmake#find_project_dir(a:filename)
+
+    if l:package_dir !=# ''
+      let l:command = myrosmake#get_catkinmake_command()
+      " cdして実行
+      call myrosmake#cd_command_cdreturn(l:package_dir,[l:command])
+    else
+      echohl WarningMsg
+      echom "Appropriate directory couldn't be found!! (There is no stack/manifest.xml file.)"
+      echohl none
+    endif
+  endif
+endf
+
+fun myrosmake#builtin_rosmake() abort
   " Save current settings
   let l:save_makeprg = &makeprg
   let l:save_errorformat = &errorformat
 
   set makeprg=rosmake\ --threads=12
+  let &errorformat .= s:rosmake_errorformat
+  make
+
+  " Restore saved settings
+  let &makeprg = l:save_makeprg
+  let &errorformat = l:save_errorformat
+endf
+
+fun myrosmake#builtin_catkinmake() abort
+  " Save current settings
+  let l:save_makeprg = &makeprg
+  let l:save_errorformat = &errorformat
+
+  set makeprg=catkin_make
   let &errorformat .= s:rosmake_errorformat
   make
 
@@ -54,7 +89,27 @@ fun myrosmake#get_make_command() abort
     call extend(g:quickrun_config, l:config)
     let l:command = ':QuickRun rosmake'
   else
-    let l:command = ':call myrosmake#make()'
+    let l:command = ':call myrosmake#builtin_rosmake()'
+  endif
+
+  return l:command
+endf
+
+fun myrosmake#get_catkinmake_command() abort
+  if exists(':QuickRun') == 2
+    let l:config = {
+          \ 'catkin_make' : {
+          \	'outputter/quickfix/errorformat' : &errorformat . s:rosmake_errorformat,
+          \ 'outputter/quickfix/open_cmd' : 'copen 8 | cbottom',
+          \	'command' : 'catkin_make',
+          \	'args' : '',
+          \	'exec' : '%c %a',
+          \	}
+          \ }
+    call extend(g:quickrun_config, l:config)
+    let l:command = ':QuickRun catkin_make'
+  else
+    let l:command = ':call myrosmake#builtin_catkinmake()'
   endif
 
   return l:command

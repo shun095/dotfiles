@@ -58,7 +58,7 @@ endf
 
 fun! myvimrc#git_end_callback(ch, msg) abort
   if s:git_qflist == []
-    echom 'Couldn''t get git of vimrc information'
+    echom 'Couldn''t get git information'
     return
   endif
 
