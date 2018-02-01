@@ -58,7 +58,9 @@ if myvimrc#plug_tap('YouCompleteMe')
   nnoremap <leader>} :<C-u>YcmCompleter GoToDefinition<CR>
   nnoremap <leader>{ :<C-u>YcmCompleter GoToDeclaration<CR>
   augroup vimrc_ycm
+    autocmd!
     autocmd filetype python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR><C-w>P:<C-u>set ft=rst<CR>
+    autocmd filetype c,cpp,h,hpp nnoremap <buffer> <c-]> :<C-u>YcmCompleter GoTo<CR>
   augroup END
 endif
 
@@ -95,61 +97,63 @@ if myvimrc#plug_tap('ctrlp.vim')
   " if has('unix')
   " let s:ctrlp_my_match_func = {}
   let s:ctrlp_my_match_func = {}
-
   if myvimrc#plug_tap('cpsm')
     " ========== For cpsm ==========
     " let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
     let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
 
-    fun! s:cpsm_build()
-      let s:cpsm_install_confirm = confirm('Build cpsm now?',"&yes\n&no",2)
-
-      if s:cpsm_install_confirm == 1
-        if has('win32')
-          exe '!' . $MYDOTFILES . '/tools/cpsm_winmake.bat'
-        else
-          if !isdirectory(s:cpsm_path . '/bin')
-            call mkdir(s:cpsm_path . '/bin')
-          endif
-          exe '!pushd ' . s:cpsm_path . '/bin; cmake -DPY3=ON ..; make -j'
-        endif
-
-        if v:shell_error == 0
-          let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
-        else
-          echoerr 'Couldn''t build cpsm correctly. Please build cpsm later.'
-        endif
-      else
-        echomsg 'Please build cpsm later.'
-      endif
-    endf
-
     if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
-      augroup vimrc_cpsm
-        autocmd VimEnter * call s:cpsm_build()
-      augroup END
+      echomsg "Cpsm is not built yet."
+      " fun! s:cpsm_build()
+      "   let s:cpsm_install_confirm = confirm('Build cpsm now?',"&yes\n&no",2)
+      "   if s:cpsm_install_confirm == 1
+      "     if has('win32')
+      "       exe '!' . $MYDOTFILES . '/tools/cpsm_winmake.bat'
+      "     else
+      "       if !isdirectory(s:cpsm_path . '/bin')
+      "         call mkdir(s:cpsm_path . '/bin')
+      "       endif
+      "       exe '!pushd ' . s:cpsm_path . '/bin; cmake -DPY3=ON ..; make -j'
+      "     endif
+
+      "     if v:shell_error == 0
+      "       let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+      "     else
+      "       echoerr 'Couldn''t build cpsm correctly. Please build cpsm later.'
+      "     endif
+      "   else
+      "     echomsg 'Please build cpsm later.'
+      "   endif
+      " endf
+      " augroup vimrc_cpsm
+      "   autocmd!
+      "   autocmd VimEnter * call s:cpsm_build()
+      " augroup END
     else
       let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
     endif
     let g:cpsm_query_inverting_delimiter = ' '
   elseif myvimrc#plug_tap('ctrlp-py-matcher')
+    " ========== For pymatcher ==========
     let s:ctrlp_my_match_func = { 'match' : 'pymatcher#PyMatch' }
   endif
   let g:ctrlp_match_func = s:ctrlp_my_match_func
 
   augroup vimrc_ctrlp
+    autocmd!
     autocmd VimEnter * com! -n=? -com=dir CtrlPMRUFiles let g:ctrlp_match_func = {} |
           \ cal ctrlp#init('mru', { 'dir': <q-args> }) |
           \ let g:ctrlp_match_func = s:ctrlp_my_match_func
   augroup END
 
-  nnoremap <Leader><Leader> :CtrlP<CR>
+  nnoremap <Leader><Leader> :CtrlPMixed<CR>
+  nnoremap <Leader>f        :CtrlP<CR>
   nnoremap <Leader>T        :CtrlPBufTag<CR>
   nnoremap <Leader>al       :CtrlPLine<CR>
   nnoremap <Leader>b        :CtrlPBuffer<CR>
   nnoremap <Leader>c        :CtrlPCurWD<CR>
   nnoremap <Leader>l        :CtrlPLine %<CR>
-  nnoremap <Leader>mr       :CtrlPMRUFiles<CR>
+  nnoremap <Leader>u        :CtrlPMRUFiles<CR>
   nnoremap <Leader>r        :CtrlPRegister<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
@@ -224,6 +228,11 @@ endif
 if myvimrc#plug_tap('nerdtree')
   nnoremap <Leader>e :NERDTreeFind<CR>
   nnoremap <Leader>E :NERDTreeCWD<CR>
+
+  let g:NERDTreeMapOpenSplit = 's'
+  let g:NERDTreeMapPreviewSplit = 'gs'
+  let g:NERDTreeMapOpenVSplit = 'v'
+  let g:NERDTreeMapPreviewVSplit = 'gv'
 
   let g:NERDTreeHijackNetrw = 1
   let g:NERDTreeQuitOnOpen = 1
@@ -476,18 +485,29 @@ if myvimrc#plug_tap('denite.nvim')
 
   call denite#custom#source('file_mru', 'sorters', [])
   call denite#custom#source('buffer', 'sorters', [])
-  " change matchers
-  call denite#custom#source('file_mru','matchers',['matcher_fuzzy'])
-  call denite#custom#source('file_rec','matchers',['matcher_fuzzy'])
-  call denite#custom#source('line',    'matchers',['matcher_fuzzy'])
+
   if g:ctrlp_match_func != {} && g:ctrlp_match_func['match'] ==# 'cpsm#CtrlPMatch'
-    call denite#custom#source('file_mru','matchers',['matcher_cpsm'])
+    call denite#custom#source('file_mru','matchers',['matcher_cpsm','converter_relative_abbr'])
     call denite#custom#source('file_rec','matchers',['matcher_cpsm'])
     call denite#custom#source('line',    'matchers',['matcher_cpsm'])
+  else
+    " change matchers
+    call denite#custom#source('file_mru','matchers',['matcher_fuzzy','converter_relative_abbr'])
+    call denite#custom#source('file_rec','matchers',['matcher_fuzzy'])
+    call denite#custom#source('line',    'matchers',['matcher_fuzzy'])
   endif
+
   " Change mappings.
-  call denite#custom#map('insert','<C-j>','<denite:move_to_next_line>',    'noremap')
-  call denite#custom#map('insert','<C-k>','<denite:move_to_previous_line>','noremap')
+  call denite#custom#map('insert', '<C-j>',  '<denite:move_to_next_line>',     'noremap')
+  call denite#custom#map('insert', '<C-k>',  '<denite:move_to_previous_line>', 'noremap')
+  call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>',     'noremap')
+  call denite#custom#map('insert', '<Up>',   '<denite:move_to_previous_line>', 'noremap')
+  call denite#custom#map('insert', '<C-t>',  '<denite:do_action:tabopen>',     'noremap')
+  call denite#custom#map('insert', '<C-v>',  '<denite:do_action:vsplit>',      'noremap')
+  call denite#custom#map('insert', '<C-s>',  '<denite:do_action:split>',       'noremap')
+  call denite#custom#map('insert', '<C-CR>', '<denite:do_action:split>',       'noremap')
+  call denite#custom#map('insert', '<C-x>',  '<denite:do_action:split>',       'noremap')
+  call denite#custom#map('insert', '<C-g>',  '<denite:leave_mode>',            'noremap')
   " rg command on grep source
   if g:myvimrc_rg_isAvalable
     call denite#custom#var('grep', 'command', ['rg'])
@@ -498,15 +518,16 @@ if myvimrc#plug_tap('denite.nvim')
     call denite#custom#var('grep', 'final_opts', [])
   endif
   " mappgins
-  nnoremap <silent> <Leader>db :<C-u>Denite buffer<CR>
-  nnoremap <silent> <Leader>dT :<C-u>Denite tag<CR>
-  nnoremap <silent> <Leader>dc :<C-u>Denite file_rec<CR>
-  nnoremap <silent> <Leader>dg :<C-u>Denite grep -no-quit<CR>
-  nnoremap <silent> <Leader>dl :<C-u>Denite line<CR>
-  nnoremap <silent> <Leader>dmr :<C-u>Denite file_mru<CR>
-  nnoremap <silent> <Leader>do :<C-u>Denite outline<CR>
-  nnoremap <silent> <Leader>dr :<C-u>Denite register<CR>
-  nnoremap <silent> <leader>d<Leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
+  nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
+  nnoremap <silent> <Leader>T :<C-u>Denite tag<CR>
+  nnoremap <silent> <Leader>c :<C-u>Denite file_rec<CR>
+  nnoremap <silent> <Leader>g :<C-u>Denite grep -no-quit<CR>
+  nnoremap <silent> <Leader>l :<C-u>Denite line<CR>
+  nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
+  nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
+  nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
+  nnoremap <silent> <leader>f :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
+  nnoremap <silent> <leader><Leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec file_mru buffer'])<CR>
 
   if exists('g:memolist_path')
     exe 'nnoremap <silent> <Leader>ml :<C-u>Denite file_rec -path='. g:memolist_path. '<CR>'
@@ -565,7 +586,10 @@ if myvimrc#plug_tap('nerdcommenter')
 endif
 
 if myvimrc#plug_tap('vim-javacomplete2')
-  autocmd Filetype java setlocal omnifunc=javacomplete#Complete
+  augroup vimrc_javacomplete2
+    autocmd!
+    autocmd Filetype java setlocal omnifunc=javacomplete#Complete
+  augroup END
 endif
 
 if myvimrc#plug_tap('vim-cpp-enhanced-highlight')
@@ -585,6 +609,7 @@ endif
 
 if myvimrc#plug_tap('vim-submode')
   augroup vimrc_submode
+    autocmd!
     autocmd VimEnter * call g:plugin_mgr.lazy_hook('vim-submode')
   augroup END
 endif

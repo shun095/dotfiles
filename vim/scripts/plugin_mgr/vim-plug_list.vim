@@ -53,8 +53,8 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'cespare/vim-toml',                 { 'for': 'toml' }
 Plug 'chiel92/vim-autoformat',           { 'on' : 'Autoformat' }
 Plug 'csscomb/vim-csscomb',              { 'for': 'css' }
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'nixprime/cpsm'
+" Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'nixprime/cpsm'
 Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'elzr/vim-json'
 Plug 'ervandew/supertab'

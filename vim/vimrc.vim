@@ -123,6 +123,7 @@ set mousemodel=popup
 set lazyredraw                    " スクロールが間に合わない時などに描画を省略する
 set sessionoptions&               " セッションファイルに保存する内容
 set sessionoptions-=options
+set sessionoptions-=buffers
 set sessionoptions-=folds
 set sessionoptions-=blank
 set sessionoptions+=slash
@@ -296,6 +297,7 @@ function! s:SwitchToActualFile()
     exec "e" . fname
     call setpos('.', pos)
 endfunction
+command! Term terminal ++curwin
 " }}}
 
 " Autocmds {{{

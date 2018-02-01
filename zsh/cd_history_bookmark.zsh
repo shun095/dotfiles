@@ -35,7 +35,7 @@ function _cd_history_bookmark_save_cd_history(){
 
 function _cd_history_bookmark_fzf(){
     local file_path=$1
-    local dest_dir=$(tac $file_path | _cd_history_bookmark_filter | fzf --height 40% --reverse)
+    local dest_dir=$(tac $file_path | _cd_history_bookmark_filter | fzf --no-sort --height 40% --reverse)
     if [[ $dest_dir != '' ]]; then
         if ! cd "$dest_dir"; then
             sed -i -e "s?^${dest_dir}\(\$\|/.*\$\)??g" ${file_path} &&
