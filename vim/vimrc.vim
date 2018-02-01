@@ -422,8 +422,8 @@ nnoremap <silent><expr><Leader><C-f><C-f> myvimrc#command_at_destdir(myvimrc#fin
 nnoremap <silent> <Leader><C-f>c :FZF .<CR>
 "}}}
 
-" source $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
-source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
+source $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
+" source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
 
 let g:plugin_mgr.enabled = g:use_plugins
 
@@ -471,11 +471,11 @@ if g:plugin_mgr.enabled == g:true
       " colorscheme summerfruit256
 
       " colorscheme default
-      colorscheme iceberg
-      let g:airline_theme = 'iceberg'
+      colorscheme molokai
+      " let g:airline_theme = 'iceberg'
 
       highlight Terminal guibg=black
-      let g:vmail_flagged_color = 'term=bold ctermfg=109 guifg=#89b8c2'
+      " let g:vmail_flagged_color = 'term=bold ctermfg=109 guifg=#89b8c2'
       "----------JELLYBEANS----------
       " colorscheme jellybeans
       "----------JELLYBEANS----------

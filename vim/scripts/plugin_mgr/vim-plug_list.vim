@@ -53,9 +53,9 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'cespare/vim-toml',                 { 'for': 'toml' }
 Plug 'chiel92/vim-autoformat',           { 'on' : 'Autoformat' }
 Plug 'csscomb/vim-csscomb',              { 'for': 'css' }
+Plug 'nixprime/cpsm'
 " Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'nixprime/cpsm'
-Plug 'FelikZ/ctrlp-py-matcher'
+" Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'elzr/vim-json'
 Plug 'ervandew/supertab'
 Plug 'glidenote/memolist.vim',           { 'on' : ['MemoNew', 'MemoList'] }
@@ -64,14 +64,14 @@ Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
 Plug 'iamcco/markdown-preview.vim',      { 'for':  'markdown' }
 Plug 'itchyny/calendar.vim',             { 'on' : 'Calendar' }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-submode'
 Plug 'kannokanno/previm',                { 'for': 'markdown' }
 Plug 'lervag/vimtex',                    { 'for': 'tex' }
 Plug 'majutsushi/tagbar',                { 'on' : ['TagbarToggle', 'TagbarOpen'] }
-Plug 'mattn/ctrlp-register'
+" Plug 'mattn/ctrlp-register'
 Plug 'mattn/emmet-vim',                  { 'for': ['html','xml'] }
 Plug 'mbbill/undotree',                  { 'on' : ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle'] }
 Plug 'mopp/next-alter.vim',              { 'for': ['c','cpp'] }
@@ -84,7 +84,6 @@ Plug 'raimondi/delimitmate'
 Plug 'rdnetto/YCM-Generator',            { 'on' : 'YcmGenerateConfig', 'branch': 'stable' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
-" Plug 'suan/vim-instant-markdown'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
@@ -96,8 +95,6 @@ Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
 Plug 'w0rp/ale'
-Plug 'yuratomo/gmail.vim'
-
 Plug 'ishitaku5522/revimses',            { 'branch': 'dev' }
 
 let &cpo = s:save_cpo

@@ -60,7 +60,7 @@ if myvimrc#plug_tap('YouCompleteMe')
   augroup vimrc_ycm
     autocmd!
     autocmd filetype python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR><C-w>P:<C-u>set ft=rst<CR>
-    autocmd filetype c,cpp,h,hpp nnoremap <buffer> <c-]> :<C-u>YcmCompleter GoTo<CR>
+    autocmd filetype c,cpp,h,hpp,python nnoremap <buffer> <c-]> :<C-u>YcmCompleter GoTo<CR>
   augroup END
 endif
 
@@ -537,10 +537,12 @@ endif
 if myvimrc#plug_tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
   let g:deoplete#auto_complete_start_length = 1
+
   if myvimrc#plug_tap('deoplete-clang')
     let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
     let g:deoplete#sources#clang#clang_header = '/usr/include/clang/'
   endif
+
   if myvimrc#plug_tap('deoplete-jedi')
     let g:deoplete#sources#jedi#server_timeout = 30
   endif

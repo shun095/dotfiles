@@ -63,8 +63,10 @@ fun! g:plugin_mgr.init() abort
   " Dein main settings {{{
   exe 'set runtimepath+=' . g:plugin_mgr.manager_dir
 
-  let plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
-  let plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
+  let plugins_toml = '$MYVIMHOME/tomlfiles/dein_new.toml'
+  let plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_new_lazy.toml'
+  " let plugins_toml = '$MYVIMHOME/tomlfiles/dein.toml'
+  " let plugins_lazy_toml = '$MYVIMHOME/tomlfiles/dein_lazy.toml'
 
   if dein#load_state(g:plugin_mgr.plugin_dir)
     call dein#begin(g:plugin_mgr.plugin_dir)
