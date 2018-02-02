@@ -96,8 +96,8 @@ if command -v /usr/local/bin/gvim > /dev/null;then
     alias gvim=/usr/local/bin/gvim
 fi
 
-alias tgvim="gvim --remote-tab"
-alias tvim="vim --remote-tab"
+alias tgvim="gvim --remote-tab-silent"
+alias tvim="vim --remote-tab-silent"
 
 alias dir="dir --group-directories-first --color=auto"
 stty stop undef

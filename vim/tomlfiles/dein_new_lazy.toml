@@ -1,13 +1,39 @@
 # deoplete completers
 [[plugins]]
-repo = 'AndrewRadev/linediff.vim'
-on_cmd = 'Linediff' 
-
-[[plugins]]
 repo = 'Rip-Rip/clang_complete'
 on_ft = ['c', 'cpp', 'h', 'hpp'] 
 if = "has('nvim')"
 depends = 'deoplete.nvim'
+
+[[plugins]]
+repo = 'carlitux/deoplete-ternjs'
+on_ft = ['javascript'] 
+if = "has('nvim')"
+depends = 'deoplete.nvim'
+
+[[plugins]]
+repo = 'davidhalter/jedi-vim'
+on_ft = ['python'] 
+if = "has('nvim')"
+depends = 'deoplete.nvim'
+
+[[plugins]]
+repo = 'zchee/deoplete-go'
+on_ft = ['go']  
+if = "has('nvim')"
+depends = 'deoplete.nvim'
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+on_ft = ['python'] 
+if = "has('nvim')"
+depends = 'deoplete.nvim'
+
+#Normal lazy plugins
+
+[[plugins]]
+repo = 'AndrewRadev/linediff.vim'
+on_cmd = 'Linediff' 
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
@@ -17,24 +43,11 @@ repo = 'artur-shaik/vim-javacomplete2'
 on_ft = 'java' 
 
 [[plugins]]
-repo = 'basyura/bitly.vim'
-
-[[plugins]]
-repo = 'basyura/twibill.vim'
-
-[[plugins]]
 repo = 'bkad/CamelCaseMotion'
 on_map = ['n', ',']
 hook_post_source = ''' " {{{
   call g:plugin_mgr.lazy_hook('CamelCaseMotion')
 ''' # }}}
-
-
-[[plugins]]
-repo = 'carlitux/deoplete-ternjs'
-on_ft = ['javascript'] 
-if = "has('nvim')"
-depends = 'deoplete.nvim'
 
 [[plugins]]
 repo = 'cespare/vim-toml'
@@ -49,22 +62,12 @@ repo = 'csscomb/vim-csscomb'
 on_ft = 'css' 
 
 [[plugins]]
-repo = 'davidhalter/jedi-vim'
-on_ft = ['python'] 
-if = "has('nvim')"
-depends = 'deoplete.nvim'
-
-[[plugins]]
 repo = 'fatih/vim-go'
 on_ft = ['go'] 
 
 [[plugins]]
 repo = 'glidenote/memolist.vim'
 on_cmd = ['MemoNew', 'MemoList'] 
-
-[[plugins]]
-repo = 'gregsexton/MatchTag'
-on_ft = ['html','xml'] 
 
 [[plugins]]
 repo = 'haya14busa/vim-open-googletranslate'
@@ -109,22 +112,6 @@ repo = 'mopp/next-alter.vim'
 on_ft = ['c','cpp'] 
 
 [[plugins]]
-repo = 'octol/vim-cpp-enhanced-highlight'
-on_ft = ['c','cpp'] 
-
-[[plugins]]
-repo = 'othree/html5.vim'
-on_ft = 'html' 
-
-[[plugins]]
-repo = 'pangloss/vim-javascript'
-on_ft = 'javascript' 
-
-[[plugins]]
-repo = 'plasticboy/vim-markdown'
-on_ft = 'markdown' 
-
-[[plugins]]
 repo = 'rdnetto/YCM-Generator'
 on_cmd = 'YcmGenerateConfig'
 rev = 'stable' 
@@ -140,22 +127,3 @@ on_cmd = 'Restart'
 [[plugins]]
 repo = 'vim-jp/vital.vim'
 on_cmd = 'Vitalize'
-
-# [[plugins]]
-# repo = 'zchee/deoplete-clang'
-# on_ft = ['c', 'cpp', 'h', 'hpp'] 
-# if = "has('nvim')"
-# depends = 'deoplete.nvim'
-
-[[plugins]]
-repo = 'zchee/deoplete-go'
-on_ft = ['go']  
-if = "has('nvim')"
-depends = 'deoplete.nvim'
-
-[[plugins]]
-repo = 'zchee/deoplete-jedi'
-on_ft = ['python'] 
-if = "has('nvim')"
-depends = 'deoplete.nvim'
-

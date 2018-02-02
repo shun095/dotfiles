@@ -9,7 +9,6 @@ if myvimrc#plug_tap('TweetVim')
   " let g:tweetvim_tweet_per_page = 100
   " F6と,uvでTweetVimのtimeline選択
 
-
   " fork original option
   let g:tweetvim_panewidth = 40
   let g:tweetvim_say_insert_account = 1
@@ -408,22 +407,40 @@ endif
 
 if myvimrc#plug_tap('vimtex')
   if has('win32')
-    let g:vimtex_latexmk_continuous = 1
-    let g:vimtex_latexmk_background = 1
-    "let g:vimtex_latexmk_options = '-pdf'
-    let g:vimtex_latexmk_options = '-pdfdvi'
-    "let g:vimtex_latexmk_options = '-pdfps'
+    let g:vimtex_compiler_latexmk = {
+        \ 'background' : 1,
+        \ 'build_dir' : '',
+        \ 'callback' : 1,
+        \ 'continuous' : 1,
+        \ 'executable' : 'latexmk',
+        \ 'options' : [
+        \   '-pdfdvi',
+        \   '-verbose',
+        \   '-file-line-error',
+        \   '-synctex=1',
+        \   '-interaction=nonstopmode',
+        \ ],
+        \}
     let g:vimtex_view_general_viewer = 'SumatraPDF.exe'
     let g:vimtex_view_general_options =
           \ '-reuse-instance -inverse-search "\"' . $VIM . '\gvim.exe\" -n --remote-silent +\%l \"\%f\"" -forward-search @tex @line @pdf'
     let g:vimtex_view_general_options_latexmk = '-reuse-instance'
     "let g:vimtex_view_general_viewer = 'texworks'
   elseif has('unix')""
-    let g:vimtex_latexmk_continuous = 1
-    let g:vimtex_latexmk_background = 1
-    "let g:vimtex_latexmk_options = '-pdf'
-    let g:vimtex_latexmk_options = '-pdfdvi'
-    "let g:vimtex_latexmk_options = '-pdfps'
+    let g:vimtex_compiler_latexmk = {
+        \ 'background' : 1,
+        \ 'build_dir' : '',
+        \ 'callback' : 1,
+        \ 'continuous' : 1,
+        \ 'executable' : 'latexmk',
+        \ 'options' : [
+        \   '-pdfdvi',
+        \   '-verbose',
+        \   '-file-line-error',
+        \   '-synctex=1',
+        \   '-interaction=nonstopmode',
+        \ ],
+        \}
     let g:vimtex_view_general_viewer = 'xdg-open'
     "let g:vimtex_view_general_viewer = 'okular'
     "let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
@@ -656,4 +673,8 @@ if myvimrc#plug_tap('ale')
         \ }
   let g:ale_sign_error = ''
   let g:ale_sign_warning = ''
+endif
+
+if myvimrc#plug_tap('vim-go')
+  let g:go_gocode_propose_builtins = 0
 endif

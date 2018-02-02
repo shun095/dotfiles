@@ -471,7 +471,7 @@ if g:plugin_mgr.enabled == g:true
       " colorscheme summerfruit256
 
       " colorscheme default
-      colorscheme molokai
+      colorscheme iceberg
       " let g:airline_theme = 'iceberg'
 
       highlight Terminal guibg=black
