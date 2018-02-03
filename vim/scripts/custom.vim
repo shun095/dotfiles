@@ -58,8 +58,10 @@ if myvimrc#plug_tap('YouCompleteMe')
   nnoremap <leader>{ :<C-u>YcmCompleter GoToDeclaration<CR>
   augroup vimrc_ycm
     autocmd!
-    autocmd filetype python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR><C-w>P:<C-u>set ft=rst<CR>
-    autocmd filetype c,cpp,h,hpp,python nnoremap <buffer> <c-]> :<C-u>YcmCompleter GoTo<CR>
+    autocmd filetype c,cpp,h,hpp,python nnoremap <buffer>
+          \ K :<C-u>YcmCompleter GetDoc<CR>
+    autocmd filetype c,cpp,h,hpp,python nnoremap <buffer>
+          \ <c-]> :<C-u>YcmCompleter GoTo<CR>
   augroup END
 endif
 
