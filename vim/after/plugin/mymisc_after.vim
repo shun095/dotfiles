@@ -1,4 +1,4 @@
-fun! myvimrc_after#write_log()
+fun! mymisc_after#write_log()
   redir @z
   mes
   redir END
@@ -6,6 +6,6 @@ fun! myvimrc_after#write_log()
   call writefile(content, expand('$HOME/vimlog.txt'))
 endf
 
-augroup myvimrc_after
-  " autocmd VimLeave * call myvimrc_after#write_log()
+augroup mymisc_after
+  " autocmd VimLeave * call mymisc_after#write_log()
 augroup END

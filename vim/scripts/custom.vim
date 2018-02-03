@@ -4,7 +4,7 @@ if &compatible
   set nocompatible
 endif
 
-if myvimrc#plug_tap('TweetVim')
+if mymisc#plug_tap('TweetVim')
   " 1ページに表示する最大数
   " let g:tweetvim_tweet_per_page = 100
   " F6と,uvでTweetVimのtimeline選択
@@ -36,7 +36,7 @@ if myvimrc#plug_tap('TweetVim')
   " augroup END
 endif
 
-if myvimrc#plug_tap('YouCompleteMe')
+if mymisc#plug_tap('YouCompleteMe')
   let g:ycm_global_ycm_extra_conf = $MYDOTFILES . '/vim/scripts/.ycm_extra_conf.py'
   let g:ycm_min_num_of_chars_for_completion = 1
   let g:ycm_complete_in_comments = 1
@@ -65,7 +65,7 @@ if myvimrc#plug_tap('YouCompleteMe')
   augroup END
 endif
 
-if myvimrc#plug_tap('ultisnips')
+if mymisc#plug_tap('ultisnips')
   " better key bindings for UltiSnipsExpandTrigger
   let g:UltiSnipsExpandTrigger = '<Tab>'
   let g:UltiSnipsJumpForwardTrigger = '<Tab>'
@@ -80,11 +80,11 @@ if myvimrc#plug_tap('ultisnips')
   endif
 endif
 
-if myvimrc#plug_tap('supertab')
+if mymisc#plug_tap('supertab')
   let g:SuperTabDefaultCompletionType = '<c-n>'
 endif
 
-if myvimrc#plug_tap('ctrlp.vim')
+if mymisc#plug_tap('ctrlp.vim')
   " let g:ctrlp_cmd = 'CtrlPMRUFiles'
   " yankroundのところでマッピングし直している
   " let g:ctrlp_map = ''
@@ -98,7 +98,7 @@ if myvimrc#plug_tap('ctrlp.vim')
   " if has('unix')
   " let s:ctrlp_my_match_func = {}
   let s:ctrlp_my_match_func = {}
-  if myvimrc#plug_tap('cpsm')
+  if mymisc#plug_tap('cpsm')
     " ========== For cpsm ==========
     " let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
     let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
@@ -134,7 +134,7 @@ if myvimrc#plug_tap('ctrlp.vim')
       let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
     endif
     let g:cpsm_query_inverting_delimiter = ' '
-  elseif myvimrc#plug_tap('ctrlp-py-matcher')
+  elseif mymisc#plug_tap('ctrlp-py-matcher')
     " ========== For pymatcher ==========
     let s:ctrlp_my_match_func = { 'match' : 'pymatcher#PyMatch' }
   endif
@@ -160,11 +160,11 @@ if myvimrc#plug_tap('ctrlp.vim')
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
   if has('win32')
-    if g:myvimrc_files_isAvalable
+    if g:mymisc_files_isAvalable
       let g:ctrlp_user_command = 'files -a %s'
-    elseif g:myvimrc_pt_isAvalable
+    elseif g:mymisc_pt_isAvalable
       let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-    elseif g:myvimrc_ag_isAvalable
+    elseif g:mymisc_ag_isAvalable
       let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
     endif
   else
@@ -175,7 +175,7 @@ if myvimrc#plug_tap('ctrlp.vim')
   unlet s:ctrlp_command_options
 endif
 
-if myvimrc#plug_tap('foldCC.vim')
+if mymisc#plug_tap('foldCC.vim')
   let g:foldCCtext_enable_autofdc_adjuster = 1
   let g:foldCCtext_head = ''
   let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
@@ -190,14 +190,14 @@ if myvimrc#plug_tap('foldCC.vim')
   " augroup END "}}}
 endif
 
-if myvimrc#plug_tap('html5.vim')
+if mymisc#plug_tap('html5.vim')
   let g:html5_event_handler_attributes_complete = 1
   let g:html5_rdfa_attributes_complete = 1
   let g:html5_microdata_attributes_complete = 1
   let g:html5_aria_attributes_complete = 1
 endif
 
-if myvimrc#plug_tap('markdown-preview.vim')
+if mymisc#plug_tap('markdown-preview.vim')
   let g:mkdp_auto_close = 1
   let g:mkdp_auto_open = 1
   let g:mkdp_auto_start = 1
@@ -212,12 +212,12 @@ if myvimrc#plug_tap('markdown-preview.vim')
   endif
 endif
 
-if myvimrc#plug_tap('memolist.vim')
+if mymisc#plug_tap('memolist.vim')
   " let g:memolist_memo_suffix = 'txt'
   " let g:memolist_unite = 1
   let g:memolist_denite = 1
   " let g:memolist_ex_cmd = 'Denite file_rec '
-  " if myvimrc#plug_tap('nerdtree')
+  " if mymisc#plug_tap('nerdtree')
   " let g:memolist_ex_cmd = 'e'
   " endif
 
@@ -226,7 +226,7 @@ if myvimrc#plug_tap('memolist.vim')
   " nmap <Leader>ml :execute "Denite file_rec -path=" . g:memolist_path<cr>
 endif
 
-if myvimrc#plug_tap('nerdtree')
+if mymisc#plug_tap('nerdtree')
   nnoremap <Leader>e :NERDTreeFind<CR>
   nnoremap <Leader>E :NERDTreeCWD<CR>
 
@@ -245,7 +245,7 @@ if myvimrc#plug_tap('nerdtree')
   let NERDTreeIgnore = ['\~$', '\.pyc$', '\.sw[po]$']
 endif
 
-if myvimrc#plug_tap('open-browser.vim')
+if mymisc#plug_tap('open-browser.vim')
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
@@ -253,12 +253,12 @@ if myvimrc#plug_tap('open-browser.vim')
   nnoremap <Leader>os :<C-u>OpenBrowserSearch<Space>
 endif
 
-if myvimrc#plug_tap('previm')
+if mymisc#plug_tap('previm')
   let g:previm_enable_realtime = 1
   " let g:previm_custom_css_path = $HOME . '/.vim/dein/repos/github.com/jasonm23/markdown-css-themes/markdown.css'
   let g:previm_show_header = 0
   function! s:setup_setting()
-    command! -buffer -nargs=? -complete=dir PrevimSaveHTML call myvimrc#previm_save_html('<args>')
+    command! -buffer -nargs=? -complete=dir PrevimSaveHTML call mymisc#previm_save_html('<args>')
   endfunction
 
   augroup vimrc_previm
@@ -267,11 +267,11 @@ if myvimrc#plug_tap('previm')
   augroup END
 endif
 
-if myvimrc#plug_tap('restart.vim')
+if mymisc#plug_tap('restart.vim')
   let g:restart_sessionoptions = &sessionoptions
 endif
 
-if myvimrc#plug_tap('tagbar')
+if mymisc#plug_tap('tagbar')
   nnoremap <silent> <Leader>t :TagbarOpen j<CR>
   let g:tagbar_show_linenumbers = 0
   let g:tagbar_sort = 0
@@ -287,13 +287,13 @@ if myvimrc#plug_tap('tagbar')
   augroup END
 endif
 
-if myvimrc#plug_tap('undotree')
+if mymisc#plug_tap('undotree')
   let g:undotree_WindowLayout = 2
   let g:undotree_SplitWidth = 30
   nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
 endif
 
-if myvimrc#plug_tap('vim-anzu')
+if mymisc#plug_tap('vim-anzu')
   " mapping
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
@@ -301,7 +301,7 @@ if myvimrc#plug_tap('vim-anzu')
   nmap # <Plug>(anzu-sharp-with-echo)
 endif
 
-if myvimrc#plug_tap('vim-easy-align')
+if mymisc#plug_tap('vim-easy-align')
   " ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
   vmap <Enter> <Plug>(LiveEasyAlign)
   " easy-align を呼んだ上で，移動したりテキストオブジェクトを指定して整形．(e.g. gaip)
@@ -310,7 +310,7 @@ if myvimrc#plug_tap('vim-easy-align')
   " xmap ga <Plug>(EasyAlign)
 endif
 
-if myvimrc#plug_tap('vim-quickrun')
+if mymisc#plug_tap('vim-quickrun')
   " quickrun modules
   " quickrun-hook-add-include-option {{{
   let s:hook = {
@@ -393,21 +393,21 @@ if myvimrc#plug_tap('vim-quickrun')
   endif
 
   nmap <silent> <Leader>R :CdCurrent<CR><Plug>(quickrun)
-  nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>myvimrc_quickrun_sweep() : "\<C-c>"
+  nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>mymisc_quickrun_sweep() : "\<C-c>"
 
-  fun! s:myvimrc_quickrun_sweep()
+  fun! s:mymisc_quickrun_sweep()
     echo 'Quickrun Sweep'
     call quickrun#sweep_sessions()
   endf
 endif
 
-if myvimrc#plug_tap('vimshell.vim')
+if mymisc#plug_tap('vimshell.vim')
   let g:vimshell_prompt = '% '
   let g:vimshell_secondary_prompt = '> '
   let g:vimshell_user_prompt = 'getcwd()'
 endif
 
-if myvimrc#plug_tap('vimtex')
+if mymisc#plug_tap('vimtex')
   if has('win32')
     let g:vimtex_compiler_latexmk = {
         \ 'background' : 1,
@@ -453,20 +453,20 @@ if myvimrc#plug_tap('vimtex')
   endif
 endif
 
-if myvimrc#plug_tap('revimses')
+if mymisc#plug_tap('revimses')
   let g:revimses#sessionoptions = &sessionoptions
 endif
 
-if myvimrc#plug_tap('calendar.vim')
+if mymisc#plug_tap('calendar.vim')
   augroup vimrc_calendar
     autocmd!
   augroup END
 
-  if myvimrc#plug_tap('vim-indent-guides')
+  if mymisc#plug_tap('vim-indent-guides')
     autocmd vimrc_calendar FileType calendar IndentGuidesDisable
   endif
 
-  if myvimrc#plug_tap('indentLine')
+  if mymisc#plug_tap('indentLine')
     autocmd vimrc_calendar FileType calendar IndentLinesDisable
   endif
 
@@ -476,12 +476,17 @@ if myvimrc#plug_tap('calendar.vim')
   let g:calendar_first_day='sunday'
 endif
 
-if myvimrc#plug_tap('autofmt')
+if mymisc#plug_tap('autofmt')
   set formatexpr=autofmt#japanese#formatexpr()
 endif
 
-if myvimrc#plug_tap('denite.nvim')
-  let g:neomru#file_mru_ignore_pattern = '^vaffle\|^quickrun\|\~$\|\.\%(o\|exe\|dll\|bak\|zwc\|pyc\|sw[po]\)$\|\%(^\|/\)\.\%(hg\|git\|bzr\|svn\)\%($\|/\)\|^\%(\\\\\|/mnt/\|/media/\|/temp/\|/tmp/\|\%(/private\)\=/var/folders/\)\|\%(^\%(fugitive\)://\)\|\%(^\%(term\)://\)'
+if mymisc#plug_tap('denite.nvim')
+  let g:neomru#file_mru_ignore_pattern = '^vaffle\|^quickrun\|'.
+        \ '\~$\|\.\%(o\|exe\|dll\|bak\|zwc\|pyc\|sw[po]\)$'.
+        \ '\|\%(^\|/\)\.\%(hg\|git\|bzr\|svn\)\%($\|/\)'.
+        \ '\|^\%(\\\\\|/mnt/\|/media/\|/temp/\|/tmp/\|\%(/private\)\=/var/folders/\)'.
+        \ '\|\%(^\%(fugitive\)://\)'.
+        \ '\|\%(^\%(term\)://\)'
 
   call denite#custom#option('default','auto_resize',            '1')
   call denite#custom#option('default','reversed',               '1')
@@ -520,16 +525,16 @@ if myvimrc#plug_tap('denite.nvim')
   call denite#custom#var('file_mru','fnamemodify', ':~:.')
 
   " Change file_rec command.
-  if g:myvimrc_files_isAvalable
+  if g:mymisc_files_isAvalable
     call denite#custom#var('file_rec','command',['files','-a'])
-  elseif g:myvimrc_pt_isAvalable
+  elseif g:mymisc_pt_isAvalable
     call denite#custom#var('file_rec','command',['pt',   '--follow','--nocolor','--nogroup','--hidden','-g',''])
-  elseif g:myvimrc_ag_isAvalable
+  elseif g:mymisc_ag_isAvalable
     call denite#custom#var('file_rec','command',['ag',   '--follow','--nocolor','--nogroup','--hidden','-g',''])
   endif
 
   " rg command on grep source
-  if g:myvimrc_rg_isAvalable
+  if g:mymisc_rg_isAvalable
     call denite#custom#var('grep','command',       ['rg'])
     call denite#custom#var('grep','default_opts',  ['--vimgrep'])
     call denite#custom#var('grep','recursive_opts',[])
@@ -547,8 +552,8 @@ if myvimrc#plug_tap('denite.nvim')
   nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
   nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
   nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
-  nnoremap <silent> <leader>f :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
-  nnoremap <silent> <leader><Leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec file_mru buffer'])<CR>
+  nnoremap <silent> <leader>f :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
+  nnoremap <silent> <leader><Leader> :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec file_mru buffer'])<CR>
 
   " Memolist
   " if exists('g:memolist_path')
@@ -556,33 +561,33 @@ if myvimrc#plug_tap('denite.nvim')
   " endif
 endif
 
-if myvimrc#plug_tap('deoplete.nvim')
+if mymisc#plug_tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
   let g:deoplete#auto_complete_start_length = 1
 
-  if myvimrc#plug_tap('deoplete-clang')
+  if mymisc#plug_tap('deoplete-clang')
     let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
     let g:deoplete#sources#clang#clang_header = '/usr/include/clang/'
   endif
 
-  if myvimrc#plug_tap('deoplete-jedi')
+  if mymisc#plug_tap('deoplete-jedi')
     let g:deoplete#sources#jedi#server_timeout = 30
   endif
 endif
 
-if myvimrc#plug_tap('clang_complete')
+if mymisc#plug_tap('clang_complete')
   let g:clang_library_path='/usr/lib/llvm-3.8/lib'
 endif
 
-if myvimrc#plug_tap('jedi-vim')
-  if myvimrc#plug_tap('deoplete-jedi')
+if mymisc#plug_tap('jedi-vim')
+  if mymisc#plug_tap('deoplete-jedi')
     let g:jedi#completions_enabled = 0
   endif
   let g:jedi#show_call_signatures = 2
 endif
 
 
-if myvimrc#plug_tap('nerdcommenter')
+if mymisc#plug_tap('nerdcommenter')
   let g:NERDSpaceDelims = 1
   xmap gcc <Plug>NERDCommenterComment
   nmap gcc <Plug>NERDCommenterComment
@@ -609,21 +614,21 @@ if myvimrc#plug_tap('nerdcommenter')
   nmap gcu <Plug>NERDCommenterUncomment
 endif
 
-if myvimrc#plug_tap('vim-javacomplete2')
+if mymisc#plug_tap('vim-javacomplete2')
   augroup vimrc_javacomplete2
     autocmd!
     autocmd Filetype java setlocal omnifunc=javacomplete#Complete
   augroup END
 endif
 
-if myvimrc#plug_tap('vim-cpp-enhanced-highlight')
+if mymisc#plug_tap('vim-cpp-enhanced-highlight')
   let g:cpp_class_scope_highlight = 1
   let g:cpp_member_variable_highlight = 1
   let g:cpp_class_decl_highlight = 1
   let g:cpp_concepts_highlight = 1
 endif
 
-if myvimrc#plug_tap('next-alter.vim')
+if mymisc#plug_tap('next-alter.vim')
   nmap <F4> <Plug>(next-alter-open)
   augroup vimrc_nextalter
     autocmd!
@@ -631,18 +636,18 @@ if myvimrc#plug_tap('next-alter.vim')
   augroup END
 endif
 
-if myvimrc#plug_tap('vim-submode')
+if mymisc#plug_tap('vim-submode')
   augroup vimrc_submode
     autocmd!
     autocmd VimEnter * call g:plugin_mgr.lazy_hook('vim-submode')
   augroup END
 endif
 
-if myvimrc#plug_tap('indentLine')
+if mymisc#plug_tap('indentLine')
   " let g:indentLine_showFirstIndentLevel=1
 endif
 
-if myvimrc#plug_tap('delimitmate')
+if mymisc#plug_tap('delimitmate')
   let delimitMate_expand_cr = 1
   let delimitMate_expand_space = 1
   let delimitMate_expand_inside_quotes = 1
@@ -651,15 +656,15 @@ if myvimrc#plug_tap('delimitmate')
   imap <silent><expr> <CR> pumvisible() ? "\<C-Y>" : "<Plug>delimitMateCR"
 endif
 
-if myvimrc#plug_tap('vim-autoformat')
+if mymisc#plug_tap('vim-autoformat')
   let g:autoformat_verbosemode = 0
 endif
 
-if myvimrc#plug_tap('vim-startify')
+if mymisc#plug_tap('vim-startify')
   let g:startify_files_number = 20
 endif
 
-if myvimrc#plug_tap('vim-devicons')
+if mymisc#plug_tap('vim-devicons')
   let g:webdevicons_enable = 1
   let g:webdevicons_enable = 1
   let g:webdevicons_enable_nerdtree = 1
@@ -667,7 +672,7 @@ if myvimrc#plug_tap('vim-devicons')
   let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
 endif
 
-if myvimrc#plug_tap('ale')
+if mymisc#plug_tap('ale')
   let g:ale_fixers = {
         \ 'javascript': 'eslint',
         \ 'python': 'autopep8'
@@ -680,6 +685,6 @@ if myvimrc#plug_tap('ale')
   let g:ale_sign_warning = ''
 endif
 
-if myvimrc#plug_tap('vim-go')
+if mymisc#plug_tap('vim-go')
   let g:go_gocode_propose_builtins = 0
 endif

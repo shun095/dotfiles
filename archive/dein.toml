@@ -1,0 +1,216 @@
+# vim: set foldmethod=marker:
+
+# Filer {{{
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+
+# [[plugins]]
+# repo = 'Shougo/vimfiler.vim'
+# depends = 'unite.vim'
+# on_cmd = ['VimFilerBufferDir', 'VimFilerCurrentDir']
+
+# [[plugins]]
+# repo = 'Shougo/unite.vim'
+
+# [[plugins]]
+# repo = 'cocopon/vaffle.vim'
+
+# [[plugins]]
+# repo = 'justinmk/vim-dirvish'
+# on_event = 'VimEnter'
+# on_cmd = 'Dirvish'
+# }}}
+
+[[plugins]]
+repo = 'Konfekt/FastFold'
+
+[[plugins]]
+repo = 'LeafCage/foldCC.vim'
+
+[[plugins]]
+repo = 'SirVer/ultisnips'
+
+[[plugins]]
+repo = 'honza/vim-snippets'
+
+[[plugins]]
+repo = 'ervandew/supertab'
+
+# Git{{{
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+repo = 'tpope/vim-rhubarb'
+
+[[plugins]]
+repo = 'tpope/vim-dispatch'
+
+[[plugins]]
+repo = 'junegunn/gv.vim'
+# }}}
+
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+if = "has('python3')"
+merged = 0
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+depends = ['denite.nvim']
+
+[[plugins]]
+repo = 'Shougo/unite-outline'
+depends = ['denite.nvim']
+
+# [[plugins]]
+# repo = 'ctrlpvim/ctrlp.vim'
+
+# [[plugins]]
+# repo = 'mattn/ctrlp-register'
+# depends = 'ctrlp.vim'
+
+# [[plugins]]
+# repo = 'nixprime/cpsm'
+# merged = 0
+# depends = 'ctrlp.vim'
+
+# [[plugins]]
+# repo = 'FelikZ/ctrlp-py-matcher'
+# depends = 'ctrlp.vim'
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+
+[[plugins]]
+repo = 'ishitaku5522/revimses'
+rev = 'dev'
+
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
+
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+
+[[plugins]]
+repo = 'osyo-manga/vim-anzu'
+
+[[plugins]]
+repo = 'tmux-plugins/vim-tmux'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+# [[plugins]]
+# repo = 'vim-airline/vim-airline'
+
+# [[plugins]]
+# repo = 'vim-airline/vim-airline-themes'
+# depends = 'vim-airline'
+
+# [[plugins]]
+# repo = 'itchyny/lightline.vim'
+
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+
+[[plugins]]
+repo = 'vim-jp/vital.vim'
+merged = 0
+
+[[plugins]]
+repo = 'vim-jp/autofmt'
+
+# COLOR SCHEMES {{{
+[[plugins]]
+repo = 'cocopon/iceberg.vim'
+
+# [[plugins]]
+# repo = 'NLKNguyen/papercolor-theme'
+
+# [[plugins]]
+# repo = 'altercation/vim-colors-solarized'
+
+# [[plugins]]
+# repo = 'nanotech/jellybeans.vim'
+
+# [[plugins]]
+# repo = 'ajh17/Spacegray.vim'
+
+# [[plugins]]
+# repo = 'vim-scripts/summerfruit256.vim'
+
+# [[plugins]]
+# repo = 'chriskempson/base16-vim'
+
+# [[plugins]]
+# repo = 'ciaranm/inkpot'
+
+# [[plugins]]
+# repo = 'flazz/vim-colorschemes'
+
+# [[plugins]]
+# repo = 'tomasr/molokai'
+
+# [[plugins]]
+# repo = 'joshdick/onedark.vim'
+
+# [[plugins]]
+# repo = 'rakr/vim-one'
+# }}}
+
+# QUICK RUN {{{
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+
+[[plugins]]
+repo = 'osyo-manga/shabadou.vim'
+depends = ['vim-quickrun']
+# }}}
+
+[[plugins]]
+repo = 'aperezdc/vim-template'
+
+[[plugins]]
+repo = 'itchyny/vim-cursorword'
+
+[[plugins]]
+repo = 'chiel92/vim-autoformat'
+
+[[plugins]]
+repo = 'scrooloose/nerdcommenter'
+
+[[plugins]]
+repo = 'kana/vim-submode'
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+if = "has('nvim')"
+
+[[plugins]]
+repo = 'carlitux/deoplete-ternjs'
+depends = ['deoplete.nvim']
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+on_ft = ['python']
+depends = ['deoplete.nvim']
+
+[[plugins]]
+repo = 'https://github.com/Rip-Rip/clang_complete'
+depends = ['deoplete.nvim']
+
+[[plugins]]
+repo = 'Valloric/YouCompleteMe'
+if = "!has('nvim')"
+on_event = ['InsertEnter', 'CursorHold']
+merged = 0
+
+[[plugins]]
+repo = 'raimondi/delimitmate'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'

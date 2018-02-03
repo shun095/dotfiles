@@ -65,12 +65,12 @@ elseif has('unix')
 
 
       if has('job') && v:version >= 800
-        call job_start('gnome-terminal --version',{'callback':'myvimrc#gnometerm_detection'})
+        call job_start('gnome-terminal --version',{'callback':'mymisc#gnometerm_detection'})
 
       else
         let s:gnome_term_ver = split(split(system('gnome-terminal --version'))[2], '\.')
         augroup VIMRC
-          autocmd VimEnter * call myvimrc#set_tmux_code(s:gnome_term_ver)
+          autocmd VimEnter * call mymisc#set_tmux_code(s:gnome_term_ver)
         augroup END
       endif
 
@@ -159,11 +159,11 @@ highlight link User5 Comment
 
 set statusline=%m%r%h%w%q
 set statusline+=%<\ %f\ %=
-set statusline+=%{myvimrc#statusline_tagbar()}
+set statusline+=%{mymisc#statusline_tagbar()}
 set statusline+=\ %2*
-set statusline+=%{myvimrc#statusline_fugitive()}
+set statusline+=%{mymisc#statusline_fugitive()}
 set statusline+=%4*
-set statusline+=%{myvimrc#statusline_gitgutter()}
+set statusline+=%{mymisc#statusline_gitgutter()}
 set statusline+=%3*
 set statusline+=\ %y
 set statusline+=%1*\ %{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}
@@ -173,35 +173,35 @@ set statusline+=\ %5*%3p%%\ %4l:%-3v\ %*
 " }}}
 
 if executable('files')
-  let g:myvimrc_files_isAvalable = g:true
+  let g:mymisc_files_isAvalable = g:true
 else
-  let g:myvimrc_files_isAvalable = g:false
+  let g:mymisc_files_isAvalable = g:false
 endif
 
 if executable('rg')
-  let g:myvimrc_rg_isAvalable = g:true
+  let g:mymisc_rg_isAvalable = g:true
 else
-  let g:myvimrc_rg_isAvalable = g:false
+  let g:mymisc_rg_isAvalable = g:false
 endif
 
 if executable('pt')
-  let g:myvimrc_pt_isAvalable = g:true
+  let g:mymisc_pt_isAvalable = g:true
 else
-  let g:myvimrc_pt_isAvalable = g:false
+  let g:mymisc_pt_isAvalable = g:false
 endif
 
 if executable('ag')
-  let g:myvimrc_ag_isAvalable = g:true
+  let g:mymisc_ag_isAvalable = g:true
 else
-  let g:myvimrc_ag_isAvalable = g:false
+  let g:mymisc_ag_isAvalable = g:false
 endif
 
 " agがあればgrepの代わりにagを使う
-if g:myvimrc_rg_isAvalable
+if g:mymisc_rg_isAvalable
   set grepprg=rg\ --vimgrep\ --follow
-elseif g:myvimrc_pt_isAvalable
+elseif g:mymisc_pt_isAvalable
   set grepprg=pt\ --nogroup\ --nocolor\ --column\ --follow
-elseif g:myvimrc_ag_isAvalable
+elseif g:mymisc_ag_isAvalable
   set grepprg=ag\ --nogroup\ --nocolor\ --column\ --follow
 elseif has('unix')
   set grepprg=grep\ -rinIH\ --exclude-dir='.*'\ $*
@@ -280,10 +280,10 @@ endif
 
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
 command! CdCurrent cd\ %:h
-command! CopyPath call myvimrc#copypath()
-command! CopyFileName call myvimrc#copyfname()
-command! CopyDirPath call myvimrc#copydirpath()
-command! Ctags call myvimrc#ctags_project()
+command! CopyPath call mymisc#copypath()
+command! CopyFileName call mymisc#copyfname()
+command! CopyDirPath call mymisc#copydirpath()
+command! Ctags call mymisc#ctags_project()
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 command! -nargs=1 Weblio OpenBrowser http://ejje.weblio.jp/content/<args>
 command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
@@ -361,9 +361,9 @@ augroup VIMRC
   " misc
   if has('unix')
     " linux用（fcitxでしか使えない）
-    autocmd InsertLeave * call myvimrc#ImInActivate()
+    autocmd InsertLeave * call mymisc#ImInActivate()
   endif
-  autocmd VimEnter * call myvimrc#git_auto_updating()
+  autocmd VimEnter * call mymisc#git_auto_updating()
 
   " クリップボードが無名レジスタと違ったら
   " (他のソフトでコピーしてきたということなので)
@@ -418,7 +418,7 @@ exe 'set runtimepath+=' . escape(s:myplugins, ' \')
 let s:my_testplugin = $HOME . '/localrcs/testplugin/vimailer.vim'
 exe 'set runtimepath+=' . escape(s:my_testplugin, ' \')
 set runtimepath+=$HOME/.fzf/
-nnoremap <silent><expr><Leader><C-f><C-f> myvimrc#command_at_destdir(myvimrc#find_project_dir(['.git','tags']),['FZF'])
+nnoremap <silent><expr><Leader><C-f><C-f> mymisc#command_at_destdir(mymisc#find_project_dir(['.git','tags']),['FZF'])
 nnoremap <silent> <Leader><C-f>c :FZF .<CR>
 "}}}
 
@@ -561,9 +561,9 @@ if g:plugin_mgr.enabled == g:true
 
   " Netrw Mapping {{{
   " バッファファイルのディレクトリで開く
-  nnoremap <Leader>n :call myvimrc#NiceLexplore(1)<CR>
+  nnoremap <Leader>n :call mymisc#NiceLexplore(1)<CR>
   " カレントディレクトリで開く
-  nnoremap <Leader>N :call myvimrc#NiceLexplore(0)<CR>
+  nnoremap <Leader>N :call mymisc#NiceLexplore(0)<CR>
   " }}}
 else
   filetype plugin indent on
@@ -574,9 +574,9 @@ else
 
   " Netrw settings {{{
   " バッファファイルのディレクトリで開く
-  nnoremap <Leader>e :call myvimrc#NiceLexplore(1)<CR>
+  nnoremap <Leader>e :call mymisc#NiceLexplore(1)<CR>
   " カレントディレクトリで開く
-  nnoremap <Leader>E :call myvimrc#NiceLexplore(0)<CR>
+  nnoremap <Leader>E :call mymisc#NiceLexplore(0)<CR>
   " }}}
 
   " }}}
