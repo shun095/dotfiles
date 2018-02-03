@@ -322,7 +322,7 @@ backup() {
 }
 
 compile_zshfiles() {
-    $MYDOTFILES/tools/zsh_compile.sh
+    $MYDOTFILES/tools/zsh_compile.zsh
 }
 
 deploy() {
