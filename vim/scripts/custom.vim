@@ -215,7 +215,7 @@ endif
 if myvimrc#plug_tap('memolist.vim')
   " let g:memolist_memo_suffix = 'txt'
   " let g:memolist_unite = 1
-  " let g:memolist_denite = 1
+  let g:memolist_denite = 1
   " let g:memolist_ex_cmd = 'Denite file_rec '
   " if myvimrc#plug_tap('nerdtree')
   " let g:memolist_ex_cmd = 'e'
@@ -481,61 +481,63 @@ if myvimrc#plug_tap('autofmt')
 endif
 
 if myvimrc#plug_tap('denite.nvim')
-  if has('job')
-    call timer_start(100, 'async_custom#denite',{'repeat':1})
-  else
-    augroup vimrc_denite
-      autocmd!
-      autocmd VimEnter * call async_custom#denite()
-    augroup END
-  endif
-  " Change file_rec command.
-  if g:myvimrc_files_isAvalable
-    call denite#custom#var('file_rec', 'command', ['files', '-a'])
-  elseif g:myvimrc_pt_isAvalable
-    call denite#custom#var('file_rec','command',['pt','--follow','--nocolor','--nogroup','--hidden','-g',''])
-  elseif g:myvimrc_ag_isAvalable
-    call denite#custom#var('file_rec','command',['ag','--follow','--nocolor','--nogroup','--hidden','-g',''])
-  endif
+  let g:neomru#file_mru_ignore_pattern = '^vaffle\|^quickrun\|\~$\|\.\%(o\|exe\|dll\|bak\|zwc\|pyc\|sw[po]\)$\|\%(^\|/\)\.\%(hg\|git\|bzr\|svn\)\%($\|/\)\|^\%(\\\\\|/mnt/\|/media/\|/temp/\|/tmp/\|\%(/private\)\=/var/folders/\)\|\%(^\%(fugitive\)://\)\|\%(^\%(term\)://\)'
+
+  call denite#custom#option('default','auto_resize',            '1')
+  call denite#custom#option('default','reversed',               '1')
+  call denite#custom#option('default','highlight_matched_char', 'Special')
+  call denite#custom#option('default','highlight_matched_range','Normal')
+  call denite#custom#option('default','updatetime',             '10')
 
   if !exists('g:ctrlp_match_func')
     let g:ctrlp_match_func = {}
   endif
 
-  call denite#custom#source('file_mru', 'sorters', [])
-  call denite#custom#source('buffer', 'sorters', [])
-
   if g:ctrlp_match_func != {} && g:ctrlp_match_func['match'] ==# 'cpsm#CtrlPMatch'
-    call denite#custom#source('file_mru','matchers',['matcher_cpsm','converter_relative_abbr'])
-    call denite#custom#source('file_rec','matchers',['matcher_cpsm'])
-    call denite#custom#source('line',    'matchers',['matcher_cpsm'])
+    let s:denite_matchers = ['matcher_cpsm']
   else
-    " change matchers
-    call denite#custom#source('file_mru','matchers',['matcher_fuzzy','converter_relative_abbr'])
-    call denite#custom#source('file_rec','matchers',['matcher_fuzzy'])
-    call denite#custom#source('line',    'matchers',['matcher_fuzzy'])
+    let s:denite_matchers = ['matcher_fuzzy']
   endif
+
+  call denite#custom#source('file_mru','matchers',s:denite_matchers)
+  call denite#custom#source('file_rec','matchers',s:denite_matchers)
+  call denite#custom#source('line',    'matchers',s:denite_matchers)
+  call denite#custom#source('file_mru','sorters', [])
+  call denite#custom#source('buffer',  'sorters', [])
 
   " Change mappings.
-  call denite#custom#map('insert', '<C-j>',  '<denite:move_to_next_line>',     'noremap')
-  call denite#custom#map('insert', '<C-k>',  '<denite:move_to_previous_line>', 'noremap')
-  call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>',     'noremap')
-  call denite#custom#map('insert', '<Up>',   '<denite:move_to_previous_line>', 'noremap')
-  call denite#custom#map('insert', '<C-t>',  '<denite:do_action:tabopen>',     'noremap')
-  call denite#custom#map('insert', '<C-v>',  '<denite:do_action:vsplit>',      'noremap')
-  call denite#custom#map('insert', '<C-s>',  '<denite:do_action:split>',       'noremap')
-  call denite#custom#map('insert', '<C-CR>', '<denite:do_action:split>',       'noremap')
-  call denite#custom#map('insert', '<C-x>',  '<denite:do_action:split>',       'noremap')
-  call denite#custom#map('insert', '<C-g>',  '<denite:leave_mode>',            'noremap')
+  call denite#custom#map('insert','<C-j>', '<denite:move_to_next_line>',    'noremap')
+  call denite#custom#map('insert','<C-k>', '<denite:move_to_previous_line>','noremap')
+  call denite#custom#map('insert','<Down>','<denite:move_to_next_line>',    'noremap')
+  call denite#custom#map('insert','<Up>',  '<denite:move_to_previous_line>','noremap')
+  call denite#custom#map('insert','<C-t>', '<denite:do_action:tabopen>',    'noremap')
+  call denite#custom#map('insert','<C-v>', '<denite:do_action:vsplit>',     'noremap')
+  call denite#custom#map('insert','<C-s>', '<denite:do_action:split>',      'noremap')
+  call denite#custom#map('insert','<C-CR>','<denite:do_action:split>',      'noremap')
+  call denite#custom#map('insert','<C-x>', '<denite:do_action:split>',      'noremap')
+  call denite#custom#map('insert','<C-g>', '<denite:leave_mode>',           'noremap')
+
+  call denite#custom#var('file_mru','fnamemodify', ':~:.')
+
+  " Change file_rec command.
+  if g:myvimrc_files_isAvalable
+    call denite#custom#var('file_rec','command',['files','-a'])
+  elseif g:myvimrc_pt_isAvalable
+    call denite#custom#var('file_rec','command',['pt',   '--follow','--nocolor','--nogroup','--hidden','-g',''])
+  elseif g:myvimrc_ag_isAvalable
+    call denite#custom#var('file_rec','command',['ag',   '--follow','--nocolor','--nogroup','--hidden','-g',''])
+  endif
+
   " rg command on grep source
   if g:myvimrc_rg_isAvalable
-    call denite#custom#var('grep', 'command', ['rg'])
-    call denite#custom#var('grep', 'default_opts', ['--vimgrep'])
-    call denite#custom#var('grep', 'recursive_opts', [])
-    call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-    call denite#custom#var('grep', 'separator', ['--'])
-    call denite#custom#var('grep', 'final_opts', [])
+    call denite#custom#var('grep','command',       ['rg'])
+    call denite#custom#var('grep','default_opts',  ['--vimgrep'])
+    call denite#custom#var('grep','recursive_opts',[])
+    call denite#custom#var('grep','pattern_opt',   ['--regexp'])
+    call denite#custom#var('grep','separator',     ['--'])
+    call denite#custom#var('grep','final_opts',    [])
   endif
+
   " mappgins
   nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
   nnoremap <silent> <Leader>T :<C-u>Denite tag<CR>
@@ -548,9 +550,10 @@ if myvimrc#plug_tap('denite.nvim')
   nnoremap <silent> <leader>f :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
   nnoremap <silent> <leader><Leader> :call myvimrc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec file_mru buffer'])<CR>
 
-  if exists('g:memolist_path')
-    exe 'nnoremap <silent> <Leader>ml :<C-u>Denite file_rec -path='. g:memolist_path. '<CR>'
-  endif
+  " Memolist
+  " if exists('g:memolist_path')
+  "   exe 'nnoremap <silent> <Leader>ml :<C-u>Denite file_rec -path='. g:memolist_path. '<CR>'
+  " endif
 endif
 
 if myvimrc#plug_tap('deoplete.nvim')
