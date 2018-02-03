@@ -7,7 +7,7 @@ export GOPATH=$HOME/.gopath
 export PATH=$HOME/usr/bin:$GOPATH/bin:/usr/local/go/bin:$PATH
 echo -ne '\e]12;#aaaaaa\a'
 
-source $MYDOTFILES/zsh/ohmyzshrc
+source $MYDOTFILES/zsh/ohmyzshrc.zsh
 source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 
 setopt auto_cd

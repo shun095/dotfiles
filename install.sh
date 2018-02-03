@@ -277,7 +277,7 @@ deploy_ohmyzsh_files() {
     fi
 
     # append line if zshrc doesn't has below line
-    append_line 1 "source $MYDOTFILES/zsh/zshrc" "$HOME/.zshrc"
+    append_line 1 "source $MYDOTFILES/zsh/zshrc.zsh" "$HOME/.zshrc"
     insert_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
 }
 
