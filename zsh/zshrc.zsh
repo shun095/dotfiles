@@ -1,10 +1,17 @@
 #!/usr/bin/env zsh
 
-export EDITOR=vim
-export MYDOTFILES=$HOME/dotfiles
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
-export GOPATH=$HOME/.gopath
-export PATH=$HOME/usr/bin:$GOPATH/bin:/usr/local/go/bin:$PATH
+if [[ ! -n $TMUX ]]; then
+    export EDITOR=vim
+    export MYDOTFILES=$HOME/dotfiles
+    export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
+    export GOPATH=$HOME/.gopath
+    export PATH=$HOME/usr/bin:$GOPATH/bin:/usr/local/go/bin:$PATH
+    export PATH="/home/shun/.pyenv/bin:$PATH"
+fi
+
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
 echo -ne '\e]12;#aaaaaa\a'
 
 source $MYDOTFILES/zsh/ohmyzshrc.zsh

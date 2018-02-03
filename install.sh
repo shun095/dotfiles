@@ -307,7 +307,7 @@ deploy_fzf() {
 ##############################################
 
 backup() {
-        echo -e "\n===== Back up ========================================================\n"
+    echo -e "\n===== Back up ========================================================\n"
     for item in ${ZSHFILES[@]}; do
         if [[ -e $item ]]; then
             backup_file $item
@@ -321,10 +321,15 @@ backup() {
     done
 }
 
+compile_zshfiles() {
+    $MYDOTFILES/tools/zsh_compile.sh
+}
+
 deploy() {
     deploy_ohmyzsh_files
     deploy_selfmade_rcfiles
     deploy_fzf
+    compile_zshfiles
 }
 
 undeploy() {

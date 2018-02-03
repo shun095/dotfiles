@@ -55,7 +55,6 @@ ZSH_THEME="lambda-mod-mod"
 plugins=(
 git
 python
-pyenv
 pip
 go
 command-not-found
