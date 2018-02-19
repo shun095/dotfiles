@@ -12,7 +12,8 @@ if "%1" EQU "" (
 echo Python_dir: %python3_dir%
 echo Boost_dir: %boost_dir%
 
-pushd %USERPROFILE%\.vim\plugged\cpsm\
+REM  pushd %USERPROFILE%\.vim\plugged\cpsm\
+pushd %USERPROFILE%\.vim\dein\repos\github.com\nixprime\cpsm
 
 set header_flag=false
 for /f "usebackq delims=" %%a in (`findstr cmath src\python_extension.cc`) do set header_flag=true
@@ -26,9 +27,10 @@ if not "%header_flag%" == "true" (
 
 del /s/q CMakeFiles CMakeCache.txt
 cmake CMakeLists.txt -G "MinGW Makefiles" ^
--DPYTHON_EXECUTABLE=%python3_dir%\python.exe ^
--DPYTHON_LIBRARIES=%python3_dir%\libs\python36.lib ^
--DBOOST_ROOT=%boost_dir%
+REM  cmake CMakeLists.txt ^
+-DPYTHON_EXECUTABLE="%python3_dir:"=%\python.exe" ^
+-DPYTHON_LIBRARIES="%python3_dir:"=%\libs\python36.lib" ^
+-DBOOST_ROOT="%boost_dir:"=%"
 
 if not "%ERRORLEVEL%"  == "0" (
     echo Build failed.

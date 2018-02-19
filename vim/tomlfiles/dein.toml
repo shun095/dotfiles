@@ -66,6 +66,9 @@ repo = 'airblade/vim-gitgutter'
 repo = 'aperezdc/vim-template'
 
 [[plugins]]
+repo = 'digitaltoad/vim-pug'
+
+[[plugins]]
 repo = 'elzr/vim-json'
 
 [[plugins]]
