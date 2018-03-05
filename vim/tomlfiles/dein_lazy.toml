@@ -45,9 +45,9 @@ on_ft = 'java'
 [[plugins]]
 repo = 'bkad/CamelCaseMotion'
 on_map = ['n', ',']
-hook_post_source = ''' " {{{
+hook_post_source = '''
   call g:plugin_mgr.lazy_hook('CamelCaseMotion')
-''' # }}}
+'''
 
 [[plugins]]
 repo = 'cespare/vim-toml'

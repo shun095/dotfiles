@@ -82,7 +82,7 @@ endif
 set visualbell t_vb=
 
 " set diffopt=filler,iwhite                   " Diff options
-set nocursorline                  " Highlight of cursor line/column
+set cursorline                  " Highlight of cursor line/column
 set nocursorcolumn
 set backspace=indent,eol,start    " Make backspace's behavior good
 set clipboard=unnamed,unnamedplus " Enable clipboard
@@ -302,6 +302,9 @@ command! Term terminal ++curwin
 
 " Autocmds {{{
 augroup VIMRC
+  " Markdown 
+  let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'cpp', 'c']
+
   " HTML,XML,CSS
   " タグを</で自動で閉じる。completeoptに依存している
   autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
@@ -471,7 +474,7 @@ if g:plugin_mgr.enabled == g:true
       " colorscheme summerfruit256
 
       " colorscheme default
-      colorscheme iceberg
+      colorscheme onedark
       " let g:airline_theme = 'iceberg'
 
       highlight Terminal guibg=black
@@ -489,9 +492,9 @@ if g:plugin_mgr.enabled == g:true
       " highlight! Vertsplit  guifg=#282C34 guibg=#282C34
       " highlight! link htmlH1 Function
       "----------ONEDARK----------
+
       " for YCM's warning area
       " highlight! SpellCap cterm=underline gui=underline
-      " highlight! Terminal ctermbg=black guibg=black
 
       " highlight! IncSearch term=none cterm=none gui=none ctermbg=114 guibg=#98C379
       "
@@ -511,46 +514,6 @@ if g:plugin_mgr.enabled == g:true
       " highlight! StatusLine ctermbg=235 guibg=#282C34
       " highlight! StatusLineNC ctermbg=235 guibg=#282C34
 
-      if has('gui_running') && (!has('nvim'))
-        let g:indent_guides_auto_colors = 1
-      else
-        let g:indent_guides_auto_colors = 0
-        " solarized(light)
-        if exists('g:colors_name')
-          if g:colors_name ==# 'molokai'
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#303233 guibg=#262829
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#262829 guibg=#303233
-          elseif g:colors_name ==# 'onedark'
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234 guifg=#252629 guibg=#1A1B1E
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235 guifg=#1A1B1E guibg=#252629
-          elseif g:colors_name ==# 'solarized'
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#0C3540 guibg=#183F49
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#183F49 guibg=#0C3540
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=230
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=223
-          elseif g:colors_name ==# 'iceberg'
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#21232C guibg=#2C2E36
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#2C2E36 guibg=#21232C
-          elseif g:colors_name ==# 'spacegray'
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesEven guifg=#1C1E1F guibg=#27292A
-            autocmd VIMRC VimEnter,Colorscheme * :hi IndentGuidesOdd guifg=#27292A guibg=#1C1E1F
-
-
-            " summerfruit
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=255
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=254
-            " one(light)
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=254 guifg=#E1E1E1 guibg=#EDEDED
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=253 guifg=#EDEDED guibg=#E1E1E1
-            " onedark
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermfg=59 ctermbg=234 guifg=#252629 guibg=#1A1B1E
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermfg=59 ctermbg=235 guifg=#1A1B1E guibg=#252629
-            " transparent
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=none guifg=#252629 guibg=#1A1B1E
-            " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=none guifg=#1A1B1E guibg=#252629
-          endif
-        endif
-      endif
     catch
       colorscheme default
       set background=light
