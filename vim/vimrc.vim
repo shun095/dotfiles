@@ -302,22 +302,23 @@ command! Term terminal ++curwin
 
 " Autocmds {{{
 augroup VIMRC
-  " Markdown 
+  " Markdown
   let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'cpp', 'c']
 
-  " HTML,XML,CSS
+  " HTML,XML,CSS,JavaScript
   " タグを</で自動で閉じる。completeoptに依存している
   autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
   autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
   autocmd Filetype css setl foldmethod=syntax
+  autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
 
   " Json
   let g:vim_json_syntax_conceal = 0
 
   " Python
   let g:python_highlight_all = 1
-  " autocmd FileType python setl autoindent nosmartindent
   autocmd FileType python setl foldmethod=indent
+  " autocmd FileType python setl autoindent nosmartindent
   " autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
   autocmd FileType python inoremap <buffer> # X#
   autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
@@ -343,23 +344,6 @@ augroup VIMRC
   " ヘルプをqで閉じれるようにする
   autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
   autocmd FileType help let &l:iskeyword = '!-~,^*,^|,^",' . &iskeyword
-  " autocmd FileType mail call s:add_signature()
-  " fun! s:add_signature()
-    " let l:file = $HOME . '/localrcs/vim-local-signature.vim'
-    " if filereadable(l:file)
-      " let l:signature = []
-      " for l:line in readfile(l:file)
-        " call add(l:signature,l:line)
-      " endfor
-      " if !exists('b:mailsignature')
-        " let b:mailsignature = 1
-        " silent call append(0,l:signature)
-        " normal! gg
-      " endif
-    " else
-      " echomsg 'There is no signature file'
-    " endif
-  " endf
 
   " misc
   if has('unix')
