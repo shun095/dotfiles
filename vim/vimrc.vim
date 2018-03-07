@@ -106,7 +106,7 @@ set showcmd                       " 入力中のコマンドを右下に表示
 set cmdheight=2                   " コマンドラインの高さ
 set showtabline=2                 " タブバーを常に表示
 set number                        " 行番号表示
-set norelativenumber
+set relativenumber
 set hlsearch                      " 文字列検索時にハイライトする
 set incsearch                     " 文字入力中に検索を開始
 set ruler                         " Show line number of right bottom

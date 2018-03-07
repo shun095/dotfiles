@@ -70,6 +70,9 @@ repo = 'airblade/vim-gitgutter'
 repo = 'aperezdc/vim-template'
 
 [[plugins]]
+repo = 'briancollins/vim-jst'
+
+[[plugins]]
 repo = 'digitaltoad/vim-pug'
 
 [[plugins]]

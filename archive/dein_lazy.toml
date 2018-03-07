@@ -50,7 +50,7 @@ on_ft = 'css'
 
 [[plugins]]
 repo = 'gregsexton/MatchTag'
-on_ft = ['html','xml']
+on_ft = ['html','xml','jst']
 
 [[plugins]]
 repo = 'othree/html5.vim'
