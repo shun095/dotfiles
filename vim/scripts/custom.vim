@@ -240,9 +240,12 @@ if mymisc#plug_tap('nerdtree')
   let g:NERDTreeShowHidden = 0
   let g:NERDTreeWinSize = 36
 
-  let NERDTreeMinimalUI = 1
-  let NERDTreeShowBookmarks = 1
-  let NERDTreeIgnore = ['\~$', '\.pyc$', '\.sw[po]$']
+  let g:NERDTreeMinimalUI = 1
+  let g:NERDTreeShowBookmarks = 1
+  let g:NERDTreeIgnore = ['\~$', '\.pyc$', '\.sw[po]$']
+
+  let g:NERDTreeDirArrowExpandable = '+'
+  let g:NERDTreeDirArrowCollapsible = '-'
 endif
 
 if mymisc#plug_tap('open-browser.vim')
