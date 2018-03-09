@@ -61,6 +61,9 @@ depends = 'Shougo/denite.nvim'
 repo = 'SirVer/ultisnips'
 
 [[plugins]]
+repo = 'Valloric/MatchTagAlways'
+
+[[plugins]]
 repo = 'Yggdroot/indentLine'
 
 [[plugins]]
@@ -68,9 +71,6 @@ repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
 repo = 'aperezdc/vim-template'
-
-[[plugins]]
-repo = 'briancollins/vim-jst'
 
 [[plugins]]
 repo = 'digitaltoad/vim-pug'
@@ -152,10 +152,6 @@ repo = 'basyura/bitly.vim'
 
 [[plugins]]
 repo = 'basyura/twibill.vim'
-
-[[plugins]]
-repo = 'gregsexton/MatchTag'
-on_ft = ['html','xml']
 
 [[plugins]]
 repo = 'octol/vim-cpp-enhanced-highlight'
