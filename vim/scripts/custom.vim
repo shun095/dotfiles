@@ -230,10 +230,10 @@ if mymisc#plug_tap('nerdtree')
   nnoremap <Leader>e :NERDTreeFind<CR>
   nnoremap <Leader>E :NERDTreeCWD<CR>
 
-  let g:NERDTreeMapOpenSplit = 's'
-  let g:NERDTreeMapPreviewSplit = 'gs'
-  let g:NERDTreeMapOpenVSplit = 'v'
-  let g:NERDTreeMapPreviewVSplit = 'gv'
+  " let g:NERDTreeMapOpenSplit = 's'
+  " let g:NERDTreeMapPreviewSplit = 'gs'
+  " let g:NERDTreeMapOpenVSplit = 'v'
+  " let g:NERDTreeMapPreviewVSplit = 'gv'
 
   let g:NERDTreeHijackNetrw = 1
   let g:NERDTreeQuitOnOpen = 1
