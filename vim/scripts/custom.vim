@@ -199,8 +199,8 @@ endif
 
 if mymisc#plug_tap('markdown-preview.vim')
   let g:mkdp_auto_close = 1
-  let g:mkdp_auto_open = 1
-  let g:mkdp_auto_start = 1
+  let g:mkdp_auto_open = 0
+  let g:mkdp_auto_start = 0
   if has('win32')
     let s:google_chrome_path='C:\Program Files\Mozilla Firefox\firefox.exe'
     if executable(s:google_chrome_path)
@@ -238,7 +238,7 @@ if mymisc#plug_tap('nerdtree')
   let g:NERDTreeHijackNetrw = 1
   let g:NERDTreeQuitOnOpen = 1
   let g:NERDTreeShowHidden = 0
-  let g:NERDTreeWinSize = 40
+  let g:NERDTreeWinSize = 36
 
   let NERDTreeMinimalUI = 1
   let NERDTreeShowBookmarks = 1
@@ -408,48 +408,34 @@ if mymisc#plug_tap('vimshell.vim')
 endif
 
 if mymisc#plug_tap('vimtex')
+  let g:vimtex_compiler_latexmk = {
+        \ 'background' : 1,
+        \ 'build_dir' : '',
+        \ 'callback' : 1,
+        \ 'continuous' : 1,
+        \ 'executable' : 'latexmk',
+        \ 'options' : [
+        \   '-pdfdvi',
+        \   '-verbose',
+        \   '-file-line-error',
+        \   '-synctex=-1',
+        \   '-interaction=nonstopmode',
+        \ ],
+        \}
+
   if has('win32')
-    let g:vimtex_compiler_latexmk = {
-        \ 'background' : 1,
-        \ 'build_dir' : '',
-        \ 'callback' : 1,
-        \ 'continuous' : 1,
-        \ 'executable' : 'latexmk',
-        \ 'options' : [
-        \   '-pdfdvi',
-        \   '-verbose',
-        \   '-file-line-error',
-        \   '-synctex=1',
-        \   '-interaction=nonstopmode',
-        \ ],
-        \}
-    let g:vimtex_view_general_viewer = 'SumatraPDF.exe'
-    let g:vimtex_view_general_options =
-          \ '-reuse-instance -inverse-search "\"' . $VIM . '\gvim.exe\" -n --remote-silent +\%l \"\%f\"" -forward-search @tex @line @pdf'
+    let g:vimtex_view_general_viewer = 'SumatraPDF'
+    let g:vimtex_view_general_options
+          \ = '-reuse-instance -forward-search @tex @line @pdf'
+          \ . ' -inverse-search "gvim --servername ' . v:servername
+          \ . ' --remote-send \"^<C-\^>^<C-n^>'
+          \ . ':drop \%f^<CR^>:\%l^<CR^>:normal\! zzzv^<CR^>'
+          \ . ':execute ''drop '' . fnameescape(''\%f'')^<CR^>'
+          \ . ':\%l^<CR^>:normal\! zzzv^<CR^>'
+          \ . ':call remote_foreground('''.v:servername.''')^<CR^>^<CR^>\""'
     let g:vimtex_view_general_options_latexmk = '-reuse-instance'
-    "let g:vimtex_view_general_viewer = 'texworks'
   elseif has('unix')""
-    let g:vimtex_compiler_latexmk = {
-        \ 'background' : 1,
-        \ 'build_dir' : '',
-        \ 'callback' : 1,
-        \ 'continuous' : 1,
-        \ 'executable' : 'latexmk',
-        \ 'options' : [
-        \   '-pdfdvi',
-        \   '-verbose',
-        \   '-file-line-error',
-        \   '-synctex=1',
-        \   '-interaction=nonstopmode',
-        \ ],
-        \}
     let g:vimtex_view_general_viewer = 'xdg-open'
-    "let g:vimtex_view_general_viewer = 'okular'
-    "let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
-    "let g:vimtex_view_general_options_latexmk = '--unique'
-    "let g:vimtex_view_general_viewer = 'qpdfview'
-    "let g:vimtex_view_general_options = '--unique @pdf\#src:@tex:@line:@col'
-    "let g:vimtex_view_general_options_latexmk = '--unique'
   endif
 endif
 
