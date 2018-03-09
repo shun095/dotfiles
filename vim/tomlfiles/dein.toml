@@ -154,6 +154,9 @@ repo = 'basyura/bitly.vim'
 repo = 'basyura/twibill.vim'
 
 [[plugins]]
+repo = 'briancollins/vim-jst'
+
+[[plugins]]
 repo = 'octol/vim-cpp-enhanced-highlight'
 on_ft = ['c','cpp']
 
