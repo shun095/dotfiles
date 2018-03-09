@@ -49,13 +49,16 @@ fun! g:plugin_mgr.plug_install() abort
   augroup vimrc_dein_install_plugs
     autocmd!
   augroup END
-  let l:confirm_plugins_install = confirm(
-        \ 'Some plugins are not installed yet. Install now?',
-        \ "&yes\n&no",2)
-  if l:confirm_plugins_install == 1
-    call dein#install()
-  else
-    echomsg 'Plugins are not installed. Please install later.'
+
+  if dein#check_install()
+    let l:confirm_plugins_install = confirm(
+          \ 'Some plugins are not installed yet. Install now?',
+          \ "&yes\n&no",2)
+    if l:confirm_plugins_install == 1
+      call dein#install()
+    else
+      echomsg 'Plugins are not installed. Please install later.'
+    endif
   endif
 endf
 
@@ -82,16 +85,14 @@ fun! g:plugin_mgr.init() abort
   filetype plugin indent on
   syntax enable
 
-  if dein#check_install()
-    " インストールされていないプラグインがあれば確認
-    if has('vim_starting')
-      augroup vimrc_dein_install_plugs
-        autocmd!
-        autocmd VimEnter * call g:plugin_mgr.plug_install()
-      augroup END
-    else
-      call g:plugin_mgr.plug_install()
-    endif
+  " インストールされていないプラグインがあれば確認
+  if has('vim_starting')
+    augroup vimrc_dein_install_plugs
+      autocmd!
+      autocmd VimEnter * call g:plugin_mgr.plug_install()
+    augroup END
+  else
+    call g:plugin_mgr.plug_install()
   endif
 endf
 

@@ -294,7 +294,7 @@ function! s:SwitchToActualFile()
     let l:bufname = bufname('%')
     enew
     exec 'bw '. l:bufname
-    exec "e" . fname
+    exec "e " . fname
     call setpos('.', pos)
 endfunction
 command! Term terminal ++curwin

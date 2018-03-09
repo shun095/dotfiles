@@ -238,7 +238,7 @@ if mymisc#plug_tap('nerdtree')
   let g:NERDTreeHijackNetrw = 1
   let g:NERDTreeQuitOnOpen = 1
   let g:NERDTreeShowHidden = 0
-  let g:NERDTreeWinSize = 40
+  let g:NERDTreeWinSize = 36
 
   let NERDTreeMinimalUI = 1
   let NERDTreeShowBookmarks = 1
