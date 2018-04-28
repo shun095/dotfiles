@@ -307,7 +307,7 @@ augroup VIMRC
 
   " HTML,XML,CSS,JavaScript
   " タグを</で自動で閉じる。completeoptに依存している
-  autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
+  " autocmd Filetype xml,html,eruby inoremap <buffer> </ </<C-x><C-o><C-n><Esc>F<i
   autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
   autocmd Filetype css setl foldmethod=syntax
   autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
