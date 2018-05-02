@@ -470,7 +470,6 @@ if mymisc#plug_tap('autofmt')
 endif
 
 if mymisc#plug_tap('vimfiler.vim')
-  let g:vimfiler_enable_auto_cd = 1
   let g:vimfiler_as_default_explorer = 1
   call vimfiler#custom#profile('default', 'context', {
         \   'split' : 1,
@@ -479,8 +478,8 @@ if mymisc#plug_tap('vimfiler.vim')
         \ })
   " let g:vimfiler_force_overwrite_statusline = 0
   " let g:vimfiler_restore_alternate_file = 0
-  nnoremap <silent> <Leader>e :VimFilerBufferDir -find<CR>
-  nnoremap <silent> <Leader>E :VimFilerCurrentDir<CR>
+  nnoremap <silent> <Leader>e :VimFilerBufferDir  -force-quit -find<CR>
+  nnoremap <silent> <Leader>E :VimFilerCurrentDir -force-quit <CR>
 endif
 
 if mymisc#plug_tap('denite.nvim')
