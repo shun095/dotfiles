@@ -14,9 +14,6 @@ repo = 'joshdick/onedark.vim'
 # Must be loaded first
 
 [[plugins]]
-repo = 'ishitaku5522/mymisc.vim'
-
-[[plugins]]
 repo = 'itchyny/vim-cursorword'
 
 # Completers
@@ -54,8 +51,15 @@ repo = 'Shougo/neomru.vim'
 depends = 'Shougo/denite.nvim'
 
 [[plugins]]
+repo = 'Shougo/unite.vim'
+
+[[plugins]]
 repo = 'Shougo/unite-outline'
 depends = 'Shougo/denite.nvim'
+
+[[plugins]]
+repo = 'Shougo/vimfiler.vim'
+depends = 'Shougo/unite.vim'
 
 [[plugins]]
 repo = 'SirVer/ultisnips'
@@ -113,8 +117,8 @@ repo = 'raimondi/delimitmate'
 [[plugins]]
 repo = 'scrooloose/nerdcommenter'
 
-[[plugins]]
-repo = 'scrooloose/nerdtree'
+# [[plugins]]
+# repo = 'scrooloose/nerdtree'
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'

@@ -469,6 +469,20 @@ if mymisc#plug_tap('autofmt')
   set formatexpr=autofmt#japanese#formatexpr()
 endif
 
+if mymisc#plug_tap('vimfiler.vim')
+  let g:vimfiler_enable_auto_cd = 1
+  let g:vimfiler_as_default_explorer = 1
+  call vimfiler#custom#profile('default', 'context', {
+        \   'split' : 1,
+        \   'horizontal' : 1,
+        \   'direction' : 'leftabove',
+        \ })
+  " let g:vimfiler_force_overwrite_statusline = 0
+  " let g:vimfiler_restore_alternate_file = 0
+  nnoremap <silent> <Leader>e :VimFilerBufferDir -find<CR>
+  nnoremap <silent> <Leader>E :VimFilerCurrentDir<CR>
+endif
+
 if mymisc#plug_tap('denite.nvim')
   let g:neomru#file_mru_ignore_pattern = '^vaffle\|^quickrun\|'.
         \ '\~$\|\.\%(o\|exe\|dll\|bak\|zwc\|pyc\|sw[po]\)$'.

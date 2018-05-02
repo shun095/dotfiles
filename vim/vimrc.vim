@@ -115,7 +115,7 @@ set noequalalways                 " splitしたときにウィンドウが同じ
 set tags+=./tags;,./tags-ja;      " タグファイルを上層に向かって探す
 set autoread                      " 他のソフトで、編集中ファイルが変更されたとき自動Reload
 set noautochdir                   " 今開いてるファイルにカレントディレクトリを移動するか
-set scrolloff=5                   " カーソルが端まで行く前にスクロールし始める行数
+" set scrolloff=5                   " カーソルが端まで行く前にスクロールし始める行数
 set ambiwidth=double              " 全角記号（「→」など）の文字幅を半角２つ分にする
 set mouse=a                       " マウスを有効化
 set mousehide                     " 入力中にポインタを消すかどうか
@@ -402,8 +402,7 @@ augroup END
 " Self constructed plugins {{{
 let s:myplugins = $MYDOTFILES . '/vim'
 exe 'set runtimepath+=' . escape(s:myplugins, ' \')
-let s:my_testplugin = $HOME . '/localrcs/testplugin/vimailer.vim'
-exe 'set runtimepath+=' . escape(s:my_testplugin, ' \')
+
 set runtimepath+=$HOME/.fzf/
 nnoremap <silent><expr><Leader><C-f><C-f> mymisc#command_at_destdir(mymisc#find_project_dir(['.git','tags']),['FZF'])
 nnoremap <silent> <Leader><C-f>c :FZF .<CR>
