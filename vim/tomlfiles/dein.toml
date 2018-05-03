@@ -11,6 +11,9 @@ repo = 'jdkanani/vim-material-theme'
 [[plugins]]
 repo = 'joshdick/onedark.vim'
 
+[[plugins]]
+repo = 'ajh17/spacegray.vim'
+
 # Must be loaded first
 
 [[plugins]]

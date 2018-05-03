@@ -474,7 +474,8 @@ if mymisc#plug_tap('vimfiler.vim')
   call vimfiler#custom#profile('default', 'context', {
         \   'split' : 1,
         \   'horizontal' : 1,
-        \   'direction' : 'leftabove',
+        \   'direction' : 'botright',
+        \   'winheight' : 20,
         \ })
   " let g:vimfiler_force_overwrite_statusline = 0
   " let g:vimfiler_restore_alternate_file = 0
