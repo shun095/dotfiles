@@ -85,59 +85,27 @@ if mymisc#plug_tap('supertab')
 endif
 
 if mymisc#plug_tap('ctrlp.vim')
-  " let g:ctrlp_cmd = 'CtrlPMRUFiles'
-  " yankroundのところでマッピングし直している
-  " let g:ctrlp_map = ''
-  " let g:ctrlp_extensions = ['mixed']
   let g:ctrlp_max_files = 50000
   let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
-  " let g:ctrlp_user_command_async = 1
-  " if has('unix')
-  " let s:ctrlp_my_match_func = {}
   let s:ctrlp_my_match_func = {}
-  if mymisc#plug_tap('cpsm')
-    " ========== For cpsm ==========
-    " let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
-    let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
+
+  if mymisc#plug_tap('cpsm') " ========== For cpsm
+    let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
 
     if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
       echomsg "Cpsm is not built yet."
-      " fun! s:cpsm_build()
-      "   let s:cpsm_install_confirm = confirm('Build cpsm now?',"&yes\n&no",2)
-      "   if s:cpsm_install_confirm == 1
-      "     if has('win32')
-      "       exe '!' . $MYDOTFILES . '/tools/cpsm_winmake.bat'
-      "     else
-      "       if !isdirectory(s:cpsm_path . '/bin')
-      "         call mkdir(s:cpsm_path . '/bin')
-      "       endif
-      "       exe '!pushd ' . s:cpsm_path . '/bin; cmake -DPY3=ON ..; make -j'
-      "     endif
-
-      "     if v:shell_error == 0
-      "       let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
-      "     else
-      "       echoerr 'Couldn''t build cpsm correctly. Please build cpsm later.'
-      "     endif
-      "   else
-      "     echomsg 'Please build cpsm later.'
-      "   endif
-      " endf
-      " augroup vimrc_cpsm
-      "   autocmd!
-      "   autocmd VimEnter * call s:cpsm_build()
-      " augroup END
     else
       let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
     endif
     let g:cpsm_query_inverting_delimiter = ' '
-  elseif mymisc#plug_tap('ctrlp-py-matcher')
-    " ========== For pymatcher ==========
+
+  elseif mymisc#plug_tap('ctrlp-py-matcher') " ========== For pymatcher
     let s:ctrlp_my_match_func = { 'match' : 'pymatcher#PyMatch' }
   endif
+
   let g:ctrlp_match_func = s:ctrlp_my_match_func
 
   augroup vimrc_ctrlp
@@ -159,18 +127,18 @@ if mymisc#plug_tap('ctrlp.vim')
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
-  if has('win32')
-    if g:mymisc_files_isAvalable
-      let g:ctrlp_user_command = 'files -a %s'
-    elseif g:mymisc_pt_isAvalable
-      let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-    elseif g:mymisc_ag_isAvalable
-      let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
-    endif
-  else
-    " Brought from denite 
-    let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
-  endif
+  " if has('win32')
+  "   if g:mymisc_files_isAvalable
+  "     let g:ctrlp_user_command = 'files -a %s'
+  "   elseif g:mymisc_pt_isAvalable
+  "     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+  "   elseif g:mymisc_ag_isAvalable
+  "     let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
+  "   endif
+  " else
+  "   " Brought from denite 
+  "   let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
+  " endif
 
   unlet s:ctrlp_command_options
 endif
@@ -181,13 +149,6 @@ if mymisc#plug_tap('foldCC.vim')
   let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
   set foldtext=FoldCCtext()
   set fillchars=vert:\|
-  " augroup FoldCC "{{{
-  "	 hi Folded gui=bold guibg=Grey28 guifg=gray80
-  "	 hi FoldColumn guibg=Grey14 guifg=gray80
-  "
-  "	 " hi Folded gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey50 guifg=Grey80
-  "	 " hi FoldColumn gui=bold term=standout ctermbg=Grey ctermfg=DarkBlue guibg=Grey guifg=DarkBlue
-  " augroup END "}}}
 endif
 
 if mymisc#plug_tap('html5.vim')

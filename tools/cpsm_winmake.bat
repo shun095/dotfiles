@@ -28,7 +28,7 @@ if not "%header_flag%" == "true" (
 del /s/q CMakeFiles CMakeCache.txt
 cmake CMakeLists.txt -G "MinGW Makefiles" ^
 REM  cmake CMakeLists.txt ^
--DPYTHON_EXECUTABLE="%python3_dir:"=%\python.exe" ^
+-DPYTHON_EXECUTABLE="%python3_dir:"=%\python" ^
 -DPYTHON_LIBRARIES="%python3_dir:"=%\libs\python36.lib" ^
 -DBOOST_ROOT="%boost_dir:"=%"
 

@@ -46,19 +46,19 @@ repo = 'Konfekt/FastFold'
 [[plugins]]
 repo = 'LeafCage/foldCC.vim'
 
-[[plugins]]
-repo = 'Shougo/denite.nvim'
+# [[plugins]]
+# repo = 'Shougo/denite.nvim'
 
-[[plugins]]
-repo = 'Shougo/neomru.vim'
-depends = 'Shougo/denite.nvim'
+# [[plugins]]
+# repo = 'Shougo/neomru.vim'
+# depends = 'Shougo/denite.nvim'
 
 [[plugins]]
 repo = 'Shougo/unite.vim'
 
-[[plugins]]
-repo = 'Shougo/unite-outline'
-depends = 'Shougo/denite.nvim'
+# [[plugins]]
+# repo = 'Shougo/unite-outline'
+# depends = 'Shougo/denite.nvim'
 
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
@@ -78,6 +78,9 @@ repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
 repo = 'aperezdc/vim-template'
+
+[[plugins]]
+repo = 'ctrlpvim/ctrlp.vim'
 
 [[plugins]]
 repo = 'digitaltoad/vim-pug'
@@ -103,9 +106,12 @@ repo = 'junegunn/vim-easy-align'
 [[plugins]]
 repo = 'kana/vim-submode'
 
+# [[plugins]]
+# repo = 'nixprime/cpsm'
+# merged = 0
+
 [[plugins]]
-repo = 'nixprime/cpsm'
-merged = 0
+repo = 'mattn/ctrlp-register'
 
 [[plugins]]
 repo = 'osyo-manga/shabadou.vim'
