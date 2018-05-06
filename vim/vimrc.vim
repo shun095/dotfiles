@@ -53,9 +53,6 @@ elseif has('unix')
 
   if !has('nvim')
     set ttymouse=xterm2 " 通常vim用
-    if v:version > 800
-      set cryptmethod=blowfish2
-    endif
   endif
 
   if $TERM !=# 'linux'
@@ -76,6 +73,10 @@ elseif has('unix')
 
     endif
   endif
+endif
+
+if v:version >= 800
+  set cryptmethod=blowfish2
 endif
 
 " Disable beep sounds
