@@ -9,8 +9,10 @@ if [[ ! -n $TMUX ]]; then
     export PATH="/home/shun/.pyenv/bin:$PATH"
 fi
 
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+if type pyenv > /dev/null; then
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+fi
 
 echo -ne '\e]12;#aaaaaa\a'
 
@@ -56,7 +58,7 @@ function tmux_call(){
 }
 
 
-if [[ -x "`which trash-put`" ]]; then
+if type trash-put > /dev/null; then
     alias rm="trash-put"
 else
     echo "Recommended to install 'trash-cli'"
@@ -74,7 +76,7 @@ if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
 fi
 
 
-if [[ -x `which colordiff` ]]; then
+if type colordiff > /dev/null; then
   alias diff='colordiff -u'
 else
   alias diff='diff -u'
@@ -96,10 +98,10 @@ fi
 
 # alias gvim=gvim_call $*
 
-if command -v /usr/local/bin/vim > /dev/null;then
+if type /usr/local/bin/vim > /dev/null;then
     alias vim=/usr/local/bin/vim
 fi
-if command -v /usr/local/bin/gvim > /dev/null;then
+if type /usr/local/bin/gvim > /dev/null;then
     alias gvim=/usr/local/bin/gvim
 fi
 
