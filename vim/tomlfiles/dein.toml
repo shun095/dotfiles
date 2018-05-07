@@ -181,6 +181,9 @@ on_ft = 'html'
 repo = 'pangloss/vim-javascript'
 on_ft = 'javascript'
 
+[[plugins]]
+repo = 'terryma/vim-multiple-cursors'
+
 # Must be loaded last
 
 [[plugins]]

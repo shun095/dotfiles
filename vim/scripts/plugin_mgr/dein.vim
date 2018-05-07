@@ -6,7 +6,7 @@ if exists("g:plugin_mgr")
   finish
 endif
 
-let g:dein#install_max_processes = 16
+let g:dein#install_max_processes = 8
 
 let g:plugin_mgr = {
       \ 'plugin_dir': escape(substitute($HOME.'/.vim/dein','\','/','g'),' '),
