@@ -90,6 +90,9 @@ repo = 'ctrlpvim/ctrlp.vim'
 repo = 'digitaltoad/vim-pug'
 
 [[plugins]]
+repo = 'easymotion/vim-easymotion'
+
+[[plugins]]
 repo = 'elzr/vim-json'
 
 [[plugins]]
@@ -130,8 +133,8 @@ repo = 'raimondi/delimitmate'
 [[plugins]]
 repo = 'scrooloose/nerdcommenter'
 
-# [[plugins]]
-# repo = 'scrooloose/nerdtree'
+[[plugins]]
+repo = 'terryma/vim-multiple-cursors'
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
@@ -184,9 +187,6 @@ on_ft = 'html'
 [[plugins]]
 repo = 'pangloss/vim-javascript'
 on_ft = 'javascript'
-
-# [[plugins]]
-# repo = 'terryma/vim-multiple-cursors'
 
 # Must be loaded last
 

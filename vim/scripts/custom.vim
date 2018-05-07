@@ -143,6 +143,11 @@ if mymisc#plug_tap('ctrlp.vim')
   unlet s:ctrlp_command_options
 endif
 
+if mymisc#plug_tap('vim-easymotion')
+  let g:EasyMotion_do_mapping = 0
+  nmap s <Plug>(easymotion-overwin-f2)
+endif
+
 if mymisc#plug_tap('foldCC.vim')
   let g:foldCCtext_enable_autofdc_adjuster = 1
   let g:foldCCtext_head = ''
