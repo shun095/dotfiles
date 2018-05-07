@@ -176,7 +176,9 @@ endif
 if mymisc#plug_tap('memolist.vim')
   " let g:memolist_memo_suffix = 'txt'
   " let g:memolist_unite = 1
-  let g:memolist_denite = 1
+  " let g:memolist_denite = 1
+  let g:memolist_vimfiler = 1
+  let g:memolist_vimfiler_option = '-force-quit'
   " let g:memolist_ex_cmd = 'Denite file_rec '
   " if mymisc#plug_tap('nerdtree')
   " let g:memolist_ex_cmd = 'e'
@@ -435,8 +437,7 @@ if mymisc#plug_tap('vimfiler.vim')
   call vimfiler#custom#profile('default', 'context', {
         \   'split' : 1,
         \   'horizontal' : 1,
-        \   'direction' : 'botright',
-        \   'winheight' : 20,
+        \   'direction' : 'leftabove',
         \ })
   " let g:vimfiler_force_overwrite_statusline = 0
   " let g:vimfiler_restore_alternate_file = 0

@@ -41,6 +41,10 @@ repo = 'itchyny/vim-cursorword'
 
 # Normal plugins
 [[plugins]]
+repo = 'FelikZ/ctrlp-py-matcher'
+if = "has('python3') || has('python')"
+
+[[plugins]]
 repo = 'Konfekt/FastFold'
 
 [[plugins]]
