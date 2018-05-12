@@ -65,6 +65,93 @@ if mymisc#plug_tap('YouCompleteMe')
   augroup END
 endif
 
+if mymisc#plug_tap('vim-dirvish')
+  nnoremap <silent> <Leader>e :exe ":" . <SID>mydirvish_start()<CR>
+  nnoremap <silent> <Leader>E :Dirvish .<cr>
+  " nnoremap <silent> <Leader>e :Dirvish %:p:h<CR>
+  " nnoremap <silent> <Leader>E :Dirvish .<CR>
+
+  fun! s:mydirvish_start()
+    let savepre = 'let w:dirvish_before = [expand("%:p")]'
+    " if len(tabpagebuflist()) > 1
+    let w:dirvish_splited = 0
+    let w:dirvish_start_cd = getcwd()
+    return savepre . '| Dirvish %:p:h'
+    " else
+    " return 'leftabove vsplit|' . savepre .'| let w:dirvish_splited = 1 | Dirvish %:p:h'
+    " endif
+  endf
+
+  fun! s:mydirvish_quit()
+    if !exists('w:dirvish_splited')
+      let w:dirvish_splited = 0
+    endif
+    if w:dirvish_splited == 1 && len(tabpagebuflist()) > 1
+      quit
+    else
+      nmap <buffer> q <plug>(dirvish_quit)
+      exe 'normal q'
+      unlet w:dirvish_before
+    endif
+    if(exists('w:dirvish_start_cd'))
+      exe 'cd ' . w:dirvish_start_cd
+      unlet w:dirvish_start_cd
+    endif
+  endf
+
+  fun! s:mydirvish_selectprevdir()
+    if !exists('w:dirvish_before')
+      let w:dirvish_before = []
+    endif
+    if len(w:dirvish_before) > 0
+      call search('\V\^'.escape(w:dirvish_before[0], '\').'\$', 'cw')
+    endif
+  endf
+
+  fun! s:mydirvish_open()
+
+    if len(w:dirvish_before) > 1
+      call remove(w:dirvish_before,0,1)
+    elseif len(w:dirvish_before) == 1
+      call remove(w:dirvish_before,0)
+    endif
+
+    call dirvish#open('edit', 0)
+
+  endf
+
+  augroup vimrc_dirvish
+    autocmd!
+    " hとlによる移動
+    autocmd FileType dirvish nnoremap <silent><buffer> l :call <SID>mydirvish_open()<CR>
+    autocmd FileType dirvish xnoremap <silent><buffer> l :call <SID>mydirvish_open()<CR>
+    autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
+    autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
+    " 独自quitスクリプト
+    autocmd FileType dirvish nmap <silent><buffer> q :call <SID>mydirvish_quit()<cr>
+    " 起動時にソート.行末記号を入れないことで全行ソートする(共通部はソートしない)
+    autocmd FileType dirvish silent sort /.*\([\\\/]\)\@=/
+    " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
+    " .とsに隠しファイルとソートを割り当て
+    autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
+    autocmd FileType dirvish nnoremap <silent><buffer> s :sort /.*\([\\\/]\)\@=/<cr>
+
+    autocmd FileType dirvish nnoremap <silent><buffer> ~ :Dirvish ~/<CR>
+
+    autocmd FileType dirvish nnoremap <silent><buffer> dd :Shdo rm -rf {}<CR>
+    autocmd FileType dirvish vnoremap <silent><buffer> d :Shdo rm -rf {}<CR>
+    autocmd FileType dirvish nnoremap <silent><buffer> rr :Shdo mv {}<CR>
+    autocmd FileType dirvish vnoremap <silent><buffer> r :Shdo mv {}<CR>
+    autocmd FileType dirvish nnoremap <silent><buffer> cc :Shdo cp {}<CR>
+    autocmd FileType dirvish vnoremap <silent><buffer> c :Shdo cp {}<CR>
+
+    " 開いていたファイルやDirectory(w:dirvish_before)にカーソルをあわせる
+    autocmd FileType dirvish call <SID>mydirvish_selectprevdir()
+    autocmd FileType dirvish call insert(w:dirvish_before,expand("%:p"))
+    autocmd FileType dirvish CdCurrent
+  augroup END
+endif
+
 if mymisc#plug_tap('ultisnips')
   " better key bindings for UltiSnipsExpandTrigger
   let g:UltiSnipsExpandTrigger = '<Tab>'
@@ -182,8 +269,8 @@ if mymisc#plug_tap('memolist.vim')
   " let g:memolist_memo_suffix = 'txt'
   " let g:memolist_unite = 1
   " let g:memolist_denite = 1
-  let g:memolist_vimfiler = 1
-  let g:memolist_vimfiler_option = '-force-quit'
+  " let g:memolist_vimfiler = 1
+  " let g:memolist_vimfiler_option = '-force-quit'
   " let g:memolist_ex_cmd = 'Denite file_rec '
   " if mymisc#plug_tap('nerdtree')
   " let g:memolist_ex_cmd = 'e'
