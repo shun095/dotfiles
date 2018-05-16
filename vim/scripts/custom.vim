@@ -103,8 +103,17 @@ if mymisc#plug_tap('vim-dirvish')
     if !exists('w:dirvish_before')
       let w:dirvish_before = []
     endif
-    if len(w:dirvish_before) > 0
-      call search('\V\^'.escape(w:dirvish_before[0], '\').'\$', 'cw')
+    if len(w:dirvish_before) > 1
+      call search('\V\^'.escape(w:dirvish_before[1], '\').'\$', 'cw')
+    endif
+  endf
+
+  fun! s:mydirvish_update_beforelist()
+    if !exists('w:dirvish_before')
+      let w:dirvish_before = []
+    endif
+    if len(w:dirvish_before) == 0 || w:dirvish_before[0] !=# expand("%:p") 
+      call insert(w:dirvish_before,expand("%:p")) 
     endif
   endf
 
@@ -120,6 +129,10 @@ if mymisc#plug_tap('vim-dirvish')
 
   endf
 
+  fun s:mydirvish_hide_hiddenfiles()
+    keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d _
+  endf
+
   augroup vimrc_dirvish
     autocmd!
     " hとlによる移動
@@ -133,7 +146,7 @@ if mymisc#plug_tap('vim-dirvish')
     autocmd FileType dirvish silent sort /.*\([\\\/]\)\@=/
     " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
     " .とsに隠しファイルとソートを割り当て
-    autocmd FileType dirvish nnoremap <silent><buffer> . :keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d<cr>
+    autocmd FileType dirvish nnoremap <buffer> . :call <SID>mydirvish_hide_hiddenfiles()<CR>
     autocmd FileType dirvish nnoremap <silent><buffer> s :sort /.*\([\\\/]\)\@=/<cr>
 
     autocmd FileType dirvish nnoremap <silent><buffer> ~ :Dirvish ~/<CR>
@@ -146,9 +159,8 @@ if mymisc#plug_tap('vim-dirvish')
     autocmd FileType dirvish vnoremap <silent><buffer> c :Shdo cp {}<CR>
 
     " 開いていたファイルやDirectory(w:dirvish_before)にカーソルをあわせる
+    autocmd FileType dirvish call <SID>mydirvish_update_beforelist()
     autocmd FileType dirvish call <SID>mydirvish_selectprevdir()
-    autocmd FileType dirvish call insert(w:dirvish_before,expand("%:p"))
-    autocmd FileType dirvish CdCurrent
   augroup END
 endif
 
