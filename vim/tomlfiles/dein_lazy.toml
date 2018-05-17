@@ -79,7 +79,7 @@ repo = 'iamcco/markdown-preview.vim'
 on_ft = 'markdown' 
 
 [[plugins]]
-repo = 'ishitaku5522/TweetVim'
+repo = 'basyura/TweetVim'
 on_cmd = ['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay'] 
 depends = ['vimproc.vim', 'bitly.vim', 'twibill.vim',  'open-browser.vim']
 

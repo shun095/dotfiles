@@ -91,7 +91,9 @@ if mymisc#plug_tap('vim-dirvish')
     else
       nmap <buffer> q <plug>(dirvish_quit)
       exe 'normal q'
-      unlet w:dirvish_before
+      if exists('w:dirvish_before')
+        unlet w:dirvish_before
+      endif
     endif
     if(exists('w:dirvish_start_cd'))
       exe 'cd ' . w:dirvish_start_cd
@@ -118,7 +120,9 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_open()
-
+    if !exists('w:dirvish_before')
+      let w:dirvish_before = []
+    endif
     if len(w:dirvish_before) > 1
       call remove(w:dirvish_before,0,1)
     elseif len(w:dirvish_before) == 1
@@ -126,18 +130,28 @@ if mymisc#plug_tap('vim-dirvish')
     endif
 
     call dirvish#open('edit', 0)
-
   endf
 
   fun s:mydirvish_hide_hiddenfiles()
     keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d _
   endf
 
+" <CR> open("edit",0)
+" i open("edit", 0)
+" K plug(dirvish_K)
+" a open("vsplit",1)
+" o open("p",1)
+" o open("split",1)
+
   augroup vimrc_dirvish
     autocmd!
     " hとlによる移動
     autocmd FileType dirvish nnoremap <silent><buffer> l :call <SID>mydirvish_open()<CR>
     autocmd FileType dirvish xnoremap <silent><buffer> l :call <SID>mydirvish_open()<CR>
+    autocmd FileType dirvish nnoremap <silent><buffer> <CR> :call <SID>mydirvish_open()<CR>
+    autocmd FileType dirvish xnoremap <silent><buffer> <CR> :call <SID>mydirvish_open()<CR>
+    autocmd FileType dirvish nnoremap <silent><buffer> i :call <SID>mydirvish_open()<CR>
+    autocmd FileType dirvish xnoremap <silent><buffer> i :call <SID>mydirvish_open()<CR>
     autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
     autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
     " 独自quitスクリプト
