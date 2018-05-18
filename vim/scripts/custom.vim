@@ -66,63 +66,15 @@ if mymisc#plug_tap('YouCompleteMe')
 endif
 
 if mymisc#plug_tap('vim-dirvish')
-  nnoremap <silent> <Leader>e :exe ":" . <SID>mydirvish_start()<CR>
-  nnoremap <silent> <Leader>E :Dirvish .<cr>
-  " nnoremap <silent> <Leader>e :Dirvish %:p:h<CR>
-  " nnoremap <silent> <Leader>E :Dirvish .<CR>
+  nnoremap <silent> <Leader>e :exe ":" . <SID>mydirvish_start('%:p:h')<CR>
+  nnoremap <silent> <Leader>E :exe ":" . <SID>mydirvish_start('.')<cr>
 
-  fun! s:mydirvish_start()
-    let savepre = 'let w:dirvish_before = [expand("%:p")]'
-    " if len(tabpagebuflist()) > 1
-    let w:dirvish_splited = 0
-    let w:dirvish_start_cd = getcwd()
-    return savepre . '| Dirvish %:p:h'
-    " else
-    " return 'leftabove vsplit|' . savepre .'| let w:dirvish_splited = 1 | Dirvish %:p:h'
-    " endif
-  endf
-
-  fun! s:mydirvish_quit()
-    if !exists('w:dirvish_splited')
-      let w:dirvish_splited = 0
-    endif
-    if w:dirvish_splited == 1 && len(tabpagebuflist()) > 1
-      quit
-    else
-      nmap <buffer> q <plug>(dirvish_quit)
-      exe 'normal q'
-      if exists('w:dirvish_before')
-        unlet w:dirvish_before
-      endif
-    endif
-    if(exists('w:dirvish_start_cd'))
-      exe 'cd ' . w:dirvish_start_cd
-      unlet w:dirvish_start_cd
-    endif
-  endf
-
-  fun! s:mydirvish_selectprevdir()
-    if !exists('w:dirvish_before')
-      let w:dirvish_before = []
-    endif
-    if len(w:dirvish_before) > 1
-      call search('\V\^'.escape(w:dirvish_before[1], '\').'\$', 'cw')
-    endif
-  endf
-
-  fun! s:mydirvish_update_beforelist()
-    if !exists('w:dirvish_before')
-      let w:dirvish_before = []
-    endif
-    if len(w:dirvish_before) == 0 || w:dirvish_before[0] !=# expand("%:p") 
-      call insert(w:dirvish_before,expand("%:p")) 
-    endif
+  fun! s:mydirvish_start(path)
+    let save_curpath = 'let w:dirvish_before = [expand("%:p")]'
+    return save_curpath . '| Dirvish ' . a:path
   endf
 
   fun! s:mydirvish_open()
-    if !exists('w:dirvish_before')
-      let w:dirvish_before = []
-    endif
     if len(w:dirvish_before) > 1
       call remove(w:dirvish_before,0,1)
     elseif len(w:dirvish_before) == 1
@@ -136,24 +88,43 @@ if mymisc#plug_tap('vim-dirvish')
     keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d _
   endf
 
-" <CR> open("edit",0)
-" i open("edit", 0)
-" K plug(dirvish_K)
+  fun! s:mydirvish_update_beforelist()
+    if len(w:dirvish_before) == 0 || w:dirvish_before[0] !=# expand("%:p") 
+      call insert(w:dirvish_before,expand("%:p")) 
+    endif
+  endf
+
+  fun! s:mydirvish_selectprevdir()
+    if len(w:dirvish_before) > 1
+      call search('\V\^'.escape(w:dirvish_before[1], '\').'\$', 'cw')
+    endif
+  endf
+
+  fun! s:mydirvish_quit()
+    nmap <buffer> q <plug>(dirvish_quit)
+    exe 'normal q'
+    if exists('w:dirvish_before')
+      unlet w:dirvish_before
+    endif
+  endf
+
 " a open("vsplit",1)
 " o open("p",1)
 " o open("split",1)
 
   augroup vimrc_dirvish
     autocmd!
+    autocmd FileType dirvish if !exists('w:dirvish_before') | let w:dirvish_before = [] | endif
     " hとlによる移動
     autocmd FileType dirvish nnoremap <silent><buffer> l :call <SID>mydirvish_open()<CR>
     autocmd FileType dirvish xnoremap <silent><buffer> l :call <SID>mydirvish_open()<CR>
+    autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
+    autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
+
     autocmd FileType dirvish nnoremap <silent><buffer> <CR> :call <SID>mydirvish_open()<CR>
     autocmd FileType dirvish xnoremap <silent><buffer> <CR> :call <SID>mydirvish_open()<CR>
     autocmd FileType dirvish nnoremap <silent><buffer> i :call <SID>mydirvish_open()<CR>
     autocmd FileType dirvish xnoremap <silent><buffer> i :call <SID>mydirvish_open()<CR>
-    autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
-    autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
     " 独自quitスクリプト
     autocmd FileType dirvish nmap <silent><buffer> q :call <SID>mydirvish_quit()<cr>
     " 起動時にソート.行末記号を入れないことで全行ソートする(共通部はソートしない)
