@@ -84,7 +84,7 @@ if mymisc#plug_tap('vim-dirvish')
     call dirvish#open('edit', 0)
   endf
 
-  fun s:mydirvish_hide_hiddenfiles()
+  fun! s:mydirvish_hide_hiddenfiles()
     keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d _
   endf
 
@@ -212,11 +212,11 @@ if mymisc#plug_tap('ctrlp.vim')
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
   " if has('win32')
-  "   if g:mymisc_files_isAvalable
+  "   if g:mymisc_files_is_available
   "     let g:ctrlp_user_command = 'files -a %s'
-  "   elseif g:mymisc_pt_isAvalable
+  "   elseif g:mymisc_pt_is_available
   "     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-  "   elseif g:mymisc_ag_isAvalable
+  "   elseif g:mymisc_ag_is_available
   "     let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
   "   endif
   " else
@@ -306,6 +306,7 @@ if mymisc#plug_tap('open-browser.vim')
   vmap gx <Plug>(openbrowser-smart-search)
   nnoremap <Leader>oh :<C-u>OpenBrowser https://
   nnoremap <Leader>os :<C-u>OpenBrowserSearch<Space>
+  command! -nargs=1 Weblio OpenBrowser http://ejje.weblio.jp/content/<args>
 endif
 
 if mymisc#plug_tap('previm')
@@ -579,16 +580,16 @@ if mymisc#plug_tap('denite.nvim')
   call denite#custom#var('file_mru','fnamemodify', ':~:.')
 
   " Change file_rec command.
-  if g:mymisc_files_isAvalable
+  if g:mymisc_files_is_available
     call denite#custom#var('file_rec','command',['files','-a'])
-  elseif g:mymisc_pt_isAvalable
+  elseif g:mymisc_pt_is_available
     call denite#custom#var('file_rec','command',['pt',   '--follow','--nocolor','--nogroup','--hidden','-g',''])
-  elseif g:mymisc_ag_isAvalable
+  elseif g:mymisc_ag_is_available
     call denite#custom#var('file_rec','command',['ag',   '--follow','--nocolor','--nogroup','--hidden','-g',''])
   endif
 
   " rg command on grep source
-  if g:mymisc_rg_isAvalable
+  if g:mymisc_rg_is_available
     call denite#custom#var('grep','command',       ['rg'])
     call denite#custom#var('grep','default_opts',  ['--vimgrep'])
     call denite#custom#var('grep','recursive_opts',[])

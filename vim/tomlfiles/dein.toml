@@ -40,6 +40,7 @@ repo = 'itchyny/vim-cursorword'
     if = "!has('nvim')"
 
 # Normal plugins
+
 [[plugins]]
 repo = 'FelikZ/ctrlp-py-matcher'
 if = "has('python3') || has('python')"
@@ -79,6 +80,9 @@ repo = 'Yggdroot/indentLine'
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repo = 'alvan/vim-closetag'
 
 [[plugins]]
 repo = 'aperezdc/vim-template'
@@ -173,6 +177,7 @@ repo = 'vim-jp/vimdoc-ja'
 repo = 'w0rp/ale'
 
 # No mean lazy
+
 [[plugins]]
 repo = 'basyura/bitly.vim'
 

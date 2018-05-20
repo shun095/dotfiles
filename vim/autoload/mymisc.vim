@@ -6,23 +6,17 @@ endif
 let s:V = vital#mymisc#new()
 let s:File = s:V.import('System.File')
 
-fun! mymisc#ImInActivate() abort
+fun! mymisc#ime_deactivate() abort
+  if !g:mymisc_fcitx_is_available
+    return
+  endif
+
   let fcitx_dbus = system('fcitx-remote -a')
   if fcitx_dbus !=# ''
     call system('fcitx-remote -c')
   endif
 endf
 
-fun! mymisc#NiceLexplore(open_on_bufferdir) abort
-  " 常に幅35で開く
-  let g:netrw_winsize = float2nr(round(30.0 / winwidth(0) * 100))
-  if a:open_on_bufferdir == 1
-    Lexplore %:p:h
-  else
-    Lexplore
-  endif
-  let g:netrw_winsize = 50
-endf
 " Auto updating vimrc
 fun! mymisc#git_auto_updating() abort
   if !exists('g:called_mygit_func')
@@ -171,23 +165,6 @@ fun! mymisc#ctags_project() abort
     call mymisc#command_at_destdir(l:tags_dir,['call system("ctags -R")'])
     echomsg 'tags file made at ' . l:tags_dir
   endif
-endf
-
-fun! mymisc#gnometerm_detection(ch, msg) abort
-  let gnome_term_ver = split(split(a:msg)[2], '\.')
-  call mymisc#set_tmux_code(gnome_term_ver)
-endf
-
-fun! mymisc#set_tmux_code(gnome_term_ver) abort
-  " if a:gnome_term_ver[0] == 3 && a:gnome_term_ver[1] > 12
-    " if exists('$TMUX')
-      " let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
-      " let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
-    " else
-      " let &t_SI = '[5 q'
-      " let &t_EI = '[2 q'
-    " endif
-  " endif
 endf
 
 fun! mymisc#print_callback(ch,msg) abort
