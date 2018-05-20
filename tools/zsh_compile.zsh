@@ -19,14 +19,14 @@ echo "$(pwd): Creating zwc file"
 for f in $(find . -name "*.zsh"); do zcompile $f;  done   
 popd
 
-pushd $HOME/dotfiles
+pushd $HOME/dotfiles/
 echo "$(pwd): Removing zwc file"
 for f in $(find . -name "*.zwc"); do \rm -f $f;  done   
 echo "$(pwd): Creating zwc file"
 for f in $(find . -name "*.zsh"); do zcompile $f;  done   
 popd
 
-pushd /home/shun/.oh-my-zsh/custom/plugins/zsh-completions/src/
+pushd $HOME/.oh-my-zsh/custom/plugins/zsh-completions/src/
 echo "$(pwd): Removing zwc file"
 for f in $(find . -name "*.zwc"); do \rm -f $f;  done   
 echo "$(pwd): Creating zwc file"

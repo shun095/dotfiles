@@ -235,6 +235,12 @@ nnoremap gj j
 nnoremap gk k
 nnoremap <Down> gj
 nnoremap <Up> gk
+nnoremap <C-Tab> gt
+nnoremap <C-S-TAB> gT
+" エスケープ２回でハイライトキャンセル
+nnoremap <silent> <ESC><ESC> :noh<CR>
+nnoremap <C-g> 2<C-g>
+nnoremap <C-]> g<C-]>
 
 vnoremap j gj
 vnoremap k gk
@@ -242,33 +248,25 @@ vnoremap gj j
 vnoremap gk k
 vnoremap <Down> gj
 vnoremap <Up> gk
-
-noremap! <C-g><C-g> <ESC>
-nnoremap <C-Tab> gt
-nnoremap <C-S-TAB> gT
-
 vnoremap <c-a> <c-a>gv
 vnoremap <c-x> <c-x>gv
+" ビジュアルモードでも*検索が使えるようにする
+vnoremap * "zy:let @/ = '\<'.@z.'\>' <CR>n
+vnoremap g* "zy:let @/ = @z <CR>n
 
-" !マークは挿入モードとコマンドラインモードへのマッピング
-" emacs like in insert/command mode
+" !マークはInsert ModeとCommand-line Modeへのマッピング
+" emacs like keymap in insert/command mode
 noremap! <C-f> <Right>
 noremap! <C-b> <Left>
 noremap! <C-a> <Home>
 noremap! <C-e> <End>
-" noremap! <C-k> <End><C-u>
+noremap! <C-g><C-g> <ESC>
+inoremap <C-k> <ESC>ld$a
 
-cnoremap <C-@> <C-a>
+cnoremap <C-o> <C-a>
 cnoremap <C-p> <up>
 cnoremap <C-n> <down>
 
-" エスケープ２回でハイライトキャンセル
-nnoremap <silent> <ESC><ESC> :noh<CR>
-nnoremap <C-g> 2<C-g>
-" ビジュアルモードでも*検索が使えるようにする
-vnoremap * "zy:let @/ = '\<'.@z.'\>' <CR>n
-vnoremap g* "zy:let @/ = @z <CR>n
-nnoremap <C-]> g<C-]>
 
 
 " }}}
