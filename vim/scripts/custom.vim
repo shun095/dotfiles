@@ -709,6 +709,9 @@ if mymisc#plug_tap('delimitmate')
   let delimitMate_jump_expansion = 1
   let delimitMate_balance_matchpairs = 1
   imap <silent><expr> <CR> pumvisible() ? "\<C-Y>" : "<Plug>delimitMateCR"
+  augroup vimrc_delimitmate
+    au FileType html,xhtml,phtml let b:delimitMate_autoclose = 0
+  augroup END
 endif
 
 if mymisc#plug_tap('vim-autoformat')
