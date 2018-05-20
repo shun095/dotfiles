@@ -84,6 +84,9 @@ repo = 'airblade/vim-gitgutter'
 repo = 'aperezdc/vim-template'
 
 [[plugins]]
+repo = 'chr4/nginx.vim'
+
+[[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'
 
 [[plugins]]
