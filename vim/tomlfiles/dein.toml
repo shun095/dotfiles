@@ -51,19 +51,19 @@ repo = 'Konfekt/FastFold'
 [[plugins]]
 repo = 'LeafCage/foldCC.vim'
 
-# [[plugins]]
-# repo = 'Shougo/denite.nvim'
+[[plugins]]
+repo = 'Shougo/denite.nvim'
 
-# [[plugins]]
-# repo = 'Shougo/neomru.vim'
-# depends = 'Shougo/denite.nvim'
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+depends = 'Shougo/denite.nvim'
 
 # [[plugins]]
 # repo = 'Shougo/unite.vim'
 
-# [[plugins]]
-# repo = 'Shougo/unite-outline'
-# depends = 'Shougo/denite.nvim'
+[[plugins]]
+repo = 'Shougo/unite-outline'
+depends = 'Shougo/denite.nvim'
 
 # [[plugins]]
 # repo = 'Shougo/vimfiler.vim'

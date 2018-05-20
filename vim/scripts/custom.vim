@@ -170,7 +170,7 @@ endif
 
 if mymisc#plug_tap('ctrlp.vim')
   let g:ctrlp_max_files = 50000
-  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
+  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:100'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
@@ -199,15 +199,17 @@ if mymisc#plug_tap('ctrlp.vim')
           \ let g:ctrlp_match_func = s:ctrlp_my_match_func
   augroup END
 
-  nnoremap <Leader><Leader> :CtrlPMixed<CR>
-  nnoremap <Leader>f        :CtrlP<CR>
-  nnoremap <Leader>T        :CtrlPBufTag<CR>
+  " nnoremap <Leader><Leader> :CtrlPMixed<CR>
+  " nnoremap <Leader>T        :CtrlPBufTag<CR>
   nnoremap <Leader>al       :CtrlPLine<CR>
   nnoremap <Leader>b        :CtrlPBuffer<CR>
-  nnoremap <Leader>c        :CtrlPCurWD<CR>
+  " nnoremap <Leader>c        :CtrlPCurWD<CR>
+  " nnoremap <Leader>f        :CtrlP<CR>
+  " g
   nnoremap <Leader>l        :CtrlPLine %<CR>
-  nnoremap <Leader>u        :CtrlPMRUFiles<CR>
+  " o
   nnoremap <Leader>r        :CtrlPRegister<CR>
+  nnoremap <Leader>u        :CtrlPMRUFiles<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
@@ -577,8 +579,6 @@ if mymisc#plug_tap('denite.nvim')
   call denite#custom#map('insert','<C-x>', '<denite:do_action:split>',      'noremap')
   call denite#custom#map('insert','<C-g>', '<denite:leave_mode>',           'noremap')
 
-  call denite#custom#var('file_mru','fnamemodify', ':~:.')
-
   " Change file_rec command.
   if g:mymisc_files_is_available
     call denite#custom#var('file_rec','command',['files','-a'])
@@ -598,22 +598,18 @@ if mymisc#plug_tap('denite.nvim')
     call denite#custom#var('grep','final_opts',    [])
   endif
 
-  " mappgins
-  nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
+  " Mappings
+  nnoremap <silent> <Leader><Leader> :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec file_mru buffer'])<CR>
   nnoremap <silent> <Leader>T :<C-u>Denite tag<CR>
+  " al
+  " nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
   nnoremap <silent> <Leader>c :<C-u>Denite file_rec<CR>
+  nnoremap <silent> <Leader>f :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
   nnoremap <silent> <Leader>g :<C-u>Denite grep -no-quit<CR>
-  nnoremap <silent> <Leader>l :<C-u>Denite line<CR>
-  nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
+  " nnoremap <silent> <Leader>l :<C-u>Denite line<CR>
   nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
-  nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
-  nnoremap <silent> <leader>f :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
-  nnoremap <silent> <leader><Leader> :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec file_mru buffer'])<CR>
-
-  " Memolist
-  " if exists('g:memolist_path')
-  "   exe 'nnoremap <silent> <Leader>ml :<C-u>Denite file_rec -path='. g:memolist_path. '<CR>'
-  " endif
+  " nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
+  " nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
 endif
 
 if mymisc#plug_tap('deoplete.nvim')
