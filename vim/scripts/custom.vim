@@ -407,10 +407,10 @@ if mymisc#plug_tap('vim-quickrun')
         \ 'hook/close_buffer/enable_hook_loaded' : 1,
         \ 'hook/close_buffer/enable_failure' : 1,
         \ 'outputter' : 'multi:buffer:quickfix',
-        \ 'outputter/quickfix/open_cmd' : 'copen 8',
+        \ 'outputter/quickfix/open_cmd' : 'copen 20',
         \ 'hook/inu/enable' : 1,
         \ 'hook/inu/wait' : 1,
-        \ 'outputter/buffer/split' : ':botright 8',
+        \ 'outputter/buffer/split' : ':botright 20',
         \ 'runner' : 'vimproc',
         \ 'runner/vimproc/updatetime' : 100,
         \ }
@@ -425,7 +425,7 @@ if mymisc#plug_tap('vim-quickrun')
   if has('terminal')
     call extend(g:quickrun_config['_'], {
           \ 'runner' : 'terminal',
-          \ 'runner/terminal/opener': 'botright 8split',
+          \ 'runner/terminal/opener': 'botright 20split',
           \ 'runner/terminal/into': 1
           \ })
   endif
