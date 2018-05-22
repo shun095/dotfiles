@@ -332,8 +332,8 @@ exe 'set runtimepath+=' . escape(s:myplugins, ' \')
 
 " PLUGIN MANAGER SETUP {{{
 
-source $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
-" source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
+" source $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
+source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
 
 let g:plugin_mgr.enabled = g:use_plugins
 

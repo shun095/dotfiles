@@ -144,6 +144,9 @@ repo = 'raimondi/delimitmate'
 repo = 'scrooloose/nerdcommenter'
 
 [[plugins]]
+repo = 'scrooloose/nerdtree'
+
+[[plugins]]
 repo = 'terryma/vim-multiple-cursors'
 
 [[plugins]]
@@ -172,9 +175,11 @@ repo = 'vim-jp/autofmt'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
+merged = 0
 
 [[plugins]]
 repo = 'w0rp/ale'
+merged = 0
 
 # No mean lazy
 

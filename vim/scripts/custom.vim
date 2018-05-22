@@ -281,6 +281,8 @@ if mymisc#plug_tap('memolist.vim')
 endif
 
 if mymisc#plug_tap('nerdtree')
+  let g:loaded_netrw       = 1
+  let g:loaded_netrwPlugin = 1
   nnoremap <Leader>e :NERDTreeFind<CR>
   nnoremap <Leader>E :NERDTreeCWD<CR>
 
@@ -290,9 +292,9 @@ if mymisc#plug_tap('nerdtree')
   " let g:NERDTreeMapPreviewVSplit = 'gv'
 
   let g:NERDTreeHijackNetrw = 1
-  let g:NERDTreeQuitOnOpen = 1
+  let g:NERDTreeQuitOnOpen = 0
   let g:NERDTreeShowHidden = 0
-  let g:NERDTreeWinSize = 36
+  let g:NERDTreeWinSize = 35
 
   let g:NERDTreeMinimalUI = 1
   let g:NERDTreeShowBookmarks = 1

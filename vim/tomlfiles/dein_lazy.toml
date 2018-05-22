@@ -22,12 +22,14 @@ repo = 'zchee/deoplete-go'
 on_ft = ['go']  
 if = "has('nvim')"
 depends = 'deoplete.nvim'
+merged = 0
 
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
 on_ft = ['python'] 
 if = "has('nvim')"
 depends = 'deoplete.nvim'
+merged = 0
 
 #Normal lazy plugins
 
