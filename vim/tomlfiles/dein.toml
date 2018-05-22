@@ -117,8 +117,8 @@ repo = 'junegunn/gv.vim'
 [[plugins]]
 repo = 'junegunn/vim-easy-align'
 
-[[plugins]]
-repo = 'justinmk/vim-dirvish'
+# [[plugins]]
+# repo = 'justinmk/vim-dirvish'
 
 [[plugins]]
 repo = 'kana/vim-submode'

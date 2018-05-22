@@ -325,22 +325,6 @@ set runtimepath+=$VIMRUNTIME/pack/dist/opt/editexisting
 set runtimepath+=$VIMRUNTIME/pack/dist/opt/matchit
 " }}} BUILT-IN PLUGINS END
 
-" NETRW CUSTOMIZE {{{
-let g:netrw_banner = 1
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-let g:netrw_liststyle = 1
-let g:netrw_keepdir = 1
-highlight! link netrwMarkFile Search
-
-augroup CustomNetrw
-  autocmd!
-  autocmd FileType netrw nmap <silent><buffer>. gh
-  autocmd FileType netrw nmap <silent><buffer>h -
-  autocmd FileType netrw nmap <silent><buffer>l <CR>
-  autocmd FileType netrw nmap <silent><buffer>q <C-o>
-augroup END
-" }}} NETRW CUSTOMIZE END
-
 " DOT DIRECTORY PLUGINS {{{
 let s:myplugins = $MYDOTFILES . '/vim'
 exe 'set runtimepath+=' . escape(s:myplugins, ' \')
