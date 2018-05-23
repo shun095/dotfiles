@@ -139,3 +139,23 @@ zstyle ':completion:*:messages' format '%F{yellow}-- %d%f'
 zstyle ':completion:*:warnings' format '%F{red}No matches for:%F{yellow} %d%f'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' use-cache true
+
+
+_path=""
+for _p in $(echo $PATH | tr ':' ' '); do
+  case ":${_path}:" in
+    *:"${_p}":* )
+      ;;
+    * )
+      if [ "$_path" ]; then
+        _path="$_path:$_p"
+      else
+        _path=$_p
+      fi
+      ;;
+  esac
+done
+PATH=$_path
+
+unset _p
+unset _path

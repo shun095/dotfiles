@@ -169,7 +169,7 @@ if mymisc#plug_tap('supertab')
 endif
 
 if mymisc#plug_tap('ctrlp.vim')
-  let g:ctrlp_max_files = 50000
+  let g:ctrlp_max_files = 20000
   let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:100'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_root_markers = ['.ctrlproot']
@@ -199,12 +199,12 @@ if mymisc#plug_tap('ctrlp.vim')
           \ let g:ctrlp_match_func = s:ctrlp_my_match_func
   augroup END
 
-  " nnoremap <Leader><Leader> :CtrlPMixed<CR>
-  " nnoremap <Leader>T        :CtrlPBufTag<CR>
+  nnoremap <Leader><Leader> :CtrlPMixed<CR>
+  nnoremap <Leader>T        :CtrlPBufTag<CR>
   nnoremap <Leader>al       :CtrlPLine<CR>
   nnoremap <Leader>b        :CtrlPBuffer<CR>
-  " nnoremap <Leader>c        :CtrlPCurWD<CR>
-  " nnoremap <Leader>f        :CtrlP<CR>
+  nnoremap <Leader>c        :CtrlPCurWD<CR>
+  nnoremap <Leader>f        :CtrlP<CR>
   " g
   nnoremap <Leader>l        :CtrlPLine %<CR>
   " o
@@ -214,13 +214,13 @@ if mymisc#plug_tap('ctrlp.vim')
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
   " if has('win32')
-  "   if g:mymisc_files_is_available
-  "     let g:ctrlp_user_command = 'files -a %s'
-  "   elseif g:mymisc_pt_is_available
-  "     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-  "   elseif g:mymisc_ag_is_available
-  "     let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
-  "   endif
+    if g:mymisc_files_is_available
+      let g:ctrlp_user_command = 'files -a %s'
+    elseif g:mymisc_pt_is_available
+      let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+    elseif g:mymisc_ag_is_available
+      let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
+    endif
   " else
   "   " Brought from denite 
   "   let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
