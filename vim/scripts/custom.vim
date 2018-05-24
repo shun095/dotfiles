@@ -619,8 +619,8 @@ if mymisc#plug_tap('deoplete.nvim')
   let g:deoplete#auto_complete_start_length = 1
 
   if mymisc#plug_tap('deoplete-clang')
-    let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
-    let g:deoplete#sources#clang#clang_header = '/usr/include/clang/'
+    " let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
+    " let g:deoplete#sources#clang#clang_header = '/usr/include/clang/'
   endif
 
   if mymisc#plug_tap('deoplete-jedi')
@@ -629,7 +629,7 @@ if mymisc#plug_tap('deoplete.nvim')
 endif
 
 if mymisc#plug_tap('clang_complete')
-  let g:clang_library_path='/usr/lib/llvm-3.8/lib'
+  " let g:clang_library_path='/usr/lib/llvm-3.8/lib'
 endif
 
 if mymisc#plug_tap('jedi-vim')
