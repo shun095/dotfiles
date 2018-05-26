@@ -33,8 +33,10 @@ if has('win32')                                          " Windows
 elseif has('unix')                                       " UNIX
   if v:version >= 800
     set termguicolors                                    " TrueColor on terminal
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    if $TMUX !=# ""
+      let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+      let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+    endif
   else
     set t_Co=256                                         " 256 colors on terminal
   endif

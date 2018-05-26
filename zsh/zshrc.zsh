@@ -35,9 +35,9 @@ function mailb(){
 
 function tmux_call(){
     if [[ ! -n $TMUX ]]; then
-        if [[ $TERM = 'xterm' ]]; then
-            export TERM=xterm-256color
-        fi
+        # if [[ $TERM = 'xterm' ]]; then
+        #     export TERM=xterm-256color
+        # fi
 
         if [[ `\tmux list-sessions 2>/dev/null|wc -l` -ne 0 ]]; then
             exist_sessions=(`\tmux list-sessions|sed "s/:.*//"`)
