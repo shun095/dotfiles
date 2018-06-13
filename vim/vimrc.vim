@@ -198,12 +198,6 @@ set backup
 
 " MAPPING {{{
 " Move cursor in display lines method
-nnoremap j gj
-nnoremap k gk
-nnoremap gj j
-nnoremap gk k
-nnoremap <Down> gj
-nnoremap <Up> gk
 nnoremap <C-Tab> gt
 nnoremap <C-S-TAB> gT
 " エスケープ２回でハイライトキャンセル
@@ -211,12 +205,6 @@ nnoremap <silent> <ESC><ESC> :noh<CR>
 nnoremap <C-g> 2<C-g>
 nnoremap <C-]> g<C-]>
 
-vnoremap j gj
-vnoremap k gk
-vnoremap gj j
-vnoremap gk k
-vnoremap <Down> gj
-vnoremap <Up> gk
 vnoremap <c-a> <c-a>gv
 vnoremap <c-x> <c-x>gv
 " ビジュアルモードでも*検索が使えるようにする
@@ -235,7 +223,6 @@ inoremap <C-k> <ESC>ld$a
 cnoremap <C-o> <C-a>
 cnoremap <C-p> <up>
 cnoremap <C-n> <down>
-
 " }}} MAPPING END
 
 " COMMANDS {{{
