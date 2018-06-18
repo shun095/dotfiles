@@ -44,7 +44,6 @@ Plug 'LeafCage/foldCC.vim'
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/MatchTagAlways'
 Plug 'Yggdroot/indentLine'
-Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 Plug 'aperezdc/vim-template'
 Plug 'chr4/nginx.vim'
@@ -93,6 +92,7 @@ Plug 'pangloss/vim-javascript',{'for':['javascript']}
 Plug 'ishitaku5522/rosmake.vim'
 Plug 'ishitaku5522/vimailer.vim'
 Plug 'ishitaku5522/revimses',{'branch':'dev'}
+Plug 'airblade/vim-gitgutter'
 
 "Normal lazy plugins
 Plug 'AndrewRadev/linediff.vim',{'on':'Linediff' }
