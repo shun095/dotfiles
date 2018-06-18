@@ -15,6 +15,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'ajh17/spacegray.vim'
 " Must be loaded first
 Plug 'itchyny/vim-cursorword'
+Plug 'airblade/vim-gitgutter'
 " Completers
 " If has nvim
 if has('nvim')
@@ -44,7 +45,6 @@ Plug 'LeafCage/foldCC.vim'
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/MatchTagAlways'
 Plug 'Yggdroot/indentLine'
-Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 Plug 'aperezdc/vim-template'
 Plug 'chr4/nginx.vim'
