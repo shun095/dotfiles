@@ -80,6 +80,7 @@ set display=lastline                                     " 一行が長い場合
 set showcmd                                              " 入力中のコマンドを右下に表示
 set cmdheight=2                                          " コマンドラインの高さ
 set showtabline=2                                        " タブバーを常に表示
+set sidescroll=1                                         " 横スクロール刻み幅
 set number                                               " 行番号表示
 set relativenumber
 set hlsearch                                             " 文字列検索時にハイライトする
