@@ -44,6 +44,7 @@ Plug 'LeafCage/foldCC.vim'
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/MatchTagAlways'
 Plug 'Yggdroot/indentLine'
+Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 Plug 'aperezdc/vim-template'
 Plug 'chr4/nginx.vim'
@@ -118,7 +119,6 @@ Plug 'mattn/emmet-vim',{'for':['html','xml'] }
 Plug 'mbbill/undotree',{'on':['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle'] }
 Plug 'mopp/next-alter.vim',{'for':['c','cpp'] }
 Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
-Plug 'airblade/vim-gitgutter'
 Plug 'tyru/restart.vim',{'on':'Restart' }
 Plug 'vim-jp/vital.vim',{'on':'Vitalize'}
 
