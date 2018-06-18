@@ -202,8 +202,8 @@ nnoremap <C-Tab> gt
 nnoremap <C-S-TAB> gT
 " エスケープ２回でハイライトキャンセル
 nnoremap <silent> <ESC><ESC> :noh<CR>
-nnoremap <C-g> 2<C-g>
-nnoremap <C-]> g<C-]>
+" nnoremap <C-g> 2<C-g>
+" nnoremap <C-]> g<C-]>
 
 vnoremap <c-a> <c-a>gv
 vnoremap <c-x> <c-x>gv
