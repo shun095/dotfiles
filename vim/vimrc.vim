@@ -302,8 +302,8 @@ augroup VIMRC
   " クリップボードが無名レジスタと違ったら
   " (他のソフトでコピーしてきたということなので)
   " 他のレジスタに保存しておく
-  autocmd FocusGained,CursorHold,CursorHoldI * if @* != @" | let @0 = @* | endif
-  autocmd FocusGained,CursorHold,CursorHoldI * if @+ != @" | let @0 = @+ | endif
+  autocmd FocusGained,CursorHold,CursorHoldI * if @* !=# "" && @* != @" | let @0 = @* | endif
+  autocmd FocusGained,CursorHold,CursorHoldI * if @+ !=# "" && @+ != @" | let @0 = @+ | endif
 
   " set wrap to global one in in diff mode
   autocmd FilterWritePre * if &diff | setlocal wrap< | endif
