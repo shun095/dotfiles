@@ -19,6 +19,7 @@
         mew
         yasnippet
         yasnippet-snippets
+        omnisharp
         ))
 
 (require 'package)
@@ -164,6 +165,12 @@
 (set-face-attribute 'company-scrollbar-bg nil
                     :background "gray40")
 
+(eval-after-load
+    'company
+  '(add-to-list 'company-backends 'company-omnisharp))
+
+(add-hook 'csharp-mode-hook #'company-mode)
+
 (require 'jedi-core)
 (setq jedi:complete-on-dot t)
 (setq jedi:use-shortcuts t)
@@ -176,6 +183,9 @@
 (add-hook 'objc-mode-hook 'irony-mode)
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 (add-to-list 'company-backends 'company-irony) ; backend追加
+
+(require 'omnisharp)
+(add-hook 'csharp-mode-hook 'omnisharp-mode)
 
 (eval-after-load "yasnippet"
   '(progn
