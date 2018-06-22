@@ -4,6 +4,7 @@
 ;; You may delete these explanatory comments.
 (setq package-list
       '(undo-tree
+        undohist
         mozc
         molokai-theme
         atom-dark-theme
@@ -41,6 +42,9 @@
 
 (require 'undo-tree)
 (global-undo-tree-mode)
+
+(require 'undohist)
+(undohist-initialize)
 
 (require 'linum)
 (global-linum-mode)
@@ -140,15 +144,20 @@
 (setq company-idle-delay 0)
 ;; 1文字打ったら補完開始
 (setq company-minimum-prefix-length 1)
+(setq completion-ignore-case t)
+(setq company-dabbrev-downcase nil)
 ;; バックエンドのサーバーに補完候補を問い合わせるタイムアウト時間(sec)
 (setq company-async-timeout 10)
-;; ctrl+n/pで補完候補を次/前の候補を選択
-(define-key company-active-map (kbd "C-n") 'company-select-next)
+(global-set-key (kbd "C-M-i") 'company-complete)
+(define-key company-active-map (kbd "C-n") 'company-select-next) ;; C-n, C-pで補完候補を次/前の候補を選択
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 (define-key company-search-map (kbd "C-n") 'company-select-next)
 (define-key company-search-map (kbd "C-p") 'company-select-previous)
-;; TABで候補を決定
-(define-key company-active-map (kbd "C-i") 'company-complete-selection)
+(define-key company-active-map (kbd "C-s") 'company-filter-candidates) ;; C-sで絞り込む
+(define-key company-active-map (kbd "C-i") 'company-complete-selection) ;; TABで候補を設定
+(define-key company-active-map [tab] 'company-complete-selection) ;; TABで候補を設定
+(define-key company-active-map (kbd "C-f") 'company-complete-selection) ;; C-fで候補を設定
+(define-key emacs-lisp-mode-map (kbd "C-M-i") 'company-complete) ;; 各種メジャーモードでも C-M-iで company-modeの補完を使う
 
 (set-face-attribute 'company-tooltip nil
                     :foreground "black" :background "lightgrey")
@@ -165,12 +174,6 @@
 (set-face-attribute 'company-scrollbar-bg nil
                     :background "gray40")
 
-(eval-after-load
-    'company
-  '(add-to-list 'company-backends 'company-omnisharp))
-
-(add-hook 'csharp-mode-hook #'company-mode)
-
 (require 'jedi-core)
 (setq jedi:complete-on-dot t)
 (setq jedi:use-shortcuts t)
@@ -186,6 +189,8 @@
 
 (require 'omnisharp)
 (add-hook 'csharp-mode-hook 'omnisharp-mode)
+(add-hook 'csharp-mode-hook #'company-mode)
+(add-to-list 'company-backends 'company-omnisharp)
 
 (eval-after-load "yasnippet"
   '(progn
@@ -212,9 +217,14 @@
   (eww-reload))
 
 (setq eww-search-prefix "http://www.google.co.jp/search?q=")
-(custom-set-faces
- '(default ((t (:family "Cica" :foundry "TMNM" :slant normal :weight normal :height 120 :width normal)))))
- 
+
+;; デフォルトはASCII用のフォントでなければダメっぽい。
+(set-face-attribute 'default nil :family "Cica" :height 120)
+;; ASCII以外のUnicodeコードポイント全部を一括で設定する。他国語を使用する人は細かく指定した方が良いかも。
+(set-fontset-font nil '(#x80 . #x10ffff) (font-spec :family "Cica"))
+;; 記号をデフォルトのフォントにしない。(for Emacs 25.2)
+(setq use-default-font-for-symbols nil)
+
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
