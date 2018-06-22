@@ -104,6 +104,9 @@ fi
 if type /usr/local/bin/gvim > /dev/null;then
     alias gvim=/usr/local/bin/gvim
 fi
+if type /usr/local/bin/emacs > /dev/null;then
+    alias emacs=/usr/local/bin/emacs
+fi
 
 alias tgvim="gvim --remote-tab-silent"
 alias tvim="vim --remote-tab-silent"
