@@ -32,6 +32,8 @@ values."
    dotspacemacs-configuration-layers
    '(
      python
+     (c-c++ :variables c-c++-enable-clang-support t)
+     csharp
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -50,7 +52,6 @@ values."
      spell-checking
      syntax-checking
      version-control
-     (c-c++ :variables c-c++-enable-clang-support t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -311,8 +312,13 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+  ;; Bind .h file to c++ mode
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
   (set-fontset-font nil '(#x80 . #x10ffff) (font-spec :family "Cica"))
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
   (when (file-exists-p custom-file)
     (load custom-file))
   )
