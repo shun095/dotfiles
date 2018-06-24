@@ -740,3 +740,7 @@ endif
 if mymisc#plug_tap('vim-go')
   let g:go_gocode_propose_builtins = 0
 endif
+
+if mymisc#plug_tap('vim-gitgutter')
+  let g:gitgutter_async = 0
+endif
