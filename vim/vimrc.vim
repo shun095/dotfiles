@@ -58,7 +58,7 @@ endif
 
 " set diffopt=filler,iwhite                              " Diff options
 set visualbell t_vb=                                     " Disable beep sounds
-set cursorline                                           " Highlight of cursor line/column
+set nocursorline                                           " Highlight of cursor line/column
 set nocursorcolumn
 set backspace=indent,eol,start                           " Make backspace's behavior good
 set clipboard=unnamed,unnamedplus                        " Enable clipboard
@@ -82,7 +82,7 @@ set cmdheight=2                                          " コマンドライン
 set showtabline=2                                        " タブバーを常に表示
 set sidescroll=1                                         " 横スクロール刻み幅
 set number                                               " 行番号表示
-set relativenumber
+set norelativenumber
 set hlsearch                                             " 文字列検索時にハイライトする
 set incsearch                                            " 文字入力中に検索を開始
 set ruler                                                " Show line number of right bottom
@@ -397,7 +397,8 @@ if g:plugin_mgr.enabled == g:true
     set background=dark
   else                                   " On any other environment
     try
-      colorscheme spacegray
+      set background=dark
+      colorscheme solarized8
       highlight Terminal guibg=black
     catch
       colorscheme default
