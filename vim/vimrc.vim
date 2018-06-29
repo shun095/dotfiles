@@ -399,7 +399,6 @@ if g:plugin_mgr.enabled == g:true
     try
       set background=dark
       colorscheme solarized8
-      highlight Terminal guibg=black
     catch
       colorscheme default
       set background=light
