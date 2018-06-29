@@ -14,8 +14,6 @@ if type pyenv > /dev/null; then
     eval "$(pyenv virtualenv-init -)"
 fi
 
-echo -ne '\e]12;#aaaaaa\a'
-
 source $MYDOTFILES/zsh/ohmyzshrc.zsh
 source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 
