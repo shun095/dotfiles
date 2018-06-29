@@ -34,11 +34,7 @@ function mailb(){
 }
 
 function tmux_call(){
-    if [[ ! -n $TMUX ]]; then
-        # if [[ $TERM = 'xterm' ]]; then
-        #     export TERM=xterm-256color
-        # fi
-
+    if [[ $# -eq 0 ]]; then
         if [[ `\tmux list-sessions 2>/dev/null|wc -l` -ne 0 ]]; then
             exist_sessions=(`\tmux list-sessions|sed "s/:.*//"`)
             attached_sessions=(`\tmux list-sessions|grep attached|sed "s/:.*//"`)
@@ -54,9 +50,10 @@ function tmux_call(){
         else
             \tmux attach -t ${detached_sessions[1]}
         fi
+    else
+        \tmux $*
     fi
 }
-
 
 if type trash-put > /dev/null; then
     alias rm="trash-put"
@@ -74,7 +71,6 @@ fi
 if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
     source "$HOME/localrcs/zsh-local.zsh"
 fi
-
 
 if type colordiff > /dev/null; then
   alias diff='colordiff -u'
