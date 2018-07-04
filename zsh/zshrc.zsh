@@ -106,6 +106,7 @@ alias tgvim="gvim --remote-tab-silent"
 alias tvim="vim --remote-tab-silent"
 
 alias dir="dir --group-directories-first --color=auto"
+alias pyg="pygmentize"
 stty stop undef
 
 bindkey \^U backward-kill-line
