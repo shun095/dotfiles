@@ -15,7 +15,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'ajh17/spacegray.vim'
 Plug 'lifepillar/vim-solarized8'
 " Must be loaded first
-Plug 'itchyny/vim-cursorword'
+" Plug 'itchyny/vim-cursorword'
 " Completers
 " If has nvim
 if has('nvim')
