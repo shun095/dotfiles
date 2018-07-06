@@ -28,8 +28,8 @@ if mymisc#plug_tap('TweetVim')
   nnoremap <Leader>Tc :<C-u>TweetVimCommandSay<CR>
   " "tweetvim用
   " augroup mytweetvim
-  " 	autocmd FileType tweetvim nnoremap <buffer> j gj
-  " 	autocmd FileType tweetvim nnoremap <buffer> k gk
+  "   autocmd FileType tweetvim nnoremap <buffer> j gj
+  "   autocmd FileType tweetvim nnoremap <buffer> k gk
   " augroup END
 endif
 
