@@ -744,3 +744,13 @@ endif
 if mymisc#plug_tap('vim-gitgutter')
   let g:gitgutter_async = 0
 endif
+
+if mymisc#plug_tap('rainbow_parentheses.vim')
+  augroup vimrc_rbpt
+    autocmd!
+    autocmd VimEnter * RainbowParenthesesToggle
+    autocmd Syntax * RainbowParenthesesLoadRound
+    autocmd Syntax * RainbowParenthesesLoadSquare
+    autocmd Syntax * RainbowParenthesesLoadBraces
+  augroup END
+endif

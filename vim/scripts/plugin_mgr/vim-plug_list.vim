@@ -8,12 +8,16 @@ endif
 let g:loaded_vim_plug_list = 1
 
 " Color schemes
-Plug 'cocopon/iceberg.vim'
-Plug 'tomasr/molokai'
-Plug 'jdkanani/vim-material-theme'
-Plug 'joshdick/onedark.vim'
-Plug 'ajh17/spacegray.vim'
-Plug 'lifepillar/vim-solarized8'
+Plug 'rakr/vim-one'
+" Plug 'NLKNguyen/papercolor-theme'
+" Plug 'cocopon/iceberg.vim'
+" Plug 'tomasr/molokai'
+" Plug 'jdkanani/vim-material-theme'
+" Plug 'joshdick/onedark.vim'
+" Plug 'ajh17/spacegray.vim'
+" Plug 'lifepillar/vim-solarized8'
+" Plug 'morhetz/gruvbox'
+"
 " Must be loaded first
 " Plug 'itchyny/vim-cursorword'
 " Completers
@@ -61,6 +65,7 @@ Plug 'junegunn/vim-easy-align'
 " [[plugins]]
 " repo = 'justinmk/vim-dirvish'
 Plug 'kana/vim-submode'
+Plug 'kien/rainbow_parentheses.vim'
 " [[plugins]]
 " repo = 'nixprime/cpsm'
 " merged = 0

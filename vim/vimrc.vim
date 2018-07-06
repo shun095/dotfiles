@@ -398,7 +398,7 @@ if g:plugin_mgr.enabled == g:true
   else                                   " On any other environment
     try
       set background=light
-      colorscheme solarized8
+      colorscheme one
     catch
       colorscheme default
       set background=light
