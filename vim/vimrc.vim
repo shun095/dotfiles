@@ -58,7 +58,7 @@ endif
 
 " set diffopt=filler,iwhite                              " Diff options
 set visualbell t_vb=                                     " Disable beep sounds
-set nocursorline                                           " Highlight of cursor line/column
+set nocursorline                                         " Highlight of cursor line/column
 set nocursorcolumn
 set backspace=indent,eol,start                           " Make backspace's behavior good
 set clipboard=unnamed,unnamedplus                        " Enable clipboard
@@ -100,7 +100,7 @@ set updatetime=1000                                      " Wait time until swap 
 set timeout
 set ttimeout
 set timeoutlen=1000                                      " マッピングの時間切れまでの時間
-set ttimeoutlen=50                                      " キーコードの時間切れまでの時間
+set ttimeoutlen=100                                      " キーコードの時間切れまでの時間
 set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp    " 文字コード自動判別優先順位の設定
 set fileformats=unix,dos,mac                             " 改行コード自動判別優先順位の設定
 set complete=.,w,b,u,U,k,kspell,s,t,t
