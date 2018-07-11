@@ -397,7 +397,7 @@ if g:plugin_mgr.enabled == g:true
     set background=dark
   else                                   " On any other environment
     try
-      set background=light
+      set background=dark
       colorscheme one
     catch
       colorscheme default
