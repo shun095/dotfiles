@@ -32,8 +32,8 @@ if has('nvim')
     Plug 'zchee/deoplete-jedi',{'for':['python'] }
 else
   Plug 'Valloric/YouCompleteMe'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+  " Plug 'roxma/nvim-yarp'
+  " Plug 'roxma/vim-hug-neovim-rpc'
 endif
 " Normal plugins
 if has('python3') || has('python')
@@ -42,9 +42,9 @@ endif
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 
-" Plug 'Shougo/denite.nvim'
-"   Plug 'Shougo/neomru.vim'
-"   Plug 'Shougo/unite-outline'
+Plug 'Shougo/denite.nvim'
+  " Plug 'Shougo/neomru.vim'
+  " Plug 'Shougo/unite-outline'
 
 Plug 'SirVer/ultisnips'
 Plug 'Valloric/MatchTagAlways'
@@ -65,7 +65,7 @@ Plug 'junegunn/vim-easy-align'
 " [[plugins]]
 " repo = 'justinmk/vim-dirvish'
 Plug 'kana/vim-submode'
-Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'luochen1990/rainbow'
 " [[plugins]]
 " repo = 'nixprime/cpsm'
 " merged = 0
@@ -100,31 +100,32 @@ Plug 'ishitaku5522/vimailer.vim'
 Plug 'ishitaku5522/revimses',{'branch':'dev'}
 
 "Normal lazy plugins
-Plug 'AndrewRadev/linediff.vim',{'on':'Linediff' }
+Plug 'AndrewRadev/linediff.vim',{'on':'Linediff'}
 Plug 'Shougo/vimproc.vim'
-Plug 'artur-shaik/vim-javacomplete2',{'for':'java' }
+Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 Plug 'bkad/CamelCaseMotion'
-Plug 'cespare/vim-toml',{'for':'toml' }
-Plug 'chiel92/vim-autoformat',{'on':'Autoformat' }
-Plug 'csscomb/vim-csscomb',{'for':'css' }
+Plug 'cespare/vim-toml',{'for':'toml'}
+Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
+Plug 'csscomb/vim-csscomb',{'for':'css'}
 Plug 'fatih/vim-go',{'for':['go'] }
-Plug 'glidenote/memolist.vim',{'on':['MemoNew', 'MemoList'] }
+Plug 'glidenote/memolist.vim',{'on':['MemoNew','MemoList']}
 
 Plug 'tyru/open-browser.vim'
   "",{'on':['OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch']}
-  Plug 'haya14busa/vim-open-googletranslate',{'on':'OpenGoogleTranslate' }
-  Plug 'basyura/TweetVim',{'on':['TweetVimHomeTimeline', 'TweetVimUserStream', 'TweetVimSay', 'TweetVimCommandSay'] }
+  Plug 'haya14busa/vim-open-googletranslate',{'on':'OpenGoogleTranslate'}
+  Plug 'basyura/TweetVim',{'on':['TweetVimHomeTimeline','TweetVimUserStream','TweetVimSay','TweetVimCommandSay']}
 
-Plug 'iamcco/markdown-preview.vim',{'for':'markdown' }
-Plug 'itchyny/calendar.vim',{'on':'Calendar' }
-Plug 'kannokanno/previm',{'for':'markdown' }
-Plug 'lervag/vimtex',{'for':'tex' }
-Plug 'majutsushi/tagbar',{'on':['TagbarToggle', 'TagbarOpen'] }
-Plug 'mattn/emmet-vim',{'for':['html','xml'] }
-Plug 'mbbill/undotree',{'on':['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle'] }
-Plug 'mopp/next-alter.vim',{'for':['c','cpp'] }
+Plug 'iamcco/markdown-preview.vim',{'for':'markdown'}
+Plug 'itchyny/calendar.vim',{'on':'Calendar'}
+Plug 'kannokanno/previm',{'for':'markdown'}
+Plug 'lervag/vimtex',{'for':'tex'}
+Plug 'majutsushi/tagbar',{'on':['TagbarToggle','TagbarOpen']}
+Plug 'mattn/emmet-vim',{'for':['html','xml']}
+Plug 'mbbill/undotree',{'on':['UndotreeFocus','UndotreeHide','UndotreeShow','UndotreeToggle']}
+Plug 'mopp/next-alter.vim',{'for':['c','cpp']}
+Plug 'OrangeT/vim-csharp',{'for':['cs','csi','csx']}
 Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
-Plug 'tyru/restart.vim',{'on':'Restart' }
+Plug 'tyru/restart.vim',{'on':'Restart'}
 Plug 'vim-jp/vital.vim',{'on':'Vitalize'}
 
 let &cpo = s:save_cpo

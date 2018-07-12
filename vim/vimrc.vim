@@ -105,6 +105,7 @@ set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp    " 文字コード自動
 set fileformats=unix,dos,mac                             " 改行コード自動判別優先順位の設定
 set complete=.,w,b,u,U,k,kspell,s,t,t
 set completeopt=menuone,noselect                         " 補完関係の設定,Ycmで自動設定される
+set pumheight=10                                         " 補完ウィンドウ最大高さ
 set omnifunc=syntaxcomplete#Complete
 set iminsert=0                                           " IMEの管理
 set imsearch=0

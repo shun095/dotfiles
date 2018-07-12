@@ -197,14 +197,14 @@ if mymisc#plug_tap('ctrlp.vim')
   augroup END
 
   nnoremap <Leader><Leader> :CtrlPMixed<CR>
-  nnoremap <Leader>T        :CtrlPBufTag<CR>
+  nnoremap <Leader>T        :CtrlPTag<CR>
   nnoremap <Leader>al       :CtrlPLine<CR>
   nnoremap <Leader>b        :CtrlPBuffer<CR>
   nnoremap <Leader>c        :CtrlPCurWD<CR>
   nnoremap <Leader>f        :CtrlP<CR>
   " g
   nnoremap <Leader>l        :CtrlPLine %<CR>
-  " o
+  nnoremap <Leader>o        :CtrlPBufTag<CR>
   nnoremap <Leader>r        :CtrlPRegister<CR>
   nnoremap <Leader>u        :CtrlPMRUFiles<CR>
 
@@ -289,7 +289,7 @@ if mymisc#plug_tap('nerdtree')
   " let g:NERDTreeMapPreviewVSplit = 'gv'
 
   let g:NERDTreeHijackNetrw = 1
-  let g:NERDTreeQuitOnOpen = 1
+  let g:NERDTreeQuitOnOpen = 0
   let g:NERDTreeShowHidden = 0
   let g:NERDTreeWinSize = 35
 
@@ -524,15 +524,17 @@ endif
 
 if mymisc#plug_tap('vimfiler.vim')
   let g:vimfiler_as_default_explorer = 1
-  call vimfiler#custom#profile('default', 'context', {
-        \   'split' : 1,
-        \   'horizontal' : 1,
-        \   'direction' : 'leftabove',
-        \ })
+  " call vimfiler#custom#profile('default', 'context', {
+  "       \   'split' : 1,
+  "       \   'horizontal' : 0,
+  "       \   'direction' : 'topleft',
+  "       \   'winwidth' : 35,
+  "       \   'simple' : 1
+  "       \ })
   " let g:vimfiler_force_overwrite_statusline = 0
   " let g:vimfiler_restore_alternate_file = 0
-  nnoremap <silent> <Leader>e :VimFilerBufferDir  -force-quit -find<CR>
-  nnoremap <silent> <Leader>E :VimFilerCurrentDir -force-quit <CR>
+  nnoremap <silent> <Leader>e :VimFilerBufferDir  -force-quit -split -winwidth=35 -simple -find<CR>
+  nnoremap <silent> <Leader>E :VimFilerCurrentDir -force-quit -split -winwidth=35 -simple <CR>
 endif
 
 if mymisc#plug_tap('denite.nvim')
@@ -598,14 +600,14 @@ if mymisc#plug_tap('denite.nvim')
 
   " Mappings
   nnoremap <silent> <Leader><Leader> :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec file_mru buffer'])<CR>
-  nnoremap <silent> <Leader>T :<C-u>Denite tag<CR>
+  " nnoremap <silent> <Leader>T :<C-u>Denite tag<CR>
   " al
   " nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
   nnoremap <silent> <Leader>c :<C-u>Denite file_rec<CR>
   nnoremap <silent> <Leader>f :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
   nnoremap <silent> <Leader>g :<C-u>Denite grep -no-quit<CR>
   " nnoremap <silent> <Leader>l :<C-u>Denite line<CR>
-  nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
+  " nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
   " nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
   " nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
 endif
@@ -745,10 +747,6 @@ if mymisc#plug_tap('vim-gitgutter')
   let g:gitgutter_async = 0
 endif
 
-if mymisc#plug_tap('rainbow_parentheses.vim')
-  let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
-  augroup vimrc_rbpt
-    autocmd!
-    autocmd VimEnter * RainbowParentheses
-  augroup END
+if mymisc#plug_tap('rainbow')
+  let g:rainbow_active = 1
 endif
