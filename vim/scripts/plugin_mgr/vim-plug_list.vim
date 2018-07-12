@@ -65,7 +65,7 @@ Plug 'junegunn/vim-easy-align'
 " [[plugins]]
 " repo = 'justinmk/vim-dirvish'
 Plug 'kana/vim-submode'
-Plug 'kien/rainbow_parentheses.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
 " [[plugins]]
 " repo = 'nixprime/cpsm'
 " merged = 0

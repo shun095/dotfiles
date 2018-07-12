@@ -746,11 +746,9 @@ if mymisc#plug_tap('vim-gitgutter')
 endif
 
 if mymisc#plug_tap('rainbow_parentheses.vim')
+  let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
   augroup vimrc_rbpt
     autocmd!
-    autocmd VimEnter * RainbowParenthesesToggle
-    autocmd Syntax * RainbowParenthesesLoadRound
-    autocmd Syntax * RainbowParenthesesLoadSquare
-    autocmd Syntax * RainbowParenthesesLoadBraces
+    autocmd VimEnter * RainbowParentheses
   augroup END
 endif

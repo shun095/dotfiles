@@ -17,6 +17,7 @@ fi
 source $MYDOTFILES/zsh/ohmyzshrc.zsh
 source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
+export FZF_DEFAULT_OPTS='--color=16'
 
 setopt auto_cd
 
