@@ -353,8 +353,8 @@ if mymisc#plug_tap('vim-anzu')
   " mapping
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
-  nmap * <Plug>(anzu-star-with-echo)
-  nmap # <Plug>(anzu-sharp-with-echo)
+  " nmap * <Plug>(anzu-star-with-echo)
+  " nmap # <Plug>(anzu-sharp-with-echo)
 endif
 
 if mymisc#plug_tap('vim-easy-align')

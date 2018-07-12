@@ -200,18 +200,32 @@ set backup
 
 " MAPPING {{{
 " Move cursor in display lines method
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+vnoremap j gj
+vnoremap k gk
+vnoremap gj j
+vnoremap gk k
+
 nnoremap <C-Tab> gt
 nnoremap <C-S-TAB> gT
-" エスケープ２回でハイライトキャンセル
-nnoremap <silent> <ESC><ESC> :noh<CR>
-" nnoremap <C-g> 2<C-g>
-" nnoremap <C-]> g<C-]>
+
+nnoremap <silent> <ESC> :noh<CR>
+nnoremap Y v$hy
+
+nnoremap <C-g> 2<C-g>
+nnoremap <C-]> g<C-]>
 
 vnoremap <c-a> <c-a>gv
 vnoremap <c-x> <c-x>gv
+
+nnoremap * *N
+nnoremap g* g*N
 " ビジュアルモードでも*検索が使えるようにする
-vnoremap * "zy:let @/ = '\<'.@z.'\>' <CR>n
-vnoremap g* "zy:let @/ = @z <CR>n
+vnoremap * "zy:let @/ = '\<'.@z.'\>' <CR>nN
+vnoremap g* "zy:let @/ = @z <CR>nN
 
 " !マークはInsert ModeとCommand-line Modeへのマッピング
 " emacs like keymap in insert/command mode
