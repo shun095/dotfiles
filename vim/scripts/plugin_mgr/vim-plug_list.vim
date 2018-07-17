@@ -77,7 +77,11 @@ Plug 'thinca/vim-quickrun'
 Plug 'osyo-manga/vim-anzu'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdcommenter'
+
 Plug 'scrooloose/nerdtree'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  Plug 'jistr/vim-nerdtree-tabs'
+
 Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'

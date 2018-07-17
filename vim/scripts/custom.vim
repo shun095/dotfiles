@@ -296,8 +296,8 @@ if mymisc#plug_tap('nerdtree')
   let g:NERDTreeMinimalUI = 1
   let g:NERDTreeShowBookmarks = 1
 
-  let g:NERDTreeDirArrowExpandable = '+'
-  let g:NERDTreeDirArrowCollapsible = '-'
+  " let g:NERDTreeDirArrowExpandable = '+'
+  " let g:NERDTreeDirArrowCollapsible = '-'
 endif
 
 if mymisc#plug_tap('open-browser.vim')
@@ -719,11 +719,8 @@ if mymisc#plug_tap('vim-startify')
 endif
 
 if mymisc#plug_tap('vim-devicons')
-  let g:webdevicons_enable = 1
-  let g:webdevicons_enable = 1
-  let g:webdevicons_enable_nerdtree = 1
-  let g:webdevicons_enable_ctrlp = 1
   let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
+  let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 endif
 
 if mymisc#plug_tap('ale')
@@ -749,4 +746,10 @@ endif
 
 if mymisc#plug_tap('rainbow')
   let g:rainbow_active = 1
+endif
+
+if mymisc#plug_tap('vim-nerdtree-syntax-highlight')
+  let g:NERDTreeFileExtensionHighlightFullName = 1
+  let g:NERDTreeExactMatchHighlightFullName = 1
+  let g:NERDTreePatternMatchHighlightFullName = 1
 endif
