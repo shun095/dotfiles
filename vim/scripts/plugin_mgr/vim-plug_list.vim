@@ -43,7 +43,7 @@ Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 
 Plug 'Shougo/denite.nvim'
-  " Plug 'Shougo/neomru.vim'
+  Plug 'Shougo/neomru.vim'
   " Plug 'Shougo/unite-outline'
 
 Plug 'SirVer/ultisnips'
