@@ -212,7 +212,10 @@ vnoremap gk k
 nnoremap <C-Tab> gt
 nnoremap <C-S-TAB> gT
 
-nnoremap <silent> <ESC> :noh<CR>
+" Clear highlighting on escape in normal mode
+nnoremap <ESC> :noh<CR><ESC>
+nnoremap <ESC>^[ <ESC>^[
+
 nnoremap Y v$hy
 
 nnoremap <C-g> 2<C-g>
