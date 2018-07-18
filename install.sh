@@ -88,6 +88,9 @@ sleep 1
 update_repositories() {
         echo -e "\n===== Checking plugin repositories ===================================\n"
 
+        pushd ${MYDOTFILES}
+        git pull
+        popd
         echo "Checking fzf repository"
         pushd ${FZFDIR}
         git pull
