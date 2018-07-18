@@ -422,6 +422,8 @@ if g:plugin_mgr.enabled == g:true
       set background=light
     endtry
   endif
+
+  highlight! Terminal ctermbg=black guibg=black
   " }}} WHEN PLUGINS ARE ENABLED END
 
 else
