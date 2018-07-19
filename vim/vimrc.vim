@@ -312,6 +312,9 @@ augroup VIMRC
   autocmd Filetype css setl foldmethod=syntax
   autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
 
+  " Markdown
+  autocmd FileType markdown setl expandtab softtabstop=2 shiftwidth=2
+
   " Json
   let g:vim_json_syntax_conceal = 0
 
