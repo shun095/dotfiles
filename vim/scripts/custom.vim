@@ -753,3 +753,7 @@ if mymisc#plug_tap('vim-nerdtree-syntax-highlight')
   let g:NERDTreeExactMatchHighlightFullName = 1
   let g:NERDTreePatternMatchHighlightFullName = 1
 endif
+
+if mymisc#plug_tap('vim-nerdtree-tabs')
+  let g:nerdtree_tabs_open_on_gui_startup = 0
+endif
