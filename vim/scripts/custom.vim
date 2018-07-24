@@ -296,6 +296,8 @@ if mymisc#plug_tap('nerdtree')
   let g:NERDTreeMinimalUI = 1
   let g:NERDTreeShowBookmarks = 1
 
+  let g:NERDTreeIgnore = ['.meta','.swp','.swo','.pyc']
+
   " let g:NERDTreeDirArrowExpandable = '+'
   " let g:NERDTreeDirArrowCollapsible = '-'
 endif
@@ -613,8 +615,20 @@ if mymisc#plug_tap('denite.nvim')
 endif
 
 if mymisc#plug_tap('deoplete.nvim')
+  if has('win32')
+    let g:python3_host_prog = 'python'
+  endif
+
   let g:deoplete#enable_at_startup = 1
-  let g:deoplete#auto_complete_start_length = 1
+  let g:deoplete#auto_complete_start_length = 2
+
+  call deoplete#custom#option('sources', {
+        \ '_': ['omni', 'file', 'buffer', 'ultisnips', 'dictionary'],
+        \ })
+
+  call deoplete#custom#var('omni', 'input_patterns', {
+        \ '_': ['\w*']
+        \ })
 
   if mymisc#plug_tap('deoplete-clang')
     " let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
@@ -631,12 +645,27 @@ if mymisc#plug_tap('clang_complete')
 endif
 
 if mymisc#plug_tap('jedi-vim')
-  if mymisc#plug_tap('deoplete-jedi')
-    let g:jedi#completions_enabled = 0
-  endif
+  let g:jedi#completions_enabled = 0
   let g:jedi#show_call_signatures = 2
 endif
 
+if mymisc#plug_tap('omnisharp-vim')
+  let g:OmniSharp_server_type = 'v1'
+  let g:OmniSharp_server_path = $HOME . '/.vim/plugged/YouCompleteMe/third_party/ycmd/third_party/OmniSharpServer/OmniSharp/bin/Release/OmniSharp.exe'
+
+  augroup omnisharp_commands
+    autocmd!
+    " Show type information automatically when the cursor stops moving
+    autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+
+    " The following commands are contextual, based on the cursor position.
+    autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+    autocmd FileType cs OmniSharpHighlightTypes
+    autocmd FileType cs nnoremap <buffer> K :OmniSharpDocumentation<CR>
+  augroup END
+
+  nnoremap <F2> :OmniSharpRename<CR>
+endif
 
 if mymisc#plug_tap('nerdcommenter')
   let g:NERDSpaceDelims = 1
@@ -756,4 +785,23 @@ endif
 
 if mymisc#plug_tap('vim-nerdtree-tabs')
   let g:nerdtree_tabs_open_on_gui_startup = 0
+endif
+
+if mymisc#plug_tap('vim-vue')
+  augroup vimrc-vue
+    autocmd!
+    autocmd FileType vue syntax sync fromstart
+    " autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
+  augroup END
+endif
+
+if mymisc#plug_tap('LanguageClient-neovim')
+  let g:LanguageClient_loggingLevel = 'DEBUG'
+  let g:LanguageClient_loggingFile = $HOME.'/.languageClientLog'
+  let g:LanguageClient_serverCommands = {
+        \ 'vue': ['vls'],
+        \ 'html': [],
+        \ 'javascript': [],
+        \ 'css': [],
+        \ }
 endif

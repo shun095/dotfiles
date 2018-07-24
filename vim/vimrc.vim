@@ -50,7 +50,9 @@ elseif has('unix')                                       " UNIX
 endif
 
 if v:version >= 800
-  set cryptmethod=blowfish2
+  if !has('nvim')
+    set cryptmethod=blowfish2
+  endif
   set breakindent                                        " version8以降搭載の便利オプション
   set display=truncate
   set emoji                                              " 絵文字を全角表示
@@ -308,7 +310,7 @@ augroup VIMRC
   let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'cpp', 'c']
 
   " HTML,XML,CSS,JavaScript
-  autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
+  autocmd Filetype html,xml,vue setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
   autocmd Filetype css setl foldmethod=syntax
   autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
 
