@@ -628,7 +628,7 @@ if mymisc#plug_tap('deoplete.nvim')
         \ })
 
   call deoplete#custom#var('omni', 'input_patterns', {
-        \ '_': ['\w*']
+        \ '_': ['\w+']
         \ })
 
   if mymisc#plug_tap('deoplete-clang')
