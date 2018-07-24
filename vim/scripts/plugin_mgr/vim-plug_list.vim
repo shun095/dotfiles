@@ -52,9 +52,11 @@ endif
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 
-Plug 'Shougo/denite.nvim'
-  Plug 'Shougo/neomru.vim'
+if v:version > 800
+  Plug 'Shougo/denite.nvim'
+    Plug 'Shougo/neomru.vim'
   " Plug 'Shougo/unite-outline'
+endif
 
 " Plug 'SirVer/ultisnips'
 Plug 'Valloric/MatchTagAlways'
