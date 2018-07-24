@@ -615,21 +615,53 @@ if mymisc#plug_tap('denite.nvim')
   " nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
 endif
 
+if mymisc#plug_tap('delimitmate')
+  let delimitMate_expand_cr = 1
+  let delimitMate_expand_space = 1
+  let delimitMate_expand_inside_quotes = 1
+  let delimitMate_jump_expansion = 1
+  let delimitMate_balance_matchpairs = 1
+  imap <silent><expr> <CR> pumvisible() ? "\<C-Y>" : "<Plug>delimitMateCR"
+  augroup vimrc_delimitmate
+    au FileType html,xhtml,phtml let b:delimitMate_autoclose = 0
+  augroup END
+endif
+
 if mymisc#plug_tap('deoplete.nvim')
   if has('win32')
     let g:python3_host_prog = 'python'
   endif
 
+  " Use deoplete.
   let g:deoplete#enable_at_startup = 1
-  let g:deoplete#auto_complete_start_length = 2
+  " Use smartcase.
+  call deoplete#custom#option('smart_case', v:true)
 
-  call deoplete#custom#option('sources', {
-        \ '_': ['omni', 'file', 'buffer', 'ultisnips', 'dictionary'],
-        \ })
+  " call deoplete#custom#option('sources', {
+  "       \ '_': ['omni', 'file', 'buffer', 'ultisnips', 'dictionary'],
+  "       \ })
 
-  call deoplete#custom#var('omni', 'input_patterns', {
-        \ '_': ['\w+']
-        \ })
+  " call deoplete#custom#var('omni', 'input_patterns', {
+  "       \ '_': ['\w*']
+  "       \ })
+
+  if mymisc#plug_tap('neosnippet.vim')
+    imap <expr><TAB>
+          \ pumvisible() ? "\<C-n>" :
+          \ neosnippet#expandable_or_jumpable() ?
+          \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+          \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+    imap <expr><C-l>
+          \ (pumvisible() && neosnippet#expandable()) ?
+          \ "\<Plug>(neosnippet_expand)" : "\<C-l>"
+  else
+    imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  endif
+
+  imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
   if mymisc#plug_tap('deoplete-clang')
     " let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
@@ -639,6 +671,38 @@ if mymisc#plug_tap('deoplete.nvim')
   if mymisc#plug_tap('deoplete-jedi')
     let g:deoplete#sources#jedi#server_timeout = 30
   endif
+endif
+
+if mymisc#plug_tap('ale')
+  let g:ale_fixers = {
+        \ 'javascript': 'eslint',
+        \ 'python': 'autopep8',
+        \ 'vue': 'prettier'
+        \ }
+  let g:ale_fix_on_save = 0
+  let g:ale_linters = {
+        \ 'cpp': '',
+        \ 'python': ''
+        \ }
+  let g:ale_sign_error = ''
+  let g:ale_sign_warning = ''
+endif
+
+if mymisc#plug_tap('LanguageClient-neovim')
+  let g:LanguageClient_waitOutputTimeout = 30
+  let g:LanguageClient_loggingLevel = 'DEBUG'
+  let g:LanguageClient_loggingFile = $HOME.'/.languageClientLog'
+  let g:LanguageClient_serverCommands = {
+        \ 'vue': ['vls'],
+        \ 'html': [],
+        \ 'javascript': [],
+        \ 'css': [],
+        \ 'python': ['pyls'],
+        \ 'cpp': [$HOME.'/.vim/clangd']
+        \ }
+  augroup vimrc_langsrv
+    autocmd FileType vue,python setl omnifunc=LanguageClient#complete
+  augroup END
 endif
 
 if mymisc#plug_tap('clang_complete')
@@ -652,7 +716,7 @@ endif
 
 if mymisc#plug_tap('omnisharp-vim')
   let g:OmniSharp_server_type = 'v1'
-  let g:OmniSharp_server_path = $HOME . '/.vim/plugged/YouCompleteMe/third_party/ycmd/third_party/OmniSharpServer/OmniSharp/bin/Release/OmniSharp.exe'
+  let g:OmniSharp_server_path = $HOME.'~/.vim/OmniSharp.exe'
 
   augroup omnisharp_commands
     autocmd!
@@ -728,18 +792,6 @@ if mymisc#plug_tap('indentLine')
   " let g:indentLine_showFirstIndentLevel=1
 endif
 
-if mymisc#plug_tap('delimitmate')
-  let delimitMate_expand_cr = 1
-  let delimitMate_expand_space = 1
-  let delimitMate_expand_inside_quotes = 1
-  let delimitMate_jump_expansion = 1
-  let delimitMate_balance_matchpairs = 1
-  imap <silent><expr> <CR> pumvisible() ? "\<C-Y>" : "<Plug>delimitMateCR"
-  augroup vimrc_delimitmate
-    au FileType html,xhtml,phtml let b:delimitMate_autoclose = 0
-  augroup END
-endif
-
 if mymisc#plug_tap('vim-autoformat')
   let g:autoformat_verbosemode = 0
 endif
@@ -751,19 +803,6 @@ endif
 if mymisc#plug_tap('vim-devicons')
   let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
   let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-endif
-
-if mymisc#plug_tap('ale')
-  let g:ale_fixers = {
-        \ 'javascript': 'eslint',
-        \ 'python': 'autopep8'
-        \ }
-  let g:ale_fix_on_save = 0
-  let g:ale_linters = {
-        \ 'cpp': '',
-        \ }
-  let g:ale_sign_error = ''
-  let g:ale_sign_warning = ''
 endif
 
 if mymisc#plug_tap('vim-go')
@@ -796,13 +835,3 @@ if mymisc#plug_tap('vim-vue')
   augroup END
 endif
 
-if mymisc#plug_tap('LanguageClient-neovim')
-  let g:LanguageClient_loggingLevel = 'DEBUG'
-  let g:LanguageClient_loggingFile = $HOME.'/.languageClientLog'
-  let g:LanguageClient_serverCommands = {
-        \ 'vue': ['vls'],
-        \ 'html': [],
-        \ 'javascript': [],
-        \ 'css': [],
-        \ }
-endif

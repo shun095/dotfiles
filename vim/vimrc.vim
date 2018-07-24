@@ -46,7 +46,9 @@ elseif has('unix')                                       " UNIX
     let &t_EI = '[2 q'
   endif
 
-  set ttymouse=xterm2
+  if !has('nvim')
+    set ttymouse=xterm2
+  endif
 endif
 
 if v:version >= 800
@@ -108,7 +110,6 @@ set fileformats=unix,dos,mac                             " 改行コード自動
 set complete=.,w,b,u,U,k,kspell,s,t,t
 set completeopt=menuone,noselect                         " 補完関係の設定,Ycmで自動設定される
 set pumheight=10                                         " 補完ウィンドウ最大高さ
-set omnifunc=syntaxcomplete#Complete
 set iminsert=0                                           " IMEの管理
 set imsearch=0
 

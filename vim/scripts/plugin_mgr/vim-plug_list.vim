@@ -18,8 +18,6 @@ Plug 'rakr/vim-one'
 " Plug 'lifepillar/vim-solarized8'
 " Plug 'morhetz/gruvbox'
 "
-" Must be loaded first
-" Plug 'itchyny/vim-cursorword'
 " Completers
 " If has nvim
 " if has('nvim')
@@ -31,20 +29,7 @@ Plug 'rakr/vim-one'
 "     Plug 'zchee/deoplete-go',{'for':['go']}
 "     Plug 'zchee/deoplete-jedi',{'for':['python']}
 " else
-  Plug 'Shougo/neosnippet.vim'
-  Plug 'Shougo/neosnippet-snippets'
-  Plug 'Shougo/context_filetype.vim'
-  Plug 'Shougo/deoplete.nvim'
-    Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
-    Plug 'davidhalter/jedi-vim',{'for':['python']}
-    Plug 'ternjs/tern_for_vim',{'for':'javascript'}
-    Plug 'autozimu/LanguageClient-neovim',{'branch':'next'}
 
-if !has('nvim')
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-  " Plug 'Valloric/YouCompleteMe'
-endif
 " Normal plugins
 if has('python3') || has('python')
   Plug 'FelikZ/ctrlp-py-matcher'
@@ -52,13 +37,35 @@ endif
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 
-if v:version > 800
+if v:version >= 800
   Plug 'Shougo/denite.nvim'
-    Plug 'Shougo/neomru.vim'
+  Plug 'Shougo/neomru.vim'
   " Plug 'Shougo/unite-outline'
+  "
+  if has('nvim')
+    Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
+  else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+  endif
+  Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
+  Plug 'davidhalter/jedi-vim',{'for':['python']}
+  Plug 'ternjs/tern_for_vim',{'for':'javascript'}
+  Plug 'autozimu/LanguageClient-neovim',{'branch':'next','do':'bash install.sh'}
+
+  Plug 'Shougo/neosnippet.vim'
+  Plug 'Shougo/neosnippet-snippets'
+  Plug 'Shougo/context_filetype.vim'
+else
+  " Plug 'Valloric/YouCompleteMe'
 endif
 
 " Plug 'SirVer/ultisnips'
+" Plug 'ervandew/supertab'
+Plug 'jiangmiao/auto-pairs'
+" Plug 'raimondi/delimitmate'
+
 Plug 'Valloric/MatchTagAlways'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
@@ -69,7 +76,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'digitaltoad/vim-pug'
 Plug 'easymotion/vim-easymotion'
 Plug 'elzr/vim-json'
-Plug 'ervandew/supertab'
 Plug 'hdima/python-syntax'
 Plug 'honza/vim-snippets'
 Plug 'junegunn/gv.vim'
@@ -88,7 +94,6 @@ Plug 'thinca/vim-quickrun'
 
 Plug 'osyo-manga/vim-anzu'
 Plug 'posva/vim-vue'
-Plug 'raimondi/delimitmate'
 Plug 'scrooloose/nerdcommenter'
 
 Plug 'scrooloose/nerdtree'
