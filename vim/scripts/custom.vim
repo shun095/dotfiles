@@ -17,8 +17,6 @@ if mymisc#plug_tap('TweetVim')
   let g:tweetvim_display_icon = 1
   let g:tweetvim_display_separator = 1
   let g:tweetvim_async_post = 1
-  let g:tweetvim_default_account = 'NUSH06'
-
 
   " let g:tweetvim_updatetime = 10
   " nnoremap <Leader>Tl :<C-u>Unite tweetvim<CR>
@@ -105,9 +103,9 @@ if mymisc#plug_tap('vim-dirvish')
     endif
   endf
 
-" a open("vsplit",1)
-" o open("p",1)
-" o open("split",1)
+  " a open("vsplit",1)
+  " o open("p",1)
+  " o open("split",1)
 
   augroup vimrc_dirvish
     autocmd!
@@ -144,25 +142,6 @@ if mymisc#plug_tap('vim-dirvish')
     autocmd FileType dirvish call <SID>mydirvish_update_beforelist()
     autocmd FileType dirvish call <SID>mydirvish_selectprevdir()
   augroup END
-endif
-
-if mymisc#plug_tap('ultisnips')
-  " better key bindings for UltiSnipsExpandTrigger
-  let g:UltiSnipsExpandTrigger = '<Tab>'
-  let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-  let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
-
-  if has('unix')
-    if has('python3')
-      let g:UltiSnipsUsePythonVersion = 3
-    elseif has('python')
-      let g:UltiSnipsUsePythonVersion = 2
-    endif
-  endif
-endif
-
-if mymisc#plug_tap('supertab')
-  let g:SuperTabDefaultCompletionType = '<c-n>'
 endif
 
 if mymisc#plug_tap('ctrlp.vim')
@@ -211,13 +190,13 @@ if mymisc#plug_tap('ctrlp.vim')
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
   " if has('win32')
-    if g:mymisc_files_is_available
-      let g:ctrlp_user_command = 'files -a %s'
-    elseif g:mymisc_pt_is_available
-      let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-    elseif g:mymisc_ag_is_available
-      let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
-    endif
+  if g:mymisc_files_is_available
+    let g:ctrlp_user_command = 'files -a %s'
+  elseif g:mymisc_pt_is_available
+    let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+  elseif g:mymisc_ag_is_available
+    let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
+  endif
   " else
   "   " Brought from denite 
   "   let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
@@ -627,6 +606,26 @@ if mymisc#plug_tap('delimitmate')
   augroup END
 endif
 
+if mymisc#plug_tap('ultisnips')
+  " better key bindings for UltiSnipsExpandTrigger
+  let g:UltiSnipsExpandTrigger = '<Tab>'
+  let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+  let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+
+  if has('unix')
+    if has('python3')
+      let g:UltiSnipsUsePythonVersion = 3
+    elseif has('python')
+      let g:UltiSnipsUsePythonVersion = 2
+    endif
+  endif
+endif
+
+if mymisc#plug_tap('supertab')
+  let g:SuperTabDefaultCompletionType = '<c-n>'
+endif
+
+
 if mymisc#plug_tap('deoplete.nvim')
   if has('win32')
     let g:python3_host_prog = 'python'
@@ -636,14 +635,12 @@ if mymisc#plug_tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
   " Use smartcase.
   call deoplete#custom#option('smart_case', v:true)
+  inoremap <expr><C-space> deoplete#manual_complete()
 
-  " call deoplete#custom#option('sources', {
-  "       \ '_': ['omni', 'file', 'buffer', 'ultisnips', 'dictionary'],
-  "       \ })
-
-  " call deoplete#custom#var('omni', 'input_patterns', {
-  "       \ '_': ['\w*']
-  "       \ })
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  function! s:my_cr_function() abort
+    return pumvisible() ? deoplete#close_popup() : "\<CR>"
+  endfunction
 
   if mymisc#plug_tap('neosnippet.vim')
     imap <expr><TAB>
@@ -693,16 +690,50 @@ if mymisc#plug_tap('LanguageClient-neovim')
   let g:LanguageClient_loggingLevel = 'DEBUG'
   let g:LanguageClient_loggingFile = $HOME.'/.languageClientLog'
   let g:LanguageClient_serverCommands = {
-        \ 'vue': ['vls'],
-        \ 'html': [],
-        \ 'javascript': [],
-        \ 'css': [],
-        \ 'python': ['pyls'],
-        \ 'cpp': [$HOME.'/.vim/clangd']
+        \ 'vue':        ['vls'],
+        \ 'html':       [],
+        \ 'css':        [],
+        \ 'scss':       [],
+        \ 'sass':       [],
+        \ 'javascript': ['javascript-typescript-stdio'],
+        \ 'typescript': ['javascript-typescript-stdio'],
+        \ 'python':     ['pyls'],
+        \ 'cpp':        [$HOME.'/.vim/clangd'],
         \ }
-  augroup vimrc_langsrv
-    autocmd FileType vue,python setl omnifunc=LanguageClient#complete
+  augroup vimrc_langclient
+    autocmd!
+    autocmd FileType vue setlocal iskeyword+=$ iskeyword+=-
   augroup END
+endif
+
+if mymisc#plug_tap('csscomplete.vim')
+  call deoplete#custom#var('omni', 'input_patterns', {
+        \ 'html':   ['\w*'],
+        \ 'css':    ['\w*'],
+        \ 'sass':   ['\w*'],
+        \ 'scss':   ['\w*'],
+        \ 'vue':    ['\w*'],
+        \})
+
+  augroup vimrc_csscomplete
+    autocmd!
+    autocmd InsertEnter *.vue call s:change_omnifunc()
+  augroup END
+
+  function! s:change_omnifunc() abort
+    let filetype = context_filetype#get_filetype()
+    if filetype == 'html'
+      setl omnifunc=htmlcomplete#CompleteTags
+    elseif filetype == 'css'
+      setl omnifunc=csscomplete#CompleteCSS
+    elseif filetype == 'scss'
+      setl omnifunc=csscomplete#CompleteCSS
+    elseif filetype == 'sass'
+      setl omnifunc=csscomplete#CompleteCSS
+    else
+      setl omnifunc=htmlcomplete#CompleteTags
+    endif
+  endfunction
 endif
 
 if mymisc#plug_tap('clang_complete')

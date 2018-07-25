@@ -52,6 +52,7 @@ if v:version >= 800
   Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
   Plug 'davidhalter/jedi-vim',{'for':['python']}
   Plug 'ternjs/tern_for_vim',{'for':'javascript'}
+  Plug 'othree/csscomplete.vim'
   Plug 'autozimu/LanguageClient-neovim',{'branch':'next','do':'bash install.sh'}
 
   Plug 'Shougo/neosnippet.vim'
@@ -66,6 +67,14 @@ endif
 Plug 'jiangmiao/auto-pairs'
 " Plug 'raimondi/delimitmate'
 
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'digitaltoad/vim-pug'
+Plug 'groenewege/vim-less'
+Plug 'kchmck/vim-coffee-script' 
+Plug 'leafgarland/typescript-vim' 
+Plug 'slm-lang/vim-slm' 
+Plug 'wavded/vim-stylus' 
+
 Plug 'Valloric/MatchTagAlways'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
@@ -73,7 +82,6 @@ Plug 'alvan/vim-closetag'
 Plug 'aperezdc/vim-template'
 Plug 'chr4/nginx.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'digitaltoad/vim-pug'
 Plug 'easymotion/vim-easymotion'
 Plug 'elzr/vim-json'
 Plug 'hdima/python-syntax'
@@ -128,7 +136,6 @@ Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 Plug 'bkad/CamelCaseMotion'
 Plug 'cespare/vim-toml',{'for':'toml'}
 Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
-Plug 'csscomb/vim-csscomb',{'for':'css'}
 Plug 'fatih/vim-go',{'for':['go'] }
 Plug 'glidenote/memolist.vim',{'on':['MemoNew','MemoList']}
 
