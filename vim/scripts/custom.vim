@@ -757,11 +757,12 @@ if mymisc#plug_tap('jedi-vim')
 endif
 
 if mymisc#plug_tap('omnisharp-vim')
-  let g:OmniSharp_server_type = 'v1'
-  let g:OmniSharp_server_path = $HOME.'~/.vim/OmniSharp.exe'
-
+  call deoplete#custom#var('omni', 'input_patterns', {
+        \   'cs':'\w*'
+        \ })
   augroup omnisharp_commands
     autocmd!
+    autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
     " Show type information automatically when the cursor stops moving
     autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
 
@@ -770,7 +771,6 @@ if mymisc#plug_tap('omnisharp-vim')
     autocmd FileType cs OmniSharpHighlightTypes
     autocmd FileType cs nnoremap <buffer> K :OmniSharpDocumentation<CR>
   augroup END
-
   nnoremap <F2> :OmniSharpRename<CR>
 endif
 

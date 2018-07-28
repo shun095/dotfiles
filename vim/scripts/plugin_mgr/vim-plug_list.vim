@@ -51,7 +51,6 @@ if v:version >= 800
   endif
   Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
   Plug 'davidhalter/jedi-vim',{'for':['python']}
-  Plug 'ternjs/tern_for_vim',{'for':'javascript'}
   Plug 'othree/csscomplete.vim'
   if has('win32')
     Plug 'autozimu/LanguageClient-neovim',{'branch':'next','do':'powershell .\install.ps1'}
