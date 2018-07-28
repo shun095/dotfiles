@@ -686,20 +686,31 @@ if mymisc#plug_tap('ale')
 endif
 
 if mymisc#plug_tap('LanguageClient-neovim')
-  let g:LanguageClient_waitOutputTimeout = 30
-  let g:LanguageClient_loggingLevel = 'DEBUG'
-  let g:LanguageClient_loggingFile = $HOME.'/.languageClientLog'
-  let g:LanguageClient_serverCommands = {
-        \ 'vue':        ['vls'],
-        \ 'html':       [],
-        \ 'css':        [],
-        \ 'scss':       [],
-        \ 'sass':       [],
-        \ 'javascript': ['javascript-typescript-stdio'],
-        \ 'typescript': ['javascript-typescript-stdio'],
-        \ 'python':     ['pyls'],
-        \ 'cpp':        [$HOME.'/.vim/clangd'],
-        \ }
+  " let g:LanguageClient_waitOutputTimeout = 30
+  " let g:LanguageClient_loggingLevel = 'INFO'
+  let g:LanguageClient_loggingFile = $HOME.'/languageClient.log'
+  let g:LanguageClient_serverStderr = $HOME.'/languageServer.log'
+  if has('win32')
+    let g:LanguageClient_serverCommands = {
+          \ 'javascript': [$APPDATA.'\npm\javascript-typescript-stdio.cmd'],
+          \ 'typescript': [$APPDATA.'\npm\javascript-typescript-stdio.cmd'],
+          \ 'vue':        [$APPDATA.'\npm\vls.cmd'],
+          \ 'html':       [],
+          \ 'css':        [],
+          \ 'scss':       [],
+          \ 'sass':       [],
+          \ 'python':     ['pyls'],
+          \ 'cpp':        [$HOME.'/.vim/clangd'],
+          \ }
+  else
+    let g:LanguageClient_serverCommands = {
+          \ 'javascript': ['javascript-typescript-stdio'],
+          \ 'typescript': ['javascript-typescript-stdio'],
+          \ 'vue':        ['vls'],
+          \ 'python':     ['pyls'],
+          \ 'cpp':        [$HOME.'/.vim/clangd'],
+          \ }
+  endif
   augroup vimrc_langclient
     autocmd!
     autocmd FileType vue setlocal iskeyword+=$ iskeyword+=-
@@ -708,11 +719,9 @@ endif
 
 if mymisc#plug_tap('csscomplete.vim')
   call deoplete#custom#var('omni', 'input_patterns', {
-        \ 'html':   ['\w*'],
-        \ 'css':    ['\w*'],
-        \ 'sass':   ['\w*'],
-        \ 'scss':   ['\w*'],
-        \ 'vue':    ['\w*'],
+        \ 'css':        ['\w*'],
+        \ 'sass':       ['\w*'],
+        \ 'scss':       ['\w*'],
         \})
 
   augroup vimrc_csscomplete
@@ -721,15 +730,17 @@ if mymisc#plug_tap('csscomplete.vim')
   augroup END
 
   function! s:change_omnifunc() abort
-    let filetype = context_filetype#get_filetype()
-    if filetype == 'html'
-      setl omnifunc=htmlcomplete#CompleteTags
-    elseif filetype == 'css'
+    let ctx_filetype = context_filetype#get_filetype()
+    if ctx_filetype == 'html'
+      setl omnifunc=LanguageClient#complete
+    elseif ctx_filetype == 'css'
       setl omnifunc=csscomplete#CompleteCSS
-    elseif filetype == 'scss'
+    elseif ctx_filetype == 'scss'
       setl omnifunc=csscomplete#CompleteCSS
-    elseif filetype == 'sass'
+    elseif ctx_filetype == 'sass'
       setl omnifunc=csscomplete#CompleteCSS
+    elseif ctx_filetype == 'javascript'
+      setl omnifunc=LanguageClient#complete
     else
       setl omnifunc=htmlcomplete#CompleteTags
     endif
