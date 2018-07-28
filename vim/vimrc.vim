@@ -416,7 +416,7 @@ if g:plugin_mgr.enabled == g:true
   endif
 
   " Colorschemes
-  if has('win32') && !has('gui_running') " On windows terminal
+  if has('win32') && !has('nvim') && !has('gui_running') " On windows terminal
     colorscheme default
     set background=dark
   else                                   " On any other environment
