@@ -647,6 +647,7 @@ if mymisc#plug_tap('deoplete.nvim')
   smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
         \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
   imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+  inoremap <expr><C-Space> deoplete#mappings#manual_complete()
 
   function! s:my_cr_function() abort
     if pumvisible()
@@ -678,6 +679,10 @@ if mymisc#plug_tap('deoplete.nvim')
   if mymisc#plug_tap('deoplete-clang')
     " let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
     " let g:deoplete#sources#clang#clang_header = '/usr/include/clang/'
+  endif
+
+  if mymisc#plug_tap('deoplete-clangx')
+    call deoplete#custom#var('clangx', 'clang_binary', '/usr/lib/llvm-6.0/bin/clang')
   endif
 
   if mymisc#plug_tap('deoplete-jedi')
@@ -720,19 +725,14 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'javascript': [$APPDATA.'\npm\javascript-typescript-stdio.cmd'],
           \ 'typescript': [$APPDATA.'\npm\javascript-typescript-stdio.cmd'],
           \ 'vue':        [$APPDATA.'\npm\vls.cmd'],
-          \ 'html':       [],
-          \ 'css':        [],
-          \ 'scss':       [],
-          \ 'sass':       [],
-          \ 'cpp':        [$HOME.'/.vim/clangd'],
+          \ 'cpp':        [$HOME.'/.vim/clangd']
           \ }
   else
     let g:LanguageClient_serverCommands = {
           \ 'javascript': ['javascript-typescript-stdio'],
           \ 'typescript': ['javascript-typescript-stdio'],
           \ 'vue':        ['vls'],
-          \ 'python':     ['pyls'],
-          \ 'cpp':        [$HOME.'/.vim/clangd'],
+          \ 'cpp':        [$HOME.'/.vim/clangd']
           \ }
   endif
   augroup vimrc_langclient
@@ -767,6 +767,7 @@ endif
 
 if mymisc#plug_tap('clang_complete')
   " let g:clang_library_path='/usr/lib/llvm-3.8/lib'
+  let g:clang_complete_auto=0
 endif
 
 if mymisc#plug_tap('jedi-vim')

@@ -42,18 +42,20 @@ if v:version >= 800
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
+
+  Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
+  Plug 'Rip-Rip/clang_complete',{'for':['c','cpp']} " for goto definition (completed by LanguageClient)
+  Plug 'davidhalter/jedi-vim',{'for':['python']} " for completion
+  Plug 'zchee/deoplete-jedi',{'for':['python']} " for goto definition
+
+  Plug 'othree/csscomplete.vim'
+  Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
+
   if has('win32')
     Plug 'autozimu/LanguageClient-neovim',{'branch':'next','do':'powershell .\install.ps1'}
   else
     Plug 'autozimu/LanguageClient-neovim',{'branch':'next','do':'bash install.sh'}
   endif
-
-  Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
-  Plug 'davidhalter/jedi-vim',{'for':['python']}
-  Plug 'zchee/deoplete-jedi',{'for':['python']}
-  Plug 'othree/csscomplete.vim'
-
-  Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 
   Plug 'Shougo/neosnippet.vim'
   Plug 'Shougo/neosnippet-snippets'
