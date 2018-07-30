@@ -37,7 +37,7 @@ else
   set t_Co=256                                         " 256 colors on terminal
 endif
 
-if $TERM !=# 'linux'
+if $TERM !=# 'linux' && $TERM !=# ''
   let &t_SI = '[5 q'
   let &t_EI = '[2 q'
 endif
