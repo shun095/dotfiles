@@ -411,18 +411,12 @@ if g:plugin_mgr.enabled == g:true
   endif
 
   " Colorschemes
-  if has('win32') && !has('nvim') && !has('gui_running') " On windows terminal
-    colorscheme default
+  try
     set background=dark
-  else                                   " On any other environment
-    try
-      set background=dark
-      colorscheme one
-    catch
-      colorscheme default
-      set background=light
-    endtry
-  endif
+    colorscheme one
+  catch
+    colorscheme default
+  endtry
 
   highlight! Terminal ctermbg=black guibg=black
   " }}} WHEN PLUGINS ARE ENABLED END
@@ -434,7 +428,6 @@ else
   syntax enable
 
   colorscheme default
-  set background=light
   " }}} WHEN PLUGINS ARE DISABLED END
 
 endif
