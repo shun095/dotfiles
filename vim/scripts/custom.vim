@@ -635,39 +635,69 @@ if mymisc#plug_tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
   " Use smartcase.
   call deoplete#custom#option('smart_case', v:true)
-  inoremap <expr><C-space> deoplete#manual_complete()
 
-  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-  function! s:my_cr_function() abort
-    return pumvisible() ? deoplete#close_popup() : "\<CR>"
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
   endfunction
 
-  if mymisc#plug_tap('neosnippet.vim')
-    imap <expr><TAB>
-          \ pumvisible() ? "\<C-n>" :
-          \ neosnippet#expandable_or_jumpable() ?
-          \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-          \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-    imap <expr><C-l>
-          \ (pumvisible() && neosnippet#expandable()) ?
-          \ "\<Plug>(neosnippet_expand)" : "\<C-l>"
-  else
-    imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-  endif
-
+  let g:AutoPairsMapCR = 0
+  imap <expr><CR> <SID>my_cr_function()
+  imap <expr><TAB> <SID>my_tab_function()
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+        \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
   imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+  inoremap <expr><C-Space> deoplete#mappings#manual_complete()
+
+  function! s:my_cr_function() abort
+    if pumvisible()
+      if neosnippet#expandable()
+        echo "Expanding snippet"
+        return "\<Plug>(neosnippet_expand)"
+      else
+        echo "Popup closed"
+        return deoplete#close_popup()
+      endif
+    else
+      return "\<CR>\<C-R>=AutoPairsReturn()\<CR>"
+    endif
+  endfunction
+
+  function! s:my_tab_function() abort
+    if pumvisible()
+      return "\<C-n>"
+    elseif neosnippet#expandable_or_jumpable()
+      return "\<Plug>(neosnippet_expand_or_jump)" 
+    elseif <SID>check_back_space()
+      return "\<TAB>"
+    else
+      call deoplete#mappings#manual_complete()
+      return ""
+    endif
+  endfunction
 
   if mymisc#plug_tap('deoplete-clang')
     " let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
     " let g:deoplete#sources#clang#clang_header = '/usr/include/clang/'
   endif
 
+  if mymisc#plug_tap('deoplete-clangx')
+    call deoplete#custom#var('clangx', 'clang_binary', '/usr/lib/llvm-6.0/bin/clang')
+  endif
+
   if mymisc#plug_tap('deoplete-jedi')
     let g:deoplete#sources#jedi#server_timeout = 30
   endif
+
+  call deoplete#custom#var('omni', 'input_patterns', {
+        \ 'css':        ['\w*'],
+        \ 'sass':       ['\w*'],
+        \ 'scss':       ['\w*'],
+        \})
+
+  call deoplete#custom#var('omni', 'input_patterns', {
+        \   'cs':'\w*'
+        \ })
 endif
 
 if mymisc#plug_tap('ale')
@@ -695,20 +725,14 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'javascript': [$APPDATA.'\npm\javascript-typescript-stdio.cmd'],
           \ 'typescript': [$APPDATA.'\npm\javascript-typescript-stdio.cmd'],
           \ 'vue':        [$APPDATA.'\npm\vls.cmd'],
-          \ 'html':       [],
-          \ 'css':        [],
-          \ 'scss':       [],
-          \ 'sass':       [],
-          \ 'python':     ['pyls'],
-          \ 'cpp':        [$HOME.'/.vim/clangd'],
+          \ 'cpp':        [$HOME.'/.vim/clangd']
           \ }
   else
     let g:LanguageClient_serverCommands = {
           \ 'javascript': ['javascript-typescript-stdio'],
           \ 'typescript': ['javascript-typescript-stdio'],
           \ 'vue':        ['vls'],
-          \ 'python':     ['pyls'],
-          \ 'cpp':        [$HOME.'/.vim/clangd'],
+          \ 'cpp':        [$HOME.'/.vim/clangd']
           \ }
   endif
   augroup vimrc_langclient
@@ -718,12 +742,6 @@ if mymisc#plug_tap('LanguageClient-neovim')
 endif
 
 if mymisc#plug_tap('csscomplete.vim')
-  call deoplete#custom#var('omni', 'input_patterns', {
-        \ 'css':        ['\w*'],
-        \ 'sass':       ['\w*'],
-        \ 'scss':       ['\w*'],
-        \})
-
   augroup vimrc_csscomplete
     autocmd!
     autocmd InsertEnter *.vue call s:change_omnifunc()
@@ -749,6 +767,7 @@ endif
 
 if mymisc#plug_tap('clang_complete')
   " let g:clang_library_path='/usr/lib/llvm-3.8/lib'
+  let g:clang_complete_auto=0
 endif
 
 if mymisc#plug_tap('jedi-vim')
@@ -761,9 +780,6 @@ if mymisc#plug_tap('jedi-vim')
 endif
 
 if mymisc#plug_tap('omnisharp-vim')
-  call deoplete#custom#var('omni', 'input_patterns', {
-        \   'cs':'\w*'
-        \ })
   augroup omnisharp_commands
     autocmd!
     autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
@@ -856,7 +872,7 @@ if mymisc#plug_tap('vim-go')
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
-  let g:gitgutter_async = 0
+  let g:gitgutter_async = 1
 endif
 
 if mymisc#plug_tap('rainbow')

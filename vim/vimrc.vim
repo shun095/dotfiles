@@ -27,28 +27,23 @@ augroup VIMRC
   autocmd! 
 augroup END
 
-if has('win32')                                          " Windows
-  set t_Co=16                                            " 16 colors on cmd.exe
-
-elseif has('unix')                                       " UNIX
-  if v:version >= 800
-    set termguicolors                                    " TrueColor on terminal
-    if $TMUX !=# ""
-      let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-      let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
-    endif
-  else
-    set t_Co=256                                         " 256 colors on terminal
+if v:version >= 800
+  set termguicolors                                    " TrueColor on terminal
+  if $TMUX !=# ""
+    let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+    let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
   endif
+else
+  set t_Co=256                                         " 256 colors on terminal
+endif
 
-  if $TERM !=# 'linux'
-    let &t_SI = '[5 q'
-    let &t_EI = '[2 q'
-  endif
+if $TERM !=# 'linux' && $TERM !=# ''
+  let &t_SI = '[5 q'
+  let &t_EI = '[2 q'
+endif
 
-  if !has('nvim')
-    set ttymouse=xterm2
-  endif
+if !has('nvim')
+  set ttymouse=xterm2
 endif
 
 if v:version >= 800
@@ -298,7 +293,7 @@ function! s:MSYSTerm()
   call term_start([l:msys_bash_path, '-l'], {
         \ 'term_name': 'MSYS',
         \ 'term_finish': 'close',
-        \ 'curwin': v:false,
+        \ 'curwin': g:false,
         \ 'cwd': $USERPROFILE,
         \ 'env': l:env,
         \ })
@@ -416,18 +411,12 @@ if g:plugin_mgr.enabled == g:true
   endif
 
   " Colorschemes
-  if has('win32') && !has('nvim') && !has('gui_running') " On windows terminal
-    colorscheme default
+  try
     set background=dark
-  else                                   " On any other environment
-    try
-      set background=dark
-      colorscheme one
-    catch
-      colorscheme default
-      set background=light
-    endtry
-  endif
+    colorscheme one
+  catch
+    colorscheme default
+  endtry
 
   highlight! Terminal ctermbg=black guibg=black
   " }}} WHEN PLUGINS ARE ENABLED END
@@ -439,7 +428,6 @@ else
   syntax enable
 
   colorscheme default
-  set background=light
   " }}} WHEN PLUGINS ARE DISABLED END
 
 endif

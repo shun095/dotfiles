@@ -27,7 +27,9 @@ fun! mymisc#git_auto_updating() abort
     if has('job')
       call job_start('git pull', {'callback': 'mymisc#git_callback', 'exit_cb': 'mymisc#git_end_callback'})
     else
-      call vimproc#system('git pull &')
+      if mymisc#plug_tap('vimproc.vim')
+        call vimproc#system('git pull &')
+      endif
     endif
     " call system("git pull")
     execute 'cd ' . escape(s:save_cd, ' ')
