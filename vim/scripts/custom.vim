@@ -668,6 +668,16 @@ if mymisc#plug_tap('deoplete.nvim')
   if mymisc#plug_tap('deoplete-jedi')
     let g:deoplete#sources#jedi#server_timeout = 30
   endif
+
+  call deoplete#custom#var('omni', 'input_patterns', {
+        \ 'css':        ['\w*'],
+        \ 'sass':       ['\w*'],
+        \ 'scss':       ['\w*'],
+        \})
+
+  call deoplete#custom#var('omni', 'input_patterns', {
+        \   'cs':'\w*'
+        \ })
 endif
 
 if mymisc#plug_tap('ale')
@@ -718,12 +728,6 @@ if mymisc#plug_tap('LanguageClient-neovim')
 endif
 
 if mymisc#plug_tap('csscomplete.vim')
-  call deoplete#custom#var('omni', 'input_patterns', {
-        \ 'css':        ['\w*'],
-        \ 'sass':       ['\w*'],
-        \ 'scss':       ['\w*'],
-        \})
-
   augroup vimrc_csscomplete
     autocmd!
     autocmd InsertEnter *.vue call s:change_omnifunc()
@@ -757,9 +761,6 @@ if mymisc#plug_tap('jedi-vim')
 endif
 
 if mymisc#plug_tap('omnisharp-vim')
-  call deoplete#custom#var('omni', 'input_patterns', {
-        \   'cs':'\w*'
-        \ })
   augroup omnisharp_commands
     autocmd!
     autocmd FileType cs setlocal omnifunc=OmniSharp#Complete

@@ -30,13 +30,6 @@ Plug 'rakr/vim-one'
 "     Plug 'zchee/deoplete-jedi',{'for':['python']}
 " else
 
-" Normal plugins
-if has('python3') || has('python')
-  Plug 'FelikZ/ctrlp-py-matcher'
-endif
-Plug 'Konfekt/FastFold'
-Plug 'LeafCage/foldCC.vim'
-
 if v:version >= 800
   Plug 'Shougo/denite.nvim'
   Plug 'Shougo/neomru.vim'
@@ -49,21 +42,29 @@ if v:version >= 800
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
-  Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
-  Plug 'davidhalter/jedi-vim',{'for':['python']}
-  Plug 'othree/csscomplete.vim'
   if has('win32')
     Plug 'autozimu/LanguageClient-neovim',{'branch':'next','do':'powershell .\install.ps1'}
   else
     Plug 'autozimu/LanguageClient-neovim',{'branch':'next','do':'bash install.sh'}
   endif
+  Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
+  Plug 'davidhalter/jedi-vim',{'for':['python']}
+  Plug 'othree/csscomplete.vim'
+
+  Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 
   Plug 'Shougo/neosnippet.vim'
   Plug 'Shougo/neosnippet-snippets'
   Plug 'Shougo/context_filetype.vim'
 else
   " Plug 'Valloric/YouCompleteMe'
+  " Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
 endif
+
+" Normal plugins
+Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'Konfekt/FastFold'
+Plug 'LeafCage/foldCC.vim'
 
 " Plug 'SirVer/ultisnips'
 " Plug 'ervandew/supertab'
@@ -135,7 +136,6 @@ Plug 'ishitaku5522/revimses',{'branch':'dev'}
 "Normal lazy plugins
 Plug 'AndrewRadev/linediff.vim',{'on':'Linediff'}
 Plug 'Shougo/vimproc.vim'
-Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 Plug 'bkad/CamelCaseMotion'
 Plug 'cespare/vim-toml',{'for':'toml'}
 Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
@@ -156,7 +156,6 @@ Plug 'mattn/emmet-vim',{'for':['html','xml']}
 Plug 'mbbill/undotree',{'on':['UndotreeFocus','UndotreeHide','UndotreeShow','UndotreeToggle']}
 Plug 'mopp/next-alter.vim',{'for':['c','cpp']}
 Plug 'OrangeT/vim-csharp',{'for':['cs','csi','csx']}
-Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
 Plug 'tyru/restart.vim',{'on':'Restart'}
 Plug 'vim-jp/vital.vim',{'on':'Vitalize'}
 
