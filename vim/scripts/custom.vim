@@ -635,30 +635,45 @@ if mymisc#plug_tap('deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
   " Use smartcase.
   call deoplete#custom#option('smart_case', v:true)
-  inoremap <expr><C-space> deoplete#manual_complete()
 
-  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-  function! s:my_cr_function() abort
-    return pumvisible() ? deoplete#close_popup() : "\<CR>"
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
   endfunction
 
-  if mymisc#plug_tap('neosnippet.vim')
-    imap <expr><TAB>
-          \ pumvisible() ? "\<C-n>" :
-          \ neosnippet#expandable_or_jumpable() ?
-          \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-          \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-    imap <expr><C-l>
-          \ (pumvisible() && neosnippet#expandable()) ?
-          \ "\<Plug>(neosnippet_expand)" : "\<C-l>"
-  else
-    imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-  endif
-
+  let g:AutoPairsMapCR = 0
+  imap <expr><CR> <SID>my_cr_function()
+  imap <expr><TAB> <SID>my_tab_function()
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+        \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
   imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+  function! s:my_cr_function() abort
+    if pumvisible()
+      if neosnippet#expandable()
+        echo "Expanding snippet"
+        return "\<Plug>(neosnippet_expand)"
+      else
+        echo "Popup closed"
+        return deoplete#close_popup()
+      endif
+    else
+      return "\<CR>\<C-R>=AutoPairsReturn()\<CR>"
+    endif
+  endfunction
+
+  function! s:my_tab_function() abort
+    if pumvisible()
+      return "\<C-n>"
+    elseif neosnippet#expandable_or_jumpable()
+      return "\<Plug>(neosnippet_expand_or_jump)" 
+    elseif <SID>check_back_space()
+      return "\<TAB>"
+    else
+      call deoplete#mappings#manual_complete()
+      return ""
+    endif
+  endfunction
 
   if mymisc#plug_tap('deoplete-clang')
     " let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
@@ -709,7 +724,6 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'css':        [],
           \ 'scss':       [],
           \ 'sass':       [],
-          \ 'python':     ['pyls'],
           \ 'cpp':        [$HOME.'/.vim/clangd'],
           \ }
   else

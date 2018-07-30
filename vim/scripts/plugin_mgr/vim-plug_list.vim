@@ -47,8 +47,10 @@ if v:version >= 800
   else
     Plug 'autozimu/LanguageClient-neovim',{'branch':'next','do':'bash install.sh'}
   endif
+
   Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
   Plug 'davidhalter/jedi-vim',{'for':['python']}
+  Plug 'zchee/deoplete-jedi',{'for':['python']}
   Plug 'othree/csscomplete.vim'
 
   Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
