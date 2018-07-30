@@ -754,6 +754,10 @@ endif
 if mymisc#plug_tap('jedi-vim')
   let g:jedi#completions_enabled = 0
   let g:jedi#show_call_signatures = 2
+  augroup vimrc_jedi
+    autocmd!
+    autocmd FileType python nnoremap <buffer> <C-]> :call jedi#goto()<CR>
+  augroup END
 endif
 
 if mymisc#plug_tap('omnisharp-vim')
@@ -767,7 +771,7 @@ if mymisc#plug_tap('omnisharp-vim')
     autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
 
     " The following commands are contextual, based on the cursor position.
-    autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+    autocmd FileType cs nnoremap <buffer> <C-]> :OmniSharpGotoDefinition<CR>
     autocmd FileType cs OmniSharpHighlightTypes
     autocmd FileType cs nnoremap <buffer> K :OmniSharpDocumentation<CR>
   augroup END
