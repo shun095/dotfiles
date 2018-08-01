@@ -193,6 +193,13 @@ endif
 
 set backupdir=$HOME/.vim/backupfiles
 set backup
+
+" change swap file directory
+if !isdirectory($HOME . '/tmp')
+  call mkdir($HOME . '/tmp','p')
+endif
+
+set dir-=.
 " }}} OPTIONS END 
 
 " MAPPING {{{
