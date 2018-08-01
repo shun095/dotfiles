@@ -7,6 +7,9 @@ if exists('g:loaded_vim_plug_list')
 endif
 let g:loaded_vim_plug_list = 1
 
+" Force to use python3
+call has('python3')
+
 " Color schemes
 Plug 'rakr/vim-one'
 " Plug 'NLKNguyen/papercolor-theme'
