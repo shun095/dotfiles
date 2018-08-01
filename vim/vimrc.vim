@@ -110,7 +110,6 @@ set imsearch=0
 
 set sessionoptions&                                      " セッションファイルに保存する内容
 set sessionoptions-=options
-set sessionoptions-=buffers
 set sessionoptions-=folds
 set sessionoptions-=blank
 set sessionoptions+=slash
@@ -194,6 +193,13 @@ endif
 
 set backupdir=$HOME/.vim/backupfiles
 set backup
+
+" change swap file directory
+if !isdirectory($HOME . '/tmp')
+  call mkdir($HOME . '/tmp','p')
+endif
+
+set dir-=.
 " }}} OPTIONS END 
 
 " MAPPING {{{

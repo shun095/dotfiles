@@ -7,6 +7,9 @@ if exists('g:loaded_vim_plug_list')
 endif
 let g:loaded_vim_plug_list = 1
 
+" Force to use python3
+call has('python3')
+
 " Color schemes
 Plug 'rakr/vim-one'
 " Plug 'NLKNguyen/papercolor-theme'
@@ -19,25 +22,18 @@ Plug 'rakr/vim-one'
 " Plug 'morhetz/gruvbox'
 "
 " Completers
-" If has nvim
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim'
-"     " deoplete completers
-"     Plug 'Rip-Rip/clang_complete',{'for':['c', 'cpp', 'h', 'hpp']}
-"     Plug 'carlitux/deoplete-ternjs',{'for':['javascript']}
-"     Plug 'davidhalter/jedi-vim',{'for':['python']}
-"     Plug 'zchee/deoplete-go',{'for':['go']}
-"     Plug 'zchee/deoplete-jedi',{'for':['python']}
-" else
+" " deoplete completers
+" Plug 'carlitux/deoplete-ternjs',{'for':['javascript']}
+" Plug 'zchee/deoplete-go',{'for':['go']}
 
 if v:version >= 800
-  Plug 'Shougo/denite.nvim'
   Plug 'Shougo/neomru.vim'
-  " Plug 'Shougo/unite-outline'
   "
   if has('nvim')
+    Plug 'Shougo/denite.nvim',{'do':':UpdateRemotePlugins'}
     Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
   else
+    Plug 'Shougo/denite.nvim'
     Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
