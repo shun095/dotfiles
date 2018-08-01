@@ -110,7 +110,6 @@ set imsearch=0
 
 set sessionoptions&                                      " セッションファイルに保存する内容
 set sessionoptions-=options
-set sessionoptions-=buffers
 set sessionoptions-=folds
 set sessionoptions-=blank
 set sessionoptions+=slash
