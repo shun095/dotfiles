@@ -275,7 +275,7 @@ if mymisc#plug_tap('nerdtree')
   let g:NERDTreeMinimalUI = 1
   let g:NERDTreeShowBookmarks = 1
 
-  let g:NERDTreeIgnore = ['.meta','.swp','.swo','.pyc']
+  let g:NERDTreeIgnore = ['\.meta','\.sw[po]','\.pyc']
 
   " let g:NERDTreeDirArrowExpandable = '+'
   " let g:NERDTreeDirArrowCollapsible = '-'
