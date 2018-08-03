@@ -868,7 +868,7 @@ if mymisc#plug_tap('vim-go')
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
-  let g:gitgutter_async = 1
+  let g:gitgutter_async = 0
 endif
 
 if mymisc#plug_tap('rainbow')
