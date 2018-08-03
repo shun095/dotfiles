@@ -153,7 +153,8 @@ if mymisc#plug_tap('ctrlp.vim')
   let s:ctrlp_my_match_func = {}
 
   if mymisc#plug_tap('cpsm') " ========== For cpsm
-    let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
+    " let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
+    let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
 
     if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
       echomsg "Cpsm is not built yet."
