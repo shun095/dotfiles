@@ -181,7 +181,7 @@ if mymisc#plug_tap('ctrlp.vim')
   nnoremap <Leader>b        :CtrlPBuffer<CR>
   nnoremap <Leader>c        :CtrlPCurWD<CR>
   nnoremap <Leader>f        :CtrlP<CR>
-  " g
+  " gr
   nnoremap <Leader>l        :CtrlPLine %<CR>
   nnoremap <Leader>o        :CtrlPBufTag<CR>
   nnoremap <Leader>r        :CtrlPRegister<CR>
@@ -527,11 +527,11 @@ if mymisc#plug_tap('denite.nvim')
         \ '\|\%(^\%(fugitive\)://\)'.
         \ '\|\%(^\%(term\)://\)'
 
-  call denite#custom#option('default','auto_resize',            '1')
-  call denite#custom#option('default','reversed',               '1')
-  call denite#custom#option('default','highlight_matched_char', 'Special')
+  call denite#custom#option('default','auto_resize'            ,'1')
+  call denite#custom#option('default','reversed'               ,'1')
+  call denite#custom#option('default','highlight_matched_char' ,'Special')
   call denite#custom#option('default','highlight_matched_range','Normal')
-  call denite#custom#option('default','updatetime',             '10')
+  call denite#custom#option('default','updatetime'             ,'10')
 
   if !exists('g:ctrlp_match_func')
     let g:ctrlp_match_func = {}
@@ -545,39 +545,39 @@ if mymisc#plug_tap('denite.nvim')
 
   call denite#custom#source('file_mru','matchers',s:denite_matchers)
   call denite#custom#source('file_rec','matchers',s:denite_matchers)
-  call denite#custom#source('line',    'matchers',s:denite_matchers)
-  call denite#custom#source('file_mru','sorters', [])
-  call denite#custom#source('buffer',  'sorters', [])
+  call denite#custom#source('line'    ,'matchers',s:denite_matchers)
+  call denite#custom#source('file_mru','sorters' ,[])
+  call denite#custom#source('buffer'  ,'sorters' ,[])
 
   " Change mappings.
-  call denite#custom#map('insert','<C-j>', '<denite:move_to_next_line>',    'noremap')
-  call denite#custom#map('insert','<C-k>', '<denite:move_to_previous_line>','noremap')
-  call denite#custom#map('insert','<Down>','<denite:move_to_next_line>',    'noremap')
-  call denite#custom#map('insert','<Up>',  '<denite:move_to_previous_line>','noremap')
-  call denite#custom#map('insert','<C-t>', '<denite:do_action:tabopen>',    'noremap')
-  call denite#custom#map('insert','<C-v>', '<denite:do_action:vsplit>',     'noremap')
-  call denite#custom#map('insert','<C-s>', '<denite:do_action:split>',      'noremap')
-  call denite#custom#map('insert','<C-CR>','<denite:do_action:split>',      'noremap')
-  call denite#custom#map('insert','<C-x>', '<denite:do_action:split>',      'noremap')
-  call denite#custom#map('insert','<C-g>', '<denite:leave_mode>',           'noremap')
+  call denite#custom#map('insert','<C-j>' ,'<denite:move_to_next_line>'    ,'noremap')
+  call denite#custom#map('insert','<C-k>' ,'<denite:move_to_previous_line>','noremap')
+  call denite#custom#map('insert','<Down>','<denite:move_to_next_line>'    ,'noremap')
+  call denite#custom#map('insert','<Up>'  ,'<denite:move_to_previous_line>','noremap')
+  call denite#custom#map('insert','<C-t>' ,'<denite:do_action:tabopen>'    ,'noremap')
+  call denite#custom#map('insert','<C-v>' ,'<denite:do_action:vsplit>'     ,'noremap')
+  call denite#custom#map('insert','<C-s>' ,'<denite:do_action:split>'      ,'noremap')
+  call denite#custom#map('insert','<C-CR>','<denite:do_action:split>'      ,'noremap')
+  call denite#custom#map('insert','<C-x>' ,'<denite:do_action:split>'      ,'noremap')
+  call denite#custom#map('insert','<C-g>' ,'<denite:leave_mode>'           ,'noremap')
 
   " Change file_rec command.
   if g:mymisc_files_is_available
     call denite#custom#var('file_rec','command',['files','-a'])
   elseif g:mymisc_pt_is_available
-    call denite#custom#var('file_rec','command',['pt',   '--follow','--nocolor','--nogroup','--hidden','-g',''])
+    call denite#custom#var('file_rec','command',['pt','--follow','--nocolor','--nogroup','--hidden','-g',''])
   elseif g:mymisc_ag_is_available
-    call denite#custom#var('file_rec','command',['ag',   '--follow','--nocolor','--nogroup','--hidden','-g',''])
+    call denite#custom#var('file_rec','command',['ag','--follow','--nocolor','--nogroup','--hidden','-g',''])
   endif
 
   " rg command on grep source
   if g:mymisc_rg_is_available
-    call denite#custom#var('grep','command',       ['rg'])
-    call denite#custom#var('grep','default_opts',  ['--vimgrep'])
+    call denite#custom#var('grep','command'       ,['rg'])
+    call denite#custom#var('grep','default_opts'  ,['--vimgrep'])
     call denite#custom#var('grep','recursive_opts',[])
-    call denite#custom#var('grep','pattern_opt',   ['--regexp'])
-    call denite#custom#var('grep','separator',     ['--'])
-    call denite#custom#var('grep','final_opts',    [])
+    call denite#custom#var('grep','pattern_opt'   ,['--regexp'])
+    call denite#custom#var('grep','separator'     ,['--'])
+    call denite#custom#var('grep','final_opts'    ,[])
   endif
 
   " Mappings
@@ -587,7 +587,7 @@ if mymisc#plug_tap('denite.nvim')
   " nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
   nnoremap <silent> <Leader>c :<C-u>Denite file_rec<CR>
   nnoremap <silent> <Leader>f :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
-  nnoremap <silent> <Leader>g :<C-u>Denite grep -no-quit<CR>
+  nnoremap <silent> <Leader>gr :<C-u>Denite grep -no-quit<CR>
   " nnoremap <silent> <Leader>l :<C-u>Denite line<CR>
   " nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
   " nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
