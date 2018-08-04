@@ -100,7 +100,7 @@ Plug 'luochen1990/rainbow'
 " repo = 'nixprime/cpsm'
 " merged = 0
 if has('unix')
-  Plug 'nixprime/cpsm',{'do','bash install.sh'}
+  Plug 'nixprime/cpsm',{'do':'bash install.sh'}
 endif
 Plug 'mattn/ctrlp-register'
 
