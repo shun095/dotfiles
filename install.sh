@@ -136,7 +136,7 @@ remove_rcfiles_symlink() {
 }
 
 remove_rcfiles() {
-        echo -e "\n===== Remove existing RC files =======================================\n"
+        echo -e "\n===== Removeing existing RC files ====================================\n"
 
         for rcfile in ${ZSHFILES[@]}; do
             name=$(basename $rcfile)
@@ -150,7 +150,7 @@ remove_rcfiles() {
 }
 
 uninstall_plugins() {
-    echo "Remove fzf and zprezto directory"
+    echo "Removing fzf and zprezto directory"
     if [[ -e $HOME/.fzf/uninstall ]]; then
         $HOME/.fzf/uninstall
     fi
@@ -254,7 +254,7 @@ insert_line() {
 }
 
 deploy_ohmyzsh_files() {
-    echo -e "\n===== Install oh my zsh ==============================================\n"
+    echo -e "\n===== Installing oh my zsh ===========================================\n"
 
     for item in ${ZSHFILES[@]}; do
         # restore zshfiles backup if exists
@@ -286,7 +286,7 @@ deploy_ohmyzsh_files() {
 
 deploy_selfmade_rcfiles() {
     # make symlinks
-    echo -e "\n===== Install RC files ===============================================\n"
+    echo -e "\n===== Installing RC files ============================================\n"
     final_idx_simlinks=`expr ${#SYMLINKS[@]} - 1`
     for i in `seq 0 ${final_idx_simlinks}`; do
         if [[ ! -e ${SYMLINKS[${i}]} ]]; then
@@ -301,7 +301,7 @@ deploy_selfmade_rcfiles() {
 }
 
 deploy_fzf() {
-    echo -e "\n===== Install fzf ====================================================\n"
+    echo -e "\n===== Installing fzf =================================================\n"
     ~/.fzf/install --completion --key-bindings --update-rc
 }
 
@@ -310,7 +310,7 @@ deploy_fzf() {
 ##############################################
 
 backup() {
-    echo -e "\n===== Back up ========================================================\n"
+    echo -e "\n===== Making back up files ===========================================\n"
     for item in ${ZSHFILES[@]}; do
         if [[ -e $item ]]; then
             backup_file $item
@@ -325,6 +325,7 @@ backup() {
 }
 
 compile_zshfiles() {
+    echo -e "\n===== Compiling zsh files ============================================\n"
     $MYDOTFILES/tools/zsh_compile.zsh
 }
 
