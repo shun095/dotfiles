@@ -157,7 +157,7 @@ if mymisc#plug_tap('ctrlp.vim')
     let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
 
     if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
-      echomsg "Cpsm is not built yet."
+      echomsg "Cpsm has not been built yet."
     else
       let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
     endif
@@ -712,8 +712,8 @@ if mymisc#plug_tap('ale')
         \ 'cpp': '',
         \ 'python': ''
         \ }
-  let g:ale_sign_error = ''
-  let g:ale_sign_warning = ''
+  let g:ale_sign_error = 'E'
+  let g:ale_sign_warning = 'W'
 endif
 
 if mymisc#plug_tap('LanguageClient-neovim')
@@ -736,6 +736,33 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'cpp':        [$HOME.'/.vim/clangd']
           \ }
   endif
+  let g:LanguageClient_diagnosticsDisplay =
+        \ {
+        \   1: {
+        \     "name": "Error",
+        \     "texthl": "ALEError",
+        \     "signText": "E",
+        \     "signTexthl": "ALEErrorSign",
+        \   },
+        \   2: {
+        \     "name": "Warning",
+        \     "texthl": "ALEWarning",
+        \     "signText": "W",
+        \     "signTexthl": "ALEWarningSign",
+        \   },
+        \   3: {
+        \     "name": "Information",
+        \     "texthl": "ALEInfo",
+        \     "signText": "I",
+        \     "signTexthl": "ALEInfoSign",
+        \   },
+        \   4: {
+        \     "name": "Hint",
+        \     "texthl": "ALEInfo",
+        \     "signText": "H",
+        \     "signTexthl": "ALEInfoSign",
+        \   },
+        \ }
   augroup vimrc_langclient
     autocmd!
     autocmd FileType vue setlocal iskeyword+=$ iskeyword+=-
