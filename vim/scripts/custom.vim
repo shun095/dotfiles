@@ -42,8 +42,8 @@ if mymisc#plug_tap('YouCompleteMe')
   let g:ycm_autoclose_preview_window_after_insertion = 1
   let g:ycm_python_binary_path = 'python'
 
-  let g:ycm_error_symbol = ''
-  let g:ycm_warning_symbol = ''
+  let g:ycm_error_symbol = 'E'
+  let g:ycm_warning_symbol = 'W'
 
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
