@@ -74,10 +74,10 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'digitaltoad/vim-pug'
 Plug 'groenewege/vim-less'
-Plug 'kchmck/vim-coffee-script' 
-Plug 'leafgarland/typescript-vim' 
-Plug 'slm-lang/vim-slm' 
-Plug 'wavded/vim-stylus' 
+Plug 'kchmck/vim-coffee-script'
+Plug 'leafgarland/typescript-vim'
+Plug 'slm-lang/vim-slm'
+Plug 'wavded/vim-stylus'
 
 Plug 'Valloric/MatchTagAlways'
 Plug 'Yggdroot/indentLine'
@@ -142,7 +142,7 @@ Plug 'Shougo/vimproc.vim'
 Plug 'bkad/CamelCaseMotion'
 Plug 'cespare/vim-toml',{'for':'toml'}
 Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
-Plug 'fatih/vim-go',{'for':['go'] }
+Plug 'fatih/vim-go',{'for':['go']}
 Plug 'glidenote/memolist.vim',{'on':['MemoNew','MemoList']}
 
 Plug 'tyru/open-browser.vim'
