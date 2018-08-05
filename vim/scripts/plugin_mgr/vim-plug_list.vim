@@ -61,8 +61,12 @@ else
   " Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
 endif
 
+Plug 'lervag/vimtex',{'for':'tex'}
+Plug 'iamcco/markdown-preview.vim',{'for':'markdown'}
+Plug 'kannokanno/previm',{'for':'markdown'}
+Plug 'OrangeT/vim-csharp',{'for':['cs','csi','csx']}
+
 " Normal plugins
-Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 
@@ -71,6 +75,7 @@ Plug 'LeafCage/foldCC.vim'
 Plug 'jiangmiao/auto-pairs'
 " Plug 'raimondi/delimitmate'
 
+" syntax files
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'digitaltoad/vim-pug'
 Plug 'groenewege/vim-less'
@@ -78,46 +83,55 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'leafgarland/typescript-vim'
 Plug 'slm-lang/vim-slm'
 Plug 'wavded/vim-stylus'
+Plug 'pboettch/vim-cmake-syntax',{'for':['cmake']}
+Plug 'chr4/nginx.vim',{'for':['nginx']}
+Plug 'elzr/vim-json',{'for':['json']}
+Plug 'octol/vim-cpp-enhanced-highlight',{'for':['c','cpp']}
+Plug 'othree/html5.vim',{'for':['html']}
+Plug 'pangloss/vim-javascript',{'for':['javascript']}
+Plug 'posva/vim-vue',{'for':['vue']}
+Plug 'tmux-plugins/vim-tmux',{'for':['tmux']}
+Plug 'cespare/vim-toml',{'for':'toml'}
+Plug 'briancollins/vim-jst'
 
 Plug 'Valloric/MatchTagAlways'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 Plug 'aperezdc/vim-template'
-Plug 'chr4/nginx.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'easymotion/vim-easymotion'
-Plug 'elzr/vim-json'
-Plug 'hdima/python-syntax'
-Plug 'honza/vim-snippets'
-Plug 'junegunn/gv.vim'
-Plug 'junegunn/vim-easy-align'
-" [[plugins]]
-" repo = 'justinmk/vim-dirvish'
-Plug 'kana/vim-submode'
-Plug 'luochen1990/rainbow'
-" [[plugins]]
-" repo = 'nixprime/cpsm'
-" merged = 0
+Plug 'mattn/ctrlp-register'
+Plug 'FelikZ/ctrlp-py-matcher'
 if has('win32')
   Plug 'ishitaku5522/cpsm'
 else
   Plug 'nixprime/cpsm',{'do':'bash install.sh'}
 endif
-Plug 'mattn/ctrlp-register'
+
+Plug 'easymotion/vim-easymotion'
+Plug 'hdima/python-syntax'
+Plug 'honza/vim-snippets'
+Plug 'junegunn/gv.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/rainbow_parentheses.vim'
+" [[plugins]]
+" repo = 'justinmk/vim-dirvish'
+Plug 'kana/vim-submode'
+" Plug 'luochen1990/rainbow'
+" [[plugins]]
+" repo = 'nixprime/cpsm'
+" merged = 0
 
 Plug 'thinca/vim-quickrun'
   Plug 'osyo-manga/shabadou.vim'
 
 Plug 'osyo-manga/vim-anzu'
-Plug 'posva/vim-vue'
 Plug 'scrooloose/nerdcommenter'
 
 Plug 'scrooloose/nerdtree'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'jistr/vim-nerdtree-tabs'
 
-Plug 'tmux-plugins/vim-tmux'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -129,10 +143,6 @@ Plug 'w0rp/ale'
 " No mean lazy
 Plug 'basyura/bitly.vim'
 Plug 'basyura/twibill.vim'
-Plug 'briancollins/vim-jst'
-Plug 'octol/vim-cpp-enhanced-highlight',{'for':['c','cpp']}
-Plug 'othree/html5.vim',{'for':['html']}
-Plug 'pangloss/vim-javascript',{'for':['javascript']}
 " Must be loaded last
 Plug 'ishitaku5522/rosmake.vim'
 Plug 'ishitaku5522/vimailer.vim'
@@ -142,7 +152,6 @@ Plug 'ishitaku5522/revimses',{'branch':'dev'}
 Plug 'AndrewRadev/linediff.vim',{'on':'Linediff'}
 Plug 'Shougo/vimproc.vim'
 Plug 'bkad/CamelCaseMotion'
-Plug 'cespare/vim-toml',{'for':'toml'}
 Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
 Plug 'fatih/vim-go',{'for':['go']}
 Plug 'glidenote/memolist.vim',{'on':['MemoNew','MemoList']}
@@ -152,16 +161,11 @@ Plug 'tyru/open-browser.vim'
   Plug 'haya14busa/vim-open-googletranslate',{'on':'OpenGoogleTranslate'}
   Plug 'basyura/TweetVim',{'on':['TweetVimHomeTimeline','TweetVimUserStream','TweetVimSay','TweetVimCommandSay']}
 
-Plug 'iamcco/markdown-preview.vim',{'for':'markdown'}
 Plug 'itchyny/calendar.vim',{'on':'Calendar'}
-Plug 'kannokanno/previm',{'for':'markdown'}
-Plug 'lervag/vimtex',{'for':'tex'}
 Plug 'majutsushi/tagbar',{'on':['TagbarToggle','TagbarOpen']}
 Plug 'mattn/emmet-vim',{'for':['html','xml']}
 Plug 'mbbill/undotree',{'on':['UndotreeFocus','UndotreeHide','UndotreeShow','UndotreeToggle']}
 Plug 'mopp/next-alter.vim',{'for':['c','cpp']}
-Plug 'OrangeT/vim-csharp',{'for':['cs','csi','csx']}
-Plug 'tyru/restart.vim',{'on':'Restart'}
 Plug 'vim-jp/vital.vim',{'on':'Vitalize'}
 
 let &cpo = s:save_cpo

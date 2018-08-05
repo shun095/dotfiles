@@ -903,8 +903,8 @@ if mymisc#plug_tap('vim-gitgutter')
   let g:gitgutter_async = 1
 endif
 
-if mymisc#plug_tap('rainbow')
-  let g:rainbow_active = 1
+if mymisc#plug_tap('rainbow_parentheses.vim')
+  let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{','}']]
 endif
 
 if mymisc#plug_tap('vim-nerdtree-syntax-highlight')
