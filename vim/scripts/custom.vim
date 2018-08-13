@@ -703,7 +703,7 @@ endif
 
 if mymisc#plug_tap('ale')
   let g:ale_fixers = {
-        \ 'javascript': 'eslint',
+        \ 'javascript': 'prettier',
         \ 'python': 'autopep8',
         \ 'vue': 'prettier'
         \ }
