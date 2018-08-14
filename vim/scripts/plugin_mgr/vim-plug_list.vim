@@ -138,7 +138,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'vim-jp/autofmt'
-Plug 'vim-jp/vimdoc-ja'
+" Plug 'vim-jp/vimdoc-ja'
 Plug 'w0rp/ale'
 " No mean lazy
 Plug 'basyura/bitly.vim'
