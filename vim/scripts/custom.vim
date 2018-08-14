@@ -901,6 +901,7 @@ endif
 
 if mymisc#plug_tap('vim-gitgutter')
   let g:gitgutter_async = 1
+  let g:gitgutter_log = 1
 endif
 
 if mymisc#plug_tap('rainbow_parentheses.vim')
