@@ -628,7 +628,7 @@ endif
 
 
 if mymisc#plug_tap('deoplete.nvim')
-  if has('win32')
+  if has('win32') && !exists('g:python3_host_prog')
     let g:python3_host_prog = 'python'
   endif
 
