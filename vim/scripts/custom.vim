@@ -900,7 +900,11 @@ if mymisc#plug_tap('vim-go')
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
-  let g:gitgutter_async = 1
+  if has('win32')
+    let g:gitgutter_async = 0
+  else
+    let g:gitgutter_async = 1
+  endif
 endif
 
 if mymisc#plug_tap('rainbow_parentheses.vim')
