@@ -723,9 +723,9 @@ if mymisc#plug_tap('LanguageClient-neovim')
   let g:LanguageClient_serverStderr = $HOME.'/languageServer.log'
   if has('win32')
     let g:LanguageClient_serverCommands = {
-          \ 'javascript': [$APPDATA.'\npm\javascript-typescript-stdio.cmd'],
-          \ 'typescript': [$APPDATA.'\npm\javascript-typescript-stdio.cmd'],
-          \ 'vue':        [$APPDATA.'\npm\vls.cmd'],
+          \ 'javascript': [$APPDATA.'/npm/javascript-typescript-stdio.cmd'],
+          \ 'typescript': [$APPDATA.'/npm/javascript-typescript-stdio.cmd'],
+          \ 'vue':        [$APPDATA.'/npm/vls.cmd'],
           \ 'cpp':        [$HOME.'/.vim/clangd']
           \ }
   else
