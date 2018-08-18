@@ -628,7 +628,7 @@ endif
 
 
 if mymisc#plug_tap('deoplete.nvim')
-  if has('win32')
+  if has('win32') && !exists('g:python3_host_prog')
     let g:python3_host_prog = 'python'
   endif
 
@@ -723,9 +723,9 @@ if mymisc#plug_tap('LanguageClient-neovim')
   let g:LanguageClient_serverStderr = $HOME.'/languageServer.log'
   if has('win32')
     let g:LanguageClient_serverCommands = {
-          \ 'javascript': [$APPDATA.'\npm\javascript-typescript-stdio.cmd'],
-          \ 'typescript': [$APPDATA.'\npm\javascript-typescript-stdio.cmd'],
-          \ 'vue':        [$APPDATA.'\npm\vls.cmd'],
+          \ 'javascript': [$APPDATA.'/npm/javascript-typescript-stdio.cmd'],
+          \ 'typescript': [$APPDATA.'/npm/javascript-typescript-stdio.cmd'],
+          \ 'vue':        [$APPDATA.'/npm/vls.cmd'],
           \ 'cpp':        [$HOME.'/.vim/clangd']
           \ }
   else
@@ -900,7 +900,11 @@ if mymisc#plug_tap('vim-go')
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
-  let g:gitgutter_async = 1
+  if has('win32')
+    let g:gitgutter_async = 0
+  else
+    let g:gitgutter_async = 1
+  endif
   let g:gitgutter_log = 1
 endif
 
