@@ -853,11 +853,14 @@ endif
 
 if mymisc#plug_tap('omnisharp-vim')
   let g:OmniSharp_selector_ui = 'ctrlp'
+  let g:omnicomplete_fetch_full_documentation = 1
+  let g:OmniSharp_want_snippet = 0
+  let g:OmniSharp_timeout = 5
   augroup omnisharp_commands
     autocmd!
     autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
     " Show type information automatically when the cursor stops moving
-    autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+    autocmd CursorHold,CursorHoldI *.cs call OmniSharp#TypeLookupWithoutDocumentation()
 
     " The following commands are contextual, based on the cursor position.
     autocmd FileType cs nnoremap <buffer> <C-]> :OmniSharpGotoDefinition<CR>
