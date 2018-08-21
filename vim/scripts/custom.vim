@@ -109,7 +109,6 @@ if mymisc#plug_tap('vim-dirvish')
 
   augroup vimrc_dirvish
     autocmd!
-    autocmd FileType dirvish if !exists('w:dirvish_before') | let w:dirvish_before = [] | endif
     " hとlによる移動
     autocmd FileType dirvish nnoremap <silent><buffer> l :call <SID>mydirvish_open()<CR>
     autocmd FileType dirvish xnoremap <silent><buffer> l :call <SID>mydirvish_open()<CR>
@@ -139,6 +138,7 @@ if mymisc#plug_tap('vim-dirvish')
     autocmd FileType dirvish vnoremap <silent><buffer> c :Shdo cp {}<CR>
 
     " 開いていたファイルやDirectory(w:dirvish_before)にカーソルをあわせる
+    autocmd FileType dirvish if !exists('w:dirvish_before') | let w:dirvish_before = [] | endif
     autocmd FileType dirvish call <SID>mydirvish_update_beforelist()
     autocmd FileType dirvish call <SID>mydirvish_selectprevdir()
   augroup END
