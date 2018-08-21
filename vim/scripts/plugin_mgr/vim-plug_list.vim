@@ -32,9 +32,11 @@ if v:version >= 800
   if has('nvim')
     Plug 'Shougo/denite.nvim',{'do':':UpdateRemotePlugins'}
     Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
+    " Plug 'Shougo/defx.nvim',{'do':':UpdateRemotePlugins'}
   else
     Plug 'Shougo/denite.nvim'
     Plug 'Shougo/deoplete.nvim'
+    " Plug 'Shougo/defx.nvim'
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
@@ -131,6 +133,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'jistr/vim-nerdtree-tabs'
+" Plug 'justinmk/vim-dirvish'
 
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
