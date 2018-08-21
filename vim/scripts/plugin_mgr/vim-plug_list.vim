@@ -42,9 +42,9 @@ if v:version >= 800
   endif
 
   Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
-  Plug 'Rip-Rip/clang_complete',{'for':['c','cpp']} " for goto definition (completed by LanguageClient)
-  Plug 'davidhalter/jedi-vim',{'for':['python']} " for completion
-  Plug 'zchee/deoplete-jedi',{'for':['python']} " for goto definition
+  Plug 'Rip-Rip/clang_complete',{'for':['c','cpp']} " for goto definition (completed by LC)
+  Plug 'davidhalter/jedi-vim',{'for':['python']} " for goto definition (completed by LC)
+  " Plug 'zchee/deoplete-jedi',{'for':['python']} " for completion
 
   Plug 'othree/csscomplete.vim'
   Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
@@ -144,8 +144,8 @@ Plug 'vim-jp/autofmt'
 " Plug 'vim-jp/vimdoc-ja'
 Plug 'w0rp/ale'
 " No mean lazy
-Plug 'basyura/bitly.vim'
-Plug 'basyura/twibill.vim'
+" Plug 'basyura/bitly.vim'
+" Plug 'basyura/twibill.vim'
 " Must be loaded last
 Plug 'ishitaku5522/rosmake.vim'
 Plug 'ishitaku5522/vimailer.vim'
@@ -162,7 +162,7 @@ Plug 'glidenote/memolist.vim',{'on':['MemoNew','MemoList']}
 Plug 'tyru/open-browser.vim'
   "",{'on':['OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch']}
   Plug 'haya14busa/vim-open-googletranslate',{'on':'OpenGoogleTranslate'}
-  Plug 'basyura/TweetVim',{'on':['TweetVimHomeTimeline','TweetVimUserStream','TweetVimSay','TweetVimCommandSay']}
+  " Plug 'basyura/TweetVim',{'on':['TweetVimHomeTimeline','TweetVimUserStream','TweetVimSay','TweetVimCommandSay']}
 
 Plug 'itchyny/calendar.vim',{'on':'Calendar'}
 Plug 'majutsushi/tagbar',{'on':['TagbarToggle','TagbarOpen']}

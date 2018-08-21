@@ -768,14 +768,16 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'javascript': [$APPDATA.'/npm/javascript-typescript-stdio.cmd'],
           \ 'typescript': [$APPDATA.'/npm/javascript-typescript-stdio.cmd'],
           \ 'vue':        [$APPDATA.'/npm/vls.cmd'],
-          \ 'cpp':        [$HOME.'/.vim/clangd']
+          \ 'cpp':        [$HOME.'/.vim/clangd'],
+          \ 'python':     ['pyls'],
           \ }
   else
     let g:LanguageClient_serverCommands = {
           \ 'javascript': ['javascript-typescript-stdio'],
           \ 'typescript': ['javascript-typescript-stdio'],
           \ 'vue':        ['vls'],
-          \ 'cpp':        [$HOME.'/.vim/clangd']
+          \ 'cpp':        [$HOME.'/.vim/clangd'],
+          \ 'python':     ['pyls'],
           \ }
   endif
   let g:LanguageClient_diagnosticsDisplay =
