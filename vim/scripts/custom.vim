@@ -680,10 +680,7 @@ if mymisc#plug_tap('deoplete.nvim')
     let g:python3_host_prog = 'python'
   endif
 
-  " Use deoplete.
   let g:deoplete#enable_at_startup = 1
-  " Use smartcase.
-  call deoplete#custom#option('smart_case', v:true)
 
   function! s:check_back_space() abort
     let col = col('.') - 1
@@ -725,19 +722,6 @@ if mymisc#plug_tap('deoplete.nvim')
     endif
   endfunction
 
-  if mymisc#plug_tap('deoplete-clang')
-    " let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-3.8/lib/libclang.so.1'
-    " let g:deoplete#sources#clang#clang_header = '/usr/include/clang/'
-  endif
-
-  if mymisc#plug_tap('deoplete-clangx')
-    call deoplete#custom#var('clangx', 'clang_binary', '/usr/lib/llvm-6.0/bin/clang')
-  endif
-
-  if mymisc#plug_tap('deoplete-jedi')
-    let g:deoplete#sources#jedi#server_timeout = 30
-  endif
-
   call deoplete#custom#var('omni', 'input_patterns', {
         \ 'html':       ['\w*'],
         \ 'css':        ['\w*'],
@@ -752,6 +736,7 @@ if mymisc#plug_tap('deoplete.nvim')
         \ 'scss':       ['csscomplete#CompleteCSS'],
         \})
 
+  call deoplete#custom#option('smart_case', v:true)
   call deoplete#custom#option('sources', {
         \ 'cs': ['omnisharp'],
         \ })
