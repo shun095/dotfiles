@@ -670,6 +670,12 @@ endif
 
 
 if mymisc#plug_tap('deoplete.nvim')
+
+  " For debugging
+  " call deoplete#custom#option('profile', v:true)
+  " call deoplete#enable_logging('DEBUG', $HOME.'/.vim/deoplete.log')
+  " call deoplete#custom#source("omni",'is_debug_enabled',1)
+
   if has('win32') && !exists('g:python3_host_prog')
     let g:python3_host_prog = 'python'
   endif
@@ -733,9 +739,17 @@ if mymisc#plug_tap('deoplete.nvim')
   endif
 
   call deoplete#custom#var('omni', 'input_patterns', {
+        \ 'html':       ['\w*'],
         \ 'css':        ['\w*'],
         \ 'sass':       ['\w*'],
         \ 'scss':       ['\w*'],
+        \})
+
+  call deoplete#custom#var('omni', 'functions', {
+        \ 'html':       ['LanguageClient#complete'],
+        \ 'css':        ['csscomplete#CompleteCSS'],
+        \ 'sass':       ['csscomplete#CompleteCSS'],
+        \ 'scss':       ['csscomplete#CompleteCSS'],
         \})
 
   call deoplete#custom#option('sources', {
@@ -761,8 +775,9 @@ endif
 if mymisc#plug_tap('LanguageClient-neovim')
   " let g:LanguageClient_waitOutputTimeout = 30
   " let g:LanguageClient_loggingLevel = 'INFO'
-  let g:LanguageClient_loggingFile = $HOME.'/languageClient.log'
-  let g:LanguageClient_serverStderr = $HOME.'/languageServer.log'
+  "
+  let g:LanguageClient_loggingFile = $HOME.'/.vim/languageClient.log'
+  let g:LanguageClient_serverStderr = $HOME.'/.vim/languageServer.log'
   if has('win32')
     let g:LanguageClient_serverCommands = {
           \ 'javascript': [$APPDATA.'/npm/javascript-typescript-stdio.cmd'],
@@ -811,30 +826,6 @@ if mymisc#plug_tap('LanguageClient-neovim')
     autocmd!
     autocmd FileType vue setlocal iskeyword+=$ iskeyword+=-
   augroup END
-endif
-
-if mymisc#plug_tap('csscomplete.vim')
-  augroup vimrc_csscomplete
-    autocmd!
-    autocmd InsertEnter *.vue call s:change_omnifunc()
-  augroup END
-
-  function! s:change_omnifunc() abort
-    let ctx_filetype = context_filetype#get_filetype()
-    if ctx_filetype == 'html'
-      setl omnifunc=LanguageClient#complete
-    elseif ctx_filetype == 'css'
-      setl omnifunc=csscomplete#CompleteCSS
-    elseif ctx_filetype == 'scss'
-      setl omnifunc=csscomplete#CompleteCSS
-    elseif ctx_filetype == 'sass'
-      setl omnifunc=csscomplete#CompleteCSS
-    elseif ctx_filetype == 'javascript'
-      setl omnifunc=LanguageClient#complete
-    else
-      setl omnifunc=htmlcomplete#CompleteTags
-    endif
-  endfunction
 endif
 
 if mymisc#plug_tap('clang_complete')
