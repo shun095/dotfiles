@@ -723,10 +723,10 @@ if mymisc#plug_tap('deoplete.nvim')
   endfunction
 
   call deoplete#custom#var('omni', 'input_patterns', {
-        \ 'html':       ['\w*'],
-        \ 'css':        ['\w*'],
-        \ 'sass':       ['\w*'],
-        \ 'scss':       ['\w*'],
+        \ 'html':       ['\w+'],
+        \ 'css':        ['\w+'],
+        \ 'sass':       ['\w+'],
+        \ 'scss':       ['\w+'],
         \})
 
   call deoplete#custom#var('omni', 'functions', {
