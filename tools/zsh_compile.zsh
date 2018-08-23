@@ -5,6 +5,8 @@
 #
 # Distributed under terms of the MIT license.
 
+set -eu
+
 pushd $HOME/.oh-my-zsh/ &&
     echo "$(pwd): Removing zwc file" &&
     for f in $(find . -name "*.zwc"); do \rm -f $f;  done &&
