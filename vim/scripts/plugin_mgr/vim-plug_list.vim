@@ -2,11 +2,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-if exists('g:loaded_vim_plug_list')
-  finish
-endif
-let g:loaded_vim_plug_list = 1
-
 " Force to use python3
 call has('python3')
 
