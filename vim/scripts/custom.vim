@@ -736,9 +736,12 @@ if mymisc#plug_tap('deoplete.nvim')
         \ 'scss':       ['csscomplete#CompleteCSS'],
         \})
 
-  call deoplete#custom#option('smart_case', v:true)
-  call deoplete#custom#option('sources', {
-        \ 'cs': ['omnisharp'],
+  call deoplete#custom#option('smart_case', v:false)
+  call deoplete#custom#option('ignore_sources', {
+        \ 'c':   ['clang_complete'],
+        \ 'h':   ['clang_complete'],
+        \ 'cpp': ['clang_complete'],
+        \ 'hpp': ['clang_complete'],
         \ })
 endif
 
@@ -835,10 +838,11 @@ if mymisc#plug_tap('omnisharp-vim')
   augroup omnisharp_commands
     autocmd!
     autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
-    autocmd CursorHold,CursorHoldI *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+    " autocmd CursorHold,CursorHoldI *.cs call OmniSharp#TypeLookupWithoutDocumentation()
     autocmd FileType cs nnoremap <buffer> <C-]> :OmniSharpGotoDefinition<CR>
     autocmd FileType cs OmniSharpHighlightTypes
     autocmd FileType cs nnoremap <buffer> K :OmniSharpDocumentation<CR>
+    autocmd FileType cs setlocal expandtab
   augroup END
   nnoremap <F2> :OmniSharpRename<CR>
 endif
