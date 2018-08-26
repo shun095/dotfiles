@@ -736,12 +736,19 @@ if mymisc#plug_tap('deoplete.nvim')
         \ 'scss':       ['csscomplete#CompleteCSS'],
         \})
 
-  call deoplete#custom#option('smart_case', v:false)
-  call deoplete#custom#option('ignore_sources', {
-        \ 'c':   ['clang_complete'],
-        \ 'h':   ['clang_complete'],
-        \ 'cpp': ['clang_complete'],
-        \ 'hpp': ['clang_complete'],
+  
+  call deoplete#custom#option({
+        \ 'num_processes': 4,
+        \ 'min_pattern_length': 1,
+        \ 'auto_complete_delay': 100,
+        \ 'auto_refresh_delay': 100,
+        \ 'smart_case': v:false,
+        \ 'ignore_sources': {
+        \   'c':   ['clang_complete'],
+        \   'h':   ['clang_complete'],
+        \   'cpp': ['clang_complete'],
+        \   'hpp': ['clang_complete'],
+        \   }
         \ })
 endif
 
