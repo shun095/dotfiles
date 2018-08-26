@@ -724,9 +724,9 @@ if mymisc#plug_tap('deoplete.nvim')
 
   call deoplete#custom#var('omni', 'input_patterns', {
         \ 'html':       ['\w+'],
-        \ 'css':        ['\w+'],
-        \ 'sass':       ['\w+'],
-        \ 'scss':       ['\w+'],
+        \ 'css':        ['\w+|\w[ \t]*:[ \t]*\w*'],
+        \ 'sass':       ['\w+|\w[ \t]*:[ \t]*\w*'],
+        \ 'scss':       ['\w+|\w[ \t]*:[ \t]*\w*'],
         \})
 
   call deoplete#custom#var('omni', 'functions', {
