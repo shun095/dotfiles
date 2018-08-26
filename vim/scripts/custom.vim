@@ -738,10 +738,7 @@ if mymisc#plug_tap('deoplete.nvim')
 
   
   call deoplete#custom#option({
-        \ 'num_processes': 4,
         \ 'min_pattern_length': 1,
-        \ 'auto_complete_delay': 100,
-        \ 'auto_refresh_delay': 100,
         \ 'smart_case': v:false,
         \ 'ignore_sources': {
         \   'c':   ['clang_complete'],
@@ -842,6 +839,8 @@ if mymisc#plug_tap('omnisharp-vim')
   let g:omnicomplete_fetch_full_documentation = 1
   let g:OmniSharp_want_snippet = 0
   let g:OmniSharp_timeout = 5
+  call deoplete#custom#source('omnisharp','input_pattern','[^. \t0-9]\.\w*')
+
   augroup omnisharp_commands
     autocmd!
     autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
