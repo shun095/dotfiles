@@ -144,7 +144,6 @@ Plug 'w0rp/ale'
 " Must be loaded last
 Plug 'ishitaku5522/rosmake.vim'
 Plug 'ishitaku5522/vimailer.vim'
-Plug 'ishitaku5522/revimses',{'branch':'dev'}
 
 "Normal lazy plugins
 Plug 'AndrewRadev/linediff.vim',{'on':'Linediff'}
@@ -165,6 +164,8 @@ Plug 'mattn/emmet-vim',{'for':['html','xml']}
 Plug 'mbbill/undotree',{'on':['UndotreeFocus','UndotreeHide','UndotreeShow','UndotreeToggle']}
 Plug 'mopp/next-alter.vim',{'for':['c','cpp']}
 Plug 'vim-jp/vital.vim',{'on':'Vitalize'}
+
+Plug 'ishitaku5522/revimses',{'branch':'dev'}
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

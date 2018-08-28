@@ -776,6 +776,9 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'typescript': [$APPDATA.'/npm/javascript-typescript-stdio.cmd'],
           \ 'vue':        [$APPDATA.'/npm/vls.cmd'],
           \ 'cpp':        [$HOME.'/.vim/clangd'],
+          \ 'hpp':        [$HOME.'/.vim/clangd'],
+          \ 'c':          [$HOME.'/.vim/clangd'],
+          \ 'h':          [$HOME.'/.vim/clangd'],
           \ 'python':     ['pyls'],
           \ }
   else
@@ -784,6 +787,9 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'typescript': ['javascript-typescript-stdio'],
           \ 'vue':        ['vls'],
           \ 'cpp':        [$HOME.'/.vim/clangd'],
+          \ 'hpp':        [$HOME.'/.vim/clangd'],
+          \ 'c':          [$HOME.'/.vim/clangd'],
+          \ 'h':          [$HOME.'/.vim/clangd'],
           \ 'python':     ['pyls'],
           \ }
   endif
