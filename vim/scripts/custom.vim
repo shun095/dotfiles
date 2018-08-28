@@ -765,11 +765,10 @@ if mymisc#plug_tap('ale')
 endif
 
 if mymisc#plug_tap('LanguageClient-neovim')
-  " let g:LanguageClient_waitOutputTimeout = 30
-  " let g:LanguageClient_loggingLevel = 'INFO'
-  "
-  let g:LanguageClient_loggingFile = $HOME.'/.vim/languageClient.log'
-  let g:LanguageClient_serverStderr = $HOME.'/.vim/languageServer.log'
+  " let g:LanguageClient_loggingLevel = 'DEBUG'
+  " let g:LanguageClient_loggingFile = $HOME.'/.vim/languageClient.log'
+  " let g:LanguageClient_serverStderr = $HOME.'/.vim/languageServer.log'
+
   if has('win32')
     let g:LanguageClient_serverCommands = {
           \ 'javascript': [$APPDATA.'/npm/javascript-typescript-stdio.cmd'],
