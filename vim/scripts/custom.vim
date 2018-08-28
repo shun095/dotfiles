@@ -845,7 +845,10 @@ if mymisc#plug_tap('omnisharp-vim')
   let g:omnicomplete_fetch_full_documentation = 1
   let g:OmniSharp_want_snippet = 0
   let g:OmniSharp_timeout = 5
-  call deoplete#custom#source('omnisharp','input_pattern','[^. \t0-9]\.\w*')
+
+  if mymisc#plug_tap('deoplete.nvim')
+    call deoplete#custom#source('omnisharp','input_pattern','[^. \t0-9]\.\w*')
+  endif
 
   augroup omnisharp_commands
     autocmd!
