@@ -26,6 +26,8 @@ fun! mymisc#git_auto_updating() abort
     let s:git_qflist = []
     if has('job')
       call job_start('git pull', {'callback': 'mymisc#git_callback', 'exit_cb': 'mymisc#git_end_callback'})
+    elseif has('nvim')
+      call jobstart('git pull', {'on_stdout': 'mymisc#git_callback_nvim', 'on_exit': 'mymisc#git_end_callback_nvim'})
     else
       if mymisc#plug_tap('vimproc.vim')
         call vimproc#system('git pull &')
@@ -36,6 +38,16 @@ fun! mymisc#git_auto_updating() abort
     unlet s:save_cd
     let g:called_mygit_func = 1
   endif
+endf
+
+fun! mymisc#git_callback_nvim(ch, msg, event) abort
+  let msgstr = join(a:msg)
+  call mymisc#git_callback(a:ch, msgstr)
+endf
+
+fun! mymisc#git_end_callback_nvim(ch, msg, event) abort
+  let exit_code = a:msg
+  call mymisc#git_end_callback(a:ch, exit_code)  
 endf
 
 fun! mymisc#git_callback(ch, msg) abort
