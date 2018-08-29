@@ -111,13 +111,7 @@ Plug 'honza/vim-snippets'
 Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/rainbow_parentheses.vim'
-" [[plugins]]
-" repo = 'justinmk/vim-dirvish'
 Plug 'kana/vim-submode'
-" Plug 'luochen1990/rainbow'
-" [[plugins]]
-" repo = 'nixprime/cpsm'
-" merged = 0
 
 Plug 'thinca/vim-quickrun'
   Plug 'osyo-manga/shabadou.vim'
@@ -154,7 +148,6 @@ Plug 'fatih/vim-go',{'for':['go']}
 Plug 'glidenote/memolist.vim',{'on':['MemoNew','MemoList']}
 
 Plug 'tyru/open-browser.vim'
-  "",{'on':['OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch']}
   Plug 'haya14busa/vim-open-googletranslate',{'on':'OpenGoogleTranslate'}
   " Plug 'basyura/TweetVim',{'on':['TweetVimHomeTimeline','TweetVimUserStream','TweetVimSay','TweetVimCommandSay']}
 
