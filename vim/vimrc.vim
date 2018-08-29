@@ -200,6 +200,7 @@ if !isdirectory($HOME . '/tmp')
 endif
 
 set dir-=.
+set dir^=$HOME/tmp//
 " }}} OPTIONS END 
 
 " MAPPING {{{
