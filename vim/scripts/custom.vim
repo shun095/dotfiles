@@ -779,6 +779,7 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'c':          [$HOME.'/.vim/clangd'],
           \ 'h':          [$HOME.'/.vim/clangd'],
           \ 'python':     ['pyls'],
+          \ 'rust': ['rustup', 'run', 'stable', 'rls'],
           \ }
   else
     let g:LanguageClient_serverCommands = {
@@ -790,8 +791,10 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'c':          [$HOME.'/.vim/clangd'],
           \ 'h':          [$HOME.'/.vim/clangd'],
           \ 'python':     ['pyls'],
+          \ 'rust': ['rustup', 'run', 'stable', 'rls'],
           \ }
   endif
+
   let g:LanguageClient_diagnosticsDisplay =
         \ {
         \   1: {
@@ -823,6 +826,12 @@ if mymisc#plug_tap('LanguageClient-neovim')
     autocmd!
     autocmd FileType vue setlocal iskeyword+=$ iskeyword+=-
   augroup END
+
+  " for key in keys(g:LanguageClient_serverCommands)
+  "   exe "autocmd vimrc_langclient FileType ".key." nnoremap <buffer><silent> K :call LanguageClient#textDocument_hover()<CR>"
+  "   exe "autocmd vimrc_langclient FileType ".key." nnoremap <silent> <C-]> :call LanguageClient#textDocument_definition()<CR>"
+  "   exe "autocmd vimrc_langclient FileType ".key." nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>"
+  " endfor
 endif
 
 if mymisc#plug_tap('clang_complete')
