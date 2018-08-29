@@ -779,7 +779,7 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'c':          [$HOME.'/.vim/clangd'],
           \ 'h':          [$HOME.'/.vim/clangd'],
           \ 'python':     ['pyls'],
-          \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+          \ 'rust':       ['rls'],
           \ }
   else
     let g:LanguageClient_serverCommands = {
@@ -791,7 +791,7 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'c':          [$HOME.'/.vim/clangd'],
           \ 'h':          [$HOME.'/.vim/clangd'],
           \ 'python':     ['pyls'],
-          \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+          \ 'rust':       ['rls'],
           \ }
   endif
 
