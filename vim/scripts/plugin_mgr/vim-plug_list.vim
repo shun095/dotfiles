@@ -45,7 +45,7 @@ if v:version >= 800
   Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 
   if has('win32')
-    Plug 'autozimu/LanguageClient-neovim'
+    Plug 'autozimu/LanguageClient-neovim',{'branch':'next'}
   else
     Plug 'autozimu/LanguageClient-neovim',{'branch':'next','do':'bash install.sh'}
   endif
