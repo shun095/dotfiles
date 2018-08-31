@@ -825,6 +825,7 @@ if mymisc#plug_tap('LanguageClient-neovim')
   augroup vimrc_langclient
     autocmd!
     autocmd FileType vue setlocal iskeyword+=$ iskeyword+=-
+    autocmd FileType python nnoremap <buffer> <C-]> :call LanguageClient#textDocument_definition()<CR>
   augroup END
 
   " for key in keys(g:LanguageClient_serverCommands)
@@ -842,10 +843,10 @@ endif
 if mymisc#plug_tap('jedi-vim')
   let g:jedi#completions_enabled = 0
   let g:jedi#show_call_signatures = 2
-  augroup vimrc_jedi
-    autocmd!
-    autocmd FileType python nnoremap <buffer> <C-]> :call jedi#goto()<CR>
-  augroup END
+  " augroup vimrc_jedi
+  "   autocmd!
+  "   autocmd FileType python nnoremap <buffer> <C-]> :call jedi#goto()<CR>
+  " augroup END
 endif
 
 if mymisc#plug_tap('omnisharp-vim')
