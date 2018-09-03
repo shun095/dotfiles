@@ -27,14 +27,13 @@ if v:version >= 800
   if has('nvim')
     Plug 'Shougo/denite.nvim',{'do':':UpdateRemotePlugins'}
     Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
-    " Plug 'Shougo/defx.nvim',{'do':':UpdateRemotePlugins'}
   else
     Plug 'Shougo/denite.nvim'
     Plug 'Shougo/deoplete.nvim'
-    " Plug 'Shougo/defx.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
   endif
+
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
 
   Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
   Plug 'Rip-Rip/clang_complete',{'for':['c','cpp']} " for goto definition (completed by LC)
