@@ -17,6 +17,10 @@ let $MYVIMHOME=$MYDOTFILES . '/vim'
 if !exists('g:use_plugins')
   let g:use_plugins = g:true
 endif
+
+
+" Force to use python3
+py3 pass
 " }}}
 
 " OPTIONS {{{
