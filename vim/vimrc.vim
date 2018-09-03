@@ -20,7 +20,9 @@ endif
 
 
 " Force to use python3
-py3 pass
+if has("python3")
+  py3 pass
+endif
 " }}}
 
 " OPTIONS {{{
