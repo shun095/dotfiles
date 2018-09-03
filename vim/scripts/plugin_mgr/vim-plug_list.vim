@@ -147,7 +147,7 @@ Plug 'itchyny/calendar.vim',{'on':'Calendar'}
 Plug 'majutsushi/tagbar',{'on':['TagbarToggle','TagbarOpen']}
 Plug 'mattn/emmet-vim',{'for':['html','xml']}
 Plug 'mbbill/undotree',{'on':['UndotreeFocus','UndotreeHide','UndotreeShow','UndotreeToggle']}
-Plug 'mopp/next-alter.vim',{'for':['c','cpp']}
+Plug 'mopp/next-alter.vim',{'for':['c','cpp','vim']}
 Plug 'vim-jp/vital.vim',{'on':'Vitalize'}
 
 Plug 'ishitaku5522/revimses',{'branch':'dev'}
