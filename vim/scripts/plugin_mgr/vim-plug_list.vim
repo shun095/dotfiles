@@ -105,8 +105,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'kana/vim-submode'
 
-Plug 'thinca/vim-quickrun'
-  Plug 'osyo-manga/shabadou.vim'
+" Plug 'thinca/vim-quickrun'
+"   Plug 'osyo-manga/shabadou.vim'
 
 Plug 'osyo-manga/vim-anzu'
 Plug 'scrooloose/nerdcommenter'
