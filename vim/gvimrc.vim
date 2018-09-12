@@ -5,7 +5,7 @@ if has('gui_running')
   set visualbell t_vb=
   set guioptions=rchb
   if has('win32')
-    set renderoptions=type:directx,renmode:6
+    set renderoptions=type:directx
     set guifont=Cica:h12
   else
     set guifont=Cica\ 12
