@@ -736,9 +736,10 @@ if mymisc#plug_tap('deoplete.nvim')
         \ 'scss':       ['csscomplete#CompleteCSS'],
         \})
 
+  call deoplete#custom#source('_','max_menu_width',0)
+  call deoplete#custom#source('_','min_pattern_length', 1)
   
   call deoplete#custom#option({
-        \ 'min_pattern_length': 1,
         \ 'smart_case': v:false,
         \ 'ignore_sources': {
         \   'c':   ['clang_complete'],
