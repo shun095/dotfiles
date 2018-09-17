@@ -521,8 +521,8 @@ if mymisc#plug_tap('vimfiler.vim')
 endif
 
 if mymisc#plug_tap('defx.nvim')
-  nnoremap <silent> <Leader>e :exe ":Defx " . expand('%:p:h')<CR>
-  nnoremap <silent> <Leader>E :exe ":Defx ."<CR>
+  nnoremap <silent> <Leader>e :exe ":Defx -split=vertical " . expand('%:p:h')<CR>
+  nnoremap <silent> <Leader>E :exe ":Defx -split=vertical ."<CR>
   augroup vimrc_defx
     autocmd!
     autocmd FileType defx call s:defx_my_settings()
@@ -530,10 +530,18 @@ if mymisc#plug_tap('defx.nvim')
       " Define mappings
       nnoremap <silent><buffer><expr> <CR>
             \ defx#do_action('open')
+      nnoremap <silent><buffer><expr> c
+            \ defx#do_action('copy')
+      nnoremap <silent><buffer><expr> m
+            \ defx#do_action('move')
+      nnoremap <silent><buffer><expr> p
+            \ defx#do_action('paste')
       nnoremap <silent><buffer><expr> l
             \ defx#do_action('open')
       nnoremap <silent><buffer><expr> E
             \ defx#do_action('open', 'vsplit')
+      nnoremap <silent><buffer><expr> P
+            \ defx#do_action('open', 'pedit')
       nnoremap <silent><buffer><expr> K
             \ defx#do_action('new_directory')
       nnoremap <silent><buffer><expr> N
@@ -542,6 +550,10 @@ if mymisc#plug_tap('defx.nvim')
             \ defx#do_action('remove')
       nnoremap <silent><buffer><expr> r
             \ defx#do_action('rename')
+      nnoremap <silent><buffer><expr> x
+            \ defx#do_action('execute_system')
+      nnoremap <silent><buffer><expr> .
+            \ defx#do_action('toggle_ignored_files')
       nnoremap <silent><buffer><expr> h
             \ defx#do_action('cd', ['..'])
       nnoremap <silent><buffer><expr> ~
@@ -550,6 +562,8 @@ if mymisc#plug_tap('defx.nvim')
             \ defx#do_action('quit')
       nnoremap <silent><buffer><expr> <Space>
             \ defx#do_action('toggle_select') . 'j'
+      nnoremap <silent><buffer><expr> *
+            \ defx#do_action('toggle_select_all')
       nnoremap <silent><buffer><expr> j
             \ line('.') == line('$') ? 'gg' : 'j'
       nnoremap <silent><buffer><expr> k
