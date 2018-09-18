@@ -672,9 +672,9 @@ endif
 if mymisc#plug_tap('deoplete.nvim')
 
   " For debugging
-  " call deoplete#custom#option('profile', v:true)
-  " call deoplete#enable_logging('DEBUG', $HOME.'/.vim/deoplete.log')
-  " call deoplete#custom#source("omni",'is_debug_enabled',1)
+  call deoplete#custom#option('profile', v:true)
+  call deoplete#enable_logging('DEBUG', $HOME.'/.vim/deoplete.log')
+  call deoplete#custom#source("omni",'is_debug_enabled',1)
 
   if has('win32') && !exists('g:python3_host_prog')
     let g:python3_host_prog = 'python'
@@ -740,6 +740,7 @@ if mymisc#plug_tap('deoplete.nvim')
   call deoplete#custom#source('_','min_pattern_length', 1)
   
   call deoplete#custom#option({
+        \ 'auto_complete_delay': 20,
         \ 'smart_case': v:false,
         \ 'ignore_sources': {
         \   'c':   ['clang_complete'],
@@ -844,10 +845,11 @@ endif
 if mymisc#plug_tap('jedi-vim')
   let g:jedi#completions_enabled = 0
   let g:jedi#show_call_signatures = 2
-  " augroup vimrc_jedi
-  "   autocmd!
+  augroup vimrc_jedi
+    autocmd!
+    autocmd FileType python nnoremap <F2> :call jedi#rename()<CR>
   "   autocmd FileType python nnoremap <buffer> <C-]> :call jedi#goto()<CR>
-  " augroup END
+  augroup END
 endif
 
 if mymisc#plug_tap('omnisharp-vim')
@@ -868,8 +870,8 @@ if mymisc#plug_tap('omnisharp-vim')
     autocmd FileType cs OmniSharpHighlightTypes
     autocmd FileType cs nnoremap <buffer> K :OmniSharpDocumentation<CR>
     autocmd FileType cs setlocal expandtab
+    autocmd FileType cs nnoremap <F2> :OmniSharpRename<CR>
   augroup END
-  nnoremap <F2> :OmniSharpRename<CR>
 endif
 
 if mymisc#plug_tap('nerdcommenter')
