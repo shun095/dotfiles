@@ -845,10 +845,12 @@ endif
 if mymisc#plug_tap('jedi-vim')
   let g:jedi#completions_enabled = 0
   let g:jedi#show_call_signatures = 2
+  let g:jedi#auto_initialization = 0
   augroup vimrc_jedi
     autocmd!
-    autocmd FileType python nnoremap <F2> :call jedi#rename()<CR>
-  "   autocmd FileType python nnoremap <buffer> <C-]> :call jedi#goto()<CR>
+    autocmd FileType python nnoremap <buffer> <F2> :call jedi#rename()<CR>
+    autocmd FileType python nnoremap <buffer> K :call jedi#show_documentation()<CR>
+    autocmd FileType python nnoremap <buffer> <C-]> :call jedi#goto()<CR>
   augroup END
 endif
 
@@ -865,12 +867,12 @@ if mymisc#plug_tap('omnisharp-vim')
   augroup omnisharp_commands
     autocmd!
     autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+    autocmd FileType cs OmniSharpHighlightTypes
+    autocmd FileType cs setlocal expandtab
     " autocmd CursorHold,CursorHoldI *.cs call OmniSharp#TypeLookupWithoutDocumentation()
     autocmd FileType cs nnoremap <buffer> <C-]> :OmniSharpGotoDefinition<CR>
-    autocmd FileType cs OmniSharpHighlightTypes
     autocmd FileType cs nnoremap <buffer> K :OmniSharpDocumentation<CR>
-    autocmd FileType cs setlocal expandtab
-    autocmd FileType cs nnoremap <F2> :OmniSharpRename<CR>
+    autocmd FileType cs nnoremap <buffer> <F2> :OmniSharpRename<CR>
   augroup END
 endif
 
