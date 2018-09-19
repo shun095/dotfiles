@@ -672,9 +672,9 @@ endif
 if mymisc#plug_tap('deoplete.nvim')
 
   " For debugging
-  call deoplete#custom#option('profile', v:true)
-  call deoplete#enable_logging('DEBUG', $HOME.'/.vim/deoplete.log')
-  call deoplete#custom#source("omni",'is_debug_enabled',1)
+  " call deoplete#custom#option('profile', v:true)
+  " call deoplete#enable_logging('DEBUG', $HOME.'/.vim/deoplete.log')
+  " call deoplete#custom#source("_",'is_debug_enabled',1)
 
   if has('win32') && !exists('g:python3_host_prog')
     let g:python3_host_prog = 'python'
