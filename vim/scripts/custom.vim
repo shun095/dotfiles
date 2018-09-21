@@ -686,9 +686,9 @@ endif
 if mymisc#plug_tap('deoplete.nvim')
 
   " For debugging
-  call deoplete#custom#option('profile', v:true)
-  call deoplete#enable_logging('DEBUG', $HOME.'/.vim/deoplete.log')
-  call deoplete#custom#source("omni",'is_debug_enabled',1)
+  " call deoplete#custom#option('profile', v:true)
+  " call deoplete#enable_logging('DEBUG', $HOME.'/.vim/deoplete.log')
+  " call deoplete#custom#source("_",'is_debug_enabled',1)
 
   if has('win32') && !exists('g:python3_host_prog')
     let g:python3_host_prog = 'python'
@@ -843,6 +843,19 @@ if mymisc#plug_tap('LanguageClient-neovim')
     autocmd FileType vue setlocal iskeyword+=$ iskeyword+=-
     autocmd FileType c,cpp,python nnoremap <buffer> <C-]> :call LanguageClient#textDocument_definition()<CR>
   augroup END
+
+  command! LCHover call LanguageClient#textDocument_hover()
+  command! LCDefinition call LanguageClient#textDocument_definition()
+  command! LCTypeDefinition call LanguageClient#textDocument_typeDefinition()
+  command! LCImplementation call LanguageClient#textDocument_implementation()
+  command! LCRename call LanguageClient#textDocument_rename()
+  command! LCDocumentSymbol call LanguageClient#textDocument_documentSymbol()
+  command! LCReferences call LanguageClient#textDocument_references()
+  command! LCCodeAction call LanguageClient#textDocument_codeAction()
+  command! LCCompletion call LanguageClient#textDocument_completion()
+  command! LCFormatting call LanguageClient#textDocument_formatting()
+  command! LCRangeFormatting call LanguageClient#textDocument_rangeFormatting()
+  command! LCDocumentHighlight call LanguageClient#textDocument_documentHighlight()
 
   " for key in keys(g:LanguageClient_serverCommands)
   "   exe "autocmd vimrc_langclient FileType ".key." nnoremap <buffer><silent> K :call LanguageClient#textDocument_hover()<CR>"

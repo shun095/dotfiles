@@ -106,6 +106,7 @@ fi
 
 alias tgvim="gvim --remote-tab-silent"
 alias tvim="vim --remote-tab-silent"
+alias gnvim="nvim-qt"
 
 alias dir="dir --group-directories-first --color=auto"
 alias pyg="pygmentize"
