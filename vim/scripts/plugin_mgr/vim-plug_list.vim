@@ -45,24 +45,30 @@ if v:version >= 800
   Plug 'Shougo/neosnippet.vim'
   Plug 'Shougo/neosnippet-snippets'
   Plug 'Shougo/context_filetype.vim'
-else
+  
   " Plug 'Valloric/YouCompleteMe'
   " Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
+  " Plug 'ervandew/supertab'
+  " Plug 'SirVer/ultisnips'
 endif
 
 Plug 'lervag/vimtex',{'for':'tex'}
 Plug 'iamcco/markdown-preview.vim',{'for':'markdown'}
 Plug 'kannokanno/previm',{'for':'markdown'}
 Plug 'OrangeT/vim-csharp',{'for':['cs','csi','csx']}
+Plug 'fatih/vim-go',{'for':['go']}
+Plug 'mattn/emmet-vim',{'for':['html','xml']}
+
+Plug 'ishitaku5522/rosmake.vim'
+Plug 'mopp/next-alter.vim',{'for':['c','cpp','vim']}
+
+Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
 
 " Normal plugins
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 
-" Plug 'SirVer/ultisnips'
-" Plug 'ervandew/supertab'
 Plug 'jiangmiao/auto-pairs'
-" Plug 'raimondi/delimitmate'
 
 " syntax files
 Plug 'cakebaker/scss-syntax.vim'
@@ -88,9 +94,11 @@ Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 Plug 'aperezdc/vim-template'
+
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-register'
 Plug 'FelikZ/ctrlp-py-matcher'
+
 if has('win32')
   Plug 'ishitaku5522/cpsm'
 else
@@ -128,26 +136,22 @@ Plug 'w0rp/ale'
 " Plug 'basyura/bitly.vim'
 " Plug 'basyura/twibill.vim'
 " Must be loaded last
-Plug 'ishitaku5522/rosmake.vim'
-Plug 'ishitaku5522/vimailer.vim'
+" Plug 'ishitaku5522/vimailer.vim'
 
 "Normal lazy plugins
 Plug 'AndrewRadev/linediff.vim',{'on':'Linediff'}
-Plug 'Shougo/vimproc.vim'
 Plug 'bkad/CamelCaseMotion'
-Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
-Plug 'fatih/vim-go',{'for':['go']}
-Plug 'glidenote/memolist.vim',{'on':['MemoNew','MemoList']}
+Plug 'mbbill/undotree',{'on':['UndotreeFocus','UndotreeHide','UndotreeShow','UndotreeToggle']}
 
+
+Plug 'majutsushi/tagbar',{'on':['TagbarToggle','TagbarOpen']}
+
+Plug 'glidenote/memolist.vim',{'on':['MemoNew','MemoList']}
+Plug 'itchyny/calendar.vim',{'on':'Calendar'}
 Plug 'tyru/open-browser.vim'
   Plug 'haya14busa/vim-open-googletranslate',{'on':'OpenGoogleTranslate'}
-  " Plug 'basyura/TweetVim',{'on':['TweetVimHomeTimeline','TweetVimUserStream','TweetVimSay','TweetVimCommandSay']}
 
-Plug 'itchyny/calendar.vim',{'on':'Calendar'}
-Plug 'majutsushi/tagbar',{'on':['TagbarToggle','TagbarOpen']}
-Plug 'mattn/emmet-vim',{'for':['html','xml']}
-Plug 'mbbill/undotree',{'on':['UndotreeFocus','UndotreeHide','UndotreeShow','UndotreeToggle']}
-Plug 'mopp/next-alter.vim',{'for':['c','cpp','vim']}
+Plug 'Shougo/vimproc.vim'
 Plug 'vim-jp/vital.vim',{'on':'Vitalize'}
 
 Plug 'ishitaku5522/revimses',{'branch':'dev'}
