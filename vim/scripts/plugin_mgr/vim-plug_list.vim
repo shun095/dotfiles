@@ -90,7 +90,8 @@ Plug 'cespare/vim-toml',{'for':'toml'}
 Plug 'briancollins/vim-jst'
 
 Plug 'Valloric/MatchTagAlways'
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
+Plug 'nathanaelkane/vim-indent-guides'
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 Plug 'aperezdc/vim-template'

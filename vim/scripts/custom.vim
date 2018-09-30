@@ -482,6 +482,12 @@ if mymisc#plug_tap('revimses')
   let g:revimses#sessionoptions = &sessionoptions
 endif
 
+if mymisc#plug_tap('vim-indent-guides')
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_auto_colors = 1
+  let g:indent_guides_color_change_percent = 5
+endif
+
 if mymisc#plug_tap('calendar.vim')
   augroup vimrc_calendar
     autocmd!
@@ -757,6 +763,7 @@ if mymisc#plug_tap('deoplete.nvim')
   call deoplete#custom#source('_','min_pattern_length', 1)
   
   call deoplete#custom#option({
+        \ 'num_processes': 4,
         \ 'auto_complete_delay': 20,
         \ 'smart_case': v:false,
         \ 'ignore_sources': {

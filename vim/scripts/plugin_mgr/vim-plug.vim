@@ -37,7 +37,7 @@ fun! g:plugin_mgr.deploy() abort
 endf
 
 fun! g:plugin_mgr.init() abort
-  let g:plug_window = 'topleft new'
+  " let g:plug_window = 'topleft new'
   set runtimepath+=$HOME/.vim
   call plug#begin(self.plugin_dir)
   source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug_list.vim
