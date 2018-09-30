@@ -415,8 +415,11 @@ if g:plugin_mgr.enabled == g:true
   call g:plugin_mgr.init()
 
   " Load settings of plugins
-  source $MYVIMHOME/scripts/lazy_hooks.vim
-  source $MYVIMHOME/scripts/custom.vim
+  try
+    source $MYVIMHOME/scripts/lazy_hooks.vim
+    source $MYVIMHOME/scripts/custom.vim
+  catch
+  endtry
 
   " Local after settings
   if filereadable($HOME . '/localrcs/vim-localafter.vim')

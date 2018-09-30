@@ -157,7 +157,7 @@ if mymisc#plug_tap('ctrlp.vim')
     let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
 
     if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
-      echomsg "Cpsm has not been built yet."
+      autocmd VimEnter * echomsg "Cpsm has not been built yet."
     else
       let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
     endif
