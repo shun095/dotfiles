@@ -715,11 +715,6 @@ if mymisc#plug_tap('deoplete.nvim')
   imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
   inoremap <expr><C-Space> deoplete#mappings#manual_complete()
 
-  " for neosnippet
-  if has('conceal')
-    set conceallevel=2 concealcursor=niv
-  endif
-
   function! s:my_cr_function() abort
     if pumvisible()
       if neosnippet#expandable()
