@@ -40,12 +40,21 @@ if v:version >= 800
   Plug 'othree/csscomplete.vim'
   Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 
-  Plug 'autozimu/LanguageClient-neovim',{'branch':'next'}
+  if has('win32')
+    Plug 'autozimu/LanguageClient-neovim', {
+          \ 'branch': 'next',
+          \ }
+  else
+    Plug 'autozimu/LanguageClient-neovim', {
+          \ 'branch': 'next',
+          \ 'do': 'bash install.sh',
+          \ }
+  endif
 
   Plug 'Shougo/neosnippet.vim'
   Plug 'Shougo/neosnippet-snippets'
   Plug 'Shougo/context_filetype.vim'
-  
+
   " Plug 'Valloric/YouCompleteMe'
   " Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
   " Plug 'ervandew/supertab'
@@ -121,8 +130,8 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'scrooloose/nerdcommenter'
 
 Plug 'scrooloose/nerdtree'
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  Plug 'jistr/vim-nerdtree-tabs'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'jistr/vim-nerdtree-tabs'
 " Plug 'justinmk/vim-dirvish'
 
 Plug 'tpope/vim-dispatch'
@@ -150,7 +159,7 @@ Plug 'majutsushi/tagbar',{'on':['TagbarToggle','TagbarOpen']}
 Plug 'glidenote/memolist.vim',{'on':['MemoNew','MemoList']}
 Plug 'itchyny/calendar.vim',{'on':'Calendar'}
 Plug 'tyru/open-browser.vim'
-  Plug 'haya14busa/vim-open-googletranslate',{'on':'OpenGoogleTranslate'}
+Plug 'haya14busa/vim-open-googletranslate',{'on':'OpenGoogleTranslate'}
 
 Plug 'Shougo/vimproc.vim'
 Plug 'vim-jp/vital.vim',{'on':'Vitalize'}
