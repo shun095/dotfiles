@@ -58,7 +58,7 @@ if v:version >= 800
   " Plug 'Valloric/YouCompleteMe'
   " Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
   " Plug 'ervandew/supertab'
-  " Plug 'SirVer/ultisnips'
+  Plug 'SirVer/ultisnips'
 endif
 
 Plug 'lervag/vimtex',{'for':'tex'}
@@ -77,7 +77,7 @@ Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 
-Plug 'jiangmiao/auto-pairs'
+Plug 'Raimondi/delimitMate'
 
 " syntax files
 Plug 'cakebaker/scss-syntax.vim'

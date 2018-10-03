@@ -657,16 +657,16 @@ if mymisc#plug_tap('denite.nvim')
   " nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
 endif
 
-if mymisc#plug_tap('delimitmate')
+if mymisc#plug_tap('delimitMate')
   let delimitMate_expand_cr = 1
   let delimitMate_expand_space = 1
   let delimitMate_expand_inside_quotes = 1
   let delimitMate_jump_expansion = 1
   let delimitMate_balance_matchpairs = 1
-  imap <silent><expr> <CR> pumvisible() ? "\<C-Y>" : "<Plug>delimitMateCR"
-  augroup vimrc_delimitmate
-    au FileType html,xhtml,phtml let b:delimitMate_autoclose = 0
-  augroup END
+  " imap <silent><expr> <CR> pumvisible() ? "\<C-Y>" : "<Plug>delimitMateCR"
+  " augroup vimrc_delimitmate
+  "   au FileType html,xhtml,phtml let b:delimitMate_autoclose = 0
+  " augroup END
 endif
 
 if mymisc#plug_tap('ultisnips')
@@ -707,24 +707,49 @@ if mymisc#plug_tap('deoplete.nvim')
     return !col || getline('.')[col - 1]  =~ '\s'
   endfunction
 
-  let g:AutoPairsMapCR = 0
-  imap <expr><CR> <SID>my_cr_function()
-  imap <expr><TAB> <SID>my_tab_function()
+  inoremap <expr><C-Space> deoplete#mappings#manual_complete()
+  " let g:AutoPairsMapCR = 0
+  "
+
+  imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
   smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
         \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-  imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-  inoremap <expr><C-Space> deoplete#mappings#manual_complete()
+  imap <silent><expr><CR> <SID>my_cr_function()
+  imap <silent><expr><TAB> <SID>my_tab_function()
+
+  let g:UltiSnipsExpandTrigger       = '<C-\|>x'
+  let g:UltiSnipsJumpForwardTrigger  = '<C-\|>y'
+  let g:UltiSnipsJumpBackwardTrigger = '<C-\|>z'
 
   function! s:my_cr_function() abort
     if pumvisible()
       if neosnippet#expandable()
         return "\<Plug>(neosnippet_expand)"
       else
-        return deoplete#close_popup()
+        return "\<C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?\"\":deoplete#close_popup()\<CR>"
       endif
     else
-      return "\<CR>\<C-R>=AutoPairsReturn()\<CR>"
+      return "\<Plug>delimitMateCR"
     endif
+  endfunction
+
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+  endfunction
+
+  function! Ulti_TabFunction() abort
+    if s:check_back_space()
+      return "\<TAB>"
+    else
+      call deoplete#mappings#manual_complete()
+      return ""
+    endif
+  endfunction
+
+  function! Ulti_ExpandOrJump_and_getRes()
+    call UltiSnips#ExpandSnippetOrJump()
+    return g:ulti_expand_or_jump_res
   endfunction
 
   function! s:my_tab_function() abort
@@ -732,13 +757,39 @@ if mymisc#plug_tap('deoplete.nvim')
       return "\<C-n>"
     elseif neosnippet#expandable_or_jumpable()
       return "\<Plug>(neosnippet_expand_or_jump)" 
-    elseif <SID>check_back_space()
-      return "\<TAB>"
     else
-      call deoplete#mappings#manual_complete()
-      return ""
+      return "\<C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?\"\":Ulti_TabFunction()\<CR>"
     endif
   endfunction
+
+
+  " if mymisc#plug_tap('ultisnips')
+  "   imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
+
+  "   let g:ulti_expand_or_jump_res = 0 "default value, just set once
+  "   function! Ulti_ExpandOrJump_and_getRes()
+  "     call UltiSnips#ExpandSnippetOrJump()
+  "     return g:ulti_expand_or_jump_res
+  "   endfunction
+
+  "   function! s:my_cr_function() abort
+  "     if pumvisible()
+  "       return "\<C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?\"\":Ulti_NeoSnippet_CR()\<CR>"
+  "     else
+  "       return "\<Plug>delimitMateCR"
+  "     endif
+  "   endfunction
+  "   imap <expr><CR> <SID>my_cr_function()
+
+  "   function! s:my_tab_function() abort
+  "     if pumvisible()
+  "       return "\<C-n>"
+  "     else
+  "       return "\<C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?'':deoplete#mappings#manual_complete()\<CR>"
+  "     endif
+  "   endfunction
+  "   imap <expr><TAB> <SID>my_tab_function()
+  " endif
 
   call deoplete#custom#var('omni', 'input_patterns', {
         \ 'html':       ['\w+'],
