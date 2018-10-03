@@ -280,6 +280,10 @@ function! s:SwitchToActualFile()
   call setpos('.', pos)
 endfunction
 
+if has('nvim')
+  command! Terminal execute "split term://" . &shell
+endif
+
 " Forked from https://qiita.com/shiena/items/1dcb20e99f43c9383783
 command! MSYSTerm call s:MSYSTerm()
 function! s:MSYSTerm()
@@ -371,7 +375,9 @@ augroup VIMRC
 
   " set wrap to global one in in diff mode
   autocmd FilterWritePre * if &diff | setlocal wrap< | endif
-  autocmd TerminalOpen * setl listchars= nonumber
+  if !has('nvim')
+    autocmd TerminalOpen * setl listchars= nonumber
+  endif
 augroup END
 "}}} AUTOCMDS END
 
