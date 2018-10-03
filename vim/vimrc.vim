@@ -371,6 +371,7 @@ augroup VIMRC
 
   " set wrap to global one in in diff mode
   autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+  autocmd TerminalOpen * setl listchars= nonumber
 augroup END
 "}}} AUTOCMDS END
 
