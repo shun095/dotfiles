@@ -235,11 +235,9 @@ nnoremap <C-]> g<C-]>
 vnoremap <c-a> <c-a>gv
 vnoremap <c-x> <c-x>gv
 
-nnoremap * *N
-nnoremap g* g*N
 " ビジュアルモードでも*検索が使えるようにする
-vnoremap * "zy:let @/ = '\<'.@z.'\>' <CR>nN
-vnoremap g* "zy:let @/ = @z <CR>nN
+vnoremap * "zy:let @/ = '\<'.@z.'\>' <CR>n
+vnoremap g* "zy:let @/ = @z <CR>n
 
 " !マークはInsert ModeとCommand-line Modeへのマッピング
 " emacs like keymap in insert/command mode
