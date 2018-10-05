@@ -6,7 +6,7 @@ if [[ ! -n $TMUX ]]; then
     export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
     export GOPATH=$HOME/.gopath
     export PATH=$HOME/usr/bin:$GOPATH/bin:/usr/local/go/bin:$PATH
-    export PATH="/home/shun/.pyenv/bin:$PATH"
+    export PATH="$HOME/.pyenv/bin:$PATH"
 fi
 
 if type pyenv > /dev/null; then
