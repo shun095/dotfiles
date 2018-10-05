@@ -574,12 +574,12 @@ if mymisc#plug_tap('defx.nvim')
       nnoremap <silent><buffer><expr> i
             \ defx#do_action('open', 'wincmd w \| split')
       nnoremap <silent><buffer><expr> P
-            \ defx#do_action('open', 'pedit')
-      nnoremap <silent><buffer><expr> cp
+            \ defx#do_action('open', 'topleft pedit')
+      nnoremap <silent><buffer><expr> c
             \ defx#do_action('copy')
-      nnoremap <silent><buffer><expr> mv
+      nnoremap <silent><buffer><expr> m
             \ defx#do_action('move')
-      nnoremap <silent><buffer><expr> dd
+      nnoremap <silent><buffer><expr> d
             \ defx#do_action('remove')
       nnoremap <silent><buffer><expr> r
             \ defx#do_action('rename')
