@@ -550,13 +550,13 @@ if mymisc#plug_tap('defx.nvim')
     function! s:defx_my_settings() abort
       " Define mappings
       nnoremap <silent><buffer><expr> <CR>
-            \ defx#do_action('open', 'wincmd w \| drop')
+            \ defx#do_action('open', 'wincmd p \| drop')
       nnoremap <silent><buffer><expr> o
-            \ defx#do_action('open', 'wincmd w \| drop')
+            \ defx#do_action('open', 'wincmd p \| drop')
       nnoremap <silent><buffer><expr> u
             \ defx#do_action('cd', ['..'])
       nnoremap <silent><buffer><expr> l
-            \ defx#do_action('open', 'wincmd w \| drop')
+            \ defx#do_action('open', 'wincmd p \| drop')
       nnoremap <silent><buffer><expr> h
             \ defx#do_action('cd', ['..'])
       nnoremap <silent><buffer><expr> ~
@@ -570,9 +570,9 @@ if mymisc#plug_tap('defx.nvim')
       nnoremap <silent><buffer><expr> X
             \ defx#do_action('execute_system')
       nnoremap <silent><buffer><expr> s
-            \ defx#do_action('open', 'wincmd w \| vsplit')
+            \ defx#do_action('open', 'wincmd p \| vsplit')
       nnoremap <silent><buffer><expr> i
-            \ defx#do_action('open', 'wincmd w \| split')
+            \ defx#do_action('open', 'wincmd p \| split')
       nnoremap <silent><buffer><expr> P
             \ defx#do_action('open', 'topleft pedit')
       nnoremap <silent><buffer><expr> c
