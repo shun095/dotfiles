@@ -535,13 +535,17 @@ if mymisc#plug_tap('defx.nvim')
       let l:bufname = bufname(l:item.bufnr)
       if match(l:bufname, '\[defx\]') != -1
         if l:item.tabnr == tabpagenr()
-          call win_gotoid(win_findbuf(item.bufnr)[0])
-          quit
-          return 1
+          for winid in win_findbuf(item.bufnr)
+            if count(gettabinfo(tabpagenr())[0].windows, winid)
+              call win_gotoid(winid)
+              quit
+              return
+            endif
+          endfor
         endif
       endif
     endfor
-    return 0
+    return
   endfunction
 
   augroup vimrc_defx
