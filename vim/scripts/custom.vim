@@ -563,6 +563,8 @@ if mymisc#plug_tap('defx.nvim')
             \ defx#do_action('cd')
       nnoremap <silent><buffer><expr> yy
             \ defx#do_action('yank_path')
+      nnoremap <buffer><expr> cd
+            \ defx#do_action('yank_path').":cd \<C-r>\"\<CR>"
       nnoremap <silent><buffer><expr> .
             \ defx#do_action('toggle_ignored_files')
       nnoremap <silent><buffer><expr> X
