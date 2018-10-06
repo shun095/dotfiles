@@ -527,8 +527,10 @@ if mymisc#plug_tap('vimfiler.vim')
 endif
 
 if mymisc#plug_tap('defx.nvim')
-  nnoremap <silent> <Leader>e :call <SID>quit_existing_defx()<CR>:Defx `expand('%:p:h')` -split=vertical -winwidth=40 -direction=topleft -search=`expand('%:p')`<CR>
-  nnoremap <silent> <Leader>E :call <SID>quit_existing_defx()<CR>:Defx -split=vertical -winwidth=40 -direction=topleft .<CR>
+  " nnoremap <silent> <Leader>e :call <SID>quit_existing_defx()<CR>:Defx `expand('%:p:h')` -split=vertical -winwidth=40 -direction=topleft -search=`expand('%:p')`<CR>
+  " nnoremap <silent> <Leader>E :call <SID>quit_existing_defx()<CR>:Defx -split=vertical -winwidth=40 -direction=topleft .<CR>
+  nnoremap <silent> <Leader>e :Defx `expand('%:p:h')` -split=vertical -winwidth=40 -direction=topleft -reuse=1 -search=`expand('%:p')`<CR>
+  nnoremap <silent> <Leader>E :Defx -split=vertical -winwidth=40 -direction=topleft -reuse=1 .<CR>
 
   function! s:quit_existing_defx() abort
     for l:item in getwininfo()
@@ -589,9 +591,9 @@ if mymisc#plug_tap('defx.nvim')
             \ defx#do_action('rename')
       nnoremap <silent><buffer><expr> p
             \ defx#do_action('paste')
-      nnoremap <silent><buffer><expr> N
+      nnoremap <silent><buffer><expr> a
             \ defx#do_action('new_file')
-      nnoremap <silent><buffer><expr> K
+      nnoremap <silent><buffer><expr> A
             \ defx#do_action('new_directory')
       nnoremap <silent><buffer><expr> q
             \ defx#do_action('quit')
