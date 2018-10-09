@@ -41,12 +41,12 @@ fun! mymisc#git_auto_updating() abort
 endf
 
 fun! mymisc#git_callback_nvim(ch, msg, event) abort
-  let msgstr = join(a:msg)
+  let msgstr = join(a:msg, "\n")
   call mymisc#git_callback(a:ch, msgstr)
 endf
 
 fun! mymisc#git_end_callback_nvim(ch, msg, event) abort
-  let exit_code = a:msg
+  let exit_code = string(a:msg)
   call mymisc#git_end_callback(a:ch, exit_code)  
 endf
 
