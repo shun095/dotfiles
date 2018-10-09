@@ -529,8 +529,8 @@ endif
 if mymisc#plug_tap('defx.nvim')
   " nnoremap <silent> <Leader>e :call <SID>quit_existing_defx()<CR>:Defx `expand('%:p:h')` -split=vertical -winwidth=40 -direction=topleft -search=`expand('%:p')`<CR>
   " nnoremap <silent> <Leader>E :call <SID>quit_existing_defx()<CR>:Defx -split=vertical -winwidth=40 -direction=topleft .<CR>
-  nnoremap <silent> <Leader>e :Defx `expand('%:p:h')` -split=vertical -winwidth=40 -direction=topleft -reuse=1 -search=`expand('%:p')`<CR>
-  nnoremap <silent> <Leader>E :Defx -split=vertical -winwidth=40 -direction=topleft -reuse=1 .<CR>
+  nnoremap <silent> <Leader>e :Defx `expand('%:p:h')` -split=vertical -winwidth=35 -direction=topleft -reuse=1 -search=`expand('%:p')`<CR>
+  nnoremap <silent> <Leader>E :Defx -split=vertical -winwidth=35 -direction=topleft -reuse=1 .<CR>
 
   function! s:quit_existing_defx() abort
     for l:item in getwininfo()
