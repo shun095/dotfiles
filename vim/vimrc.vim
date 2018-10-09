@@ -221,7 +221,7 @@ vnoremap gj j
 vnoremap gk k
 
 nnoremap <C-Tab> gt
-nnoremap <C-S-TAB> gT
+nnoremap <C-S-Tab> gT
 
 " Clear highlighting on escape in normal mode
 nnoremap <ESC> :noh<CR><ESC>
@@ -241,12 +241,29 @@ vnoremap g* "zy:let @/ = @z <CR>n
 
 " !マークはInsert ModeとCommand-line Modeへのマッピング
 " emacs like keymap in insert/command mode
-noremap! <C-f> <Right>
-noremap! <C-b> <Left>
+
 noremap! <C-a> <Home>
 noremap! <C-e> <End>
+inoremap <C-k> <Right><ESC>Da
+
+noremap! <C-g>n <Down>
+noremap! <C-g>p <Up>
+noremap! <C-g><C-n> <Down>
+noremap! <C-g><C-p> <Up>
+
+noremap! <C-f> <Right>
+noremap! <C-b> <Left>
+noremap! <C-g>f <S-Right>
+noremap! <C-g>b <S-Left>
+noremap! <C-g><C-f> <S-Right>
+noremap! <C-g><C-b> <S-Left>
+
+noremap! <C-g>l <S-Right>
+noremap! <C-g>h <S-Left>
+noremap! <C-g><C-l> <S-Right>
+noremap! <C-g><C-h> <S-Left>
+
 noremap! <C-g><C-g> <ESC>
-inoremap <C-k> <ESC>ld$a
 
 cnoremap <C-o> <C-a>
 cnoremap <C-p> <up>
