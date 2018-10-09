@@ -735,8 +735,19 @@ if mymisc#plug_tap('deoplete.nvim')
   endfunction
 
   inoremap <expr><C-Space> deoplete#mappings#manual_complete()
-  " let g:AutoPairsMapCR = 0
-  "
+
+  if mymisc#plug_tap('auto-pairs')
+    let g:AutoPairsMapCR = 0
+    let g:AutoPairsFlyMode = 1
+    let g:AutoPairsShortcutBackInsert = '<C-j>'
+    function! s:my_close_pair_function() abort
+      return "\<CR>\<C-R>=AutoPairsReturn()\<CR>"
+    endfunction
+  elseif mymisc#plug_tap('delimitMate')
+    function! s:my_close_pair_function() abort
+      return "\<Plug>delimitMateCR"
+    endfunction
+  endif
 
   imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
   smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
@@ -756,7 +767,7 @@ if mymisc#plug_tap('deoplete.nvim')
         return "\<C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?\"\":deoplete#close_popup()\<CR>"
       endif
     else
-      return "\<Plug>delimitMateCR"
+      return s:my_close_pair_function()
     endif
   endfunction
 

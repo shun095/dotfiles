@@ -77,7 +77,7 @@ Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 
-Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
 
 " syntax files
 Plug 'cakebaker/scss-syntax.vim'
