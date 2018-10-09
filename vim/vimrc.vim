@@ -278,14 +278,15 @@ endif
 
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
 command! CdCurrent cd\ %:h
-command! CopyPath call mymisc#copypath()
-command! CopyFileName call mymisc#copyfname()
-command! CopyDirPath call mymisc#copydirpath()
+command! CpPath call mymisc#copypath()
+command! CpFileName call mymisc#copyfname()
+command! CpDirPath call mymisc#copydirpath()
 command! Ctags call mymisc#ctags_project()
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
 command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
-command! FollowSymlink call s:SwitchToActualFile()
-function! s:SwitchToActualFile()
+
+command! FollowSymlink call s:follow_symlink()
+function! s:follow_symlink()
   let l:fname = resolve(expand('%:p'))
   let l:pos = getpos('.')
   let l:bufname = bufname('%')
@@ -299,37 +300,39 @@ if has('nvim')
   command! Terminal execute "split term://" . &shell
 endif
 
-" Forked from https://qiita.com/shiena/items/1dcb20e99f43c9383783
-command! MSYSTerm call s:MSYSTerm()
-function! s:MSYSTerm()
-  if !exists('g:myvimrc_msys_dir')
-    let g:myvimrc_msys_dir = 'C:/msys64'
-  endif
+if !has('nvim')
+  " Forked from https://qiita.com/shiena/items/1dcb20e99f43c9383783
+  command! MSYSTerm call s:MSYSTerm()
+  function! s:MSYSTerm()
+    if !exists('g:myvimrc_msys_dir')
+      let g:myvimrc_msys_dir = 'C:/msys64'
+    endif
 
-  let l:msys_locale_path = g:myvimrc_msys_dir . '/usr/bin/locale.exe'
-  let l:msys_bash_path = g:myvimrc_msys_dir . '/usr/bin/bash.exe'
-  " 日本語Windowsの場合`ja`が設定されるので、入力ロケールに合わせたUTF-8に設定しなおす
-  let l:env = {
-        \ 'LANG': systemlist('"' . l:msys_locale_path . '" -iU')[0],
-        \ }
+    let l:msys_locale_path = g:myvimrc_msys_dir . '/usr/bin/locale.exe'
+    let l:msys_bash_path = g:myvimrc_msys_dir . '/usr/bin/bash.exe'
+    " 日本語Windowsの場合`ja`が設定されるので、入力ロケールに合わせたUTF-8に設定しなおす
+    let l:env = {
+          \ 'LANG': systemlist('"' . l:msys_locale_path . '" -iU')[0],
+          \ }
 
-  " remote連携のための設定
-  if has('clientserver')
-    call extend(l:env, {
-          \ 'GVIM': $VIMRUNTIME,
-          \ 'VIM_SERVERNAME': v:servername,
+    " remote連携のための設定
+    if has('clientserver')
+      call extend(l:env, {
+            \ 'GVIM': $VIMRUNTIME,
+            \ 'VIM_SERVERNAME': v:servername,
+            \ })
+    endif
+
+    " term_startでgit for windowsのbashを実行する
+    call term_start([l:msys_bash_path, '-l'], {
+          \ 'term_name': 'MSYS',
+          \ 'term_finish': 'close',
+          \ 'curwin': g:false,
+          \ 'cwd': $USERPROFILE,
+          \ 'env': l:env,
           \ })
-  endif
-
-  " term_startでgit for windowsのbashを実行する
-  call term_start([l:msys_bash_path, '-l'], {
-        \ 'term_name': 'MSYS',
-        \ 'term_finish': 'close',
-        \ 'curwin': g:false,
-        \ 'cwd': $USERPROFILE,
-        \ 'env': l:env,
-        \ })
-endfunction
+  endfunction
+endif
 " }}} COMMANDS END
 
 " AUTOCMDS {{{
