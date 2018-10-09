@@ -134,7 +134,7 @@ Plug 'scrooloose/nerdcommenter'
 " Plug 'jistr/vim-nerdtree-tabs'
 " Plug 'justinmk/vim-dirvish'
 
-Plug 'tpope/vim-dispatch'
+" Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
