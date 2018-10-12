@@ -1,5 +1,7 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'tomasr/molokai'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'Shougo/defx.nvim'
 
 call plug#end()

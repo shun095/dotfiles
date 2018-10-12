@@ -34,11 +34,12 @@ if v:version >= 800
   if has('nvim')
     Plug 'Shougo/denite.nvim',{'do':':UpdateRemotePlugins'}
     Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
-    Plug 'ishitaku5522/defx.nvim',{'do':':UpdateRemotePlugins'}
+    Plug 'Shougo/defx.nvim',{'do':':UpdateRemotePlugins'}
+    Plug 'lambdalisue/suda.vim'
   else
     Plug 'Shougo/denite.nvim'
     Plug 'Shougo/deoplete.nvim'
-    Plug 'ishitaku5522/defx.nvim'
+    Plug 'Shougo/defx.nvim'
   endif
 endif
 Plug 'Shougo/neomru.vim'
