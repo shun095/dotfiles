@@ -532,23 +532,23 @@ if mymisc#plug_tap('defx.nvim')
   nnoremap <silent> <Leader>e :Defx `expand('%:p:h')` -split=vertical -winwidth=35 -direction=topleft -search=`expand('%:p')`<CR>
   nnoremap <silent> <Leader>E :Defx -split=vertical -winwidth=35 -direction=topleft .<CR>
 
-  function! s:quit_existing_defx() abort
-    for l:item in getwininfo()
-      let l:bufname = bufname(l:item.bufnr)
-      if match(l:bufname, '\[defx\]') != -1
-        if l:item.tabnr == tabpagenr()
-          for winid in win_findbuf(item.bufnr)
-            if count(gettabinfo(tabpagenr())[0].windows, winid)
-              call win_gotoid(winid)
-              quit
-              return
-            endif
-          endfor
-        endif
-      endif
-    endfor
-    return
-  endfunction
+  " function! s:quit_existing_defx() abort
+  "   for l:item in getwininfo()
+  "     let l:bufname = bufname(l:item.bufnr)
+  "     if match(l:bufname, '\[defx\]') != -1
+  "       if l:item.tabnr == tabpagenr()
+  "         for winid in win_findbuf(item.bufnr)
+  "           if count(gettabinfo(tabpagenr())[0].windows, winid)
+  "             call win_gotoid(winid)
+  "             quit
+  "             return
+  "           endif
+  "         endfor
+  "       endif
+  "     endif
+  "   endfor
+  "   return
+  " endfunction
 
   augroup vimrc_defx
     autocmd!
@@ -565,6 +565,8 @@ if mymisc#plug_tap('defx.nvim')
             \ defx#do_action('open', 'wincmd p \| drop')
       nnoremap <silent><buffer><expr> h
             \ defx#do_action('cd', ['..'])
+      nnoremap <silent><buffer><expr> t
+            \ defx#do_action('open', 'tabedit')
       nnoremap <silent><buffer><expr> ~
             \ defx#do_action('cd')
       nnoremap <silent><buffer><expr> yy
