@@ -583,13 +583,13 @@ if mymisc#plug_tap('defx.nvim')
             \ defx#do_action('open', 'wincmd p \| split')
       nnoremap <silent><buffer><expr> P
             \ defx#do_action('open', 'topleft pedit')
-      nnoremap <silent><buffer><expr> c
+      nnoremap <silent><buffer><expr> cc
             \ defx#do_action('copy')
-      nnoremap <silent><buffer><expr> m
+      nnoremap <silent><buffer><expr> mm
             \ defx#do_action('move')
-      nnoremap <silent><buffer><expr> d
+      nnoremap <silent><buffer><expr> dd
             \ defx#do_action('remove')
-      nnoremap <silent><buffer><expr> r
+      nnoremap <silent><buffer><expr> rr
             \ defx#do_action('rename')
       nnoremap <silent><buffer><expr> p
             \ defx#do_action('paste')
@@ -1082,7 +1082,6 @@ if mymisc#plug_tap('vim-gitgutter')
   else
     let g:gitgutter_async = 1
   endif
-  let g:gitgutter_log = 1
 endif
 
 if mymisc#plug_tap('rainbow_parentheses.vim')
