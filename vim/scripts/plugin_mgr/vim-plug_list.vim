@@ -81,7 +81,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
-Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
+" Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
 
 " Language/environment specific plugins
 Plug 'lervag/vimtex',{'for':'tex'}
