@@ -863,23 +863,26 @@ endif
 
 if mymisc#plug_tap('ale')
   let g:ale_fixers = {
-        \ 'javascript': 'prettier',
-        \ 'python': 'autopep8',
-        \ 'vue': 'prettier'
+        \ 'javascript': ['prettier'],
+        \ 'python':     ['yapf'],
+        \ 'vue':        ['prettier'],
         \ }
   let g:ale_fix_on_save = 0
   let g:ale_linters = {
-        \ 'cpp': '',
-        \ 'python': ''
+        \ 'cpp':    [''],
+        \ 'python': ['flake8'],
         \ }
   let g:ale_sign_error = 'E'
   let g:ale_sign_warning = 'W'
+  let g:ale_sign_info = 'I'
+  let g:ale_sign_style_error = 'e'
+  let g:ale_sign_style_warning = 'w'
 endif
 
 if mymisc#plug_tap('LanguageClient-neovim')
-  " let g:LanguageClient_loggingLevel = 'DEBUG'
-  " let g:LanguageClient_loggingFile = $HOME.'/.vim/languageClient.log'
-  " let g:LanguageClient_serverStderr = $HOME.'/.vim/languageServer.log'
+  let g:LanguageClient_loggingLevel = 'DEBUG'
+  let g:LanguageClient_loggingFile = $HOME.'/.vim/languageClient.log'
+  let g:LanguageClient_serverStderr = $HOME.'/.vim/languageServer.log'
 
   if has('win32')
     let g:LanguageClient_serverCommands = {
@@ -890,9 +893,9 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'hpp':        [$HOME.'/.vim/clangd'],
           \ 'c':          [$HOME.'/.vim/clangd'],
           \ 'h':          [$HOME.'/.vim/clangd'],
-          \ 'python':     ['pyls'],
           \ 'rust':       ['rls'],
           \ }
+          " \ 'python':     ['pyls'],
   else
     let g:LanguageClient_serverCommands = {
           \ 'javascript': ['javascript-typescript-stdio'],
@@ -902,9 +905,9 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'hpp':        [$HOME.'/.vim/clangd'],
           \ 'c':          [$HOME.'/.vim/clangd'],
           \ 'h':          [$HOME.'/.vim/clangd'],
-          \ 'python':     ['pyls'],
           \ 'rust':       ['rls'],
           \ }
+          " \ 'python':     ['pyls'],
   endif
 
   let g:LanguageClient_diagnosticsDisplay =
@@ -1060,7 +1063,7 @@ if mymisc#plug_tap('indentLine')
 endif
 
 if mymisc#plug_tap('vim-autoformat')
-  let g:autoformat_verbosemode = 0
+  let g:autoformat_verbosemode = 1
 endif
 
 if mymisc#plug_tap('vim-startify')

@@ -50,7 +50,7 @@ Plug 'Shougo/vimproc.vim'
 Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
 Plug 'Rip-Rip/clang_complete',{'for':['c','cpp']} " for goto definition (completed by LC)
 Plug 'davidhalter/jedi-vim',{'for':['python']} " for goto definition (completed by LC)
-" Plug 'zchee/deoplete-jedi',{'for':['python']} " for completion
+Plug 'zchee/deoplete-jedi',{'for':['python']} " for completion
 " Plug 'carlitux/deoplete-ternjs',{'for':['javascript']}
 " Plug 'zchee/deoplete-go',{'for':['go']}
 Plug 'othree/csscomplete.vim'
