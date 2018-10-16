@@ -205,39 +205,6 @@ fun! mymisc#test() abort
   return s:File.copy(expand('~/old.txt'),expand('~/new.txt'))
 endf
 
-fun! mymisc#statusline_tagbar() abort
-  let str = ''
-  if exists('*tagbar#currenttag()')
-    let str .= tagbar#currenttag('[%s]','')
-  endif
-  return str
-endf
-
-fun! mymisc#statusline_fugitive() abort
-  let str = ''
-  if exists('*fugitive#head()') 
-    if fugitive#head() !=# ''
-      let str .= ' ' . fugitive#head() . ' '
-    endif
-  endif
-  return str
-endf
-
-fun! mymisc#statusline_gitgutter() abort
-  let str = ''
-  if exists('*fugitive#head()') 
-    if fugitive#head() !=# ''
-      if exists('*GitGutterGetHunkSummary()')
-        let gutter_lst = GitGutterGetHunkSummary()
-        let str .= '+' . gutter_lst[0] 
-        let str .= '~' . gutter_lst[1] 
-        let str .= '-' . gutter_lst[2]
-      endif
-    endif
-  endif
-  return str
-endf
-
 function! mymisc#tabline() abort
   let s = ''
   for i in range(tabpagenr('$'))

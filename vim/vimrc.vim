@@ -129,16 +129,49 @@ highlight link User5 Comment
 
 set statusline=%m%r%h%w%q
 set statusline+=%<\ %f\ %=
-set statusline+=%{mymisc#statusline_tagbar()}
+set statusline+=%{Myvimrc_statusline_tagbar()}
 set statusline+=\ %2*
-set statusline+=%{mymisc#statusline_fugitive()}
+set statusline+=%{Myvimrc_statusline_fugitive()}
 set statusline+=%4*
-set statusline+=%{mymisc#statusline_gitgutter()}
+set statusline+=%{Myvimrc_statusline_gitgutter()}
 set statusline+=%3*
 set statusline+=\ %y
 set statusline+=%1*\ %{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}
 set statusline+=\(%{&fileformat})
 set statusline+=\ %5*%3p%%\ %4l:%-3v\ %*
+
+fun! Myvimrc_statusline_tagbar() abort
+  let str = ''
+  if exists('*tagbar#currenttag()')
+    let str .= tagbar#currenttag('[%s]','')
+  endif
+  return str
+endf
+
+fun! Myvimrc_statusline_fugitive() abort
+  let str = ''
+  if exists('*fugitive#head()') 
+    if fugitive#head() !=# ''
+      let str .= ' ' . fugitive#head() . ' '
+    endif
+  endif
+  return str
+endf
+
+fun! Myvimrc_statusline_gitgutter() abort
+  let str = ''
+  if exists('*fugitive#head()') 
+    if fugitive#head() !=# ''
+      if exists('*GitGutterGetHunkSummary()')
+        let gutter_lst = GitGutterGetHunkSummary()
+        let str .= '+' . gutter_lst[0] 
+        let str .= '~' . gutter_lst[1] 
+        let str .= '-' . gutter_lst[2]
+      endif
+    endif
+  endif
+  return str
+endf
 " }}}
 
 if executable('files')
