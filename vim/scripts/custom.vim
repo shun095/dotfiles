@@ -731,12 +731,26 @@ if mymisc#plug_tap('deoplete.nvim')
 
   let g:deoplete#enable_at_startup = 1
 
+  let g:UltiSnipsRemoveSelectModeMappings = 0
+  let g:UltiSnipsExpandTrigger       = '<Plug>(MyUltiRemapX)'
+  let g:UltiSnipsJumpForwardTrigger  = '<Plug>(MyUltiRemapY)'
+  let g:UltiSnipsJumpBackwardTrigger = '<Plug>(MyUltiRemapZ)'
+
+  inoremap <expr><C-Space> deoplete#mappings#manual_complete()
+  imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+        \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  imap <expr><CR> <SID>my_cr_main()
+  imap <expr><TAB> <SID>my_tab_main()
+
+  function! s:SID()
+    return matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\zeSID$')
+  endfun
+
   function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
   endfunction
-
-  inoremap <expr><C-Space> deoplete#mappings#manual_complete()
 
   if mymisc#plug_tap('auto-pairs')
     let g:AutoPairsMapCR = 0
@@ -749,18 +763,11 @@ if mymisc#plug_tap('deoplete.nvim')
     function! s:my_close_pair_function() abort
       return "\<Plug>delimitMateCR"
     endfunction
+  else
+    function! s:my_close_pair_function() abort
+      return "\<CR>"
+    endfunction
   endif
-
-  imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
-  let g:UltiSnipsRemoveSelectModeMappings = 0
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-        \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-  imap <expr><CR> <SID>my_cr_main()
-  imap <expr><TAB> <SID>my_tab_main()
-
-  let g:UltiSnipsExpandTrigger       = '<Plug>(MyUltiRemapX)'
-  let g:UltiSnipsJumpForwardTrigger  = '<Plug>(MyUltiRemapY)'
-  let g:UltiSnipsJumpBackwardTrigger = '<Plug>(MyUltiRemapZ)'
 
   function! s:my_cr_main() abort
     if pumvisible()
@@ -772,15 +779,6 @@ if mymisc#plug_tap('deoplete.nvim')
     else
       return s:my_close_pair_function()
     endif
-  endfunction
-
-  function! s:SID()
-    return matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\zeSID$')
-  endfun
-
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
   endfunction
 
   function! s:my_tab_try_ulti()
@@ -805,34 +803,6 @@ if mymisc#plug_tap('deoplete.nvim')
       return "\<C-r>=(".s:SID()."my_tab_try_ulti() > 0)?\"\":".s:SID()."my_tab_noulti()\<CR>"
     endif
   endfunction
-
-  " if mymisc#plug_tap('ultisnips')
-  "   imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
-
-  "   let g:ulti_expand_or_jump_res = 0 "default value, just set once
-  "   function! Ulti_ExpandOrJump_and_getRes()
-  "     call UltiSnips#ExpandSnippetOrJump()
-  "     return g:ulti_expand_or_jump_res
-  "   endfunction
-
-  "   function! s:my_cr_main() abort
-  "     if pumvisible()
-  "       return "\<C-R>=(".s:SID()."my_tab_try_ulti() > 0)?\"\":Ulti_NeoSnippet_CR()\<CR>"
-  "     else
-  "       return "\<Plug>delimitMateCR"
-  "     endif
-  "   endfunction
-  "   imap <expr><CR> <SID>my_cr_main()
-
-  "   function! s:my_tab_main() abort
-  "     if pumvisible()
-  "       return "\<C-n>"
-  "     else
-  "       return "\<C-R>=(".s:SID()."my_tab_try_ulti() > 0)?'':deoplete#mappings#manual_complete()\<CR>"
-  "     endif
-  "   endfunction
-  "   imap <expr><TAB> <SID>my_tab_main()
-  " endif
 
   call deoplete#custom#var('omni', 'input_patterns', {
         \ 'html':       ['\w+'],
