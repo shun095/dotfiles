@@ -752,56 +752,59 @@ if mymisc#plug_tap('deoplete.nvim')
   endif
 
   imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
+  let g:UltiSnipsRemoveSelectModeMappings = 0
   smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
         \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-  imap <silent><expr><CR> <SID>my_cr_function()
-  imap <silent><expr><TAB> <SID>my_tab_function()
+  imap <expr><CR> <SID>my_cr_main()
+  imap <expr><TAB> <SID>my_tab_main()
 
-  let g:UltiSnipsExpandTrigger       = '<C-\|>x'
-  let g:UltiSnipsJumpForwardTrigger  = '<C-\|>y'
-  let g:UltiSnipsJumpBackwardTrigger = '<C-\|>z'
+  let g:UltiSnipsExpandTrigger       = '<Plug>(MyUltiRemapX)'
+  let g:UltiSnipsJumpForwardTrigger  = '<Plug>(MyUltiRemapY)'
+  let g:UltiSnipsJumpBackwardTrigger = '<Plug>(MyUltiRemapZ)'
 
-  function! s:my_cr_function() abort
+  function! s:my_cr_main() abort
     if pumvisible()
       if neosnippet#expandable()
         return "\<Plug>(neosnippet_expand)"
       else
-        return "\<C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?\"\":deoplete#close_popup()\<CR>"
+        return "\<C-R>=(".s:SID()."my_tab_try_ulti() > 0)?\"\":deoplete#close_popup()\<CR>"
       endif
     else
       return s:my_close_pair_function()
     endif
   endfunction
 
+  function! s:SID()
+    return matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\zeSID$')
+  endfun
+
   function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
   endfunction
 
-  function! Ulti_TabFunction() abort
-    if s:check_back_space()
-      return "\<TAB>"
-    else
-      call deoplete#mappings#manual_complete()
-      return ""
-    endif
-  endfunction
-
-  function! Ulti_ExpandOrJump_and_getRes()
+  function! s:my_tab_try_ulti()
     call UltiSnips#ExpandSnippetOrJump()
     return g:ulti_expand_or_jump_res
   endfunction
 
-  function! s:my_tab_function() abort
+  function! s:my_tab_noulti() abort
+    if s:check_back_space()
+      return "\<TAB>"
+    else
+      return "\<C-r>=deoplete#mappings#manual_complete()\<CR>"
+    endif
+  endfunction
+
+  function! s:my_tab_main() abort
     if pumvisible()
       return "\<C-n>"
     elseif neosnippet#expandable_or_jumpable()
       return "\<Plug>(neosnippet_expand_or_jump)" 
     else
-      return "\<C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?\"\":Ulti_TabFunction()\<CR>"
+      return "\<C-r>=(".s:SID()."my_tab_try_ulti() > 0)?\"\":".s:SID()."my_tab_noulti()\<CR>"
     endif
   endfunction
-
 
   " if mymisc#plug_tap('ultisnips')
   "   imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
@@ -812,23 +815,23 @@ if mymisc#plug_tap('deoplete.nvim')
   "     return g:ulti_expand_or_jump_res
   "   endfunction
 
-  "   function! s:my_cr_function() abort
+  "   function! s:my_cr_main() abort
   "     if pumvisible()
-  "       return "\<C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?\"\":Ulti_NeoSnippet_CR()\<CR>"
+  "       return "\<C-R>=(".s:SID()."my_tab_try_ulti() > 0)?\"\":Ulti_NeoSnippet_CR()\<CR>"
   "     else
   "       return "\<Plug>delimitMateCR"
   "     endif
   "   endfunction
-  "   imap <expr><CR> <SID>my_cr_function()
+  "   imap <expr><CR> <SID>my_cr_main()
 
-  "   function! s:my_tab_function() abort
+  "   function! s:my_tab_main() abort
   "     if pumvisible()
   "       return "\<C-n>"
   "     else
-  "       return "\<C-R>=(Ulti_ExpandOrJump_and_getRes() > 0)?'':deoplete#mappings#manual_complete()\<CR>"
+  "       return "\<C-R>=(".s:SID()."my_tab_try_ulti() > 0)?'':deoplete#mappings#manual_complete()\<CR>"
   "     endif
   "   endfunction
-  "   imap <expr><TAB> <SID>my_tab_function()
+  "   imap <expr><TAB> <SID>my_tab_main()
   " endif
 
   call deoplete#custom#var('omni', 'input_patterns', {
@@ -894,8 +897,8 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'c':          [$HOME.'/.vim/clangd'],
           \ 'h':          [$HOME.'/.vim/clangd'],
           \ 'rust':       ['rls'],
+          \ 'python':     ['pyls'],
           \ }
-          " \ 'python':     ['pyls'],
   else
     let g:LanguageClient_serverCommands = {
           \ 'javascript': ['javascript-typescript-stdio'],
@@ -906,8 +909,8 @@ if mymisc#plug_tap('LanguageClient-neovim')
           \ 'c':          [$HOME.'/.vim/clangd'],
           \ 'h':          [$HOME.'/.vim/clangd'],
           \ 'rust':       ['rls'],
+          \ 'python':     ['pyls'],
           \ }
-          " \ 'python':     ['pyls'],
   endif
 
   let g:LanguageClient_diagnosticsDisplay =
@@ -977,6 +980,7 @@ if mymisc#plug_tap('jedi-vim')
     autocmd FileType python nnoremap <buffer> <F2> :call jedi#rename()<CR>
     autocmd FileType python nnoremap <buffer> K :call jedi#show_documentation()<CR>
     autocmd FileType python nnoremap <buffer> <C-]> :call jedi#goto()<CR>
+    autocmd FileType python setlocal omnifunc=jedi#completions
   augroup END
 endif
 
