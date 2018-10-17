@@ -253,8 +253,13 @@ if mymisc#plug_tap('memolist.vim')
   " endif
 
   nmap <Leader>mn :MemoNew<cr>
-  nmap <Leader>ml :MemoList<cr>
-  " nmap <Leader>ml :execute "Denite file_rec -path=" . g:memolist_path<cr>
+  if mymisc#plug_tap('denite.nvim')
+    nnoremap <Leader>ml :execute ":Denite" "-path='".g:memolist_path."'" "file_rec"<cr>
+  elseif mymisc#plug_tap('defx.nvim')
+    nnoremap <Leader>ml :execute "Defx " . g:memolist_path<cr>
+  else
+    nnoremap <Leader>ml :MemoList<cr>
+  endif
 endif
 
 if mymisc#plug_tap('nerdtree')
