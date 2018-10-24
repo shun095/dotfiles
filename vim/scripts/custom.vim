@@ -759,7 +759,7 @@ if mymisc#plug_tap('deoplete.nvim')
 
   if mymisc#plug_tap('auto-pairs')
     let g:AutoPairsMapCR = 0
-    let g:AutoPairsFlyMode = 1
+    let g:AutoPairsFlyMode = 0
     let g:AutoPairsShortcutBackInsert = '<C-j>'
     function! s:my_close_pair_function() abort
       return "\<CR>\<C-R>=AutoPairsReturn()\<CR>"
