@@ -775,11 +775,11 @@ if mymisc#plug_tap('deoplete.nvim')
 
   function! s:my_cr_main() abort
     if pumvisible()
-      if neosnippet#expandable()
-        return "\<Plug>(neosnippet_expand)"
-      else
+      " if neosnippet#expandable()
+      "   return "\<Plug>(neosnippet_expand)"
+      " else
         return "\<C-R>=(".s:SID()."my_tab_try_ulti() > 0)?\"\":deoplete#close_popup()\<CR>"
-      endif
+      " endif
     else
       return s:my_close_pair_function()
     endif
@@ -801,8 +801,8 @@ if mymisc#plug_tap('deoplete.nvim')
   function! s:my_tab_main() abort
     if pumvisible()
       return "\<C-n>"
-    elseif neosnippet#expandable_or_jumpable()
-      return "\<Plug>(neosnippet_expand_or_jump)" 
+    " elseif neosnippet#expandable_or_jumpable()
+    "   return "\<Plug>(neosnippet_expand_or_jump)" 
     else
       return "\<C-r>=(".s:SID()."my_tab_try_ulti() > 0)?\"\":".s:SID()."my_tab_noulti()\<CR>"
     endif
@@ -811,8 +811,8 @@ if mymisc#plug_tap('deoplete.nvim')
   inoremap <expr><C-Space> deoplete#mappings#manual_complete()
   imap <expr><S-TAB> pumvisible() ?
         \ "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-        \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  " smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  "       \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
   imap <expr><TAB> <SID>my_tab_main()
 
   augroup vimrc_deoplete

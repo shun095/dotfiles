@@ -70,8 +70,8 @@ endif
 " Plug 'ervandew/supertab'
 
 " Snippets, templates
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'aperezdc/vim-template'
