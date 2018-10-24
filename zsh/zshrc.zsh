@@ -23,7 +23,7 @@ setopt auto_cd
 
 function chpwd() {
     _cd_history_bookmark_save_cd_history
-    ls --color=auto
+    # ls --color=auto
 }
 
 function maila(){

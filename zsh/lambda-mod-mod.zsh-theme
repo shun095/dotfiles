@@ -23,19 +23,27 @@ function check_git_prompt_info() {
 }
 
 function get_right_prompt() {
-    if git rev-parse --git-dir > /dev/null 2>&1; then
-        echo -n "$(git_prompt_short_sha)%{$reset_color%}"
-    else
+    # if git rev-parse --git-dir > /dev/null 2>&1; then
+        # echo -n "$(git_prompt_short_sha)%{$reset_color%}"
+    # else
         echo -n "%{$reset_color%}"
-    fi
+    # fi
 }
+
+# PROMPT=$'\n'$LAMBDA'\
+#  %{$fg_bold[$USERCOLOR]%}%n\
+# %{$reset_color%}@\
+# %{$fg_no_bold[magenta]%}%m\
+#  %{$fg_no_bold[green]%}[%4~]\
+#  $(check_git_prompt_info)\
+# %{$reset_color%}'
 
 PROMPT=$'\n'$LAMBDA'\
  %{$fg_bold[$USERCOLOR]%}%n\
 %{$reset_color%}@\
 %{$fg_no_bold[magenta]%}%m\
- %{$fg_no_bold[green]%}[%4~]\
- $(check_git_prompt_info)\
+ %{$fg_no_bold[green]%}[%4~]
+%{$fg_bold[cyan]%}$ \
 %{$reset_color%}'
 
 RPROMPT='$(get_right_prompt)'
