@@ -736,7 +736,7 @@ if mymisc#plug_tap('deoplete.nvim')
 
   let g:deoplete#enable_at_startup = 1
 
-  let g:UltiSnipsRemoveSelectModeMappings = 0
+  " let g:UltiSnipsRemoveSelectModeMappings = 0
   let g:UltiSnipsExpandTrigger       = '<Plug>(MyUltiRemapX)'
   let g:UltiSnipsJumpForwardTrigger  = '<Plug>(MyUltiRemapY)'
   let g:UltiSnipsJumpBackwardTrigger = '<Plug>(MyUltiRemapZ)'
@@ -841,7 +841,6 @@ if mymisc#plug_tap('deoplete.nvim')
   call deoplete#custom#source('_','min_pattern_length', 1)
   
   call deoplete#custom#option({
-        \ 'num_processes': 4,
         \ 'auto_complete_delay': 20,
         \ 'smart_case': v:false,
         \ 'ignore_sources': {
