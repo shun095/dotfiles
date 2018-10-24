@@ -392,6 +392,9 @@ augroup VIMRC
   autocmd FileType python inoremap <buffer> # X#
   autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
 
+  " Latex
+  let g:tex_conceal = ""
+
   " C++
   autocmd FileType c,cpp setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
 
