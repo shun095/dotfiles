@@ -561,13 +561,13 @@ if mymisc#plug_tap('defx.nvim')
     function! s:defx_my_settings() abort
       " Define mappings
       nnoremap <silent><buffer><expr> <CR>
-            \ defx#do_action('open', 'wincmd p \| drop')
+            \ defx#do_action('open', 'wincmd p \| edit')
       nnoremap <silent><buffer><expr> o
-            \ defx#do_action('open', 'wincmd p \| drop')
+            \ defx#do_action('open', 'wincmd p \| edit')
       nnoremap <silent><buffer><expr> u
             \ defx#do_action('cd', ['..'])
       nnoremap <silent><buffer><expr> l
-            \ defx#do_action('open', 'wincmd p \| drop')
+            \ defx#do_action('open', 'wincmd p \| edit')
       nnoremap <silent><buffer><expr> h
             \ defx#do_action('cd', ['..'])
       nnoremap <silent><buffer><expr> t
