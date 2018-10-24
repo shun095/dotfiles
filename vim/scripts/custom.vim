@@ -741,13 +741,6 @@ if mymisc#plug_tap('deoplete.nvim')
   let g:UltiSnipsJumpForwardTrigger  = '<Plug>(MyUltiRemapY)'
   let g:UltiSnipsJumpBackwardTrigger = '<Plug>(MyUltiRemapZ)'
 
-  inoremap <expr><C-Space> deoplete#mappings#manual_complete()
-  imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-        \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-  imap <expr><CR> <SID>my_cr_main()
-  imap <expr><TAB> <SID>my_tab_main()
-
   function! s:SID()
     return matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\zeSID$')
   endfun
@@ -759,11 +752,16 @@ if mymisc#plug_tap('deoplete.nvim')
 
   if mymisc#plug_tap('auto-pairs')
     let g:AutoPairsMapCR = 0
-    let g:AutoPairsFlyMode = 1
-    let g:AutoPairsMultilineClose = 0
+    let g:AutoPairsFlyMode = 0
+    let g:AutoPairsMultilineClose = 1
     let g:AutoPairsShortcutBackInsert = '<C-j>'
     function! s:my_close_pair_function() abort
       return "\<CR>\<C-R>=AutoPairsReturn()\<CR>"
+    endfunction
+  elseif mymisc#plug_tap('lexima.vim')
+    let g:lexima_ctrlh_as_backspace = 1
+    function! s:my_close_pair_function() abort
+      return "\<C-R>=lexima#expand('<CR>', 'i')\<CR>"
     endfunction
   elseif mymisc#plug_tap('delimitMate')
     function! s:my_close_pair_function() abort
@@ -809,6 +807,21 @@ if mymisc#plug_tap('deoplete.nvim')
       return "\<C-r>=(".s:SID()."my_tab_try_ulti() > 0)?\"\":".s:SID()."my_tab_noulti()\<CR>"
     endif
   endfunction
+
+  inoremap <expr><C-Space> deoplete#mappings#manual_complete()
+  imap <expr><S-TAB> pumvisible() ?
+        \ "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+        \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  imap <expr><TAB> <SID>my_tab_main()
+
+  augroup vimrc_deoplete
+    autocmd!
+    if mymisc#plug_tap('lexima.vim')
+      autocmd VimEnter * call lexima#init()
+    endif
+    autocmd VimEnter * imap <expr><CR> <SID>my_cr_main()
+  augroup END
 
   call deoplete#custom#var('omni', 'input_patterns', {
         \ 'html':       ['\w+'],
@@ -1031,11 +1044,40 @@ if mymisc#plug_tap('next-alter.vim')
   augroup END
 endif
 
+if mymisc#plug_tap('lexima.vim')
+  " " call lexima#add_rule({'char': '<', 'input_after': '>'})
+  " call lexima#add_rule({'char': '>', 'at': '\%#>', 'leave': 1})
+  " call lexima#add_rule({'char': '<BS>', 'at': '<\%#>', 'input': '<BS>', 'delete' : 1})
+
+  " for [begin, end] in [['(', ')'], ['{','}'], ['[',']']]
+  "   call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': begin, 'input': begin})
+  "   call lexima#add_rule({'at': '\%#\n\s*'.end , 'char': end, 'input': '<CR>'.end, 'delete': end})
+  " endfor
+
+  " for mark in ['"', "'"]
+  "   call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': mark, 'input': mark})
+  " endfor
+
+  " call lexima#init()
+  " <BS>,<CR>が文字列ではなく展開されてしまうためうまくいかないので<lt>を利用
+  " inoremap <silent><expr> <C-h> lexima#expand('<lt>BS>', 'i')
+  " imap <silent><expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
+endif
+
 if mymisc#plug_tap('vim-submode')
-  augroup vimrc_submode
-    autocmd!
-    autocmd VimEnter * call g:plugin_mgr.lazy_hook('vim-submode')
-  augroup END
+  let g:submode_timeoutlen = 3000
+  call submode#enter_with('winsize', 'n', '', '<C-w>>', '5<C-w>>')
+  call submode#enter_with('winsize', 'n', '', '<C-w><', '5<C-w><')
+  call submode#enter_with('winsize', 'n', '', '<C-w>+', '5<C-w>+')
+  call submode#enter_with('winsize', 'n', '', '<C-w>-', '5<C-w>-')
+  call submode#map('winsize', 'n', '', '>', '5<C-w>>')
+  call submode#map('winsize', 'n', '', '<', '5<C-w><')
+  call submode#map('winsize', 'n', '', '+', '5<C-w>+')
+  call submode#map('winsize', 'n', '', '-', '5<C-w>-')
+  " augroup vimrc_submode
+  "   autocmd!
+  "   autocmd VimEnter * call g:plugin_mgr.lazy_hook('vim-submode')
+  " augroup END
 endif
 
 if mymisc#plug_tap('indentLine')

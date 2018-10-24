@@ -43,26 +43,26 @@ fun! g:plugin_mgr.init() abort
   source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug_list.vim
   call plug#end()
 
-  source $MYVIMHOME/scripts/lazy_hooks.vim
+  " source $MYVIMHOME/scripts/lazy_hooks.vim
 
-  augroup _myplug
-    autocmd!
-    for plugname in keys(g:plugs)
-      if has_key(g:plugs[plugname], 'event')
-        if type(g:plugs[plugname]['event']) == v:t_string
-          execute 'autocmd ' . g:plugs[plugname]['event'] . ' * call g:plugin_mgr.lazy_hook(''' . plugname . ''')'
+  " augroup _myplug
+  "   autocmd!
+  "   for plugname in keys(g:plugs)
+  "     if has_key(g:plugs[plugname], 'event')
+  "       if type(g:plugs[plugname]['event']) == v:t_string
+  "         execute 'autocmd ' . g:plugs[plugname]['event'] . ' * call g:plugin_mgr.lazy_hook(''' . plugname . ''')'
 
-        elseif type(g:plugs[plugname]['event']) == v:t_list
-          for cmd in g:plugs[plugname]['event']
-            execute 'autocmd ' . cmd . ' * call g:plugin_mgr.lazy_hook(''' . plugname . ''')'
-          endfor
+  "       elseif type(g:plugs[plugname]['event']) == v:t_list
+  "         for cmd in g:plugs[plugname]['event']
+  "           execute 'autocmd ' . cmd . ' * call g:plugin_mgr.lazy_hook(''' . plugname . ''')'
+  "         endfor
 
-        endif
-      elseif g:plugin_mgr.lazy_hook_available(plugname)
-        execute 'autocmd VimEnter * call g:plugin_mgr.lazy_hook('''.plugname.''')'
-      endif
-    endfor
-  augroup END
+  "       endif
+  "     elseif g:plugin_mgr.lazy_hook_available(plugname)
+  "       execute 'autocmd VimEnter * call g:plugin_mgr.lazy_hook('''.plugname.''')'
+  "     endif
+  "   endfor
+  " augroup END
 
 endfun
 
