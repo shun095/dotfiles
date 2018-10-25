@@ -875,31 +875,35 @@ if mymisc#plug_tap('LanguageClient-neovim')
   " let g:LanguageClient_loggingFile = $HOME.'/.vim/languageClient.log'
   " let g:LanguageClient_serverStderr = $HOME.'/.vim/languageServer.log'
 
+  let g:LanguageClient_serverCommands = {}
   if has('win32')
-    let g:LanguageClient_serverCommands = {
-          \ 'javascript': [$APPDATA.'/npm/javascript-typescript-stdio.cmd'],
-          \ 'typescript': [$APPDATA.'/npm/javascript-typescript-stdio.cmd'],
-          \ 'vue':        [$APPDATA.'/npm/vls.cmd'],
-          \ 'cpp':        [$HOME.'/.vim/clangd'],
-          \ 'hpp':        [$HOME.'/.vim/clangd'],
-          \ 'c':          [$HOME.'/.vim/clangd'],
-          \ 'h':          [$HOME.'/.vim/clangd'],
-          \ 'rust':       ['rls'],
-          \ 'python':     ['pyls'],
-          \ }
+    let g:LanguageClient_serverCommands['javascript'] =
+          \ [$APPDATA.'/npm/javascript-typescript-stdio.cmd']
+    let g:LanguageClient_serverCommands['typescript'] =
+          \ [$APPDATA.'/npm/javascript-typescript-stdio.cmd']
+    let g:LanguageClient_serverCommands['vue'] =
+          \ [$APPDATA.'/npm/vls.cmd']
   else
-    let g:LanguageClient_serverCommands = {
-          \ 'javascript': ['javascript-typescript-stdio'],
-          \ 'typescript': ['javascript-typescript-stdio'],
-          \ 'vue':        ['vls'],
-          \ 'cpp':        [$HOME.'/.vim/clangd'],
-          \ 'hpp':        [$HOME.'/.vim/clangd'],
-          \ 'c':          [$HOME.'/.vim/clangd'],
-          \ 'h':          [$HOME.'/.vim/clangd'],
-          \ 'rust':       ['rls'],
-          \ 'python':     ['pyls'],
-          \ }
+    let g:LanguageClient_serverCommands['javascript'] =
+          \ ['javascript-typescript-stdio']
+    let g:LanguageClient_serverCommands['typescript'] =
+          \ ['javascript-typescript-stdio']
+    let g:LanguageClient_serverCommands['vue'] =
+          \ ['vls']
   endif
+
+  let g:LanguageClient_serverCommands['cpp'] =
+        \ [$HOME.'/.vim/clangd']
+  let g:LanguageClient_serverCommands['hpp'] =
+        \ [$HOME.'/.vim/clangd']
+  let g:LanguageClient_serverCommands['c'] =
+        \ [$HOME.'/.vim/clangd']
+  let g:LanguageClient_serverCommands['h'] =
+        \ [$HOME.'/.vim/clangd']
+  let g:LanguageClient_serverCommands['rust'] =
+        \ ['rls']
+  let g:LanguageClient_serverCommands['python'] =
+        \ ['pyls']
 
   let g:LanguageClient_diagnosticsDisplay =
         \ {
