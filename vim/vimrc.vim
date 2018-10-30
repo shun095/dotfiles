@@ -429,7 +429,7 @@ augroup VIMRC
 
   " set wrap to global one in in diff mode
   autocmd FilterWritePre * if &diff | setlocal wrap< | endif
-  if !has('nvim')
+  if !has('nvim') && v:version >= 810
     autocmd TerminalOpen * setl listchars= nonumber
   endif
 augroup END
