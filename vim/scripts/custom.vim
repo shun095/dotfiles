@@ -561,6 +561,8 @@ if mymisc#plug_tap('defx.nvim')
     function! s:defx_my_settings() abort
       " Define mappings
       nnoremap <silent><buffer><expr> <CR>
+            \ defx#do_action('drop')
+      nnoremap <silent><buffer><expr> O
             \ defx#do_action('open')
       nnoremap <silent><buffer><expr> o
             \ defx#do_action('drop')
