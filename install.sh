@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+#
+# install.sh
+# Copyright (C) 2018 ishitaku5522
+#
+# Distributed under terms of the MIT license.
 
 set -eu
 
@@ -96,7 +101,18 @@ update_repositories() {
         git pull
         popd
         sh ${OHMYZSHDIR}/tools/upgrade.sh
-}
+        pushd ${OHMYZSHDIR}/custom/plugins
+        pushd zsh-syntax-highlighting
+        git pull
+        popd
+        pushd zsh-autosuggestions
+        git pull
+        popd
+        pushd zsh-completions
+        git pull
+        popd
+        popd
+    }
 
 backup_file() {
     # .~rc exists
@@ -216,7 +232,6 @@ append_line() {
             echo "    ~ Skipped"
         fi
     fi
-    set +e
 }
 
 insert_line() {
@@ -250,7 +265,6 @@ insert_line() {
             echo "    ~ Skipped"
         fi
     fi
-    set +e
 }
 
 deploy_ohmyzsh_files() {

@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #
 # zsh_compile.sh
-# Copyright (C) 2018 ishitaku5522 <>
+# Copyright (C) 2018 ishitaku5522
 #
 # Distributed under terms of the MIT license.
 

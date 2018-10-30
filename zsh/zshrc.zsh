@@ -7,6 +7,9 @@ if [[ ! -n $TMUX ]]; then
     export GOPATH=$HOME/.gopath
     export PATH=$HOME/usr/bin:$GOPATH/bin:/usr/local/go/bin:$PATH
     export PATH="$HOME/.pyenv/bin:$PATH"
+    export PATH="$HOME/build/nvim/bin:$PATH"
+    export PATH="$HOME/build/nvim-qt/bin:$PATH"
+    export PATH="$HOME/build/ctags/bin:$PATH"
 fi
 
 if type pyenv > /dev/null; then
