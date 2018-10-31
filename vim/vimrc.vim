@@ -490,7 +490,7 @@ if g:plugin_mgr.enabled == g:true
   " Colorschemes
   try
     set background=dark
-    colorscheme pencil
+    colorscheme iceberg
   catch
     colorscheme default
   endtry

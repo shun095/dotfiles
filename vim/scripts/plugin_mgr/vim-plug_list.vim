@@ -3,10 +3,10 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " Color schemes
-Plug 'reedes/vim-colors-pencil'
+Plug 'cocopon/iceberg.vim'
+" Plug 'reedes/vim-colors-pencil'
 " Plug 'NLKNguyen/papercolor-theme'
 " Plug 'ajh17/spacegray.vim'
-" Plug 'cocopon/iceberg.vim'
 " Plug 'jdkanani/vim-material-theme'
 " Plug 'jonathanfilip/vim-lucius'
 " Plug 'joshdick/onedark.vim'
