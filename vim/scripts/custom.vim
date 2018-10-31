@@ -858,15 +858,15 @@ endif
 
 if mymisc#plug_tap('ale')
   let g:ale_fixers = {
+        \ 'javascript': ['prettier'],
+        \ 'vue':        ['prettier'],
+        \ 'python':     ['yapf'],
         \ }
-        " \ 'javascript': ['prettier'],
-        " \ 'vue':        ['prettier'],
-        " \ 'python':     ['yapf'],
   let g:ale_fix_on_save = 0
   let g:ale_linters = {
+        \ 'cpp':    [''],
+        \ 'python': ['flake8'],
         \ }
-        " \ 'cpp':    [''],
-        " \ 'python': ['flake8'],
   let g:ale_sign_error = 'E'
   let g:ale_sign_warning = 'W'
   let g:ale_sign_info = 'I'
@@ -908,6 +908,7 @@ if mymisc#plug_tap('LanguageClient-neovim')
         \ ['rls']
   let g:LanguageClient_serverCommands['python'] =
         \ ['pyls']
+  let g:LanguageClient_diagnosticsEnable = 0
 
   let g:LanguageClient_diagnosticsDisplay =
         \ {
