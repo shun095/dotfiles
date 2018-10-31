@@ -3,16 +3,16 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " Color schemes
-Plug 'cocopon/iceberg.vim'
-" Plug 'reedes/vim-colors-pencil'
+Plug 'rakr/vim-one'
 " Plug 'NLKNguyen/papercolor-theme'
 " Plug 'ajh17/spacegray.vim'
+" Plug 'cocopon/iceberg.vim'
 " Plug 'jdkanani/vim-material-theme'
 " Plug 'jonathanfilip/vim-lucius'
 " Plug 'joshdick/onedark.vim'
 " Plug 'lifepillar/vim-solarized8'
 " Plug 'morhetz/gruvbox'
-" Plug 'rakr/vim-one'
+" Plug 'reedes/vim-colors-pencil'
 " Plug 'tomasr/molokai'
 "
 " File explorers
