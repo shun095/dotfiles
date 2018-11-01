@@ -1,19 +1,17 @@
 #!/usr/bin/env zsh
 
-if [[ ! -n $TMUX ]]; then
-    export EDITOR=vim
-    export MYDOTFILES=$HOME/dotfiles
-    export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
-    export GOPATH=$HOME/.gopath
-    export PATH=$HOME/usr/bin:$GOPATH/bin:/usr/local/go/bin:$PATH
+export EDITOR=vim
+export MYDOTFILES=$HOME/dotfiles
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
+export GOPATH=$HOME/.gopath
+export PATH=$HOME/usr/bin:$GOPATH/bin:/usr/local/go/bin:$PATH
 
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    export PATH="$HOME/build/ctags/bin:$PATH"
-    export PATH="$HOME/build/nvim-qt/bin:$PATH"
-    export PATH="$HOME/build/nvim/bin:$PATH"
-    export PATH="$HOME/build/tmux/bin:$PATH"
-    export PATH="$HOME/build/vim/bin:$PATH"
-fi
+export PATH="$HOME/.pyenv/bin:$PATH"
+export PATH="$HOME/build/ctags/bin:$PATH"
+export PATH="$HOME/build/nvim-qt/bin:$PATH"
+export PATH="$HOME/build/nvim/bin:$PATH"
+export PATH="$HOME/build/tmux/bin:$PATH"
+export PATH="$HOME/build/vim/bin:$PATH"
 
 if type pyenv > /dev/null; then
     eval "$(pyenv init -)"
@@ -148,6 +146,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' use-cache true
 
 
+# Removing duplicates in $PATH
 _path=""
 for _p in $(echo $PATH | tr ':' ' '); do
   case ":${_path}:" in
@@ -162,7 +161,7 @@ for _p in $(echo $PATH | tr ':' ' '); do
       ;;
   esac
 done
-PATH=$_path
+export PATH=$_path
 
 unset _p
 unset _path

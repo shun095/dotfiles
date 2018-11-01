@@ -561,6 +561,10 @@ if mymisc#plug_tap('defx.nvim')
     function! s:defx_my_settings() abort
       " Define mappings
       nnoremap <silent><buffer><expr> <CR>
+            \ defx#do_action('drop')
+      nnoremap <silent><buffer><expr> <2-LeftMouse>
+            \ defx#do_action('drop')
+      nnoremap <silent><buffer><expr> O
             \ defx#do_action('open')
       nnoremap <silent><buffer><expr> o
             \ defx#do_action('drop')
@@ -854,15 +858,15 @@ endif
 
 if mymisc#plug_tap('ale')
   let g:ale_fixers = {
+        \ 'javascript': ['prettier'],
+        \ 'vue':        ['prettier'],
+        \ 'python':     ['yapf'],
         \ }
-        " \ 'javascript': ['prettier'],
-        " \ 'vue':        ['prettier'],
-        " \ 'python':     ['yapf'],
   let g:ale_fix_on_save = 0
   let g:ale_linters = {
+        \ 'cpp':    [''],
+        \ 'python': ['flake8'],
         \ }
-        " \ 'cpp':    [''],
-        " \ 'python': ['flake8'],
   let g:ale_sign_error = 'E'
   let g:ale_sign_warning = 'W'
   let g:ale_sign_info = 'I'
@@ -904,6 +908,7 @@ if mymisc#plug_tap('LanguageClient-neovim')
         \ ['rls']
   let g:LanguageClient_serverCommands['python'] =
         \ ['pyls']
+  let g:LanguageClient_diagnosticsEnable = 0
 
   let g:LanguageClient_diagnosticsDisplay =
         \ {
