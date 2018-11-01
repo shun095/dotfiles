@@ -11,7 +11,7 @@ cwd=`dirname "${0}"`
 # ${0} が 相対パスの場合は cd して pwd を取得
 expr "${0}" : "/.*" > /dev/null || cwd=`(cd "${cwd}" && pwd)`
 
-PREFIX=/usr/local
+PREFIX=$HOME/build/vim
 CPUNUM=`cat /proc/cpuinfo | grep -c processor`
 
 cd ${cwd}/vim
@@ -23,7 +23,7 @@ git pull
     --enable-fail-if-missing \
     --enable-fontset \
     --enable-multibyte \
-    --enable-gui=auto \
+    --enable-gui=gtk3 \
     --enable-luainterp=dynamic \
     --with-luajit \
     --enable-perlinterp=dynamic \
@@ -35,16 +35,17 @@ git pull
 
 
 make -j${CPUNUM} 
-echo 
-echo "This program will be installed in ${PREFIX}."
-echo "Install now???[y/n]"
-read ans
+make install
+# echo 
+# echo "This program will be installed in ${PREFIX}."
+# echo "Install now???[y/n]"
+# read ans
 
-case $ans in
-    [Yy] | [Yy][Ee][Ss] )
-        sudo make install
-        # sudo checkinstall --install=no
-        ;;
-    * )
-        echo "Terminated.";;
-esac
+# case $ans in
+#     [Yy] | [Yy][Ee][Ss] )
+#         sudo make install
+#         # sudo checkinstall --install=no
+#         ;;
+#     * )
+#         echo "Terminated.";;
+# esac
