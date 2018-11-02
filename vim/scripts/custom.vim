@@ -537,26 +537,26 @@ if mymisc#plug_tap('defx.nvim')
   nnoremap <silent> <Leader>e :Defx `expand('%:p:h')` -split=vertical -winwidth=35 -direction=topleft -search=`expand('%:p')`<CR>
   nnoremap <silent> <Leader>E :Defx -split=vertical -winwidth=35 -direction=topleft .<CR>
 
-  " function! s:quit_existing_defx() abort
-  "   for l:item in getwininfo()
-  "     let l:bufname = bufname(l:item.bufnr)
-  "     if match(l:bufname, '\[defx\]') != -1
-  "       if l:item.tabnr == tabpagenr()
-  "         for winid in win_findbuf(item.bufnr)
-  "           if count(gettabinfo(tabpagenr())[0].windows, winid)
-  "             call win_gotoid(winid)
-  "             quit
-  "             return
-  "           endif
-  "         endfor
-  "       endif
-  "     endif
-  "   endfor
-  "   return
-  " endfunction
+  function! s:expand(path) abort
+    return s:substitute_path_separator(
+          \ (a:path =~# '^\~') ? fnamemodify(a:path, ':p') :
+          \ (a:path =~# '^\$\h\w*') ? substitute(a:path,
+          \             '^\$\h\w*', '\=eval(submatch(0))', '') :
+          \ a:path)
+  endfunction
+  function! s:substitute_path_separator(path) abort
+    return has('win32') ? substitute(a:path, '\\', '/', 'g') : a:path
+  endfunction
 
   augroup vimrc_defx
     autocmd!
+    " Remove netrw and NERDTree directory handlers.
+    autocmd VimEnter * if exists('#FileExplorer') | exe 'au! FileExplorer *' | endif
+    autocmd VimEnter * if exists('#NERDTreeHijackNetrw') | exe 'au! NERDTreeHijackNetrw *' | endif
+    autocmd BufEnter * if !exists('b:defx') && isdirectory(expand('%'))
+      \ | call defx#util#call_defx('Defx', escape(s:expand(expand('%')), ' '))
+      \ | endif
+
     autocmd FileType defx call s:defx_my_settings()
     function! s:defx_my_settings() abort
       " Define mappings
