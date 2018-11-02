@@ -1117,6 +1117,7 @@ if mymisc#plug_tap('gina.vim')
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
+  nnoremap <Leader>gg :GitGutterAll<CR>
   if has('win32')
     let g:gitgutter_async = 0
   else
