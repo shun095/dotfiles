@@ -1110,10 +1110,10 @@ if mymisc#plug_tap('vim-go')
 endif
 
 if mymisc#plug_tap('gina.vim')
-  nnoremap <Leader>gs :Gina status<CR>
-  nnoremap <Leader>gc :Gina commit<CR>
-  nnoremap <Leader>gPS :Gina push<CR>
-  nnoremap <Leader>gPL :Gina push<CR>
+  nnoremap <Leader>GS :Gina status<CR>
+  nnoremap <Leader>GC :Gina commit<CR>
+  nnoremap <Leader>GPU :Gina push<CR>
+  nnoremap <Leader>GPL :Gina push<CR>
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
