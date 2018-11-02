@@ -1109,6 +1109,12 @@ if mymisc#plug_tap('vim-go')
   let g:go_gocode_propose_builtins = 0
 endif
 
+if mymisc#plug_tap('gina.vim')
+  nnoremap <Leader>gs :Gina status<CR>
+  nnoremap <Leader>gc :Gina commit<CR>
+  nnoremap <Leader>gp :Gina push<CR>
+endif
+
 if mymisc#plug_tap('vim-gitgutter')
   if has('win32')
     let g:gitgutter_async = 0
