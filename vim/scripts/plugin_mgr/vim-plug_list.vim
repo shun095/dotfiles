@@ -127,8 +127,9 @@ Plug 'Yggdroot/indentLine'
 " Plug 'nathanaelkane/vim-indent-guides'
 
 " Git plugins
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
+" Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-rhubarb'
+Plug 'lambdalisue/gina.vim'
 " Plug 'jreybert/vimagit'
 Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
