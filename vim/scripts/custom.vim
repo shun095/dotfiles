@@ -1113,7 +1113,7 @@ if mymisc#plug_tap('gina.vim')
   nnoremap <Leader>GS :Gina status<CR>
   nnoremap <Leader>GC :Gina commit<CR>
   nnoremap <Leader>GPP :Gina push<CR>
-  nnoremap <Leader>GLL :Gina push<CR>
+  nnoremap <Leader>GLL :Gina pull<CR>
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
