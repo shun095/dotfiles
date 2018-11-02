@@ -1110,8 +1110,8 @@ if mymisc#plug_tap('vim-go')
 endif
 
 if mymisc#plug_tap('gina.vim')
-  nnoremap <Leader>GS :Gina status<CR>
-  nnoremap <Leader>GC :Gina commit<CR>
+  nnoremap <Leader>GS :Gina status --opener=split<CR>
+  nnoremap <Leader>GC :Gina commit --opener=split<CR>
   nnoremap <Leader>GPP :Gina push<CR>
   nnoremap <Leader>GLL :Gina pull<CR>
 endif
