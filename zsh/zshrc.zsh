@@ -7,11 +7,11 @@ export GOPATH=$HOME/.gopath
 export PATH=$HOME/usr/bin:$GOPATH/bin:/usr/local/go/bin:$PATH
 
 export PATH="$HOME/.pyenv/bin:$PATH"
-export PATH="$HOME/build/ctags/bin:$PATH"
 export PATH="$HOME/build/emacs/bin:$PATH"
 export PATH="$HOME/build/nvim-qt/bin:$PATH"
 export PATH="$HOME/build/nvim/bin:$PATH"
 export PATH="$HOME/build/tmux/bin:$PATH"
+export PATH="$HOME/build/ctags/bin:$PATH"
 export PATH="$HOME/build/vim/bin:$PATH"
 
 if type pyenv > /dev/null; then
