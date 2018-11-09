@@ -31,14 +31,14 @@ endif
 
 " Shougo wares
 if v:version >= 800
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
   if has('nvim')
     Plug 'Shougo/denite.nvim',{'do':':UpdateRemotePlugins'}
     Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
     Plug 'Shougo/defx.nvim',{'do':':UpdateRemotePlugins'}
     Plug 'lambdalisue/suda.vim'
   else
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'Shougo/denite.nvim'
     Plug 'Shougo/deoplete.nvim'
     Plug 'Shougo/defx.nvim'
