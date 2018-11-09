@@ -132,7 +132,7 @@ Plug 'Yggdroot/indentLine'
 " Plug 'tpope/vim-rhubarb'
 Plug 'lambdalisue/gina.vim'
 " Plug 'jreybert/vimagit'
-Plug 'junegunn/gv.vim'
+" Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
 " Plug 'tpope/vim-dispatch'
 
