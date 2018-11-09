@@ -160,11 +160,12 @@ endf
 
 fun! Myvimrc_statusline_gina() abort
   let str = ''
-  if exists('*gina#component#repo#preset()')
+  try
     if gina#component#repo#preset() !=# ''
       let str .= gina#component#repo#preset()
     endif
-  endif
+  catch 
+  endtry
   return str
 endf
 
