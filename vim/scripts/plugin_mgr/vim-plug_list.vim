@@ -58,8 +58,22 @@ Plug 'davidhalter/jedi-vim',{'for':['python']} " for goto definition (completed 
 Plug 'othree/csscomplete.vim'
 Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 if has('win32')
+  fun! DownloadLanguageClient(info)
+    if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
+      let l:confirm_install = confirm(
+            \ 'LanguageClient updated. Install now?',
+            \ "&yes\n&no",2)
+      if l:confirm_install == 1
+        let l:cmd = ':exe ":!start powershell Start-Sleep -s 3; .\\install.ps1" | qa!'
+        call mymisc#command_at_destdir(
+              \ g:plugin_mgr.plugin_dir."/LanguageClient-neovim",
+              \ [l:cmd])
+      endif
+    endif
+  endf
   Plug 'autozimu/LanguageClient-neovim', {
         \ 'branch': 'next',
+        \ 'do': function('DownloadLanguageClient'),
         \ }
 else
   Plug 'autozimu/LanguageClient-neovim', {
