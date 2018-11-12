@@ -2,6 +2,8 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+py3 pass
+
 " Color schemes
 Plug 'rakr/vim-one'
 " Plug 'NLKNguyen/papercolor-theme'
