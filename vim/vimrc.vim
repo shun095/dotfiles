@@ -133,7 +133,7 @@ set statusline+=%{Myvimrc_statusline_tagbar()}
 set statusline+=\ %2*
 set statusline+=\ %{Myvimrc_statusline_gina()}
 set statusline+=%4*
-set statusline+=\ %{Myvimrc_statusline_gitgutter()}
+set statusline+=\%{Myvimrc_statusline_gitgutter()}
 set statusline+=%3*
 set statusline+=\ %y
 set statusline+=%1*\ %{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}
@@ -162,7 +162,10 @@ fun! Myvimrc_statusline_gina() abort
   let str = ''
   try
     if gina#component#repo#preset() !=# ''
-      let str .= gina#component#repo#preset()
+      let str .= gina#component#repo#branch()
+      let str .= ' > '
+      let str .= gina#component#repo#track()
+      let str .= ' '
     endif
   catch 
   endtry
