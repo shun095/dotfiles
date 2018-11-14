@@ -36,7 +36,9 @@ GVIMRC="$HOME/.gvimrc"
 TMUXCONF="$HOME/.tmux.conf"
 FLAKE8="$HOME/.config/flake8"
 VINTRC="$HOME/.vintrc.yml"
-EMACSINIT="$HOME/.emacs.d/init.el"
+EMACSINIT="$HOME/.spacemacs"
+NVIMRC="$HOME/.config/nvim/init.vim"
+GNVIMRC="$HOME/.config/nvim/ginit.vim"
 
 SYMLINKS=(
 ${VIMRC}
@@ -45,6 +47,8 @@ ${TMUXCONF}
 ${FLAKE8}
 ${VINTRC}
 ${EMACSINIT}
+${NVIMRC}
+${GNVIMRC}
 )
 
 SYMTARGET=(
@@ -53,7 +57,9 @@ SYMTARGET=(
 "${MYDOTFILES}/tmux/tmux.conf"
 "${MYDOTFILES}/python/lint/flake8"
 "${MYDOTFILES}/python/lint/vintrc.yml"
-"${MYDOTFILES}/emacs/init.el"
+"${MYDOTFILES}/emacs/spacemacs"
+"${MYDOTFILES}/vim/vimrc.vim"
+"${MYDOTFILES}/vim/ginit.vim"
 )
 
 # actual files
