@@ -420,12 +420,12 @@ augroup VIMRC
   " QuickFix
   " Auto open
   autocmd QuickFixCmdPost * cwindow
-  autocmd FileType qf nnoremap <silent><buffer> q :quit<CR>
+  autocmd FileType qf nnoremap <silent><buffer> q :bw<CR>
   " Preview with p
   autocmd FileType qf noremap <silent><buffer> p  <CR>zz<C-w>p
 
   " Help
-  autocmd FileType help nnoremap <silent><buffer>q :quit<CR>
+  autocmd FileType help nnoremap <silent><buffer>q :bw<CR>
   autocmd FileType help let &l:iskeyword = '!-~,^*,^|,^",' . &iskeyword
 
   autocmd InsertLeave * call mymisc#ime_deactivate()
