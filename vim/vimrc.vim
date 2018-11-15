@@ -463,7 +463,7 @@ source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
 let g:plugin_mgr.enabled = g:use_plugins
 
 " Install plugin manager if it's not available
-call g:plugin_mgr.deploy()
+call g:plugin_mgr.load()
 
 " }}} PLUGIN MANAGER SETUP END
 "

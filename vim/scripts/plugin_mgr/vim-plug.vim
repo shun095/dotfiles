@@ -26,7 +26,7 @@ fun! g:plugin_mgr.install() abort
   return succeeded
 endfun
 
-fun! g:plugin_mgr.deploy() abort
+fun! g:plugin_mgr.load() abort
   if !filereadable(self.manager_dir . '/plug.vim')
     let self.enabled = g:false
     if self.install()

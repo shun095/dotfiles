@@ -34,7 +34,7 @@ fun! g:plugin_mgr.install() abort
   return succeeded
 endfun
 
-fun! g:plugin_mgr.deploy() abort
+fun! g:plugin_mgr.load() abort
   " Confirm whether or not install dein if not exists
   if !isdirectory(self.manager_dir) && self.enabled == g:true
     " deinがインストールされてない場合そのままではプラグインは使わない
