@@ -316,7 +316,11 @@ cnoremap <C-n> <down>
 " COMMANDS {{{
 " Sudoで強制保存
 if has('unix')
-  command! Wsudo execute("w !sudo tee % > /dev/null")
+  if has('nvim')
+    command! Wsudo :w suda://%
+  else
+    command! Wsudo execute("w !sudo tee % > /dev/null")
+  endif
 endif
 
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
@@ -340,7 +344,9 @@ function! s:follow_symlink()
 endfunction
 
 if has('nvim')
-  command! Terminal execute "split term://" . &shell
+  nnoremap <Leader>te :execute "split term://" . &shell<CR>
+else
+  nnoremap <Leader>te :terminal ++noclose<CR>
 endif
 
 if !has('nvim')
