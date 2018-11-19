@@ -53,6 +53,7 @@ ZSH_THEME="lambda-mod-mod"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+git
 command-not-found
 history-substring-search
 zsh-completions
