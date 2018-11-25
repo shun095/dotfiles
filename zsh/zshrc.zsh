@@ -97,11 +97,9 @@ gvim_call(){
 }
 
 if [[ ! $TERM = 'linux' ]]; then
-    # tmux_call
+    tmux_call
     alias tmux=tmux_call
 fi
-
-# alias gvim=gvim_call $*
 
 if type /usr/local/bin/vim > /dev/null;then
     alias vim=/usr/local/bin/vim
