@@ -452,8 +452,12 @@ augroup END
 "}}} AUTOCMDS END
 
 " BUILT-IN PLUGINS {{{
-set runtimepath+=$VIMRUNTIME/pack/dist/opt/editexisting
-set runtimepath+=$VIMRUNTIME/pack/dist/opt/matchit
+if !has('nvim')
+  packadd editexisting
+  packadd matchit
+endif
+
+packadd termdebug
 " }}} BUILT-IN PLUGINS END
 
 " DOT DIRECTORY PLUGINS {{{
