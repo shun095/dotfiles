@@ -34,20 +34,21 @@ endif
 " Shougo wares
 if v:version >= 800
   if has('nvim')
-    Plug 'Shougo/denite.nvim',{'do':':UpdateRemotePlugins'}
-    Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
-    Plug 'Shougo/defx.nvim',{'do':':UpdateRemotePlugins'}
+    " Plug 'Shougo/denite.nvim',{'do':':UpdateRemotePlugins'}
+    " Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
+    " Plug 'Shougo/defx.nvim',{'do':':UpdateRemotePlugins'}
     Plug 'lambdalisue/suda.vim'
   else
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-    Plug 'Shougo/denite.nvim'
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'Shougo/defx.nvim'
+    " Plug 'roxma/nvim-yarp'
+    " Plug 'roxma/vim-hug-neovim-rpc'
+    " Plug 'Shougo/denite.nvim'
+    " Plug 'Shougo/deoplete.nvim'
+    " Plug 'Shougo/defx.nvim'
   endif
 endif
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/context_filetype.vim'
+
+" Plug 'Shougo/neomru.vim'
+" Plug 'Shougo/context_filetype.vim'
 Plug 'Shougo/vimproc.vim'
 
 " Language specific completions
@@ -59,33 +60,35 @@ Plug 'davidhalter/jedi-vim',{'for':['python']} " for goto definition (completed 
 " Plug 'zchee/deoplete-go',{'for':['go']}
 Plug 'othree/csscomplete.vim'
 Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
-if has('win32')
-  fun! DownloadLanguageClient(info)
-    if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
-      let l:confirm_install = confirm(
-            \ 'LanguageClient updated. Install now?',
-            \ "&yes\n&no",2)
-      if l:confirm_install == 1
-        let l:cmd = ':exe ":!start powershell Start-Sleep -s 3; .\\install.ps1" | qa!'
-        call mymisc#command_at_destdir(
-              \ g:plugin_mgr.plugin_dir."/LanguageClient-neovim",
-              \ [l:cmd])
-      endif
-    endif
-  endf
-  Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': function('DownloadLanguageClient'),
-        \ }
-else
-  Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
-endif
-" Plug 'Valloric/YouCompleteMe'
-" Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
-" Plug 'ervandew/supertab'
+" if has('win32')
+"   fun! DownloadLanguageClient(info)
+"     if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
+"       let l:confirm_install = confirm(
+"             \ 'LanguageClient updated. Install now?',
+"             \ "&yes\n&no",2)
+"       if l:confirm_install == 1
+"         let l:cmd = ':exe ":!start powershell Start-Sleep -s 3; .\\install.ps1" | qa!'
+"         call mymisc#command_at_destdir(
+"               \ g:plugin_mgr.plugin_dir."/LanguageClient-neovim",
+"               \ [l:cmd])
+"       endif
+"     endif
+"   endf
+"   Plug 'autozimu/LanguageClient-neovim', {
+"         \ 'branch': 'next',
+"         \ 'do': function('DownloadLanguageClient'),
+"         \ }
+" else
+"   Plug 'autozimu/LanguageClient-neovim', {
+"         \ 'branch': 'next',
+"         \ 'do': 'bash install.sh',
+"         \ }
+" endif
+Plug 'Valloric/YouCompleteMe'
+Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
+Plug 'ervandew/supertab'
+
+Plug 'scrooloose/nerdtree'
 
 " Snippets, templates
 " Plug 'Shougo/neosnippet.vim'

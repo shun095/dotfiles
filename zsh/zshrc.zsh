@@ -4,6 +4,8 @@ export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
 
+export USE_CCACHE=1
+
 export GOPATH=$HOME/.gopath
 
 export PATH="/usr/local/go/bin:$PATH"
