@@ -18,9 +18,9 @@ Plug 'rakr/vim-one'
 " Plug 'tomasr/molokai'
 "
 " File explorers
-" Plug 'scrooloose/nerdtree'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" Plug 'jistr/vim-nerdtree-tabs'
+Plug 'scrooloose/nerdtree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'jistr/vim-nerdtree-tabs'
 " Plug 'justinmk/vim-dirvish'
 
 " " Shougo wares
