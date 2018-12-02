@@ -22,44 +22,25 @@ Plug 'rakr/vim-one'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 " Plug 'jistr/vim-nerdtree-tabs'
 " Plug 'justinmk/vim-dirvish'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'mattn/ctrlp-register'
-Plug 'FelikZ/ctrlp-py-matcher'
-if has('win32')
-  Plug 'ishitaku5522/cpsm'
-else
-  Plug 'nixprime/cpsm',{'do':'bash install.sh'}
-endif
 
-" Shougo wares
-if v:version >= 800
-  if has('nvim')
-    " Plug 'Shougo/denite.nvim',{'do':':UpdateRemotePlugins'}
-    " Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
-    " Plug 'Shougo/defx.nvim',{'do':':UpdateRemotePlugins'}
-    Plug 'lambdalisue/suda.vim'
-  else
-    " Plug 'roxma/nvim-yarp'
-    " Plug 'roxma/vim-hug-neovim-rpc'
-    " Plug 'Shougo/denite.nvim'
-    " Plug 'Shougo/deoplete.nvim'
-    " Plug 'Shougo/defx.nvim'
-  endif
-endif
-
-" Plug 'Shougo/neomru.vim'
+" " Shougo wares
+" if v:version >= 800
+"   if has('nvim')
+"     Plug 'Shougo/denite.nvim',{'do':':UpdateRemotePlugins'}
+"     Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
+"     Plug 'Shougo/defx.nvim',{'do':':UpdateRemotePlugins'}
+"   else
+"     Plug 'roxma/nvim-yarp'
+"     Plug 'roxma/vim-hug-neovim-rpc'
+"     Plug 'Shougo/denite.nvim'
+"     Plug 'Shougo/deoplete.nvim'
+"     Plug 'Shougo/defx.nvim'
+"   endif
+" endif
 " Plug 'Shougo/context_filetype.vim'
-Plug 'Shougo/vimproc.vim'
+" Plug 'Shougo/neomru.vim'
+" " Plug 'Shougo/vimproc.vim'
 
-" Language specific completions
-Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
-Plug 'Rip-Rip/clang_complete',{'for':['c','cpp']} " for goto definition (completed by LC)
-Plug 'davidhalter/jedi-vim',{'for':['python']} " for goto definition (completed by LC)
-" Plug 'zchee/deoplete-jedi',{'for':['python']} " for completion
-" Plug 'carlitux/deoplete-ternjs',{'for':['javascript']}
-" Plug 'zchee/deoplete-go',{'for':['go']}
-Plug 'othree/csscomplete.vim'
-Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 " if has('win32')
 "   fun! DownloadLanguageClient(info)
 "     if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
@@ -84,11 +65,21 @@ Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
 "         \ 'do': 'bash install.sh',
 "         \ }
 " endif
+
 Plug 'Valloric/YouCompleteMe'
 Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
 Plug 'ervandew/supertab'
 
-Plug 'scrooloose/nerdtree'
+" Language specific completions
+Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
+Plug 'Rip-Rip/clang_complete',{'for':['c','cpp']} " for goto definition (completed by LC)
+Plug 'davidhalter/jedi-vim',{'for':['python']} " for goto definition (completed by LC)
+" Plug 'zchee/deoplete-jedi',{'for':['python']} " for completion
+" Plug 'carlitux/deoplete-ternjs',{'for':['javascript']}
+" Plug 'zchee/deoplete-go',{'for':['go']}
+Plug 'othree/csscomplete.vim'
+Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
+
 
 " Snippets, templates
 " Plug 'Shougo/neosnippet.vim'
@@ -98,8 +89,8 @@ Plug 'honza/vim-snippets'
 Plug 'aperezdc/vim-template'
 
 " General purpose completions,linters
-Plug 'jiangmiao/auto-pairs'
-" Plug 'cohama/lexima.vim'
+" Plug 'jiangmiao/auto-pairs'
+Plug 'cohama/lexima.vim'
 Plug 'alvan/vim-closetag'
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
@@ -135,6 +126,15 @@ Plug 'octol/vim-cpp-enhanced-highlight',{'for':['c','cpp']}
 " Plug 'hdima/python-syntax'
 
 " General purpose viewers/indicators
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mattn/ctrlp-register'
+Plug 'FelikZ/ctrlp-py-matcher'
+if has('win32')
+  Plug 'ishitaku5522/cpsm'
+else
+  Plug 'nixprime/cpsm',{'do':'bash install.sh'}
+endif
+
 Plug 'mbbill/undotree',{'on':['UndotreeFocus','UndotreeHide','UndotreeShow','UndotreeToggle']}
 Plug 'majutsushi/tagbar',{'on':['TagbarToggle','TagbarOpen']}
 Plug 'AndrewRadev/linediff.vim',{'on':'Linediff'}
@@ -142,18 +142,22 @@ Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 Plug 'Valloric/MatchTagAlways'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'osyo-manga/vim-anzu'
+Plug 'google/vim-searchindex'
+" Plug 'osyo-manga/vim-anzu'
 Plug 'Yggdroot/indentLine'
 " Plug 'nathanaelkane/vim-indent-guides'
 
 " Git plugins
 " Plug 'tpope/vim-fugitive'
 " Plug 'tpope/vim-rhubarb'
-Plug 'lambdalisue/gina.vim'
-" Plug 'jreybert/vimagit'
-" Plug 'junegunn/gv.vim'
-Plug 'airblade/vim-gitgutter'
 " Plug 'tpope/vim-dispatch'
+" Plug 'junegunn/gv.vim'
+
+" Plug 'jreybert/vimagit'
+
+Plug 'lambdalisue/gina.vim'
+
+Plug 'airblade/vim-gitgutter'
 
 " General purpose motions
 Plug 'tpope/vim-repeat'
@@ -165,13 +169,14 @@ Plug 'kana/vim-submode'
 Plug 'bkad/CamelCaseMotion'
 
 " Applications
+Plug 'lambdalisue/suda.vim'
 Plug 'glidenote/memolist.vim',{'on':['MemoNew','MemoList']}
 Plug 'itchyny/calendar.vim',{'on':'Calendar'}
 Plug 'tyru/open-browser.vim'
 Plug 'haya14busa/vim-open-googletranslate',{'on':'OpenGoogleTranslate'}
 
 " Libraries
-Plug 'vim-jp/vital.vim',{'on':'Vitalize'}
+" Plug 'vim-jp/vital.vim',{'on':'Vitalize'}
 Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 

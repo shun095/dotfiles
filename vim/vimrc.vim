@@ -515,7 +515,7 @@ if g:plugin_mgr.enabled == g:true
     colorscheme default
   endtry
 
-  highlight! Terminal ctermbg=black guibg=black
+  " highlight! Terminal ctermbg=black guibg=black
   " }}} WHEN PLUGINS ARE ENABLED END
 
 else
