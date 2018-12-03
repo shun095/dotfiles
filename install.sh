@@ -37,8 +37,13 @@ TMUXCONF="$HOME/.tmux.conf"
 FLAKE8="$HOME/.config/flake8"
 VINTRC="$HOME/.vintrc.yml"
 EMACSINIT="$HOME/.spacemacs"
-NVIMRC="$HOME/.config/nvim/init.vim"
-GNVIMRC="$HOME/.config/nvim/ginit.vim"
+if [[ $OSTYPE == 'msys' ]]; then
+    NVIMRC="$USERPROFILE/AppData/Local/nvim/init.vim"
+    GNVIMRC="$USERPROFILE/AppData/Local/nvim/ginit.vim"
+else
+    NVIMRC="$HOME/.config/nvim/init.vim"
+    GNVIMRC="$HOME/.config/nvim/ginit.vim"
+fi
 
 SYMLINKS=(
 ${VIMRC}
@@ -310,6 +315,7 @@ deploy_selfmade_rcfiles() {
     final_idx_simlinks=`expr ${#SYMLINKS[@]} - 1`
     for i in `seq 0 ${final_idx_simlinks}`; do
         if [[ ! -e ${SYMLINKS[${i}]} ]]; then
+            mkdir -p `dirname ${SYMTARGET[${i}]}`
             touch ${SYMTARGET[${i}]}
             ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
             echo "Made link: ${SYMLINKS[${i}]}"
