@@ -1114,6 +1114,8 @@ if mymisc#plug_tap('gina.vim')
   nnoremap <Leader>gc :Gina commit --opener=split<CR>
   nnoremap <Leader>gpp :Gina push<CR>
   nnoremap <Leader>gll :Gina pull<CR>
+  nnoremap <Leader>gf :Gina fetch --all -t<CR>
+  nnoremap <Leader>gm :Gina merge<CR>
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
