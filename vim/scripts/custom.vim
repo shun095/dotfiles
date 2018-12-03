@@ -1129,6 +1129,18 @@ endif
 
 if mymisc#plug_tap('rainbow_parentheses.vim')
   let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{','}']]
+  augroup vimrc-rainbow
+    au!
+    au VimEnter * RainbowParentheses
+  augroup END
+  " augroup vimrc-rainbow
+  "   au!
+  "   au VimEnter * RainbowParenthesesToggle
+  "   au Syntax * RainbowParenthesesLoadRound
+  "   au Syntax * RainbowParenthesesLoadSquare
+  "   au Syntax * RainbowParenthesesLoadBraces
+  "   au Syntax * RainbowParenthesesLoadChevrons
+  " augroup END
 endif
 
 if mymisc#plug_tap('vim-nerdtree-syntax-highlight')
@@ -1149,3 +1161,6 @@ if mymisc#plug_tap('vim-vue')
   augroup END
 endif
 
+if mymisc#plug_tap('CamelCaseMotion')
+  call camelcasemotion#CreateMotionMappings(',')
+endif

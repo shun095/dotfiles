@@ -17,12 +17,6 @@ Plug 'rakr/vim-one'
 " Plug 'reedes/vim-colors-pencil'
 " Plug 'tomasr/molokai'
 "
-" File explorers
-" Plug 'scrooloose/nerdtree'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" Plug 'jistr/vim-nerdtree-tabs'
-" Plug 'justinmk/vim-dirvish'
-
 " Shougo wares
 if v:version >= 800
   if has('nvim')
@@ -36,39 +30,43 @@ if v:version >= 800
     Plug 'Shougo/deoplete.nvim'
     Plug 'Shougo/defx.nvim'
   endif
-endif
-Plug 'Shougo/context_filetype.vim'
-Plug 'Shougo/neomru.vim'
-" Plug 'Shougo/vimproc.vim'
-
-if has('win32')
-  fun! DownloadLanguageClient(info)
-    if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
-      let l:confirm_install = confirm(
-            \ 'LanguageClient updated. Install now?',
-            \ "&yes\n&no",2)
-      if l:confirm_install == 1
-        let l:cmd = ':exe ":!start powershell Start-Sleep -s 3; .\\install.ps1" | qa!'
-        call mymisc#command_at_destdir(
-              \ g:plugin_mgr.plugin_dir."/LanguageClient-neovim",
-              \ [l:cmd])
+  Plug 'Shougo/context_filetype.vim'
+  Plug 'Shougo/neomru.vim'
+  " Plug 'Shougo/vimproc.vim'
+  if has('win32')
+    fun! DownloadLanguageClient(info)
+      if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
+        let l:confirm_install = confirm(
+              \ 'LanguageClient updated. Install now?',
+              \ "&yes\n&no",2)
+        if l:confirm_install == 1
+          let l:cmd = ':exe ":!start powershell Start-Sleep -s 3; .\\install.ps1" | qa!'
+          call mymisc#command_at_destdir(
+                \ g:plugin_mgr.plugin_dir."/LanguageClient-neovim",
+                \ [l:cmd])
+        endif
       endif
-    endif
-  endf
-  Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': function('DownloadLanguageClient'),
-        \ }
+    endf
+    Plug 'autozimu/LanguageClient-neovim', {
+          \ 'branch': 'next',
+          \ 'do': function('DownloadLanguageClient'),
+          \ }
+  else
+    Plug 'autozimu/LanguageClient-neovim', {
+          \ 'branch': 'next',
+          \ 'do': 'bash install.sh',
+          \ }
+  endif
 else
-  Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
-endif
+  Plug 'Valloric/YouCompleteMe'
+  Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
+  Plug 'ervandew/supertab'
 
-" Plug 'Valloric/YouCompleteMe'
-" Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
-" Plug 'ervandew/supertab'
+  Plug 'scrooloose/nerdtree'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  Plug 'jistr/vim-nerdtree-tabs'
+  " Plug 'justinmk/vim-dirvish'
+endif
 
 " Language specific completions
 Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
@@ -94,26 +92,27 @@ Plug 'cohama/lexima.vim'
 Plug 'alvan/vim-closetag'
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
-" Plug 'chiel92/vim-autoformat',{'on':'Autoformat'}
+Plug 'chiel92/vim-autoformat'
 
 " Language/environment specific plugins
-Plug 'lervag/vimtex',{'for':'tex'}
-Plug 'iamcco/markdown-preview.vim',{'for':'markdown'}
-Plug 'kannokanno/previm',{'for':'markdown'}
-Plug 'jceb/vim-orgmode',{'for':'org'}
+Plug 'lervag/vimtex',{'for':['tex']}
+Plug 'iamcco/markdown-preview.vim',{'for':['markdown']}
+Plug 'kannokanno/previm',{'for':['markdown']}
+Plug 'jceb/vim-orgmode',{'for':['org']}
 Plug 'OrangeT/vim-csharp',{'for':['cs','csi','csx']}
 Plug 'fatih/vim-go',{'for':['go']}
 Plug 'mattn/emmet-vim',{'for':['html','xml']}
 Plug 'mopp/next-alter.vim',{'for':['c','cpp','vim']}
+Plug 'Valloric/MatchTagAlways',{'for':['html','xml']}
 Plug 'ishitaku5522/rosmake.vim'
 
 " Syntax highlights
 Plug 'othree/html5.vim',{'for':['html']}
-Plug 'digitaltoad/vim-pug'
-Plug 'briancollins/vim-jst' " Ejs
-Plug 'groenewege/vim-less'
-Plug 'cakebaker/scss-syntax.vim'
-Plug 'leafgarland/typescript-vim'
+Plug 'digitaltoad/vim-pug',{'for':['pug','jade']}
+Plug 'briancollins/vim-jst',{'for':['ejs','jst']}
+Plug 'groenewege/vim-less',{'for':['less']}
+Plug 'cakebaker/scss-syntax.vim',{'for':['scss']}
+Plug 'leafgarland/typescript-vim',{'for':['typescript']}
 Plug 'pangloss/vim-javascript',{'for':['javascript']}
 Plug 'posva/vim-vue',{'for':['vue']}
 Plug 'wavded/vim-stylus'
@@ -140,8 +139,8 @@ Plug 'majutsushi/tagbar',{'on':['TagbarToggle','TagbarOpen']}
 Plug 'AndrewRadev/linediff.vim',{'on':'Linediff'}
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
-Plug 'Valloric/MatchTagAlways'
 Plug 'junegunn/rainbow_parentheses.vim'
+" Plug 'kien/rainbow_parentheses.vim'
 Plug 'google/vim-searchindex'
 " Plug 'osyo-manga/vim-anzu'
 Plug 'Yggdroot/indentLine'
