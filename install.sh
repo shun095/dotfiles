@@ -155,7 +155,7 @@ remove_rcfiles_symlink() {
         echo "Removing symlink: $1"
         \unlink $1
     elif [[ -f $1 ]]; then
-        echo "$1 is not symlink."
+        echo "Removing normal file: $1"
         \rm -f $1
     else
         echo "$1 does not exists. Doing nothing."
@@ -319,7 +319,7 @@ deploy_selfmade_rcfiles() {
             touch ${SYMTARGET[${i}]}
             ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
             echo "Made link: ${SYMLINKS[${i}]}"
-            echo "       to: ${SYMTARGET[${i}]}"
+            echo "           --> ${SYMTARGET[${i}]}"
         else
             echo "${SYMLINKS[${i}]} already exists!!"
         fi
