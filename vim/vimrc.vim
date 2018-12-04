@@ -128,7 +128,7 @@ highlight link User4 Special
 highlight link User5 Comment
 
 set statusline=%m%r%h%w%q
-set statusline+=%<\ %f\ %=
+set statusline+=\ %f\ %<%=
 set statusline+=%{Myvimrc_statusline_tagbar()}
 set statusline+=\ %2*
 set statusline+=\ %{Myvimrc_statusline_gina()}
