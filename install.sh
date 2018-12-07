@@ -14,6 +14,8 @@ if [ ! -z ${ZSH_NAME:-} ];then
   echo "runnning on zsh"
 fi
 
+#tseoitj aowiejfoajiwe
+
 # directories
 FZFDIR="$HOME/.fzf"
 ZPREZTODIR="${ZDOTDIR:-$HOME}/.zprezto"
