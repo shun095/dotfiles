@@ -550,12 +550,12 @@ if mymisc#plug_tap('defx.nvim')
 
   augroup vimrc_defx
     autocmd!
-    " Remove netrw and NERDTree directory handlers.
-    autocmd VimEnter * if exists('#FileExplorer') | exe 'au! FileExplorer *' | endif
-    autocmd VimEnter * if exists('#NERDTreeHijackNetrw') | exe 'au! NERDTreeHijackNetrw *' | endif
-    autocmd BufEnter * if !exists('b:defx') && isdirectory(expand('%'))
-      \ | call defx#util#call_defx('Defx', escape(s:expand(expand('%')), ' '))
-      \ | endif
+    " " Remove netrw and NERDTree directory handlers.
+    " autocmd VimEnter * if exists('#FileExplorer') | exe 'au! FileExplorer *' | endif
+    " autocmd VimEnter * if exists('#NERDTreeHijackNetrw') | exe 'au! NERDTreeHijackNetrw *' | endif
+    " autocmd BufEnter * if !exists('b:defx') && isdirectory(expand('%'))
+    "   \ | call defx#util#call_defx('Defx', escape(s:expand(expand('%')), ' '))
+    "   \ | endif
 
     autocmd FileType defx call s:defx_my_settings()
     function! s:defx_my_settings() abort
