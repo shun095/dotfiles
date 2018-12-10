@@ -864,6 +864,7 @@ if mymisc#plug_tap('ale')
   let g:ale_fix_on_save = 0
   let g:ale_linters = {
         \ 'cpp':    [''],
+        \ 'python': [''],
         \ }
   let g:ale_sign_error = 'E'
   let g:ale_sign_warning = 'W'
