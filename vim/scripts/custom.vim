@@ -260,8 +260,6 @@ if mymisc#plug_tap('memolist.vim')
 endif
 
 if mymisc#plug_tap('nerdtree')
-  let g:loaded_netrw       = 1
-  let g:loaded_netrwPlugin = 1
   nnoremap <Leader>e :NERDTreeFind<CR>
   nnoremap <Leader>E :NERDTreeCWD<CR>
 
