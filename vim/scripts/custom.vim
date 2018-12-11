@@ -940,7 +940,7 @@ if mymisc#plug_tap('LanguageClient-neovim')
     autocmd!
     autocmd FileType vue setlocal iskeyword+=$ iskeyword+=-
     autocmd FileType c,cpp,h,hpp,python nnoremap <buffer> <C-]> :call LanguageClient#textDocument_definition()<CR>
-    autocmd FileType python nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>
+    autocmd FileType c,cpp,h,hpp,python nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>
   augroup END
 
   fun! s:toggle_preview_window()
