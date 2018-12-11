@@ -29,40 +29,25 @@ fun! s:toggle_preview_window()
   endif
 endf
 
-if mymisc#plug_tap('auto-pairs')
-  let g:AutoPairsMapCR = 0
-  let g:AutoPairsFlyMode = 0
-  let g:AutoPairsMultilineClose = 1
-  let g:AutoPairsShortcutBackInsert = '<C-j>'
-  function! s:my_close_pair_function() abort
+function! s:my_close_pair_function() abort
+  if mymisc#plug_tap('auto-pairs')
     return "\<CR>\<C-R>=AutoPairsReturn()\<CR>"
-  endfunction
-
-elseif mymisc#plug_tap('lexima.vim')
-  let g:lexima_ctrlh_as_backspace = 1
-  function! s:my_close_pair_function() abort
+  elseif mymisc#plug_tap('lexima.vim')
     return "\<C-R>=lexima#expand('<CR>', 'i')\<CR>"
-  endfunction
-
-elseif mymisc#plug_tap('delimitMate')
-  function! s:my_close_pair_function() abort
+  elseif mymisc#plug_tap('delimitMate')
     return "\<Plug>delimitMateCR"
-  endfunction
-
-else
-  function! s:my_close_pair_function() abort
+  else
     return "\<CR>"
-  endfunction
-endif
-
+  endif
+endfunction
 
 function! s:my_cr_main() abort
   if pumvisible()
-    " if neosnippet#expandable()
-    "   return "\<Plug>(neosnippet_expand)"
-    " else
-    return "\<C-r>=(".s:SID()."my_try_ulti() > 0)?\"\":".s:SID()."my_cr_noulti()\<CR>"
-    " endif
+    if mymisc#plug_tap('neosnippet.vim') && neosnippet#expandable()
+      return "\<Plug>(neosnippet_expand)"
+    else
+      return "\<C-r>=(".s:SID()."my_try_ulti() > 0)?\"\":".s:SID()."my_cr_noulti()\<CR>"
+    endif
   else
     return s:my_close_pair_function()
   endif

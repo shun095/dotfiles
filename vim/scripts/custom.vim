@@ -969,7 +969,15 @@ if mymisc#plug_tap('next-alter.vim')
   augroup END
 endif
 
+if mymisc#plug_tap('auto-pairs')
+  let g:AutoPairsMapCR = 0
+  let g:AutoPairsFlyMode = 0
+  let g:AutoPairsMultilineClose = 1
+  let g:AutoPairsShortcutBackInsert = '<C-j>'
+endif
+
 if mymisc#plug_tap('lexima.vim')
+  let g:lexima_ctrlh_as_backspace = 1
   call lexima#add_rule({'char':'<',    'input_after':'>'})
   call lexima#add_rule({'char':'>',    'at':'\%#>',  'leave':'>'})
   call lexima#add_rule({'char':'<BS>', 'at':'<\%#>', 'input':'<BS>', 'delete':1})
