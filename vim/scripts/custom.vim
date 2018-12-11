@@ -939,7 +939,8 @@ if mymisc#plug_tap('LanguageClient-neovim')
   augroup vimrc_langclient
     autocmd!
     autocmd FileType vue setlocal iskeyword+=$ iskeyword+=-
-    autocmd FileType c,cpp,python nnoremap <buffer> <C-]> :call LanguageClient#textDocument_definition()<CR>
+    autocmd FileType c,cpp,h,hpp,python nnoremap <buffer> <C-]> :call LanguageClient#textDocument_definition()<CR>
+    autocmd FileType python nnoremap <buffer> K :call LanguageClient#textDocument_hover()<CR>
   augroup END
 
   command! LCHover call LanguageClient#textDocument_hover()
