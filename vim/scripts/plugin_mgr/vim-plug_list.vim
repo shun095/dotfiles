@@ -18,7 +18,8 @@ Plug 'rakr/vim-one'
 " Plug 'tomasr/molokai'
 "
 " Shougo wares
-if v:version >= 800
+" if v:version >= 800
+if v:false
   if has('nvim')
     Plug 'Shougo/denite.nvim', {'do':':UpdateRemotePlugins'}
     Plug 'Shougo/deoplete.nvim', {'do':':UpdateRemotePlugins'}
@@ -60,7 +61,7 @@ if v:version >= 800
 else
   Plug 'Valloric/YouCompleteMe'
   Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
-  Plug 'ervandew/supertab'
+  " Plug 'ervandew/supertab'
 
   Plug 'scrooloose/nerdtree'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'

@@ -53,10 +53,7 @@ if mymisc#plug_tap('YouCompleteMe')
   nnoremap <leader>{ :<C-u>YcmCompleter GoToDeclaration<CR>
   augroup vimrc_ycm
     autocmd!
-    autocmd filetype c,cpp,h,hpp,python nnoremap <buffer>
-          \ K :<C-u>YcmCompleter GetDoc<CR>
-    autocmd filetype c,cpp,h,hpp,python nnoremap <buffer>
-          \ <c-]> :<C-u>YcmCompleter GoTo<CR>
+    autocmd FileType c,cpp,h,hpp,python nnoremap <buffer> <c-]> :<C-u>YcmCompleter GoTo<CR>
   augroup END
 endif
 
@@ -713,6 +710,11 @@ if mymisc#plug_tap('ultisnips')
   let g:UltiSnipsJumpForwardTrigger = '<Tab>'
   let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 
+  " let g:UltiSnipsRemoveSelectModeMappings = 0
+  let g:UltiSnipsExpandTrigger       = '<Plug>(MyUltiRemapX)'
+  let g:UltiSnipsJumpForwardTrigger  = '<Plug>(MyUltiRemapY)'
+  let g:UltiSnipsJumpBackwardTrigger = '<Plug>(MyUltiRemapZ)'
+
   if has('unix')
     if has('python3')
       let g:UltiSnipsUsePythonVersion = 3
@@ -720,12 +722,14 @@ if mymisc#plug_tap('ultisnips')
       let g:UltiSnipsUsePythonVersion = 2
     endif
   endif
+
+  imap <expr><S-TAB> pumvisible() ?
+        \ "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
 endif
 
 if mymisc#plug_tap('supertab')
   let g:SuperTabDefaultCompletionType = '<c-n>'
 endif
-
 
 if mymisc#plug_tap('deoplete.nvim')
 
@@ -740,92 +744,7 @@ if mymisc#plug_tap('deoplete.nvim')
 
   let g:deoplete#enable_at_startup = 1
 
-  " let g:UltiSnipsRemoveSelectModeMappings = 0
-  let g:UltiSnipsExpandTrigger       = '<Plug>(MyUltiRemapX)'
-  let g:UltiSnipsJumpForwardTrigger  = '<Plug>(MyUltiRemapY)'
-  let g:UltiSnipsJumpBackwardTrigger = '<Plug>(MyUltiRemapZ)'
-
-  function! s:SID()
-    return matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\zeSID$')
-  endfun
-
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-  endfunction
-
-  if mymisc#plug_tap('auto-pairs')
-    let g:AutoPairsMapCR = 0
-    let g:AutoPairsFlyMode = 0
-    let g:AutoPairsMultilineClose = 1
-    let g:AutoPairsShortcutBackInsert = '<C-j>'
-    function! s:my_close_pair_function() abort
-      return "\<CR>\<C-R>=AutoPairsReturn()\<CR>"
-    endfunction
-  elseif mymisc#plug_tap('lexima.vim')
-    let g:lexima_ctrlh_as_backspace = 1
-    function! s:my_close_pair_function() abort
-      return "\<C-R>=lexima#expand('<CR>', 'i')\<CR>"
-    endfunction
-  elseif mymisc#plug_tap('delimitMate')
-    function! s:my_close_pair_function() abort
-      return "\<Plug>delimitMateCR"
-    endfunction
-  else
-    function! s:my_close_pair_function() abort
-      return "\<CR>"
-    endfunction
-  endif
-
-  function! s:my_cr_main() abort
-    if pumvisible()
-      " if neosnippet#expandable()
-      "   return "\<Plug>(neosnippet_expand)"
-      " else
-        return "\<C-R>=(".s:SID()."my_tab_try_ulti() > 0)?\"\":deoplete#close_popup()\<CR>"
-      " endif
-    else
-      return s:my_close_pair_function()
-    endif
-  endfunction
-
-  function! s:my_tab_try_ulti()
-    call UltiSnips#ExpandSnippetOrJump()
-    return g:ulti_expand_or_jump_res
-  endfunction
-
-  function! s:my_tab_noulti() abort
-    if s:check_back_space()
-      return "\<TAB>"
-    else
-      return "\<C-r>=deoplete#mappings#manual_complete()\<CR>"
-    endif
-  endfunction
-
-  function! s:my_tab_main() abort
-    if pumvisible()
-      return "\<C-n>"
-    " elseif neosnippet#expandable_or_jumpable()
-    "   return "\<Plug>(neosnippet_expand_or_jump)" 
-    else
-      return "\<C-r>=(".s:SID()."my_tab_try_ulti() > 0)?\"\":".s:SID()."my_tab_noulti()\<CR>"
-    endif
-  endfunction
-
   inoremap <expr><C-Space> deoplete#mappings#manual_complete()
-  imap <expr><S-TAB> pumvisible() ?
-        \ "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
-  " smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  "       \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-  imap <expr><TAB> <SID>my_tab_main()
-
-  augroup vimrc_deoplete
-    autocmd!
-    if mymisc#plug_tap('lexima.vim')
-      autocmd VimEnter * call lexima#init()
-    endif
-    autocmd VimEnter * imap <expr><CR> <SID>my_cr_main()
-  augroup END
 
   call deoplete#custom#var('omni', 'input_patterns', {
         \ 'html':       ['\w+'],
@@ -942,24 +861,6 @@ if mymisc#plug_tap('LanguageClient-neovim')
     autocmd FileType c,cpp,h,hpp,python nnoremap <buffer> <C-]> :call LanguageClient#textDocument_definition()<CR>
     autocmd FileType c,cpp,h,hpp,python nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>
   augroup END
-
-  fun! s:toggle_preview_window()
-    if s:preview_window_opened()
-      normal z
-    else
-      call LanguageClient#textDocument_hover()
-    endif
-  endf
-
-  fun! s:preview_window_opened()
-    for nr in range(1, winnr('$'))
-      if getwinvar(nr, "&pvw") == 1
-        " found a preview
-        return 1
-      endif  
-    endfor
-    return 0
-  endfun
 
   command! LC call LanguageClient_contextMenu()
   command! LCHover call LanguageClient#textDocument_hover()
@@ -1173,3 +1074,5 @@ endif
 if mymisc#plug_tap('CamelCaseMotion')
   call camelcasemotion#CreateMotionMappings(',')
 endif
+
+source $MYDOTFILES/vim/scripts/custom_global.vim

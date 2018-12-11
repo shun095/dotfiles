@@ -279,5 +279,12 @@ fun! mymisc#plug_tap(name) abort
   endif
 endf
 
-" set tabline=%!mymisc#tabline()
-
+fun! mymisc#preview_window_is_opened()
+  for nr in range(1, winnr('$'))
+    if getwinvar(nr, "&pvw") == 1
+      " found a preview
+      return 1
+    endif  
+  endfor
+  return 0
+endfun
