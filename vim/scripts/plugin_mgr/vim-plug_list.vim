@@ -20,9 +20,9 @@ Plug 'rakr/vim-one'
 " Shougo wares
 if v:version >= 800
   if has('nvim')
-    Plug 'Shougo/denite.nvim',{'do':':UpdateRemotePlugins'}
-    Plug 'Shougo/deoplete.nvim',{'do':':UpdateRemotePlugins'}
-    Plug 'Shougo/defx.nvim',{'do':':UpdateRemotePlugins'}
+    Plug 'Shougo/denite.nvim', {'do':':UpdateRemotePlugins'}
+    Plug 'Shougo/deoplete.nvim', {'do':':UpdateRemotePlugins'}
+    Plug 'Shougo/defx.nvim', {'do':':UpdateRemotePlugins'}
   else
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
@@ -38,7 +38,7 @@ if v:version >= 800
       if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
         let l:confirm_install = confirm(
               \ 'LanguageClient updated. Install now?',
-              \ "&yes\n&no",2)
+              \ "&yes\n&no", 2)
         if l:confirm_install == 1
           let l:cmd = ':exe ":!start powershell Start-Sleep -s 3; .\\install.ps1" | qa!'
           call mymisc#command_at_destdir(
@@ -48,18 +48,18 @@ if v:version >= 800
       endif
     endf
     Plug 'autozimu/LanguageClient-neovim', {
-          \ 'branch': 'next',
-          \ 'do': function('DownloadLanguageClient'),
+          \ 'branch':'next',
+          \ 'do':function('DownloadLanguageClient'),
           \ }
   else
     Plug 'autozimu/LanguageClient-neovim', {
-          \ 'branch': 'next',
-          \ 'do': 'bash install.sh',
+          \ 'branch':'next',
+          \ 'do':'bash install.sh',
           \ }
   endif
 else
   Plug 'Valloric/YouCompleteMe'
-  Plug 'rdnetto/YCM-Generator',{'on':'YcmGenerateConfig','branch':'stable'}
+  Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
   Plug 'ervandew/supertab'
 
   Plug 'scrooloose/nerdtree'
@@ -69,14 +69,14 @@ else
 endif
 
 " Language specific completions
-Plug 'OmniSharp/omnisharp-vim',{'for':['cs']}
-" Plug 'Rip-Rip/clang_complete',{'for':['c','cpp']} " for goto definition (completed by LC)
-" Plug 'davidhalter/jedi-vim',{'for':['python']} " for goto definition (completed by LC)
-" Plug 'zchee/deoplete-jedi',{'for':['python']} " for completion
-" Plug 'carlitux/deoplete-ternjs',{'for':['javascript']}
-" Plug 'zchee/deoplete-go',{'for':['go']}
+Plug 'OmniSharp/omnisharp-vim', {'for':['cs']}
+" Plug 'Rip-Rip/clang_complete', {'for':['c', 'cpp']} " for goto definition (completed by LC)
+" Plug 'davidhalter/jedi-vim', {'for':['python']} " for goto definition (completed by LC)
+" Plug 'zchee/deoplete-jedi', {'for':['python']} " for completion
+" Plug 'carlitux/deoplete-ternjs', {'for':['javascript']}
+" Plug 'zchee/deoplete-go', {'for':['go']}
 Plug 'othree/csscomplete.vim'
-Plug 'artur-shaik/vim-javacomplete2',{'for':'java'}
+Plug 'artur-shaik/vim-javacomplete2', {'for':'java'}
 
 
 " Snippets, templates
@@ -86,7 +86,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'aperezdc/vim-template'
 
-" General purpose completions,linters
+" General purpose completions, linters
 " Plug 'jiangmiao/auto-pairs'
 Plug 'cohama/lexima.vim'
 Plug 'alvan/vim-closetag'
@@ -95,33 +95,33 @@ Plug 'w0rp/ale'
 Plug 'chiel92/vim-autoformat'
 
 " Language/environment specific plugins
-Plug 'lervag/vimtex',{'for':['tex']}
-Plug 'iamcco/markdown-preview.vim',{'for':['markdown']}
-Plug 'kannokanno/previm',{'for':['markdown']}
-Plug 'jceb/vim-orgmode',{'for':['org']}
-Plug 'OrangeT/vim-csharp',{'for':['cs','csi','csx']}
-Plug 'fatih/vim-go',{'for':['go']}
-Plug 'mattn/emmet-vim',{'for':['html','xml']}
-Plug 'mopp/next-alter.vim',{'for':['c','cpp','vim']}
-Plug 'Valloric/MatchTagAlways',{'for':['html','xml']}
+Plug 'lervag/vimtex', {'for':['tex']}
+Plug 'iamcco/markdown-preview.vim', {'for':['markdown']}
+Plug 'kannokanno/previm', {'for':['markdown']}
+Plug 'jceb/vim-orgmode', {'for':['org']}
+Plug 'OrangeT/vim-csharp', {'for':['cs', 'csi', 'csx']}
+Plug 'fatih/vim-go', {'for':['go']}
+Plug 'mattn/emmet-vim', {'for':['html', 'xml']}
+Plug 'mopp/next-alter.vim', {'for':['c', 'cpp', 'vim']}
+Plug 'Valloric/MatchTagAlways', {'for':['html', 'xml']}
 Plug 'ishitaku5522/rosmake.vim'
 
 " Syntax highlights
-Plug 'othree/html5.vim',{'for':['html']}
-Plug 'digitaltoad/vim-pug',{'for':['pug','jade']}
-Plug 'briancollins/vim-jst',{'for':['ejs','jst']}
-Plug 'groenewege/vim-less',{'for':['less']}
-Plug 'cakebaker/scss-syntax.vim',{'for':['scss']}
-Plug 'leafgarland/typescript-vim',{'for':['typescript']}
-Plug 'pangloss/vim-javascript',{'for':['javascript']}
-Plug 'posva/vim-vue',{'for':['vue']}
+Plug 'othree/html5.vim', {'for':['html']}
+Plug 'digitaltoad/vim-pug', {'for':['pug', 'jade']}
+Plug 'briancollins/vim-jst', {'for':['ejs', 'jst']}
+Plug 'groenewege/vim-less', {'for':['less']}
+Plug 'cakebaker/scss-syntax.vim', {'for':['scss']}
+Plug 'leafgarland/typescript-vim', {'for':['typescript']}
+Plug 'pangloss/vim-javascript', {'for':['javascript']}
+Plug 'posva/vim-vue', {'for':['vue']}
 Plug 'wavded/vim-stylus'
-Plug 'elzr/vim-json',{'for':['json']}
-Plug 'cespare/vim-toml',{'for':'toml'}
-Plug 'tmux-plugins/vim-tmux',{'for':['tmux']}
-Plug 'chr4/nginx.vim',{'for':['nginx']}
-Plug 'pboettch/vim-cmake-syntax',{'for':['cmake']}
-Plug 'octol/vim-cpp-enhanced-highlight',{'for':['c','cpp']}
+Plug 'elzr/vim-json', {'for':['json']}
+Plug 'cespare/vim-toml', {'for':'toml'}
+Plug 'tmux-plugins/vim-tmux', {'for':['tmux']}
+Plug 'chr4/nginx.vim', {'for':['nginx']}
+Plug 'pboettch/vim-cmake-syntax', {'for':['cmake']}
+Plug 'octol/vim-cpp-enhanced-highlight', {'for':['c', 'cpp']}
 " Plug 'hdima/python-syntax'
 
 " General purpose viewers/indicators
@@ -131,12 +131,12 @@ Plug 'FelikZ/ctrlp-py-matcher'
 if has('win32')
   Plug 'ishitaku5522/cpsm'
 else
-  Plug 'nixprime/cpsm',{'do':'bash install.sh'}
+  Plug 'nixprime/cpsm', {'do':'bash install.sh'}
 endif
 
-Plug 'mbbill/undotree',{'on':['UndotreeFocus','UndotreeHide','UndotreeShow','UndotreeToggle']}
-Plug 'majutsushi/tagbar',{'on':['TagbarToggle','TagbarOpen']}
-Plug 'AndrewRadev/linediff.vim',{'on':'Linediff'}
+Plug 'mbbill/undotree', {'on':['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']}
+Plug 'majutsushi/tagbar', {'on':['TagbarToggle', 'TagbarOpen']}
+Plug 'AndrewRadev/linediff.vim', {'on':'Linediff'}
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 Plug 'junegunn/rainbow_parentheses.vim'
@@ -169,17 +169,17 @@ Plug 'bkad/CamelCaseMotion'
 
 " Applications
 Plug 'lambdalisue/suda.vim'
-Plug 'glidenote/memolist.vim',{'on':['MemoNew','MemoList']}
-Plug 'itchyny/calendar.vim',{'on':'Calendar'}
+Plug 'glidenote/memolist.vim', {'on':['MemoNew', 'MemoList']}
+Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 Plug 'tyru/open-browser.vim'
-Plug 'haya14busa/vim-open-googletranslate',{'on':'OpenGoogleTranslate'}
+Plug 'haya14busa/vim-open-googletranslate', {'on':'OpenGoogleTranslate'}
 
 " Libraries
-" Plug 'vim-jp/vital.vim',{'on':'Vitalize'}
+" Plug 'vim-jp/vital.vim', {'on':'Vitalize'}
 Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 
-Plug 'ishitaku5522/revimses',{'branch':'dev'}
+Plug 'ishitaku5522/revimses', {'branch':'dev'}
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
