@@ -1071,23 +1071,20 @@ if mymisc#plug_tap('next-alter.vim')
 endif
 
 if mymisc#plug_tap('lexima.vim')
-  " " call lexima#add_rule({'char': '<', 'input_after': '>'})
-  " call lexima#add_rule({'char': '>', 'at': '\%#>', 'leave': 1})
-  " call lexima#add_rule({'char': '<BS>', 'at': '<\%#>', 'input': '<BS>', 'delete' : 1})
+  call lexima#add_rule({'char': '<', 'input_after': '>'})
+  call lexima#add_rule({'char': '>', 'at': '\%#>', 'leave': '>'})
+  call lexima#add_rule({'char': '<BS>', 'at': '<\%#>', 'input': '<BS>', 'delete' : 1})
 
-  " for [begin, end] in [['(', ')'], ['{','}'], ['[',']']]
-  "   call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': begin, 'input': begin})
-  "   call lexima#add_rule({'at': '\%#\n\s*'.end , 'char': end, 'input': '<CR>'.end, 'delete': end})
-  " endfor
+  for [begin, end] in [['(', ')'], ['{','}'], ['[',']']]
+    call lexima#add_rule({'at': '\%#[:alnum:]', 'char': begin, 'input': begin})
+    call lexima#add_rule({'at': '\%#\n\s*'.end , 'char': end, 'input': '<CR>'.end, 'delete': end})
+  endfor
 
-  " for mark in ['"', "'"]
-  "   call lexima#add_rule({'at': '\%#.*[-0-9a-zA-Z_,:]', 'char': mark, 'input': mark})
-  " endfor
+  for mark in ['"', "'"]
+    call lexima#add_rule({'at': '\%#[:alnum:]', 'char': mark, 'input': mark})
+  endfor
 
-  " call lexima#init()
-  " <BS>,<CR>が文字列ではなく展開されてしまうためうまくいかないので<lt>を利用
-  " inoremap <silent><expr> <C-h> lexima#expand('<lt>BS>', 'i')
-  " imap <silent><expr> <CR> pumvisible() ? '<C-y>' : lexima#expand('<lt>CR>', 'i')
+  inoremap <silent><expr> <C-h> lexima#expand('<lt>BS>', 'i')
 endif
 
 if mymisc#plug_tap('vim-submode')
