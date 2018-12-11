@@ -1071,13 +1071,13 @@ if mymisc#plug_tap('next-alter.vim')
 endif
 
 if mymisc#plug_tap('lexima.vim')
-  call lexima#add_rule({'char': '<', 'input_after': '>'})
-  call lexima#add_rule({'char': '>', 'at': '\%#>', 'leave': '>'})
-  call lexima#add_rule({'char': '<BS>', 'at': '<\%#>', 'input': '<BS>', 'delete' : 1})
+  call lexima#add_rule({'char':'<',    'input_after':'>'})
+  call lexima#add_rule({'char':'>',    'at':'\%#>',  'leave':'>'})
+  call lexima#add_rule({'char':'<BS>', 'at':'<\%#>', 'input':'<BS>', 'delete':1})
 
   for [begin, end] in [['(', ')'], ['{','}'], ['[',']']]
-    call lexima#add_rule({'at': '\%#[:alnum:]', 'char': begin, 'input': begin})
-    call lexima#add_rule({'at': '\%#\n\s*'.end , 'char': end, 'input': '<CR>'.end, 'delete': end})
+    call lexima#add_rule({'char':begin, 'at':'\%#[:alnum:]', 'input':begin})
+    call lexima#add_rule({'char':end,   'at':'\%#\n\s*'.end, 'input':'<CR>'.end, 'delete':end})
   endfor
 
   for mark in ['"', "'"]
@@ -1095,10 +1095,6 @@ if mymisc#plug_tap('vim-submode')
   call submode#map('winsize', 'n', '', '<', '5<C-w><')
   call submode#map('winsize', 'n', '', '+', '5<C-w>+')
   call submode#map('winsize', 'n', '', '-', '5<C-w>-')
-  " augroup vimrc_submode
-  "   autocmd!
-  "   autocmd VimEnter * call g:plugin_mgr.lazy_hook('vim-submode')
-  " augroup END
 endif
 
 if mymisc#plug_tap('indentLine')
