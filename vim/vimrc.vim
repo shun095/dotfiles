@@ -434,6 +434,9 @@ augroup VIMRC
   autocmd FileType help nnoremap <silent><buffer>q :bw<CR>
   autocmd FileType help let &l:iskeyword = '!-~,^*,^|,^",' . &iskeyword
 
+  " Preview window
+  autocmd BufEnter * if &previewwindow | nnoremap <silent><buffer>q :pclose<CR> | endif
+
   autocmd InsertLeave * call mymisc#ime_deactivate()
   autocmd VimEnter * call mymisc#git_auto_updating()
 
