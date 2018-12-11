@@ -940,9 +940,28 @@ if mymisc#plug_tap('LanguageClient-neovim')
     autocmd!
     autocmd FileType vue setlocal iskeyword+=$ iskeyword+=-
     autocmd FileType c,cpp,h,hpp,python nnoremap <buffer> <C-]> :call LanguageClient#textDocument_definition()<CR>
-    autocmd FileType python nnoremap <buffer> K :call LanguageClient#textDocument_hover()<CR>
+    autocmd FileType python nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>
   augroup END
 
+  fun! s:toggle_preview_window()
+    if s:preview_window_opened()
+      normal z
+    else
+      call LanguageClient#textDocument_hover()
+    endif
+  endf
+
+  fun! s:preview_window_opened()
+    for nr in range(1, winnr('$'))
+      if getwinvar(nr, "&pvw") == 1
+        " found a preview
+        return 1
+      endif  
+    endfor
+    return 0
+  endfun
+
+  command! LC call LanguageClient_contextMenu()
   command! LCHover call LanguageClient#textDocument_hover()
   command! LCDefinition call LanguageClient#textDocument_definition()
   command! LCTypeDefinition call LanguageClient#textDocument_typeDefinition()
@@ -953,14 +972,13 @@ if mymisc#plug_tap('LanguageClient-neovim')
   command! LCCodeAction call LanguageClient#textDocument_codeAction()
   command! LCCompletion call LanguageClient#textDocument_completion()
   command! LCFormatting call LanguageClient#textDocument_formatting()
-  command! LCRangeFormatting call LanguageClient#textDocument_rangeFormatting()
-  command! LCDocumentHighlight call LanguageClient#textDocument_documentHighlight()
+  command! -range LCRangeFormatting call LanguageClient#textDocument_rangeFormatting()
+  command! -bang LCDocumentHighlight if empty('<bang>')
+        \ | call LanguageClient#textDocument_documentHighlight()
+        \ | else
+          \ | call LanguageClient#clearDocumentHighlight()
+          \ | endif
 
-  " for key in keys(g:LanguageClient_serverCommands)
-  "   exe "autocmd vimrc_langclient FileType ".key." nnoremap <buffer><silent> K :call LanguageClient#textDocument_hover()<CR>"
-  "   exe "autocmd vimrc_langclient FileType ".key." nnoremap <silent> <C-]> :call LanguageClient#textDocument_definition()<CR>"
-  "   exe "autocmd vimrc_langclient FileType ".key." nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>"
-  " endfor
 endif
 
 if mymisc#plug_tap('clang_complete')
