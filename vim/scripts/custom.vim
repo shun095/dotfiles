@@ -1083,8 +1083,6 @@ if mymisc#plug_tap('lexima.vim')
   for mark in ['"', "'"]
     call lexima#add_rule({'at': '\%#[:alnum:]', 'char': mark, 'input': mark})
   endfor
-
-  inoremap <silent><expr> <C-h> lexima#expand('<lt>BS>', 'i')
 endif
 
 if mymisc#plug_tap('vim-submode')
