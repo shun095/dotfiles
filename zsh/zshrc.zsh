@@ -30,6 +30,10 @@ source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
 export FZF_DEFAULT_OPTS='--color=16'
 
+export HISTFILE=~/.zsh_history
+export HISTSIZE=999999
+export SAVEHIST=$HISTSIZE
+
 setopt auto_cd
 
 function chpwd() {

@@ -311,6 +311,8 @@ noremap! <C-g><C-g> <ESC>
 cnoremap <C-o> <C-a>
 cnoremap <C-p> <up>
 cnoremap <C-n> <down>
+
+nnoremap <Leader>u  :<C-u>/ oldfiles<Home>browse filter /
 " }}} MAPPING END
 
 " COMMANDS {{{
@@ -527,7 +529,7 @@ else
   filetype plugin indent on
   syntax enable
 
-  colorscheme default
+  colorscheme evening
   " }}} WHEN PLUGINS ARE DISABLED END
 
 endif
