@@ -172,8 +172,11 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'lambdalisue/suda.vim'
 Plug 'glidenote/memolist.vim', {'on':['MemoNew', 'MemoList']}
 Plug 'itchyny/calendar.vim', {'on':'Calendar'}
+
+" Tools
 Plug 'tyru/open-browser.vim'
 Plug 'haya14busa/vim-open-googletranslate', {'on':'OpenGoogleTranslate'}
+Plug 'tyru/capture.vim'
 
 " Libraries
 " Plug 'vim-jp/vital.vim', {'on':'Vitalize'}
