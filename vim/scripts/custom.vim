@@ -1026,10 +1026,10 @@ if mymisc#plug_tap('vim-go')
 endif
 
 if mymisc#plug_tap('gina.vim')
-  nnoremap <Leader>gs :Gina status --opener=split<CR>
-  nnoremap <Leader>gc :Gina commit --opener=split<CR>
-  nnoremap <Leader>gpp :Gina push<CR>
-  nnoremap <Leader>gll :Gina pull<CR>
+  nnoremap <Leader>gs :Gina status<CR>
+  nnoremap <Leader>gc :Gina commit<CR>
+  nnoremap <Leader>gp :Gina push<CR>
+  nnoremap <Leader>gl :Gina pull<CR>
   nnoremap <Leader>gf :Gina fetch --all -t<CR>
   nnoremap <Leader>gm :Gina merge<CR>
 endif
