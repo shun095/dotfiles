@@ -18,7 +18,7 @@ Plug 'rakr/vim-one'
 " Plug 'tomasr/molokai'
 "
 " Shougo wares
-let s:use_shougo_ware = g:false
+let s:use_shougo_ware = 0
 if executable('python')
   let s:use_shougo_ware = system("python --version") =~# 'Python\ 3\.6\.'
 endif
