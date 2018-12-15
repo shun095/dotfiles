@@ -18,8 +18,16 @@ Plug 'rakr/vim-one'
 " Plug 'tomasr/molokai'
 "
 " Shougo wares
-" if v:version >= 800
-if v:false
+let s:use_shougo_ware = g:false
+if executable('python')
+  let s:use_shougo_ware = system("python --version") =~# 'Python\ 3\.6\.'
+endif
+
+if !s:use_shougo_ware && executable('python3')
+  let s:use_shougo_ware = system("python3 --version") =~# 'Python\ 3\.6\.'
+endif
+
+if s:use_shougo_ware
   if has('nvim')
     Plug 'Shougo/denite.nvim', {'do':':UpdateRemotePlugins'}
     Plug 'Shougo/deoplete.nvim', {'do':':UpdateRemotePlugins'}
