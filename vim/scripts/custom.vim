@@ -33,7 +33,7 @@ endif
 
 if mymisc#plug_tap('YouCompleteMe')
   let g:ycm_global_ycm_extra_conf = $MYDOTFILES . '/vim/scripts/.ycm_extra_conf.py'
-  let g:ycm_min_num_of_chars_for_completion = 1
+  let g:ycm_min_num_of_chars_for_completion = 3
   let g:ycm_complete_in_comments = 1
   let g:ycm_collect_identifiers_from_comments_and_strings = 1
   let g:ycm_collect_identifiers_from_tags_files = 1
@@ -619,18 +619,39 @@ if mymisc#plug_tap('ctrlp.vim')
 endif
 
 if mymisc#plug_tap('fzf.vim')
-  nnoremap <Leader><Leader> :GFiles<CR>
-  " T
-  nnoremap <Leader>al       :Lines<CR>
-  nnoremap <Leader>b        :Buffers<CR>
+
+  nnoremap <Leader><Leader> :execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
+  " nnoremap <Leader>T        :Tags<CR>
+  " nnoremap <Leader>al       :Lines<CR>
+  " nnoremap <Leader>b        :Buffers<CR>
   nnoremap <Leader>c        :Files<CR>
-  nnoremap <Leader>f        :GFiles<CR>
+  nnoremap <Leader>f        :execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
   " gr
-  " l
-  " o
+  " nnoremap <Leader>l        :BLines<CR>
+  " nnoremap <Leader>o        :BTags<CR>
   " r
-  nnoremap <Leader>u        :History<CR>
-  nnoremap <Leader>`        :Marks<CR>
+  " nnoremap <Leader>u        :History<CR>
+  " nnoremap <Leader>`        :Marks<CR>
+
+  let g:fzf_colors = {
+        \ 'fg':      ['fg', 'Normal'],
+        \ 'bg':      ['bg', 'Normal'],
+        \ 'hl':      ['fg', 'Comment'],
+        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+        \ 'hl+':     ['fg', 'Statement'],
+        \ 'info':    ['fg', 'PreProc'],
+        \ 'border':  ['fg', 'Ignore'],
+        \ 'prompt':  ['fg', 'Conditional'],
+        \ 'pointer': ['fg', 'Exception'],
+        \ 'marker':  ['fg', 'Keyword'],
+        \ 'spinner': ['fg', 'Label'],
+        \ 'header':  ['fg', 'Comment'] 
+        \ }
+endif
+
+if mymisc#plug_tap('vim-peekaboo')
+  " let g:peekaboo_window = 'vert abo 40new'
 endif
 
 if mymisc#plug_tap('denite.nvim')

@@ -323,6 +323,16 @@ endif
 
 " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
 command! CdCurrent cd\ %:h
+let g:mymisc_projectdir_reference_files = [
+      \ '.hg/',
+      \ '.git/',
+      \ '.bzr/',
+      \ '.svn/',
+      \ 'tags',
+      \ 'tags-'
+      \ ]
+command! CdProject execute "cd " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
+
 command! CpPath call mymisc#copypath()
 command! CpFileName call mymisc#copyfname()
 command! CpDirPath call mymisc#copydirpath()

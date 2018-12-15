@@ -6,6 +6,13 @@ py3 pass
 
 " Color schemes
 Plug 'rakr/vim-one'
+let g:terminal_ansi_colors = [
+      \ '#000000', '#E06C75', '#98c379', '#d19a66',
+      \ '#61aeee', '#c678dd', '#56b6c2', '#abb2bf',
+      \ '#5c6370', '#e06c75', '#98c379', '#d19a66',
+      \ '#62afee', '#c678dd', '#56b6c2', '#ffffff'
+      \ ]
+
 " Plug 'NLKNguyen/papercolor-theme'
 " Plug 'ajh17/spacegray.vim'
 " Plug 'cocopon/iceberg.vim'
@@ -27,7 +34,8 @@ if !s:use_shougo_ware && executable('python3')
   let s:use_shougo_ware = system("python3 --version") =~# 'Python\ 3\.[6-9]'
 endif
 
-if s:use_shougo_ware
+" if s:use_shougo_ware
+if 0
   if has('nvim')
     Plug 'Shougo/denite.nvim', {'do':':UpdateRemotePlugins'}
     Plug 'Shougo/deoplete.nvim', {'do':':UpdateRemotePlugins'}
@@ -138,7 +146,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
 Plug 'FelikZ/ctrlp-py-matcher'
-" Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-peekaboo'
 if has('win32')
   Plug 'ishitaku5522/cpsm'
 else
