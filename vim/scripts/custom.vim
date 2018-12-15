@@ -141,69 +141,6 @@ if mymisc#plug_tap('vim-dirvish')
   augroup END
 endif
 
-if mymisc#plug_tap('ctrlp.vim')
-  let g:ctrlp_max_files = 20000
-  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:100'
-  let g:ctrlp_show_hidden = 1
-  let g:ctrlp_root_markers = ['.ctrlproot']
-  let g:ctrlp_mruf_default_order = 1
-  let s:ctrlp_my_match_func = {}
-
-  if mymisc#plug_tap('cpsm') " ========== For cpsm
-    " let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
-    let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
-
-    if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
-      autocmd VimEnter * echomsg "Cpsm has not been built yet."
-    else
-      let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
-    endif
-    let g:cpsm_query_inverting_delimiter = ' '
-
-  elseif mymisc#plug_tap('ctrlp-py-matcher') " ========== For pymatcher
-    let s:ctrlp_my_match_func = { 'match' : 'pymatcher#PyMatch' }
-  endif
-
-  let g:ctrlp_match_func = s:ctrlp_my_match_func
-
-  augroup vimrc_ctrlp
-    autocmd!
-    autocmd VimEnter * com! -n=? -com=dir CtrlPMRUFiles let g:ctrlp_match_func = {} |
-          \ cal ctrlp#init('mru', { 'dir': <q-args> }) |
-          \ let g:ctrlp_match_func = s:ctrlp_my_match_func
-  augroup END
-
-  nnoremap <Leader><Leader> :CtrlPMixed<CR>
-  nnoremap <Leader>T        :CtrlPTag<CR>
-  nnoremap <Leader>al       :CtrlPLine<CR>
-  nnoremap <Leader>b        :CtrlPBuffer<CR>
-  nnoremap <Leader>c        :CtrlPCurWD<CR>
-  nnoremap <Leader>f        :CtrlP<CR>
-  " gr
-  nnoremap <Leader>l        :CtrlPLine %<CR>
-  nnoremap <Leader>o        :CtrlPBufTag<CR>
-  nnoremap <Leader>r        :CtrlPRegister<CR>
-  nnoremap <Leader>u        :CtrlPMRUFiles<CR>
-  nnoremap <Leader>`        :CtrlPMark<CR>
-
-  let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
-
-  " if has('win32')
-  if g:mymisc_files_is_available
-    let g:ctrlp_user_command = 'files -a %s'
-  elseif g:mymisc_pt_is_available
-    let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-  elseif g:mymisc_ag_is_available
-    let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
-  endif
-  " else
-  "   " Brought from denite 
-  "   let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
-  " endif
-
-  unlet s:ctrlp_command_options
-endif
-
 if mymisc#plug_tap('vim-easymotion')
   let g:EasyMotion_do_mapping = 0
   nmap s <Plug>(easymotion-overwin-f2)
@@ -616,6 +553,86 @@ if mymisc#plug_tap('defx.nvim')
   augroup END
 endif
 
+if mymisc#plug_tap('ctrlp.vim')
+  let g:ctrlp_max_files = 20000
+  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:100'
+  let g:ctrlp_show_hidden = 1
+  let g:ctrlp_root_markers = ['.ctrlproot']
+  let g:ctrlp_mruf_default_order = 1
+  let s:ctrlp_my_match_func = {}
+
+  if mymisc#plug_tap('cpsm') " ========== For cpsm
+    " let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
+    let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
+
+    if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
+      autocmd VimEnter * echomsg "Cpsm has not been built yet."
+    else
+      let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+    endif
+    let g:cpsm_query_inverting_delimiter = ' '
+
+  elseif mymisc#plug_tap('ctrlp-py-matcher') " ========== For pymatcher
+    let s:ctrlp_my_match_func = { 'match' : 'pymatcher#PyMatch' }
+  endif
+
+  let g:ctrlp_match_func = s:ctrlp_my_match_func
+
+  augroup vimrc_ctrlp
+    autocmd!
+    autocmd VimEnter * com! -n=? -com=dir CtrlPMRUFiles let g:ctrlp_match_func = {} |
+          \ cal ctrlp#init('mru', { 'dir': <q-args> }) |
+          \ let g:ctrlp_match_func = s:ctrlp_my_match_func
+  augroup END
+
+  nnoremap <Leader><Leader> :CtrlPMixed<CR>
+  nnoremap <Leader>T        :CtrlPTag<CR>
+  nnoremap <Leader>al       :CtrlPLine<CR>
+  nnoremap <Leader>b        :CtrlPBuffer<CR>
+  nnoremap <Leader>c        :CtrlPCurWD<CR>
+  nnoremap <Leader>f        :CtrlP<CR>
+  " gr
+  nnoremap <Leader>l        :CtrlPLine %<CR>
+  nnoremap <Leader>o        :CtrlPBufTag<CR>
+  nnoremap <Leader>r        :CtrlPRegister<CR>
+  nnoremap <Leader>u        :CtrlPMRUFiles<CR>
+  nnoremap <Leader>`        :CtrlPMark<CR>
+
+  if 0
+    let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
+
+    " if has('win32')
+    if g:mymisc_files_is_available
+      let g:ctrlp_user_command = 'files -a %s'
+    elseif g:mymisc_pt_is_available
+      let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+    elseif g:mymisc_ag_is_available
+      let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
+    endif
+    " else
+    "   " Brought from denite 
+    "   let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
+    " endif
+
+    unlet s:ctrlp_command_options
+  endif
+endif
+
+if mymisc#plug_tap('fzf.vim')
+  nnoremap <Leader><Leader> :GFiles<CR>
+  " T
+  nnoremap <Leader>al       :Lines<CR>
+  nnoremap <Leader>b        :Buffers<CR>
+  nnoremap <Leader>c        :Files<CR>
+  nnoremap <Leader>f        :GFiles<CR>
+  " gr
+  " l
+  " o
+  " r
+  nnoremap <Leader>u        :History<CR>
+  nnoremap <Leader>`        :Marks<CR>
+endif
+
 if mymisc#plug_tap('denite.nvim')
   let g:neomru#file_mru_ignore_pattern = '^vaffle\|^quickrun\|'.
         \ '\~$\|\.\%(o\|exe\|dll\|bak\|zwc\|pyc\|sw[po]\)$'.
@@ -624,11 +641,11 @@ if mymisc#plug_tap('denite.nvim')
         \ '\|\%(^\%(fugitive\)://\)'.
         \ '\|\%(^\%(term\)://\)'
 
-  call denite#custom#option('default','auto_resize'            ,'1')
-  call denite#custom#option('default','reversed'               ,'1')
-  call denite#custom#option('default','highlight_matched_char' ,'Special')
-  call denite#custom#option('default','highlight_matched_range','Normal')
-  call denite#custom#option('default','updatetime'             ,'10')
+  call denite#custom#option('default', 'auto_resize',             '1')
+  call denite#custom#option('default', 'reversed',                '1')
+  call denite#custom#option('default', 'highlight_matched_char',  'Special')
+  call denite#custom#option('default', 'highlight_matched_range', 'Normal')
+  call denite#custom#option('default', 'updatetime',              '10')
 
   if !exists('g:ctrlp_match_func')
     let g:ctrlp_match_func = {}
@@ -640,41 +657,41 @@ if mymisc#plug_tap('denite.nvim')
     let s:denite_matchers = ['matcher_fuzzy']
   endif
 
-  call denite#custom#source('file_mru','matchers',s:denite_matchers)
-  call denite#custom#source('file_rec','matchers',s:denite_matchers)
-  call denite#custom#source('line'    ,'matchers',s:denite_matchers)
-  call denite#custom#source('file_mru','sorters' ,[])
-  call denite#custom#source('buffer'  ,'sorters' ,[])
+  call denite#custom#source('file_mru', 'matchers', s:denite_matchers)
+  call denite#custom#source('file_rec', 'matchers', s:denite_matchers)
+  call denite#custom#source('line',     'matchers', s:denite_matchers)
+  call denite#custom#source('file_mru', 'sorters',  [])
+  call denite#custom#source('buffer',   'sorters',  [])
 
   " Change mappings.
-  call denite#custom#map('insert','<C-j>' ,'<denite:move_to_next_line>'    ,'noremap')
-  call denite#custom#map('insert','<C-k>' ,'<denite:move_to_previous_line>','noremap')
-  call denite#custom#map('insert','<Down>','<denite:move_to_next_line>'    ,'noremap')
-  call denite#custom#map('insert','<Up>'  ,'<denite:move_to_previous_line>','noremap')
-  call denite#custom#map('insert','<C-t>' ,'<denite:do_action:tabopen>'    ,'noremap')
-  call denite#custom#map('insert','<C-v>' ,'<denite:do_action:vsplit>'     ,'noremap')
-  call denite#custom#map('insert','<C-s>' ,'<denite:do_action:split>'      ,'noremap')
-  call denite#custom#map('insert','<C-CR>','<denite:do_action:split>'      ,'noremap')
-  call denite#custom#map('insert','<C-x>' ,'<denite:do_action:split>'      ,'noremap')
-  call denite#custom#map('insert','<C-g>' ,'<denite:leave_mode>'           ,'noremap')
+  call denite#custom#map('insert', '<C-j>',  '<denite:move_to_next_line>',     'noremap')
+  call denite#custom#map('insert', '<C-k>',  '<denite:move_to_previous_line>', 'noremap')
+  call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>',     'noremap')
+  call denite#custom#map('insert', '<Up>',   '<denite:move_to_previous_line>', 'noremap')
+  call denite#custom#map('insert', '<C-t>',  '<denite:do_action:tabopen>',     'noremap')
+  call denite#custom#map('insert', '<C-v>',  '<denite:do_action:vsplit>',      'noremap')
+  call denite#custom#map('insert', '<C-s>',  '<denite:do_action:split>',       'noremap')
+  call denite#custom#map('insert', '<C-CR>', '<denite:do_action:split>',       'noremap')
+  call denite#custom#map('insert', '<C-x>',  '<denite:do_action:split>',       'noremap')
+  call denite#custom#map('insert', '<C-g>',  '<denite:leave_mode>',            'noremap')
 
   " Change file_rec command.
   if g:mymisc_files_is_available
-    call denite#custom#var('file_rec','command',['files','-a'])
+    call denite#custom#var('file_rec', 'command', ['files', '-a'])
   elseif g:mymisc_pt_is_available
-    call denite#custom#var('file_rec','command',['pt','--follow','--nocolor','--nogroup','--hidden','-g',''])
+    call denite#custom#var('file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
   elseif g:mymisc_ag_is_available
-    call denite#custom#var('file_rec','command',['ag','--follow','--nocolor','--nogroup','--hidden','-g',''])
+    call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
   endif
 
   " rg command on grep source
   if g:mymisc_rg_is_available
-    call denite#custom#var('grep','command'       ,['rg'])
-    call denite#custom#var('grep','default_opts'  ,['--vimgrep'])
-    call denite#custom#var('grep','recursive_opts',[])
-    call denite#custom#var('grep','pattern_opt'   ,['--regexp'])
-    call denite#custom#var('grep','separator'     ,['--'])
-    call denite#custom#var('grep','final_opts'    ,[])
+    call denite#custom#var('grep', 'command',        ['rg'])
+    call denite#custom#var('grep', 'default_opts',   ['--vimgrep'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt',    ['--regexp'])
+    call denite#custom#var('grep', 'separator',      ['--'])
+    call denite#custom#var('grep', 'final_opts',     [])
   endif
 
   " Mappings
@@ -689,6 +706,7 @@ if mymisc#plug_tap('denite.nvim')
   " nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
   " nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
   " nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
+  " ` Marks
 endif
 
 if mymisc#plug_tap('delimitMate')

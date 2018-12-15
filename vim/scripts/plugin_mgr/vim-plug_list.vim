@@ -138,6 +138,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
 Plug 'FelikZ/ctrlp-py-matcher'
+" Plug 'junegunn/fzf.vim'
 if has('win32')
   Plug 'ishitaku5522/cpsm'
 else
