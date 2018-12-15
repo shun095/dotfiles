@@ -598,27 +598,30 @@ if mymisc#plug_tap('ctrlp.vim')
   nnoremap <Leader>u        :CtrlPMRUFiles<CR>
   nnoremap <Leader>`        :CtrlPMark<CR>
 
-  if 0
-    let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
+  let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
-    " if has('win32')
-    if g:mymisc_files_is_available
-      let g:ctrlp_user_command = 'files -a %s'
-    elseif g:mymisc_pt_is_available
-      let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
-    elseif g:mymisc_ag_is_available
-      let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
-    endif
-    " else
-    "   " Brought from denite 
-    "   let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
-    " endif
-
-    unlet s:ctrlp_command_options
+  " if has('win32')
+  if g:mymisc_files_is_available
+    let g:ctrlp_user_command = 'files -a -i "(\.git|\.hg|\.svn|_darcs|\.bzr|node_modules)$" %s'
+  elseif g:mymisc_pt_is_available
+    let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
+  elseif g:mymisc_ag_is_available
+    let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
+  else
+    let g:ctrlp_user_command = ''
   endif
+  " else
+  "   " Brought from denite 
+  "   let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
+  " endif
+
+  unlet s:ctrlp_command_options
 endif
 
 if mymisc#plug_tap('fzf.vim')
+  if exists("g:ctrlp_user_command") && g:ctrlp_user_command !=# ''
+    let $FZF_DEFAULT_COMMAND = substitute(g:ctrlp_user_command,'%s','.','g')
+  endif
   nnoremap <Leader><Leader> :execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
   " nnoremap <Leader>T        :Tags<CR>
   " nnoremap <Leader>al       :Lines<CR>
@@ -679,13 +682,8 @@ if mymisc#plug_tap('denite.nvim')
   call denite#custom#map('insert', '<C-x>',  '<denite:do_action:split>',       'noremap')
   call denite#custom#map('insert', '<C-g>',  '<denite:leave_mode>',            'noremap')
 
-  " Change file_rec command.
-  if g:mymisc_files_is_available
-    call denite#custom#var('file_rec', 'command', ['files', '-a'])
-  elseif g:mymisc_pt_is_available
-    call denite#custom#var('file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
-  elseif g:mymisc_ag_is_available
-    call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', ''])
+  if exists("g:ctrlp_user_command") && g:ctrlp_user_command !=# ''
+    call denite#custom#var('file_rec', 'command', split(substitute(g:ctrlp_user_command,'%s',':directory','g'),' '))
   endif
 
   " rg command on grep source

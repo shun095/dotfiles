@@ -165,21 +165,18 @@ fun! mymisc#find_project_dir(searchname_arg) abort
   return l:destdir
 endf
 
-fun! mymisc#ctags_project() abort
-  let l:tags_dir = mymisc#find_project_dir('tags')
-
-  if l:tags_dir ==# ''
-    let l:tags_dir = mymisc#find_project_dir('.git')
-  endif
+fun! mymisc#ctags_project(project_marker_list) abort
+  let l:tags_dir = mymisc#find_project_dir(a:project_marker_list)
 
   if l:tags_dir ==# ''
     echohl WarningMsg
     echom "Appropriate directory couldn't be found!! (There is no tags file or git directory.)"
     echohl none
-  else
-    call mymisc#command_at_destdir(l:tags_dir,['call system("ctags -R")'])
-    echomsg 'tags file made at ' . l:tags_dir
+    return
   endif
+
+  call mymisc#command_at_destdir(l:tags_dir,['call system("ctags -R")'])
+  echomsg 'Tags file was made at: ' . l:tags_dir
 endf
 
 fun! mymisc#print_callback(ch,msg) abort
