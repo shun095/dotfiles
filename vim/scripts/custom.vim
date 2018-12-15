@@ -1073,16 +1073,16 @@ if mymisc#plug_tap('gina.vim')
   nnoremap <Leader>gf :<C-u>Gina fetch --all -t<CR>
   nnoremap <Leader>gm :<C-u>Gina merge<CR>
 
-	call gina#custom#mapping#nmap(
-	      \ 'status', '<C-^>',
-	      \ ':<C-u>Gina commit ',
-	      \ {'noremap': 1, 'silent': 0},
-	      \)
-	call gina#custom#mapping#nmap(
-	      \ 'status', 'q',
-	      \ ':<C-u>bd<CR>',
-	      \ {'noremap': 1, 'silent': 1},
-	      \)
+  call gina#custom#mapping#nmap(
+        \ 'status', '<C-^>',
+        \ ':<C-u>Gina commit ',
+        \ {'noremap': 1, 'silent': 0},
+        \)
+  call gina#custom#mapping#nmap(
+        \ 'status', 'q',
+        \ ':<C-u>bd<CR>',
+        \ {'noremap': 1, 'silent': 1},
+        \)
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
