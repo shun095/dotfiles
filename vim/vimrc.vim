@@ -141,9 +141,9 @@ set statusline+=\(%{&fileformat})
 set statusline+=\ %5*%3p%%\ %4l:%-3v\ %*
 
 augroup vimrc_status_vars
-    autocmd!
-    autocmd CursorHold,CursorHoldI * call mymisc#set_statusline_vars()
-augroup end
+  autocmd!
+  autocmd CursorHold,CursorHoldI * call mymisc#set_statusline_vars()
+augroup END
 
 fun! Myvimrc_statusline_tagbar() abort
   if exists('w:mymisc_status_tagbar')

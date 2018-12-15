@@ -1041,6 +1041,10 @@ if mymisc#plug_tap('vim-gitgutter')
   else
     let g:gitgutter_async = 1
   endif
+  augroup vimrc_gitgutter
+    autocmd!
+    autocmd User GitGutter call mymisc#set_statusline_vars()
+  augroup END
 endif
 
 if mymisc#plug_tap('rainbow_parentheses.vim')
