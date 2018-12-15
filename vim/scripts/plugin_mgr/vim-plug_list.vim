@@ -20,11 +20,11 @@ Plug 'rakr/vim-one'
 " Shougo wares
 let s:use_shougo_ware = 0
 if executable('python')
-  let s:use_shougo_ware = system("python --version") =~# 'Python\ 3\.6\.'
+  let s:use_shougo_ware = system("python --version") =~# 'Python\ 3\.[6-9]'
 endif
 
 if !s:use_shougo_ware && executable('python3')
-  let s:use_shougo_ware = system("python3 --version") =~# 'Python\ 3\.6\.'
+  let s:use_shougo_ware = system("python3 --version") =~# 'Python\ 3\.[6-9]'
 endif
 
 if s:use_shougo_ware
