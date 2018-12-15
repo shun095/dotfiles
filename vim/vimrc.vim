@@ -135,23 +135,17 @@ set statusline+=\ %{Myvimrc_statusline_gina()}
 set statusline+=%4*
 set statusline+=%{Myvimrc_statusline_gitgutter()}
 set statusline+=%3*
-set statusline+=%{Myvimrc_statusline_ft()}
-set statusline+=%1*\%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}
+set statusline+=%{&ft==#''?'':'['.&ft.']\ '}
+if has('multi_byte')
+  set statusline+=%1*%{&fileencoding!=#''?&fileencoding:&encoding}
+endif
 set statusline+=\(%{&fileformat})
-set statusline+=\ %5*%3p%%\ %4l:%-3v\ %*
+set statusline+=\ %5*%3p%%%5l:%-3v
 
 augroup vimrc_status_vars
   autocmd!
   autocmd CursorHold,CursorHoldI * call mymisc#set_statusline_vars()
 augroup END
-
-fun! Myvimrc_statusline_ft()
-  if &ft !=# ''
-    let str = '[' . &ft . '] '
-    return str
-  endif
-  return ''
-endf
 
 fun! Myvimrc_statusline_tagbar() abort
   if exists('w:mymisc_status_tagbar')
