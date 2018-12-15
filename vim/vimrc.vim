@@ -140,47 +140,41 @@ set statusline+=%1*\ %{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&enco
 set statusline+=\(%{&fileformat})
 set statusline+=\ %5*%3p%%\ %4l:%-3v\ %*
 
+augroup vimrc_status_vars
+    autocmd!
+    autocmd CursorHold,CursorHoldI * call mymisc#set_statusline_vars()
+augroup end
+
 fun! Myvimrc_statusline_tagbar() abort
-  let str = ''
-  if exists('*tagbar#currenttag()')
-    let str .= tagbar#currenttag('[%s]','')
+  if exists('w:mymisc_status_tagbar')
+    return w:mymisc_status_tagbar
+  else
+    return ''
   endif
-  return str
 endf
 
 fun! Myvimrc_statusline_fugitive() abort
-  let str = ''
-  if exists('*fugitive#head()') 
-    if fugitive#head() !=# ''
-      let str .= ' ' . fugitive#head() . ' '
-    endif
+  if exists('w:mymisc_status_fugitive')
+    return w:mymisc_status_fugitive
+  else
+    return ''
   endif
-  return str
 endf
 
 fun! Myvimrc_statusline_gina() abort
-  let str = ''
-  try
-    if gina#component#repo#preset() !=# ''
-      let str .= gina#component#repo#branch()
-      let str .= ' > '
-      let str .= gina#component#repo#track()
-      let str .= ' '
-    endif
-  catch 
-  endtry
-  return str
+  if exists('w:mymisc_status_gina')
+    return w:mymisc_status_gina
+  else
+    return ''
+  endif
 endf
 
 fun! Myvimrc_statusline_gitgutter() abort
-  let str = ''
-  if exists('*GitGutterGetHunkSummary()')
-    let gutter_lst = GitGutterGetHunkSummary()
-    let str .= '+' . gutter_lst[0] 
-    let str .= '~' . gutter_lst[1] 
-    let str .= '-' . gutter_lst[2]
+  if exists('w:mymisc_status_gitgutter')
+    return w:mymisc_status_gitgutter
+  else
+    return ''
   endif
-  return str
 endf
 " }}}
 
@@ -421,7 +415,7 @@ augroup VIMRC
 
   " Vim
   let g:vimsyn_folding = 'aflmpPrt'
-  autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2
+  autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2 tabstop=2
   autocmd BufEnter *.vim execute 'setl iskeyword+=:'
   autocmd BufRead *.vim setl foldmethod=syntax
 
