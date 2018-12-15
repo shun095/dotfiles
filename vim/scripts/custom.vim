@@ -1066,12 +1066,23 @@ if mymisc#plug_tap('vim-go')
 endif
 
 if mymisc#plug_tap('gina.vim')
-  nnoremap <Leader>gs :Gina status --opener=split<CR>
-  nnoremap <Leader>gc :Gina commit<CR>
-  nnoremap <Leader>gp :Gina push<CR>
-  nnoremap <Leader>gl :Gina pull<CR>
-  nnoremap <Leader>gf :Gina fetch --all -t<CR>
-  nnoremap <Leader>gm :Gina merge<CR>
+  nnoremap <Leader>gs :<C-u>Gina status<CR>
+  nnoremap <Leader>gc :<C-u>Gina commit<CR>
+  nnoremap <Leader>gp :<C-u>Gina push<CR>
+  nnoremap <Leader>gl :<C-u>Gina pull<CR>
+  nnoremap <Leader>gf :<C-u>Gina fetch --all -t<CR>
+  nnoremap <Leader>gm :<C-u>Gina merge<CR>
+
+	call gina#custom#mapping#nmap(
+	      \ 'status', '<C-^>',
+	      \ ':<C-u>Gina commit ',
+	      \ {'noremap': 1, 'silent': 0},
+	      \)
+	call gina#custom#mapping#nmap(
+	      \ 'status', 'q',
+	      \ ':<C-u>bd<CR>',
+	      \ {'noremap': 1, 'silent': 1},
+	      \)
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
