@@ -130,13 +130,13 @@ highlight link User5 Comment
 set statusline=%m%r%h%w%q
 set statusline+=\ %f\ %<%=
 set statusline+=%{Myvimrc_statusline_tagbar()}
-set statusline+=\ %2*
+set statusline+=%2*
 set statusline+=\ %{Myvimrc_statusline_gina()}
 set statusline+=%4*
-set statusline+=\%{Myvimrc_statusline_gitgutter()}
+set statusline+=%{Myvimrc_statusline_gitgutter()}
 set statusline+=%3*
-set statusline+=\ %y
-set statusline+=%1*\ %{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}
+set statusline+=%{Myvimrc_statusline_ft()}
+set statusline+=%1*\%{has('multi_byte')&&\&fileencoding!=''?&fileencoding:&encoding}
 set statusline+=\(%{&fileformat})
 set statusline+=\ %5*%3p%%\ %4l:%-3v\ %*
 
@@ -144,6 +144,14 @@ augroup vimrc_status_vars
   autocmd!
   autocmd CursorHold,CursorHoldI * call mymisc#set_statusline_vars()
 augroup END
+
+fun! Myvimrc_statusline_ft()
+  if &ft !=# ''
+    let str = '[' . &ft . '] '
+    return str
+  endif
+  return ''
+endf
 
 fun! Myvimrc_statusline_tagbar() abort
   if exists('w:mymisc_status_tagbar')

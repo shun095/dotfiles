@@ -292,7 +292,7 @@ endfun
 fun! mymisc#set_statusline_vars() abort
   let w:mymisc_status_tagbar = ''
   if exists('*tagbar#currenttag()')
-    let w:mymisc_status_tagbar .= tagbar#currenttag('[%s]','')
+    let w:mymisc_status_tagbar .= tagbar#currenttag('[%s] ','')
   endif
 
   let w:mymisc_status_fugitive = ''
@@ -305,12 +305,12 @@ fun! mymisc#set_statusline_vars() abort
   let w:mymisc_status_gina = ''
   try
     if gina#component#repo#preset() !=# ''
-      let w:mymisc_status_gina .= gina#component#repo#branch()
       let track_repo = gina#component#repo#track()
       if track_repo !=# ''
-        let w:mymisc_status_gina .= ' > '
         let w:mymisc_status_gina .= track_repo
+        let w:mymisc_status_gina .= ' < '
       endif
+      let w:mymisc_status_gina .= gina#component#repo#branch()
       let w:mymisc_status_gina .= ' '
     endif
   catch 
@@ -319,8 +319,9 @@ fun! mymisc#set_statusline_vars() abort
   let w:mymisc_status_gitgutter = ''
   if exists('*GitGutterGetHunkSummary()')
     let gutter_lst = GitGutterGetHunkSummary()
-    let w:mymisc_status_gitgutter .= '+' . gutter_lst[0] 
-    let w:mymisc_status_gitgutter .= '~' . gutter_lst[1] 
+    let w:mymisc_status_gitgutter .= '+' . gutter_lst[0]
+    let w:mymisc_status_gitgutter .= '~' . gutter_lst[1]
     let w:mymisc_status_gitgutter .= '-' . gutter_lst[2]
+    let w:mymisc_status_gitgutter .= ' '
   endif
 endf
