@@ -619,7 +619,6 @@ if mymisc#plug_tap('ctrlp.vim')
 endif
 
 if mymisc#plug_tap('fzf.vim')
-
   nnoremap <Leader><Leader> :execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
   " nnoremap <Leader>T        :Tags<CR>
   " nnoremap <Leader>al       :Lines<CR>
@@ -632,22 +631,6 @@ if mymisc#plug_tap('fzf.vim')
   " r
   " nnoremap <Leader>u        :History<CR>
   " nnoremap <Leader>`        :Marks<CR>
-
-  let g:fzf_colors = {
-        \ 'fg':      ['fg', 'Normal'],
-        \ 'bg':      ['bg', 'Normal'],
-        \ 'hl':      ['fg', 'Comment'],
-        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-        \ 'hl+':     ['fg', 'Statement'],
-        \ 'info':    ['fg', 'PreProc'],
-        \ 'border':  ['fg', 'Ignore'],
-        \ 'prompt':  ['fg', 'Conditional'],
-        \ 'pointer': ['fg', 'Exception'],
-        \ 'marker':  ['fg', 'Keyword'],
-        \ 'spinner': ['fg', 'Label'],
-        \ 'header':  ['fg', 'Comment'] 
-        \ }
 endif
 
 if mymisc#plug_tap('vim-peekaboo')

@@ -352,9 +352,9 @@ function! s:follow_symlink()
 endfunction
 
 if has('nvim')
-  nnoremap <Leader>te :execute "split term://" . &shell<CR>
+  nnoremap <Leader>te :execute "bel split term://" . &shell<CR>
 else
-  nnoremap <Leader>te :terminal ++noclose<CR>
+  nnoremap <Leader>te :bel terminal<CR>
 endif
 
 if !has('nvim')
