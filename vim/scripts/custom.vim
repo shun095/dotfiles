@@ -184,6 +184,7 @@ if mymisc#plug_tap('ctrlp.vim')
   nnoremap <Leader>o        :CtrlPBufTag<CR>
   nnoremap <Leader>r        :CtrlPRegister<CR>
   nnoremap <Leader>u        :CtrlPMRUFiles<CR>
+  nnoremap <Leader>`        :CtrlPMark<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 

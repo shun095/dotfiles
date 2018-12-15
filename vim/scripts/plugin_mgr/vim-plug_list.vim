@@ -128,6 +128,7 @@ Plug 'octol/vim-cpp-enhanced-highlight', {'for':['c', 'cpp']}
 " General purpose viewers/indicators
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-register'
+Plug 'mattn/ctrlp-mark'
 Plug 'FelikZ/ctrlp-py-matcher'
 if has('win32')
   Plug 'ishitaku5522/cpsm'
