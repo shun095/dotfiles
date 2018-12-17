@@ -969,15 +969,16 @@ if mymisc#plug_tap('vim-lsp')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
           \ 'name': 'buffer',
           \ 'whitelist': ['*'],
-          \ 'blacklist': ['go'],
+          \ 'blacklist': ['python','cpp','c','go'],
           \ 'priority': 0,
           \ 'completor': function('asyncomplete#sources#buffer#completor'),
           \ }))
 
     imap <c-space> <Plug>(asyncomplete_force_refresh)
+    let g:asyncomplete_smart_completion = 0
     let g:asyncomplete_auto_popup = 1
-    let g:asyncomplete_smart_completion = 1
     let g:asyncomplete_remove_duplicates = 0
+    let g:asyncomplete_force_refresh_on_context_changed = 1
     " set completeopt+=preview
     " autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
   augroup END
