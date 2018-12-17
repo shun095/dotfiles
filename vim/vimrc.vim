@@ -48,6 +48,10 @@ if $TERM !=# 'linux' && $TERM !=# ''
   let &t_EI = '[2 q'
 endif
 
+if $TERM ==# 'screen-256color'
+  let $TERM = 'xterm-256color'
+endif
+
 if !has('nvim')
   set ttymouse=xterm2
 endif
