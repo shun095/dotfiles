@@ -637,7 +637,7 @@ if mymisc#plug_tap('fzf.vim')
 endif
 
 if mymisc#plug_tap('vim-peekaboo')
-  " let g:peekaboo_window = 'vert abo 40new'
+  let g:peekaboo_window = 'vert abo 40new'
 endif
 
 if mymisc#plug_tap('denite.nvim')
@@ -926,18 +926,10 @@ if mymisc#plug_tap('vim-lsp')
       autocmd FileType cpp,c,h,hpp nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
     endif
 
-    if executable('vls')
+    if executable('vls') || executable($APPDATA.'/npm/vls.cmd')
       au User lsp_setup call lsp#register_server({
             \ 'name': 'vls',
-            \ 'cmd': {server_info->['vls']},
-            \ 'whitelist': ['vue'],
-            \ 'priority': 100
-            \ })
-      autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
-    elseif executable($APPDATA.'/npm/vls.cmd')
-      au User lsp_setup call lsp#register_server({
-            \ 'name': 'vls',
-            \ 'cmd': {server_info->[$APPDATA.'/npm/vls.cmd']},
+            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'vls']},
             \ 'whitelist': ['vue'],
             \ 'priority': 100
             \ })
@@ -969,18 +961,17 @@ if mymisc#plug_tap('vim-lsp')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
           \ 'name': 'buffer',
           \ 'whitelist': ['*'],
-          \ 'blacklist': ['python','cpp','c','go'],
           \ 'priority': 0,
           \ 'completor': function('asyncomplete#sources#buffer#completor'),
           \ }))
 
     imap <c-space> <Plug>(asyncomplete_force_refresh)
-    let g:asyncomplete_smart_completion = 0
+    let g:asyncomplete_smart_completion = 1
     let g:asyncomplete_auto_popup = 1
     let g:asyncomplete_remove_duplicates = 0
-    let g:asyncomplete_force_refresh_on_context_changed = 1
-    " set completeopt+=preview
-    " autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
+    let g:asyncomplete_force_refresh_on_context_changed = 0
+    set completeopt+=preview
+    autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
   augroup END
 endif
 
