@@ -901,6 +901,59 @@ if mymisc#plug_tap('LanguageClient-neovim')
 
 endif
 
+if mymisc#plug_tap('vim-lsp')
+  augroup vimrc_asyncomplete
+    autocmd!
+    if executable('pyls')
+      " pip install python-language-server
+      au User lsp_setup call lsp#register_server({
+            \ 'name': 'pyls',
+            \ 'cmd': {server_info->['pyls']},
+            \ 'whitelist': ['python'],
+            \ 'priority': 100
+            \ })
+    endif
+
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+          \ 'name': 'necovim',
+          \ 'whitelist': ['vim'],
+          \ 'completor': function('asyncomplete#sources#necovim#completor'),
+          \ }))
+
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+          \ 'name': 'file',
+          \ 'whitelist': ['*'],
+          \ 'priority': 50,
+          \ 'completor': function('asyncomplete#sources#file#completor')
+          \ }))
+
+    if has('python3')
+      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+            \ 'name': 'ultisnips',
+            \ 'whitelist': ['*'],
+            \ 'priority': 50,
+            \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+            \ }))
+    endif
+
+
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+          \ 'name': 'buffer',
+          \ 'whitelist': ['*'],
+          \ 'blacklist': ['go'],
+          \ 'priority': 0,
+          \ 'completor': function('asyncomplete#sources#buffer#completor'),
+          \ }))
+
+    set completeopt+=preview
+    imap <c-space> <Plug>(asyncomplete_force_refresh)
+    let g:asyncomplete_smart_completion = 1
+    let g:asyncomplete_auto_popup = 1
+    let g:asyncomplete_remove_duplicates = 0
+    autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+  augroup END
+endif
+
 if mymisc#plug_tap('clang_complete')
   " let g:clang_library_path='/usr/lib/llvm-3.8/lib'
   let g:clang_complete_auto=0
