@@ -908,11 +908,42 @@ if mymisc#plug_tap('vim-lsp')
       " pip install python-language-server
       au User lsp_setup call lsp#register_server({
             \ 'name': 'pyls',
-            \ 'cmd': {server_info->['pyls']},
+            \ 'cmd': {server_info->['python', '-m', 'pyls']},
             \ 'whitelist': ['python'],
             \ 'priority': 100
             \ })
+      autocmd FileType python nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
     endif
+
+    if executable($HOME.'/.vim/clangd')
+      " pip install python-language-server
+      au User lsp_setup call lsp#register_server({
+            \ 'name': 'clangd',
+            \ 'cmd': {server_info->[$HOME.'/.vim/clangd']},
+            \ 'whitelist': ['cpp','c','hpp','h'],
+            \ 'priority': 100
+            \ })
+      autocmd FileType cpp,c,h,hpp nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+    endif
+
+    if executable('vls')
+      au User lsp_setup call lsp#register_server({
+            \ 'name': 'vls',
+            \ 'cmd': {server_info->['vls']},
+            \ 'whitelist': ['vue'],
+            \ 'priority': 100
+            \ })
+      autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+    elseif executable($APPDATA.'/npm/vls.cmd')
+      au User lsp_setup call lsp#register_server({
+            \ 'name': 'vls',
+            \ 'cmd': {server_info->[$APPDATA.'/npm/vls.cmd']},
+            \ 'whitelist': ['vue'],
+            \ 'priority': 100
+            \ })
+      autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+    endif
+
 
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
           \ 'name': 'necovim',
@@ -936,7 +967,6 @@ if mymisc#plug_tap('vim-lsp')
             \ }))
     endif
 
-
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
           \ 'name': 'buffer',
           \ 'whitelist': ['*'],
@@ -947,10 +977,10 @@ if mymisc#plug_tap('vim-lsp')
 
     set completeopt+=preview
     imap <c-space> <Plug>(asyncomplete_force_refresh)
-    let g:asyncomplete_smart_completion = 1
+    let g:asyncomplete_smart_completion = 0
     let g:asyncomplete_auto_popup = 1
     let g:asyncomplete_remove_duplicates = 0
-    autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+    " autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
   augroup END
 endif
 

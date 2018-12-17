@@ -11,9 +11,9 @@ augroup vimrc_custom_global
     autocmd VimEnter * call lexima#init()
   endif
   autocmd VimEnter * imap <expr><CR> <SID>my_cr_main()
+  autocmd VimEnter * imap <expr><TAB> <SID>my_tab_main()
 augroup END
 
-imap <expr><TAB> <SID>my_tab_main()
 
 fun! s:toggle_preview_window()
   if mymisc#preview_window_is_opened()
@@ -23,6 +23,8 @@ fun! s:toggle_preview_window()
       YcmCompleter GetDoc
     elseif mymisc#plug_tap('LanguageClient-neovim')
       call LanguageClient#textDocument_hover()
+    elseif mymisc#plug_tap('vim-lsp')
+      LspHover
     else
       normal! K
     endif
