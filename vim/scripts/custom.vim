@@ -944,7 +944,6 @@ if mymisc#plug_tap('vim-lsp')
       autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
     endif
 
-
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
           \ 'name': 'necovim',
           \ 'whitelist': ['vim'],
@@ -975,11 +974,11 @@ if mymisc#plug_tap('vim-lsp')
           \ 'completor': function('asyncomplete#sources#buffer#completor'),
           \ }))
 
-    set completeopt+=preview
     imap <c-space> <Plug>(asyncomplete_force_refresh)
-    let g:asyncomplete_smart_completion = 0
     let g:asyncomplete_auto_popup = 1
+    let g:asyncomplete_smart_completion = 1
     let g:asyncomplete_remove_duplicates = 0
+    " set completeopt+=preview
     " autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
   augroup END
 endif
