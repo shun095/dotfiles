@@ -214,16 +214,23 @@ else
   let g:mymisc_fcitx_is_available = g:false
 endif
 
-" agがあればgrepの代わりにagを使う
-if g:mymisc_rg_is_available
-  set grepprg=rg\ --vimgrep\ --follow
-elseif g:mymisc_pt_is_available
-  set grepprg=pt\ --nogroup\ --nocolor\ --column\ --follow
-elseif g:mymisc_ag_is_available
-  set grepprg=ag\ --nogroup\ --nocolor\ --column\ --follow
+
+if has('win32') && executable('git')
+  " Use Git-bash's grep
+  let s:grep_exe_path = substitute(fnamemodify(exepath('git'),':h:h:p').'/usr/bin/grep.exe', '\', '/', 'g')
+  exe 'set grepprg='.s:grep_exe_path.'\ -rnIH\ --exclude-dir=''.*''\ $*'
 elseif has('unix')
   set grepprg=grep\ -rnIH\ --exclude-dir='.*'\ $*
 endif
+
+" " agがあればgrepの代わりにagを使う
+" if g:mymisc_rg_is_available
+"   set grepprg=rg\ --vimgrep\ --follow\ $*\ .
+" elseif g:mymisc_pt_is_available
+"   set grepprg=pt\ --nogroup\ --nocolor\ --column\ --follow\ $*\ .
+" elseif g:mymisc_ag_is_available
+"   set grepprg=ag\ --nogroup\ --nocolor\ --column\ --follow\ $*\ .
+" endif
 
 " set undofileでアンドゥデータをファイルを閉じても残しておく
 " 該当フォルダがなければ作成
