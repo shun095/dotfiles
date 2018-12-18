@@ -302,8 +302,8 @@ deploy_ohmyzsh_files() {
         fi
     done
 
-    if [[ ! -e ${OHMYZSHDIR}/custom/themes/lambda-mod-mod.zsh-theme ]]; then
-        ln -s $MYDOTFILES/zsh/lambda-mod-mod.zsh-theme ${OHMYZSHDIR}/custom/themes/
+    if [[ ! -e ${OHMYZSHDIR}/custom/themes/ishitaku.zsh-theme ]]; then
+        ln -s $MYDOTFILES/zsh/ishitaku.zsh-theme ${OHMYZSHDIR}/custom/themes/
     fi
 
     # append line if zshrc doesn't has below line

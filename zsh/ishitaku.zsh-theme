@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-local LAMBDA="%(?,%{$fg_bold[blue]%}▶,%{$fg_bold[red]%}[%?]
+local MARK="%(?,%{$fg_bold[blue]%}▶,%{$fg_bold[red]%}[%?]
 ▶)"
 if [[ "$USER" == "root" ]]; then USERCOLOR="red"; else USERCOLOR="green"; fi
 
@@ -10,39 +10,35 @@ if [[ "$USER" == "root" ]]; then USERCOLOR="red"; else USERCOLOR="green"; fi
 function check_git_prompt_info() {
     if git rev-parse --git-dir > /dev/null 2>&1; then
         if [[ -z $(git_prompt_info) ]]; then
-            echo "%{$fg[blue]%}detached-head%{$reset_color%}) $(git_prompt_status)
-%{$fg[yellow]%}$ "
+            echo "%{$fg[blue]%}detached-head%{$reset_color%}) $(git_prompt_status)"
         else
-            echo "$(git_prompt_info) $(git_prompt_status)
-%{$fg_bold[cyan]%}$ "
+            echo "$(git_prompt_info) $(git_prompt_status)"
         fi
     else
-        echo "
-%{$fg_bold[cyan]%}$ "
+        echo ""
     fi
 }
 
 function get_right_prompt() {
     # if git rev-parse --git-dir > /dev/null 2>&1; then
-        # echo -n "$(git_prompt_short_sha)%{$reset_color%}"
+    #     echo -n "$(git_prompt_short_sha)%{$reset_color%}"
     # else
-        echo -n "%{$reset_color%}"
+    #     echo -n "%{$reset_color%}"
     # fi
+    echo -n "%{$reset_color%} %D{%Y-%m-%d %H:%M:%S}"
 }
 
-# PROMPT=$'\n'$LAMBDA'\
-#  %{$fg_bold[$USERCOLOR]%}%n\
-# %{$reset_color%}@\
-# %{$fg_no_bold[magenta]%}%m\
-#  %{$fg_no_bold[green]%}[%4~]\
-#  $(check_git_prompt_info)\
-# %{$reset_color%}'
+setopt prompt_subst
+TMOUT=1
+TRAPALRM() {zle reset-prompt}
 
-PROMPT=$'\n'$LAMBDA'\
+PROMPT=$'\n'$MARK'\
  %{$fg_bold[$USERCOLOR]%}%n\
 %{$reset_color%}@\
 %{$fg_no_bold[magenta]%}%m\
- %{$fg_no_bold[green]%}[%4~]
+ %{$fg_no_bold[green]%}[%4~]\
+ $(check_git_prompt_info)
+%{$reset_color%}(pyenv $(pyenv_prompt_info)) \
 %{$fg_bold[cyan]%}$ \
 %{$reset_color%}'
 
@@ -52,7 +48,7 @@ RPROMPT='$(get_right_prompt)'
 ZSH_THEME_GIT_PROMPT_PREFIX="at %{$fg[blue]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY=""
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%} ✔"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%} CLEAN"
 
 # Format for git_prompt_status()
 ZSH_THEME_GIT_PROMPT_ADDED="%{$fg_bold[green]%}+"
