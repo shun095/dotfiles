@@ -28,7 +28,7 @@ fi
 source $MYDOTFILES/zsh/ohmyzshrc.zsh
 source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
-export FZF_DEFAULT_OPTS='--color=16'
+export FZF_DEFAULT_OPTS='--color hl:1,fg+:7,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5'
 
 export HISTFILE=~/.zsh_history
 export HISTSIZE=999999
