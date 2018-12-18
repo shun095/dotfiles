@@ -901,69 +901,81 @@ if mymisc#plug_tap('LanguageClient-neovim')
 
 endif
 
-if mymisc#plug_tap('vim-lsp')
+if mymisc#plug_tap('asyncomplete.vim')
   augroup vimrc_asyncomplete
     autocmd!
-    if executable('pyls')
-      " pip install python-language-server
-      au User lsp_setup call lsp#register_server({
-            \ 'name': 'pyls',
-            \ 'cmd': {server_info->['python', '-m', 'pyls']},
-            \ 'whitelist': ['python'],
-            \ 'priority': 100
-            \ })
-      autocmd FileType python nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+    if mymisc#plug_tap('vim-lsp')
+      if executable('pyls')
+        " pip install python-language-server
+        au User lsp_setup call lsp#register_server({
+              \ 'name': 'pyls',
+              \ 'cmd': {server_info->['python', '-m', 'pyls']},
+              \ 'whitelist': ['python'],
+              \ 'priority': 100
+              \ })
+        autocmd FileType python nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      endif
+
+      if executable($HOME.'/.vim/clangd')
+        " pip install python-language-server
+        au User lsp_setup call lsp#register_server({
+              \ 'name': 'clangd',
+              \ 'cmd': {server_info->[$HOME.'/.vim/clangd']},
+              \ 'whitelist': ['cpp','c','hpp','h'],
+              \ 'priority': 100
+              \ })
+        autocmd FileType cpp,c,h,hpp nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      endif
+
+      if executable('vls') || executable($APPDATA.'/npm/vls.cmd')
+        au User lsp_setup call lsp#register_server({
+              \ 'name': 'vls',
+              \ 'cmd': {server_info->[&shell, &shellcmdflag, 'vls']},
+              \ 'whitelist': ['vue'],
+              \ 'priority': 100
+              \ })
+        autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      endif
     endif
 
-    if executable($HOME.'/.vim/clangd')
-      " pip install python-language-server
-      au User lsp_setup call lsp#register_server({
-            \ 'name': 'clangd',
-            \ 'cmd': {server_info->[$HOME.'/.vim/clangd']},
-            \ 'whitelist': ['cpp','c','hpp','h'],
-            \ 'priority': 100
-            \ })
-      autocmd FileType cpp,c,h,hpp nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
-    endif
-
-    if executable('vls') || executable($APPDATA.'/npm/vls.cmd')
-      au User lsp_setup call lsp#register_server({
-            \ 'name': 'vls',
-            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'vls']},
-            \ 'whitelist': ['vue'],
-            \ 'priority': 100
-            \ })
-      autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
-    endif
-
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-          \ 'name': 'necovim',
-          \ 'whitelist': ['vim'],
-          \ 'completor': function('asyncomplete#sources#necovim#completor'),
-          \ }))
-
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-          \ 'name': 'file',
-          \ 'whitelist': ['*'],
-          \ 'priority': 50,
-          \ 'completor': function('asyncomplete#sources#file#completor')
-          \ }))
-
-    if has('python3')
-      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-            \ 'name': 'ultisnips',
-            \ 'whitelist': ['*'],
-            \ 'priority': 50,
-            \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+    if mymisc#plug_tap('asyncomplete-necovim.vim')
+      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+            \ 'name': 'necovim',
+            \ 'whitelist': ['vim'],
+            \ 'priority': 100,
+            \ 'completor': function('asyncomplete#sources#necovim#completor'),
             \ }))
     endif
 
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-          \ 'name': 'buffer',
-          \ 'whitelist': ['*'],
-          \ 'priority': 0,
-          \ 'completor': function('asyncomplete#sources#buffer#completor'),
-          \ }))
+    if mymisc#plug_tap('asyncomplete-file.vim')
+      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+            \ 'name': 'file',
+            \ 'whitelist': ['*'],
+            \ 'priority': 50,
+            \ 'completor': function('asyncomplete#sources#file#completor')
+            \ }))
+    endif
+
+    if mymisc#plug_tap('asyncomplete-ultisnips.vim')
+      if has('python3')
+        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+              \ 'name': 'ultisnips',
+              \ 'whitelist': ['*'],
+              \ 'priority': 50,
+              \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+              \ }))
+      endif
+    endif
+
+    if mymisc#plug_tap('asyncomplete-buffer.vim')
+      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+            \ 'name': 'buffer',
+            \ 'whitelist': ['*'],
+            \ 'blacklist': ['vim'],
+            \ 'priority': 0,
+            \ 'completor': function('asyncomplete#sources#buffer#completor'),
+            \ }))
+    endif
 
     imap <c-space> <Plug>(asyncomplete_force_refresh)
     let g:asyncomplete_smart_completion = 1

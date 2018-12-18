@@ -406,7 +406,7 @@ endif
 " AUTOCMDS {{{
 augroup VIMRC
   " Markdown
-  let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'cpp', 'c']
+  let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'cpp', 'c', 'vim']
 
   " HTML,XML,CSS,JavaScript
   autocmd Filetype html,xml,vue setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
