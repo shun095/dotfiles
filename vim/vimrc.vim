@@ -367,9 +367,9 @@ try
   endfunction
 
   if has('nvim')
-    nnoremap <Leader>te :execute "bel 15split term://" . &shell<CR>
+    nnoremap <Leader>te :execute "bel 20split term://" . &shell<CR>
   else
-    nnoremap <Leader>te :bel terminal ++rows=15<CR>
+    nnoremap <Leader>te :bel terminal ++rows=20<CR>
   endif
 
   if !has('nvim')
