@@ -978,7 +978,9 @@ if mymisc#plug_tap('asyncomplete.vim')
     endif
 
     imap <c-space> <Plug>(asyncomplete_force_refresh)
-    let g:asyncomplete_smart_completion = 1
+    if has('lua')
+      let g:asyncomplete_smart_completion = 1
+    endif
     let g:asyncomplete_auto_popup = 1
     let g:asyncomplete_remove_duplicates = 0
     let g:asyncomplete_force_refresh_on_context_changed = 0

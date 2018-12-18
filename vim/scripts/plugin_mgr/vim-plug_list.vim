@@ -2,7 +2,18 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-py3 pass
+if has('python3')
+  let s:has_python3 = g:true
+  py3 pass
+else
+  let s:has_python3 = g:false
+endif
+
+if has('python')
+  let s:has_python = g:true
+else
+  let s:has_python = g:false
+endif
 
 " Color schemes
 Plug 'rakr/vim-one'
@@ -26,12 +37,14 @@ let g:terminal_ansi_colors = [
 "
 " Shougo wares
 let s:use_shougo_ware = 0
-if executable('python')
-  let s:use_shougo_ware = system("python --version") =~# 'Python\ 3\.[6-9]'
-endif
+if s:has_python3
+  if executable('python')
+    let s:use_shougo_ware = system("python --version") =~# 'Python\ 3\.[6-9]'
+  endif
 
-if !s:use_shougo_ware && executable('python3')
-  let s:use_shougo_ware = system("python3 --version") =~# 'Python\ 3\.[6-9]'
+  if !s:use_shougo_ware && executable('python3')
+    let s:use_shougo_ware = system("python3 --version") =~# 'Python\ 3\.[6-9]'
+  endif
 endif
 
 " if s:use_shougo_ware
@@ -109,7 +122,9 @@ Plug 'artur-shaik/vim-javacomplete2', {'for':'java'}
 " Snippets, templates
 " Plug 'Shougo/neosnippet.vim'
 " Plug 'Shougo/neosnippet-snippets'
-Plug 'SirVer/ultisnips'
+if s:has_python3 || s:has_python
+  Plug 'SirVer/ultisnips'
+endif
 Plug 'honza/vim-snippets'
 Plug 'aperezdc/vim-template'
 

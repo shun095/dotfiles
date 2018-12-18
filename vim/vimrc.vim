@@ -471,11 +471,11 @@ augroup END
 
 " BUILT-IN PLUGINS {{{
 if !has('nvim')
-  packadd editexisting
-  packadd matchit
+  packadd! editexisting
+  packadd! matchit
 endif
 
-packadd termdebug
+packadd! termdebug
 " }}} BUILT-IN PLUGINS END
 
 " DOT DIRECTORY PLUGINS {{{
