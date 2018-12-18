@@ -439,7 +439,6 @@ augroup VIMRC
   " Vim
   let g:vimsyn_folding = 'aflmpPrt'
   autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2 tabstop=2
-  autocmd BufEnter *.vim execute 'setl iskeyword+=:'
   autocmd BufRead *.vim setl foldmethod=syntax
 
   " QuickFix
