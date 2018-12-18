@@ -222,7 +222,7 @@ elseif g:mymisc_pt_is_available
 elseif g:mymisc_ag_is_available
   set grepprg=ag\ --nogroup\ --nocolor\ --column\ --follow
 elseif has('unix')
-  set grepprg=grep\ -rinIH\ --exclude-dir='.*'\ $*
+  set grepprg=grep\ -rnIH\ --exclude-dir='.*'\ $*
 endif
 
 " set undofileでアンドゥデータをファイルを閉じても残しておく
