@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
-local MARK="%(?,%{$fg_bold[blue]%}▶,%{$fg_bold[red]%}[%?]
-▶)"
+local MARK="%(?,%{$fg_bold[blue]%}>,%{$fg_bold[red]%}[%?]
+>)"
 if [[ "$USER" == "root" ]]; then USERCOLOR="red"; else USERCOLOR="green"; fi
 
 # Git sometimes goes into a detached head state. git_prompt_info doesn't
@@ -10,9 +10,15 @@ if [[ "$USER" == "root" ]]; then USERCOLOR="red"; else USERCOLOR="green"; fi
 function check_git_prompt_info() {
     if git rev-parse --git-dir > /dev/null 2>&1; then
         if [[ -z $(git_prompt_info) ]]; then
-            echo "%{$fg[blue]%}detached-head%{$reset_color%}) $(git_prompt_status)"
+            echo -n "%{$fg[blue]%}detached-head%{$reset_color%})"
         else
-            echo "$(git_prompt_info) $(git_prompt_status)"
+            echo -n "$(git_prompt_info)"
+        fi
+        echo -n " $(git_prompt_status)"
+        if git rev-parse --git-dir > /dev/null 2>&1; then
+            echo -n "$(git_prompt_short_sha)%{$reset_color%}"
+        else
+            echo -n "%{$reset_color%}"
         fi
     else
         echo ""
@@ -20,11 +26,6 @@ function check_git_prompt_info() {
 }
 
 function get_right_prompt() {
-    # if git rev-parse --git-dir > /dev/null 2>&1; then
-    #     echo -n "$(git_prompt_short_sha)%{$reset_color%}"
-    # else
-    #     echo -n "%{$reset_color%}"
-    # fi
     echo -n "%{$reset_color%} %D{%Y-%m-%d %H:%M:%S}"
 }
 
