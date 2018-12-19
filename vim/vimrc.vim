@@ -529,7 +529,7 @@ try
     " Colorschemes
     try
       set background=dark
-      if &t_Co == 256
+      if has('gui_running') || &t_Co >= 256
         colorscheme one
       else
         colorscheme default
