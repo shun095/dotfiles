@@ -905,6 +905,9 @@ if mymisc#plug_tap('asyncomplete.vim')
   augroup vimrc_asyncomplete
     autocmd!
     if mymisc#plug_tap('vim-lsp')
+      " let g:lsp_log_verbose = 1
+      " let g:lsp_log_file = $HOME."/.vim/lsp.log"
+
       if executable('pyls')
         " pip install python-language-server
         au User lsp_setup call lsp#register_server({
@@ -935,6 +938,16 @@ if mymisc#plug_tap('asyncomplete.vim')
               \ 'priority': 100
               \ })
         autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      endif
+
+      if executable('typescript-language-server') || executable($APPDATA.'/npm/typescript-language-server')
+        au User lsp_setup call lsp#register_server({
+              \ 'name': 'tsserver',
+              \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+              \ 'whitelist': ['javascript','typescript'],
+              \ 'priority': 100
+              \ })
+        autocmd FileType javascript,typescript nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
       endif
     endif
 
