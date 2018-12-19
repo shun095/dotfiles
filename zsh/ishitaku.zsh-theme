@@ -8,6 +8,7 @@ if [[ "$USER" == "root" ]]; then USERCOLOR="red"; else USERCOLOR="green"; fi
 # for an empty string.
 function check_git_prompt_info() {
     if git rev-parse --git-dir > /dev/null 2>&1; then
+        echo -n " "
         if [[ -z $(git_prompt_info) ]]; then
             echo -n "%{$fg_bold[blue]%}detached-head%{$reset_color%})"
         else
@@ -29,13 +30,14 @@ setopt prompt_subst
 TMOUT=1
 TRAPALRM() {zle reset-prompt}
 
-PROMPT=$MARK'\
+PROMPT='
+'$MARK'\
  %{$fg_bold[$USERCOLOR]%}%n\
 %{$reset_color%}@\
 %{$fg_bold[magenta]%}%m\
  %{$fg_no_bold[yellow]%}%5~\
- $(check_git_prompt_info)
-  %{$reset_color%}(pyenv: $(pyenv_prompt_info))
+$(check_git_prompt_info)
+  %{$reset_color%}(pyenv $(pyenv_prompt_info))
 %{$fg_bold[cyan]%}$ %{$reset_color%}'
 
 RPROMPT='$(get_right_prompt)'
