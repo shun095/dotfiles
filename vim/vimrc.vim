@@ -37,19 +37,19 @@ try
     autocmd! 
   augroup END
 
-  if v:version >= 800
-    set termguicolors                                    " TrueColor on terminal
-    if $TMUX !=# ""
-      let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-      let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+  if match($TERM, '256color') > 0
+    if v:version >= 800
+      set termguicolors                                    " TrueColor on terminal
+      if $TMUX !=# ""
+        let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+        let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+      endif
     endif
-  else
-    set t_Co=256                                         " 256 colors on terminal
-  endif
 
-  if $TERM !=# 'linux' && $TERM !=# ''
     let &t_SI = '[5 q'
     let &t_EI = '[2 q'
+  else
+    set t_Co=16                                        " 256 colors on terminal
   endif
 
   if $TERM ==# 'screen-256color'
@@ -529,7 +529,11 @@ try
     " Colorschemes
     try
       set background=dark
-      colorscheme one
+      if &t_Co == 256
+        colorscheme one
+      else
+        colorscheme default
+      endif
     catch
       colorscheme default
     endtry
