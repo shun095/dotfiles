@@ -565,7 +565,8 @@ try
 
   endif
 
-  if getcwd() ==# $VIM
+  " Let default pwd to $HOME on Windows
+  if getcwd() ==# $VIMRUNTIME
     cd $HOME
   endif
 
