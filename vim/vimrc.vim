@@ -37,21 +37,28 @@ try
     autocmd! 
   augroup END
 
-  if match($TERM, '256color') > 0
-    if v:version >= 800
-      set termguicolors                                    " TrueColor on terminal
-      if $TMUX !=# ""
-        let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-        let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+  if !has('gui_running')
+    if match($TERM, '256color') > 0
+      if v:version >= 800
+        set termguicolors                                    " TrueColor on terminal
+        if $TMUX !=# ""
+          let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+          let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+        endif
+      endif
+
+      let &t_SI = '[5 q'
+      let &t_EI = '[2 q'
+    else
+      if has('win32')
+        set termguicolors
+      else
+        set t_Co=16                                        " 256 colors on terminal
       endif
     endif
-
-    let &t_SI = '[5 q'
-    let &t_EI = '[2 q'
-  else
-    set t_Co=16                                        " 256 colors on terminal
   endif
 
+  " Color term in :terminal
   if $TERM ==# 'screen-256color'
     let $TERM = 'xterm-256color'
   endif
