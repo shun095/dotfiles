@@ -99,6 +99,7 @@ else
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
   Plug 'prabirshrestha/asyncomplete-file.vim'
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
+  Plug 'yami-beta/asyncomplete-omni.vim'
   Plug 'Shougo/neco-vim'
   Plug 'prabirshrestha/asyncomplete-necovim.vim'
 
