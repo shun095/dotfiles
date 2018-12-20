@@ -26,10 +26,6 @@ function get_right_prompt() {
     echo -n "%{$reset_color%}]"
 }
 
-setopt prompt_subst
-TMOUT=1
-TRAPALRM() {zle reset-prompt}
-
 PROMPT='
 '$MARK'\
  %{$fg_bold[$USERCOLOR]%}%n\
