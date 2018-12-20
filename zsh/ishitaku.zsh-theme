@@ -26,6 +26,13 @@ function get_right_prompt() {
     echo -n "%{$reset_color%}]"
 }
 
+re-prompt() {
+    zle .reset-prompt
+    zle .accept-line
+}
+
+zle -N accept-line re-prompt
+
 PROMPT='
 '$MARK'\
  %{$fg_bold[$USERCOLOR]%}%n\
