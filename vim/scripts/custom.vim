@@ -724,15 +724,14 @@ if mymisc#plug_tap('delimitMate')
 endif
 
 if mymisc#plug_tap('ultisnips')
-  " better key bindings for UltiSnipsExpandTrigger
-  let g:UltiSnipsExpandTrigger = '<Tab>'
-  let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-  let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+  " To Manage mappgins by my self
+  let g:UltiSnipsExpandTrigger       = '<Plug>(RemapUltiSnipsExpandTrigger)'
+  let g:UltiSnipsListSnippets        = '<Plug>(RemapUltiSnipsListSnippets)'
+  let g:UltiSnipsJumpForwardTrigger  = '<Plug>(RemapUltiSnipsJumpForwardTrigger)'
+  let g:UltiSnipsJumpBackwardTrigger = '<Plug>(RemapUltiSnipsJumpBackwardTrigger)'
 
-  " let g:UltiSnipsRemoveSelectModeMappings = 0
-  let g:UltiSnipsExpandTrigger       = '<Plug>(MyUltiRemapX)'
-  let g:UltiSnipsJumpForwardTrigger  = '<Plug>(MyUltiRemapY)'
-  let g:UltiSnipsJumpBackwardTrigger = '<Plug>(MyUltiRemapZ)'
+  smap <Tab> <Plug>(RemapUltiSnipsJumpForwardTrigger)
+  smap <S-Tab> <Plug>(RemapUltiSnipsJumpBackwardTrigger)
 
   if has('unix')
     if has('python3')
