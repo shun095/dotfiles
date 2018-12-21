@@ -313,10 +313,17 @@ try
     noremap! <M-f> <S-Right>
     noremap! <M-b> <S-Left>
   else
-    noremap! n <Down>
-    noremap! p <Up>
-    noremap! f <S-Right>
-    noremap! b <S-Left>
+    if has('win32')
+      noremap! î  <Down>
+      noremap! ð <Up>
+      noremap! æ <S-Right>
+      noremap! â  <S-Left>
+    else
+      noremap! n <Down>
+      noremap! p <Up>
+      noremap! f <S-Right>
+      noremap! b <S-Left>
+    endif
   endif
 
   noremap! <C-f> <Right>
