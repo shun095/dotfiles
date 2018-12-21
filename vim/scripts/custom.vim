@@ -637,7 +637,7 @@ if mymisc#plug_tap('fzf.vim')
 endif
 
 if mymisc#plug_tap('vim-peekaboo')
-  let g:peekaboo_window = 'vert abo 40new'
+  " let g:peekaboo_window = 'vert abo 40new'
 endif
 
 if mymisc#plug_tap('denite.nvim')
