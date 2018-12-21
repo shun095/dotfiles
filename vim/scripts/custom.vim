@@ -912,7 +912,6 @@ if mymisc#plug_tap('asyncomplete.vim')
       " call delete(g:asyncomplete_log_file)
 
       if executable('pyls')
-        " pip install python-language-server
         au User lsp_setup call lsp#register_server({
               \ 'name': 'pyls',
               \ 'cmd': {server_info->['python', '-m', 'pyls']},
@@ -920,10 +919,10 @@ if mymisc#plug_tap('asyncomplete.vim')
               \ 'priority': 100
               \ })
         autocmd FileType python nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+        autocmd FileType python setl omnifunc=lsp#complete
       endif
 
       if executable($HOME.'/.vim/clangd')
-        " pip install python-language-server
         au User lsp_setup call lsp#register_server({
               \ 'name': 'clangd',
               \ 'cmd': {server_info->[$HOME.'/.vim/clangd']},
@@ -931,6 +930,7 @@ if mymisc#plug_tap('asyncomplete.vim')
               \ 'priority': 100
               \ })
         autocmd FileType cpp,c,h,hpp nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+        autocmd FileType cpp,c,h,hpp setl omnifunc=lsp#complete
       endif
 
       if executable('vls') || executable($APPDATA.'/npm/vls.cmd')
@@ -941,6 +941,7 @@ if mymisc#plug_tap('asyncomplete.vim')
               \ 'priority': 100
               \ })
         autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+        autocmd FileType vue setl omnifunc=lsp#complete
       endif
 
       if executable('typescript-language-server') || executable($APPDATA.'/npm/typescript-language-server')
@@ -951,6 +952,7 @@ if mymisc#plug_tap('asyncomplete.vim')
               \ 'priority': 100
               \ })
         autocmd FileType javascript,typescript nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+        autocmd FileType javascript,typescript setl omnifunc=lsp#complete
       endif
     endif
 
@@ -997,19 +999,21 @@ if mymisc#plug_tap('asyncomplete.vim')
       au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
             \ 'name': 'buffer',
             \ 'whitelist': ['*'],
-            \ 'blacklist': ['vim'],
             \ 'priority': 0,
             \ 'completor': function('asyncomplete#sources#buffer#completor'),
             \ }))
     endif
 
     imap <c-space> <Plug>(asyncomplete_force_refresh)
-    if has('lua')
-      let g:asyncomplete_smart_completion = 1
-    endif
+    " if has('lua')
+      " let g:asyncomplete_smart_completion = 1
+    " endif
+    let g:asyncomplete_smart_completion = 0
     let g:asyncomplete_auto_popup = 1
     let g:asyncomplete_remove_duplicates = 0
-    let g:asyncomplete_force_refresh_on_context_changed = 0
+    let g:asyncomplete_force_refresh_on_context_changed = 1
+    let g:asyncomplete_completion_delay = 200
+    
     set completeopt+=preview
     autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
   augroup END
