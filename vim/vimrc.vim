@@ -329,6 +329,12 @@ try
     endif
   endif
 
+  if has('nvim')
+    tnoremap <C-w> <C-\><C-n>G<C-w>
+    tnoremap <C-w>. <C-w>
+    tnoremap <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
+  endif
+
   noremap! <C-f> <Right>
   noremap! <C-b> <Left>
 
