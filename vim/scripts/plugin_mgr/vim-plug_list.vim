@@ -102,6 +102,9 @@ else
   Plug 'yami-beta/asyncomplete-omni.vim'
   Plug 'Shougo/neco-vim'
   Plug 'prabirshrestha/asyncomplete-necovim.vim'
+  Plug 'Shougo/neosnippet.vim'
+  Plug 'Shougo/neosnippet-snippets'
+  Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
   Plug 'scrooloose/nerdtree'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'

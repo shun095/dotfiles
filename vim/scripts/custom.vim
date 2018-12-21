@@ -984,6 +984,15 @@ if mymisc#plug_tap('asyncomplete.vim')
             \ }))
     endif
 
+    if mymisc#plug_tap('asyncomplete-neosnippet.vim')
+      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+            \ 'name': 'neosnippet',
+            \ 'whitelist': ['*'],
+            \ 'priority': 51,
+            \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+            \ }))
+    endif
+
     if mymisc#plug_tap('asyncomplete-ultisnips.vim')
       if has('python3')
         au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({

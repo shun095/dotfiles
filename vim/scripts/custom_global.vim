@@ -67,10 +67,8 @@ endfunction
 function! s:my_tab_main() abort
   if pumvisible()
     return "\<C-n>"
-  elseif mymisc#plug_tap('neosnippet.vim')
-    if neosnippet#expandable_or_jumpable()
-      return "\<Plug>(neosnippet_expand_or_jump)" 
-    endif
+  elseif mymisc#plug_tap('neosnippet.vim') && neosnippet#expandable_or_jumpable()
+    return "\<Plug>(neosnippet_expand_or_jump)" 
   else
     return "\<C-r>=(".s:SID()."my_try_ulti() > 0)?\"\":".s:SID()."my_tab_noulti()\<CR>"
   endif
@@ -104,4 +102,3 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
-
