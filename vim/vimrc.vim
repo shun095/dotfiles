@@ -331,6 +331,12 @@ try
   cnoremap <C-n> <down>
 
   nnoremap <Leader>u  :<C-u>/ oldfiles<Home>browse filter /
+
+  if has('terminal')
+    set termwinkey=<C-\\>
+  endif
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap <Esc><Esc> <Esc>
   " }}} MAPPING END
 
   " COMMANDS {{{
@@ -542,7 +548,7 @@ try
     " Colorschemes
     try
       set background=dark
-      if has('gui_running') || &t_Co >= 256
+      if has('gui_running') || exists('&t_Co') && &t_Co >= 256
         colorscheme one
       else
         colorscheme default
