@@ -910,6 +910,17 @@ if mymisc#plug_tap('asyncomplete.vim')
       " call delete(g:lsp_log_file)
       " call delete(g:asyncomplete_log_file)
 
+      if executable($HOME.'/.vim/clangd')
+        au User lsp_setup call lsp#register_server({
+              \ 'name': 'clangd',
+              \ 'cmd': {server_info->[$HOME.'/.vim/clangd']},
+              \ 'whitelist': ['cpp','c','hpp','h'],
+              \ 'priority': 100
+              \ })
+        autocmd FileType cpp,c nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+        autocmd FileType cpp,c setl omnifunc=lsp#complete
+      endif
+
       if executable('pyls')
         au User lsp_setup call lsp#register_server({
               \ 'name': 'pyls',
@@ -919,28 +930,6 @@ if mymisc#plug_tap('asyncomplete.vim')
               \ })
         autocmd FileType python nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
         autocmd FileType python setl omnifunc=lsp#complete
-      endif
-
-      if executable($HOME.'/.vim/clangd')
-        au User lsp_setup call lsp#register_server({
-              \ 'name': 'clangd',
-              \ 'cmd': {server_info->[$HOME.'/.vim/clangd']},
-              \ 'whitelist': ['cpp','c','hpp','h'],
-              \ 'priority': 100
-              \ })
-        autocmd FileType cpp,c,h,hpp nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
-        autocmd FileType cpp,c,h,hpp setl omnifunc=lsp#complete
-      endif
-
-      if executable('vls') || executable($APPDATA.'/npm/vls.cmd')
-        au User lsp_setup call lsp#register_server({
-              \ 'name': 'vls',
-              \ 'cmd': {server_info->[&shell, &shellcmdflag, 'vls']},
-              \ 'whitelist': ['vue'],
-              \ 'priority': 100
-              \ })
-        autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
-        autocmd FileType vue setl omnifunc=lsp#complete
       endif
 
       if executable('typescript-language-server') || executable($APPDATA.'/npm/typescript-language-server')
@@ -953,13 +942,24 @@ if mymisc#plug_tap('asyncomplete.vim')
         autocmd FileType javascript,typescript nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
         autocmd FileType javascript,typescript setl omnifunc=lsp#complete
       endif
+
+      if executable('vls') || executable($APPDATA.'/npm/vls.cmd')
+        au User lsp_setup call lsp#register_server({
+              \ 'name': 'vls',
+              \ 'cmd': {server_info->[&shell, &shellcmdflag, 'vls']},
+              \ 'whitelist': ['vue'],
+              \ 'priority': 100
+              \ })
+        autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+        autocmd FileType vue setl omnifunc=lsp#complete
+      endif
     endif
 
     if mymisc#plug_tap('asyncomplete-omni.vim')
       au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
             \ 'name': 'omni',
             \ 'whitelist': ['*'],
-            \ 'blacklist': ['c', 'cpp', 'html', 'python', 'javascript', 'typescript', 'vue'],
+            \ 'blacklist': ['c', 'cpp', 'python', 'javascript', 'typescript', 'vue'],
             \ 'priority': 100,
             \ 'completor': function('asyncomplete#sources#omni#completor')
             \  }))
@@ -1013,6 +1013,7 @@ if mymisc#plug_tap('asyncomplete.vim')
     endif
 
     imap <c-space> <Plug>(asyncomplete_force_refresh)
+    
     " if has('lua')
       " let g:asyncomplete_smart_completion = 1
     " endif

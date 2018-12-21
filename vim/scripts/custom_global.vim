@@ -6,7 +6,7 @@ endif
 
 augroup vimrc_custom_global
   autocmd!
-  autocmd FileType c,cpp,h,hpp,python nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>
+  autocmd FileType c,cpp,python,javascript,typescript,vue nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>
   if mymisc#plug_tap('lexima.vim')
     autocmd VimEnter * call lexima#init()
   endif
@@ -93,6 +93,8 @@ function! s:my_tab_noulti() abort
     elseif mymisc#plug_tap('YouCompleteMe')
       call feedkeys("\<C-space>")
       return ""
+    elseif mymisc#plug_tap('asyncomplete.vim')
+      return "\<C-r>=asyncomplete#force_refresh()\<CR>"
     else
       return "\<C-n>"
     endif
