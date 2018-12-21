@@ -907,6 +907,9 @@ if mymisc#plug_tap('asyncomplete.vim')
     if mymisc#plug_tap('vim-lsp')
       " let g:lsp_log_verbose = 1
       " let g:lsp_log_file = $HOME."/.vim/lsp.log"
+      " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
+      " call delete(g:lsp_log_file)
+      " call delete(g:asyncomplete_log_file)
 
       if executable('pyls')
         " pip install python-language-server
