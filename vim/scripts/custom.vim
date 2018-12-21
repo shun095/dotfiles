@@ -987,7 +987,7 @@ if mymisc#plug_tap('asyncomplete.vim')
       au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
             \ 'name': 'neosnippet',
             \ 'whitelist': ['*'],
-            \ 'priority': 151,
+            \ 'priority': 51,
             \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
             \ }))
     endif
@@ -997,7 +997,7 @@ if mymisc#plug_tap('asyncomplete.vim')
         au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
               \ 'name': 'ultisnips',
               \ 'whitelist': ['*'],
-              \ 'priority': 150,
+              \ 'priority': 50,
               \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
               \ }))
       endif
