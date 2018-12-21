@@ -102,8 +102,6 @@ else
   Plug 'yami-beta/asyncomplete-omni.vim'
   Plug 'Shougo/neco-vim'
   Plug 'prabirshrestha/asyncomplete-necovim.vim'
-  Plug 'Shougo/neosnippet.vim'
-  Plug 'Shougo/neosnippet-snippets'
   Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
   Plug 'scrooloose/nerdtree'
@@ -124,13 +122,14 @@ Plug 'artur-shaik/vim-javacomplete2', {'for':'java'}
 
 
 " Snippets, templates
-" Plug 'Shougo/neosnippet.vim'
-" Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 if s:has_python3 || s:has_python
   Plug 'SirVer/ultisnips'
 endif
 Plug 'honza/vim-snippets'
-Plug 'aperezdc/vim-template'
+" Plug 'aperezdc/vim-template'
+Plug 'mattn/sonictemplate-vim'
 
 " General purpose completions, linters
 " Plug 'jiangmiao/auto-pairs'

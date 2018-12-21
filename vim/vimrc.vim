@@ -135,6 +135,9 @@ try
   set sessionoptions-=blank
   set sessionoptions+=slash
 
+  set viminfo+='500
+  set viminfo+=%10
+
   " Statusline settings {{{
   highlight link User1 Normal
   highlight link User2 Title
@@ -544,14 +547,19 @@ try
     " Initialize plugin manager
     call g:plugin_mgr.init()
 
-    " Load settings of plugins
-    source $MYVIMHOME/scripts/lazy_hooks.vim
-    source $MYVIMHOME/scripts/custom.vim
+    try
+      " Load settings of plugins
+      source $MYVIMHOME/scripts/lazy_hooks.vim
+      source $MYVIMHOME/scripts/custom.vim
 
-    " Local after settings
-    if filereadable($HOME . '/localrcs/vim-localafter.vim')
-      source $HOME/localrcs/vim-localafter.vim
-    endif
+      " Local after settings
+      if filereadable($HOME . '/localrcs/vim-localafter.vim')
+        source $HOME/localrcs/vim-localafter.vim
+      endif
+    catch
+      call add(g:msgs_on_startup, 'Error in custom.vim!')
+      call add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
+    endtry
 
     " Colorschemes
     try
@@ -585,13 +593,9 @@ try
   endif
 
 catch
-  call add(g:msgs_on_startup, 'Error in custom.vim!')
-  if v:exception != ""
-    call add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
-    echomsg 
-  else
-    call add(g:msgs_on_startup, 'Nothing caught')
-  endif
+  call add(g:msgs_on_startup, 'Error in vimrc!')
+  call add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
+finally
   augroup VIMRC
     for s:msg in g:msgs_on_startup
       execute "autocmd VimEnter * echomsg '".s:msg."'"
