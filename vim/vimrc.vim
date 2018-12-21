@@ -318,6 +318,7 @@ try
       noremap! ð <Up>
       noremap! æ <S-Right>
       noremap! â  <S-Left>
+      noremap!  <C-w>
     else
       noremap! n <Down>
       noremap! p <Up>
