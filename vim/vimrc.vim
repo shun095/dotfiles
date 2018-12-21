@@ -307,22 +307,20 @@ try
   noremap! <C-e> <End>
   inoremap <C-k> <Right><ESC>Da
 
-  noremap! <C-g>n <Down>
-  noremap! <C-g>p <Up>
-  noremap! <C-g><C-n> <Down>
-  noremap! <C-g><C-p> <Up>
+  if has('gui_running')
+    noremap! <M-n> <Down>
+    noremap! <M-p> <Up>
+    noremap! <M-f> <S-Right>
+    noremap! <M-b> <S-Left>
+  else
+    noremap! n <Down>
+    noremap! p <Up>
+    noremap! f <S-Right>
+    noremap! b <S-Left>
+  endif
 
   noremap! <C-f> <Right>
   noremap! <C-b> <Left>
-  noremap! <C-g>f <S-Right>
-  noremap! <C-g>b <S-Left>
-  noremap! <C-g><C-f> <S-Right>
-  noremap! <C-g><C-b> <S-Left>
-
-  noremap! <C-g>l <S-Right>
-  noremap! <C-g>h <S-Left>
-  noremap! <C-g><C-l> <S-Right>
-  noremap! <C-g><C-h> <S-Left>
 
   noremap! <C-g><C-g> <ESC>
 
@@ -331,12 +329,6 @@ try
   cnoremap <C-n> <down>
 
   nnoremap <Leader>u  :<C-u>/ oldfiles<Home>browse filter /
-
-  if has('terminal')
-    set termwinkey=<C-\\>
-  endif
-  tnoremap <Esc> <C-\><C-n>
-  tnoremap <Esc><Esc> <Esc>
   " }}} MAPPING END
 
   " COMMANDS {{{
