@@ -18,10 +18,10 @@ endif
 " Color schemes
 Plug 'rakr/vim-one'
 let g:terminal_ansi_colors = [
-      \ '#000000', '#E06C75', '#98c379', '#d19a66',
-      \ '#61aeee', '#c678dd', '#56b6c2', '#abb2bf',
+      \ '#000000', '#e06c75', '#98c379', '#d19a66',
+      \ '#61afef', '#c678dd', '#56b6c2', '#abb2bf',
       \ '#5c6370', '#e06c75', '#98c379', '#d19a66',
-      \ '#62afee', '#c678dd', '#56b6c2', '#ffffff'
+      \ '#61afef', '#c678dd', '#56b6c2', '#ffffff'
       \ ]
 
 " Plug 'NLKNguyen/papercolor-theme'
@@ -157,6 +157,7 @@ Plug 'digitaltoad/vim-pug', {'for':['pug', 'jade']}
 Plug 'briancollins/vim-jst', {'for':['ejs', 'jst']}
 Plug 'groenewege/vim-less', {'for':['less']}
 Plug 'cakebaker/scss-syntax.vim', {'for':['scss']}
+Plug 'gorodinskiy/vim-coloresque'
 Plug 'leafgarland/typescript-vim', {'for':['typescript']}
 Plug 'pangloss/vim-javascript', {'for':['javascript']}
 Plug 'posva/vim-vue', {'for':['vue']}
