@@ -1174,6 +1174,7 @@ if mymisc#plug_tap('vim-go')
 endif
 
 if mymisc#plug_tap('gina.vim')
+  cabbrev G Gina
   nnoremap <Leader>gs :<C-u>Gina status --opener=split<CR>
   nnoremap <Leader>gc :<C-u>Gina commit --opener=split<CR>
   nnoremap <Leader>gp :<C-u>Gina push<CR>
