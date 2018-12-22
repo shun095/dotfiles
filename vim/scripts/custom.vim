@@ -1231,6 +1231,7 @@ if mymisc#plug_tap('rainbow_parentheses.vim')
 endif
 
 if mymisc#plug_tap('rainbow')
+  let g:rainbow_active = 1
   let g:rainbow_conf = {
         \ 'guifgs': ['#e06c75', '#98c379', '#d19a66', '#61afef', '#c678dd', '#56b6c2'],
         \ 'ctermfgs': [1, 2, 3, 4, 5, 6]
