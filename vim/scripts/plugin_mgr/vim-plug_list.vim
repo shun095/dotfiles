@@ -188,7 +188,8 @@ Plug 'majutsushi/tagbar', {'on':['TagbarToggle', 'TagbarOpen']}
 Plug 'AndrewRadev/linediff.vim', {'on':'Linediff'}
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
-Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'luochen1990/rainbow'
+" Plug 'junegunn/rainbow_parentheses.vim'
 " Plug 'kien/rainbow_parentheses.vim'
 Plug 'google/vim-searchindex'
 " Plug 'osyo-manga/vim-anzu'

@@ -1142,14 +1142,21 @@ endif
 
 if mymisc#plug_tap('vim-submode')
   let g:submode_timeoutlen = 3000
-  call submode#enter_with('winsize', 'n', '', '<C-w>>', '5<C-w>>')
-  call submode#enter_with('winsize', 'n', '', '<C-w><', '5<C-w><')
-  call submode#enter_with('winsize', 'n', '', '<C-w>+', '5<C-w>+')
-  call submode#enter_with('winsize', 'n', '', '<C-w>-', '5<C-w>-')
-  call submode#map('winsize', 'n', '', '>', '5<C-w>>')
-  call submode#map('winsize', 'n', '', '<', '5<C-w><')
-  call submode#map('winsize', 'n', '', '+', '5<C-w>+')
-  call submode#map('winsize', 'n', '', '-', '5<C-w>-')
+  call submode#enter_with('winsize',   'n', '', '<C-w>>', '5<C-w>>')
+  call submode#enter_with('winsize',   'n', '', '<C-w><', '5<C-w><')
+  call submode#enter_with('winsize',   'n', '', '<C-w>+', '5<C-w>+')
+  call submode#enter_with('winsize',   'n', '', '<C-w>-', '5<C-w>-')
+  call submode#leave_with('winsize',   'n', '', '<Esc>')
+  call submode#map('winsize',          'n', '', '>',      '5<C-w>>')
+  call submode#map('winsize',          'n', '', '<',      '5<C-w><')
+  call submode#map('winsize',          'n', '', '+',      '5<C-w>+')
+  call submode#map('winsize',          'n', '', '-',      '5<C-w>-')
+
+  call submode#enter_with('timeundo/redo', 'n', '', 'g-',     'g-')
+  call submode#enter_with('timeundo/redo', 'n', '', 'g+',     'g+')
+  call submode#leave_with('timeundo/redo', 'n', '', '<Esc>')
+  call submode#map('timeundo/redo',        'n', '', '-',      'g-')
+  call submode#map('timeundo/redo',        'n', '', '+',      'g+')
 endif
 
 if mymisc#plug_tap('indentLine')
@@ -1221,6 +1228,13 @@ if mymisc#plug_tap('rainbow_parentheses.vim')
   "   au Syntax * RainbowParenthesesLoadBraces
   "   au Syntax * RainbowParenthesesLoadChevrons
   " augroup END
+endif
+
+if mymisc#plug_tap('rainbow')
+  let g:rainbow_conf = {
+        \ 'guifgs': ['#e06c75', '#98c379', '#d19a66', '#61afef', '#c678dd', '#56b6c2'],
+        \ 'ctermfgs': [1, 2, 3, 4, 5, 6]
+        \ }
 endif
 
 if mymisc#plug_tap('vim-nerdtree-syntax-highlight')
