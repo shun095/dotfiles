@@ -300,8 +300,14 @@ try
   vnoremap <c-x> <c-x>gv
 
   " ビジュアルモードでも*検索が使えるようにする
-  vnoremap * "zy:let @/ = '\<'.@z.'\>' <CR>n
-  vnoremap g* "zy:let @/ = @z <CR>n
+  augroup vimrc_searchindex
+    " Avoid error on startup caused by <unique> in vim-searchindex
+    autocmd!
+    autocmd VimEnter * vnoremap * "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>/<CR>
+    autocmd VimEnter * vnoremap g* "9y:<C-u>let @/ = @9.'\C'<CR>/<CR>
+    autocmd VimEnter * vnoremap # "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>?<CR>
+    autocmd VimEnter * vnoremap g# "9y:<C-u>let @/ = @9.'\C'<CR>?<CR>
+  augroup END
 
   " !マークはInsert ModeとCommand-line Modeへのマッピング
   " emacs like keymap in insert/command mode

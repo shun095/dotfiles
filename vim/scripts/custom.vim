@@ -269,10 +269,25 @@ if mymisc#plug_tap('undotree')
   nnoremap <Leader>gu :<C-u>UndotreeToggle<cr>
 endif
 
+if mymisc#plug_tap('vim-searchindex')
+  augroup vimrc_searchindex
+    autocmd!
+    autocmd VimEnter * vnoremap * "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>/<CR>:<C-u>SearchIndex<CR>
+    autocmd VimEnter * vnoremap g* "9y:<C-u>let @/ = @9.'\C'<CR>/<CR>:<C-u>SearchIndex<CR>
+    autocmd VimEnter * vnoremap # "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>?<CR>:<C-u>SearchIndex<CR>
+    autocmd VimEnter * vnoremap g# "9y:<C-u>let @/ = @9.'\C'<CR>?<CR>:<C-u>SearchIndex<CR>
+  augroup END
+endif
+
 if mymisc#plug_tap('vim-anzu')
   " mapping
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
+
+  " vnoremap * "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>/<CR>
+  " vnoremap g* "9y:<C-u>let @/ = @9.'\C'<CR>/<CR>
+  " vnoremap # "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>?<CR>
+  " vnoremap g# "9y:<C-u>let @/ = @9.'\C'<CR>?<CR>
   " nmap * <Plug>(anzu-star-with-echo)
   " nmap # <Plug>(anzu-sharp-with-echo)
 endif
@@ -1234,7 +1249,7 @@ if mymisc#plug_tap('rainbow_parentheses.vim')
 endif
 
 if mymisc#plug_tap('rainbow')
-  let g:rainbow_active = 1
+  " let g:rainbow_active = 1
   let g:rainbow_conf = {
         \ 'guifgs': ['#e06c75', '#98c379', '#d19a66', '#61afef', '#c678dd', '#56b6c2'],
         \ 'ctermfgs': [1, 2, 3, 4, 5, 6]
