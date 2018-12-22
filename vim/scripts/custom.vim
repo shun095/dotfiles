@@ -638,6 +638,9 @@ endif
 
 if mymisc#plug_tap('vim-peekaboo')
   " let g:peekaboo_window = 'vert abo 40new'
+  let g:peekaboo_compact = 1
+  let g:peekaboo_prefix = '<leader>'
+  let g:peekaboo_ins_prefix = '<C-x>'
 endif
 
 if mymisc#plug_tap('denite.nvim')
