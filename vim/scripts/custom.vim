@@ -1220,17 +1220,12 @@ if mymisc#plug_tap('gina.vim')
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
+  let g:gitgutter_async = 1
   nnoremap <Leader>gg :GitGutterAll<CR>
-  if has('win32')
-    let g:gitgutter_async = 0
-  else
-    let g:gitgutter_async = 1
-  endif
-
   augroup vimrc_gitgutter
     autocmd!
     autocmd User GitGutter call mymisc#set_statusline_vars()
-    autocmd CursorHold * GitGutterAll
+    autocmd CursorHold,CursorHoldI * GitGutterAll
   augroup END
 endif
 
