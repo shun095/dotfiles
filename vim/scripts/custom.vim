@@ -923,6 +923,8 @@ if mymisc#plug_tap('asyncomplete.vim')
   augroup vimrc_asyncomplete
     autocmd!
     if mymisc#plug_tap('vim-lsp')
+      let g:lsp_signs_enabled = 1
+      let g:lsp_diagnostics_echo_cursor = 1
       " let g:lsp_log_verbose = 1
       " let g:lsp_log_file = $HOME."/.vim/lsp.log"
       " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
