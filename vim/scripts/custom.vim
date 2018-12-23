@@ -198,8 +198,9 @@ if mymisc#plug_tap('memolist.vim')
 endif
 
 if mymisc#plug_tap('nerdtree')
-  nnoremap <Leader>e :NERDTreeFind<CR>
-  nnoremap <Leader>E :NERDTreeCWD<CR>
+  nnoremap <Leader>e :NERDTreeFocus<CR>
+  nnoremap <Leader>E :NERDTreeFind<CR>
+  nnoremap <Leader><c-e> :NERDTreeCWD<CR>
 
   " let g:NERDTreeMapOpenSplit = 's'
   " let g:NERDTreeMapPreviewSplit = 'gs'
