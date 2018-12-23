@@ -1039,7 +1039,7 @@ if mymisc#plug_tap('asyncomplete.vim')
     let g:asyncomplete_auto_popup = 1
     let g:asyncomplete_remove_duplicates = 0
     let g:asyncomplete_force_refresh_on_context_changed = 1
-    let g:asyncomplete_completion_delay = 200
+    let g:asyncomplete_completion_delay = 100
     
     set completeopt+=preview
     autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
