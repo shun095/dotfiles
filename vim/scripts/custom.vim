@@ -920,16 +920,25 @@ if mymisc#plug_tap('LanguageClient-neovim')
 endif
 
 if mymisc#plug_tap('asyncomplete.vim')
+  " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
+  " call delete(g:asyncomplete_log_file)
   augroup vimrc_asyncomplete
     autocmd!
     if mymisc#plug_tap('vim-lsp')
-      let g:lsp_signs_enabled = 1
+      let g:lsp_signs_enabled           = 1
       let g:lsp_diagnostics_echo_cursor = 1
+      let g:lsp_signs_error             = {'text': 'E'}
+      let g:lsp_signs_warning           = {'text': 'W'}
+      let g:lsp_signs_information       = {'text': 'I'}
+      let g:lsp_signs_hint              = {'text': 'H'}
+      hi link LspErrorText ALEErrorSign
+      hi link LspWarningText ALEWarningSign
+      hi link LspInformationText ALEWarningSign
+      hi link LspHintText ALEWarningSign
       " let g:lsp_log_verbose = 1
       " let g:lsp_log_file = $HOME."/.vim/lsp.log"
-      " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
       " call delete(g:lsp_log_file)
-      " call delete(g:asyncomplete_log_file)
+      "
 
       if executable($HOME.'/.vim/clangd')
         au User lsp_setup call lsp#register_server({
