@@ -45,19 +45,23 @@ function mailb(){
 function tmux_call(){
     if [[ $# -eq 0 ]]; then
         if [[ `\tmux list-sessions 2>/dev/null|wc -l` -ne 0 ]]; then
-            exist_sessions=(`\tmux list-sessions|sed "s/:.*//"`)
-            attached_sessions=(`\tmux list-sessions|grep attached|sed "s/:.*//"`)
-            detached_sessions=(`\tmux list-sessions|grep -v attached|sed "s/:.*//"`)
+            _tmux_call_exist_sessions=(`\tmux list-sessions|sed "s/:.*//"`)
+            _tmux_call_attached_sessions=(`\tmux list-sessions|grep attached|sed "s/:.*//"`)
+            _tmux_call_detached_sessions=(`\tmux list-sessions|grep -v attached|sed "s/:.*//"`)
+        else
+            _tmux_call_exist_sessions=
+            _tmux_call_attached_sessions=
+            _tmux_call_detached_sessions=
         fi
 
-        if [[ $#exist_sessions -eq $#attached_sessions ]]; then
+        if [[ $#_tmux_call_exist_sessions -eq $#_tmux_call_attached_sessions ]]; then
             idx=0
-            while [[ -n ${exist_sessions[(re)$idx]} ]]; do
+            while [[ -n ${_tmux_call_exist_sessions[(re)$idx]} ]]; do
                 (( idx++ ))
             done
             \tmux new-session -s $idx
         else
-            \tmux attach -t ${detached_sessions[1]}
+            \tmux attach -t ${_tmux_call_detached_sessions[1]}
         fi
     else
         \tmux $*
