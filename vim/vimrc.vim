@@ -100,6 +100,7 @@ try
   set showcmd                                              " 入力中のコマンドを右下に表示
   set cmdheight=2                                          " コマンドラインの高さ
   set showtabline=2                                        " タブバーを常に表示
+  set shortmess-=T
   set sidescroll=1                                         " 横スクロール刻み幅
   set number                                               " 行番号表示
   set norelativenumber
