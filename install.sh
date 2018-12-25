@@ -107,23 +107,27 @@ update_repositories() {
         echo -e "\n===== Checking plugin repositories ===================================\n"
 
         pushd ${MYDOTFILES}
-        git pull
+            git pull
         popd
         echo "Checking fzf repository"
         pushd ${FZFDIR}
-        git pull
+            git pull
         popd
-        sh ${OHMYZSHDIR}/tools/upgrade.sh
+        echo "Upgrading oh-my-zsh repository"
+        pushd ${OHMYZSHDIR}
+            sh ./tools/upgrade.sh
+        popd
+        echo "Upgrading oh-my-zsh plugins"
         pushd ${OHMYZSHDIR}/custom/plugins
-        pushd zsh-syntax-highlighting
-        git pull
-        popd
-        pushd zsh-autosuggestions
-        git pull
-        popd
-        pushd zsh-completions
-        git pull
-        popd
+            pushd zsh-syntax-highlighting
+                git pull
+            popd
+            pushd zsh-autosuggestions
+                git pull
+            popd
+            pushd zsh-completions
+            git pull
+            popd
         popd
     }
 
@@ -354,7 +358,15 @@ backup() {
 
 compile_zshfiles() {
     echo -e "\n===== Compiling zsh files ============================================\n"
-    $MYDOTFILES/tools/zsh_compile.zsh
+    case $SHELL in
+        */zsh) 
+            # assume Zsh
+            $MYDOTFILES/tools/zsh_compile.zsh
+            ;;
+        *)
+            # assume something else
+            echo -e "\nCurrent shell is not zsh. skipping.\n"
+    esac
 }
 
 deploy() {
