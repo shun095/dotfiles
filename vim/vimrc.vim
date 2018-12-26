@@ -317,12 +317,22 @@ try
   noremap! <C-e> <End>
   inoremap <C-k> <Right><ESC>Da
 
-  if has('gui_running') || has('nvim')
+  if has('gui_running')
     noremap! <M-n> <Down>
     noremap! <M-p> <Up>
     noremap! <M-f> <S-Right>
     noremap! <M-b> <S-Left>
     noremap! <M-BS> <C-w>
+  elseif has('nvim')
+    noremap! <M-n> <Down>
+    noremap! <M-p> <Up>
+    noremap! <M-f> <S-Right>
+    noremap! <M-b> <S-Left>
+    if has('win32')
+      noremap! <M-C-H> <C-w> 
+    else
+      noremap! <M-BS> <C-w>
+    endif
   else
     if has('win32')
       noremap! î  <Down>
