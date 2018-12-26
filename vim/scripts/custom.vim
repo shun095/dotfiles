@@ -919,141 +919,147 @@ if mymisc#plug_tap('LanguageClient-neovim')
 
 endif
 
-if mymisc#plug_tap('asyncomplete.vim')
-  " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
-  " call delete(g:asyncomplete_log_file)
-  augroup vimrc_asyncomplete
+if mymisc#plug_tap('vim-lsp')
+  let g:lsp_log_verbose = 1
+  let g:lsp_log_file = $HOME."/.vim/lsp.log"
+  "
+  let g:lsp_signs_enabled           = 1
+  let g:lsp_diagnostics_echo_cursor = 1
+  let g:lsp_signs_error             = {'text': 'E'}
+  let g:lsp_signs_warning           = {'text': 'W'}
+  let g:lsp_signs_information       = {'text': 'I'}
+  let g:lsp_signs_hint              = {'text': 'H'}
+
+  hi link LspErrorText ALEErrorSign
+  hi link LspWarningText ALEWarningSign
+  hi link LspInformationText ALEWarningSign
+  hi link LspHintText ALEWarningSign
+
+  augroup vimrc_vimlsp
     autocmd!
-    if mymisc#plug_tap('vim-lsp')
-      let g:lsp_signs_enabled           = 1
-      let g:lsp_diagnostics_echo_cursor = 1
-      let g:lsp_signs_error             = {'text': 'E'}
-      let g:lsp_signs_warning           = {'text': 'W'}
-      let g:lsp_signs_information       = {'text': 'I'}
-      let g:lsp_signs_hint              = {'text': 'H'}
-      hi link LspErrorText ALEErrorSign
-      hi link LspWarningText ALEWarningSign
-      hi link LspInformationText ALEWarningSign
-      hi link LspHintText ALEWarningSign
-      " let g:lsp_log_verbose = 1
-      " let g:lsp_log_file = $HOME."/.vim/lsp.log"
-      " call delete(g:lsp_log_file)
-      "
 
-      if executable($HOME.'/.vim/clangd')
-        au User lsp_setup call lsp#register_server({
-              \ 'name': 'clangd',
-              \ 'cmd': {server_info->[$HOME.'/.vim/clangd']},
-              \ 'whitelist': ['cpp','c','hpp','h'],
-              \ 'priority': 100
-              \ })
-        autocmd FileType cpp,c nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
-        autocmd FileType cpp,c setl omnifunc=lsp#complete
-      endif
-
-      if executable('pyls')
-        au User lsp_setup call lsp#register_server({
-              \ 'name': 'pyls',
-              \ 'cmd': {server_info->['python', '-m', 'pyls']},
-              \ 'whitelist': ['python'],
-              \ 'priority': 100
-              \ })
-        autocmd FileType python nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
-        autocmd FileType python setl omnifunc=lsp#complete
-      endif
-
-      if executable('typescript-language-server') || executable($APPDATA.'/npm/typescript-language-server')
-        au User lsp_setup call lsp#register_server({
-              \ 'name': 'tsserver',
-              \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-              \ 'whitelist': ['javascript','typescript'],
-              \ 'priority': 100
-              \ })
-        autocmd FileType javascript,typescript nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
-        autocmd FileType javascript,typescript setl omnifunc=lsp#complete
-      endif
-
-      if executable('vls') || executable($APPDATA.'/npm/vls.cmd')
-        au User lsp_setup call lsp#register_server({
-              \ 'name': 'vls',
-              \ 'cmd': {server_info->[&shell, &shellcmdflag, 'vls']},
-              \ 'whitelist': ['vue'],
-              \ 'priority': 100
-              \ })
-        autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
-        autocmd FileType vue setl omnifunc=lsp#complete
-      endif
+    if executable($HOME.'/.vim/clangd')
+      au User lsp_setup call lsp#register_server({
+            \ 'name': 'clangd',
+            \ 'cmd': {server_info->[$HOME.'/.vim/clangd']},
+            \ 'whitelist': ['cpp','c','hpp','h'],
+            \ 'priority': 100
+            \ })
+      autocmd FileType cpp,c nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType cpp,c setl omnifunc=lsp#complete
     endif
 
-    if mymisc#plug_tap('asyncomplete-omni.vim')
-      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-            \ 'name': 'omni',
-            \ 'whitelist': ['*'],
-            \ 'blacklist': ['c', 'cpp', 'python', 'javascript', 'typescript', 'vue'],
-            \ 'priority': 100,
-            \ 'completor': function('asyncomplete#sources#omni#completor')
-            \  }))
+    if executable('pyls')
+      au User lsp_setup call lsp#register_server({
+            \ 'name': 'pyls',
+            \ 'cmd': {server_info->['python', '-m', 'pyls']},
+            \ 'whitelist': ['python'],
+            \ 'priority': 100
+            \ })
+      autocmd FileType python nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType python setl omnifunc=lsp#complete
     endif
 
-    if mymisc#plug_tap('asyncomplete-necovim.vim')
-      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-            \ 'name': 'necovim',
-            \ 'whitelist': ['vim'],
-            \ 'priority': 100,
-            \ 'completor': function('asyncomplete#sources#necovim#completor'),
-            \ }))
+    if executable('typescript-language-server') || executable($APPDATA.'/npm/typescript-language-server')
+      au User lsp_setup call lsp#register_server({
+            \ 'name': 'tsserver',
+            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+            \ 'whitelist': ['javascript','typescript'],
+            \ 'priority': 100
+            \ })
+      autocmd FileType javascript,typescript nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType javascript,typescript setl omnifunc=lsp#complete
     endif
 
-    if mymisc#plug_tap('asyncomplete-file.vim')
-      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-            \ 'name': 'file',
+    if executable('vls') || executable($APPDATA.'/npm/vls.cmd')
+      au User lsp_setup call lsp#register_server({
+            \ 'name': 'vls',
+            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'vls']},
+            \ 'whitelist': ['vue'],
+            \ 'priority': 100
+            \ })
+      autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType vue setl omnifunc=lsp#complete
+    endif
+  augroup END
+endif
+
+if mymisc#plug_tap('asyncomplete.vim')
+  let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
+
+  if mymisc#plug_tap('asyncomplete-omni.vim')
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+          \ 'name': 'omni',
+          \ 'whitelist': ['*'],
+          \ 'blacklist': ['c', 'cpp', 'python', 'javascript', 'typescript', 'vue'],
+          \ 'priority': 100,
+          \ 'completor': function('asyncomplete#sources#omni#completor')
+          \  }))
+  endif
+
+  if mymisc#plug_tap('asyncomplete-necovim.vim')
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+          \ 'name': 'necovim',
+          \ 'whitelist': ['vim'],
+          \ 'priority': 100,
+          \ 'completor': function('asyncomplete#sources#necovim#completor'),
+          \ }))
+  endif
+
+  if mymisc#plug_tap('asyncomplete-file.vim')
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+          \ 'name': 'file',
+          \ 'whitelist': ['*'],
+          \ 'priority': 50,
+          \ 'completor': function('asyncomplete#sources#file#completor')
+          \ }))
+  endif
+
+  if mymisc#plug_tap('asyncomplete-neosnippet.vim')
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+          \ 'name': 'neosnippet',
+          \ 'whitelist': ['*'],
+          \ 'priority': 51,
+          \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+          \ }))
+  endif
+
+  if mymisc#plug_tap('asyncomplete-ultisnips.vim')
+    if has('python3')
+      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+            \ 'name': 'ultisnips',
             \ 'whitelist': ['*'],
             \ 'priority': 50,
-            \ 'completor': function('asyncomplete#sources#file#completor')
+            \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
             \ }))
     endif
+  endif
 
-    if mymisc#plug_tap('asyncomplete-neosnippet.vim')
-      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
-            \ 'name': 'neosnippet',
-            \ 'whitelist': ['*'],
-            \ 'priority': 51,
-            \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
-            \ }))
-    endif
+  if mymisc#plug_tap('asyncomplete-buffer.vim')
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+          \ 'name': 'buffer',
+          \ 'whitelist': ['*'],
+          \ 'priority': 0,
+          \ 'completor': function('asyncomplete#sources#buffer#completor'),
+          \ }))
+  endif
 
-    if mymisc#plug_tap('asyncomplete-ultisnips.vim')
-      if has('python3')
-        au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-              \ 'name': 'ultisnips',
-              \ 'whitelist': ['*'],
-              \ 'priority': 50,
-              \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-              \ }))
-      endif
-    endif
+  imap <c-space> <Plug>(asyncomplete_force_refresh)
 
-    if mymisc#plug_tap('asyncomplete-buffer.vim')
-      au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-            \ 'name': 'buffer',
-            \ 'whitelist': ['*'],
-            \ 'priority': 0,
-            \ 'completor': function('asyncomplete#sources#buffer#completor'),
-            \ }))
-    endif
+  " if has('lua')
+  "   let g:asyncomplete_smart_completion = 1
+  " endif
 
-    imap <c-space> <Plug>(asyncomplete_force_refresh)
-    
-    " if has('lua')
-      " let g:asyncomplete_smart_completion = 1
-    " endif
-    let g:asyncomplete_smart_completion = 0
-    let g:asyncomplete_auto_popup = 1
-    let g:asyncomplete_remove_duplicates = 0
-    let g:asyncomplete_force_refresh_on_context_changed = 1
-    let g:asyncomplete_completion_delay = 100
-    
-    set completeopt+=preview
+  let g:asyncomplete_smart_completion = 0
+  let g:asyncomplete_auto_popup = 1
+  let g:asyncomplete_remove_duplicates = 0
+  let g:asyncomplete_force_refresh_on_context_changed = 1
+  let g:asyncomplete_completion_delay = 100
+
+  set completeopt+=preview
+
+  augroup vimrc_asyncomplete
+    autocmd!
     autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
   augroup END
 endif
@@ -1232,7 +1238,7 @@ if mymisc#plug_tap('gina.vim')
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
-  let g:gitgutter_async = 1
+  let g:gitgutter_async = 0
   nnoremap <Leader>gg :GitGutterAll<CR>
   augroup vimrc_gitgutter
     autocmd!
