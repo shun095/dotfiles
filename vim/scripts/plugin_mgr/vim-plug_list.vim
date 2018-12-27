@@ -133,7 +133,8 @@ Plug 'mattn/sonictemplate-vim'
 
 " General purpose completions, linters
 " Plug 'jiangmiao/auto-pairs'
-Plug 'cohama/lexima.vim'
+Plug 'Raimondi/delimitMate'
+" Plug 'cohama/lexima.vim'
 Plug 'alvan/vim-closetag'
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'

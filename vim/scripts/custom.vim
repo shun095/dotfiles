@@ -1293,4 +1293,10 @@ if mymisc#plug_tap('CamelCaseMotion')
   call camelcasemotion#CreateMotionMappings(',')
 endif
 
+if mymisc#plug_tap('sonictemplate-vim')
+  let g:sonictemplate_vim_template_dir = [
+        \ $MYDOTFILES.'/vim/template',
+        \ ]
+endif
+
 source $MYDOTFILES/vim/scripts/custom_global.vim
