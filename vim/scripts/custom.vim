@@ -921,7 +921,7 @@ endif
 
 if mymisc#plug_tap('vim-lsp')
   let g:lsp_log_verbose = 1
-  let g:lsp_log_file = $HOME."/.vim/lsp.log"
+  let g:lsp_log_file = $HOME."/.vim/asyncomplete.log"
   "
   let g:lsp_signs_enabled           = 1
   let g:lsp_diagnostics_echo_cursor = 1
@@ -1106,6 +1106,10 @@ endif
 
 if mymisc#plug_tap('nerdcommenter')
   let g:NERDSpaceDelims = 1
+  let g:NERDCustomDelimiters = {
+        \ 'python': { 'left': '#', 'leftAlt': '# ' },
+        \ }
+
   xmap gcc <Plug>NERDCommenterComment
   nmap gcc <Plug>NERDCommenterComment
   xmap gcn <Plug>NERDCommenterNested
@@ -1162,9 +1166,6 @@ endif
 
 if mymisc#plug_tap('lexima.vim')
   let g:lexima_ctrlh_as_backspace = 1
-  call lexima#add_rule({'char':'<',    'input_after':'>'})
-  call lexima#add_rule({'char':'>',    'at':'\%#>',  'leave':'>'})
-  call lexima#add_rule({'char':'<BS>', 'at':'<\%#>', 'input':'<BS>', 'delete':1})
 
   for [begin, end] in [['(', ')'], ['{','}'], ['[',']']]
     call lexima#add_rule({'char':begin, 'at':'\%#[:alnum:]', 'input':begin})

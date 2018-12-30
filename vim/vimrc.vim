@@ -100,7 +100,7 @@ try
   set showcmd                                              " 入力中のコマンドを右下に表示
   set cmdheight=2                                          " コマンドラインの高さ
   set showtabline=2                                        " タブバーを常に表示
-  set shortmess-=T
+  set shortmess-=Tt
   set sidescroll=1                                         " 横スクロール刻み幅
   set number                                               " 行番号表示
   set norelativenumber
@@ -328,11 +328,8 @@ try
     noremap! <M-p> <Up>
     noremap! <M-f> <S-Right>
     noremap! <M-b> <S-Left>
-    if has('win32')
-      noremap! <M-C-H> <C-w> 
-    else
-      noremap! <M-BS> <C-w>
-    endif
+    noremap! <M-C-H> <C-w> 
+    noremap! <M-BS> <C-w>
   else
     if has('win32')
       noremap! î  <Down>

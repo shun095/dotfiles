@@ -64,28 +64,36 @@ if 0
   Plug 'Shougo/neomru.vim'
   " Plug 'Shougo/vimproc.vim'
   if has('win32')
-    fun! DownloadLanguageClient(info)
-      if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
-        let l:confirm_install = confirm(
-              \ 'LanguageClient updated. Install now?',
-              \ "&yes\n&no", 2)
-        if l:confirm_install == 1
-          let l:cmd = ':exe ":!start powershell Start-Sleep -s 3; .\\install.ps1" | qa!'
-          call mymisc#command_at_destdir(
-                \ g:plugin_mgr.plugin_dir."/LanguageClient-neovim",
-                \ [l:cmd])
-        endif
-      endif
-    endf
-    Plug 'autozimu/LanguageClient-neovim', {
-          \ 'branch':'next',
-          \ 'do':function('DownloadLanguageClient'),
-          \ }
+    Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
   else
-    Plug 'autozimu/LanguageClient-neovim', {
-          \ 'branch':'next',
-          \ 'do':'bash install.sh',
-          \ }
+    Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+  endif
+
+  if 0
+    if has('win32')
+      fun! DownloadLanguageClient(info)
+        if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
+          let l:confirm_install = confirm(
+                \ 'LanguageClient updated. Install now?',
+                \ "&yes\n&no", 2)
+          if l:confirm_install == 1
+            let l:cmd = ':exe ":!start powershell Start-Sleep -s 3; .\\install.ps1" | qa!'
+            call mymisc#command_at_destdir(
+                  \ g:plugin_mgr.plugin_dir."/LanguageClient-neovim",
+                  \ [l:cmd])
+          endif
+        endif
+      endf
+      Plug 'autozimu/LanguageClient-neovim', {
+            \ 'branch':'next',
+            \ 'do':function('DownloadLanguageClient'),
+            \ }
+    else
+      Plug 'autozimu/LanguageClient-neovim', {
+            \ 'branch':'next',
+            \ 'do':'bash install.sh',
+            \ }
+    endif
   endif
 else
   " Plug 'Valloric/YouCompleteMe'
@@ -133,8 +141,8 @@ Plug 'mattn/sonictemplate-vim'
 
 " General purpose completions, linters
 " Plug 'jiangmiao/auto-pairs'
-Plug 'Raimondi/delimitMate'
-" Plug 'cohama/lexima.vim'
+" Plug 'Raimondi/delimitMate'
+Plug 'cohama/lexima.vim'
 Plug 'alvan/vim-closetag'
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
