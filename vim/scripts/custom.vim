@@ -945,7 +945,7 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['cpp','c','hpp','h'],
             \ 'priority': 100
             \ })
-      autocmd FileType cpp,c nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType cpp,c nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
       autocmd FileType cpp,c setl omnifunc=lsp#complete
     endif
 
@@ -956,7 +956,7 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['python'],
             \ 'priority': 100
             \ })
-      autocmd FileType python nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType python nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
       autocmd FileType python setl omnifunc=lsp#complete
     endif
 
@@ -967,7 +967,7 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['javascript','typescript'],
             \ 'priority': 100
             \ })
-      autocmd FileType javascript,typescript nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType javascript,typescript nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
       autocmd FileType javascript,typescript setl omnifunc=lsp#complete
     endif
 
@@ -978,7 +978,7 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['vue'],
             \ 'priority': 100
             \ })
-      autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType vue nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
       autocmd FileType vue setl omnifunc=lsp#complete
     endif
   augroup END
