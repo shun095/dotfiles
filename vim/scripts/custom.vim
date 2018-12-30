@@ -920,8 +920,8 @@ if mymisc#plug_tap('LanguageClient-neovim')
 endif
 
 if mymisc#plug_tap('vim-lsp')
-  let g:lsp_log_verbose = 1
-  let g:lsp_log_file = $HOME."/.vim/asyncomplete.log"
+  " let g:lsp_log_verbose = 1
+  " let g:lsp_log_file = $HOME."/.vim/asyncomplete.log"
   "
   let g:lsp_signs_enabled           = 1
   let g:lsp_diagnostics_echo_cursor = 1
@@ -985,7 +985,7 @@ if mymisc#plug_tap('vim-lsp')
 endif
 
 if mymisc#plug_tap('asyncomplete.vim')
-  let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
+  " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
 
   if mymisc#plug_tap('asyncomplete-omni.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
@@ -1052,6 +1052,7 @@ if mymisc#plug_tap('asyncomplete.vim')
 
   let g:asyncomplete_smart_completion = 0
   let g:asyncomplete_auto_popup = 1
+  let g:asyncomplete_min_length = 1
   let g:asyncomplete_remove_duplicates = 0
   let g:asyncomplete_force_refresh_on_context_changed = 1
   let g:asyncomplete_completion_delay = 100

@@ -100,7 +100,7 @@ else
   " Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
   " Plug 'ervandew/supertab'
 
-  Plug 'prabirshrestha/asyncomplete.vim', {'do':'git pull https://github.com/tamy0612/asyncomplete.vim/ fixblinking'}
+  Plug 'ishitaku5522/asyncomplete.vim'
   Plug 'prabirshrestha/async.vim'
   Plug 'prabirshrestha/vim-lsp'
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
