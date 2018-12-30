@@ -63,9 +63,6 @@ endfunction
 function! s:my_cr_noulti()
   if mymisc#plug_tap('deoplete.nvim')
     return "\<C-r>=deoplete#close_popup()\<CR>"
-  elseif mymisc#plug_tap('asyncomplete.vim')
-    call feedkeys("\<C-o>a")
-    return ""
   else
     call feedkeys("\<C-y>")
     return ""
