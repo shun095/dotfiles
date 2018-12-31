@@ -920,8 +920,8 @@ if mymisc#plug_tap('LanguageClient-neovim')
 endif
 
 if mymisc#plug_tap('vim-lsp')
-  let g:lsp_log_verbose = 1
-  let g:lsp_log_file = $HOME."/.vim/lsp.log"
+  " let g:lsp_log_verbose = 1
+  " let g:lsp_log_file = $HOME."/.vim/asyncomplete.log"
   "
   let g:lsp_signs_enabled           = 1
   let g:lsp_diagnostics_echo_cursor = 1
@@ -945,7 +945,7 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['cpp','c','hpp','h'],
             \ 'priority': 100
             \ })
-      autocmd FileType cpp,c nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType cpp,c nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
       autocmd FileType cpp,c setl omnifunc=lsp#complete
     endif
 
@@ -956,7 +956,7 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['python'],
             \ 'priority': 100
             \ })
-      autocmd FileType python nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType python nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
       autocmd FileType python setl omnifunc=lsp#complete
     endif
 
@@ -967,7 +967,7 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['javascript','typescript'],
             \ 'priority': 100
             \ })
-      autocmd FileType javascript,typescript nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType javascript,typescript nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
       autocmd FileType javascript,typescript setl omnifunc=lsp#complete
     endif
 
@@ -978,14 +978,14 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['vue'],
             \ 'priority': 100
             \ })
-      autocmd FileType vue nnoremap <buffer> <c-]> :<C-u>LspDefinition<CR>
+      autocmd FileType vue nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
       autocmd FileType vue setl omnifunc=lsp#complete
     endif
   augroup END
 endif
 
 if mymisc#plug_tap('asyncomplete.vim')
-  let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
+  " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
 
   if mymisc#plug_tap('asyncomplete-omni.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
@@ -1052,6 +1052,7 @@ if mymisc#plug_tap('asyncomplete.vim')
 
   let g:asyncomplete_smart_completion = 0
   let g:asyncomplete_auto_popup = 1
+  let g:asyncomplete_min_length = 1
   let g:asyncomplete_remove_duplicates = 0
   let g:asyncomplete_force_refresh_on_context_changed = 1
   let g:asyncomplete_completion_delay = 100
@@ -1106,6 +1107,10 @@ endif
 
 if mymisc#plug_tap('nerdcommenter')
   let g:NERDSpaceDelims = 1
+  let g:NERDCustomDelimiters = {
+        \ 'python': { 'left': '#', 'leftAlt': '# ' },
+        \ }
+
   xmap gcc <Plug>NERDCommenterComment
   nmap gcc <Plug>NERDCommenterComment
   xmap gcn <Plug>NERDCommenterNested
@@ -1162,9 +1167,6 @@ endif
 
 if mymisc#plug_tap('lexima.vim')
   let g:lexima_ctrlh_as_backspace = 1
-  call lexima#add_rule({'char':'<',    'input_after':'>'})
-  call lexima#add_rule({'char':'>',    'at':'\%#>',  'leave':'>'})
-  call lexima#add_rule({'char':'<BS>', 'at':'<\%#>', 'input':'<BS>', 'delete':1})
 
   for [begin, end] in [['(', ')'], ['{','}'], ['[',']']]
     call lexima#add_rule({'char':begin, 'at':'\%#[:alnum:]', 'input':begin})
@@ -1297,6 +1299,9 @@ if mymisc#plug_tap('sonictemplate-vim')
   let g:sonictemplate_vim_template_dir = [
         \ $MYDOTFILES.'/vim/template',
         \ ]
+  let g:sonictemplate_key = "\<C-x>t"
+  let g:sonictemplate_intelligent_key = "\<C-x>T"
+  let g:sonictemplate_postfix_key = "\<C-x>\<C-b>"
 endif
 
 source $MYDOTFILES/vim/scripts/custom_global.vim

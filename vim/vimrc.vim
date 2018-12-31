@@ -68,9 +68,9 @@ try
   endif
 
   if v:version >= 800
-    if !has('nvim')
-      set cryptmethod=blowfish2
-    endif
+    " if !has('nvim')
+    "   set cryptmethod=blowfish2
+    " endif
     set breakindent                                        " version8以降搭載の便利オプション
     set display=truncate
     set emoji                                              " 絵文字を全角表示
@@ -100,7 +100,7 @@ try
   set showcmd                                              " 入力中のコマンドを右下に表示
   set cmdheight=2                                          " コマンドラインの高さ
   set showtabline=2                                        " タブバーを常に表示
-  set shortmess-=T
+  set shortmess-=Tt
   set sidescroll=1                                         " 横スクロール刻み幅
   set number                                               " 行番号表示
   set norelativenumber
@@ -328,11 +328,8 @@ try
     noremap! <M-p> <Up>
     noremap! <M-f> <S-Right>
     noremap! <M-b> <S-Left>
-    if has('win32')
-      noremap! <M-C-H> <C-w> 
-    else
-      noremap! <M-BS> <C-w>
-    endif
+    noremap! <M-C-H> <C-w> 
+    noremap! <M-BS> <C-w>
   else
     if has('win32')
       noremap! î  <Down>
@@ -446,6 +443,55 @@ try
             \ })
     endfunction
   endif
+
+  function! s:encrypt_openssl() abort
+    if has('win32') && executable('git')
+      let command_openssl = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\openssl.exe'
+    elseif has('unix')
+      let command_openssl = 'openssl'
+    endif
+    let pass = inputsecret("Password: ")
+    let pass_confirm = inputsecret("Verify password: ")
+
+    let fname_base = expand("%") .".crypt"
+    let fname = fname_base
+    let counter = 0
+
+    while filereadable(fname)
+        let counter += 1
+        let fname = fname_base . string(counter)
+    endwhile
+
+    if pass ==# pass_confirm
+      exe ":!\"".command_openssl."\" aes-256-cbc -pbkdf2 -e -in % -out ".fname." -pass pass:".pass
+    else
+      echomsg "\nPasswords are different!"
+    endif
+  endfunction
+
+  function! s:decrypt_openssl() abort
+    if has('win32') && executable('git')
+      let command_openssl = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\openssl.exe'
+    elseif has('unix')
+      let command_openssl = 'openssl'
+    endif
+    let pass = inputsecret("Password: ")
+
+    let fname_base = expand("%:r")
+    let fname = fname_base
+    let counter = 0
+
+    while filereadable(fname)
+        let counter += 1
+        let fname = fname_base . string(counter)
+    endwhile
+
+    exe ":!\"".command_openssl."\" aes-256-cbc -pbkdf2 -d -in % -out ".fname." -pass pass:".pass
+    exe ":edit ".expand(fname)
+  endfunction
+
+  command! Encrypt call s:encrypt_openssl()
+  command! Decrypt call s:decrypt_openssl()
   " }}} COMMANDS END
 
   " AUTOCMDS {{{
