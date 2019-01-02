@@ -44,8 +44,11 @@ fun! mymisc#git_auto_updating() abort
 endf
 
 fun! mymisc#git_callback_nvim(ch, msg, event) abort
-  let msgstr = join(a:msg, "\n")
-  call mymisc#git_callback(a:ch, msgstr)
+  for msgstr in a:msg
+    if msgstr !=# ''
+      call mymisc#git_callback(a:ch, msgstr)
+    endif
+  endfor
 endf
 
 fun! mymisc#git_end_callback_nvim(ch, msg, event) abort
