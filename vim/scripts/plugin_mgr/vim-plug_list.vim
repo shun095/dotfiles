@@ -236,6 +236,10 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'tyru/open-browser.vim'
 Plug 'haya14busa/vim-open-googletranslate', {'on':'OpenGoogleTranslate'}
 Plug 'tyru/capture.vim'
+if has('nvim') && has('win32')
+  Plug 'pepo-le/win-ime-con.nvim'
+  let g:win_ime_con_mode = 0
+endif
 
 " Libraries
 " Plug 'vim-jp/vital.vim', {'on':'Vitalize'}
