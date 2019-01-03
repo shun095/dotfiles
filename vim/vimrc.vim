@@ -362,6 +362,15 @@ try
   cnoremap <C-n> <down>
 
   nnoremap <Leader>u  :<C-u>/ oldfiles<Home>browse filter /
+
+  nnoremap <Leader>E :<C-u>Explore %:h<CR>
+  nnoremap <Leader>e :<C-u>Explore .<CR>
+  let g:netrw_altfile = 1
+  let g:netrw_liststyle = 1
+  let g:netrw_sizestyle = 'H'
+  let g:netrw_usetab = 1
+  autocmd VIMRC FileType netrw setl bufhidden=wipe
+  autocmd VIMRC FileType netrw nnoremap <buffer> q :<C-u>bd<CR>
   " }}} MAPPING END
 
   " COMMANDS {{{
