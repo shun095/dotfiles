@@ -369,8 +369,10 @@ try
   let g:netrw_liststyle = 1
   let g:netrw_sizestyle = 'H'
   let g:netrw_usetab = 1
+  let g:netrw_hide = 1
+  let g:netrw_list_hide= '\(^\|\s\s\)\zs\.\S\+'
   autocmd VIMRC FileType netrw setl bufhidden=wipe
-  autocmd VIMRC FileType netrw nnoremap <buffer> q :<C-u>bd<CR>
+  autocmd VIMRC FileType netrw nnoremap <buffer> q :<C-u>Rexplore<CR>
   " }}} MAPPING END
 
   " COMMANDS {{{
