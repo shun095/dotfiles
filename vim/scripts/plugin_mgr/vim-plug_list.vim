@@ -53,6 +53,8 @@ if 0
     Plug 'Shougo/denite.nvim', {'do':':UpdateRemotePlugins'}
     Plug 'Shougo/deoplete.nvim', {'do':':UpdateRemotePlugins'}
     Plug 'Shougo/defx.nvim', {'do':':UpdateRemotePlugins'}
+    " Plug 'Shougo/deoplete-lsp'
+    " call lsp#server#add('python', ['python', '-m', 'pyls'])
   else
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
@@ -63,11 +65,11 @@ if 0
   Plug 'Shougo/context_filetype.vim'
   Plug 'Shougo/neomru.vim'
   " Plug 'Shougo/vimproc.vim'
-  if has('win32')
-    Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
-  else
-    Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
-  endif
+  " if has('win32')
+  "   Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
+  " else
+  "   Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+  " endif
 
   if 0
     if has('win32')
@@ -108,7 +110,6 @@ else
   Plug 'prabirshrestha/asyncomplete-file.vim'
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
   Plug 'yami-beta/asyncomplete-omni.vim'
-  Plug 'Shougo/neco-vim'
   Plug 'prabirshrestha/asyncomplete-necovim.vim'
   Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
@@ -127,6 +128,7 @@ Plug 'OmniSharp/omnisharp-vim', {'for':['cs']}
 " Plug 'zchee/deoplete-go', {'for':['go']}
 Plug 'othree/csscomplete.vim'
 Plug 'artur-shaik/vim-javacomplete2', {'for':'java'}
+Plug 'Shougo/neco-vim' " for vim
 
 
 " Snippets, templates

@@ -1240,7 +1240,7 @@ if mymisc#plug_tap('gina.vim')
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
-  let g:gitgutter_async = 0
+  let g:gitgutter_async = 1
   nnoremap <Leader>gg :GitGutterAll<CR>
   augroup vimrc_gitgutter
     autocmd!
