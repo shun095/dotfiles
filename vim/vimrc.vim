@@ -27,6 +27,7 @@ try
   if has("python3")
     py3 pass
   endif
+
   " }}}
 
   " OPTIONS {{{
@@ -126,6 +127,7 @@ try
   set fileformats=unix,dos,mac                             " 改行コード自動判別優先順位の設定
   " set complete=.,w,b,u,U,k,kspell,s,t,t
   set completeopt=menuone,noselect                         " 補完関係の設定,Ycmで自動設定される
+  set pyxversion=3
   set pumheight=10                                         " 補完ウィンドウ最大高さ
   set iminsert=0                                           " IMEの管理
   set imsearch=0
