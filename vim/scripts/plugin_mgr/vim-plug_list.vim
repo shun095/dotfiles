@@ -142,9 +142,9 @@ Plug 'honza/vim-snippets'
 Plug 'mattn/sonictemplate-vim'
 
 " General purpose completions, linters
-" Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 " Plug 'Raimondi/delimitMate'
-Plug 'cohama/lexima.vim'
+" Plug 'cohama/lexima.vim'
 Plug 'alvan/vim-closetag'
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
