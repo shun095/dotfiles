@@ -111,6 +111,20 @@ fun! mymisc#copydirpath() abort
 endf
 
 fun! mymisc#command_at_destdir(destination,commandlist) abort
+  if a:destination ==# ''
+    echohl WarningMsg
+    echom "Destination dir must be specified for mymisc#command_at_destdir"
+    echohl none
+    return
+  endif
+
+  if type(a:commandlist) != 3
+    echohl WarningMsg
+    echom "Command list shoud be list for mymisc#command_at_destdir"
+    echohl none
+    return
+  endif
+
   let l:previous_cwd = getcwd()
   exe 'cd ' . a:destination
   for command in a:commandlist

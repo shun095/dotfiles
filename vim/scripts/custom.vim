@@ -1222,7 +1222,7 @@ if mymisc#plug_tap('gina.vim')
   cabbrev G Gina
   nnoremap <Leader>gs :<C-u>Gina status --opener=split<CR>
   nnoremap <Leader>gc :<C-u>Gina commit --opener=split<CR>
-  nnoremap <Leader>gp :<C-u>Gina push<CR>
+  " nnoremap <Leader>gp :<C-u>Gina push<CR>
   nnoremap <Leader>gl :<C-u>Gina pull<CR>
   nnoremap <Leader>gf :<C-u>Gina fetch --all -t<CR>
   nnoremap <Leader>gm :<C-u>Gina merge<CR>
