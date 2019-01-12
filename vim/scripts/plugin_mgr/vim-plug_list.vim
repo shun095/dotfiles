@@ -15,6 +15,27 @@ else
   let s:has_python = g:false
 endif
 
+let s:on_insert_enter_plugs = []
+function! s:on_insert_enter_register(plugin) abort
+  let name = split(a:plugin, '/')[-1]
+  let s:on_insert_enter_plugs = add(s:on_insert_enter_plugs, name)
+  execute "Plug '" . a:plugin . "', {'on':[]}"
+endfunction
+
+function! s:on_insert_enter_load() abort
+  for l:plug_name in s:on_insert_enter_plugs
+    " echom "Loading " . string(l:plug_name)
+    call plug#load(l:plug_name)
+  endfor
+endfunction
+
+augroup myload_on_insert_enter
+  autocmd!
+  autocmd InsertEnter * 
+        \ call s:on_insert_enter_load() | autocmd! myload_on_insert_enter
+augroup END
+
+
 " Color schemes
 Plug 'rakr/vim-one'
 let g:terminal_ansi_colors = [
@@ -102,16 +123,16 @@ else
   " Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
   " Plug 'ervandew/supertab'
 
-  Plug 'ishitaku5522/asyncomplete.vim'
-  Plug 'prabirshrestha/async.vim'
-  Plug 'prabirshrestha/vim-lsp'
-  Plug 'prabirshrestha/asyncomplete-lsp.vim'
-  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-  Plug 'prabirshrestha/asyncomplete-file.vim'
-  Plug 'prabirshrestha/asyncomplete-buffer.vim'
-  Plug 'yami-beta/asyncomplete-omni.vim'
-  Plug 'prabirshrestha/asyncomplete-necovim.vim'
-  Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+  call s:on_insert_enter_register('ishitaku5522/asyncomplete.vim')
+  call s:on_insert_enter_register('prabirshrestha/async.vim')
+  call s:on_insert_enter_register('prabirshrestha/vim-lsp')
+  call s:on_insert_enter_register('prabirshrestha/asyncomplete-lsp.vim')
+  call s:on_insert_enter_register('prabirshrestha/asyncomplete-ultisnips.vim')
+  call s:on_insert_enter_register('prabirshrestha/asyncomplete-file.vim')
+  call s:on_insert_enter_register('prabirshrestha/asyncomplete-buffer.vim')
+  call s:on_insert_enter_register('yami-beta/asyncomplete-omni.vim')
+  call s:on_insert_enter_register('prabirshrestha/asyncomplete-necovim.vim')
+  call s:on_insert_enter_register('prabirshrestha/asyncomplete-neosnippet.vim')
 
   Plug 'scrooloose/nerdtree'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -127,9 +148,8 @@ Plug 'OmniSharp/omnisharp-vim', {'for':['cs']}
 " Plug 'carlitux/deoplete-ternjs', {'for':['javascript']}
 " Plug 'zchee/deoplete-go', {'for':['go']}
 Plug 'othree/csscomplete.vim'
-Plug 'artur-shaik/vim-javacomplete2', {'for':'java'}
+Plug 'artur-shaik/vim-javacomplete2', {'for':['java']}
 Plug 'Shougo/neco-vim' " for vim
-
 
 " Snippets, templates
 Plug 'Shougo/neosnippet.vim'
@@ -138,17 +158,17 @@ if s:has_python3 || s:has_python
   Plug 'SirVer/ultisnips'
 endif
 Plug 'honza/vim-snippets'
-" Plug 'aperezdc/vim-template'
 Plug 'mattn/sonictemplate-vim'
+" Plug 'aperezdc/vim-template'
 
 " General purpose completions, linters
-Plug 'jiangmiao/auto-pairs'
-" Plug 'Raimondi/delimitMate'
-" Plug 'cohama/lexima.vim'
-Plug 'alvan/vim-closetag'
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
-Plug 'chiel92/vim-autoformat'
+Plug 'gorodinskiy/vim-coloresque'
+Plug 'chiel92/vim-autoformat', {'on':['Autoformat']}
+call s:on_insert_enter_register('jiangmiao/auto-pairs')
+" Plug 'Raimondi/delimitMate'
+" Plug 'cohama/lexima.vim'
 
 " Language/environment specific plugins
 Plug 'lervag/vimtex', {'for':['tex']}
@@ -160,7 +180,8 @@ Plug 'fatih/vim-go', {'for':['go']}
 Plug 'mattn/emmet-vim', {'for':['html', 'xml']}
 Plug 'mopp/next-alter.vim', {'for':['c', 'cpp', 'vim']}
 Plug 'Valloric/MatchTagAlways', {'for':['html', 'xml']}
-Plug 'ishitaku5522/rosmake.vim'
+Plug 'ishitaku5522/rosmake.vim', {'on':['Catkinmake', 'Rosmake']}
+Plug 'alvan/vim-closetag', {'for': ['xml', 'html', 'xhtml', 'phtml']}
 
 " Syntax highlights
 Plug 'othree/html5.vim', {'for':['html']}
@@ -168,11 +189,10 @@ Plug 'digitaltoad/vim-pug', {'for':['pug', 'jade']}
 Plug 'briancollins/vim-jst', {'for':['ejs', 'jst']}
 Plug 'groenewege/vim-less', {'for':['less']}
 Plug 'cakebaker/scss-syntax.vim', {'for':['scss']}
-Plug 'gorodinskiy/vim-coloresque'
+Plug 'wavded/vim-stylus', {'for':['stylus']}
 Plug 'leafgarland/typescript-vim', {'for':['typescript']}
 Plug 'pangloss/vim-javascript', {'for':['javascript']}
 Plug 'posva/vim-vue', {'for':['vue']}
-Plug 'wavded/vim-stylus'
 Plug 'elzr/vim-json', {'for':['json']}
 Plug 'cespare/vim-toml', {'for':'toml'}
 Plug 'tmux-plugins/vim-tmux', {'for':['tmux']}
@@ -244,7 +264,6 @@ if has('nvim') && has('win32')
 endif
 
 " Libraries
-" Plug 'vim-jp/vital.vim', {'on':'Vitalize'}
 Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 
