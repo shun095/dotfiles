@@ -421,9 +421,11 @@ try
   if has('nvim')
     nnoremap <Leader>te :execute "bel 20split term://" . &shell<CR>
     let s:gitpush_cmd = ':execute ''bel 20split term://''.&shell.'' ''.&shellcmdflag.'' git push'''
+    let s:gitpull_cmd = ':execute ''bel 20split term://''.&shell.'' ''.&shellcmdflag.'' git pull'''
   else
     nnoremap <Leader>te :bel terminal ++rows=20<CR>
     let s:gitpush_cmd = ':bel terminal ++rows=20 git push'
+    let s:gitpull_cmd = ':bel terminal ++rows=20 git pull'
   endif
 
   function! s:my_git_push() abort
@@ -431,7 +433,13 @@ try
     call mymisc#command_at_destdir(l:target_dir, [s:gitpush_cmd]) 
   endfunction
 
+  function! s:my_git_pull() abort
+    let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
+    call mymisc#command_at_destdir(l:target_dir, [s:gitpull_cmd]) 
+  endfunction
+
   nnoremap <Leader>gp :call <SID>my_git_push()<CR>
+  nnoremap <Leader>gl :call <SID>my_git_pull()<CR>
 
   if !has('nvim')
     " Forked from https://qiita.com/shiena/items/1dcb20e99f43c9383783
