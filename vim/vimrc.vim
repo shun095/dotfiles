@@ -372,6 +372,7 @@ try
   let g:netrw_sizestyle = 'H'
   let g:netrw_usetab = 1
   let g:netrw_hide = 1
+  let g:netrw_winsize = -40
   let g:netrw_list_hide= '\(^\|\s\s\)\zs\.\S\+'
   " let g:netrw_winsize = 20
   autocmd VIMRC FileType netrw setl bufhidden=delete
