@@ -420,7 +420,7 @@ try
 
   if has('nvim')
     nnoremap <Leader>te :execute "bel 20split term://" . &shell<CR>
-    let s:gitpush_cmd = ':execute "bel 20split term://".&shell." ".&shellcmdflag." ''git push''"'
+    let s:gitpush_cmd = ':execute ''bel 20split term://''.&shell.'' ''.&shellcmdflag.'' git push'''
   else
     nnoremap <Leader>te :bel terminal ++rows=20<CR>
     let s:gitpush_cmd = ':bel terminal ++rows=20 git push'
