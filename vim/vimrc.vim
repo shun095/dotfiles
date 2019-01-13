@@ -424,22 +424,33 @@ try
 
   if has('nvim')
     nnoremap <Leader>te :execute "bel 20split term://" . &shell<CR>
-    let s:gitpush_cmd = ':execute ''bel 20split term://''.&shell.'' ''.&shellcmdflag.'' git push'''
-    let s:gitpull_cmd = ':execute ''bel 20split term://''.&shell.'' ''.&shellcmdflag.'' git pull'''
   else
     nnoremap <Leader>te :bel terminal ++rows=20<CR>
-    let s:gitpush_cmd = ':bel terminal ++rows=20 git push'
-    let s:gitpull_cmd = ':bel terminal ++rows=20 git pull'
   endif
+
+  function! s:get_termrun_cmd(cmd, height) abort
+    if has('nvim')
+      let l:terminal_cmd = 'bel '.a:height.'split term://'
+    let l:quote = ''
+    else
+      let l:terminal_cmd = ':bel terminal ++rows='.a:height.' '
+      let l:quote = ''
+    endif
+    let l:ret = l:terminal_cmd . l:quote . a:cmd . l:quote
+    echomsg l:ret
+    return l:ret
+  endfunction
 
   function! s:my_git_push() abort
     let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
-    call mymisc#command_at_destdir(l:target_dir, [s:gitpush_cmd]) 
+    let l:cmd = s:get_termrun_cmd('git push',20)
+    call mymisc#command_at_destdir(l:target_dir, [l:cmd]) 
   endfunction
 
   function! s:my_git_pull() abort
     let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
-    call mymisc#command_at_destdir(l:target_dir, [s:gitpull_cmd]) 
+    let l:cmd = s:get_termrun_cmd('git pull',20)
+    call mymisc#command_at_destdir(l:target_dir, [l:cmd]) 
   endfunction
 
   nnoremap <Leader>gp :call <SID>my_git_push()<CR>
