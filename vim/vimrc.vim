@@ -39,7 +39,7 @@ try
 
   augroup VIMRC
     " Initialize augroup
-    autocmd! 
+    autocmd!
   augroup END
 
   if !has('gui_running')
@@ -277,7 +277,7 @@ try
 
   set dir-=.
   set dir^=$HOME/tmp//
-  " }}} OPTIONS END 
+  " }}} OPTIONS END
 
   " MAPPING {{{
   " Move cursor in display lines method
@@ -333,7 +333,7 @@ try
     noremap! <M-p> <Up>
     noremap! <M-f> <S-Right>
     noremap! <M-b> <S-Left>
-    noremap! <M-C-H> <C-w> 
+    noremap! <M-C-H> <C-w>
     noremap! <M-BS> <C-w>
   else
     if has('win32')
@@ -435,13 +435,13 @@ try
   function! s:my_git_push() abort
     let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
     let l:cmd = s:get_termrun_cmd('git push',20)
-    call mymisc#command_at_destdir(l:target_dir, [l:cmd]) 
+    call mymisc#command_at_destdir(l:target_dir, [l:cmd])
   endfunction
 
   function! s:my_git_pull() abort
     let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
     let l:cmd = s:get_termrun_cmd('git pull',20)
-    call mymisc#command_at_destdir(l:target_dir, [l:cmd]) 
+    call mymisc#command_at_destdir(l:target_dir, [l:cmd])
   endfunction
 
   nnoremap <Leader>gp :call <SID>my_git_push()<CR>

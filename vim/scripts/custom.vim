@@ -81,8 +81,8 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_update_beforelist()
-    if len(w:dirvish_before) == 0 || w:dirvish_before[0] !=# expand("%:p") 
-      call insert(w:dirvish_before,expand("%:p")) 
+    if len(w:dirvish_before) == 0 || w:dirvish_before[0] !=# expand("%:p")
+      call insert(w:dirvish_before,expand("%:p"))
     endif
   endf
 
@@ -201,6 +201,7 @@ if mymisc#plug_tap('nerdtree')
   nnoremap <Leader>e :NERDTreeFocus<CR>
   nnoremap <Leader>E :NERDTreeFind<CR>
   nnoremap <Leader><c-e> :NERDTreeCWD<CR>
+  nnoremap <Leader>n :NERDTree<space>
 
   " let g:NERDTreeMapOpenSplit = 's'
   " let g:NERDTreeMapPreviewSplit = 'gs'
@@ -627,7 +628,7 @@ if mymisc#plug_tap('ctrlp.vim')
     let g:ctrlp_user_command = ''
   endif
   " else
-  "   " Brought from denite 
+  "   " Brought from denite
   "   let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
   " endif
 
@@ -799,7 +800,7 @@ if mymisc#plug_tap('deoplete.nvim')
 
   call deoplete#custom#source('_','max_menu_width',0)
   call deoplete#custom#source('_','min_pattern_length', 1)
-  
+
   call deoplete#custom#option({
         \ 'auto_complete_delay': 20,
         \ 'smart_case': v:false,
