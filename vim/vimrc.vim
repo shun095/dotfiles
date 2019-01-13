@@ -422,22 +422,13 @@ try
     call setpos('.', pos)
   endfunction
 
-  if has('nvim')
-    nnoremap <Leader>te :execute "bel 20split term://" . &shell<CR>
-  else
-    nnoremap <Leader>te :bel terminal ++rows=20<CR>
-  endif
-
   function! s:get_termrun_cmd(cmd, height) abort
     if has('nvim')
-      let l:terminal_cmd = 'bel '.a:height.'split term://'
-    let l:quote = ''
+      let l:terminal_cmd = ':bel '.a:height.'split term://'
     else
       let l:terminal_cmd = ':bel terminal ++rows='.a:height.' '
-      let l:quote = ''
     endif
-    let l:ret = l:terminal_cmd . l:quote . a:cmd . l:quote
-    echomsg l:ret
+    let l:ret = l:terminal_cmd . a:cmd
     return l:ret
   endfunction
 
@@ -455,6 +446,7 @@ try
 
   nnoremap <Leader>gp :call <SID>my_git_push()<CR>
   nnoremap <Leader>gl :call <SID>my_git_pull()<CR>
+  nnoremap <Leader>te :execute <SID>get_termrun_cmd(&shell, 20)<CR>
 
   if !has('nvim')
     " Forked from https://qiita.com/shiena/items/1dcb20e99f43c9383783
