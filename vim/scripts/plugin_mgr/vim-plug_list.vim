@@ -15,16 +15,23 @@ else
   let s:has_python = g:false
 endif
 
-let s:on_insert_enter_plugs = []
-function! s:on_insert_enter_register(plugin) abort
+let s:lazy_plugins = {}
+
+function! s:lazy_plugin_register(plugin, event) abort
+  if !has_key(s:lazy_plugins, a:event)
+    let s:lazy_plugins[a:event] = []
+  endif
+
   let name = split(a:plugin, '/')[-1]
-  let s:on_insert_enter_plugs = add(s:on_insert_enter_plugs, name)
+  let s:lazy_plugins[a:event] = add(s:lazy_plugins[a:event], name)
   execute "Plug '" . a:plugin . "', {'on':[]}"
 endfunction
 
 function! s:on_insert_enter_load() abort
-  for l:plug_name in s:on_insert_enter_plugs
-    " echom "Loading " . string(l:plug_name)
+  if !has_key(s:lazy_plugins, 'InsertEnter')
+    return
+  endif
+  for l:plug_name in s:lazy_plugins['InsertEnter']
     call plug#load(l:plug_name)
   endfor
 endfunction
@@ -123,16 +130,16 @@ else
   " Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
   " Plug 'ervandew/supertab'
 
-  call s:on_insert_enter_register('ishitaku5522/asyncomplete.vim')
-  call s:on_insert_enter_register('prabirshrestha/async.vim')
-  call s:on_insert_enter_register('prabirshrestha/vim-lsp')
-  call s:on_insert_enter_register('prabirshrestha/asyncomplete-lsp.vim')
-  call s:on_insert_enter_register('prabirshrestha/asyncomplete-ultisnips.vim')
-  call s:on_insert_enter_register('prabirshrestha/asyncomplete-file.vim')
-  call s:on_insert_enter_register('prabirshrestha/asyncomplete-buffer.vim')
-  call s:on_insert_enter_register('yami-beta/asyncomplete-omni.vim')
-  call s:on_insert_enter_register('prabirshrestha/asyncomplete-necovim.vim')
-  call s:on_insert_enter_register('prabirshrestha/asyncomplete-neosnippet.vim')
+  Plug 'ishitaku5522/asyncomplete.vim'
+  Plug 'prabirshrestha/async.vim'
+  Plug 'prabirshrestha/vim-lsp'
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+  Plug 'prabirshrestha/asyncomplete-file.vim'
+  Plug 'prabirshrestha/asyncomplete-buffer.vim'
+  Plug 'yami-beta/asyncomplete-omni.vim'
+  Plug 'prabirshrestha/asyncomplete-necovim.vim'
+  Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
   Plug 'scrooloose/nerdtree'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -166,7 +173,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'chiel92/vim-autoformat', {'on':['Autoformat']}
-call s:on_insert_enter_register('jiangmiao/auto-pairs')
+Plug 'jiangmiao/auto-pairs'
 " Plug 'Raimondi/delimitMate'
 " Plug 'cohama/lexima.vim'
 
@@ -228,15 +235,7 @@ Plug 'Yggdroot/indentLine'
 " Plug 'nathanaelkane/vim-indent-guides'
 
 " Git plugins
-" Plug 'tpope/vim-fugitive'
-" Plug 'tpope/vim-rhubarb'
-" Plug 'tpope/vim-dispatch'
-" Plug 'junegunn/gv.vim'
-
-" Plug 'jreybert/vimagit'
-
 Plug 'lambdalisue/gina.vim'
-
 Plug 'airblade/vim-gitgutter'
 
 " General purpose motions
