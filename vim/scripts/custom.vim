@@ -923,13 +923,15 @@ endif
 if mymisc#plug_tap('vim-lsp')
   " let g:lsp_log_verbose = 1
   " let g:lsp_log_file = $HOME."/.vim/asyncomplete.log"
-  "
+
   let g:lsp_signs_enabled           = 1
-  let g:lsp_diagnostics_echo_cursor = 1
   let g:lsp_signs_error             = {'text': 'E'}
   let g:lsp_signs_warning           = {'text': 'W'}
   let g:lsp_signs_information       = {'text': 'I'}
   let g:lsp_signs_hint              = {'text': 'H'}
+
+  let g:lsp_diagnostics_echo_cursor = 1
+  let g:lsp_diagnostics_echo_delay  = 1
 
   hi link LspErrorText ALEErrorSign
   hi link LspWarningText ALEWarningSign
@@ -938,7 +940,6 @@ if mymisc#plug_tap('vim-lsp')
 
   augroup vimrc_vimlsp
     autocmd!
-
     if executable($HOME.'/.vim/clangd')
       au User lsp_setup call lsp#register_server({
             \ 'name': 'clangd',
@@ -946,8 +947,6 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['cpp','c','hpp','h'],
             \ 'priority': 100
             \ })
-      autocmd FileType cpp,c nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
-      autocmd FileType cpp,c setl omnifunc=lsp#complete
     endif
 
     if executable('pyls')
@@ -957,8 +956,6 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['python'],
             \ 'priority': 100
             \ })
-      autocmd FileType python nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
-      autocmd FileType python setl omnifunc=lsp#complete
     endif
 
     if executable('typescript-language-server') || executable($APPDATA.'/npm/typescript-language-server')
@@ -968,8 +965,6 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['javascript','typescript'],
             \ 'priority': 100
             \ })
-      autocmd FileType javascript,typescript nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
-      autocmd FileType javascript,typescript setl omnifunc=lsp#complete
     endif
 
     if executable('vls') || executable($APPDATA.'/npm/vls.cmd')
@@ -979,9 +974,11 @@ if mymisc#plug_tap('vim-lsp')
             \ 'whitelist': ['vue'],
             \ 'priority': 100
             \ })
-      autocmd FileType vue nnoremap <buffer> <space><c-]> :<C-u>LspDefinition<CR>
-      autocmd FileType vue setl omnifunc=lsp#complete
     endif
+
+    au FileType c,cpp,python,javascript,typescript,vue nnoremap <buffer> <leader><c-]> :<C-u>LspDefinition<CR>
+    au FileType c,cpp,python,javascript,typescript,vue vnoremap <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>
+    au FileType c,cpp,python,javascript,typescript,vue setl omnifunc=lsp#complete
   augroup END
 endif
 
@@ -1056,7 +1053,7 @@ if mymisc#plug_tap('asyncomplete.vim')
   let g:asyncomplete_min_length = 1
   let g:asyncomplete_remove_duplicates = 0
   let g:asyncomplete_force_refresh_on_context_changed = 1
-  let g:asyncomplete_completion_delay = 100
+  let g:asyncomplete_completion_delay = 250
 
   set completeopt+=preview
 
@@ -1241,7 +1238,7 @@ if mymisc#plug_tap('gina.vim')
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
-  let g:gitgutter_async = 1
+  let g:gitgutter_async = 0
   nnoremap <Leader>gg :GitGutterAll<CR>
   augroup vimrc_gitgutter
     autocmd!
@@ -1300,9 +1297,9 @@ if mymisc#plug_tap('sonictemplate-vim')
   let g:sonictemplate_vim_template_dir = [
         \ $MYDOTFILES.'/vim/template',
         \ ]
-  let g:sonictemplate_key = "\<C-x>t"
-  let g:sonictemplate_intelligent_key = "\<C-x>T"
-  let g:sonictemplate_postfix_key = "\<C-x>\<C-b>"
+  let g:sonictemplate_key = "\<leader>\<C-y>t"
+  let g:sonictemplate_intelligent_key = "\<leader>\<C-y>T"
+  let g:sonictemplate_postfix_key = "\<leader>\<C-y>\<C-b>"
 endif
 
 source $MYDOTFILES/vim/scripts/custom_global.vim
