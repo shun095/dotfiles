@@ -226,8 +226,8 @@ if mymisc#plug_tap('open-browser.vim')
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
-  nnoremap <Leader>oh :<C-u>OpenBrowser https://
-  nnoremap <Leader>os :<C-u>OpenBrowserSearch<Space>
+  nnoremap <Leader>Bh :<C-u>OpenBrowser https://
+  nnoremap <Leader>Bs :<C-u>OpenBrowserSearch<Space>
   command! -nargs=1 Weblio OpenBrowser http://ejje.weblio.jp/content/<args>
 endif
 
