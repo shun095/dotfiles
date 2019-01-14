@@ -1297,9 +1297,9 @@ if mymisc#plug_tap('sonictemplate-vim')
   let g:sonictemplate_vim_template_dir = [
         \ $MYDOTFILES.'/vim/template',
         \ ]
-  let g:sonictemplate_key = "\<leader>\<C-y>t"
-  let g:sonictemplate_intelligent_key = "\<leader>\<C-y>T"
-  let g:sonictemplate_postfix_key = "\<leader>\<C-y>\<C-b>"
+  let g:sonictemplate_key             = "\<C-g>\<C-y>t"
+  let g:sonictemplate_intelligent_key = "\<C-g>\<C-y>T"
+  let g:sonictemplate_postfix_key     = "\<C-g>\<C-y>\<C-b>"
 endif
 
 source $MYDOTFILES/vim/scripts/custom_global.vim
