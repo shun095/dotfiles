@@ -65,13 +65,16 @@ if mymisc#plug_tap('vim-dirvish')
   let g:mydirvish_sort = 1
 
   fun! s:mydirvish_start(path)
-    if exists('t:mydirvish_winnr')
-      exe "normal ".t:mydirvish_winnr."\<C-w>w"
+    if exists('t:mydirvish_winid')
+      if win_gotoid(t:mydirvish_winid)
+        return
+      endif
     endif
 
-    split
-    let save_curpath = 'let w:mydirvish_before = [expand("%:p")]'
-    exe save_curpath . ' | Dirvish ' . a:path
+    40vsplit
+    let w:mydirvish_before = [expand("%:p")]
+    let w:mydirvish_by_split = 1
+    exe 'Dirvish ' . a:path
   endf
 
   fun! s:mydirvish_open()
@@ -81,11 +84,20 @@ if mymisc#plug_tap('vim-dirvish')
       call remove(w:mydirvish_before,0)
     endif
 
-    if exists('t:mydirvish_winnr')
-      unlet t:mydirvish_winnr
+    if exists("w:mydirvish_by_split")
+      if match(getline("."),"[\\/]$") >= 0
+        call dirvish#open('edit', 0)
+      else
+        call dirvish#open('p', 1)
+        let t:mydirvish_winid = win_getid(winnr())
+        wincmd p
+      endif
+    else
+      if exists('t:mydirvish_winid')
+        unlet t:mydirvish_winid
+      endif
+      call dirvish#open('edit', 0)
     endif
-
-    call dirvish#open('edit', 0)
   endf
 
   fun s:mydirvish_init_buffer()
@@ -93,8 +105,8 @@ if mymisc#plug_tap('vim-dirvish')
       let w:mydirvish_before = []
     endif
 
-    if !exists('t:mydirvish_winnr')
-      let t:mydirvish_winnr = winnr()
+    if !exists('t:mydirvish_winid')
+      let t:mydirvish_winid = win_getid(winnr())
     endif
 
     augroup mydirvish
