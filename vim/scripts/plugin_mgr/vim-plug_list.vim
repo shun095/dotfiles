@@ -174,7 +174,7 @@ Plug 'mattn/sonictemplate-vim'
 " General purpose completions, linters
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
-Plug 'gorodinskiy/vim-coloresque'
+" Plug 'gorodinskiy/vim-coloresque'
 Plug 'chiel92/vim-autoformat', {'on':['Autoformat']}
 Plug 'jiangmiao/auto-pairs'
 " Plug 'Raimondi/delimitMate'
