@@ -76,6 +76,8 @@ if mymisc#plug_tap('vim-dirvish')
     endif
 
     40vsplit
+    set winfixwidth
+    normal =
     let w:mydirvish_before = [expand("%:p")]
     let w:mydirvish_by_split = 1
     exe 'Dirvish ' . path
@@ -205,6 +207,7 @@ if mymisc#plug_tap('vim-dirvish')
     if exists("w:mydirvish_by_split") && w:mydirvish_by_split && winnr("$") > 1
       unlet w:mydirvish_by_split
       q
+      normal =
     endif
   endf
 
