@@ -58,15 +58,19 @@ if mymisc#plug_tap('YouCompleteMe')
 endif
 
 if mymisc#plug_tap('vim-dirvish')
-  nnoremap <silent> <Leader>e :call <SID>mydirvish_start('%:p:h')<CR>
-  nnoremap <silent> <Leader>E :call <SID>mydirvish_start('.')<CR>
+  nnoremap <silent> <Leader>e :call <SID>mydirvish_start('.',0)<CR>
+  nnoremap <silent> <Leader>E :call <SID>mydirvish_start('%:p:h',1)<CR>
 
   let g:mydirvish_hidden = 1
   let g:mydirvish_sort = 1
 
-  fun! s:mydirvish_start(path)
+  fun! s:mydirvish_start(path, force_change_path)
+    let path = expand(a:path)
     if exists('t:mydirvish_winid')
       if win_gotoid(t:mydirvish_winid)
+        if a:force_change_path
+          exe 'Dirvish ' . path
+        endif
         return
       endif
     endif
@@ -74,7 +78,8 @@ if mymisc#plug_tap('vim-dirvish')
     40vsplit
     let w:mydirvish_before = [expand("%:p")]
     let w:mydirvish_by_split = 1
-    exe 'Dirvish ' . a:path
+    exe 'Dirvish ' . path
+    let t:mydirvish_winid = win_getid(winnr())
   endf
 
   fun! s:mydirvish_open()
@@ -88,14 +93,12 @@ if mymisc#plug_tap('vim-dirvish')
       if match(getline("."),"[\\/]$") >= 0
         call dirvish#open('edit', 0)
       else
-        call dirvish#open('p', 1)
-        let t:mydirvish_winid = win_getid(winnr())
+        let g:mydirvish_tmp = getline('.')
         wincmd p
+        exe "drop " . g:mydirvish_tmp
+        unlet g:mydirvish_tmp
       endif
     else
-      if exists('t:mydirvish_winid')
-        unlet t:mydirvish_winid
-      endif
       call dirvish#open('edit', 0)
     endif
   endf
@@ -103,10 +106,6 @@ if mymisc#plug_tap('vim-dirvish')
   fun s:mydirvish_init_buffer()
     if !exists('w:mydirvish_before')
       let w:mydirvish_before = []
-    endif
-
-    if !exists('t:mydirvish_winid')
-      let t:mydirvish_winid = win_getid(winnr())
     endif
 
     augroup mydirvish
@@ -190,9 +189,10 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_clean_on_quit()
-    if exists('t:mydirvish_winnr')
-      unlet t:mydirvish_winnr
+    if exists('w:mydirvish_by_split') && exists('t:mydirvish_winid')
+      unlet t:mydirvish_winid
     endif
+
     if exists('w:mydirvish_before')
       unlet w:mydirvish_before
     endif
