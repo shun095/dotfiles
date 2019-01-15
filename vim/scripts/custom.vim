@@ -61,7 +61,15 @@ if mymisc#plug_tap('vim-dirvish')
   nnoremap <silent> <Leader>e :call <SID>mydirvish_start('%:p:h')<CR>
   nnoremap <silent> <Leader>E :call <SID>mydirvish_start('.')<CR>
 
+  let g:mydirvish_hidden = 1
+  let g:mydirvish_sort = 1
+
   fun! s:mydirvish_start(path)
+    if exists('t:mydirvish_winnr')
+      exe "normal ".t:mydirvish_winnr."\<C-w>w"
+    endif
+
+    split
     let save_curpath = 'let w:mydirvish_before = [expand("%:p")]'
     exe save_curpath . ' | Dirvish ' . a:path
   endf
@@ -73,20 +81,20 @@ if mymisc#plug_tap('vim-dirvish')
       call remove(w:mydirvish_before,0)
     endif
 
+    if exists('t:mydirvish_winnr')
+      unlet t:mydirvish_winnr
+    endif
+
     call dirvish#open('edit', 0)
   endf
 
   fun s:mydirvish_init_buffer()
-    if !exists('w:mydirvish_hidden')
-      let w:mydirvish_hidden = 1
-    endif
-
-    if !exists('w:mydirvish_sort')
-      let w:mydirvish_sort = 1
-    endif
-
     if !exists('w:mydirvish_before')
       let w:mydirvish_before = []
+    endif
+
+    if !exists('t:mydirvish_winnr')
+      let t:mydirvish_winnr = winnr()
     endif
 
     augroup mydirvish
@@ -131,10 +139,10 @@ if mymisc#plug_tap('vim-dirvish')
 
   fun! s:mydirvish_apply_config()
     normal R
-    if w:mydirvish_sort
+    if g:mydirvish_sort
       call s:mydirvish_do_sort()
     endif
-    if w:mydirvish_hidden
+    if g:mydirvish_hidden
       call s:mydirvish_do_hide()
     endif
   endf
@@ -148,12 +156,12 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_toggle_hiddenfiles()
-    let w:mydirvish_hidden = !w:mydirvish_hidden
+    let g:mydirvish_hidden = !g:mydirvish_hidden
     call s:mydirvish_apply_config()
   endf
 
   fun! s:mydirvish_toggle_sortfiles()
-    let w:mydirvish_sort = !w:mydirvish_sort
+    let g:mydirvish_sort = !g:mydirvish_sort
     call s:mydirvish_apply_config()
   endf
 
@@ -170,11 +178,8 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_clean_on_quit()
-    if exists('w:mydirvish_sort')
-      unlet w:mydirvish_sort
-    endif
-    if exists('w:mydirvish_hidden')
-      unlet w:mydirvish_hidden
+    if exists('t:mydirvish_winnr')
+      unlet t:mydirvish_winnr
     endif
     if exists('w:mydirvish_before')
       unlet w:mydirvish_before
