@@ -78,9 +78,13 @@ if mymisc#plug_tap('vim-dirvish')
     40vsplit
     set winfixwidth
     normal =
-    let w:mydirvish_before = [expand("%:p")]
     let w:mydirvish_by_split = 1
-    exe 'Dirvish ' . path
+    let w:mydirvish_before = [expand("%:p")]
+    if a:force_change_path
+      exe 'Dirvish ' . path
+    elseif exists('g:mydirvish_last_dir')
+      exe 'Dirvish ' . g:mydirvish_last_dir
+    endif
     let t:mydirvish_winid = win_getid(winnr())
   endf
 
@@ -109,6 +113,8 @@ if mymisc#plug_tap('vim-dirvish')
     if !exists('w:mydirvish_before')
       let w:mydirvish_before = []
     endif
+    
+    let g:mydirvish_last_dir = expand('%:p:h')
 
     augroup mydirvish
       autocmd!
@@ -126,6 +132,8 @@ if mymisc#plug_tap('vim-dirvish')
     xnoremap <buffer> <CR> :call <SID>mydirvish_open()<CR>
     nnoremap <buffer> i    :call <SID>mydirvish_open()<CR>
     xnoremap <buffer> i    :call <SID>mydirvish_open()<CR>
+    nnoremap <buffer> o    :call <SID>mydirvish_open()<CR>
+    xnoremap <buffer> o    :call <SID>mydirvish_open()<CR>
     nnoremap <buffer> ~    :call <SID>mydirvish_start($HOME)<CR>
 
     " 独自quitスクリプト
