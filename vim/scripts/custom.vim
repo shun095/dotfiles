@@ -58,86 +58,138 @@ if mymisc#plug_tap('YouCompleteMe')
 endif
 
 if mymisc#plug_tap('vim-dirvish')
-  nnoremap <silent> <Leader>e :exe ":" . <SID>mydirvish_start('%:p:h')<CR>
-  nnoremap <silent> <Leader>E :exe ":" . <SID>mydirvish_start('.')<cr>
+  nnoremap <silent> <Leader>e :call <SID>mydirvish_start('%:p:h')<CR>
+  nnoremap <silent> <Leader>E :call <SID>mydirvish_start('.')<CR>
 
   fun! s:mydirvish_start(path)
-    let save_curpath = 'let w:dirvish_before = [expand("%:p")]'
-    return save_curpath . '| Dirvish ' . a:path
+    let save_curpath = 'let w:mydirvish_before = [expand("%:p")]'
+    exe save_curpath . ' | Dirvish ' . a:path
   endf
 
   fun! s:mydirvish_open()
-    if len(w:dirvish_before) > 1
-      call remove(w:dirvish_before,0,1)
-    elseif len(w:dirvish_before) == 1
-      call remove(w:dirvish_before,0)
+    if len(w:mydirvish_before) > 1
+      call remove(w:mydirvish_before,0,1)
+    elseif len(w:mydirvish_before) == 1
+      call remove(w:mydirvish_before,0)
     endif
 
     call dirvish#open('edit', 0)
   endf
 
-  fun! s:mydirvish_hide_hiddenfiles()
+  fun s:mydirvish_init_buffer()
+    if !exists('w:mydirvish_hidden')
+      let w:mydirvish_hidden = 1
+    endif
+
+    if !exists('w:mydirvish_sort')
+      let w:mydirvish_sort = 1
+    endif
+
+    if !exists('w:mydirvish_before')
+      let w:mydirvish_before = []
+    endif
+
+    augroup mydirvish
+      autocmd!
+      if exists('##TextChanged') && has('conceal')
+        autocmd TextChanged,TextChangedI <buffer> exe 'setlocal conceallevel=2'
+      endif
+    augroup END
+
+    " hとlによる移動
+    nnoremap <buffer> l    :call <SID>mydirvish_open()<CR>
+    xnoremap <buffer> l    :call <SID>mydirvish_open()<CR>
+    nmap     <buffer> h    <Plug>(dirvish_up)
+    xmap     <buffer> h    <Plug>(dirvish_up)
+    nnoremap <buffer> <CR> :call <SID>mydirvish_open()<CR>
+    xnoremap <buffer> <CR> :call <SID>mydirvish_open()<CR>
+    nnoremap <buffer> i    :call <SID>mydirvish_open()<CR>
+    xnoremap <buffer> i    :call <SID>mydirvish_open()<CR>
+    nnoremap <buffer> ~    :call <SID>mydirvish_start($HOME)<CR>
+
+    " 独自quitスクリプト
+    nnoremap <buffer> q    :call <SID>mydirvish_quit()<cr>
+
+    " .とsに隠しファイルとソートを割り当て
+    nnoremap <buffer> .    :call <SID>mydirvish_toggle_hiddenfiles()<CR>
+    nnoremap <buffer> s    :call <SID>mydirvish_toggle_sortfiles()<CR>
+
+    " Shell operations
+    nnoremap <buffer> dd   :Shdo rm -rf {}<CR>
+    vnoremap <buffer> d    :Shdo rm -rf {}<CR>
+    nnoremap <buffer> rr   :Shdo mv {}<CR>
+    vnoremap <buffer> r    :Shdo mv {}<CR>
+    nnoremap <buffer> cc   :Shdo cp {}<CR>
+    vnoremap <buffer> c    :Shdo cp {}<CR>
+
+    call <SID>mydirvish_apply_config()
+
+    " 開いていたファイルやDirectory(w:mydirvish_before)にカーソルをあわせる
+    call <SID>mydirvish_update_beforelist()
+    call <SID>mydirvish_selectprevdir()
+  endf
+
+  fun! s:mydirvish_apply_config()
+    normal R
+    if w:mydirvish_sort
+      call s:mydirvish_do_sort()
+    endif
+    if w:mydirvish_hidden
+      call s:mydirvish_do_hide()
+    endif
+  endf
+
+  fun! s:mydirvish_do_sort()
+    sort /.*\([\\\/]\)\@=/
+  endf
+
+  fun! s:mydirvish_do_hide()
     keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d _
   endf
 
+  fun! s:mydirvish_toggle_hiddenfiles()
+    let w:mydirvish_hidden = !w:mydirvish_hidden
+    call s:mydirvish_apply_config()
+  endf
+
+  fun! s:mydirvish_toggle_sortfiles()
+    let w:mydirvish_sort = !w:mydirvish_sort
+    call s:mydirvish_apply_config()
+  endf
+
   fun! s:mydirvish_update_beforelist()
-    if len(w:dirvish_before) == 0 || w:dirvish_before[0] !=# expand("%:p")
-      call insert(w:dirvish_before,expand("%:p"))
+    if len(w:mydirvish_before) == 0 || w:mydirvish_before[0] !=# expand("%:p")
+      call insert(w:mydirvish_before,expand("%:p"))
     endif
   endf
 
   fun! s:mydirvish_selectprevdir()
-    if len(w:dirvish_before) > 1
-      call search('\V\^'.escape(w:dirvish_before[1], '\').'\$', 'cw')
+    if len(w:mydirvish_before) > 1
+      call search('\V\^'.escape(w:mydirvish_before[1], '\').'\$', 'cw')
+    endif
+  endf
+
+  fun! s:mydirvish_clean_on_quit()
+    if exists('w:mydirvish_sort')
+      unlet w:mydirvish_sort
+    endif
+    if exists('w:mydirvish_hidden')
+      unlet w:mydirvish_hidden
+    endif
+    if exists('w:mydirvish_before')
+      unlet w:mydirvish_before
     endif
   endf
 
   fun! s:mydirvish_quit()
     nmap <buffer> q <plug>(dirvish_quit)
-    exe 'normal q'
-    if exists('w:dirvish_before')
-      unlet w:dirvish_before
-    endif
+    normal q
+    call s:mydirvish_clean_on_quit()
   endf
-
-  " a open("vsplit",1)
-  " o open("p",1)
-  " o open("split",1)
 
   augroup vimrc_dirvish
     autocmd!
-    " hとlによる移動
-    autocmd FileType dirvish nnoremap <silent><buffer> l :call <SID>mydirvish_open()<CR>
-    autocmd FileType dirvish xnoremap <silent><buffer> l :call <SID>mydirvish_open()<CR>
-    autocmd FileType dirvish nmap <silent><buffer> h <Plug>(dirvish_up)
-    autocmd FileType dirvish xmap <silent><buffer> h <Plug>(dirvish_up)
-
-    autocmd FileType dirvish nnoremap <silent><buffer> <CR> :call <SID>mydirvish_open()<CR>
-    autocmd FileType dirvish xnoremap <silent><buffer> <CR> :call <SID>mydirvish_open()<CR>
-    autocmd FileType dirvish nnoremap <silent><buffer> i :call <SID>mydirvish_open()<CR>
-    autocmd FileType dirvish xnoremap <silent><buffer> i :call <SID>mydirvish_open()<CR>
-    " 独自quitスクリプト
-    autocmd FileType dirvish nmap <silent><buffer> q :call <SID>mydirvish_quit()<cr>
-    " 起動時にソート.行末記号を入れないことで全行ソートする(共通部はソートしない)
-    autocmd FileType dirvish silent sort /.*\([\\\/]\)\@=/
-    " autocmd FileType dirvish silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d
-    " .とsに隠しファイルとソートを割り当て
-    autocmd FileType dirvish nnoremap <buffer> . :call <SID>mydirvish_hide_hiddenfiles()<CR>
-    autocmd FileType dirvish nnoremap <silent><buffer> s :sort /.*\([\\\/]\)\@=/<cr>
-
-    autocmd FileType dirvish nnoremap <silent><buffer> ~ :Dirvish ~/<CR>
-
-    autocmd FileType dirvish nnoremap <silent><buffer> dd :Shdo rm -rf {}<CR>
-    autocmd FileType dirvish vnoremap <silent><buffer> d :Shdo rm -rf {}<CR>
-    autocmd FileType dirvish nnoremap <silent><buffer> rr :Shdo mv {}<CR>
-    autocmd FileType dirvish vnoremap <silent><buffer> r :Shdo mv {}<CR>
-    autocmd FileType dirvish nnoremap <silent><buffer> cc :Shdo cp {}<CR>
-    autocmd FileType dirvish vnoremap <silent><buffer> c :Shdo cp {}<CR>
-
-    " 開いていたファイルやDirectory(w:dirvish_before)にカーソルをあわせる
-    autocmd FileType dirvish if !exists('w:dirvish_before') | let w:dirvish_before = [] | endif
-    autocmd FileType dirvish call <SID>mydirvish_update_beforelist()
-    autocmd FileType dirvish call <SID>mydirvish_selectprevdir()
+    autocmd FileType dirvish call s:mydirvish_init_buffer()
   augroup END
 endif
 
@@ -403,19 +455,20 @@ endif
 if mymisc#plug_tap('vimtex')
   let g:vimtex_compiler_latexmk_engines = { '_' : '-pdfdvi' }
   let g:vimtex_compiler_latexmk = {
-        \ 'background' : 1,
-        \ 'build_dir' : '',
-        \ 'callback' : 1,
-        \ 'continuous' : 1,
-        \ 'executable' : 'latexmk',
-        \ 'options' : [
-        \   '-pdfdvi',
-        \   '-verbose',
-        \   '-file-line-error',
-        \   '-synctex=-1',
-        \   '-interaction=nonstopmode',
-        \ ],
-        \}
+        \   'background' : 1,
+        \   'build_dir' : 'build',
+        \   'callback' : 1,
+        \   'continuous' : 0,
+        \   'executable' : 'latexmk',
+        \   'options' : [
+        \     '-pdfdvi',
+        \     '-verbose',
+        \     '-file-line-error',
+        \     '-synctex=1',
+        \     '-interaction=nonstopmode',
+        \     '-f',
+        \   ],
+        \ }
 
   if has('win32')
     let g:vimtex_view_general_viewer = 'SumatraPDF'

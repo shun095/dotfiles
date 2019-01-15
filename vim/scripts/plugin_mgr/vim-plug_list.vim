@@ -65,13 +65,16 @@ let g:terminal_ansi_colors = [
 "
 " Shougo wares
 let s:use_shougo_ware = 0
-if s:has_python3
-  if executable('python')
-    let s:use_shougo_ware = system("python --version") =~# 'Python\ 3\.[6-9]'
-  endif
 
-  if !s:use_shougo_ware && executable('python3')
-    let s:use_shougo_ware = system("python3 --version") =~# 'Python\ 3\.[6-9]'
+if has('nvim')
+  if s:has_python3
+    if executable('python')
+      let s:use_shougo_ware = system("python --version") =~# 'Python\ 3\.[6-9]'
+    endif
+
+    if !s:use_shougo_ware && executable('python3')
+      let s:use_shougo_ware = system("python3 --version") =~# 'Python\ 3\.[6-9]'
+    endif
   endif
 endif
 
@@ -141,10 +144,10 @@ else
   Plug 'prabirshrestha/asyncomplete-necovim.vim'
   Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
-  Plug 'scrooloose/nerdtree'
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  Plug 'jistr/vim-nerdtree-tabs'
-  " Plug 'justinmk/vim-dirvish'
+  " Plug 'scrooloose/nerdtree'
+  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  " Plug 'jistr/vim-nerdtree-tabs'
+  Plug 'justinmk/vim-dirvish'
 endif
 
 " Language specific completions
@@ -246,6 +249,7 @@ Plug 'deris/vim-shot-f'
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-submode'
 Plug 'bkad/CamelCaseMotion'
+Plug 'deton/jasegment.vim'
 
 " Applications
 Plug 'lambdalisue/suda.vim'
