@@ -202,6 +202,10 @@ if mymisc#plug_tap('vim-dirvish')
     nmap <buffer> q <plug>(dirvish_quit)
     normal q
     call s:mydirvish_clean_on_quit()
+    if exists("w:mydirvish_by_split") && w:mydirvish_by_split && winnr("$") > 1
+      unlet w:mydirvish_by_split
+      q
+    endif
   endf
 
   augroup vimrc_dirvish
