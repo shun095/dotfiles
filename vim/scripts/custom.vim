@@ -309,8 +309,8 @@ if mymisc#plug_tap('nerdtree')
 
   let g:NERDTreeIgnore = ['\.meta','\.sw[po]','\.pyc']
 
-  " let g:NERDTreeDirArrowExpandable = '+'
-  " let g:NERDTreeDirArrowCollapsible = '-'
+  let g:NERDTreeDirArrowExpandable = '+'
+  let g:NERDTreeDirArrowCollapsible = '-'
 endif
 
 if mymisc#plug_tap('open-browser.vim')
