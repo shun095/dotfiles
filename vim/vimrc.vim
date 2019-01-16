@@ -343,11 +343,31 @@ try
       noremap! â  <S-Left>
       noremap!  <C-w>
     else
-      noremap! n <Down>
-      noremap! p <Up>
-      noremap! f <S-Right>
-      noremap! b <S-Left>
-      noremap!  <C-w>
+      function! Fast_esc_unmap(timer) abort
+        unmap! <ESC>n
+        unmap! <ESC>p
+        unmap! <ESC>f
+        unmap! <ESC>b
+        unmap! <ESC>
+        let &timeoutlen=s:old_tlen
+        noremap! <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+      endfunction
+
+      function! s:fast_esc() abort
+        let s:old_tlen = &timeoutlen
+        set timeoutlen=10
+        noremap! <ESC>n <Down>
+        noremap! <ESC>p <Up>
+        noremap! <ESC>f <S-Right>
+        noremap! <ESC>b <S-Left>
+        noremap! <ESC> <C-w>
+        unmap! <ESC>
+        call feedkeys("\<ESC>", 'i')
+        call timer_start(&timeoutlen, 'Fast_esc_unmap', {'repeat':1})
+        return ""
+      endfunction
+
+      noremap! <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
     endif
   endif
 
