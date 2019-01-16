@@ -66,25 +66,32 @@ if mymisc#plug_tap('vim-dirvish')
 
   fun! s:mydirvish_start(path, force_change_path)
     let path = expand(a:path)
-    if exists('t:mydirvish_winid')
-      if win_gotoid(t:mydirvish_winid)
-        if a:force_change_path
-          exe 'Dirvish ' . path
-        endif
-        return
+
+    if exists('t:mydirvish_winid') && win_gotoid(t:mydirvish_winid)
+      let w:mydirvish_before = [expand("%:p")]
+
+      if a:force_change_path
+        exe 'Dirvish ' . path
       endif
+
+      return
     endif
 
     40vsplit
     set winfixwidth
     normal =
+
     let w:mydirvish_by_split = 1
     let w:mydirvish_before = [expand("%:p")]
+
     if a:force_change_path
       exe 'Dirvish ' . path
     elseif exists('g:mydirvish_last_dir')
       exe 'Dirvish ' . g:mydirvish_last_dir
+    else
+      exe 'Dirvish ' . path
     endif
+
     let t:mydirvish_winid = win_getid(winnr())
   endf
 
