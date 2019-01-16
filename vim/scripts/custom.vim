@@ -1403,13 +1403,13 @@ if mymisc#plug_tap('nerdtree-git-plugin')
   let g:NERDTreeIndicatorMapCustom = {
         \ 'Modified'  : '!',
         \ 'Staged'    : '+',
-        \ 'Untracked' : 'x',
+        \ 'Untracked' : 'u',
         \ 'Renamed'   : '>',
         \ 'Unmerged'  : '=',
-        \ 'Deleted'   : '-',
-        \ 'Dirty'     : 'D',
-        \ 'Clean'     : 'C',
-        \ 'Ignored'   : '_',
+        \ 'Deleted'   : 'x',
+        \ 'Dirty'     : '!',
+        \ 'Clean'     : ' ',
+        \ 'Ignored'   : 'i',
         \ 'Unknown'   : '?',
         \ }
 endif
