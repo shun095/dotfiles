@@ -1327,6 +1327,11 @@ if mymisc#plug_tap('gina.vim')
         \ ':<C-u>bd<CR><C-w>p',
         \ {'noremap': 1, 'silent': 0},
         \)
+  call gina#custom#mapping#nmap(
+        \ 'diff', 'q',
+        \ ':<C-u>bd<CR><C-w>p',
+        \ {'noremap': 1, 'silent': 0},
+        \)
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
