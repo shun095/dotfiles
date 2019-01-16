@@ -368,10 +368,17 @@ try
 
   nnoremap <Leader>u  :<C-u>/ oldfiles<Home>browse filter /
 
-  nnoremap <Leader>e :<C-u>Explore %:h<CR>
-  nnoremap <Leader>E :<C-u>Explore .<CR>
+  function! s:lexplore(arg) abort
+    let tmp = expand('%:t')
+    exe "Lexplore ".a:arg
+    normal 99h
+    call search('\(^\|\s\)\zs'.tmp.'$')
+  endfunction
+
+  nnoremap <Leader>e :<C-u>call <SID>lexplore('%:h')<CR>
+  nnoremap <Leader>E :<C-u>call <SID>lexplore('.')<CR>
   let g:netrw_altfile = 1
-  let g:netrw_liststyle = 1
+  let g:netrw_liststyle = 3
   let g:netrw_sizestyle = 'H'
   let g:netrw_usetab = 1
   let g:netrw_hide = 1
@@ -379,7 +386,7 @@ try
   let g:netrw_list_hide= '\(^\|\s\s\)\zs\.\S\+'
   " let g:netrw_winsize = 20
   autocmd VIMRC FileType netrw setl bufhidden=delete
-  autocmd VIMRC FileType netrw nnoremap <buffer> q :<C-u>Rexplore<CR>
+  autocmd VIMRC FileType netrw nnoremap <buffer> q :<C-u>bw<CR>
   " }}} MAPPING END
 
   " COMMANDS {{{
