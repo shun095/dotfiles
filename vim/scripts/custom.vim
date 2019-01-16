@@ -1408,7 +1408,7 @@ if mymisc#plug_tap('nerdtree-git-plugin')
         \ 'Unmerged'  : '=',
         \ 'Deleted'   : 'x',
         \ 'Dirty'     : '!',
-        \ 'Clean'     : ' ',
+        \ 'Clean'     : '',
         \ 'Ignored'   : 'i',
         \ 'Unknown'   : '?',
         \ }
