@@ -53,7 +53,7 @@ function! s:my_cr_main() abort
     if mymisc#plug_tap('neosnippet.vim') && neosnippet#expandable()
       return "\<Plug>(neosnippet_expand)"
     else
-      return "\<C-r>=(".s:SID()."my_try_ulti() > 0)?\"\":".s:SID()."my_cr_noulti()\<CR>"
+      return "\<C-r>=".s:SID()."try_ultisnips_expand() ? \"\" : ".s:SID()."my_cr_noulti() \<CR>"
     endif
   else
     return s:my_close_pair_function()
@@ -64,11 +64,9 @@ function! s:my_cr_noulti()
   if mymisc#plug_tap('deoplete.nvim')
     return "\<C-r>=deoplete#close_popup()\<CR>"
   elseif mymisc#plug_tap("asyncomplete.vim")
-    call asyncomplete#close_popup()
-    return ""
+    return asyncomplete#close_popup()
   else
-    call feedkeys("\<C-y>")
-    return ""
+    return "\<C-y>"
   endif
 endfunction
 
@@ -78,11 +76,11 @@ function! s:my_tab_main() abort
   elseif mymisc#plug_tap('neosnippet.vim') && neosnippet#expandable_or_jumpable()
     return "\<Plug>(neosnippet_expand_or_jump)" 
   else
-    return "\<C-r>=(".s:SID()."my_try_ulti() > 0)?\"\":".s:SID()."my_tab_noulti()\<CR>"
+    return "\<C-r>=".s:SID()."try_ultisnips_expand() ? \"\" : ".s:SID()."my_tab_noulti() \<CR>"
   endif
 endfunction
 
-function! s:my_try_ulti()
+function! s:try_ultisnips_expand()
   call UltiSnips#ExpandSnippetOrJump()
   return g:ulti_expand_or_jump_res
 endfunction
