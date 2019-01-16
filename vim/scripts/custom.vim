@@ -300,11 +300,11 @@ if mymisc#plug_tap('nerdtree')
   " let g:NERDTreeMapPreviewVSplit = 'gv'
 
   let g:NERDTreeHijackNetrw = 1
-  let g:NERDTreeQuitOnOpen = 1
+  let g:NERDTreeQuitOnOpen = 0
   let g:NERDTreeShowHidden = 0
   let g:NERDTreeWinSize = 35
 
-  let g:NERDTreeMinimalUI = 1
+  let g:NERDTreeMinimalUI = 0
   let g:NERDTreeShowBookmarks = 1
 
   let g:NERDTreeIgnore = ['\.meta','\.sw[po]','\.pyc']

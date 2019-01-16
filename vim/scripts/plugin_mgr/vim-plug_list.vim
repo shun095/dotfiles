@@ -144,9 +144,10 @@ else
   Plug 'prabirshrestha/asyncomplete-necovim.vim'
   Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
-  " Plug 'scrooloose/nerdtree'
-  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  " Plug 'jistr/vim-nerdtree-tabs'
+  Plug 'scrooloose/nerdtree'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  Plug 'jistr/vim-nerdtree-tabs'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
   " Plug 'justinmk/vim-dirvish'
 endif
 
