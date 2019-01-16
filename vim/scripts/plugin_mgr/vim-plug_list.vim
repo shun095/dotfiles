@@ -147,7 +147,7 @@ else
   Plug 'scrooloose/nerdtree'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'jistr/vim-nerdtree-tabs'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'ishitaku5522/nerdtree-git-plugin'
   " Plug 'ryanoasis/vim-devicons'
   " Plug 'justinmk/vim-dirvish'
 endif
