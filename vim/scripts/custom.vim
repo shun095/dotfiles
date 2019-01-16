@@ -495,7 +495,7 @@ if mymisc#plug_tap('vimtex')
   let g:vimtex_compiler_latexmk_engines = { '_' : '-pdfdvi' }
   let g:vimtex_compiler_latexmk = {
         \   'background' : 1,
-        \   'build_dir' : 'build',
+        \   'build_dir' : '',
         \   'callback' : 1,
         \   'continuous' : 0,
         \   'executable' : 'latexmk',
