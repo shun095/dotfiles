@@ -1319,12 +1319,12 @@ if mymisc#plug_tap('gina.vim')
 
   call gina#custom#mapping#nmap(
         \ 'status', 'q',
-        \ ':<C-u>bd<CR>',
+        \ ':<C-u>bd<CR><C-w>p',
         \ {'noremap': 1, 'silent': 0},
         \)
   call gina#custom#mapping#nmap(
         \ 'commit', 'q',
-        \ ':<C-u>q<CR>',
+        \ ':<C-u>bd<CR><C-w>p',
         \ {'noremap': 1, 'silent': 0},
         \)
 endif
