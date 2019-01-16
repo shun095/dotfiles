@@ -1142,9 +1142,9 @@ if mymisc#plug_tap('asyncomplete.vim')
 
   let g:asyncomplete_smart_completion = 0
   let g:asyncomplete_auto_popup = 1
-  let g:asyncomplete_min_length = 1
-  let g:asyncomplete_remove_duplicates = 0
-  let g:asyncomplete_force_refresh_on_context_changed = 1
+  " let g:asyncomplete_min_length = 1
+  let g:asyncomplete_remove_duplicates = 1
+  let g:asyncomplete_force_refresh_on_context_changed = 0
   let g:asyncomplete_completion_delay = 100
 
   set completeopt+=preview
@@ -1392,6 +1392,21 @@ if mymisc#plug_tap('sonictemplate-vim')
   let g:sonictemplate_key             = "\<C-g>\<C-y>t"
   let g:sonictemplate_intelligent_key = "\<C-g>\<C-y>T"
   let g:sonictemplate_postfix_key     = "\<C-g>\<C-y>\<C-b>"
+endif
+
+if mymisc#plug_tap('nerdtree-git-plugin')
+  let g:NERDTreeIndicatorMapCustom = {
+        \ 'Modified'  : '!',
+        \ 'Staged'    : '+',
+        \ 'Untracked' : 'x',
+        \ 'Renamed'   : '>',
+        \ 'Unmerged'  : '=',
+        \ 'Deleted'   : '-',
+        \ 'Dirty'     : 'D',
+        \ 'Clean'     : 'C',
+        \ 'Ignored'   : '_',
+        \ 'Unknown'   : '?',
+        \ }
 endif
 
 source $MYDOTFILES/vim/scripts/custom_global.vim
