@@ -254,11 +254,12 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'deton/jasegment.vim'
 
 " Applications
-Plug 'lambdalisue/suda.vim'
 Plug 'glidenote/memolist.vim', {'on':['MemoNew', 'MemoList']}
 Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 
 " Tools
+Plug 'thinca/vim-quickrun'
+Plug 'lambdalisue/suda.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tyru/open-browser.vim'
 Plug 'haya14busa/vim-open-googletranslate', {'on':'OpenGoogleTranslate'}
