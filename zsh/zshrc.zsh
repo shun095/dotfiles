@@ -89,9 +89,17 @@ if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
 fi
 
 if type colordiff > /dev/null; then
-  alias diff='colordiff -u'
+    alias diff='colordiff -u'
 else
-  alias diff='diff -u'
+    alias diff='diff -u'
+fi
+
+if type tensorboard > /dev/null; then
+    function _tensorboard_alias() {
+        tensorboard --logdir=$*
+    }
+
+    alias tb=_tensorboard_alias
 fi
 
 gvim_call(){
