@@ -355,7 +355,7 @@ try
 
       function! s:fast_esc() abort
         let s:old_tlen = &timeoutlen
-        set timeoutlen=10
+        set timeoutlen=50
         noremap! <ESC>n <Down>
         noremap! <ESC>p <Up>
         noremap! <ESC>f <S-Right>
@@ -363,7 +363,7 @@ try
         noremap! <ESC> <C-w>
         unmap! <ESC>
         call feedkeys("\<ESC>", 'i')
-        call timer_start(&timeoutlen, 'Fast_esc_unmap', {'repeat':1})
+        call timer_start(100, 'Fast_esc_unmap', {'repeat':1})
         return ""
       endfunction
 

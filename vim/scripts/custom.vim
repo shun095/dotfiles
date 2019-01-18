@@ -311,6 +311,10 @@ if mymisc#plug_tap('nerdtree')
 
   let g:NERDTreeDirArrowExpandable = '+'
   let g:NERDTreeDirArrowCollapsible = '-'
+  if executable("trash-put")
+    let g:NERDTreeRemoveFileCmd = 'trash-put '
+    let g:NERDTreeRemoveDirCmd = 'trash-put '
+  endif
 endif
 
 if mymisc#plug_tap('open-browser.vim')
