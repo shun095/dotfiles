@@ -43,6 +43,8 @@ function mailb(){
 }
 
 function tmux_call(){
+    title "$USER@$HOST"
+    export DISABLE_AUTO_TITLE=true
     if [[ $# -eq 0 ]]; then
         if [[ `\tmux list-sessions 2>/dev/null|wc -l` -ne 0 ]]; then
             _tmux_call_exist_sessions=(`\tmux list-sessions|sed "s/:.*//"`)
@@ -66,6 +68,7 @@ function tmux_call(){
     else
         \tmux $*
     fi
+    export DISABLE_AUTO_TITLE=
 }
 
 if type trash-put > /dev/null; then
