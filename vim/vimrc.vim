@@ -591,6 +591,23 @@ try
 
   command! Encrypt call s:encrypt_openssl()
   command! Decrypt call s:decrypt_openssl()
+
+  function! s:open_file_explorer(path) abort
+    if a:path ==# ''
+      let path = '.'
+    else
+      let path = a:path
+    endif
+
+    if has('win32')
+      call system("explorer.exe " . expand(path))
+    else
+      call system("xdg-open " . expand(path))
+    endif
+  endfunction
+
+  command! -nargs=? -complete=dir OpenExplorer call s:open_file_explorer('<args>')
+  cabbrev OS OpenExplorer
   " }}} COMMANDS END
 
   " AUTOCMDS {{{
