@@ -607,7 +607,7 @@ try
   endfunction
 
   command! -nargs=? -complete=dir OpenExplorer call s:open_file_explorer('<args>')
-  cabbrev OS OpenExplorer
+  cabbrev OE OpenExplorer
   " }}} COMMANDS END
 
   " AUTOCMDS {{{
