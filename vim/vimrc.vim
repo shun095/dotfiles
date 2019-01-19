@@ -81,7 +81,7 @@ try
     set emoji                                              " 絵文字を全角表示
   endif
 
-  " set diffopt=filler,iwhite                              " Diff options
+  set diffopt+=algorithm:histogram,indent-heuristic        " Diff options
   set visualbell t_vb=                                     " Disable beep sounds
   set nocursorline                                         " Highlight of cursor line/column
   set nocursorcolumn
@@ -343,31 +343,37 @@ try
       noremap! â  <S-Left>
       noremap!  <C-w>
     else
-      function! Fast_esc_unmap(timer) abort
-        unmap! <ESC>n
-        unmap! <ESC>p
-        unmap! <ESC>f
-        unmap! <ESC>b
-        unmap! <ESC>
+      function! Myvimrc_fast_esc_unmap(timer) abort
+        iunmap <ESC>n
+        iunmap <ESC>p
+        iunmap <ESC>f
+        iunmap <ESC>b
+        iunmap <ESC>
         let &timeoutlen=s:old_tlen
-        noremap! <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+        inoremap <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
       endfunction
 
       function! s:fast_esc() abort
         let s:old_tlen = &timeoutlen
-        set timeoutlen=10
-        noremap! <ESC>n <Down>
-        noremap! <ESC>p <Up>
-        noremap! <ESC>f <S-Right>
-        noremap! <ESC>b <S-Left>
-        noremap! <ESC> <C-w>
-        unmap! <ESC>
+        set timeoutlen=50
+        inoremap <ESC>n <Down>
+        inoremap <ESC>p <Up>
+        inoremap <ESC>f <S-Right>
+        inoremap <ESC>b <S-Left>
+        inoremap <ESC> <C-w>
+        iunmap <ESC>
         call feedkeys("\<ESC>", 'i')
-        call timer_start(&timeoutlen, 'Fast_esc_unmap', {'repeat':1})
+        call timer_start(100, 'Myvimrc_fast_esc_unmap', {'repeat':1})
         return ""
       endfunction
 
-      noremap! <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+      inoremap <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+
+      cnoremap <ESC>n <Down>
+      cnoremap <ESC>p <Up>
+      cnoremap <ESC>f <S-Right>
+      cnoremap <ESC>b <S-Left>
+      cnoremap <ESC> <C-w>
     endif
   endif
 

@@ -311,6 +311,10 @@ if mymisc#plug_tap('nerdtree')
 
   let g:NERDTreeDirArrowExpandable = '+'
   let g:NERDTreeDirArrowCollapsible = '-'
+  if executable("trash-put")
+    let g:NERDTreeRemoveFileCmd = 'trash-put '
+    let g:NERDTreeRemoveDirCmd = 'trash-put '
+  endif
 endif
 
 if mymisc#plug_tap('open-browser.vim')
@@ -426,32 +430,27 @@ if mymisc#plug_tap('vim-quickrun')
   let g:quickrun_no_default_key_mappings = 1
   let g:quickrun_config = get(g:, 'quickrun_config', {})
   let g:quickrun_config['_'] = {
-        \ 'hook/close_quickfix/enable_hook_loaded' : 1,
-        \ 'hook/close_quickfix/enable_success' : 1,
-        \ 'hook/close_buffer/enable_hook_loaded' : 1,
-        \ 'hook/close_buffer/enable_failure' : 1,
-        \ 'outputter' : 'multi:buffer:quickfix',
-        \ 'outputter/quickfix/open_cmd' : 'copen 20',
-        \ 'hook/inu/enable' : 1,
-        \ 'hook/inu/wait' : 1,
-        \ 'outputter/buffer/split' : ':botright 20',
-        \ 'runner' : 'vimproc',
-        \ 'runner/vimproc/updatetime' : 100,
+        \   'hook/close_quickfix/enable_hook_loaded' : 1,
+        \   'hook/close_quickfix/enable_success'     : 1,
+        \   'hook/close_buffer/enable_hook_loaded'   : 1,
+        \   'hook/close_buffer/enable_failure'       : 1,
+        \   'hook/inu/enable'                        : 1,
+        \   'hook/inu/wait'                          : 1,
+        \   'outputter'                              : 'multi:buffer:quickfix',
+        \   'outputter/buffer/split'                 : 'botright 20',
+        \   'outputter/quickfix/open_cmd'            : 'copen 20',
         \ }
 
-  if has('job')
-    call extend(g:quickrun_config['_'], {
-          \ 'runner' : 'job',
-          \ 'runner/job/interval' : 100,
-          \ })
-  endif
-
   if has('terminal')
-    call extend(g:quickrun_config['_'], {
-          \ 'runner' : 'terminal',
-          \ 'runner/terminal/opener': 'botright 20split',
-          \ 'runner/terminal/into': 1
-          \ })
+    let g:quickrun_config['runner']                     = 'terminal'
+    let g:quickrun_config['runner/terminal/opener']     = 'botright 20split'
+    let g:quickrun_config['runner/terminal/into']       = 0
+  elseif has('job')
+    let g:quickrun_config['runner']                     = 'job'
+    let g:quickrun_config['runner/job/interval']        = 100
+  else
+     let g:quickrun_config['runner']                    = 'vimproc'
+     let g:quickrun_config['runner/vimproc/updatetime'] = 100
   endif
 
   let g:quickrun_config['python'] = {
@@ -476,7 +475,8 @@ if mymisc#plug_tap('vim-quickrun')
     unlet s:quickrun_win_config
   endif
 
-  nmap <silent> <Leader>R :CdCurrent<CR><Plug>(quickrun)
+  cabbrev Q QuickRun
+  nmap <silent> <Leader>R :QuickRun<CR>
   nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>mymisc_quickrun_sweep() : "\<C-c>"
 
   fun! s:mymisc_quickrun_sweep()
