@@ -81,7 +81,7 @@ try
     set emoji                                              " 絵文字を全角表示
   endif
 
-  " set diffopt=filler,iwhite                              " Diff options
+  set diffopt+=algorithm:histogram,indent-heuristic        " Diff options
   set visualbell t_vb=                                     " Disable beep sounds
   set nocursorline                                         " Highlight of cursor line/column
   set nocursorcolumn
