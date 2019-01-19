@@ -27,10 +27,13 @@ if has('gui_running')
       endif
     endif
     let options = [
+          \ 'if !has(''gui_running'')',
+          \ '  finish',
+          \ 'endif',
           \ 'set lines=' . &lines,
           \ 'set columns=' . &columns,
           \ 'winpos ' . getwinposx() . ' ' . getwinposy(),
-          \ l:window_maximaize
+          \ l:window_maximaize,
           \ ]
     call writefile(options, a:save_window_file)
     call setfperm(a:save_window_file, 'rw-rw-rw-')
