@@ -307,7 +307,19 @@ if mymisc#plug_tap('nerdtree')
   let g:NERDTreeMinimalUI = 0
   let g:NERDTreeShowBookmarks = 1
 
-  let g:NERDTreeIgnore = ['\.meta','\.sw[po]','\.pyc', '\.aux']
+  let g:NERDTreeIgnore = ['\.meta',
+        \ '\.sw[po]',
+        \ '\.pyc',
+        \ '\.aux',
+        \ '\.dvi',
+        \ '\.fls',
+        \ '\.synctex.gz',
+        \ '\.synctex(busy)',
+        \ '\.bbl',
+        \ '\.blg',
+        \ '\.toc',
+        \ '\.fdb_latexmk'
+        \ ]
 
   let g:NERDTreeDirArrowExpandable = '+'
   let g:NERDTreeDirArrowCollapsible = '-'

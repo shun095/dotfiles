@@ -5,12 +5,12 @@ if has('gui_running')
   set visualbell t_vb=
   set guioptions=rchb
 
-  if filereadable(expand('$HOME/.vim/lastwinpos.vim'))
-    exe "so " . expand('$HOME/.vim/lastwinpos.vim')
-  else
-    set columns=158
-    set lines=40
-  endif
+  " if filereadable(expand('$HOME/.vim/lastwinpos.vim'))
+  "   exe "so " . expand('$HOME/.vim/lastwinpos.vim')
+  " else
+  set columns=158
+  set lines=40
+  " endif
 
   if has('win32')
     set renderoptions=type:directx
