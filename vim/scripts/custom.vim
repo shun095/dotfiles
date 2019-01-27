@@ -504,12 +504,18 @@ if mymisc#plug_tap('vimshell.vim')
 endif
 
 if mymisc#plug_tap('vimtex')
+
+  augroup vimrc_vimtex
+    autocmd!
+    autocmd BufReadPre *.tex let b:vimtex_main = 'main.tex'
+  augroup END
+
   let g:vimtex_compiler_latexmk_engines = { '_' : '-pdfdvi' }
   let g:vimtex_compiler_latexmk = {
         \   'background' : 1,
         \   'build_dir' : '',
         \   'callback' : 1,
-        \   'continuous' : 0,
+        \   'continuous' : 1,
         \   'executable' : 'latexmk',
         \   'options' : [
         \     '-pdfdvi',

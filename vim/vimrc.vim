@@ -285,10 +285,15 @@ try
   nnoremap k gk
   nnoremap gj j
   nnoremap gk k
+  nnoremap <Down> gj
+  nnoremap <Up> gk
+
   vnoremap j gj
   vnoremap k gk
   vnoremap gj j
   vnoremap gk k
+  vnoremap <Down> gj
+  vnoremap <Up> gk
 
   nnoremap <C-Tab> gt
   nnoremap <C-S-Tab> gT
