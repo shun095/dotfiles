@@ -556,26 +556,37 @@ try
 
   function! s:encrypt_openssl(version) abort
     let pass = inputsecret('Password: ')
+    if pass ==# ''
+      echom 'Aborted.'
+      return
+    endif
+
     let pass_confirm = inputsecret('Verify password: ')
+    if pass_confirm ==# ''
+      echom 'Aborted.'
+      return
+    endif
+
+    if pass !=# pass_confirm
+      echom 'Passwords are different. Aborted.'
+      return
+    endif
 
     let fname_base = expand('%') . '.crypt'
     let fname = fname_base
     let counter = 0
 
     while filereadable(fname)
-        let counter += 1
-        let fname = fname_base . string(counter)
+      let counter += 1
+      let fname = fname_base . string(counter)
     endwhile
 
-    if pass ==# pass_confirm
-      if a:version >= 111
-        call systemlist('"' . s:command_openssl . '" aes-256-cbc -pbkdf2 -e -in ' . expand('%') .  ' -out ' . fname . ' -pass pass:' . pass)
-      else
-        call systemlist('"' . s:command_openssl . '" aes-256-cbc -e -in ' . expand('%') .  ' -out ' . fname . ' -pass pass:' . pass)
-      endif
+    if a:version >= 111
+      call systemlist('"' . s:command_openssl . '" aes-256-cbc -pbkdf2 -e -in ' . expand('%') .  ' -out ' . fname . ' -pass pass:' . pass)
     else
-      echomsg "\nPasswords are different!"
+      call systemlist('"' . s:command_openssl . '" aes-256-cbc -e -in ' . expand('%') .  ' -out ' . fname . ' -pass pass:' . pass)
     endif
+    exe 'split ' . fname
   endfunction
 
   function! s:decrypt_openssl(version) abort
