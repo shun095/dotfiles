@@ -548,16 +548,17 @@ try
     endfunction
   endif
 
-  function! s:encrypt_openssl() abort
-    if has('win32') && executable('git')
-      let command_openssl = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\openssl.exe'
-    elseif has('unix')
-      let command_openssl = 'openssl'
-    endif
-    let pass = inputsecret("Password: ")
-    let pass_confirm = inputsecret("Verify password: ")
+  if has('win32') && executable('git')
+    let s:command_openssl = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\openssl.exe'
+  elseif has('unix')
+    let s:command_openssl = 'openssl'
+  endif
 
-    let fname_base = expand("%") .".crypt"
+  function! s:encrypt_openssl(version) abort
+    let pass = inputsecret('Password: ')
+    let pass_confirm = inputsecret('Verify password: ')
+
+    let fname_base = expand('%') . '.crypt'
     let fname = fname_base
     let counter = 0
 
@@ -567,37 +568,36 @@ try
     endwhile
 
     if pass ==# pass_confirm
-      " exe ":!\"".command_openssl."\" aes-256-cbc -pbkdf2 -e -in % -out ".fname." -pass pass:".pass
-      exe ":!\"".command_openssl."\" aes-256-cbc -e -in % -out ".fname." -pass pass:".pass
+      if a:version >= 111
+        call systemlist('"' . s:command_openssl . '" aes-256-cbc -pbkdf2 -e -in ' . expand('%') .  ' -out ' . fname . ' -pass pass:' . pass)
+      else
+        call systemlist('"' . s:command_openssl . '" aes-256-cbc -e -in ' . expand('%') .  ' -out ' . fname . ' -pass pass:' . pass)
+      endif
     else
       echomsg "\nPasswords are different!"
     endif
   endfunction
 
-  function! s:decrypt_openssl() abort
-    if has('win32') && executable('git')
-      let command_openssl = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\openssl.exe'
-    elseif has('unix')
-      let command_openssl = 'openssl'
+  function! s:decrypt_openssl(version) abort
+    let pass = inputsecret('Password: ')
+
+    if a:version >= 111
+      let decrypted = systemlist('"' . s:command_openssl . '" aes-256-cbc -pbkdf2 -d -in ' . expand('%') . ' -pass pass:' . pass)
+    else
+      let decrypted = systemlist('"' . s:command_openssl . '" aes-256-cbc -d -in ' . expand('%') . ' -pass pass:' . pass)
     endif
-    let pass = inputsecret("Password: ")
-
-    let fname_base = expand("%:r")
-    let fname = fname_base
-    let counter = 0
-
-    while filereadable(fname)
-        let counter += 1
-        let fname = fname_base . string(counter)
-    endwhile
-
-    " exe ":!\"".command_openssl."\" aes-256-cbc -pbkdf2 -d -in % -out ".fname." -pass pass:".pass
-    exe ":!\"".command_openssl."\" aes-256-cbc -d -in % -out ".fname." -pass pass:".pass
-    exe ":edit ".expand(fname)
+    new
+    call append(0, decrypted)
+    normal! G
+    if getline('.') ==# ''
+      normal! dd
+    endif
   endfunction
 
-  command! Encrypt call s:encrypt_openssl()
-  command! Decrypt call s:decrypt_openssl()
+  command! EncryptOld call s:encrypt_openssl(110)
+  command! DecryptOld call s:decrypt_openssl(110)
+  command! Encrypt    call s:encrypt_openssl(111)
+  command! Decrypt    call s:decrypt_openssl(111)
 
   function! s:open_file_explorer(path) abort
     if a:path ==# ''
