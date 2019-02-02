@@ -567,7 +567,8 @@ try
     endwhile
 
     if pass ==# pass_confirm
-      exe ":!\"".command_openssl."\" aes-256-cbc -pbkdf2 -e -in % -out ".fname." -pass pass:".pass
+      " exe ":!\"".command_openssl."\" aes-256-cbc -pbkdf2 -e -in % -out ".fname." -pass pass:".pass
+      exe ":!\"".command_openssl."\" aes-256-cbc -e -in % -out ".fname." -pass pass:".pass
     else
       echomsg "\nPasswords are different!"
     endif
@@ -590,7 +591,8 @@ try
         let fname = fname_base . string(counter)
     endwhile
 
-    exe ":!\"".command_openssl."\" aes-256-cbc -pbkdf2 -d -in % -out ".fname." -pass pass:".pass
+    " exe ":!\"".command_openssl."\" aes-256-cbc -pbkdf2 -d -in % -out ".fname." -pass pass:".pass
+    exe ":!\"".command_openssl."\" aes-256-cbc -d -in % -out ".fname." -pass pass:".pass
     exe ":edit ".expand(fname)
   endfunction
 
