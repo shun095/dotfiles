@@ -539,7 +539,16 @@ if mymisc#plug_tap('vimtex')
           \ . ':call remote_foreground('''.v:servername.''')^<CR^>^<CR^>\""'
     let g:vimtex_view_general_options_latexmk = '-reuse-instance'
   elseif has('unix')""
-    let g:vimtex_view_general_viewer = 'xdg-open'
+    if executable('qpdfview')
+      let g:vimtex_view_general_viewer = 'qpdfview'
+      let g:vimtex_view_general_options
+            \ = '--unique @pdf\#src:@tex:@line:@col'
+      let g:vimtex_view_general_options_latexmk = '--unique'
+      " qpdfview side: Edit>Settings>Behavior>Source editor
+      "   gvim --remote-expr "vimtex#view#reverse_goto(%2, '%1')"
+    else
+      let g:vimtex_view_general_viewer = 'xdg-open'
+    endif
   endif
 endif
 
