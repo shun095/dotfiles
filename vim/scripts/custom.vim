@@ -340,7 +340,9 @@ endif
 
 if mymisc#plug_tap('previm')
   let g:previm_enable_realtime = 1
-  " let g:previm_custom_css_path = $HOME . '/.vim/dein/repos/github.com/jasonm23/markdown-css-themes/markdown.css'
+  " let g:previm_custom_css_path = 
+  let g:previm_disable_default_css = 1
+  let g:previm_custom_css_path = $MYDOTFILES . "/third-party/github-markdown.css"
   let g:previm_show_header = 0
   function! s:setup_setting()
     command! -buffer -nargs=? -complete=dir PrevimSaveHTML call mymisc#previm_save_html('<args>')
