@@ -1,0 +1,34 @@
+snippet table
+alias   \begin{table} \table
+	\begin{table}[${1:htbp}]
+		\centering
+		\caption{${2}}%
+		\label{${3}}
+		\begin{tabular}{${4}}
+			${5}
+		\end{tabular}
+	\end{table}
+
+snippet figure
+alias   \begin{figure} \figure
+	\begin{figure}[${1:htbp}]
+		\centering
+		\includegraphics[width=${3}\hsize]{${4}}
+		\caption{${5}}%
+		\label{${6}}
+	\end{figure}
+
+snippet minipage
+alias   \begin{minipage} \minipage
+	\begin{minipage}{${1}\hsize}
+		${2:TARGET}
+	\end{minipage}
+
+snippet wrapfigure
+alias   \begin{wrapfigure} \wrapfigure
+	\begin{wrapfigure}{${1:r}}{${2:0.4}\hsize}
+		\centering
+		\includegraphics[width=${3}\hsize]{${4}}
+		\caption{${5}}%
+		\label{${6}}
+	\end{wrapfigure}
