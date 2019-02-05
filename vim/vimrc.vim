@@ -492,7 +492,7 @@ try
     if has('nvim')
       let l:terminal_cmd = ':bel '.a:height.'split term://'
     else
-      let l:terminal_cmd = ':bel terminal ++rows='.a:height.' '
+      let l:terminal_cmd = ':bel terminal ++close ++rows='.a:height.' '
     endif
     let l:ret = l:terminal_cmd . a:cmd
     return l:ret
