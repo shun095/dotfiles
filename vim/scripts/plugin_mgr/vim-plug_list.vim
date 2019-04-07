@@ -194,6 +194,7 @@ Plug 'mopp/next-alter.vim', {'for':['c', 'cpp', 'vim']}
 Plug 'Valloric/MatchTagAlways', {'for':['html', 'xml']}
 Plug 'ishitaku5522/rosmake.vim', {'on':['Catkinmake', 'Rosmake']}
 Plug 'alvan/vim-closetag', {'for': ['xml', 'html', 'xhtml', 'phtml']}
+" Plug 'chrisbra/csv.vim', {'for': ['csv']}
 
 " Syntax highlights
 Plug 'othree/html5.vim', {'for':['html']}
