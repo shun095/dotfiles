@@ -133,7 +133,7 @@ else
   " Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
   " Plug 'ervandew/supertab'
 
-  Plug 'ishitaku5522/asyncomplete.vim', {'branch':'close_popup_v2'}
+  Plug 'prabirshrestha/asyncomplete.vim'
   Plug 'prabirshrestha/async.vim'
   Plug 'prabirshrestha/vim-lsp'
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
