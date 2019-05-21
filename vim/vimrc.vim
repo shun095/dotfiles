@@ -81,7 +81,9 @@ try
     set emoji                                              " 絵文字を全角表示
   endif
 
-  set diffopt+=algorithm:histogram,indent-heuristic        " Diff options
+  if v:version >= 801
+    set diffopt+=algorithm:histogram,indent-heuristic        " Diff options
+  endif
   set visualbell t_vb=                                     " Disable beep sounds
   set nocursorline                                         " Highlight of cursor line/column
   set nocursorcolumn
@@ -130,7 +132,9 @@ try
   set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp    " 文字コード自動判別優先順位の設定
   set fileformats=unix,dos,mac                             " 改行コード自動判別優先順位の設定
   " set complete=.,w,b,u,U,k,kspell,s,t,t
-  set completeopt=menuone,noselect                         " 補完関係の設定,Ycmで自動設定される
+  if v:version >= 800
+    set completeopt=menuone,noselect                         " 補完関係の設定,Ycmで自動設定される
+  endif
   set pumheight=10                                         " 補完ウィンドウ最大高さ
   set iminsert=0                                           " IMEの管理
   set imsearch=0
@@ -695,12 +699,14 @@ try
   "}}} AUTOCMDS END
 
   " BUILT-IN PLUGINS {{{
-  if !has('nvim')
-    packadd! editexisting
-    packadd! matchit
-  endif
+  if v:version >= 801
+    if !has('nvim') 
+      packadd! editexisting
+      packadd! matchit
+    endif
 
-  packadd! termdebug
+    packadd! termdebug
+  endif
   " }}} BUILT-IN PLUGINS END
 
   " DOT DIRECTORY PLUGINS {{{
