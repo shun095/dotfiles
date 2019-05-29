@@ -699,7 +699,7 @@ try
   "}}} AUTOCMDS END
 
   " BUILT-IN PLUGINS {{{
-  if v:version >= 801
+  if v:version >= 800
     if !has('nvim') 
       packadd! editexisting
       packadd! matchit
