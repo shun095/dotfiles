@@ -323,6 +323,7 @@ deploy_selfmade_rcfiles() {
         if [[ ! -e ${SYMLINKS[${i}]} ]]; then
             mkdir -p `dirname ${SYMTARGET[${i}]}`
             touch ${SYMTARGET[${i}]}
+            mkdir -p `dirname ${SYMLINKS[${i}]}`
             ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
             echo "Made link: ${SYMLINKS[${i}]}"
             echo "           --> ${SYMTARGET[${i}]}"
