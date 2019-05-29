@@ -116,7 +116,7 @@ if [[ ! $TERM = 'linux' ]]; then
     alias tmux=tmux_call
 fi
 
-if type $HOME/build/vim/bin/vim; then
+if type $HOME/build/vim/bin/vim > /dev/null; then
     ;
 elif type /usr/local/bin/vim > /dev/null;then
     alias vim=/usr/local/bin/vim
