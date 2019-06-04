@@ -24,6 +24,7 @@
 
 _cd_history_bookmark_limit=100
 
+setopt aliases
 if sed --version 2>/dev/null | grep -q GNU; then
     alias _cd_history_bookmark_sedi="sed -i -e "
 else
