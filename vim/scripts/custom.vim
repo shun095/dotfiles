@@ -1198,16 +1198,38 @@ if mymisc#plug_tap('asyncomplete.vim')
 
   imap <C-x><Space> <Plug>(asyncomplete_force_refresh)
 
-  function! s:preprocess_remove_dups(ctx, matches) abort
+  " function! s:default_preprocessor(options, matches) abort
+  "   let g:matches = a:matches
+  "   let g:options = a:options
+
+  "   let l:items = []
+  "   for [l:source_name, l:matches] in items(a:matches)
+  "     for l:item in l:matches['items']
+  "       if stridx(l:item['word'], a:options['base']) == 0
+  "         call add(l:items, l:item)
+  "       endif
+  "     endfor
+  "   endfor
+
+  "   let g:items = l:items
+
+  "   call asyncomplete#preprocess_complete(a:options, l:items)
+  " endfunction
+
+  function! s:preprocess_fuzzy(ctx, matches) abort
     let l:visited = {}
     let l:items = []
+    let l:expression = ""
+
+    for char_nr in str2list(a:ctx['base'])
+      let char = nr2char(char_nr) 
+      let l:expression .= char . '\k*'
+    endfor
+
     for [l:source_name, l:matches] in items(a:matches)
       for l:item in l:matches['items']
-        if stridx(l:item['word'], a:ctx['base']) == 0
-          if !has_key(l:visited, l:item['word'])
-            call add(l:items, l:item)
-            let l:visited[l:item['word']] = 1
-          endif
+        if match(l:item['word'], l:expression) == 0
+          call add(l:items, l:item)
         endif
       endfor
     endfor
@@ -1215,7 +1237,7 @@ if mymisc#plug_tap('asyncomplete.vim')
     call asyncomplete#preprocess_complete(a:ctx, l:items)
   endfunction
 
-  " let g:asyncomplete_preprocessor = [function('s:preprocess_remove_dups')]
+  let g:asyncomplete_preprocessor = [function('s:preprocess_fuzzy')]
 
   augroup vimrc_asyncomplete
     autocmd!
