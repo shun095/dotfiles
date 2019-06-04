@@ -160,7 +160,7 @@ Plug 'OmniSharp/omnisharp-vim', {'for':['cs']}
 " Plug 'carlitux/deoplete-ternjs', {'for':['javascript']}
 " Plug 'zchee/deoplete-go', {'for':['go']}
 Plug 'othree/csscomplete.vim'
-Plug 'artur-shaik/vim-javacomplete2', {'for':['java']}
+" Plug 'artur-shaik/vim-javacomplete2', {'for':['java']}
 Plug 'Shougo/neco-vim' " for vim
 
 " Snippets, templates

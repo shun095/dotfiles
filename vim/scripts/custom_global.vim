@@ -6,7 +6,7 @@ endif
 
 augroup vimrc_custom_global
   autocmd!
-  autocmd FileType c,cpp,python,javascript,typescript,vue nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>
+  autocmd FileType c,cpp,python,javascript,typescript,vue,java nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>
   if mymisc#plug_tap('lexima.vim')
     autocmd VimEnter * call lexima#init()
   endif

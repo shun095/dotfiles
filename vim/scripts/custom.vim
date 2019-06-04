@@ -943,6 +943,7 @@ if mymisc#plug_tap('ale')
   let g:ale_linters = {
         \ 'cpp':    [''],
         \ 'python': [''],
+        \ 'java':   [''],
         \ }
   let g:ale_sign_error = 'E'
   let g:ale_sign_warning = 'W'
@@ -1097,9 +1098,41 @@ if mymisc#plug_tap('vim-lsp')
             \ })
     endif
 
-    au FileType c,cpp,python,javascript,typescript,vue nnoremap <buffer> <leader><c-]> :<C-u>LspDefinition<CR>
-    au FileType c,cpp,python,javascript,typescript,vue vnoremap <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>
-    au FileType c,cpp,python,javascript,typescript,vue setl omnifunc=lsp#complete
+    if filereadable(fnamemodify("~", ":p") . '/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.5.400.v20190515-0925.jar')
+      if has('mac')
+        let s:eclipse_jdt_config = "config_mac"
+      elseif has('unix')
+        let s:eclipse_jdt_config = "config_linux"
+      else
+        let s:eclipse_jdt_config = "config_win"
+      endif
+
+      au User lsp_setup call lsp#register_server({
+            \ 'name': 'eclipse.jdt.ls',
+            \ 'cmd': {server_info->[
+            \     'java',
+            \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+            \     '-Dosgi.bundles.defaultStartLevel=4',
+            \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
+            \     '-Dlog.level=ALL',
+            \     '-noverify',
+            \     '-Dfile.encoding=UTF-8',
+            \     '-Xmx1G',
+            \     '-jar',
+            \     fnamemodify("~", ":p") . '/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.5.400.v20190515-0925.jar',
+            \     '-configuration',
+            \     fnamemodify("~", ":p") . '/eclipse.jdt.ls/' . s:eclipse_jdt_config,
+            \     '-data',
+            \     fnamemodify("~", ":p") . '~/workspace/',
+            \ ]},
+            \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.project'))},
+            \ 'whitelist': ['java'],
+            \ })
+    endif
+
+    au FileType c,cpp,python,javascript,typescript,vue,java nnoremap <buffer> <leader><c-]> :<C-u>LspDefinition<CR>
+    au FileType c,cpp,python,javascript,typescript,vue,java vnoremap <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>
+    au FileType c,cpp,python,javascript,typescript,vue,java setl omnifunc=lsp#complete
   augroup END
 endif
 
@@ -1110,7 +1143,7 @@ if mymisc#plug_tap('asyncomplete.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
           \ 'name': 'omni',
           \ 'whitelist': ['*'],
-          \ 'blacklist': ['c', 'cpp', 'python', 'javascript', 'typescript', 'vue'],
+          \ 'blacklist': ['c', 'cpp', 'python', 'javascript', 'typescript', 'vue', 'java'],
           \ 'priority': 100,
           \ 'completor': function('asyncomplete#sources#omni#completor')
           \  }))
@@ -1163,20 +1196,26 @@ if mymisc#plug_tap('asyncomplete.vim')
           \ }))
   endif
 
-  imap <c-space> <Plug>(asyncomplete_force_refresh)
+  imap <C-x><Space> <Plug>(asyncomplete_force_refresh)
 
-  " if has('lua')
-  "   let g:asyncomplete_smart_completion = 1
-  " endif
+  function! s:preprocess_remove_dups(ctx, matches) abort
+    let l:visited = {}
+    let l:items = []
+    for [l:source_name, l:matches] in items(a:matches)
+      for l:item in l:matches['items']
+        if stridx(l:item['word'], a:ctx['base']) == 0
+          if !has_key(l:visited, l:item['word'])
+            call add(l:items, l:item)
+            let l:visited[l:item['word']] = 1
+          endif
+        endif
+      endfor
+    endfor
 
-  let g:asyncomplete_smart_completion = 0
-  let g:asyncomplete_auto_popup = 1
-  " let g:asyncomplete_min_length = 1
-  let g:asyncomplete_remove_duplicates = 1
-  let g:asyncomplete_force_refresh_on_context_changed = 0
-  let g:asyncomplete_completion_delay = 100
+    call asyncomplete#preprocess_complete(a:ctx, l:items)
+  endfunction
 
-  set completeopt+=preview
+  " let g:asyncomplete_preprocessor = [function('s:preprocess_remove_dups')]
 
   augroup vimrc_asyncomplete
     autocmd!

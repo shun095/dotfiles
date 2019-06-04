@@ -364,7 +364,7 @@ try
 
       function! s:fast_esc() abort
         let s:old_tlen = &timeoutlen
-        set timeoutlen=50
+        set timeoutlen=25
         inoremap <ESC>n <Down>
         inoremap <ESC>p <Up>
         inoremap <ESC>f <S-Right>
@@ -372,7 +372,7 @@ try
         inoremap <ESC> <C-w>
         iunmap <ESC>
         call feedkeys("\<ESC>", 'i')
-        call timer_start(100, 'Myvimrc_fast_esc_unmap', {'repeat':1})
+        call timer_start(50, 'Myvimrc_fast_esc_unmap', {'repeat':1})
         return ""
       endfunction
 
