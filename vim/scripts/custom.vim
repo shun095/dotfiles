@@ -605,8 +605,8 @@ endif
 if mymisc#plug_tap('defx.nvim')
   " nnoremap <silent> <Leader>e :call <SID>quit_existing_defx()<CR>:Defx `expand('%:p:h')` -split=vertical -winwidth=40 -direction=topleft -search=`expand('%:p')`<CR>
   " nnoremap <silent> <Leader>E :call <SID>quit_existing_defx()<CR>:Defx -split=vertical -winwidth=40 -direction=topleft .<CR>
-  nnoremap <silent> <Leader>e :Defx `expand('%:p:h')` -split=vertical -winwidth=35 -direction=topleft -search=`expand('%:p')`<CR>
-  nnoremap <silent> <Leader>E :Defx -split=vertical -winwidth=35 -direction=topleft .<CR>
+  nnoremap <silent> <Leader>E :Defx `expand('%:p:h')` -split=vertical -winwidth=35 -direction=topleft -search=`expand('%:p')`<CR>
+  nnoremap <silent> <Leader>e :Defx -split=vertical -winwidth=35 -direction=topleft<CR>
 
   function! s:expand(path) abort
     return s:substitute_path_separator(
@@ -627,6 +627,12 @@ if mymisc#plug_tap('defx.nvim')
     " autocmd BufEnter * if !exists('b:defx') && isdirectory(expand('%'))
     "   \ | call defx#util#call_defx('Defx', escape(s:expand(expand('%')), ' '))
     "   \ | endif
+    "
+    if mymisc#plug_tap('defx-git')
+      call defx#custom#option('_', { 
+            \ 'columns': 'mark:indent:icon:git:filename:type:size:time'
+            \ })
+    endif
 
     autocmd FileType defx call s:defx_my_settings()
     function! s:defx_my_settings() abort
@@ -636,9 +642,11 @@ if mymisc#plug_tap('defx.nvim')
       nnoremap <silent><buffer><expr> <2-LeftMouse>
             \ defx#do_action('drop')
       nnoremap <silent><buffer><expr> O
-            \ defx#do_action('open')
+            \ defx#do_action('open_tree_recursive')
       nnoremap <silent><buffer><expr> o
-            \ defx#do_action('drop')
+            \ defx#is_directory() ?
+            \   defx#do_action('open_tree') :
+            \   defx#do_action('drop')
       nnoremap <silent><buffer><expr> u
             \ defx#do_action('cd', ['..'])
       nnoremap <silent><buffer><expr> l
@@ -655,8 +663,8 @@ if mymisc#plug_tap('defx.nvim')
             \ defx#do_action('yank_path').":cd \<C-r>\"\<CR>"
       nnoremap <silent><buffer><expr> .
             \ defx#do_action('toggle_ignored_files')
-      nnoremap <silent><buffer><expr> X
-            \ defx#do_action('execute_system')
+      nnoremap <silent><buffer><expr> x
+            \ defx#do_action('close_tree')
       nnoremap <silent><buffer><expr> s
             \ defx#do_action('open', 'wincmd p \| vsplit')
       nnoremap <silent><buffer><expr> i
@@ -1177,7 +1185,7 @@ if mymisc#plug_tap('asyncomplete.vim')
   endif
 
   if mymisc#plug_tap('asyncomplete-ultisnips.vim')
-    if has('python3')
+    if has('python3') || has('python')
       au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
             \ 'name': 'ultisnips',
             \ 'whitelist': ['*'],
@@ -1237,7 +1245,8 @@ if mymisc#plug_tap('asyncomplete.vim')
     call asyncomplete#preprocess_complete(a:ctx, l:items)
   endfunction
 
-  let g:asyncomplete_preprocessor = [function('s:preprocess_fuzzy')]
+  " let g:asyncomplete_preprocessor = [function('s:preprocess_fuzzy')]
+  let g:asyncomplete_popup_delay = 200
 
   augroup vimrc_asyncomplete
     autocmd!

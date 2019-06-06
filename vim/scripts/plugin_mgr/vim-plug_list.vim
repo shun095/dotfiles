@@ -81,20 +81,20 @@ endif
 " if s:use_shougo_ware
 if 0
   if has('nvim')
-    Plug 'Shougo/denite.nvim', {'do':':UpdateRemotePlugins'}
-    Plug 'Shougo/deoplete.nvim', {'do':':UpdateRemotePlugins'}
+    " Plug 'Shougo/denite.nvim', {'do':':UpdateRemotePlugins'}
+    " Plug 'Shougo/deoplete.nvim', {'do':':UpdateRemotePlugins'}
     Plug 'Shougo/defx.nvim', {'do':':UpdateRemotePlugins'}
     " Plug 'Shougo/deoplete-lsp'
     " call lsp#server#add('python', ['python', '-m', 'pyls'])
   else
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
-    Plug 'Shougo/denite.nvim'
-    Plug 'Shougo/deoplete.nvim'
+    " Plug 'Shougo/denite.nvim'
+    " Plug 'Shougo/deoplete.nvim'
     Plug 'Shougo/defx.nvim'
   endif
-  Plug 'Shougo/context_filetype.vim'
-  Plug 'Shougo/neomru.vim'
+  " Plug 'Shougo/context_filetype.vim'
+  " Plug 'Shougo/neomru.vim'
   " Plug 'Shougo/vimproc.vim'
   " if has('win32')
   "   Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
@@ -144,10 +144,20 @@ else
   Plug 'prabirshrestha/asyncomplete-necovim.vim'
   Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
-  Plug 'scrooloose/nerdtree'
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  Plug 'jistr/vim-nerdtree-tabs'
-  Plug 'ishitaku5522/nerdtree-git-plugin'
+  " Plug 'scrooloose/nerdtree'
+  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  " Plug 'jistr/vim-nerdtree-tabs'
+  " Plug 'ishitaku5522/nerdtree-git-plugin'
+
+  if has('nvim')
+    Plug 'Shougo/defx.nvim', {'do':':UpdateRemotePlugins'}
+  else
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'Shougo/defx.nvim'
+  endif
+  Plug 'kristijanhusak/defx-git'
+
   " Plug 'ryanoasis/vim-devicons'
   " Plug 'justinmk/vim-dirvish'
 endif
