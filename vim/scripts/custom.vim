@@ -627,7 +627,9 @@ if mymisc#plug_tap('defx.nvim')
     " autocmd BufEnter * if !exists('b:defx') && isdirectory(expand('%'))
     "   \ | call defx#util#call_defx('Defx', escape(s:expand(expand('%')), ' '))
     "   \ | endif
-    "
+    autocmd FileType defx IndentLinesDisable
+    autocmd FileType defx set conceallevel=2
+    
     if mymisc#plug_tap('defx-git')
       call defx#custom#option('_', { 
             \ 'columns': 'mark:indent:icon:git:filename:type:size:time'
