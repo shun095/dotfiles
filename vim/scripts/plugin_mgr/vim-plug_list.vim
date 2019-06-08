@@ -144,19 +144,19 @@ else
   Plug 'prabirshrestha/asyncomplete-necovim.vim'
   Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
-  " Plug 'scrooloose/nerdtree'
-  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  " Plug 'jistr/vim-nerdtree-tabs'
-  " Plug 'ishitaku5522/nerdtree-git-plugin'
+  Plug 'scrooloose/nerdtree'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  Plug 'jistr/vim-nerdtree-tabs'
+  Plug 'ishitaku5522/nerdtree-git-plugin'
 
-  Plug 'kristijanhusak/defx-git'
-  if has('nvim')
-    Plug 'Shougo/defx.nvim', {'do':':UpdateRemotePlugins'}
-  else
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-    Plug 'Shougo/defx.nvim'
-  endif
+  " Plug 'kristijanhusak/defx-git'
+  " if has('nvim')
+  "   Plug 'Shougo/defx.nvim', {'do':':UpdateRemotePlugins'}
+  " else
+  "   Plug 'roxma/nvim-yarp'
+  "   Plug 'roxma/vim-hug-neovim-rpc'
+  "   Plug 'Shougo/defx.nvim'
+  " endif
 
   " Plug 'ryanoasis/vim-devicons'
   " Plug 'justinmk/vim-dirvish'
