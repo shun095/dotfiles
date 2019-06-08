@@ -55,6 +55,7 @@ ZSH_THEME="ishitaku"
 plugins=(
 git
 pyenv
+mvn
 command-not-found
 history-substring-search
 zsh-completions

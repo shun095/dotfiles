@@ -605,8 +605,11 @@ endif
 if mymisc#plug_tap('defx.nvim')
   " nnoremap <silent> <Leader>e :call <SID>quit_existing_defx()<CR>:Defx `expand('%:p:h')` -split=vertical -winwidth=40 -direction=topleft -search=`expand('%:p')`<CR>
   " nnoremap <silent> <Leader>E :call <SID>quit_existing_defx()<CR>:Defx -split=vertical -winwidth=40 -direction=topleft .<CR>
-  nnoremap <silent> <Leader>E :Defx `expand('%:p:h')` -split=vertical -winwidth=35 -direction=topleft -search=`expand('%:p')`<CR>
-  nnoremap <silent> <Leader>e :Defx -split=vertical -winwidth=35 -direction=topleft<CR>
+  " nnoremap <silent> <Leader>E :Defx `expand('%:p:h')` -split=vertical -search=`expand('%:p')`<CR>
+  " nnoremap <silent> <Leader>e :Defx -split=vertical<CR>
+
+  nnoremap <silent> <Leader>E :call defx#util#call_defx('Defx', expand('%:p:h') . ' -split=vertical -search=' . expand('%:p'))<CR>
+  nnoremap <silent> <Leader>e :call defx#util#call_defx('Defx', ' -split=vertical')<CR>
 
   function! s:expand(path) abort
     return s:substitute_path_separator(
@@ -615,25 +618,34 @@ if mymisc#plug_tap('defx.nvim')
           \             '^\$\h\w*', '\=eval(submatch(0))', '') :
           \ a:path)
   endfunction
+
   function! s:substitute_path_separator(path) abort
     return has('win32') ? substitute(a:path, '\\', '/', 'g') : a:path
   endfunction
 
+  let g:indentLine_fileTypeExclude = ['defx']
+
+  let s:defx_custom_columns = 'mark:indent:icon:filename:type:size:time'
+
+  if mymisc#plug_tap('defx-git')
+    let s:defx_custom_columns = 'mark:indent:icon:git:filename:type:size:time'
+  endif
+
+  call defx#custom#option('_', { 
+        \ 'columns': s:defx_custom_columns,
+        \ 'winwidth': '35',
+        \ 'direction': 'topleft',
+        \ })
+
   augroup vimrc_defx
     autocmd!
-    " " Remove netrw and NERDTree directory handlers.
-    " autocmd VimEnter * if exists('#FileExplorer') | exe 'au! FileExplorer *' | endif
-    " autocmd VimEnter * if exists('#NERDTreeHijackNetrw') | exe 'au! NERDTreeHijackNetrw *' | endif
-    " autocmd BufEnter * if !exists('b:defx') && isdirectory(expand('%'))
-    "   \ | call defx#util#call_defx('Defx', escape(s:expand(expand('%')), ' '))
-    "   \ | endif
-    let g:indentLine_fileTypeExclude = ['defx']
 
-    if mymisc#plug_tap('defx-git')
-      call defx#custom#option('_', { 
-            \ 'columns': 'mark:indent:icon:git:filename:type:size:time'
-            \ })
-    endif
+    " Remove netrw and NERDTree directory handlers.
+    autocmd VimEnter * if exists('#FileExplorer') | exe 'au! FileExplorer *' | endif
+    autocmd VimEnter * if exists('#NERDTreeHijackNetrw') | exe 'au! NERDTreeHijackNetrw *' | endif
+    autocmd BufEnter * if !exists('b:defx') && isdirectory(expand('%'))
+          \ | call defx#util#call_defx('Defx', escape(s:expand(expand('%')), ' '))
+          \ | endif
 
     call defx#custom#option('_', {'ignored_files': '*.meta,*.swp,*.swo,*.pyc,*.aux,*.dvi,*.fls,*.synctex.gz,*.synctex(busy),*.bbl,*.blg,*.toc,*.fdb_latexmk'})
 

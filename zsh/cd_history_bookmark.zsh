@@ -24,12 +24,12 @@
 
 _cd_history_bookmark_limit=100
 
-setopt aliases
 if sed --version 2>/dev/null | grep -q GNU; then
-    alias _cd_history_bookmark_sedi="sed -i -e "
+    _cd_history_bookmark_sedi="sed -i -e"
+    tac="tac"
 else
-    alias _cd_history_bookmark_sedi="sed -i .bak -e "
-    alias tac="tail -r"
+    _cd_history_bookmark_sedi="sed -i .bak -e"
+    tac="tail -r"
 fi
 
 function _cd_history_bookmark_filter(){
@@ -43,12 +43,11 @@ function _cd_history_bookmark_save_cd_history(){
 
 function _cd_history_bookmark_fzf(){
     local file_path=$1
-    local dest_dir=$(tac $file_path | _cd_history_bookmark_filter | fzf --no-sort --height 40% --reverse)
+    local dest_dir=$(eval $tac' '$file_path | _cd_history_bookmark_filter | fzf --no-sort --height 40% --reverse)
     if [[ $dest_dir != '' ]]; then
         if ! cd "$dest_dir"; then
-            setopt aliases
-            _cd_history_bookmark_sedi "s?^${dest_dir}\(\$\|/.*\$\)??g" ${file_path} &&
-            _cd_history_bookmark_sedi "/^\s*\$/d" $file_path # Delete empty lines
+            eval $_cd_history_bookmark_sedi' "s?^${dest_dir}\(\$\|/.*\$\)??g" '${file_path} &&
+            eval $_cd_history_bookmark_sedi' "/^\s*\$/d" '$file_path # Delete empty lines
         fi
 
     fi
@@ -57,9 +56,8 @@ function _cd_history_bookmark_fzf(){
 function _cd_history_bookmark_add_path_to_file(){
     local file_path=$1
     touch $file_path # Create the file if not exists
-    setopt aliases
-    _cd_history_bookmark_sedi "s?^${PWD}\$??g" $file_path # Delete same directory lines
-    _cd_history_bookmark_sedi "/^\s*\$/d" $file_path # Delete empty lines
+    eval $_cd_history_bookmark_sedi' "s?^${PWD}\$??g" '$file_path # Delete same directory lines
+    eval $_cd_history_bookmark_sedi' "/^\s*\$/d" '$file_path # Delete empty lines
 
     if [[ `cat $file_path | wc -l` -eq 0 ]];then
         echo > $file_path # Create a empty line if the file size is zero
@@ -69,8 +67,7 @@ function _cd_history_bookmark_add_path_to_file(){
     fi
 
     echo "\n" >> $file_path
-    setopt aliases
-    _cd_history_bookmark_sedi "\$s?^?${PWD}?" $file_path # Add the path to the file
+    eval $_cd_history_bookmark_sedi' "\$s?^?${PWD}?" '$file_path # Add the path to the file
 }
 
 function bkmk(){
@@ -79,8 +76,7 @@ function bkmk(){
 }
 
 function delbkmk(){
-    setopt aliases
-    _cd_history_bookmark_sedi "s?^${PWD}\$??g" ~/.cd_bookmark 
+    eval $_cd_history_bookmark_sedi' "s?^${PWD}\$??g" ''~/.cd_bookmark'
 }
 
 function cdbk() {
