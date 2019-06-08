@@ -609,7 +609,7 @@ if mymisc#plug_tap('defx.nvim')
   " nnoremap <silent> <Leader>e :Defx -split=vertical<CR>
 
   nnoremap <silent> <Leader>E :call defx#util#call_defx('Defx', expand('%:p:h') . ' -split=vertical -search=' . expand('%:p'))<CR>
-  nnoremap <silent> <Leader>e :call defx#util#call_defx('Defx', expand('%:p:h') . ' -split=vertical')<CR>
+  nnoremap <silent> <Leader>e :call defx#util#call_defx('Defx', ' -split=vertical')<CR>
 
   function! s:expand(path) abort
     return s:substitute_path_separator(
