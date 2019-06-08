@@ -627,9 +627,8 @@ if mymisc#plug_tap('defx.nvim')
     " autocmd BufEnter * if !exists('b:defx') && isdirectory(expand('%'))
     "   \ | call defx#util#call_defx('Defx', escape(s:expand(expand('%')), ' '))
     "   \ | endif
-    autocmd FileType defx IndentLinesDisable
-    autocmd FileType defx set conceallevel=2
-    
+    let g:indentLine_fileTypeExclude = ['defx']
+
     if mymisc#plug_tap('defx-git')
       call defx#custom#option('_', { 
             \ 'columns': 'mark:indent:icon:git:filename:type:size:time'
@@ -1064,6 +1063,7 @@ if mymisc#plug_tap('vim-lsp')
 
   let g:lsp_diagnostics_echo_cursor = 1
   let g:lsp_diagnostics_echo_delay  = 1
+  let g:lsp_textprop_enabled = 0
 
   hi link LspErrorText ALEErrorSign
   hi link LspWarningText ALEWarningSign

@@ -149,6 +149,7 @@ else
   " Plug 'jistr/vim-nerdtree-tabs'
   " Plug 'ishitaku5522/nerdtree-git-plugin'
 
+  Plug 'kristijanhusak/defx-git'
   if has('nvim')
     Plug 'Shougo/defx.nvim', {'do':':UpdateRemotePlugins'}
   else
@@ -156,7 +157,6 @@ else
     Plug 'roxma/vim-hug-neovim-rpc'
     Plug 'Shougo/defx.nvim'
   endif
-  Plug 'kristijanhusak/defx-git'
 
   " Plug 'ryanoasis/vim-devicons'
   " Plug 'justinmk/vim-dirvish'
