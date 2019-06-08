@@ -635,6 +635,8 @@ if mymisc#plug_tap('defx.nvim')
             \ })
     endif
 
+    call defx#custom#option('_', {'ignored_files': '*.meta,*.swp,*.swo,*.pyc,*.aux,*.dvi,*.fls,*.synctex.gz,*.synctex(busy),*.bbl,*.blg,*.toc,*.fdb_latexmk'})
+
     autocmd FileType defx call s:defx_my_settings()
     function! s:defx_my_settings() abort
       " Define mappings
