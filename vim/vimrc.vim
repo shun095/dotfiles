@@ -243,6 +243,8 @@ try
     " Use Git-bash's grep
     let s:grep_exe_path = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\grep.exe'
     exe 'set grepprg=\"'.escape(s:grep_exe_path,' ').'\"\ -rnIH\ --exclude-dir=''.*''\ $*'
+  elseif has('mac')
+    set grepprg=grep\ -rnIH\ --exclude-dir=\\*/.\\*\ $*
   elseif has('unix')
     set grepprg=grep\ -rnIH\ --exclude-dir='.*'\ $*
   endif
