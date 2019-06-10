@@ -306,7 +306,7 @@ if mymisc#plug_tap('nerdtree')
 
   let g:NERDTreeMinimalUI = 0
   let g:NERDTreeShowBookmarks = 1
-
+  let g:NERDTreeHighlightCursorline = 0
   let g:NERDTreeIgnore = ['\.meta',
         \ '\.sw[po]',
         \ '\.pyc',

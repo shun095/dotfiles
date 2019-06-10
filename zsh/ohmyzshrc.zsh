@@ -54,8 +54,17 @@ ZSH_THEME="ishitaku"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 git
-pyenv
+tmux
+tig
 mvn
+fzf
+python
+pyenv
+docker
+kubectl
+brew
+iterm2
+sudo
 command-not-found
 history-substring-search
 zsh-completions
