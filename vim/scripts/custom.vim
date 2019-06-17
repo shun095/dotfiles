@@ -784,17 +784,17 @@ if mymisc#plug_tap('fzf.vim')
     let $FZF_DEFAULT_COMMAND = substitute(g:ctrlp_user_command,'%s','.','g')
   endif
   nnoremap <Leader><Leader> :execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
-  " nnoremap <Leader>T        :Tags<CR>
-  " nnoremap <Leader>al       :Lines<CR>
-  " nnoremap <Leader>b        :Buffers<CR>
+  nnoremap <Leader>T        :Tags<CR>
+  nnoremap <Leader>al       :Lines<CR>
+  nnoremap <Leader>b        :Buffers<CR>
   nnoremap <Leader>c        :Files<CR>
   nnoremap <Leader>f        :execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
   " gr
-  " nnoremap <Leader>l        :BLines<CR>
-  " nnoremap <Leader>o        :BTags<CR>
+  nnoremap <Leader>l        :BLines<CR>
+  nnoremap <Leader>o        :BTags<CR>
   " r
-  " nnoremap <Leader>u        :History<CR>
-  " nnoremap <Leader>`        :Marks<CR>
+  nnoremap <Leader>u        :History<CR>
+  nnoremap <Leader>`        :Marks<CR>
 endif
 
 if mymisc#plug_tap('vim-peekaboo')

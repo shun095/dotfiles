@@ -650,6 +650,9 @@ try
     " Json
     let g:vim_json_syntax_conceal = 0
 
+    " Java
+    autocmd FileType java setl noexpandtab
+
     " Python
     let g:python_highlight_all = 1
     autocmd FileType python setl foldmethod=indent

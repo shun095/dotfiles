@@ -42,6 +42,10 @@ function mailb(){
     \tmux source ~/dotfiles/tmux/mutt_tile2
 }
 
+function urlencode {
+  echo "$1" | nkf -WwMQ | tr = %
+}
+
 function tmux_call(){
     title "$USER@$HOST"
     export DISABLE_AUTO_TITLE=true
