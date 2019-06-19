@@ -194,7 +194,7 @@ uninstall_plugins() {
 
 git_configulation() {
     git config --global core.editor vim
-    git config --global alias.graph "log --graph --all --date=local --pretty=format:'%C(auto)%h%d%n %s %C(magenta)(%cd)%n %C(green)Committer:%cN <%cE>%n %C(blue)Author   :%aN <%aE>%Creset'"
+    git config --global alias.graph "log --graph --all --date=local --pretty=format:'%C(auto)%h%C(magenta) %cd %C(yellow)[%cr]%C(auto)%d%n    %C(auto)%s%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset'"
 }
 
 download_repositories(){
