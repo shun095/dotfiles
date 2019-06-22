@@ -24,7 +24,7 @@ function! s:lazy_plugin_register(plugin, event) abort
 
   let name = split(a:plugin, '/')[-1]
   let s:lazy_plugins[a:event] = add(s:lazy_plugins[a:event], name)
-  execute "Plug '" . a:plugin . "', {'on':[]}"
+  execute "Plug '" . a:plugin . "', {'on': []}"
 endfunction
 
 function! s:on_insert_enter_load() abort
@@ -163,14 +163,14 @@ else
 endif
 
 " Language specific completions
-Plug 'OmniSharp/omnisharp-vim', {'for':['cs']}
-" Plug 'Rip-Rip/clang_complete', {'for':['c', 'cpp']} " for goto definition (completed by LC)
-" Plug 'davidhalter/jedi-vim', {'for':['python']} " for goto definition (completed by LC)
-" Plug 'zchee/deoplete-jedi', {'for':['python']} " for completion
-" Plug 'carlitux/deoplete-ternjs', {'for':['javascript']}
-" Plug 'zchee/deoplete-go', {'for':['go']}
+Plug 'OmniSharp/omnisharp-vim', {'for': ['cs']}
+" Plug 'Rip-Rip/clang_complete', {'for': ['c', 'cpp']} " for goto definition (completed by LC)
+" Plug 'davidhalter/jedi-vim', {'for': ['python']} " for goto definition (completed by LC)
+" Plug 'zchee/deoplete-jedi', {'for': ['python']} " for completion
+" Plug 'carlitux/deoplete-ternjs', {'for': ['javascript']}
+" Plug 'zchee/deoplete-go', {'for': ['go']}
 Plug 'othree/csscomplete.vim'
-" Plug 'artur-shaik/vim-javacomplete2', {'for':['java']}
+" Plug 'artur-shaik/vim-javacomplete2', {'for': ['java']}
 Plug 'Shougo/neco-vim' " for vim
 
 " Snippets, templates
@@ -187,41 +187,43 @@ Plug 'mattn/sonictemplate-vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
 " Plug 'gorodinskiy/vim-coloresque'
-Plug 'chiel92/vim-autoformat', {'on':['Autoformat']}
+Plug 'chiel92/vim-autoformat', {'on': ['Autoformat']}
 Plug 'jiangmiao/auto-pairs'
 " Plug 'Raimondi/delimitMate'
 " Plug 'cohama/lexima.vim'
 
 " Language/environment specific plugins
-Plug 'lervag/vimtex', {'for':['tex']}
-Plug 'iamcco/markdown-preview.vim', {'for':['markdown']}
-Plug 'kannokanno/previm', {'for':['markdown']}
-Plug 'jceb/vim-orgmode', {'for':['org']}
-Plug 'OrangeT/vim-csharp', {'for':['cs', 'csi', 'csx']}
-Plug 'fatih/vim-go', {'for':['go']}
-Plug 'mattn/emmet-vim', {'for':['html', 'xml']}
-Plug 'mopp/next-alter.vim', {'for':['c', 'cpp', 'vim']}
-Plug 'Valloric/MatchTagAlways', {'for':['html', 'xml']}
-Plug 'ishitaku5522/rosmake.vim', {'on':['Catkinmake', 'Rosmake']}
+Plug 'lervag/vimtex', {'for': ['tex']}
+Plug 'iamcco/markdown-preview.vim', {'for': ['markdown']}
+Plug 'kannokanno/previm', {'for': ['markdown']}
+Plug 'jceb/vim-orgmode', {'for': ['org']}
+Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
+Plug 'fatih/vim-go', {'for': ['go']}
+Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
+Plug 'mopp/next-alter.vim', {'for': ['c', 'cpp', 'vim']}
+Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
+Plug 'ishitaku5522/rosmake.vim', {'on': ['Catkinmake', 'Rosmake']}
 Plug 'alvan/vim-closetag', {'for': ['xml', 'html', 'xhtml', 'phtml']}
 " Plug 'chrisbra/csv.vim', {'for': ['csv']}
 
 " Syntax highlights
-Plug 'othree/html5.vim', {'for':['html']}
-Plug 'digitaltoad/vim-pug', {'for':['pug', 'jade']}
-Plug 'briancollins/vim-jst', {'for':['ejs', 'jst']}
-Plug 'groenewege/vim-less', {'for':['less']}
-Plug 'cakebaker/scss-syntax.vim', {'for':['scss']}
-Plug 'wavded/vim-stylus', {'for':['stylus']}
-Plug 'leafgarland/typescript-vim', {'for':['typescript']}
-Plug 'pangloss/vim-javascript', {'for':['javascript']}
-Plug 'posva/vim-vue', {'for':['vue']}
-Plug 'elzr/vim-json', {'for':['json']}
+Plug 'othree/html5.vim', {'for': ['html']}
+Plug 'digitaltoad/vim-pug', {'for': ['pug', 'jade']}
+Plug 'briancollins/vim-jst', {'for': ['ejs', 'jst']}
+Plug 'groenewege/vim-less', {'for': ['less']}
+Plug 'cakebaker/scss-syntax.vim', {'for': ['scss']}
+Plug 'wavded/vim-stylus', {'for': ['stylus']}
+Plug 'leafgarland/typescript-vim', {'for': ['typescript']}
+Plug 'pangloss/vim-javascript', {'for': ['javascript']}
+Plug 'posva/vim-vue', {'for': ['vue']}
+Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'cespare/vim-toml', {'for':'toml'}
-Plug 'tmux-plugins/vim-tmux', {'for':['tmux']}
-Plug 'chr4/nginx.vim', {'for':['nginx']}
-Plug 'pboettch/vim-cmake-syntax', {'for':['cmake']}
-Plug 'octol/vim-cpp-enhanced-highlight', {'for':['c', 'cpp']}
+Plug 'tmux-plugins/vim-tmux', {'for': ['tmux']}
+Plug 'chr4/nginx.vim', {'for': ['nginx']}
+Plug 'pboettch/vim-cmake-syntax', {'for': ['cmake']}
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
+Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
+Plug 'aklt/plantuml-syntax', {'for': ['plantuml']}
 " Plug 'hdima/python-syntax'
 
 " General purpose viewers/indicators
@@ -234,15 +236,15 @@ Plug 'junegunn/vim-peekaboo'
 if has('win32')
   Plug 'ishitaku5522/cpsm'
 else
-  Plug 'nixprime/cpsm', {'do':'bash install.sh'}
+  Plug 'nixprime/cpsm', {'do': 'bash install.sh'}
 endif
 
-Plug 'mbbill/undotree', {'on':['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']}
-Plug 'majutsushi/tagbar', {'on':['TagbarToggle', 'TagbarOpen']}
-Plug 'AndrewRadev/linediff.vim', {'on':'Linediff'}
+Plug 'mbbill/undotree', {'on': ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']}
+Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpen']}
+Plug 'AndrewRadev/linediff.vim', {'on': ['Linediff']}
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
-Plug 'luochen1990/rainbow'
+Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
 " Plug 'junegunn/rainbow_parentheses.vim'
 " Plug 'kien/rainbow_parentheses.vim'
 Plug 'google/vim-searchindex'
@@ -265,18 +267,16 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'deton/jasegment.vim'
 
 " Applications
-Plug 'glidenote/memolist.vim', {'on':['MemoNew', 'MemoList']}
+Plug 'glidenote/memolist.vim', {'on': ['MemoNew', 'MemoList']}
 Plug 'itchyny/calendar.vim', {'on':'Calendar'}
+Plug 'skanehira/weather.vim', {'on':'Weather'}
+Plug 'skanehira/train.vim', {'on': ['TrainLateInfo', 'TrainSearchRoute']}
 
 " Tools
-Plug 'weirongxu/plantuml-previewer.vim'
-Plug 'aklt/plantuml-syntax'
-Plug 'skanehira/weather.vim'
-Plug 'skanehira/train.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'lambdalisue/suda.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'tyru/open-browser.vim'
+Plug 'tyru/open-browser.vim', {'on': ['OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch']}
 Plug 'haya14busa/vim-open-googletranslate', {'on':'OpenGoogleTranslate'}
 Plug 'tyru/capture.vim'
 if has('nvim') && has('win32')

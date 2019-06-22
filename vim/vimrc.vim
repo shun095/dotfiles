@@ -327,7 +327,7 @@ try
   augroup END
 
   " とりあえずvery magic
-  nnoremap / /\v
+  " nnoremap / /\v
 
   " !マークはInsert ModeとCommand-line Modeへのマッピング
   " emacs like keymap in insert/command mode
@@ -335,6 +335,7 @@ try
   noremap! <C-a> <Home>
   noremap! <C-e> <End>
   inoremap <C-k> <Right><ESC>Da
+  cnoremap <C-@> <C-a>
 
   if has('gui_running')
     noremap! <M-n> <Down>
