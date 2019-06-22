@@ -1163,15 +1163,15 @@ endif
 if mymisc#plug_tap('asyncomplete.vim')
   " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
 
-  if mymisc#plug_tap('asyncomplete-omni.vim')
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-          \ 'name': 'omni',
-          \ 'whitelist': ['*'],
-          \ 'blacklist': ['c', 'cpp', 'python', 'javascript', 'typescript', 'vue', 'java'],
-          \ 'priority': 100,
-          \ 'completor': function('asyncomplete#sources#omni#completor')
-          \  }))
-  endif
+  " if mymisc#plug_tap('asyncomplete-omni.vim')
+  "   au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+  "         \ 'name': 'omni',
+  "         \ 'whitelist': ['*'],
+  "         \ 'blacklist': ['c', 'cpp', 'python', 'javascript', 'typescript', 'vue', 'java', 'sql'],
+  "         \ 'priority': 100,
+  "         \ 'completor': function('asyncomplete#sources#omni#completor')
+  "         \  }))
+  " endif
 
   if mymisc#plug_tap('asyncomplete-necovim.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
