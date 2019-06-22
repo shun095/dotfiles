@@ -799,7 +799,7 @@ if mymisc#plug_tap('fzf.vim')
   nnoremap <Leader>l        :BLines<CR>
   nnoremap <Leader>o        :BTags<CR>
   " r
-  nnoremap <Leader>u        :History<CR>
+  " nnoremap <Leader>u        :History<CR> " FZFのHistoryはソートがおかしい
   nnoremap <Leader>`        :Marks<CR>
 endif
 
