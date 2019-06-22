@@ -192,8 +192,18 @@ fun! mymisc#ctags_project(project_marker_list) abort
     return
   endif
 
-  call mymisc#command_at_destdir(l:tags_dir,['call system("ctags -R")'])
-  echomsg 'Tags file was made at: ' . l:tags_dir
+  call mymisc#command_at_destdir(l:tags_dir,['let g:mymisc_system_msg = system("ctags -R")'])
+  if !v:shell_error
+    echomsg 'Tags file was made at: ' . l:tags_dir
+  else
+    echohl WarningMsg
+    echomsg 'Ctags failed with code '.v:shell_error.'. Target directory was ' . l:tags_dir
+    let msg = split(g:mymisc_system_msg, "\n")
+    for m in msg
+      echomsg "[mymisc] ".m
+    endfor
+    echohl none
+  endif
 endf
 
 fun! mymisc#print_callback(ch,msg) abort

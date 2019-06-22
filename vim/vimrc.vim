@@ -728,14 +728,14 @@ try
   " source $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
   source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
 
-  let g:plugin_mgr.enabled = g:use_plugins
+  let g:plugin_mgr['enabled'] = g:use_plugins
 
   " Install plugin manager if it's not available
-  call g:plugin_mgr.load()
+  call g:plugin_mgr['load']()
 
   " }}} PLUGIN MANAGER SETUP END
   "
-  if g:plugin_mgr.enabled == g:true
+  if g:plugin_mgr['enabled'] == g:true
 
     " WHEN PLUGINS ARE ENABLED {{{
 
@@ -757,7 +757,7 @@ try
     let g:vimproc#download_windows_dll = 1
 
     " Initialize plugin manager
-    call g:plugin_mgr.init()
+    call g:plugin_mgr['init']()
 
     try
       " Load settings of plugins

@@ -138,6 +138,7 @@ alias svim="vim --cmd 'let g:use_plugins=0'"
 alias tgvim="gvim --remote-tab-silent"
 alias tvim="vim --remote-tab-silent"
 alias gnvim="nvim-qt"
+alias :e="vim"
 
 alias dir="dir --group-directories-first --color=auto"
 alias pyg="pygmentize"

@@ -306,7 +306,7 @@ if mymisc#plug_tap('nerdtree')
 
   let g:NERDTreeMinimalUI = 0
   let g:NERDTreeShowBookmarks = 1
-  let g:NERDTreeHighlightCursorline = 0
+  let g:NERDTreeHighlightCursorline = 1
   let g:NERDTreeIgnore = ['\.meta',
         \ '\.sw[po]',
         \ '\.pyc',
@@ -327,6 +327,12 @@ if mymisc#plug_tap('nerdtree')
     let g:NERDTreeRemoveFileCmd = 'trash-put '
     let g:NERDTreeRemoveDirCmd = 'trash-put '
   endif
+
+  augroup vimrc_nerdtree
+    autocmd!
+    autocmd FileType nerdtree nnoremap <buffer> j 0j
+    autocmd FileType nerdtree nnoremap <buffer> k 0k
+  augroup END
 endif
 
 if mymisc#plug_tap('open-browser.vim')
@@ -1487,6 +1493,9 @@ if mymisc#plug_tap('vim-nerdtree-syntax-highlight')
   let g:NERDTreeFileExtensionHighlightFullName = 1
   let g:NERDTreeExactMatchHighlightFullName = 1
   let g:NERDTreePatternMatchHighlightFullName = 1
+  " let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+  " let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+  let g:NERDTreeLimitedSyntax = 1
 endif
 
 if mymisc#plug_tap('vim-nerdtree-tabs')

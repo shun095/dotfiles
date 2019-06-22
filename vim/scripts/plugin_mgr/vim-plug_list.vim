@@ -145,7 +145,7 @@ else
   Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
   Plug 'scrooloose/nerdtree'
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'jistr/vim-nerdtree-tabs'
   Plug 'ishitaku5522/nerdtree-git-plugin'
 
