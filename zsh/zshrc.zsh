@@ -19,6 +19,7 @@ export PATH="$HOME/build/nvim-qt/bin:$PATH"
 export PATH="$HOME/build/nvim/bin:$PATH"
 export PATH="$HOME/build/vim/bin:$PATH"
 
+export ZSH_COMPDUMP=$HOME/.zcompdump
 source $MYDOTFILES/zsh/ohmyzshrc.zsh
 source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'

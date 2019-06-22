@@ -61,7 +61,7 @@ fzf
 python
 pyenv
 docker
-kubectl
+# kubectl
 brew
 iterm2
 sudo
