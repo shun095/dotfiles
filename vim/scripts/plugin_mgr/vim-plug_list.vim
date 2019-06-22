@@ -271,7 +271,8 @@ Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 " Tools
 Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'aklt/plantuml-syntax'
-
+Plug 'skanehira/weather.vim'
+Plug 'skanehira/train.vim'
 Plug 'thinca/vim-quickrun'
 Plug 'lambdalisue/suda.vim'
 Plug 'editorconfig/editorconfig-vim'
