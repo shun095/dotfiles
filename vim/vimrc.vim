@@ -326,6 +326,9 @@ try
     autocmd VimEnter * vnoremap g# "9y:<C-u>let @/ = @9.'\C'<CR>?<CR>
   augroup END
 
+  " とりあえずvery magic
+  nnoremap / /\v
+
   " !マークはInsert ModeとCommand-line Modeへのマッピング
   " emacs like keymap in insert/command mode
 
