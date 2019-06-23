@@ -801,6 +801,30 @@ if mymisc#plug_tap('fzf.vim')
   " r
   " nnoremap <Leader>u        :History<CR> " FZFのHistoryはソートがおかしい
   nnoremap <Leader>`        :Marks<CR>
+
+  command! -bang -nargs=* GGrep
+        \ call fzf#vim#grep(
+        \   'git grep --line-number '.shellescape(<q-args>), 0,
+        \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
+  let g:fzf_colors =
+        \ { 'fg':      ['fg', 'Normal'],
+        \ 'bg':      ['bg', 'Normal'],
+        \ 'hl':      ['fg', 'Comment'],
+        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+        \ 'hl+':     ['fg', 'Statement'],
+        \ 'info':    ['fg', 'PreProc'],
+        \ 'border':  ['fg', 'Ignore'],
+        \ 'prompt':  ['fg', 'Conditional'],
+        \ 'pointer': ['fg', 'Exception'],
+        \ 'marker':  ['fg', 'Keyword'],
+        \ 'spinner': ['fg', 'Label'],
+        \ 'header':  ['fg', 'Comment'] }
+  " augroup vimrc_fzf
+  "   autocmd!
+  "   autocmd  FileType fzf set laststatus=0 noshowmode noruler
+  "         \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+  " augroup END
 endif
 
 if mymisc#plug_tap('vim-peekaboo')
@@ -1073,7 +1097,7 @@ endif
 
 if mymisc#plug_tap('vim-lsp')
   " let g:lsp_log_verbose = 1
-  " let g:lsp_log_file = $HOME."/.vim/asyncomplete.log"
+  " let g:lsp_log_file = $HOME."/.vim/vim-lsp.log"
 
   let g:lsp_signs_enabled           = 1
   let g:lsp_signs_error             = {'text': 'E'}
