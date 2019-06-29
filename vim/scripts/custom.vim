@@ -1177,7 +1177,7 @@ if mymisc#plug_tap('vim-lsp')
             \     '-configuration',
             \     fnamemodify("~", ":p") . '/eclipse.jdt.ls/' . s:eclipse_jdt_config,
             \     '-data',
-            \     fnamemodify("~", ":p") . '~/workspace/',
+            \     fnamemodify("~", ":p") . '/workspace/',
             \ ]},
             \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.project'))},
             \ 'whitelist': ['java'],
