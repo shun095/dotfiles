@@ -485,7 +485,8 @@ try
   command! CpDirPath call mymisc#copydirpath()
   command! Ctags call mymisc#ctags_project(g:mymisc_projectdir_reference_files)
   command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
-  command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
+  " command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
+  command! Transparent hi Normal ctermbg=none guibg=NONE
 
   command! FollowSymlink call s:follow_symlink()
   function! s:follow_symlink()
