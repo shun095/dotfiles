@@ -135,7 +135,8 @@ else
 
   Plug 'prabirshrestha/asyncomplete.vim'
   Plug 'prabirshrestha/async.vim'
-  Plug 'prabirshrestha/vim-lsp'
+  " Plug 'prabirshrestha/vim-lsp'
+  Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspaceEdit'}
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
   Plug 'prabirshrestha/asyncomplete-file.vim'

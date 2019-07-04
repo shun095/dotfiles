@@ -1096,8 +1096,8 @@ if mymisc#plug_tap('LanguageClient-neovim')
 endif
 
 if mymisc#plug_tap('vim-lsp')
-  let g:lsp_log_verbose = 1
-  let g:lsp_log_file = $HOME."/.vim/vim-lsp.log"
+  " let g:lsp_log_verbose = 1
+  " let g:lsp_log_file = $HOME."/.vim/vim-lsp.log"
 
   let g:lsp_signs_enabled           = 1
   let g:lsp_signs_error             = {'text': 'E'}
