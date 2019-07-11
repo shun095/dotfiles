@@ -159,7 +159,8 @@ try
   set statusline+=\ %f\ %<%=
   set statusline+=%{Myvimrc_statusline_tagbar()}
   set statusline+=%2*
-  set statusline+=\ %{Myvimrc_statusline_gina()}
+  " set statusline+=\ %{Myvimrc_statusline_gina()}
+  set statusline+=\ %{Myvimrc_statusline_fugitive()}
   set statusline+=%4*
   set statusline+=%{Myvimrc_statusline_gitgutter()}
   set statusline+=%3*
