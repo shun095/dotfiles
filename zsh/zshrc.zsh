@@ -142,6 +142,9 @@ alias gnvim="nvim-qt"
 alias :e="vim"
 
 alias dir="dir --group-directories-first --color=auto"
+if type pygmentize > /dev/null; then
+    alias cat='pygmentize -O style=monokai -f console256 -g'
+fi
 alias pyg="pygmentize"
 stty stop undef
 

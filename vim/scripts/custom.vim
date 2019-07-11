@@ -1098,6 +1098,10 @@ endif
 if mymisc#plug_tap('vim-lsp')
   " let g:lsp_log_verbose = 1
   " let g:lsp_log_file = $HOME."/.vim/vim-lsp.log"
+  " call delete(g:lsp_log_file)
+  augroup vimrc_vimlsp
+    autocmd!
+  augroup END
 
   let g:lsp_signs_enabled           = 1
   let g:lsp_signs_error             = {'text': 'E'}
@@ -1115,7 +1119,6 @@ if mymisc#plug_tap('vim-lsp')
   hi link LspHintText ALEWarningSign
 
   augroup vimrc_vimlsp
-    autocmd!
     if executable($HOME.'/.vim/clangd')
       au User lsp_setup call lsp#register_server({
             \ 'name': 'clangd',
@@ -1180,7 +1183,7 @@ if mymisc#plug_tap('vim-lsp')
             \     fnamemodify("~", ":p") . '/.eclipse.jdt.ls/workspace/',
             \ ]},
             \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.project'))},
-            \ 'whitelist': ['java'],
+            \ 'whitelist': ['java', 'jsp'],
             \ })
     endif
 

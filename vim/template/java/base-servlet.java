@@ -1,4 +1,4 @@
-package {{_cursor_}}
+{{_lang_util_:package}}
 
 import java.io.IOException;
 import java.io.PrintWriter;
