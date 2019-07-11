@@ -1482,6 +1482,13 @@ if mymisc#plug_tap('gina.vim')
         \)
 endif
 
+if mymisc#plug_tap('vim-fugitive')
+  nnoremap <Leader>gs :<C-u>Gstatus<CR>
+  nnoremap <Leader>gc :<C-u>Gcommit<CR>
+  nnoremap <Leader>gf :<C-u>Gfetch --all -t<CR>
+  nnoremap <Leader>gm :<C-u>Gmerge<CR>
+endif
+
 if mymisc#plug_tap('vim-gitgutter')
   let g:gitgutter_async = 0
   nnoremap <Leader>gg :GitGutterAll<CR>
