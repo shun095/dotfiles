@@ -472,12 +472,12 @@ if mymisc#plug_tap('vim-quickrun')
   else
     let g:quickrun_config['_']['runner']                    = 'vimproc'
     let g:quickrun_config['_']['runner/vimproc/updatetime'] = 100
+    let g:quickrun_config['python'] = {
+          \ 'command' : 'python',
+          \ 'cmdopt' : '-u',
+          \ }
   endif
 
-  let g:quickrun_config['python'] = {
-        \ 'command' : 'python',
-        \ 'cmdopt' : '-u',
-        \ }
   let g:quickrun_config['markdown'] = {
         \ 'type': 'markdown/pandoc',
         \ 'cmdopt': '-s',
@@ -498,10 +498,11 @@ if mymisc#plug_tap('vim-quickrun')
 
   cabbrev Q QuickRun
   nmap <silent> <Leader>R :QuickRun<CR>
-  nnoremap <expr><silent> <C-c> quickrun#is_running() ? <SID>mymisc_quickrun_sweep() : "\<C-c>"
+  nnoremap <expr><silent> <C-c> quickrun#is_running() ?
+        \ <SID>mymisc_quickrun_sweep() : "\<C-c>"
 
   fun! s:mymisc_quickrun_sweep()
-    echo 'Quickrun Sweep'
+    echo 'Quickrun Interrupted'
     call quickrun#sweep_sessions()
   endf
 endif
