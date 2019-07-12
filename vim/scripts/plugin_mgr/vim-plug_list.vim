@@ -290,7 +290,7 @@ endif
 Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 
-Plug 'ishitaku5522/revimses', {'branch':'dev'}
+Plug 'ishitaku5522/revimses'
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
