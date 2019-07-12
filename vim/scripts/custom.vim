@@ -1139,12 +1139,21 @@ if mymisc#plug_tap('vim-lsp')
 
     if executable('typescript-language-server') || executable($APPDATA.'/npm/typescript-language-server')
       au User lsp_setup call lsp#register_server({
-            \ 'name': 'tsserver',
+            \ 'name': 'typescript-language-server',
             \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-            \ 'whitelist': ['javascript','typescript'],
+            \ 'whitelist': ['javascript', 'javascript.jsx', 'typescript'],
             \ 'priority': 100
             \ })
     endif
+
+    " if executable('javascript-typescript-stdio') || executable($APPDATA.'/npm/javascript-typescript-stdio')
+    "   au User lsp_setup call lsp#register_server({
+    "         \ 'name': 'javascript-typescript-stdio',
+    "         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'javascript-typescript-stdio']},
+    "         \ 'whitelist': ['javascript', 'javascript.jsx', 'typescript'],
+    "         \ 'priority': 100
+    "         \ })
+    " endif
 
     if executable('vls') || executable($APPDATA.'/npm/vls.cmd')
       au User lsp_setup call lsp#register_server({

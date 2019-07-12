@@ -94,8 +94,8 @@ try
   set foldmethod=marker                                    " Set methods for folding
   set nofoldenable                                         " Set fold disable as default
   set tabstop=4                                            " Make width of TAB character as rhs
-  set shiftwidth=4                                         " Set number of spaces used by indenting (eg. >> or <<)
-  set softtabstop=4                                        " Set number of spaces deleted by backspace
+  set shiftwidth=4                                         " Set number of spaces used by indenting (eg. >>, << or auto-indent)
+  set softtabstop=4                                        " Set number of spaces inserted by <tab> button or deleted by <bs>
   set expandtab                                            " Expand tabs to spaces
   set autoindent                                           " Enable auto indenting
   set list                                                 " Show invisible characters
@@ -488,6 +488,8 @@ try
   command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
   " command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
   command! Transparent hi Normal ctermbg=none guibg=NONE
+  command! -nargs=1 TabWidth set shiftwidth=<args> softtabstop=<args>
+  cabbrev tw TabWidth
 
   command! FollowSymlink call s:follow_symlink()
   function! s:follow_symlink()
@@ -631,6 +633,8 @@ try
 
     if has('win32')
       call system("explorer.exe " . expand(path))
+    elseif has('mac')
+      call system('open ' . expand(path))
     else
       call system("xdg-open " . expand(path))
     endif
@@ -678,7 +682,7 @@ try
 
     " Vim
     let g:vimsyn_folding = 'aflmpPrt'
-    autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2 tabstop=2
+    autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2
     autocmd BufRead *.vim setl foldmethod=syntax
 
     " QuickFix
