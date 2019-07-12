@@ -257,11 +257,13 @@ if mymisc#plug_tap('markdown-preview.vim')
   let g:mkdp_auto_open = 0
   let g:mkdp_auto_start = 0
   if has('win32')
-    let s:google_chrome_path='C:\Program Files\Mozilla Firefox\firefox.exe'
-    if executable(s:google_chrome_path)
-      let g:mkdp_path_to_chrome=shellescape(s:google_chrome_path)
+    let s:browser_path='C:\Program Files\Mozilla Firefox\firefox.exe'
+    if executable(s:browser_path)
+      let g:mkdp_path_to_chrome=shellescape(s:browser_path)
     endif
-    unlet s:google_chrome_path
+    unlet s:browser_path
+  elseif has('mac')
+    let g:mkdp_path_to_chrome = 'open'
   else
     let g:mkdp_path_to_chrome = 'xdg-open'
   endif
