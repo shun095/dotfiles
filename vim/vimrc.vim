@@ -159,8 +159,7 @@ try
   set statusline+=\ %f\ %<%=
   set statusline+=%{Myvimrc_statusline_tagbar()}
   set statusline+=%2*
-  " set statusline+=\ %{Myvimrc_statusline_gina()}
-  set statusline+=\ %{Myvimrc_statusline_fugitive()}
+  set statusline+=\ %{Myvimrc_statusline_git()}
   set statusline+=%4*
   set statusline+=%{Myvimrc_statusline_gitgutter()}
   set statusline+=%3*
@@ -177,68 +176,23 @@ try
   augroup END
 
   fun! Myvimrc_statusline_tagbar() abort
-    if exists('w:mymisc_status_tagbar')
-      return w:mymisc_status_tagbar
-    else
-      return ''
-    endif
+    return get(w:,'mymisc_status_tagbar','')
   endf
 
-  fun! Myvimrc_statusline_fugitive() abort
-    if exists('w:mymisc_status_fugitive')
-      return w:mymisc_status_fugitive
-    else
-      return ''
-    endif
-  endf
-
-  fun! Myvimrc_statusline_gina() abort
-    if exists('w:mymisc_status_gina')
-      return w:mymisc_status_gina
-    else
-      return ''
-    endif
+  fun! Myvimrc_statusline_git() abort
+    return get(w:,'mymisc_status_git','')
   endf
 
   fun! Myvimrc_statusline_gitgutter() abort
-    if exists('w:mymisc_status_gitgutter')
-      return w:mymisc_status_gitgutter
-    else
-      return ''
-    endif
+    return get(w:,'mymisc_status_gitgutter','')
   endf
   " }}}
 
-  if executable('files')
-    let g:mymisc_files_is_available = g:true
-  else
-    let g:mymisc_files_is_available = g:false
-  endif
-
-  if executable('rg')
-    let g:mymisc_rg_is_available = g:true
-  else
-    let g:mymisc_rg_is_available = g:false
-  endif
-
-  if executable('pt')
-    let g:mymisc_pt_is_available = g:true
-  else
-    let g:mymisc_pt_is_available = g:false
-  endif
-
-  if executable('ag')
-    let g:mymisc_ag_is_available = g:true
-  else
-    let g:mymisc_ag_is_available = g:false
-  endif
-
-  if executable('fcitx-remote')
-    let g:mymisc_fcitx_is_available = g:true
-  else
-    let g:mymisc_fcitx_is_available = g:false
-  endif
-
+  let g:mymisc_files_is_available = (executable('files') ? g:true : g:false)
+  let g:mymisc_rg_is_available = (executable('rg') ? g:true : g:false)
+  let g:mymisc_pt_is_available = (executable('pt') ? g:true : g:false)
+  let g:mymisc_ag_is_available = (executable('ag') ? g:true : g:false)
+  let g:mymisc_fcitx_is_available = (executable('fcitx-remote') ? g:true : g:false)
 
   if has('win32') && executable('git')
     " Use Git-bash's grep

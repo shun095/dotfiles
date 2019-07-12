@@ -254,8 +254,8 @@ Plug 'Yggdroot/indentLine'
 " Plug 'nathanaelkane/vim-indent-guides'
 
 " Git plugins
-" Plug 'lambdalisue/gina.vim'
-Plug 'tpope/vim-fugitive'
+Plug 'lambdalisue/gina.vim'
+" Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " General purpose motions

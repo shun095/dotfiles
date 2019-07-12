@@ -319,23 +319,23 @@ fun! mymisc#set_statusline_vars() abort
     let w:mymisc_status_tagbar .= tagbar#currenttag('[%s] ','')
   endif
 
-  let w:mymisc_status_fugitive = ''
+  let w:mymisc_status_git = ''
   if exists('*fugitive#head()') 
     if fugitive#head() !=# ''
-      let w:mymisc_status_fugitive .= ' ' . fugitive#head() . ' '
+      let w:mymisc_status_git .= ' ' . fugitive#head() . ' '
     endif
   endif
 
-  let w:mymisc_status_gina = ''
+  let w:mymisc_status_git = ''
   try
     if gina#component#repo#preset() !=# ''
       let track_repo = gina#component#repo#track()
       if track_repo !=# ''
-        let w:mymisc_status_gina .= track_repo
-        let w:mymisc_status_gina .= ' < '
+        let w:mymisc_status_git .= track_repo
+        let w:mymisc_status_git .= ' < '
       endif
-      let w:mymisc_status_gina .= gina#component#repo#branch()
-      let w:mymisc_status_gina .= ' '
+      let w:mymisc_status_git .= gina#component#repo#branch()
+      let w:mymisc_status_git .= ' '
     endif
   catch 
   endtry
