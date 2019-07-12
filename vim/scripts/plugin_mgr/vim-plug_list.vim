@@ -278,7 +278,7 @@ Plug 'skanehira/train.vim', {'on': ['TrainLateInfo', 'TrainSearchRoute']}
 Plug 'thinca/vim-quickrun'
 Plug 'lambdalisue/suda.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'tyru/open-browser.vim', {'on': ['OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch']}
+Plug 'tyru/open-browser.vim' " Non lazy load for QuickRun with pandoc
 Plug 'haya14busa/vim-open-googletranslate', {'on':'OpenGoogleTranslate'}
 Plug 'tyru/capture.vim'
 if has('nvim') && has('win32')

@@ -480,8 +480,9 @@ if mymisc#plug_tap('vim-quickrun')
 
   let g:quickrun_config['markdown'] = {
         \ 'type': 'markdown/pandoc',
-        \ 'cmdopt': '-s',
-        \ 'outputter' : 'multi:buffer:quickfix:browser'
+        \ 'cmdopt': '-s --quiet',
+        \ 'outputter' : 'browser',
+        \ 'runner': 'system',
         \ }
   let g:quickrun_config['cpp'] = {
         \ 'hook/add_include_option/enable' : 1
