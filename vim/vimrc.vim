@@ -466,21 +466,23 @@ try
     return l:ret
   endfunction
 
+  let g:myvimrc_term_winheight = 15
+
   function! s:my_git_push() abort
     let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
-    let l:cmd = s:get_termrun_cmd('git push',10)
+    let l:cmd = s:get_termrun_cmd('git push',g:myvimrc_term_winheight)
     call mymisc#command_at_destdir(l:target_dir, [l:cmd])
   endfunction
 
   function! s:my_git_pull() abort
     let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
-    let l:cmd = s:get_termrun_cmd('git pull',10)
+    let l:cmd = s:get_termrun_cmd('git pull',g:myvimrc_term_winheight)
     call mymisc#command_at_destdir(l:target_dir, [l:cmd])
   endfunction
 
   nnoremap <Leader>gp :call <SID>my_git_push()<CR>
   nnoremap <Leader>gl :call <SID>my_git_pull()<CR>
-  nnoremap <Leader>te :execute <SID>get_termrun_cmd(&shell, 10)<CR>
+  nnoremap <Leader>te :execute <SID>get_termrun_cmd(&shell, g:myvimrc_term_winheight)<CR>
 
   if !has('nvim')
     " Forked from https://qiita.com/shiena/items/1dcb20e99f43c9383783
