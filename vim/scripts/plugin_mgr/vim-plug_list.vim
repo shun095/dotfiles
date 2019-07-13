@@ -254,8 +254,8 @@ Plug 'Yggdroot/indentLine'
 " Plug 'nathanaelkane/vim-indent-guides'
 
 " Git plugins
-Plug 'lambdalisue/gina.vim'
-" Plug 'tpope/vim-fugitive'
+" Plug 'lambdalisue/gina.vim'
+Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " General purpose motions
@@ -271,8 +271,6 @@ Plug 'deton/jasegment.vim'
 " Applications
 Plug 'glidenote/memolist.vim', {'on': ['MemoNew', 'MemoList']}
 Plug 'itchyny/calendar.vim', {'on':'Calendar'}
-Plug 'skanehira/weather.vim', {'on':'Weather'}
-Plug 'skanehira/train.vim', {'on': ['TrainLateInfo', 'TrainSearchRoute']}
 
 " Tools
 Plug 'thinca/vim-quickrun'

@@ -314,21 +314,21 @@ fun! mymisc#preview_window_is_opened()
 endfun
 
 fun! mymisc#set_statusline_vars() abort
-  let w:mymisc_status_tagbar = ''
   if exists('*tagbar#currenttag()')
+    let w:mymisc_status_tagbar = ''
     let w:mymisc_status_tagbar .= tagbar#currenttag('[%s] ','')
   endif
 
-  let w:mymisc_status_git = ''
   if exists('*fugitive#head()') 
+    let w:mymisc_status_git = ''
     if fugitive#head() !=# ''
-      let w:mymisc_status_git .= ' ' . fugitive#head() . ' '
+      let w:mymisc_status_git .= fugitive#head() . ' '
     endif
   endif
 
-  let w:mymisc_status_git = ''
   try
     if gina#component#repo#preset() !=# ''
+      let w:mymisc_status_git = ''
       let track_repo = gina#component#repo#track()
       if track_repo !=# ''
         let w:mymisc_status_git .= track_repo
@@ -340,8 +340,8 @@ fun! mymisc#set_statusline_vars() abort
   catch 
   endtry
 
-  let w:mymisc_status_gitgutter = ''
   if exists('*GitGutterGetHunkSummary()')
+    let w:mymisc_status_gitgutter = ''
     let gutter_lst = GitGutterGetHunkSummary()
     let w:mymisc_status_gitgutter .= '+' . gutter_lst[0]
     let w:mymisc_status_gitgutter .= '~' . gutter_lst[1]

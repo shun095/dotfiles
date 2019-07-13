@@ -652,6 +652,13 @@ try
     autocmd FileType help nnoremap <silent><buffer>q :bw<CR>
     autocmd FileType help let &l:iskeyword = '!-~,^*,^|,^",' . &iskeyword
 
+    " " Git
+    " if system('git config --get core.commentchar') !=# '' && v:shell_error == 0
+    "   let s:gitcommentchar = system('git config --get core.commentchar')[0]
+    "   autocmd FileType gitcommit syntax clear gitcommitComment
+    "   autocmd FileType gitcommit exe 'syntax match gitcommitComment /^'. s:gitcommentchar . '.*/'
+    " endif
+
     autocmd InsertLeave * call mymisc#ime_deactivate()
     autocmd VimEnter * call mymisc#git_auto_updating()
 
