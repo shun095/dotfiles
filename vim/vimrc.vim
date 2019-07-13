@@ -742,9 +742,15 @@ try
         colorscheme one
       else
         colorscheme default
+        if !has('gui_running')
+          set background=dark
+        endif
       endif
     catch
       colorscheme default
+      if !has('gui_running')
+        set background=dark
+      endif
     endtry
 
     " highlight! Terminal ctermbg=black guibg=black
@@ -756,7 +762,10 @@ try
     filetype plugin indent on
     syntax enable
 
-    colorscheme evening
+    colorscheme default
+    if !has('gui_running')
+      set background=dark
+    endif
     " }}} WHEN PLUGINS ARE DISABLED END
 
   endif
