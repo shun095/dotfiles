@@ -1399,6 +1399,11 @@ if mymisc#plug_tap('omnisharp-vim')
   augroup END
 endif
 
+if mymisc#plug_tap('tsuquyomi')
+  let g:tsuquyomi_completion_detail = 1
+  let g:tsuquyomi_javascript_support = 1
+endif
+
 if mymisc#plug_tap('nerdcommenter')
   let g:NERDSpaceDelims = 1
   let g:NERDCustomDelimiters = {
