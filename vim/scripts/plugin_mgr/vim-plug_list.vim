@@ -148,7 +148,7 @@ else
   Plug 'scrooloose/nerdtree'
   " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'jistr/vim-nerdtree-tabs'
-  Plug 'ishitaku5522/nerdtree-git-plugin'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
 
   " Plug 'kristijanhusak/defx-git'
   " if has('nvim')
