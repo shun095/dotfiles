@@ -136,19 +136,22 @@ else
   Plug 'prabirshrestha/asyncomplete.vim'
   Plug 'prabirshrestha/async.vim'
   " Plug 'prabirshrestha/vim-lsp'
-  Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspaceEdit'}
+
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
   Plug 'prabirshrestha/asyncomplete-file.vim'
   Plug 'prabirshrestha/asyncomplete-buffer.vim'
-  Plug 'yami-beta/asyncomplete-omni.vim'
   Plug 'prabirshrestha/asyncomplete-necovim.vim'
   Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+
+  Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspaceEdit'}
+  Plug 'ishitaku5522/asyncomplete-omni.vim'
+  Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
 
   Plug 'scrooloose/nerdtree'
   " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'jistr/vim-nerdtree-tabs'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'ishitaku5522/nerdtree-git-plugin'
 
   " Plug 'kristijanhusak/defx-git'
   " if has('nvim')
@@ -165,6 +168,8 @@ endif
 
 " Language specific completions
 Plug 'OmniSharp/omnisharp-vim', {'for': ['cs']}
+Plug 'Quramy/tsuquyomi', {'for': ['javascript', 'typescript']}
+Plug 'vim-scripts/dbext.vim', {'for': ['sql']}
 " Plug 'Rip-Rip/clang_complete', {'for': ['c', 'cpp']} " for goto definition (completed by LC)
 " Plug 'davidhalter/jedi-vim', {'for': ['python']} " for goto definition (completed by LC)
 " Plug 'zchee/deoplete-jedi', {'for': ['python']} " for completion

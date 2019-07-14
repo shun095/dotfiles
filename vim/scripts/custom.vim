@@ -499,7 +499,6 @@ if mymisc#plug_tap('vim-quickrun')
     unlet s:quickrun_windows_config
   endif
 
-  cabbrev Q QuickRun
   nmap <silent> <Leader>R :QuickRun<CR>
   nnoremap <expr><silent> <C-c> quickrun#is_running() ?
         \ <SID>mymisc_quickrun_sweep() : "\<C-c>"
@@ -1123,106 +1122,131 @@ if mymisc#plug_tap('vim-lsp')
   hi link LspInformationText ALEWarningSign
   hi link LspHintText ALEWarningSign
 
+  let g:myvimrc_lsp_general_config = {}
+  let g:myvimrc_lsp_general_config['cpp'] =
+        \   {
+        \     'name': 'clangd',
+        \     'filetype': ['cpp', 'c', 'hpp', 'h'],
+        \     'is_executable': executable($HOME.'/.vim/clangd'),
+        \     'cmd': [$HOME.'/.vim/clangd'],
+        \   }
+  let g:myvimrc_lsp_general_config['python'] =
+        \   {
+        \     'name': 'pyls',
+        \     'filetype': ['python'],
+        \     'is_executable': executable('pyls'),
+        \     'cmd': ['python', '-m', 'pyls'],
+        \   }
+  let g:myvimrc_lsp_general_config['vue'] =
+        \   {
+        \     'name': 'vls',
+        \     'filetype': ['vue'],
+        \     'is_executable': executable('vls') || executable($APPDATA.'/npm/vls.cmd'),
+        \     'cmd': [&shell, &shellcmdflag, 'vls'],
+        \   }
+  " let g:myvimrc_lsp_general_config['typescript-language-server'] =
+  "       \   {
+  "       \     'name': 'typescript-language-server',
+  "       \     'filetype': ['javascript', 'javascript.jsx', 'typescript'],
+  "       \     'is_executable':
+  "       \       executable('typescript-language-server')
+  "       \       || executable($APPDATA.'/npm/typescript-language-server'),
+  "       \     'cmd': [&shell, &shellcmdflag, 'typescript-language-server --stdio'],
+  "       \   }
+  " let g:myvimrc_lsp_general_config['javascript-typescript-stdio'] =
+  "       \   {
+  "       \     'name': 'javascript-typescript-stdio',
+  "       \     'filetype': ['javascript', 'javascript.jsx', 'typescript'],
+  "       \     'is_executable':
+  "       \       executable('javascript-typescript-stdio')
+  "       \       || executable($APPDATA.'/npm/javascript-typescript-stdio'),
+  "       \     'cmd': [&shell, &shellcmdflag, 'javascript-typescript-stdio'],
+  "       \   }
+  let g:myvimrc_lsp_general_config['java'] =
+        \   {
+        \     'name': 'eclipse.jdt.ls',
+        \     'filetype': ['java'],
+        \     'is_executable': len(split(glob('~/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_*.jar'))) == 1,
+        \     'cmd': [
+        \       'java',
+        \       '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+        \       '-Dosgi.bundles.defaultStartLevel=4',
+        \       '-Declipse.product=org.eclipse.jdt.ls.core.product',
+        \       '-Dlog.level=ALL',
+        \       '-noverify',
+        \       '-Dfile.encoding=UTF-8',
+        \       '-Xmx1G',
+        \       '-jar',
+        \       (len(split(glob('~/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_*.jar'))) == 1 ? 
+        \         split(glob('~/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_*.jar'))[0] : ""),
+        \       '-configuration',
+        \       fnamemodify("~", ":p") . '/eclipse.jdt.ls/' . (has('win32') ? 'config_win' : (has('mac') ? 'config_mac' : 'config_linux')),
+        \       '-data',
+        \       fnamemodify("~", ":p") . '/.eclipse.jdt.ls/workspace/',
+        \     ],
+        \     'root_marker': ['.project'],
+        \   }
+
+  let g:myvimrc_vimlsp_config = {}
+  let g:myvimrc_vimlsp_filetypes = []
+
+  function! custom#myvimrc_vimlsp_cmd(key, server_info) abort
+    return get(g:myvimrc_lsp_general_config[a:key], 'cmd')
+  endfunction
+
+  function! custom#myvimrc_vimlsp_root_uri(key, server_info) abort
+    return lsp#utils#path_to_uri(mymisc#find_project_dir(extend(get(g:myvimrc_lsp_general_config[a:key],'root_marker',[]), g:mymisc_projectdir_reference_files)))
+  endfunction
+
   augroup vimrc_vimlsp
-    if executable($HOME.'/.vim/clangd')
-      au User lsp_setup call lsp#register_server({
-            \ 'name': 'clangd',
-            \ 'cmd': {server_info->[$HOME.'/.vim/clangd']},
-            \ 'whitelist': ['cpp','c','hpp','h'],
-            \ 'priority': 100
-            \ })
-    endif
+    for s:key in keys(g:myvimrc_lsp_general_config)
+      if g:myvimrc_lsp_general_config[s:key]['is_executable']
 
-    if executable('pyls')
-      au User lsp_setup call lsp#register_server({
-            \ 'name': 'pyls',
-            \ 'cmd': {server_info->['python', '-m', 'pyls']},
-            \ 'whitelist': ['python'],
-            \ 'priority': 100
-            \ })
-    endif
+        let s:cmd_func = eval('function(''custom#myvimrc_vimlsp_cmd'',['''.s:key.'''])')
+        let s:root_uri_func = eval('function(''custom#myvimrc_vimlsp_root_uri'',['''.s:key.'''])')
 
-    if executable('typescript-language-server') || executable($APPDATA.'/npm/typescript-language-server')
-      au User lsp_setup call lsp#register_server({
-            \ 'name': 'typescript-language-server',
-            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-            \ 'whitelist': ['javascript', 'javascript.jsx', 'typescript'],
-            \ 'priority': 100
-            \ })
-    endif
+        let s:vimlsp_config = {}
+        let s:vimlsp_config['name'] = g:myvimrc_lsp_general_config[s:key]['name']
+        let s:vimlsp_config['cmd'] = s:cmd_func
+        let s:vimlsp_config['whitelist'] = g:myvimrc_lsp_general_config[s:key]['filetype']
+        let s:vimlsp_config['priority'] = 100
+        let s:vimlsp_config['root_uri'] = s:root_uri_func
 
-    " if executable('javascript-typescript-stdio') || executable($APPDATA.'/npm/javascript-typescript-stdio')
-    "   au User lsp_setup call lsp#register_server({
-    "         \ 'name': 'javascript-typescript-stdio',
-    "         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'javascript-typescript-stdio']},
-    "         \ 'whitelist': ['javascript', 'javascript.jsx', 'typescript'],
-    "         \ 'priority': 100
-    "         \ })
-    " endif
+        let g:myvimrc_vimlsp_config[s:key] = s:vimlsp_config
+        call extend(g:myvimrc_vimlsp_filetypes, g:myvimrc_lsp_general_config[s:key]['filetype'])
 
-    if executable('vls') || executable($APPDATA.'/npm/vls.cmd')
-      au User lsp_setup call lsp#register_server({
-            \ 'name': 'vls',
-            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'vls']},
-            \ 'whitelist': ['vue'],
-            \ 'priority': 100
-            \ })
-    endif
-
-    let s:eclipse_jdt_globpat = '~/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_*.jar'
-    
-    if len(split(glob(s:eclipse_jdt_globpat),'\n')) == 1
-      let s:eclipse_jdt_launcher_jar = split(glob(s:eclipse_jdt_globpat))[0]
-
-      if has('mac')
-        let s:eclipse_jdt_config = "config_mac"
-      elseif has('unix')
-        let s:eclipse_jdt_config = "config_linux"
-      else
-        let s:eclipse_jdt_config = "config_win"
+        exe "au User lsp_setup call lsp#register_server(g:myvimrc_vimlsp_config['".s:key."'])"
       endif
+    endfor
 
-      au User lsp_setup call lsp#register_server({
-            \ 'name': 'eclipse.jdt.ls',
-            \ 'cmd': {server_info->[
-            \     'java',
-            \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-            \     '-Dosgi.bundles.defaultStartLevel=4',
-            \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
-            \     '-Dlog.level=ALL',
-            \     '-noverify',
-            \     '-Dfile.encoding=UTF-8',
-            \     '-Xmx1G',
-            \     '-jar',
-            \     s:eclipse_jdt_launcher_jar,
-            \     '-configuration',
-            \     fnamemodify("~", ":p") . '/eclipse.jdt.ls/' . s:eclipse_jdt_config,
-            \     '-data',
-            \     fnamemodify("~", ":p") . '/.eclipse.jdt.ls/workspace/',
-            \ ]},
-            \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.project'))},
-            \ 'whitelist': ['java'],
-            \ })
-    endif
-
-    au FileType c,cpp,python,javascript,typescript,vue,java nnoremap <buffer> <leader><c-]> :<C-u>LspDefinition<CR>
-    au FileType c,cpp,python,javascript,typescript,vue,java vnoremap <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>
-    au FileType c,cpp,python,javascript,typescript,vue,java setl omnifunc=lsp#complete
+    for s:lsp_filetype in g:myvimrc_vimlsp_filetypes
+      exe "au FileType " . s:lsp_filetype . " nnoremap <buffer> <leader><c-]> :<C-u>LspDefinition<CR>"
+      exe "au FileType " . s:lsp_filetype . " vnoremap <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>"
+      exe "au FileType " . s:lsp_filetype . " setl omnifunc=lsp#complete"
+    endfor
   augroup END
 endif
 
 if mymisc#plug_tap('asyncomplete.vim')
   " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
+  " call delete(g:asyncomplete_log_file)
 
-  " if mymisc#plug_tap('asyncomplete-omni.vim')
-  "   au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-  "         \ 'name': 'omni',
-  "         \ 'whitelist': ['*'],
-  "         \ 'blacklist': ['c', 'cpp', 'python', 'javascript', 'typescript', 'vue', 'java', 'sql'],
-  "         \ 'priority': 100,
-  "         \ 'completor': function('asyncomplete#sources#omni#completor')
-  "         \  }))
-  " endif
+  if mymisc#plug_tap('asyncomplete-omni.vim')
+    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+          \ 'name': 'omni',
+          \ 'whitelist': ['*'],
+          \ 'blacklist': g:myvimrc_vimlsp_filetypes,
+          \ 'priority': 80,
+          \ 'completor': function('asyncomplete#sources#omni#completor')
+          \  }))
+  endif
+
+  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#tsuquyomi#get_source_options({
+        \ 'name': 'tsuquyomi',
+        \ 'whitelist': ['javascript','typescript'],
+        \ 'priority': 100,
+        \ 'completor': function('asyncomplete#sources#tsuquyomi#completor')
+        \  }))
 
   if mymisc#plug_tap('asyncomplete-necovim.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
@@ -1246,7 +1270,7 @@ if mymisc#plug_tap('asyncomplete.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
           \ 'name': 'neosnippet',
           \ 'whitelist': ['*'],
-          \ 'priority': 51,
+          \ 'priority': 70,
           \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
           \ }))
   endif
@@ -1256,7 +1280,7 @@ if mymisc#plug_tap('asyncomplete.vim')
       au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
             \ 'name': 'ultisnips',
             \ 'whitelist': ['*'],
-            \ 'priority': 50,
+            \ 'priority': 60,
             \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
             \ }))
     endif
@@ -1273,10 +1297,8 @@ if mymisc#plug_tap('asyncomplete.vim')
 
   imap <C-x><Space> <Plug>(asyncomplete_force_refresh)
 
+  "--- Reference ---
   " function! s:default_preprocessor(options, matches) abort
-  "   let g:matches = a:matches
-  "   let g:options = a:options
-
   "   let l:items = []
   "   for [l:source_name, l:matches] in items(a:matches)
   "     for l:item in l:matches['items']
@@ -1286,10 +1308,25 @@ if mymisc#plug_tap('asyncomplete.vim')
   "     endfor
   "   endfor
 
-  "   let g:items = l:items
-
   "   call asyncomplete#preprocess_complete(a:options, l:items)
   " endfunction
+
+  function! s:preprocess_sort_by_priority(options, matches) abort
+    let l:items = []
+    for [l:source_name, l:matches] in items(a:matches)
+      for l:item in l:matches['items']
+        if stridx(l:item['word'], a:options['base']) == 0
+          let l:item['_priority'] = get(asyncomplete#get_source_info(l:source_name),'priority',0)
+          call add(l:items, l:item)
+        endif
+      endfor
+    endfor
+
+    let l:items = sort(l:items, {a, b -> b['_priority'] - a['_priority']})
+
+    call asyncomplete#preprocess_complete(a:options, l:items)
+  endfunction
+
 
   function! s:preprocess_fuzzy(ctx, matches) abort
     let l:visited = {}
@@ -1312,6 +1349,7 @@ if mymisc#plug_tap('asyncomplete.vim')
     call asyncomplete#preprocess_complete(a:ctx, l:items)
   endfunction
 
+  let g:asyncomplete_preprocessor = [function('s:preprocess_sort_by_priority')]
   " let g:asyncomplete_preprocessor = [function('s:preprocess_fuzzy')]
   let g:asyncomplete_popup_delay = 200
 

@@ -179,6 +179,10 @@ fun! mymisc#find_project_dir(searchname_arg) abort
     endif
   endwhile
 
+  if l:destdir ==# ''
+    let l:destdir = getcwd()
+  endif
+
   return l:destdir
 endf
 

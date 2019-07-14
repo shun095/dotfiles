@@ -197,11 +197,11 @@ try
   if has('win32') && executable('git')
     " Use Git-bash's grep
     let s:grep_exe_path = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\grep.exe'
-    exe 'set grepprg=\"'.escape(s:grep_exe_path,' ').'\"\ -rnIH\ --exclude-dir=''.*''\ $*'
+    exe 'set grepprg=' . escape('"' . s:grep_exe_path . '" -rnIH --exclude-dir=''.*'' $*', ' \"')
   elseif has('mac')
-    set grepprg=grep\ -rnIH\ --exclude-dir=\\*/.\\*\ $*
+    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir=\*/.\* $* .', ' \"')
   elseif has('unix')
-    set grepprg=grep\ -rnIH\ --exclude-dir='.*'\ $*
+    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir=''.*'' $*', ' \"')
   endif
 
   " " agがあればgrepの代わりにagを使う
@@ -443,7 +443,6 @@ try
   " command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
   command! Transparent hi Normal ctermbg=none guibg=NONE
   command! -nargs=1 TabWidth set shiftwidth=<args> softtabstop=<args>
-  cabbrev tw TabWidth
 
   command! FollowSymlink call s:follow_symlink()
   function! s:follow_symlink()
@@ -597,7 +596,6 @@ try
   endfunction
 
   command! -nargs=? -complete=dir OpenExplorer call s:open_file_explorer('<args>')
-  cabbrev OE OpenExplorer
   " }}} COMMANDS END
 
   " AUTOCMDS {{{
