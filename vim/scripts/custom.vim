@@ -1169,7 +1169,11 @@ if mymisc#plug_tap('vim-lsp')
             \ })
     endif
 
-    if filereadable(fnamemodify("~", ":p") . '/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.5.400.v20190515-0925.jar')
+    let s:eclipse_jdt_globpat = '~/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_*.jar'
+    
+    if len(split(glob(s:eclipse_jdt_globpat),'\n')) == 1
+      let s:eclipse_jdt_launcher_jar = split(glob(s:eclipse_jdt_globpat))[0]
+
       if has('mac')
         let s:eclipse_jdt_config = "config_mac"
       elseif has('unix')
@@ -1190,14 +1194,14 @@ if mymisc#plug_tap('vim-lsp')
             \     '-Dfile.encoding=UTF-8',
             \     '-Xmx1G',
             \     '-jar',
-            \     fnamemodify("~", ":p") . '/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_1.5.400.v20190515-0925.jar',
+            \     s:eclipse_jdt_launcher_jar,
             \     '-configuration',
             \     fnamemodify("~", ":p") . '/eclipse.jdt.ls/' . s:eclipse_jdt_config,
             \     '-data',
             \     fnamemodify("~", ":p") . '/.eclipse.jdt.ls/workspace/',
             \ ]},
             \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.project'))},
-            \ 'whitelist': ['java', 'jsp'],
+            \ 'whitelist': ['java'],
             \ })
     endif
 

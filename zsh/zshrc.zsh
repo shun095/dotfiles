@@ -66,9 +66,9 @@ function tmux_call(){
             while [[ -n ${_tmux_call_exist_sessions[(re)$idx]} ]]; do
                 (( idx++ ))
             done
-            \tmux new-session -s $idx
+            \tmux -u new-session -s $idx
         else
-            \tmux attach -t ${_tmux_call_detached_sessions[1]}
+            \tmux -u attach -t ${_tmux_call_detached_sessions[1]}
         fi
     else
         \tmux $*
@@ -77,16 +77,16 @@ function tmux_call(){
 }
 
 if type trash-put > /dev/null; then
-    alias rm="trash-put"
+    # alias rm="trash-put"
 else
     echo "Recommended to install 'trash-cli'"
-    to_trash() {
+    trash() {
         for file in $@
         do
             mv $file ~/.trash
         done
     }
-    alias rm="to_trash"
+    # alias rm="trash"
 fi
 
 if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
@@ -117,7 +117,8 @@ gvim_call(){
 }
 
 if [[ ! $TERM = 'linux' ]]; then
-    # tmux_call
+    export TERM=xterm-256color
+    tmux_call
     alias tmux=tmux_call
 fi
 
@@ -143,7 +144,7 @@ alias :e="vim"
 
 alias dir="dir --group-directories-first --color=auto"
 if type pygmentize > /dev/null; then
-    alias cat='pygmentize -O style=monokai -f console256 -g'
+    alias ccat='pygmentize -O style=monokai -f console256 -g'
 fi
 alias pyg="pygmentize"
 stty stop undef
