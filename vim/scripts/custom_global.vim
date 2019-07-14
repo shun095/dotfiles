@@ -6,7 +6,6 @@ endif
 
 augroup vimrc_custom_global
   autocmd!
-  autocmd FileType c,cpp,python,javascript,typescript,vue,java nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>
   if mymisc#plug_tap('lexima.vim')
     autocmd VimEnter * call lexima#init()
   endif
@@ -20,21 +19,6 @@ smap <expr> <Tab>
       \   "\<Plug>(RemapUltiSnipsJumpForwardTrigger)"
 smap <S-Tab> <Plug>(RemapUltiSnipsJumpBackwardTrigger)
 
-fun! s:toggle_preview_window()
-  if mymisc#preview_window_is_opened()
-    normal z
-  else
-    if mymisc#plug_tap('YouCompleteMe')
-      YcmCompleter GetDoc
-    elseif mymisc#plug_tap('LanguageClient-neovim')
-      call LanguageClient#textDocument_hover()
-    elseif mymisc#plug_tap('vim-lsp')
-      LspHover
-    else
-      normal! K
-    endif
-  endif
-endf
 
 function! s:my_close_pair_function() abort
   if mymisc#plug_tap('auto-pairs')

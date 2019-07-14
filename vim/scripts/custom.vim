@@ -1221,10 +1221,27 @@ if mymisc#plug_tap('vim-lsp')
 
     for s:lsp_filetype in g:myvimrc_vimlsp_filetypes
       exe "au FileType " . s:lsp_filetype . " nnoremap <buffer> <leader><c-]> :<C-u>LspDefinition<CR>"
+      exe "au FileType " . s:lsp_filetype . " nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>"
       exe "au FileType " . s:lsp_filetype . " vnoremap <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>"
       exe "au FileType " . s:lsp_filetype . " setl omnifunc=lsp#complete"
     endfor
   augroup END
+
+  fun! s:toggle_preview_window()
+    if mymisc#preview_window_is_opened()
+      normal z
+    else
+      if mymisc#plug_tap('YouCompleteMe')
+        YcmCompleter GetDoc
+      elseif mymisc#plug_tap('LanguageClient-neovim')
+        call LanguageClient#textDocument_hover()
+      elseif mymisc#plug_tap('vim-lsp')
+        LspHover
+      else
+        normal! K
+      endif
+    endif
+  endf
 endif
 
 if mymisc#plug_tap('asyncomplete.vim')
@@ -1311,18 +1328,18 @@ if mymisc#plug_tap('asyncomplete.vim')
   "   call asyncomplete#preprocess_complete(a:options, l:items)
   " endfunction
 
-  function! s:preprocess_sort_by_priority(options, matches) abort
+  function! s:sort_by_priority_preprocessor(options, matches) abort
     let l:items = []
     for [l:source_name, l:matches] in items(a:matches)
       for l:item in l:matches['items']
         if stridx(l:item['word'], a:options['base']) == 0
-          let l:item['_priority'] = get(asyncomplete#get_source_info(l:source_name),'priority',0)
+          let l:item['priority'] = get(asyncomplete#get_source_info(l:source_name),'priority',0)
           call add(l:items, l:item)
         endif
       endfor
     endfor
 
-    let l:items = sort(l:items, {a, b -> b['_priority'] - a['_priority']})
+    let l:items = sort(l:items, {a, b -> b['priority'] - a['priority']})
 
     call asyncomplete#preprocess_complete(a:options, l:items)
   endfunction
@@ -1349,7 +1366,7 @@ if mymisc#plug_tap('asyncomplete.vim')
     call asyncomplete#preprocess_complete(a:ctx, l:items)
   endfunction
 
-  let g:asyncomplete_preprocessor = [function('s:preprocess_sort_by_priority')]
+  let g:asyncomplete_preprocessor = [function('s:sort_by_priority_preprocessor')]
   " let g:asyncomplete_preprocessor = [function('s:preprocess_fuzzy')]
   let g:asyncomplete_popup_delay = 200
 
