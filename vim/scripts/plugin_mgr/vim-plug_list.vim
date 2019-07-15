@@ -46,7 +46,7 @@ augroup END
 " Color schemes
 Plug 'rakr/vim-one'
 let g:terminal_ansi_colors = [
-      \ '#000000', '#e06c75', '#98c379', '#d19a66',
+      \ '#282c34', '#e06c75', '#98c379', '#d19a66',
       \ '#61afef', '#c678dd', '#56b6c2', '#abb2bf',
       \ '#5c6370', '#e06c75', '#98c379', '#d19a66',
       \ '#61afef', '#c678dd', '#56b6c2', '#ffffff'

@@ -34,7 +34,8 @@ elif type pygmentize > /dev/null; then
 else
     local previewcmd='cat {}'
 fi
-export FZF_DEFAULT_OPTS='--height 80% --reverse --color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5 --preview "'$previewcmd'"'
+local fzf_color='--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5'
+export FZF_DEFAULT_OPTS='--height 80% --reverse --preview "'$previewcmd'"'
 
 export HISTFILE=~/.zsh_history
 export HISTSIZE=999999
