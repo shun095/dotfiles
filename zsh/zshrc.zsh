@@ -23,7 +23,14 @@ export ZSH_COMPDUMP=$HOME/.zcompdump
 source $MYDOTFILES/zsh/ohmyzshrc.zsh
 source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
-export FZF_DEFAULT_OPTS='--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5'
+
+if type pygmentize > /dev/null; then
+    alias ccat='pygmentize -O style=monokai -f console256 -g'
+    local previewcmd='pygmentize -O style=monokai -f console256 -g {}'
+else
+    local previewcmd='cat {}'
+fi
+export FZF_DEFAULT_OPTS='--height 80% --reverse --color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5 --preview "'$previewcmd'"'
 
 export HISTFILE=~/.zsh_history
 export HISTSIZE=999999
@@ -143,9 +150,6 @@ alias gnvim="nvim-qt"
 alias :e="vim"
 
 alias dir="dir --group-directories-first --color=auto"
-if type pygmentize > /dev/null; then
-    alias ccat='pygmentize -O style=monokai -f console256 -g'
-fi
 alias pyg="pygmentize"
 stty stop undef
 
