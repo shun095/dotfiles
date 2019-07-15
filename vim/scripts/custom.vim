@@ -806,6 +806,20 @@ if mymisc#plug_tap('fzf.vim')
     endif
   endfunction
 
+  command! -bang -nargs=* Grep
+        \ call fzf#vim#grep(
+        \   substitute(&grepprg, '\$\*', '', 'g' ).' '.shellescape(<q-args>).' .', 0,
+        \   <bang>0 ? fzf#vim#with_preview('up:60%')
+        \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+        \   <bang>0)
+
+  command! -bang -nargs=* Rg
+        \ call fzf#vim#grep(
+        \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 0,
+        \   <bang>0 ? fzf#vim#with_preview('up:60%')
+        \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+        \   <bang>0)
+
   command! -bang -nargs=* History call s:history(<q-args>, {'options': '--no-sort'}, <bang>0)
 
   nnoremap <Leader><Leader> :execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>

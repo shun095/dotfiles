@@ -194,14 +194,16 @@ try
   let g:mymisc_ag_is_available = (executable('ag') ? g:true : g:false)
   let g:mymisc_fcitx_is_available = (executable('fcitx-remote') ? g:true : g:false)
 
+  let s:exclude_dirs = '{.bzr,CVS,.git,.hg,.svn}'
+
   if has('win32') && executable('git')
     " Use Git-bash's grep
     let s:grep_exe_path = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\grep.exe'
-    exe 'set grepprg=' . escape('"' . s:grep_exe_path . '" -rnIH --exclude-dir=''.*'' $*', ' \"')
+    exe 'set grepprg=' . escape('"' . s:grep_exe_path . '" -rnIH --exclude-dir='.s:exclude_dirs.' $*', ' \"')
   elseif has('mac')
-    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir=\*/.\* $*', ' \"')
+    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' $*', ' \"')
   elseif has('unix')
-    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir=''.*'' $*', ' \"')
+    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' $*', ' \"')
   endif
 
   " " agがあればgrepの代わりにagを使う
