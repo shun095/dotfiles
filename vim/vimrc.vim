@@ -195,7 +195,7 @@ try
   let g:mymisc_fcitx_is_available = (executable('fcitx-remote') ? g:true : g:false)
 
   let s:exclude_dirs = '{.bzr,CVS,.git,.hg,.svn}'
-  let s:excludes = 'tags'
+  let s:excludes = '{tags,}'
 
   if has('win32') && executable('git')
     " Use Git-bash's grep
