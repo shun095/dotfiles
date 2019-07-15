@@ -262,6 +262,7 @@ Plug 'Yggdroot/indentLine'
 " Git plugins
 " Plug 'lambdalisue/gina.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
 
 " General purpose motions
