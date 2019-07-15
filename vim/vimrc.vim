@@ -199,7 +199,7 @@ try
     let s:grep_exe_path = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\grep.exe'
     exe 'set grepprg=' . escape('"' . s:grep_exe_path . '" -rnIH --exclude-dir=''.*'' $*', ' \"')
   elseif has('mac')
-    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir=\*/.\* $* .', ' \"')
+    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir=\*/.\* $*', ' \"')
   elseif has('unix')
     exe 'set grepprg=' . escape('grep -rnIH --exclude-dir=''.*'' $*', ' \"')
   endif
