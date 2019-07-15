@@ -707,11 +707,11 @@ try
     " Manual setup plugins
     " fzf
     set runtimepath+=$HOME/.fzf/
-    if !exists('$FZF_DEFAULT_OPTS')
-      let $FZF_DEFAULT_OPTS='--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5'
-    endif
-    nnoremap <silent><expr><Leader><C-f><C-f> mymisc#command_at_destdir(mymisc#find_project_dir(['.git','tags']),['FZF'])
-    nnoremap <silent> <Leader><C-f>c :FZF .<CR>
+    " if !exists('$FZF_DEFAULT_OPTS')
+    "   let $FZF_DEFAULT_OPTS='--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5'
+    " endif
+    " nnoremap <silent><expr><Leader><C-f><C-f> mymisc#command_at_destdir(mymisc#find_project_dir(['.git','tags']),['FZF'])
+    " nnoremap <silent> <Leader><C-f>c :FZF .<CR>
 
     " vimproc
     let g:vimproc#download_windows_dll = 1

@@ -793,6 +793,20 @@ if mymisc#plug_tap('fzf.vim')
   if exists("g:ctrlp_user_command") && g:ctrlp_user_command !=# ''
     let $FZF_DEFAULT_COMMAND = substitute(g:ctrlp_user_command,'%s','.','g')
   endif
+
+  function! s:history(arg, options)
+    let options = a:options
+    if a:arg[0] == ':'
+      call fzf#vim#command_history(options)
+    elseif a:arg[0] == '/'
+      call fzf#vim#search_history(options)
+    else
+      call fzf#vim#history(options)
+    endif
+  endfunction
+
+  command! -bang -nargs=* History call s:history(<q-args>, {'options': '--no-sort'})
+
   nnoremap <Leader><Leader> :execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
   nnoremap <Leader>T        :Tags<CR>
   nnoremap <Leader>al       :Lines<CR>
@@ -803,7 +817,7 @@ if mymisc#plug_tap('fzf.vim')
   nnoremap <Leader>l        :BLines<CR>
   nnoremap <Leader>o        :BTags<CR>
   " r
-  " nnoremap <Leader>u        :History<CR> " FZFのHistoryはソートがおかしい
+  nnoremap <Leader>u        :History<CR>
   nnoremap <Leader>`        :Marks<CR>
 
   command! -bang -nargs=* GGrep
