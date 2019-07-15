@@ -195,15 +195,16 @@ try
   let g:mymisc_fcitx_is_available = (executable('fcitx-remote') ? g:true : g:false)
 
   let s:exclude_dirs = '{.bzr,CVS,.git,.hg,.svn}'
+  let s:excludes = 'tags'
 
   if has('win32') && executable('git')
     " Use Git-bash's grep
     let s:grep_exe_path = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\grep.exe'
-    exe 'set grepprg=' . escape('"' . s:grep_exe_path . '" -rnIH --exclude-dir='.s:exclude_dirs.' $*', ' \"')
+    exe 'set grepprg=' . escape('"' . s:grep_exe_path . '" -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
   elseif has('mac')
-    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' $*', ' \"')
+    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
   elseif has('unix')
-    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' $*', ' \"')
+    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
   endif
 
   " " agがあればgrepの代わりにagを使う
