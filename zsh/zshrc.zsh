@@ -24,9 +24,13 @@ source $MYDOTFILES/zsh/ohmyzshrc.zsh
 source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
 
-if type pygmentize > /dev/null; then
-    alias ccat='pygmentize -O style=monokai -f console256 -g'
+if type highlight > /dev/null; then
+    HIGHLIGHT_SIZE_MAX=262143  # 256KiB
+    local hloptions="--replace-tabs=8 --style=molokai ${HIGHLIGHT_OPTIONS:-}"
+    local previewcmd='highlight --out-format="xterm256" --force '${hloptions}' {} '
+elif type pygmentize > /dev/null; then
     local previewcmd='pygmentize -O style=monokai -f console256 -g {}'
+    ;
 else
     local previewcmd='cat {}'
 fi
@@ -150,7 +154,10 @@ alias gnvim="nvim-qt"
 alias :e="vim"
 
 alias dir="dir --group-directories-first --color=auto"
-alias pyg="pygmentize"
+if type pygmentize > /dev/null; then
+    alias ccat='pygmentize -O style=monokai -f console256 -g'
+    alias pyg="pygmentize"
+fi
 stty stop undef
 
 bindkey \^U backward-kill-line
