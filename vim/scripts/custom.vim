@@ -794,18 +794,19 @@ if mymisc#plug_tap('fzf.vim')
     let $FZF_DEFAULT_COMMAND = substitute(g:ctrlp_user_command,'%s','.','g')
   endif
 
-  function! s:history(arg, options)
+  function! s:history(arg, options, bang)
+  let bang = a:bang || a:arg[len(a:arg)-1] == '!'
     let options = a:options
     if a:arg[0] == ':'
-      call fzf#vim#command_history(options)
+      call fzf#vim#command_history(options, bang)
     elseif a:arg[0] == '/'
-      call fzf#vim#search_history(options)
+      call fzf#vim#search_history(options, bang)
     else
-      call fzf#vim#history(options)
+      call fzf#vim#history(options, bang)
     endif
   endfunction
 
-  command! -bang -nargs=* History call s:history(<q-args>, {'options': '--no-sort'})
+  command! -bang -nargs=* History call s:history(<q-args>, {'options': '--no-sort'}, <bang>0)
 
   nnoremap <Leader><Leader> :execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
   nnoremap <Leader>T        :Tags<CR>
