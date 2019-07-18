@@ -1165,6 +1165,7 @@ if mymisc#plug_tap('vim-lsp')
         \     'filetype': ['python'],
         \     'is_executable': executable('pyls'),
         \     'cmd': ['python', '-m', 'pyls'],
+        \     'workspace_config': {'pyls.plugins.pyls_mypy.enabled': 1}
         \   }
   let g:myvimrc_lsp_general_config['vue'] =
         \   {
@@ -1240,6 +1241,7 @@ if mymisc#plug_tap('vim-lsp')
         let s:vimlsp_config['whitelist'] = g:myvimrc_lsp_general_config[s:key]['filetype']
         let s:vimlsp_config['priority'] = 100
         let s:vimlsp_config['root_uri'] = s:root_uri_func
+        exe "let s:vimlsp_config['workspace_config'] = " . string(get(g:myvimrc_lsp_general_config[s:key], 'workspace_config'))
 
         let g:myvimrc_vimlsp_config[s:key] = s:vimlsp_config
         call extend(g:myvimrc_vimlsp_filetypes, g:myvimrc_lsp_general_config[s:key]['filetype'])
