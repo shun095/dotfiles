@@ -236,11 +236,11 @@ Plug 'aklt/plantuml-syntax', {'for': ['plantuml']}
 " Plug 'hdima/python-syntax'
 
 " General purpose viewers/indicators
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ishitaku5522/ctrlp.vim'
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
-Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'junegunn/fzf.vim'
+" Plug 'FelikZ/ctrlp-py-matcher'
+" Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-peekaboo'
 if has('win32')
   Plug 'ishitaku5522/cpsm'
