@@ -43,7 +43,7 @@ function _cd_history_bookmark_save_cd_history(){
 
 function _cd_history_bookmark_fzf(){
     local file_path=$1
-    local dest_dir=$(eval $tac' '$file_path | _cd_history_bookmark_filter | fzf --no-sort --height 40% --reverse)
+    local dest_dir=$(eval $tac' '$file_path | _cd_history_bookmark_filter | fzf --no-sort --height 40% --reverse --preview-window=hidden)
     if [[ $dest_dir != '' ]]; then
         if ! cd "$dest_dir"; then
             eval $_cd_history_bookmark_sedi' "s?^${dest_dir}\(\$\|/.*\$\)??g" '${file_path} &&

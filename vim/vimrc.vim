@@ -100,6 +100,7 @@ try
   set autoindent                                           " Enable auto indenting
   set list                                                 " Show invisible characters
   set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:< " How invisible characters will be shown
+  set nofixendofline
   set wildmenu                                             " Enable completion for commands
   set wildmode=longest:full,full                           " Behavior config for wildmenu
   set laststatus=2                                         " Enable status line

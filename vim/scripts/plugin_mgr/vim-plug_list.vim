@@ -149,6 +149,8 @@ else
   Plug 'ishitaku5522/asyncomplete-omni.vim'
   Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
 
+  Plug 'tbodt/deoplete-tabnine'
+
   Plug 'scrooloose/nerdtree'
   " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'jistr/vim-nerdtree-tabs'
