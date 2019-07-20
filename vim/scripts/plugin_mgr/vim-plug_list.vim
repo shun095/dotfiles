@@ -63,124 +63,56 @@ let g:terminal_ansi_colors = [
 " Plug 'reedes/vim-colors-pencil'
 " Plug 'tomasr/molokai'
 "
-" Shougo wares
-let s:use_shougo_ware = 0
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
+"
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'Shougo/deoplete-lsp'
+" call lsp#server#add('python', ['python', '-m', 'pyls'])
+" Plug 'Shougo/context_filetype.vim'
+" Plug 'Shougo/neomru.vim'
 
-if has('nvim')
-  if s:has_python3
-    if executable('python')
-      let s:use_shougo_ware = system("python --version") =~# 'Python\ 3\.[6-9]'
-    endif
+" if has('win32')
+"   Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
+" else
+"   Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+" endif
 
-    if !s:use_shougo_ware && executable('python3')
-      let s:use_shougo_ware = system("python3 --version") =~# 'Python\ 3\.[6-9]'
-    endif
-  endif
-endif
+" Plug 'Valloric/YouCompleteMe'
+" Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
+" Plug 'ervandew/supertab'
 
-" if s:use_shougo_ware
-if 0
-  if has('nvim')
-    " Plug 'Shougo/denite.nvim', {'do':':UpdateRemotePlugins'}
-    " Plug 'Shougo/deoplete.nvim', {'do':':UpdateRemotePlugins'}
-    Plug 'Shougo/defx.nvim', {'do':':UpdateRemotePlugins'}
-    " Plug 'Shougo/deoplete-lsp'
-    " call lsp#server#add('python', ['python', '-m', 'pyls'])
-  else
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-    " Plug 'Shougo/denite.nvim'
-    " Plug 'Shougo/deoplete.nvim'
-    Plug 'Shougo/defx.nvim'
-  endif
-  " Plug 'Shougo/context_filetype.vim'
-  " Plug 'Shougo/neomru.vim'
-  " Plug 'Shougo/vimproc.vim'
-  " if has('win32')
-  "   Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
-  " else
-  "   Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
-  " endif
+Plug 'ishitaku5522/asyncomplete.vim', {'branch': 'add_get_source_info'}
 
-  if 0
-    if has('win32')
-      fun! DownloadLanguageClient(info)
-        if a:info.status == 'installed' || a:info.status == 'updated' || a:info.force
-          let l:confirm_install = confirm(
-                \ 'LanguageClient updated. Install now?',
-                \ "&yes\n&no", 2)
-          if l:confirm_install == 1
-            let l:cmd = ':exe ":!start powershell Start-Sleep -s 3; .\\install.ps1" | qa!'
-            call mymisc#command_at_destdir(
-                  \ g:plugin_mgr.plugin_dir."/LanguageClient-neovim",
-                  \ [l:cmd])
-          endif
-        endif
-      endf
-      Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch':'next',
-            \ 'do':function('DownloadLanguageClient'),
-            \ }
-    else
-      Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch':'next',
-            \ 'do':'bash install.sh',
-            \ }
-    endif
-  endif
-else
-  " Plug 'Valloric/YouCompleteMe'
-  " Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
-  " Plug 'ervandew/supertab'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+Plug 'prabirshrestha/asyncomplete-necovim.vim'
+Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 
-  " Plug 'prabirshrestha/asyncomplete.vim'
-  Plug 'ishitaku5522/asyncomplete.vim', {'branch': 'add_get_source_info'}
-  Plug 'prabirshrestha/async.vim'
-  " Plug 'prabirshrestha/vim-lsp'
+" Plug 'prabirshrestha/vim-lsp'
+Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspaceEdit'}
+Plug 'ishitaku5522/asyncomplete-omni.vim'
+Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
 
-  Plug 'prabirshrestha/asyncomplete-lsp.vim'
-  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-  Plug 'prabirshrestha/asyncomplete-file.vim'
-  Plug 'prabirshrestha/asyncomplete-buffer.vim'
-  Plug 'prabirshrestha/asyncomplete-necovim.vim'
-  Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'ishitaku5522/nerdtree-git-plugin'
 
-  Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspaceEdit'}
-  Plug 'ishitaku5522/asyncomplete-omni.vim'
-  Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
+" Plug 'ryanoasis/vim-devicons'
+" Plug 'justinmk/vim-dirvish'
 
-  Plug 'tbodt/deoplete-tabnine'
-
-  Plug 'scrooloose/nerdtree'
-  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  Plug 'jistr/vim-nerdtree-tabs'
-  Plug 'ishitaku5522/nerdtree-git-plugin'
-
-  " Plug 'kristijanhusak/defx-git'
-  " if has('nvim')
-  "   Plug 'Shougo/defx.nvim', {'do':':UpdateRemotePlugins'}
-  " else
-  "   Plug 'roxma/nvim-yarp'
-  "   Plug 'roxma/vim-hug-neovim-rpc'
-  "   Plug 'Shougo/defx.nvim'
-  " endif
-
-  " Plug 'ryanoasis/vim-devicons'
-  " Plug 'justinmk/vim-dirvish'
-endif
+" Plug 'Shougo/defx.nvim'
+" Plug 'kristijanhusak/defx-git'
 
 " Language specific completions
 Plug 'OmniSharp/omnisharp-vim', {'for': ['cs']}
 Plug 'Quramy/tsuquyomi', {'for': ['javascript', 'typescript']}
 Plug 'vim-scripts/dbext.vim', {'for': ['sql']}
-" Plug 'Rip-Rip/clang_complete', {'for': ['c', 'cpp']} " for goto definition (completed by LC)
-" Plug 'davidhalter/jedi-vim', {'for': ['python']} " for goto definition (completed by LC)
-" Plug 'zchee/deoplete-jedi', {'for': ['python']} " for completion
-" Plug 'carlitux/deoplete-ternjs', {'for': ['javascript']}
-" Plug 'zchee/deoplete-go', {'for': ['go']}
 Plug 'othree/csscomplete.vim'
-" Plug 'artur-shaik/vim-javacomplete2', {'for': ['java']}
-Plug 'Shougo/neco-vim' " for vim
+Plug 'Shougo/neco-vim' " for vimscript
 
 " Snippets, templates
 Plug 'Shougo/neosnippet.vim'
@@ -195,8 +127,8 @@ Plug 'mattn/sonictemplate-vim'
 " General purpose completions, linters
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
-" Plug 'gorodinskiy/vim-coloresque'
-Plug 'chiel92/vim-autoformat', {'on': ['Autoformat']}
+" Plug 'gorodinskiy/vim-coloresque' " Color preview
+
 Plug 'jiangmiao/auto-pairs'
 " Plug 'Raimondi/delimitMate'
 " Plug 'cohama/lexima.vim'
@@ -239,9 +171,15 @@ Plug 'aklt/plantuml-syntax', {'for': ['plantuml']}
 Plug 'ishitaku5522/ctrlp.vim'
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
+
 " Plug 'FelikZ/ctrlp-py-matcher'
 " Plug 'junegunn/fzf.vim'
+
+" Plug 'Shougo/denite.nvim'
+
 Plug 'junegunn/vim-peekaboo'
+
+
 if has('win32')
   Plug 'ishitaku5522/cpsm'
 else
@@ -257,7 +195,6 @@ Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'Rainbo
 " Plug 'junegunn/rainbow_parentheses.vim'
 " Plug 'kien/rainbow_parentheses.vim'
 Plug 'google/vim-searchindex'
-" Plug 'osyo-manga/vim-anzu'
 Plug 'Yggdroot/indentLine'
 " Plug 'nathanaelkane/vim-indent-guides'
 
