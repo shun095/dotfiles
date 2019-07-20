@@ -604,6 +604,9 @@ try
 
   " AUTOCMDS {{{
   augroup VIMRC
+    if !has('nvim')
+      autocmd TerminalOpen * setl nonumber nowrap
+    endif
     " Markdown
     let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'cpp', 'c', 'vim']
 
