@@ -130,7 +130,9 @@ gvim_call(){
 
 if [[ ! $TERM = 'linux' ]]; then
     export TERM=xterm-256color
-    tmux_call
+    if [[ $VIM_TERMINAL -eq "" ]]; then
+        tmux_call
+    fi
     alias tmux=tmux_call
 fi
 
