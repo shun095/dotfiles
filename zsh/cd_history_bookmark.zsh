@@ -59,9 +59,9 @@ function _cd_history_bookmark_add_path_to_file(){
     eval $_cd_history_bookmark_sedi' "s?^${PWD}\$??g" '$file_path # Delete same directory lines
     eval $_cd_history_bookmark_sedi' "/^\s*\$/d" '$file_path # Delete empty lines
 
-    if [[ `cat $file_path | wc -l` -eq 0 ]];then
+    if [[ $(cat $file_path | wc -l) -eq 0 ]]; then
         echo > $file_path # Create a empty line if the file size is zero
-    elif [[ `cat $file_path | wc -l` -gt ${_cd_history_bookmark_limit} ]]; then # Limit history size
+    elif [[ $(cat $file_path | wc -l) -gt ${_cd_history_bookmark_limit} ]]; then # Limit history size
         tail -n ${_cd_history_bookmark_limit} $file_path > $HOME/cd_hist_tmp.txt
         mv $HOME/cd_hist_tmp.txt $file_path
     fi

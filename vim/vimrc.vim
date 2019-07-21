@@ -45,7 +45,7 @@ try
   if !has('gui_running')
     if match($TERM, '256color') > 0
       if v:version >= 800
-        set termguicolors                                    " TrueColor on terminal
+        set termguicolors " TrueColor on terminal
         if $TMUX !=# ""
           let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
           let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
@@ -58,7 +58,11 @@ try
       if has('win32')
         set termguicolors
       else
-        set t_Co=16                                        " 256 colors on terminal
+        if $TERM ==# 'linux'
+          set t_Co=16  " Limited colors on terminal
+        else
+          set t_Co=256 " Limited colors on terminal
+        endif
       endif
     endif
   endif

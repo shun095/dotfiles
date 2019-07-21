@@ -6,6 +6,11 @@ case $- in
     *) return;;
 esac
 
+# If running in raw tty, don't do anything
+if [[ $TERM = 'linux' ]]; then
+    return
+fi
+
 export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
@@ -69,10 +74,10 @@ function tmux_call(){
     title "$USER@$HOST"
     export DISABLE_AUTO_TITLE=true
     if [[ $# -eq 0 ]]; then
-        if [[ `\tmux list-sessions 2>/dev/null|wc -l` -ne 0 ]]; then
-            _tmux_call_exist_sessions=(`\tmux list-sessions|sed "s/:.*//"`)
-            _tmux_call_attached_sessions=(`\tmux list-sessions|grep attached|sed "s/:.*//"`)
-            _tmux_call_detached_sessions=(`\tmux list-sessions|grep -v attached|sed "s/:.*//"`)
+        if [[ $(\tmux list-sessions 2>/dev/null|wc -l) -ne 0 ]]; then
+            _tmux_call_exist_sessions=($(\tmux list-sessions|sed "s/:.*//"))
+            _tmux_call_attached_sessions=($(\tmux list-sessions|grep attached|sed "s/:.*//"))
+            _tmux_call_detached_sessions=($(\tmux list-sessions|grep -v attached|sed "s/:.*//"))
         else
             _tmux_call_exist_sessions=
             _tmux_call_attached_sessions=
@@ -117,7 +122,7 @@ if type tensorboard > /dev/null; then
 fi
 
 gvim_call(){
-    if [[ `\gvim --serverlist 2>/dev/null|wc -l` -ne 0 ]]; then
+    if [[ $(\gvim --serverlist 2>/dev/null|wc -l) -ne 0 ]]; then
         \gvim --remote $*
     else
         \gvim $*

@@ -138,7 +138,7 @@ backup_file() {
         if [[ -e "$1.bak0" ]]; then 
             # .~rc differs from .~rc.bak0
             if [[ $(diff "$1" "$1.bak0") ]]; then 
-                for idx in `seq 3 -1 0`; do
+                for idx in $(seq 3 -1 0); do
                     if [[ -e "$1.bak$idx" ]]; then
                         echo "Renaming exist backup"
                         echo "  from: $1.bak$idx"
@@ -318,12 +318,12 @@ deploy_ohmyzsh_files() {
 deploy_selfmade_rcfiles() {
     # make symlinks
     echo -e "\n===== Installing RC files ============================================\n"
-    final_idx_simlinks=`expr ${#SYMLINKS[@]} - 1`
-    for i in `seq 0 ${final_idx_simlinks}`; do
+    final_idx_simlinks=$(expr ${#SYMLINKS[@]} - 1)
+    for i in $(seq 0 ${final_idx_simlinks}); do
         if [[ ! -e ${SYMLINKS[${i}]} ]]; then
-            mkdir -p `dirname ${SYMTARGET[${i}]}`
+            mkdir -p $(dirname ${SYMTARGET[${i}]})
             touch ${SYMTARGET[${i}]}
-            mkdir -p `dirname ${SYMLINKS[${i}]}`
+            mkdir -p $(dirname ${SYMLINKS[${i}]})
             ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
             echo "Made link: ${SYMLINKS[${i}]}"
             echo "           --> ${SYMTARGET[${i}]}"
@@ -370,6 +370,16 @@ compile_zshfiles() {
     esac
 }
 
+install_dependencies() {
+    if type apt > /dev/null; then
+        if [[ $(whoami) = 'root' ]]; then
+            apt install -y git zsh tmux vim
+        else
+            sudo apt install -y git zsh tmux vim 
+        fi
+    fi
+}
+
 deploy() {
     deploy_ohmyzsh_files
     deploy_selfmade_rcfiles
@@ -392,6 +402,7 @@ update() {
 }
 
 install() {
+    install_dependencies
     download_repositories
     undeploy
     deploy
