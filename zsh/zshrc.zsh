@@ -1,5 +1,11 @@
 #!/usr/bin/env zsh
 
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+    *) return;;
+esac
+
 export EDITOR=vim
 export MYDOTFILES=$HOME/dotfiles
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
@@ -89,16 +95,7 @@ function tmux_call(){
 }
 
 if type trash-put > /dev/null; then
-    # alias rm="trash-put"
-else
-    echo "Recommended to install 'trash-cli'"
-    trash() {
-        for file in $@
-        do
-            mv $file ~/.trash
-        done
-    }
-    # alias rm="trash"
+    alias trm="trash-put"
 fi
 
 if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
@@ -130,7 +127,7 @@ gvim_call(){
 
 if [[ ! $TERM = 'linux' ]]; then
     export TERM=xterm-256color
-    if [[ $VIM_TERMINAL -eq "" ]]; then
+    if [[ $VIM_TERMINAL = '' && $TMUX = '' ]]; then
         tmux_call
     fi
     alias tmux=tmux_call
@@ -154,7 +151,6 @@ alias svim="vim --cmd 'let g:use_plugins=0'"
 alias tgvim="gvim --remote-tab-silent"
 alias tvim="vim --remote-tab-silent"
 alias gnvim="nvim-qt"
-alias :e="vim"
 
 alias dir="dir --group-directories-first --color=auto"
 if type pygmentize > /dev/null; then
