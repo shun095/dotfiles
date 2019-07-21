@@ -727,10 +727,9 @@ if mymisc#plug_tap('ctrlp.vim')
 
   " if has('win32')
   if g:mymisc_files_is_available
-    let g:ctrlp_user_command = 'files -a -i "(\.git|\.hg|\.svn|_darcs|\.bzr|node_modules)$" %s'
+    let g:ctrlp_user_command = 'files %s -a -i "(\.git|\.hg|\.svn|_darcs|\.bzr|node_modules)$"'
   elseif g:mymisc_rg_is_available
     let g:ctrlp_user_command = 'rg %s --files --color=never --line-buffered --glob ""'
-    let g:ctrlp_use_caching = 0
   elseif g:mymisc_pt_is_available
     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
   elseif g:mymisc_ag_is_available
@@ -1413,7 +1412,7 @@ if mymisc#plug_tap('vim-fugitive')
 endif
 
 if mymisc#plug_tap('vim-gitgutter')
-  let g:gitgutter_async = 0
+  let g:gitgutter_async = 1
   nnoremap <Leader>gg :GitGutterAll<CR>
   augroup vimrc_gitgutter
     autocmd!
