@@ -373,8 +373,10 @@ compile_zshfiles() {
 install_dependencies() {
     if type apt > /dev/null; then
         if [[ $(whoami) = 'root' ]]; then
+            apt update
             apt install -y git zsh tmux vim
         else
+            sudo apt update
             sudo apt install -y git zsh tmux vim
         fi
     fi
