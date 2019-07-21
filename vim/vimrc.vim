@@ -42,16 +42,37 @@ try
     autocmd!
   augroup END
 
+  function! s:toggle_color_mode() abort
+    if get(s:,'color_mode','B') !=# 'A'
+      " Pattern A:
+      let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+      let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+      " gnome-term + raw           : work
+      " tmux + raw                 : doesn't work
+      " gnome-term + docker + raw  : work
+      " gnome-term + docker + tmux : work
+      let s:color_mode_a = 'A'
+    else
+      " Pattern B:
+      let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+      let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+      " gnome-term + raw           : work
+      " tmux + raw                 : work
+      " gnome-term + docker + raw  : work
+      " gnome-term + docker + tmux : doesn't work
+      let s:color_mode_a = 'B'
+    endif
+
+    set termguicolors " TrueColor on terminal
+  endfunction
+
+  command! ColorModeToggle call <SID>toggle_color_mode()
+
   if !has('gui_running')
     if match($TERM, '256color') > 0
       if v:version >= 800
-        set termguicolors " TrueColor on terminal
-        if $TMUX !=# ""
-          let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-          let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
-        endif
+        call s:toggle_color_mode()
       endif
-
       let &t_SI = '[5 q'
       let &t_EI = '[2 q'
     else

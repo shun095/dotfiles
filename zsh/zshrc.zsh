@@ -131,7 +131,9 @@ gvim_call(){
 }
 
 if [[ ! $TERM = 'linux' ]]; then
-    export TERM=xterm-256color
+    if [[ $TERM = 'xterm' ]]; then
+        export TERM=xterm-256color
+    fi
     if [[ $VIM_TERMINAL = '' && $TMUX = '' ]]; then
         tmux_call
     fi
