@@ -375,8 +375,12 @@ install_dependencies() {
         if [[ $(whoami) = 'root' ]]; then
             apt install -y git zsh tmux vim
         else
-            sudo apt install -y git zsh tmux vim 
+            sudo apt install -y git zsh tmux vim
         fi
+    fi
+
+    if [[ ! -e $MYDOTFILES ]]; then
+        git clone https://github.com/ishitaku5522/dotfiles $MYDOTFILES
     fi
 }
 
