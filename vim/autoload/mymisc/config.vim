@@ -95,7 +95,8 @@ function! mymisc#config#asyncomplete_setup()
     for [l:source_name, l:matches] in items(a:matches)
       for l:item in l:matches['items']
         if stridx(l:item['word'], a:options['base']) == 0
-          let l:item['priority'] = get(asyncomplete#get_source_info(l:source_name),'priority',0)
+          let l:item['priority'] =
+                \ get(asyncomplete#get_source_info(l:source_name),'priority',0)
           call add(l:items, l:item)
         endif
       endfor

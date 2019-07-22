@@ -677,7 +677,7 @@ endif
 
 if mymisc#plug_tap('ctrlp.vim')
   " let g:ctrlp_max_files = 20000
-  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:10'
+  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
   let g:ctrlp_show_hidden = 1
   let g:ctrlp_use_caching = 1
   let g:ctrlp_user_command_async = 1
@@ -726,9 +726,9 @@ if mymisc#plug_tap('ctrlp.vim')
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
   " if has('win32')
-  if g:mymisc_files_is_available
-    let g:ctrlp_user_command = 'files %s -a -i "(\.git|\.hg|\.svn|_darcs|\.bzr|node_modules)$"'
-  elseif g:mymisc_rg_is_available
+  " if g:mymisc_files_is_available && !has('win32')
+  "   let g:ctrlp_user_command = 'files %s -a -i "^(\.git|\.hg|\.svn|_darcs|\.bzr|node_modules)$"'
+  if g:mymisc_rg_is_available
     let g:ctrlp_user_command = 'rg %s --files --color=never --line-buffered --glob ""'
   elseif g:mymisc_pt_is_available
     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
