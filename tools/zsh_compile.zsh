@@ -36,7 +36,14 @@ pushd $HOME/.oh-my-zsh/custom/plugins/zsh-completions/src/ &&
             popd
 
 pushd $HOME &&
+    echo "$(pwd): Removing zwc file" &&
+    (
+    \rm -f ~/.zshenv.zwc ||
+    \rm -f ~/.zshrc.zwc ||
+    \rm -f ~/.zcompdump.zwc
+    ) &&
     echo "$(pwd): Creating zwc file" &&
     zcompile ~/.zshenv &&
     zcompile ~/.zshrc &&
+    zcompile ~/.zcompdump &&
     popd

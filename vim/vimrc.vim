@@ -228,7 +228,11 @@ try
     let s:grep_exe_path = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\grep.exe'
     exe 'set grepprg=' . escape('"' . s:grep_exe_path . '" -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
   elseif has('mac')
-    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
+    if executable('ggrep')
+      exe 'set grepprg=' . escape('ggrep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
+    else
+      exe 'set grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
+    endif
   elseif has('unix')
     exe 'set grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
   endif
