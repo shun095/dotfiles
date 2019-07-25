@@ -126,6 +126,7 @@ try
   set list                                                 " Show invisible characters
   set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:< " How invisible characters will be shown
   set nofixendofline
+  set synmaxcol=500
   set wildmenu                                             " Enable completion for commands
   set wildmode=longest:full,full                           " Behavior config for wildmenu
   set laststatus=2                                         " Enable status line
@@ -357,20 +358,20 @@ try
       endfunction
 
       function! s:fast_esc() abort
+        iunmap <ESC>
         let s:old_tlen = &timeoutlen
-        set timeoutlen=25
+        set timeoutlen=50
         inoremap <ESC>n <Down>
         inoremap <ESC>p <Up>
         inoremap <ESC>f <S-Right>
         inoremap <ESC>b <S-Left>
         inoremap <ESC> <C-w>
-        iunmap <ESC>
         call feedkeys("\<ESC>", 'i')
-        call timer_start(50, 'Myvimrc_fast_esc_unmap', {'repeat':1})
-        return ""
+        call timer_start(200, 'Myvimrc_fast_esc_unmap', {'repeat':1})
+        return ''
       endfunction
 
-      inoremap <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+      inoremap <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
 
       cnoremap <ESC>n <Down>
       cnoremap <ESC>p <Up>
@@ -475,7 +476,7 @@ try
   command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
   " command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
   command! Transparent hi Normal ctermbg=none guibg=NONE
-  command! -nargs=1 TabWidth set shiftwidth=<args> softtabstop=<args>
+  command! -nargs=1 -bang TabWidth exe 'set sw='.<args>.' sts='.<args>.' '.(<bang>0 ? 'no' : '').'et'
 
   command! FollowSymlink call s:follow_symlink()
   function! s:follow_symlink()
@@ -640,9 +641,9 @@ try
     let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'cpp', 'c', 'vim']
 
     " HTML,XML,CSS,JavaScript
-    autocmd Filetype html,xml,vue setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
+    autocmd Filetype html,xml,vue setl noexpandtab softtabstop=4 shiftwidth=4 foldmethod=indent
     autocmd Filetype css setl foldmethod=syntax
-    autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
+    autocmd FileType javascript,jade,pug setl foldmethod=syntax noexpandtab softtabstop=4 shiftwidth=4
 
     " Markdown
     autocmd FileType markdown setl expandtab softtabstop=2 shiftwidth=2
@@ -651,7 +652,7 @@ try
     let g:vim_json_syntax_conceal = 0
 
     " Java
-    autocmd FileType java setl noexpandtab
+    autocmd FileType java setl noexpandtab softtabstop=4 shiftwidth=4
 
     " Python
     let g:python_highlight_all = 1
