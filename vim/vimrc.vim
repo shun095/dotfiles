@@ -136,6 +136,7 @@ try
   set showtabline=2                                        " タブバーを常に表示
   set shortmess-=Tt
   set sidescroll=1                                         " 横スクロール刻み幅
+  set sidescrolloff=1                                         " 横スクロール刻み幅
   set number                                               " 行番号表示
   set norelativenumber
   set hlsearch                                             " 文字列検索時にハイライトする

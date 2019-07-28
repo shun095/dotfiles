@@ -1092,7 +1092,7 @@ endif
 
 if mymisc#plug_tap('vim-lsp')
   " let g:lsp_log_verbose = 1
-  " let g:lsp_log_file = $HOME."/.vim/vim-lsp.log"
+  " let g:lsp_log_file = "/tmp/vim-lsp.log"
   " call delete(g:lsp_log_file)
   augroup vimrc_vimlsp
     autocmd!
@@ -1127,7 +1127,6 @@ if mymisc#plug_tap('vim-lsp')
         \     'filetype': ['python'],
         \     'is_executable': executable('pyls'),
         \     'cmd': ['python', '-m', 'pyls'],
-        \     'workspace_config': {'pyls.plugins.pyls_mypy.enabled': 1}
         \   }
   let g:myvimrc_lsp_general_config['vue'] =
         \   {
