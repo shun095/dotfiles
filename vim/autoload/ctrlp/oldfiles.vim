@@ -2,6 +2,7 @@
 " File:          autoload/ctrlp/oldfiles.vim
 " Description:   Find files saved in viminfo: jumplist, changelist, marks ...
 " Author:        Kien Nguyen <github.com/kien>
+" Forked:        2019-07-28 ishitaku5522 <ishitaku5522@gmail.com>
 " =============================================================================
 
 " User Configuration {{{1
@@ -32,7 +33,9 @@ let g:ctrlp_ext_vars = exists('g:ctrlp_ext_vars') && !empty(g:ctrlp_ext_vars)
 let s:id = g:ctrlp_builtins + len(g:ctrlp_ext_vars)
 " Public {{{1
 fu! ctrlp#oldfiles#init()
-	retu filter(map(copy(v:oldfiles), 'expand(v:val)'), 'filereadable(v:val)')
+	retu map(map(filter(map(copy(v:oldfiles), 'expand(v:val)'), 'filereadable(v:val)'), 
+				\ 'substitute(v:val, ''^''.getcwd(), ''.'', ''g'')'),
+        \ 'substitute(v:val, ''^''.$HOME, ''~'', ''g'')')
 endf
 
 fu! ctrlp#oldfiles#accept(mode, str)
@@ -44,4 +47,4 @@ fu! ctrlp#oldfiles#id()
 endf
 "}}}
 
-" vim:fen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1:ts=2:sw=2:sts=2
+" vim:nofen:fdm=marker:fmr={{{,}}}:fdl=0:fdc=1:ts=2:sw=2:sts=2

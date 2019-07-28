@@ -686,6 +686,8 @@ if mymisc#plug_tap('ctrlp.vim')
   let g:ctrlp_mruf_default_order = 1
   let s:ctrlp_my_match_func = {}
 
+  let g:ctrlp_types = ['fil', 'buf']
+
   if mymisc#plug_tap('cpsm') " ========== For cpsm
     " let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
     let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
