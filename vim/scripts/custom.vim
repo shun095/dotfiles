@@ -710,6 +710,10 @@ if mymisc#plug_tap('ctrlp.vim')
           \ let g:ctrlp_match_func = s:ctrlp_my_match_func
   augroup END
 
+  command! CtrlPOldFiles let g:ctrlp_match_func = {} |
+        \ cal ctrlp#init(ctrlp#oldfiles#id()) |
+        \ let g:ctrlp_match_func = s:ctrlp_my_match_func
+
   nnoremap <Leader><Leader> :CtrlP<CR>
   nnoremap <Leader>T        :CtrlPTag<CR>
   nnoremap <Leader>al       :CtrlPLine<CR>
@@ -720,7 +724,7 @@ if mymisc#plug_tap('ctrlp.vim')
   nnoremap <Leader>l        :CtrlPLine %<CR>
   nnoremap <Leader>o        :CtrlPBufTag<CR>
   nnoremap <Leader>r        :CtrlPRegister<CR>
-  nnoremap <Leader>u        :CtrlPMRUFiles<CR>
+  nnoremap <Leader>u        :CtrlPOldFiles<CR>
   nnoremap <Leader>`        :CtrlPMark<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
