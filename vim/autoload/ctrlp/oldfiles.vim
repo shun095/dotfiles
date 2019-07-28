@@ -34,8 +34,8 @@ let s:id = g:ctrlp_builtins + len(g:ctrlp_ext_vars)
 " Public {{{1
 fu! ctrlp#oldfiles#init()
 	retu map(map(filter(map(copy(v:oldfiles), 'expand(v:val)'), 'filereadable(v:val)'), 
-				\ 'substitute(v:val, ''^''.getcwd().''[/\\]\?'', '''', ''g'')'),
-				\ 'substitute(v:val, ''^''.$HOME, ''~'', ''g'')')
+				\ 'substitute(v:val, ''^''.escape(getcwd(),''\'').''[/\\]\?'', '''', ''g'')'),
+				\ 'substitute(v:val, ''^''.escape($HOME,''\''), ''~'', ''g'')')
 endf
 
 fu! ctrlp#oldfiles#accept(mode, str)
