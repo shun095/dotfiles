@@ -168,7 +168,7 @@ Plug 'aklt/plantuml-syntax', {'for': ['plantuml']}
 " Plug 'hdima/python-syntax'
 
 " General purpose viewers/indicators
-Plug 'ishitaku5522/ctrlp.vim'
+Plug 'ishitaku5522/ctrlp.vim', {'branch': 'develop'}
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
 
