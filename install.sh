@@ -402,19 +402,17 @@ install_dependencies() {
 }
 
 install_vim_plugins() {
-    set +e
     echo -e "\n===== Installing vim plugins ============================================\n"
 
     export PATH=$PATH:$HOME/build/vim/bin
 
     if type vim > /dev/null && type git > /dev/null; then
         if [[ ! -d $HOME/.vim/plugged ]]; then
-            vim --cmd 'set shortmess=a cmdheight=2' -c ':silent! :PlugInstall' -c ':qa!' || true
+            vim --cmd 'set shortmess=a cmdheight=2' -c ':silent! :PlugInstall' -c ':silent! :qa!'
         fi
     fi
 
     echo -e "\n===== Installing vim plugins Finished!! ============================================\n"
-    set -e
 }
 
 build_vim_install_deps() {
