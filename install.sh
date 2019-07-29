@@ -424,8 +424,8 @@ build_vim_install_deps() {
             yum install -y https://centos7.iuscommunity.org/ius-release.rpm
             yum install -y ${deps}
         else
-            sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm
-            sudo yum install -y ${deps}
+            sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
+            sudo yum install -y ${deps} || true
         fi
     fi
 }
