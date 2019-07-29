@@ -482,6 +482,20 @@ deploy() {
     deploy_fzf
     compile_zshfiles
     install_vim_plugins
+
+    git_configulation
+
+    # Not symlink
+    if [[ ! -e ${TMUXLOCAL} ]]; then
+        mkdir -p $HOME/localrcs
+        touch $HOME/localrcs/tmux-local
+        echo "tmuxlocal is made"
+    fi
+
+    if [[ ! -e ${TRASH} ]]; then
+        mkdir ${TRASH}
+    fi
+
 }
 
 undeploy() {
@@ -558,18 +572,4 @@ if [[ $arg != "debug" ]]; then
     backup
     $arg
 fi
-
-git_configulation
-
-# Not symlink
-if [[ ! -e ${TMUXLOCAL} ]]; then
-    mkdir -p $HOME/localrcs
-    touch $HOME/localrcs/tmux-local
-    echo "tmuxlocal is made"
-fi
-
-if [[ ! -e ${TRASH} ]]; then
-    mkdir ${TRASH}
-fi
-
 echo -e "\nFINISHED!!!\n"
