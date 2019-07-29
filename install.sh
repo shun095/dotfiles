@@ -436,9 +436,11 @@ build_vim_install_deps() {
         local deps='gcc make ncurses ncurses-devel cmake git2u-all tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
 
         if [[ $(whoami) = 'root' ]]; then
+            yum remove git* -y
             yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
             yum install -y ${deps} || true
         else
+            sudo yum remove git* -y
             sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
             sudo yum install -y ${deps} || true
         fi
