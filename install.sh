@@ -371,19 +371,21 @@ compile_zshfiles() {
 }
 
 install_dependencies() {
+    local deps='git zsh tmux vim'
+
     if type apt > /dev/null; then
         if [[ $(whoami) = 'root' ]]; then
             apt update
-            apt install -y git zsh tmux vim
+            apt install -y $deps
         else
             sudo apt update
-            sudo apt install -y git zsh tmux vim
+            sudo apt install -y $deps
         fi
     elif type yum > /dev/null; then
         if [[ $(whoami) = 'root' ]]; then
-            yum -y install git zsh tmux vim
+            yum -y install $deps
         else
-            sudo yum -y install git zsh tmux vim
+            sudo yum -y install $deps
         fi
     fi
 
@@ -398,6 +400,30 @@ install_vim_plugins() {
             vim -c ':PlugInstall' -c ':qa!' || true
         fi
     fi
+}
+
+build_vim(){
+    if type apt > /dev/null; then
+        local deps='gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libperl-dev python3-dev ruby-dev'
+        if [[ $(whoami) = 'root' ]]; then
+            apt update
+            apt install -y git zsh tmux vim
+        else
+            sudo apt update
+            sudo apt install -y git zsh tmux vim
+        fi
+    elif type yum > /dev/null; then
+        if [[ $(whoami) = 'root' ]]; then
+            yum -y install git zsh tmux vim
+        else
+            sudo yum -y install git zsh tmux vim
+        fi
+    fi
+}
+
+
+build_tools(){
+    build_vim
 }
 
 deploy() {
@@ -439,6 +465,10 @@ reinstall() {
     install
 }
 
+build(){
+    build_tools
+}
+
 check_arguments() {
     case $1 in
         --help)
@@ -452,6 +482,7 @@ check_arguments() {
         undeploy)  ;;
         uninstall) ;;
         debug)     ;;
+        build)     ;;
         *)
             echo "Unknown argument: $arg"
             help

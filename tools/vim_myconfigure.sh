@@ -21,7 +21,7 @@ git pull
     --enable-fail-if-missing \
     --enable-fontset \
     --enable-multibyte \
-    --enable-gui=gtk3 \
+    --enable-gui=auto \
     --enable-luainterp=dynamic \
     --with-luajit \
     --enable-perlinterp=dynamic \
