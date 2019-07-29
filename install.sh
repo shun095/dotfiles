@@ -436,7 +436,14 @@ build_vim_make_install() {
     fi
 
     pushd $HOME/programs
-        ln -s $MYDOTFILES/tools/vim_myconfigure.sh
+        if [[ ! -e vim_myconfigure.sh ]]; then
+            ln -s $MYDOTFILES/tools/vim_myconfigure.sh
+        fi
+
+        if [[ ! -d vim ]]; then
+            git clone https://github.com/vim/vim
+        fi
+
         chmod +x ./vim_myconfigure.sh
         ./vim_myconfigure.sh
     popd
