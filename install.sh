@@ -400,6 +400,7 @@ install_dependencies() {
 }
 
 install_vim_plugins() {
+    set +e
     echo -e "\n===== Installing vim plugins ============================================\n"
 
     export PATH=$PATH:$HOME/build/vim/bin
@@ -411,6 +412,7 @@ install_vim_plugins() {
     fi
 
     echo -e "\n===== Installing vim plugins Finished!! ============================================\n"
+    set -e
 }
 
 build_vim_install_deps() {
