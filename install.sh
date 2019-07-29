@@ -365,13 +365,16 @@ compile_zshfiles() {
             $MYDOTFILES/tools/zsh_compile.zsh
             ;;
         *)
-            # assume something else
-            echo -e "\nCurrent shell is not zsh. skipping.\n"
+            if type zsh > /dev/null; then
+                zsh $MYDOTFILES/tools/zsh_compile.zsh
+            else
+                echo -e "\nCurrent shell is not zsh. skipping.\n"
+            fi
     esac
 }
 
 install_dependencies() {
-    local deps='git zsh tmux vim'
+    local deps='git zsh tmux'
 
     if type apt > /dev/null; then
         if [[ $(whoami) = 'root' ]]; then
@@ -392,6 +395,8 @@ install_dependencies() {
     if [[ ! -e $MYDOTFILES ]]; then
         git clone https://github.com/ishitaku5522/dotfiles $MYDOTFILES
     fi
+
+    build_vim
 }
 
 install_vim_plugins() {
@@ -485,6 +490,16 @@ install() {
     download_repositories
     undeploy
     deploy
+
+    case $SHELL in
+        */zsh) 
+            :
+            ;;
+        *)
+            if type zsh > /dev/null; then
+                zsh
+            fi
+    esac
 }
 
 uninstall() {
