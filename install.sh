@@ -408,7 +408,7 @@ install_vim_plugins() {
 
     if type vim > /dev/null && type git > /dev/null; then
         if [[ ! -d $HOME/.vim/plugged ]]; then
-            vim --not-a-term --cmd 'set shortmess=a cmdheight=2' -c ':silent! :PlugInstall' -c ':silent! :qa!'
+            vim -Es --not-a-term --cmd 'set shortmess=a cmdheight=2' -c ':silent! :PlugInstall' -c ':silent! :qa!'
         fi
     fi
 
