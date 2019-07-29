@@ -402,25 +402,50 @@ install_vim_plugins() {
     fi
 }
 
-build_vim(){
+build_vim_install_deps() {
+
     if type apt > /dev/null; then
-        local deps='gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libperl-dev python3-dev ruby-dev'
+
+        local deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1'
+
         if [[ $(whoami) = 'root' ]]; then
             apt update
-            apt install -y git zsh tmux vim
+            apt install -y ${deps}
         else
             sudo apt update
-            sudo apt install -y git zsh tmux vim
+            sudo apt install -y ${deps}
         fi
+
     elif type yum > /dev/null; then
+
+        local deps='gcc make ncurses ncurses-devel git tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python python-devel python36u python36u-devel'
+
         if [[ $(whoami) = 'root' ]]; then
-            yum -y install git zsh tmux vim
+            yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+            yum install -y ${deps}
         else
-            sudo yum -y install git zsh tmux vim
+            sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+            sudo yum install -y ${deps}
         fi
     fi
 }
 
+build_vim_make_install() {
+    if [[ ! -d $HOME/programs ]]; then
+        mkdir -p $HOME/programs
+    fi
+
+    pushd $HOME/programs
+        ln -s $MYDOTFILES/tools/vim_myconfigure.sh
+        chmod +x ./vim_myconfigure.sh
+        ./vim_myconfigure.sh
+    popd
+}
+
+build_vim(){
+    build_vim_install_deps
+    build_vim_make_install
+}
 
 build_tools(){
     build_vim

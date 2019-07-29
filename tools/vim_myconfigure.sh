@@ -24,12 +24,13 @@ git pull
     --enable-gui=auto \
     --enable-luainterp=dynamic \
     --with-luajit \
-    --enable-perlinterp=dynamic \
     --enable-python3interp=dynamic \
-    --enable-pythoninterp=dynamic \
+    --with-python3-command=python3.6 \
     --enable-rubyinterp=dynamic \
     --enable-autoservername \
     --enable-terminal
+    # --enable-pythoninterp=dynamic \
+    # --enable-perlinterp=dynamic \
 
 
 make -j${CPUNUM} 
