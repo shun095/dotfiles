@@ -386,11 +386,20 @@ install_dependencies() {
     fi
 }
 
+install_vim_plugins() {
+    if type vim > /dev/null; then
+        if type git > /dev/null; then
+            vim -c ':PlugInstall' -c ':qa!'
+        fi
+    fi
+}
+
 deploy() {
     deploy_ohmyzsh_files
     deploy_selfmade_rcfiles
     deploy_fzf
     compile_zshfiles
+    install_vim_plugins
 }
 
 undeploy() {
