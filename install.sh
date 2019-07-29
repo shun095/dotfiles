@@ -374,6 +374,7 @@ compile_zshfiles() {
 }
 
 install_dependencies() {
+    echo -e "\n===== Installing essential sofwares ============================================\n"
     local deps='git zsh tmux'
 
     if type apt > /dev/null; then
