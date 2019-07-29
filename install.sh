@@ -379,6 +379,12 @@ install_dependencies() {
             sudo apt update
             sudo apt install -y git zsh tmux vim
         fi
+    elif type yum > /dev/null; then
+        if [[ $(whoami) = 'root' ]]; then
+            yum -y install git zsh tmux vim
+        else
+            sudo yum -y install git zsh tmux vim
+        fi
     fi
 
     if [[ ! -e $MYDOTFILES ]]; then
