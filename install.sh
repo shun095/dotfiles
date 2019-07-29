@@ -557,9 +557,6 @@ ascii_art
 if [[ $arg != "debug" ]]; then
     backup
     $arg
-# else
-#     debug function
-#     backup_file $2
 fi
 
 git_configulation
