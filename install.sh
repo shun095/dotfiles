@@ -169,17 +169,17 @@ remove_rcfiles_symlink() {
 }
 
 remove_rcfiles() {
-        echo -e "\n===== Removeing existing RC files ====================================\n"
+    echo -e "\n===== Removeing existing RC files ====================================\n"
 
-        for rcfile in ${ZSHFILES[@]}; do
-            name=$(basename $rcfile)
-            remove_rcfiles_symlink "${ZDOTDIR:-$HOME}/${name}"
-        done
+    for rcfile in ${ZSHFILES[@]}; do
+        name=$(basename $rcfile)
+        remove_rcfiles_symlink "${ZDOTDIR:-$HOME}/${name}"
+    done
 
-        for item in ${SYMLINKS[@]}; do
-            remove_rcfiles_symlink $item
-        done
-        unset item
+    for item in ${SYMLINKS[@]}; do
+        remove_rcfiles_symlink $item
+    done
+    unset item
 }
 
 uninstall_plugins() {
@@ -193,6 +193,7 @@ uninstall_plugins() {
 }
 
 git_configulation() {
+    echo -e "\n===== Configuring Git ====================================\n"
     git config --global core.editor vim
     git config --global alias.graph "log --graph --all --date=local --pretty=format:'%C(auto)%h%C(magenta) %cd %C(yellow)[%cr]%C(auto)%d%n    %C(auto)%s%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset'"
 }
