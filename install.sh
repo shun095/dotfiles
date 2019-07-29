@@ -571,5 +571,5 @@ ascii_art
 if [[ $arg != "debug" ]]; then
     backup
     $arg
+    echo -e "\nFINISHED!!!\n"
 fi
-echo -e "\nFINISHED!!!\n"
