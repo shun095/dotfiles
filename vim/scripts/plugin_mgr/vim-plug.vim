@@ -15,7 +15,7 @@ let g:plugin_mgr = {
 fun! g:plugin_mgr.install() abort
   let succeeded = g:false
 
-  exe printf('!curl -fLo "%s/.vim/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',substitute($HOME,'\','/','g'))
+  call system(printf('curl -fLo "%s/.vim/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',substitute($HOME,'\','/','g')))
 
   if v:shell_error == 0
     let succeeded = g:true
