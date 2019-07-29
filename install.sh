@@ -402,17 +402,15 @@ install_dependencies() {
 install_vim_plugins() {
     echo -e "\n===== Installing vim plugins ============================================\n"
 
-    if type vim > /dev/null; then
-        :
-    else
-        export PATH=$PATH:$HOME/build/vim/bin
-    fi
+    export PATH=$PATH:$HOME/build/vim/bin
 
     if type vim > /dev/null && type git > /dev/null; then
         if [[ ! -d $HOME/.vim/plugged ]]; then
             vim --cmd 'set shortmess=a cmdheight=2' -c ':PlugInstall' -c ':qa!' || true
         fi
     fi
+
+    echo -e "\n===== Installing vim plugins Finished!! ============================================\n"
 }
 
 build_vim_install_deps() {
@@ -501,17 +499,6 @@ install() {
     download_repositories
     undeploy
     deploy
-
-    case $SHELL in
-        */zsh) 
-            :
-            ;;
-        *)
-            if type zsh > /dev/null; then
-                zsh
-            fi
-            ;;
-    esac
 }
 
 uninstall() {
