@@ -400,6 +400,8 @@ install_dependencies() {
 }
 
 install_vim_plugins() {
+    echo -e "\n===== Installing vim plugins ============================================\n"
+
     if type vim > /dev/null; then
         :
     else
@@ -414,10 +416,11 @@ install_vim_plugins() {
 }
 
 build_vim_install_deps() {
+    echo -e "\n===== Installing vim build dependencies ============================================\n"
 
     if type apt > /dev/null; then
 
-        local deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1'
+        local deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential cmake python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1'
 
         if [[ $(whoami) = 'root' ]]; then
             apt update
@@ -429,7 +432,7 @@ build_vim_install_deps() {
 
     elif type yum > /dev/null; then
 
-        local deps='gcc make ncurses ncurses-devel git tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python python-devel python36u python36u-devel'
+        local deps='gcc make ncurses ncurses-devel cmake git tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python python-devel python36u python36u-devel'
 
         if [[ $(whoami) = 'root' ]]; then
             yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
@@ -442,6 +445,8 @@ build_vim_install_deps() {
 }
 
 build_vim_make_install() {
+    echo -e "\n===== Compiling vim ============================================\n"
+
     if [[ ! -d $HOME/programs ]]; then
         mkdir -p $HOME/programs
     fi
@@ -505,6 +510,7 @@ install() {
             if type zsh > /dev/null; then
                 zsh
             fi
+            ;;
     esac
 }
 
