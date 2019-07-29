@@ -392,11 +392,7 @@ if mymisc#plug_tap('vim-quickrun')
     endif
   endfunction
 
-  try
-    call quickrun#module#register(s:hook, 1)
-  catch
-    echom v:exception
-  endtry
+  call quickrun#module#register(s:hook, 1)
   unlet s:hook
   " }}}
 
