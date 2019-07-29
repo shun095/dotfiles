@@ -387,9 +387,9 @@ install_dependencies() {
 }
 
 install_vim_plugins() {
-    if type vim > /dev/null; then
-        if type git > /dev/null; then
-            vim -c ':PlugInstall' -c ':qa!'
+    if type vim > /dev/null && type git > /dev/null; then
+        if [[ ! -d $HOME/.vim/plugged ]]; then
+            vim -c ':PlugInstall' -c ':qa!' || true
         fi
     fi
 }
