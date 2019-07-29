@@ -441,7 +441,7 @@ build_vim_make_install() {
         fi
 
         if [[ ! -d vim ]]; then
-            git clone https://github.com/vim/vim
+            git clone --depth 1 https://github.com/vim/vim
         fi
 
         chmod +x ./vim_myconfigure.sh
