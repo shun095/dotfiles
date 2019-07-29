@@ -432,7 +432,7 @@ build_vim_install_deps() {
 
     elif type yum > /dev/null; then
 
-        local deps='gcc make ncurses ncurses-devel cmake git tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python python-devel python36u python36u-devel'
+        local deps='gcc make ncurses ncurses-devel cmake git tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
 
         if [[ $(whoami) = 'root' ]]; then
             yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
