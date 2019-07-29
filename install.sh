@@ -362,11 +362,11 @@ compile_zshfiles() {
     case $SHELL in
         */zsh) 
             # assume Zsh
-            $MYDOTFILES/tools/zsh_compile.zsh
+            $MYDOTFILES/tools/zsh_compile.zsh || true
             ;;
         *)
             if type zsh > /dev/null; then
-                zsh $MYDOTFILES/tools/zsh_compile.zsh
+                zsh $MYDOTFILES/tools/zsh_compile.zsh || true
             else
                 echo -e "\nCurrent shell is not zsh. skipping.\n"
             fi
