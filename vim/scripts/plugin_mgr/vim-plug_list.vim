@@ -183,7 +183,7 @@ Plug 'junegunn/vim-peekaboo'
 if has('win32')
   Plug 'ishitaku5522/cpsm'
 else
-  Plug 'nixprime/cpsm', {'do': 'bash install.sh'}
+  Plug 'nixprime/cpsm'
 endif
 
 Plug 'mbbill/undotree', {'on': ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']}
