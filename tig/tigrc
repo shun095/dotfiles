@@ -29,7 +29,7 @@ set ignore-case = true
 set diff-options = -m --first-parent
 
 # マウスを有効にする
-set mouse = true
+# set mouse = true
 
 # '+行数' の形で Editor に行番号を引数として渡すか
 set editor-line-number = yes
