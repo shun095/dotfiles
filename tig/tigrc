@@ -14,7 +14,7 @@ set blob-view   = line-number:yes,interval=1 text
 set diff-view   = line-number:yes,interval=1 text:yes,commit-title-overflow=no
 
 # 横分割に強制する
-set vertical-split = no
+# set vertical-split = no
 
 # utf-8 文字で画面描画する (~でトグル)
 set line-graphics = utf-8
@@ -55,9 +55,14 @@ bind main    G      move-last-line
 # Alt-g で :toggle commit-title-graph
 bind main    <Ctrl-g> :toggle commit-title-graph
 
-# Ctrl-f, Ctrl-b で左右スクロール
-bind generic <Ctrl-f> scroll-right
-bind generic <Ctrl-b> scroll-left
+bind generic <Ctrl-f> move-page-down
+bind generic <Ctrl-b> move-page-up
+
+bind generic l scroll-right
+bind generic h scroll-left
+
+bind generic L view-log
+bind generic H view-help
 
 # . で HEAD との diff
 bind main    .      !sh -c "git diff %(commit) | tig"
