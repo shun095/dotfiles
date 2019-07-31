@@ -63,6 +63,7 @@ bind generic h scroll-left
 
 bind generic L view-log
 bind generic H view-help
+bind main H view-help
 
 # . で HEAD との diff
 bind main    .      !sh -c "git diff %(commit) | tig"
