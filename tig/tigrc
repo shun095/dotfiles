@@ -1,10 +1,10 @@
 # Reference: https://qiita.com/sfus/items/063797a1dd8fdc7d032f
 
 # main view の左端にコミットIDを表示する
-set main-view = id date author:email-user commit-title:graph=yes,refs=yes
+set main-view = date id author:email-user,width=0 commit-title:graph=v2,refs=yes,overflow=yes
 
 # blame view の行数表示をON、intervalを1に
-set blame-view  = date:default author:email-user id:yes,color line-number:yes,interval=1 text
+set blame-view  = date author:email-user,width=0 id:color=yes line-number:yes,interval=1 text
 
 # Pager系の行数表示をON、intervalを1に (default: line-number:no,interval=5)
 set pager-view  = line-number:yes,interval=1 text
@@ -17,7 +17,7 @@ set diff-view   = line-number:yes,interval=1 text:yes,commit-title-overflow=no
 # set vertical-split = no
 
 # utf-8 文字で画面描画する (~でトグル)
-set line-graphics = utf-8
+# set line-graphics = utf-8
 
 # タブサイズ
 set tab-size = 4
