@@ -1,7 +1,7 @@
 # Reference: https://qiita.com/sfus/items/063797a1dd8fdc7d032f
 
 # main view の左端にコミットIDを表示する
-set main-view = date id author:email-user,width=0 commit-title:graph=v2,refs=yes,overflow=yes
+set main-view = date id author:email-user,width=0 commit-title:graph=v2,refs=yes,overflow=no
 
 # blame view の行数表示をON、intervalを1に
 set blame-view  = date author:email-user,width=0 id:color=yes line-number:yes,interval=1 text
