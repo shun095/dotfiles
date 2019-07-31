@@ -39,6 +39,7 @@ TMUXCONF="$HOME/.tmux.conf"
 FLAKE8="$HOME/.config/flake8"
 VINTRC="$HOME/.vintrc.yml"
 EMACSINIT="$HOME/.spacemacs"
+TIGRC="$HOME/.tigrc"
 if [[ $OSTYPE == 'msys' ]]; then
     NVIMRC="$USERPROFILE/AppData/Local/nvim/init.vim"
     GNVIMRC="$USERPROFILE/AppData/Local/nvim/ginit.vim"
@@ -56,6 +57,7 @@ ${VINTRC}
 ${EMACSINIT}
 ${NVIMRC}
 ${GNVIMRC}
+${TIGRC}
 )
 
 SYMTARGET=(
@@ -67,6 +69,7 @@ SYMTARGET=(
 "${MYDOTFILES}/emacs/spacemacs"
 "${MYDOTFILES}/vim/vimrc.vim"
 "${MYDOTFILES}/vim/ginit.vim"
+"${MYDOTFILES}/tig/tigrc"
 )
 
 # actual files

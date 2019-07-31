@@ -115,6 +115,11 @@ function fadd() {
     done
 }
 
+function fghq() {
+    local dir
+    dir=$(ghq list > /dev/null | fzf --no-multi) && cd $(ghq root)/$dir
+}
+
 if type trash-put > /dev/null; then
     alias trm="trash-put"
 fi
