@@ -39,10 +39,12 @@ set refresh-mode = auto
 
 # カラー設定
 # diff-view で境界が見やすくなるように変更
-color diff-header black yellow
-color diff-chunk  black magenta
+color diff-header black white
+color diff-chunk  black white
 
-color cursor      black white
+color cursor      black yellow
+color title-blur  black white
+color title-focus black green
 
 # g をファイル先頭に移動に変更、 view-grep を再割当て
 bind generic g      move-first-line
