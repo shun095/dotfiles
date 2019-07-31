@@ -65,6 +65,8 @@ bind generic L view-log
 bind generic H view-help
 bind main H view-help
 
+bind generic <Ctrl-r> refresh
+
 # . で HEAD との diff
 bind main    .      !sh -c "git diff %(commit) | tig"
 bind diff    .      !sh -c "git diff %(commit) | tig"
