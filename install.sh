@@ -419,6 +419,21 @@ install_vim_plugins() {
     echo -e "\n===== Installing vim plugins Finished!! ============================================\n"
 }
 
+update_vim_plugins() {
+    echo -e "\n===== Updating vim plugins ============================================\n"
+
+    export PATH=$PATH:$HOME/build/vim/bin
+
+    if type vim > /dev/null && type git > /dev/null; then
+        if [[ -d $HOME/.vim/plugged ]]; then
+            vim --not-a-term --cmd 'set shortmess=a cmdheight=2' -c ':PlugUpdate --sync' -c ':silent! :qa!'
+            stty sane
+        fi
+    fi
+
+    echo -e "\n===== Updating vim plugins Finished!! ============================================\n"
+}
+
 build_vim_install_deps() {
     echo -e "\n===== Installing vim build dependencies ============================================\n"
 
@@ -513,7 +528,11 @@ redeploy() {
 
 update() {
     update_repositories
+    if [[ -e $HOME/programs/vim_myconfigure.sh ]]; then
+        build_vim_make_install
+    fi
     redeploy
+    update_vim_plugins
 }
 
 install() {

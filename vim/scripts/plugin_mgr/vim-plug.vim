@@ -6,10 +6,15 @@ if exists("g:plugin_mgr")
   finish
 endif
 
+" init_state: none/installing/installed
+"   none:       Not installed
+"   installing: Installing at this launch
+"   installed:  Already installed
 let g:plugin_mgr = {
       \ 'plugin_dir': escape(substitute($HOME.'/.vim/plugged','\','/','g'),' '),
       \ 'manager_dir': escape(substitute($HOME.'/.vim/autoload','\','/','g'),' '),
       \ 'enabled': false,
+      \ 'init_state': "none"
       \}
 
 fun! g:plugin_mgr.install() abort
@@ -32,7 +37,10 @@ fun! g:plugin_mgr.load() abort
     if self.install()
       exe 'source ' . self.manager_dir . '/plug.vim'
       let self.enabled = g:true
+      let self.init_state = "installing"
     endif
+  else
+    let self.init_state = "installed"
   endif
 endf
 
@@ -43,8 +51,9 @@ fun! g:plugin_mgr.init() abort
   source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug_list.vim
   call plug#end()
 
-  " source $MYVIMHOME/scripts/lazy_hooks.vim
+  return self.init_state
 
+  " source $MYVIMHOME/scripts/lazy_hooks.vim
   " augroup _myplug
   "   autocmd!
   "   for plugname in keys(g:plugs)
