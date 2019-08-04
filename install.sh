@@ -107,32 +107,32 @@ sleep 1
 }
 
 update_repositories() {
-        echo -e "\n===== Checking plugin repositories ===================================\n"
+    echo -e "\n===== Checking plugin repositories ===================================\n"
 
-        pushd ${MYDOTFILES}
+    pushd ${MYDOTFILES}
+        git pull
+    popd
+    echo "Checking fzf repository"
+    pushd ${FZFDIR}
+        git pull
+    popd
+    echo "Upgrading oh-my-zsh repository"
+    pushd ${OHMYZSHDIR}
+        sh ./tools/upgrade.sh
+    popd
+    echo "Upgrading oh-my-zsh plugins"
+    pushd ${OHMYZSHDIR}/custom/plugins
+        pushd zsh-syntax-highlighting
             git pull
         popd
-        echo "Checking fzf repository"
-        pushd ${FZFDIR}
+        pushd zsh-autosuggestions
             git pull
         popd
-        echo "Upgrading oh-my-zsh repository"
-        pushd ${OHMYZSHDIR}
-            sh ./tools/upgrade.sh
+        pushd zsh-completions
+        git pull
         popd
-        echo "Upgrading oh-my-zsh plugins"
-        pushd ${OHMYZSHDIR}/custom/plugins
-            pushd zsh-syntax-highlighting
-                git pull
-            popd
-            pushd zsh-autosuggestions
-                git pull
-            popd
-            pushd zsh-completions
-            git pull
-            popd
-        popd
-    }
+    popd
+}
 
 backup_file() {
     # .~rc exists
@@ -196,7 +196,7 @@ uninstall_plugins() {
 }
 
 git_configulation() {
-    echo -e "\n===== Configuring Git ====================================\n"
+    echo -e "\n===== Configuring Git ================================================\n"
     git config --global core.editor vim
     git config --global alias.graph "log --graph --all --date=local --pretty=format:'%C(auto)%h%C(magenta) %cd %C(yellow)[%cr]%C(auto)%d%n    %C(auto)%s%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset'"
 }
@@ -378,7 +378,7 @@ compile_zshfiles() {
 }
 
 install_dependencies() {
-    echo -e "\n===== Installing essential sofwares ============================================\n"
+    echo -e "\n===== Installing essential sofwares ==================================\n"
     local deps='git zsh tmux'
 
     if type apt > /dev/null; then
@@ -405,7 +405,7 @@ install_dependencies() {
 }
 
 install_vim_plugins() {
-    echo -e "\n===== Installing vim plugins ============================================\n"
+    echo -e "\n===== Installing vim plugins =========================================\n"
 
     export PATH=$PATH:$HOME/build/vim/bin
 
@@ -414,12 +414,10 @@ install_vim_plugins() {
             vim --not-a-term --cmd 'set shortmess=a cmdheight=2' -c ':PlugInstall --sync' -c ':qa!'
         fi
     fi
-
-    echo -e "\n===== Installing vim plugins Finished!! ============================================\n"
 }
 
 update_vim_plugins() {
-    echo -e "\n===== Updating vim plugins ============================================\n"
+    echo -e "\n===== Updating vim plugins ===========================================\n"
 
     export PATH=$PATH:$HOME/build/vim/bin
 
@@ -428,12 +426,10 @@ update_vim_plugins() {
             vim --not-a-term --cmd 'set shortmess=a cmdheight=2' -c ':PlugUpdate --sync' -c ':qa!'
         fi
     fi
-
-    echo -e "\n===== Updating vim plugins Finished!! ============================================\n"
 }
 
 build_vim_install_deps() {
-    echo -e "\n===== Installing vim build dependencies ============================================\n"
+    echo -e "\n===== Installing vim build dependencies ==============================\n"
 
     if type apt > /dev/null; then
 
@@ -464,7 +460,7 @@ build_vim_install_deps() {
 }
 
 build_vim_make_install() {
-    echo -e "\n===== Compiling vim ============================================\n"
+    echo -e "\n===== Compiling vim ==================================================\n"
 
     if [[ ! -d $HOME/programs ]]; then
         mkdir -p $HOME/programs
