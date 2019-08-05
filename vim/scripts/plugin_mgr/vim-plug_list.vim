@@ -100,10 +100,12 @@ Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'ishitaku5522/nerdtree-git-plugin'
-Plug 'francoiscabrol/ranger.vim'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
-" Plug 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons'
 " Plug 'justinmk/vim-dirvish'
+"
+Plug 'francoiscabrol/ranger.vim'
 
 " Plug 'Shougo/defx.nvim'
 " Plug 'kristijanhusak/defx-git'
@@ -170,12 +172,12 @@ Plug 'vim-scripts/bash-support.vim'
 " Plug 'hdima/python-syntax'
 
 " General purpose viewers/indicators
-Plug 'ishitaku5522/ctrlp.vim', {'branch': 'develop'}
-Plug 'mattn/ctrlp-register'
-Plug 'mattn/ctrlp-mark'
+" Plug 'ishitaku5522/ctrlp.vim', {'branch': 'develop'}
+" Plug 'mattn/ctrlp-register'
+" Plug 'mattn/ctrlp-mark'
 
 " Plug 'FelikZ/ctrlp-py-matcher'
-" Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim'
 
 " Plug 'Shougo/denite.nvim'
 
