@@ -708,9 +708,10 @@ if mymisc#plug_tap('ctrlp.vim')
           \ let g:ctrlp_match_func = s:ctrlp_my_match_func
   augroup END
 
-  command! CtrlPOldFiles let g:ctrlp_match_func = {} |
-        \ cal ctrlp#init(ctrlp#oldfiles#id()) |
-        \ let g:ctrlp_match_func = s:ctrlp_my_match_func
+  command! CtrlPOldFiles cal ctrlp#init(ctrlp#oldfiles#id())
+  " command! CtrlPOldFiles let g:ctrlp_match_func = {} |
+  "       \ cal ctrlp#init(ctrlp#oldfiles#id()) |
+  "       \ let g:ctrlp_match_func = s:ctrlp_my_match_func
 
   nnoremap <Leader><Leader> :CtrlP<CR>
   nnoremap <Leader>T        :CtrlPTag<CR>
@@ -741,7 +742,9 @@ if mymisc#plug_tap('ctrlp.vim')
   endif
   " else
   "   " Brought from denite
-  " let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
+  if has('unix')
+    let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
+  endif
   " let g:ctrlp_user_command = 'find %s -type f'       " MacOSX/Linux
   " endif
 
