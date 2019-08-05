@@ -7,13 +7,17 @@ let s:V = vital#mymisc#new()
 let s:File = s:V.import('System.File')
 
 fun! mymisc#ime_deactivate() abort
-  if !g:mymisc_fcitx_is_available
+  if !has('mac') && !g:mymisc_fcitx_is_available
     return
   endif
 
-  let fcitx_dbus = system('fcitx-remote -a')
-  if fcitx_dbus !=# ''
-    call system('fcitx-remote -c')
+  if g:mymisc_fcitx_is_available
+    let fcitx_dbus = system('fcitx-remote -a')
+    if fcitx_dbus !=# ''
+      call system('fcitx-remote -c')
+    endif
+  elseif has('mac')
+    call system('osascript -e "tell application \"System Events\" to key code 102"')
   endif
 endf
 
