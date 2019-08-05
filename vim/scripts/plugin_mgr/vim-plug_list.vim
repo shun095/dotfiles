@@ -100,6 +100,7 @@ Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'ishitaku5522/nerdtree-git-plugin'
+Plug 'francoiscabrol/ranger.vim'
 
 " Plug 'ryanoasis/vim-devicons'
 " Plug 'justinmk/vim-dirvish'
@@ -165,6 +166,7 @@ Plug 'pboettch/vim-cmake-syntax', {'for': ['cmake']}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
 Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
 Plug 'aklt/plantuml-syntax', {'for': ['plantuml']}
+Plug 'vim-scripts/bash-support.vim'
 " Plug 'hdima/python-syntax'
 
 " General purpose viewers/indicators

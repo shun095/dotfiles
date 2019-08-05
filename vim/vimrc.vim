@@ -755,7 +755,14 @@ try
     let g:vimproc#download_windows_dll = 1
 
     " Initialize plugin manager
-    call g:plugin_mgr['init']()
+    if g:plugin_mgr['init']() == "installing"
+
+      augroup vimplug_install
+        autocmd!
+        autocmd VimEnter * PlugInstall --sync | source ~/.vimrc
+      augroup END
+      finish
+    endif
 
     try
       " Load settings of plugins
