@@ -102,7 +102,7 @@ Plug 'jistr/vim-nerdtree-tabs'
 Plug 'ishitaku5522/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
-Plug 'ryanoasis/vim-devicons'
+" Plug 'ryanoasis/vim-devicons'
 " Plug 'justinmk/vim-dirvish'
 "
 Plug 'francoiscabrol/ranger.vim'
