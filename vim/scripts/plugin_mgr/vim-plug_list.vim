@@ -78,7 +78,7 @@ let g:terminal_ansi_colors = [
 "   Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 " endif
 
-" Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe', {'do':'./install.py --clang-completer'}
 " Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
 " Plug 'ervandew/supertab'
 
