@@ -495,9 +495,6 @@ make_install() {
     local script=$1
     local repo=$2
 
-    local script="vim_myconfigure.sh"
-    local repo="https://github.com/vim/vim"
-
     if [[ ! -d $HOME/programs ]]; then
         mkdir -p $HOME/programs
     fi
