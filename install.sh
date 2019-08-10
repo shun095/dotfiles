@@ -697,3 +697,7 @@ echo -e "\nFINISHED!!!\n"
 if [ ${arg} = "install" ] && type zsh && ! echo $SHELL | grep zsh; then
     zsh --login
 fi
+
+if echo $SHELL | grep zsh; then
+    source $HOME/.zshrc
+fi
