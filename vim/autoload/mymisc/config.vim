@@ -20,12 +20,12 @@ function! mymisc#config#asyncomplete_setup()
           \  }))
   endif
 
-  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#tsuquyomi#get_source_options({
-        \ 'name': 'tsuquyomi',
-        \ 'whitelist': ['javascript','typescript'],
-        \ 'priority': 100,
-        \ 'completor': function('asyncomplete#sources#tsuquyomi#completor')
-        \  }))
+  " au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#tsuquyomi#get_source_options({
+  "       \ 'name': 'tsuquyomi',
+  "       \ 'whitelist': ['javascript','typescript'],
+  "       \ 'priority': 100,
+  "       \ 'completor': function('asyncomplete#sources#tsuquyomi#completor')
+  "       \  }))
 
   if mymisc#plug_tap('asyncomplete-necovim.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({

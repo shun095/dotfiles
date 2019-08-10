@@ -989,9 +989,11 @@ if mymisc#plug_tap('ale')
         \ }
   let g:ale_fix_on_save = 0
   let g:ale_linters = {
-        \ 'cpp':    [''],
-        \ 'python': [''],
-        \ 'java':   [''],
+        \ 'cpp':        [''],
+        \ 'python':     [''],
+        \ 'java':       [''],
+        \ 'javascript': [''],
+        \ 'typescript': [''],
         \ }
   let g:ale_sign_error = 'E'
   let g:ale_sign_warning = 'W'
@@ -1134,24 +1136,24 @@ if mymisc#plug_tap('vim-lsp')
         \     'is_executable': executable('vls') || executable($APPDATA.'/npm/vls.cmd'),
         \     'cmd': [&shell, &shellcmdflag, 'vls'],
         \   }
-  " let g:myvimrc_lsp_general_config['typescript-language-server'] =
-  "       \   {
-  "       \     'name': 'typescript-language-server',
-  "       \     'filetype': ['javascript', 'javascript.jsx', 'typescript'],
-  "       \     'is_executable':
-  "       \       executable('typescript-language-server')
-  "       \       || executable($APPDATA.'/npm/typescript-language-server'),
-  "       \     'cmd': [&shell, &shellcmdflag, 'typescript-language-server --stdio'],
-  "       \   }
+  let g:myvimrc_lsp_general_config['typescript-language-server'] =
+        \   {
+        \     'name': 'typescript-language-server',
+        \     'filetype': ['javascript', 'javascript.jsx', 'typescript'],
+        \     'is_executable':
+        \       executable('typescript-language-server')
+        \       || executable($APPDATA.'/npm/typescript-language-server'),
+        \     'cmd': [&shell, &shellcmdflag, 'typescript-language-server --stdio'],
+        \   }
   " let g:myvimrc_lsp_general_config['javascript-typescript-stdio'] =
-  "       \   {
-  "       \     'name': 'javascript-typescript-stdio',
-  "       \     'filetype': ['javascript', 'javascript.jsx', 'typescript'],
-  "       \     'is_executable':
-  "       \       executable('javascript-typescript-stdio')
-  "       \       || executable($APPDATA.'/npm/javascript-typescript-stdio'),
-  "       \     'cmd': [&shell, &shellcmdflag, 'javascript-typescript-stdio'],
-  "       \   }
+        " \   {
+        " \     'name': 'javascript-typescript-stdio',
+        " \     'filetype': ['javascript', 'javascript.jsx', 'typescript'],
+        " \     'is_executable':
+        " \       executable('javascript-typescript-stdio')
+        " \       || executable($APPDATA.'/npm/javascript-typescript-stdio'),
+        " \     'cmd': [&shell, &shellcmdflag, 'javascript-typescript-stdio'],
+        " \   }
   let g:myvimrc_lsp_general_config['java'] =
         \   {
         \     'name': 'eclipse.jdt.ls',
