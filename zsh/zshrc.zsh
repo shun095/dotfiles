@@ -71,9 +71,9 @@ function urlencode {
 }
 
 function tmux_call(){
-    title "$USER@$HOST"
-    export DISABLE_AUTO_TITLE=true
     if [[ $# -eq 0 ]]; then
+        title "$USER@$HOST"
+        export DISABLE_AUTO_TITLE=true
         if [[ $(\tmux list-sessions 2>/dev/null|wc -l) -ne 0 ]]; then
             _tmux_call_exist_sessions=($(\tmux list-sessions|sed "s/:.*//"))
             _tmux_call_attached_sessions=($(\tmux list-sessions|grep attached|sed "s/:.*//"))
@@ -93,10 +93,10 @@ function tmux_call(){
         else
             \tmux -u attach -t ${_tmux_call_detached_sessions[1]}
         fi
+        export DISABLE_AUTO_TITLE=
     else
         \tmux $*
     fi
-    export DISABLE_AUTO_TITLE=
 }
 
 function fadd() {
