@@ -611,7 +611,6 @@ update() {
 
 install() {
     install_essential_dependencies
-    buildtools
     download_plugin_repositories
     undeploy
     deploy
