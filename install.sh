@@ -667,7 +667,7 @@ check_arguments() {
         debug)     ;;
         buildtools)     ;;
         *)
-            echo "Unknown argument: $arg"
+            echo "Unknown argument: ${arg}"
             help
             exit 1
             ;;
@@ -684,12 +684,16 @@ else
     arg=$1
 fi
 
-check_arguments $arg
+check_arguments ${arg}
 ascii_art
 
-if [[ $arg != "debug" ]]; then
+if [[ ${arg} != "debug" ]]; then
     backup
-    $arg
+    ${arg}
 fi
 
 echo -e "\nFINISHED!!!\n"
+
+if [ ${arg} = "install" ] && type zsh && ! echo $SHELL | grep zsh; then
+    zsh --login
+fi
