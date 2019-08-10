@@ -401,7 +401,7 @@ install_dependencies() {
         git clone https://github.com/ishitaku5522/dotfiles $MYDOTFILES
     fi
 
-    build_vim
+    build_tools
 }
 
 install_vim_plugins() {
