@@ -229,12 +229,12 @@ git_configulation() {
 download_plugin_repositories(){
     # install fzf
     if [[ ! -e ${FZFDIR} ]]; then
-        echo_section "Download fzf"
+        echo_section "Downloading fzf"
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf &
     fi
 
     if [[ ! -e ${OHMYZSHDIR} ]]; then
-        echo_section "Download oh my zsh"
+        echo_section "Downloading oh my zsh"
         git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
         pushd ~/.oh-my-zsh/custom/plugins
             git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git &
@@ -403,6 +403,7 @@ compile_zshfiles() {
 }
 
 clone_dotfiles_repository() {
+    echo_section "Cloning dotfiles repository"
     if [[ ! -e $MYDOTFILES ]]; then
         git clone https://github.com/ishitaku5522/dotfiles $MYDOTFILES
     fi
