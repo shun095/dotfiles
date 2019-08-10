@@ -81,12 +81,14 @@ help() {
 
 usage: $0 [arg]
 
-    --help    Show this message
-    reinstall Refetch zsh-plugins from repository and reinstall.
-    redeploy  Delete symbolic link and link again.
-    update    Update plugins
-    undeploy  Delete symbolic link
-    uninstall Uninstall
+    --help      Show this message
+    install     Unstall
+    buildtools  Build tools from newest codes
+    reinstall   Refetch zsh-plugins from repository and reinstall.
+    redeploy    Delete symbolic link and link again.
+    update      Update plugins
+    undeploy    Delete symbolic link
+    uninstall   Uninstall
 
 EOF
 }
@@ -549,7 +551,17 @@ build_tmux(){
     build_tmux_make_install
 }
 
-build_tools(){
+uninstall_built_tools(){
+    \unlink /home/shun/programs/vim_myconfigure.sh
+    \rm -rf $HOME/programs/vim
+    \rm -rf $HOME/build/vim
+
+    \unlink /home/shun/programs/tmux_myconfigure.sh
+    \rm -rf $HOME/programs/tmux
+    \rm -rf $HOME/build/tmux
+}
+
+buildtools(){
     build_vim
     build_tmux
 }
@@ -590,13 +602,16 @@ update() {
     if [[ -e $HOME/programs/vim_myconfigure.sh ]]; then
         build_vim_make_install
     fi
+    if [[ -e $HOME/programs/tmux_myconfigure.sh ]]; then
+        build_tmux_make_install
+    fi
     redeploy
     update_vim_plugins
 }
 
 install() {
     install_essential_dependencies
-    build_tools
+    buildtools
     download_plugin_repositories
     undeploy
     deploy
@@ -604,16 +619,13 @@ install() {
 
 uninstall() {
     uninstall_plugins
+    uninstall_built_tools
     undeploy
 }
 
 reinstall() {
     uninstall
     install
-}
-
-build(){
-    build_tools
 }
 
 check_arguments() {
@@ -629,7 +641,7 @@ check_arguments() {
         undeploy)  ;;
         uninstall) ;;
         debug)     ;;
-        build)     ;;
+        buildtools)     ;;
         *)
             echo "Unknown argument: $arg"
             help
