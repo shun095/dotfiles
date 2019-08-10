@@ -433,7 +433,7 @@ build_vim_install_deps() {
 
     if type apt > /dev/null; then
 
-        local deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential cmake python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1'
+        local deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1'
 
         if [[ $(whoami) = 'root' ]]; then
             apt update
@@ -445,38 +445,7 @@ build_vim_install_deps() {
 
     elif type yum > /dev/null; then
 
-        local deps='gcc make ncurses ncurses-devel cmake git2u tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
-
-        if [[ $(whoami) = 'root' ]]; then
-            yum remove git* -y
-            yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
-            yum install -y ${deps} || true
-        else
-            sudo yum remove git* -y
-            sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
-            sudo yum install -y ${deps} || true
-        fi
-    fi
-}
-
-build_vim_install_deps() {
-    echo -e "\n===== Installing vim build dependencies ==============================\n"
-
-    if type apt > /dev/null; then
-
-        local deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential cmake python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1'
-
-        if [[ $(whoami) = 'root' ]]; then
-            apt update
-            apt install -y ${deps}
-        else
-            sudo apt update
-            sudo apt install -y ${deps}
-        fi
-
-    elif type yum > /dev/null; then
-
-        local deps='gcc make ncurses ncurses-devel cmake git2u tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
+        local deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
 
         if [[ $(whoami) = 'root' ]]; then
             yum remove git* -y
