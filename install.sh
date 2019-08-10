@@ -201,7 +201,7 @@ git_configulation() {
     git config --global alias.graph "log --graph --all --date=local --pretty=format:'%C(auto)%h%C(magenta) %cd %C(yellow)[%cr]%C(auto)%d%n    %C(auto)%s%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset'"
 }
 
-download_repositories(){
+download_plugin_repositories(){
     # install fzf
     if [[ ! -e ${FZFDIR} ]]; then
         echo -e "\n===== Download fzf ===================================================\n"
@@ -597,7 +597,7 @@ update() {
 install() {
     install_essential_dependencies
     build_tools
-    download_repositories
+    download_plugin_repositories
     undeploy
     deploy
 }
