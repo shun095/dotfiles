@@ -519,7 +519,7 @@ make_install() {
             ln -s $MYDOTFILES/tools/${script}
         fi
 
-        if [[ ! -d vim ]]; then
+        if [[ ! -d $(echo "${repo}" | rev | cut -d'/' -f 1 | rev) ]]; then
             git clone --depth 1 ${repo}
         fi
 
