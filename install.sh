@@ -106,8 +106,33 @@ EOF
 sleep 1
 }
 
+echo_section() {
+    local desc=$1
+    local num_desc=${#desc}
+    local num_remain=$(tput cols)
+    local result=''
+
+    for i in $(seq 5); do
+        result="${result}="
+        num_remain=$((${num_remain}-1))
+    done
+    result="${result} "
+    num_remain=$((${num_remain}-1))
+
+    result="${result}${desc}"
+    num_remain=$((${num_remain}-${num_desc}))
+
+    result="${result} "
+    num_remain=$((${num_remain}-1))
+
+    for i in $(seq ${num_remain}); do
+        result="${result}="
+    done
+    echo -e "\n\e[32m${result}\n\e[0m"
+}
+
 update_repositories() {
-    echo -e "\n===== Checking plugin repositories ===================================\n"
+    echo_section "Checking plugin repositories"
 
     pushd ${MYDOTFILES}
         git pull
@@ -172,7 +197,7 @@ remove_rcfiles_symlink() {
 }
 
 remove_rcfiles() {
-    echo -e "\n===== Removeing existing RC files ====================================\n"
+    echo_section "Removeing existing RC files"
 
     for rcfile in ${ZSHFILES[@]}; do
         name=$(basename $rcfile)
@@ -196,7 +221,7 @@ uninstall_plugins() {
 }
 
 git_configulation() {
-    echo -e "\n===== Configuring Git ================================================\n"
+    echo_section "Configuring Git"
     git config --global core.editor vim
     git config --global alias.graph "log --graph --all --date=local --pretty=format:'%C(auto)%h%C(magenta) %cd %C(yellow)[%cr]%C(auto)%d%n    %C(auto)%s%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset'"
 }
@@ -204,12 +229,12 @@ git_configulation() {
 download_plugin_repositories(){
     # install fzf
     if [[ ! -e ${FZFDIR} ]]; then
-        echo -e "\n===== Download fzf ===================================================\n"
+        echo_section "Download fzf"
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf &
     fi
 
     if [[ ! -e ${OHMYZSHDIR} ]]; then
-        echo -e "\n===== Download oh my zsh =============================================\n"
+        echo_section "Download oh my zsh"
         git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
         pushd ~/.oh-my-zsh/custom/plugins
             git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git &
@@ -289,7 +314,7 @@ insert_line() {
 }
 
 deploy_ohmyzsh_files() {
-    echo -e "\n===== Installing oh my zsh ===========================================\n"
+    echo_section "Installing oh my zsh"
 
     for item in ${ZSHFILES[@]}; do
         # restore zshfiles backup if exists
@@ -321,7 +346,7 @@ deploy_ohmyzsh_files() {
 
 deploy_selfmade_rcfiles() {
     # make symlinks
-    echo -e "\n===== Installing RC files ============================================\n"
+    echo_section "Installing RC files"
     final_idx_simlinks=$(expr ${#SYMLINKS[@]} - 1)
     for i in $(seq 0 ${final_idx_simlinks}); do
         if [[ ! -e ${SYMLINKS[${i}]} ]]; then
@@ -338,7 +363,7 @@ deploy_selfmade_rcfiles() {
 }
 
 deploy_fzf() {
-    echo -e "\n===== Installing fzf =================================================\n"
+    echo_section "Installing fzf"
     ~/.fzf/install --completion --key-bindings --update-rc
 }
 
@@ -347,7 +372,7 @@ deploy_fzf() {
 ##############################################
 
 backup() {
-    echo -e "\n===== Making back up files ===========================================\n"
+    echo_section "Making back up files"
     for item in ${ZSHFILES[@]}; do
         if [[ -e $item ]]; then
             backup_file $item
@@ -362,7 +387,7 @@ backup() {
 }
 
 compile_zshfiles() {
-    echo -e "\n===== Compiling zsh files ============================================\n"
+    echo_section "Compiling zsh files"
     case $SHELL in
         */zsh) 
             # assume Zsh
@@ -384,7 +409,7 @@ clone_dotfiles_repository() {
 }
 
 install_essential_dependencies() {
-    echo -e "\n===== Installing essential softwares =================================\n"
+    echo_section "Installing essential softwares"
     local deps=''
     if !(type git > /dev/null 2>&1); then
         deps="${deps} git"
@@ -420,7 +445,7 @@ install_essential_dependencies() {
 }
 
 install_vim_plugins() {
-    echo -e "\n===== Installing vim plugins =========================================\n"
+    echo_section "Installing vim plugins"
 
     export PATH=$PATH:$HOME/build/vim/bin
 
@@ -432,7 +457,7 @@ install_vim_plugins() {
 }
 
 update_vim_plugins() {
-    echo -e "\n===== Updating vim plugins ===========================================\n"
+    echo_section "Updating vim plugins"
 
     export PATH=$PATH:$HOME/build/vim/bin
 
@@ -445,7 +470,7 @@ update_vim_plugins() {
 }
 
 build_vim_install_deps() {
-    echo -e "\n===== Installing vim build dependencies ==============================\n"
+    echo_section "Installing vim build dependencies"
 
     if type apt > /dev/null 2>&1; then
 
@@ -476,7 +501,7 @@ build_vim_install_deps() {
 }
 
 build_tmux_install_deps() {
-    echo -e "\n===== Installing tmux build dependencies =============================\n"
+    echo_section "Installing tmux build dependencies"
 
     if type apt > /dev/null 2>&1; then
 
@@ -530,12 +555,12 @@ make_install() {
 }
 
 build_vim_make_install() {
-    echo -e "\n===== Compiling vim ==================================================\n"
+    echo_section "Compiling vim"
     make_install "vim_myconfigure.sh" "https://github.com/vim/vim"
 }
 
 build_tmux_make_install() {
-    echo -e "\n===== Compiling tmux =================================================\n"
+    echo_section "Compiling tmux"
     make_install "tmux_myconfigure.sh" "https://github.com/tmux/tmux"
 }
 
