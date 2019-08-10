@@ -441,6 +441,7 @@ update_vim_plugins() {
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ -d $HOME/.vim/plugged ]]; then
             vim --not-a-term --cmd 'set shortmess=a cmdheight=2' -c ':PlugUpdate --sync' -c ':qa!'
+            $MYDOTFILES/tools/update_vimplugin_repos.sh
         fi
     fi
 }
