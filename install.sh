@@ -412,8 +412,6 @@ install_essential_dependencies() {
     if [[ ! -e $MYDOTFILES ]]; then
         git clone https://github.com/ishitaku5522/dotfiles $MYDOTFILES
     fi
-
-    build_tools
 }
 
 install_vim_plugins() {
@@ -593,6 +591,7 @@ update() {
 
 install() {
     install_essential_dependencies
+    build_tools
     download_repositories
     undeploy
     deploy
