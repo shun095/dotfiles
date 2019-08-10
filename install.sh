@@ -377,6 +377,12 @@ compile_zshfiles() {
     esac
 }
 
+clone_dotfiles_repository() {
+    if [[ ! -e $MYDOTFILES ]]; then
+        git clone https://github.com/ishitaku5522/dotfiles $MYDOTFILES
+    fi
+}
+
 install_essential_dependencies() {
     echo -e "\n===== Installing essential softwares =================================\n"
     local deps=''
@@ -390,6 +396,7 @@ install_essential_dependencies() {
         deps="${deps} zsh"
     fi
     if [[ ${deps} = '' ]]; then
+        clone_dotfiles_repository
         return
     fi
 
@@ -409,9 +416,7 @@ install_essential_dependencies() {
         fi
     fi
 
-    if [[ ! -e $MYDOTFILES ]]; then
-        git clone https://github.com/ishitaku5522/dotfiles $MYDOTFILES
-    fi
+    clone_dotfiles_repository
 }
 
 install_vim_plugins() {
