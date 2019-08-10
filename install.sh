@@ -378,7 +378,7 @@ compile_zshfiles() {
 }
 
 install_dependencies() {
-    echo -e "\n===== Installing essential sofwares ==================================\n"
+    echo -e "\n===== Installing essential softwares =================================\n"
     local deps='git zsh tmux'
 
     if type apt > /dev/null; then
@@ -391,9 +391,9 @@ install_dependencies() {
         fi
     elif type yum > /dev/null; then
         if [[ $(whoami) = 'root' ]]; then
-            yum -y install $deps || true
+            yum install -y ${deps} || true
         else
-            sudo yum -y install $deps || true
+            sudo yum install -y ${deps} || true
         fi
     fi
 
