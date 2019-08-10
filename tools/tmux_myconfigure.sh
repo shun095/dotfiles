@@ -1,17 +1,28 @@
 #!/bin/sh
+#
+# Copyright (C) 2017 ishitaku5522
+#
+# Distributed under terms of the MIT license.
+#
 set -eu
 
-SCRIPT_DIR=$(cd $(dirname $0);pwd)
+SOFTWARE_NAME="tmux"
+BRANCH_NAME="2.9a"
+NEEDS_PULL=false
 
-PREFIX=$HOME/build/tmux
+_SCRIPT_DIR=$(cd $(dirname $0);pwd)
+_NUM_PARALLEL=4
+_PREFIX=$HOME/build/${SOFTWARE_NAME}
 
-CPUNUM=`cat /proc/cpuinfo | grep -c processor`
+cd ${_SCRIPT_DIR}/${SOFTWARE_NAME}
+git fetch --all -t
+git checkout ${BRANCH_NAME}
 
-cd ${SCRIPT_DIR}/tmux
-git checkout master
-git pull
+if ${NEEDS_PULL}; then
+    git pull
+fi
 
+# Script to build
 ./autogen.sh
-./configure --prefix=$PREFIX
-make -j${CPUNUM} 
-make install
+./configure --prefix=$_PREFIX
+make -j${_NUM_PARALLEL} install

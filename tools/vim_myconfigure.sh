@@ -6,17 +6,24 @@
 #
 set -eu
 
-# ${0} の dirname を取得
-SCRIPT_DIR=$(cd $(dirname $0);pwd)
+SOFTWARE_NAME="vim"
+BRANCH_NAME="master"
+NEEDS_PULL=true
 
-PREFIX=$HOME/build/vim
-CPUNUM=`cat /proc/cpuinfo | grep -c processor`
+_SCRIPT_DIR=$(cd $(dirname $0);pwd)
+_NUM_PARALLEL=4
+_PREFIX=$HOME/build/${SOFTWARE_NAME}
 
-cd ${SCRIPT_DIR}/vim
-git checkout master
-git pull
+cd ${_SCRIPT_DIR}/${SOFTWARE_NAME}
+git fetch --all -t
+git checkout ${BRANCH_NAME}
 
-./configure --prefix=${PREFIX} \
+if ${NEEDS_PULL}; then
+    git pull
+fi
+
+# Script to build
+./configure --prefix=${_PREFIX} \
     --with-features=huge \
     --enable-fail-if-missing \
     --enable-fontset \
@@ -31,20 +38,4 @@ git pull
     --enable-terminal
     # --enable-pythoninterp=dynamic \
     # --enable-perlinterp=dynamic \
-
-
-make -j${CPUNUM} 
-make install
-# echo 
-# echo "This program will be installed in ${PREFIX}."
-# echo "Install now???[y/n]"
-# read ans
-
-# case $ans in
-#     [Yy] | [Yy][Ee][Ss] )
-#         sudo make install
-#         # sudo checkinstall --install=no
-#         ;;
-#     * )
-#         echo "Terminated.";;
-# esac
+make -j${_NUM_PARALLEL} install

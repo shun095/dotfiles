@@ -459,25 +459,102 @@ build_vim_install_deps() {
     fi
 }
 
-build_vim_make_install() {
-    echo -e "\n===== Compiling vim ==================================================\n"
+build_vim_install_deps() {
+    echo -e "\n===== Installing vim build dependencies ==============================\n"
+
+    if type apt > /dev/null; then
+
+        local deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential cmake python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1'
+
+        if [[ $(whoami) = 'root' ]]; then
+            apt update
+            apt install -y ${deps}
+        else
+            sudo apt update
+            sudo apt install -y ${deps}
+        fi
+
+    elif type yum > /dev/null; then
+
+        local deps='gcc make ncurses ncurses-devel cmake git2u tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
+
+        if [[ $(whoami) = 'root' ]]; then
+            yum remove git* -y
+            yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
+            yum install -y ${deps} || true
+        else
+            sudo yum remove git* -y
+            sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
+            sudo yum install -y ${deps} || true
+        fi
+    fi
+}
+
+build_tmux_install_deps() {
+    echo -e "\n===== Installing tmux build dependencies =============================\n"
+
+    if type apt > /dev/null; then
+
+        local deps='git automake pkg-config libevent-dev libncurses5-dev libncursesw5-dev'
+
+        if [[ $(whoami) = 'root' ]]; then
+            apt update
+            apt install -y ${deps}
+        else
+            sudo apt update
+            sudo apt install -y ${deps}
+        fi
+
+    elif type yum > /dev/null; then
+
+        local deps='git2u automake libevent-devel ncurses-devel make gcc byacc'
+
+        if [[ $(whoami) = 'root' ]]; then
+            yum remove git* -y
+            yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
+            yum install -y ${deps} || true
+        else
+            sudo yum remove git* -y
+            sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
+            sudo yum install -y ${deps} || true
+        fi
+    fi
+
+}
+
+make_install() {
+    local script=$1
+    local repo=$2
+
+    local script="vim_myconfigure.sh"
+    local repo="https://github.com/vim/vim"
 
     if [[ ! -d $HOME/programs ]]; then
         mkdir -p $HOME/programs
     fi
 
     pushd $HOME/programs
-        if [[ ! -e vim_myconfigure.sh ]]; then
-            ln -s $MYDOTFILES/tools/vim_myconfigure.sh
+        if [[ ! -e ${script} ]]; then
+            ln -s $MYDOTFILES/tools/${script}
         fi
 
         if [[ ! -d vim ]]; then
-            git clone --depth 1 https://github.com/vim/vim
+            git clone --depth 1 ${repo}
         fi
 
-        chmod +x ./vim_myconfigure.sh
-        ./vim_myconfigure.sh
+        chmod +x ./${script}
+        ./${script}
     popd
+}
+
+build_vim_make_install() {
+    echo -e "\n===== Compiling vim ==================================================\n"
+    make_install "vim_myconfigure.sh" "https://github.com/vim/vim"
+}
+
+build_tmux_make_install() {
+    echo -e "\n===== Compiling tmux =================================================\n"
+    make_install "tmux_myconfigure.sh" "https://github.com/tmux/tmux"
 }
 
 build_vim(){
@@ -485,8 +562,15 @@ build_vim(){
     build_vim_make_install
 }
 
+build_tmux(){
+    # automake pkg-config libevent-dev libncurses5-dev libncursesw5-dev
+    build_tmux_install_deps
+    build_tmux_make_install
+}
+
 build_tools(){
     build_vim
+    build_tmux
 }
 
 deploy() {
