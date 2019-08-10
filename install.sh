@@ -369,7 +369,7 @@ compile_zshfiles() {
             $MYDOTFILES/tools/zsh_compile.zsh || true
             ;;
         *)
-            if type zsh > /dev/null; then
+            if type zsh > /dev/null 2>&1; then
                 zsh $MYDOTFILES/tools/zsh_compile.zsh || true
             else
                 echo -e "\nCurrent shell is not zsh. skipping.\n"
@@ -377,11 +377,23 @@ compile_zshfiles() {
     esac
 }
 
-install_dependencies() {
+install_essential_dependencies() {
     echo -e "\n===== Installing essential softwares =================================\n"
-    local deps='git zsh tmux'
+    local deps=''
+    if !(type git > /dev/null 2>&1); then
+        deps="${deps} git"
+    fi
+    if !(type tmux > /dev/null 2>&1); then
+        deps="${deps} tmux"
+    fi
+    if !(type zsh > /dev/null 2>&1); then
+        deps="${deps} zsh"
+    fi
+    if [[ ${deps} = '' ]]; then
+        return
+    fi
 
-    if type apt > /dev/null; then
+    if type apt > /dev/null 2>&1; then
         if [[ $(whoami) = 'root' ]]; then
             apt update
             apt install -y $deps
@@ -389,7 +401,7 @@ install_dependencies() {
             sudo apt update
             sudo apt install -y $deps
         fi
-    elif type yum > /dev/null; then
+    elif type yum > /dev/null 2>&1; then
         if [[ $(whoami) = 'root' ]]; then
             yum install -y ${deps} || true
         else
@@ -409,7 +421,7 @@ install_vim_plugins() {
 
     export PATH=$PATH:$HOME/build/vim/bin
 
-    if type vim > /dev/null && type git > /dev/null; then
+    if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ ! -d $HOME/.vim/plugged ]]; then
             vim --not-a-term --cmd 'set shortmess=a cmdheight=2' -c ':PlugInstall --sync' -c ':qa!'
         fi
@@ -421,7 +433,7 @@ update_vim_plugins() {
 
     export PATH=$PATH:$HOME/build/vim/bin
 
-    if type vim > /dev/null && type git > /dev/null; then
+    if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ -d $HOME/.vim/plugged ]]; then
             vim --not-a-term --cmd 'set shortmess=a cmdheight=2' -c ':PlugUpdate --sync' -c ':qa!'
         fi
@@ -431,7 +443,7 @@ update_vim_plugins() {
 build_vim_install_deps() {
     echo -e "\n===== Installing vim build dependencies ==============================\n"
 
-    if type apt > /dev/null; then
+    if type apt > /dev/null 2>&1; then
 
         local deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1'
 
@@ -443,7 +455,7 @@ build_vim_install_deps() {
             sudo apt install -y ${deps}
         fi
 
-    elif type yum > /dev/null; then
+    elif type yum > /dev/null 2>&1; then
 
         local deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
 
@@ -462,7 +474,7 @@ build_vim_install_deps() {
 build_tmux_install_deps() {
     echo -e "\n===== Installing tmux build dependencies =============================\n"
 
-    if type apt > /dev/null; then
+    if type apt > /dev/null 2>&1; then
 
         local deps='git automake pkg-config libevent-dev libncurses5-dev libncursesw5-dev'
 
@@ -474,7 +486,7 @@ build_tmux_install_deps() {
             sudo apt install -y ${deps}
         fi
 
-    elif type yum > /dev/null; then
+    elif type yum > /dev/null 2>&1; then
 
         local deps='git2u automake libevent-devel ncurses-devel make gcc byacc'
 
@@ -580,7 +592,7 @@ update() {
 }
 
 install() {
-    install_dependencies
+    install_essential_dependencies
     download_repositories
     undeploy
     deploy
