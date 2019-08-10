@@ -391,9 +391,9 @@ install_dependencies() {
         fi
     elif type yum > /dev/null; then
         if [[ $(whoami) = 'root' ]]; then
-            yum -y install $deps
+            yum -y install $deps || true
         else
-            sudo yum -y install $deps
+            sudo yum -y install $deps || true
         fi
     fi
 
