@@ -694,6 +694,8 @@ try
     autocmd InsertLeave * call mymisc#ime_deactivate()
     autocmd VimEnter * call mymisc#git_auto_updating()
 
+    autocmd BufRead *.launch setl ft=xml
+
     " クリップボードが無名レジスタと違ったら
     " (他のソフトでコピーしてきたということなので)
     " 他のレジスタに保存しておく
