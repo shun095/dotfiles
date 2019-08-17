@@ -1111,8 +1111,8 @@ if mymisc#plug_tap('vim-lsp')
 
   hi link LspErrorText ALEErrorSign
   hi link LspWarningText ALEWarningSign
-  hi link LspInformationText ALEWarningSign
-  hi link LspHintText ALEWarningSign
+  hi link LspInformationText ALEInfoSign
+  hi link LspHintText ALEInfoSign
 
   let g:myvimrc_lsp_general_config = {}
   let g:myvimrc_lsp_general_config['cpp'] =
@@ -1207,6 +1207,10 @@ if mymisc#plug_tap('vim-lsp')
 
         let g:myvimrc_vimlsp_config[s:key] = s:vimlsp_config
         call extend(g:myvimrc_vimlsp_filetypes, g:myvimrc_lsp_general_config[s:key]['filetype'])
+
+        for s:lsp_filetype in s:vimlsp_config['whitelist']
+          exe "au FileType " . s:lsp_filetype . " command! -buffer LspKill call lsp#stop_server('".s:vimlsp_config['name']."')"
+        endfor
 
         exe "au User lsp_setup call lsp#register_server(g:myvimrc_vimlsp_config['".s:key."'])"
       endif
