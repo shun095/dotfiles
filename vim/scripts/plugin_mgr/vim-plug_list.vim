@@ -51,6 +51,8 @@ let g:terminal_ansi_colors = [
       \ '#5c6370', '#e06c75', '#98c379', '#d19a66',
       \ '#61afef', '#c678dd', '#56b6c2', '#ffffff'
       \ ]
+" Plug 'morhetz/gruvbox'
+" Plug 'joshdick/onedark.vim'
 
 " Plug 'NLKNguyen/papercolor-theme'
 " Plug 'ajh17/spacegray.vim'
