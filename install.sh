@@ -577,11 +577,11 @@ build_tmux(){
 }
 
 uninstall_built_tools(){
-    \unlink /home/shun/programs/vim_myconfigure.sh
+    \unlink $HOME/programs/vim_myconfigure.sh
     \rm -rf $HOME/programs/vim
     \rm -rf $HOME/build/vim
 
-    \unlink /home/shun/programs/tmux_myconfigure.sh
+    \unlink $HOME/programs/tmux_myconfigure.sh
     \rm -rf $HOME/programs/tmux
     \rm -rf $HOME/build/tmux
 }
