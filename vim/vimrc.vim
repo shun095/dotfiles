@@ -712,7 +712,7 @@ try
 
   " BUILT-IN PLUGINS {{{
   if v:version >= 800
-    if !has('nvim') 
+    if !has('nvim')
       packadd! editexisting
       packadd! matchit
     endif

@@ -38,7 +38,7 @@ endfunction
 
 augroup myload_on_insert_enter
   autocmd!
-  autocmd InsertEnter * 
+  autocmd InsertEnter *
         \ call s:on_insert_enter_load() | autocmd! myload_on_insert_enter
 augroup END
 
@@ -198,6 +198,7 @@ Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpen']}
 Plug 'AndrewRadev/linediff.vim', {'on': ['Linediff']}
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
+" Plug 'vim-airline/vim-airline'
 Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
 " Plug 'junegunn/rainbow_parentheses.vim'
 " Plug 'kien/rainbow_parentheses.vim'

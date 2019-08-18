@@ -12,8 +12,14 @@ update_plugin() {
         if git remote get-url origin | grep ishitaku5522; then
             git remote set-url origin https://ishitaku5522@github.com/ishitaku5522/${plugname}
             git fetch --unshallow || true
-            git pull https://github.com/${authername}/${plugname} master
-            git push
+            git fetch --all -t || true
+            git merge origin/master
+            if git pull https://github.com/${authername}/${plugname} master | grep "Already up to date"
+            then
+                :
+            else
+                git push
+            fi
             echo "Updated ishitaku5522 version: $1"
         else
             echo "Not a valid repository: $1"

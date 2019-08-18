@@ -204,9 +204,9 @@ if myvimrc#plug_tap('lightline.vim')
     let tagbar_sort = g:tagbar_sort
     " return fname ==# 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
     return fname ==# 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? getcwd() :
-          \ fname =~# '__Tagbar__' ? 
-          \   (tagbar_sort ? 
-          \   '[Name]  ' . g:lightline.fname : 
+          \ fname =~# '__Tagbar__' ?
+          \   (tagbar_sort ?
+          \   '[Name]  ' . g:lightline.fname :
           \   '[Order] ' . g:lightline.fname) :
           \ fname =~# '__Gundo\|NERD_tree' ? '' :
           \ &ft ==# 'denite' ? denite#get_status_path() :

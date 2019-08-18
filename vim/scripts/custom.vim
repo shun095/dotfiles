@@ -71,7 +71,7 @@ if mymisc#plug_tap('vim-dirvish')
     if !exists('w:mydirvish_before')
       let w:mydirvish_before = []
     endif
-    
+
     let g:mydirvish_last_dir = expand('%:p:h')
 
     augroup mydirvish
@@ -299,7 +299,7 @@ endif
 
 if mymisc#plug_tap('previm')
   let g:previm_enable_realtime = 1
-  " let g:previm_custom_css_path = 
+  " let g:previm_custom_css_path =
   let g:previm_disable_default_css = 1
   let g:previm_custom_css_path = $MYDOTFILES . "/third-party/github-markdown.css"
   let g:previm_show_header = 0
@@ -588,7 +588,7 @@ if mymisc#plug_tap('defx.nvim')
     let s:defx_custom_columns = 'mark:indent:icon:git:filename:type:size:time'
   endif
 
-  call defx#custom#option('_', { 
+  call defx#custom#option('_', {
         \ 'columns': s:defx_custom_columns,
         \ 'winwidth': '35',
         \ 'direction': 'topleft',
@@ -1169,7 +1169,7 @@ if mymisc#plug_tap('vim-lsp')
         \       '-Dfile.encoding=UTF-8',
         \       '-Xmx1G',
         \       '-jar',
-        \       (len(split(glob('~/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_*.jar'))) == 1 ? 
+        \       (len(split(glob('~/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_*.jar'))) == 1 ?
         \         split(glob('~/eclipse.jdt.ls/plugins/org.eclipse.equinox.launcher_*.jar'))[0] : ""),
         \       '-configuration',
         \       fnamemodify("~", ":p") . '/eclipse.jdt.ls/' . (has('win32') ? 'config_win' : (has('mac') ? 'config_mac' : 'config_linux')),
