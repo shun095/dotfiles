@@ -7,7 +7,8 @@
 set -eu
 
 SOFTWARE_NAME="tmux"
-BRANCH_NAME="2.9a"
+# BRANCH_NAME="2.9a"
+BRANCH_NAME="3.0"
 NEEDS_PULL=false
 
 _SCRIPT_DIR=$(cd $(dirname $0);pwd)

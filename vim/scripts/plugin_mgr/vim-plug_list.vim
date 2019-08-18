@@ -84,19 +84,17 @@ let g:terminal_ansi_colors = [
 " Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
 " Plug 'ervandew/supertab'
 
-Plug 'ishitaku5522/asyncomplete.vim', {'branch': 'add_get_source_info'}
-
 Plug 'prabirshrestha/async.vim'
+Plug 'ishitaku5522/asyncomplete.vim', {'branch': 'add_get_source_info'}
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'prabirshrestha/asyncomplete-buffer.vim'
 Plug 'prabirshrestha/asyncomplete-necovim.vim'
 Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
-
+Plug 'ishitaku5522/asyncomplete-omni.vim'
 " Plug 'prabirshrestha/vim-lsp'
 Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspaceEdit'}
-Plug 'ishitaku5522/asyncomplete-omni.vim'
 " Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
 
 Plug 'scrooloose/nerdtree'
