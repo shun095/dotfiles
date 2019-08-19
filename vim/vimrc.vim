@@ -295,7 +295,7 @@ try
   nnoremap <C-S-Tab> gT
 
   " Clear highlighting on escape in normal mode
-  nnoremap <ESC> :noh<CR><ESC>
+  nnoremap <ESC><ESC> :noh<CR><ESC>
   nnoremap <ESC>^[ <ESC>^[
 
   nnoremap Y v$hy
@@ -349,24 +349,42 @@ try
       noremap!  <C-w>
     else
       function! Myvimrc_fast_esc_unmap(timer) abort
+        cunmap <ESC>n
+        cunmap <ESC>p
+        cunmap <ESC>f
+        cunmap <ESC>b
+        cunmap <ESC>
+
         iunmap <ESC>n
         iunmap <ESC>p
         iunmap <ESC>f
         iunmap <ESC>b
         iunmap <ESC>
+
         let &timeoutlen=s:old_tlen
-        inoremap <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+        inoremap <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
       endfunction
 
       function! s:fast_esc() abort
+        " ESCが押されたらtimeoutlenを短くして
+        " ESCが認識されるのを早くする。
+        " 無事認識後元の状態に戻すことでfast_esc()のバインドの反応も早くする
         iunmap <ESC>
         let s:old_tlen = &timeoutlen
-        set timeoutlen=50
+        set timeoutlen=100
+
+        cnoremap <ESC>n <Down>
+        cnoremap <ESC>p <Up>
+        cnoremap <ESC>f <S-Right>
+        cnoremap <ESC>b <S-Left>
+        cnoremap <ESC> <C-w>
+
         inoremap <ESC>n <Down>
         inoremap <ESC>p <Up>
         inoremap <ESC>f <S-Right>
         inoremap <ESC>b <S-Left>
         inoremap <ESC> <C-w>
+
         call feedkeys("\<ESC>", 'i')
         call timer_start(200, 'Myvimrc_fast_esc_unmap', {'repeat':1})
         return ''
@@ -374,11 +392,17 @@ try
 
       inoremap <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
 
-      cnoremap <ESC>n <Down>
-      cnoremap <ESC>p <Up>
-      cnoremap <ESC>f <S-Right>
-      cnoremap <ESC>b <S-Left>
-      cnoremap <ESC> <C-w>
+      " cnoremap <ESC>n <Down>
+      " cnoremap <ESC>p <Up>
+      " cnoremap <ESC>f <S-Right>
+      " cnoremap <ESC>b <S-Left>
+      " cnoremap <ESC> <C-w>
+
+      " inoremap <ESC>n <Down>
+      " inoremap <ESC>p <Up>
+      " inoremap <ESC>f <S-Right>
+      " inoremap <ESC>b <S-Left>
+      " inoremap <ESC> <C-w>
     endif
   endif
 
