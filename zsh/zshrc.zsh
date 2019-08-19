@@ -46,7 +46,7 @@ else
     local previewcmd='cat {}'
 fi
 local fzf_color='--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5'
-export FZF_DEFAULT_OPTS='--height 80% --reverse --preview "'$previewcmd'"'
+export FZF_DEFAULT_OPTS='--height 80% --reverse --preview "'$previewcmd'" --preview-window=down'
 
 export HISTFILE=~/.zsh_history
 export HISTSIZE=999999
