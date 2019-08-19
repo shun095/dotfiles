@@ -1427,7 +1427,7 @@ if mymisc#plug_tap('vim-gitgutter')
   augroup vimrc_gitgutter
     autocmd!
     autocmd User GitGutter call mymisc#set_statusline_vars()
-    autocmd BufWritePost * GitGutterAll
+    autocmd BufWrite * GitGutterAll
   augroup END
 endif
 
