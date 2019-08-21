@@ -158,7 +158,7 @@ Plug 'groenewege/vim-less', {'for': ['less']}
 Plug 'cakebaker/scss-syntax.vim', {'for': ['scss']}
 Plug 'wavded/vim-stylus', {'for': ['stylus']}
 Plug 'leafgarland/typescript-vim', {'for': ['typescript']}
-Plug 'pangloss/vim-javascript', {'for': ['javascript']}
+" Plug 'pangloss/vim-javascript', {'for': ['javascript']}
 Plug 'posva/vim-vue', {'for': ['vue']}
 Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'cespare/vim-toml', {'for':'toml'}
