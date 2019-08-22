@@ -17,6 +17,7 @@ fun! mymisc#ime_deactivate() abort
       call system('fcitx-remote -c')
     endif
   elseif has('mac')
+    return
     if has('job')
       call job_start('osascript -e "tell application \"System Events\" to key code 102"')
     else
