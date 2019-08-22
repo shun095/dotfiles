@@ -74,15 +74,17 @@ let g:terminal_ansi_colors = [
 " Plug 'Shougo/context_filetype.vim'
 " Plug 'Shougo/neomru.vim'
 
+" Plug 'Valloric/YouCompleteMe', {'do':'./install.py --clang-completer'}
+" Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
+" Plug 'ervandew/supertab'
+
+" Plug 'zxqfl/tabnine-vim'
 " if has('win32')
 "   Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
 " else
 "   Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 " endif
 
-" Plug 'Valloric/YouCompleteMe', {'do':'./install.py --clang-completer'}
-" Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
-" Plug 'ervandew/supertab'
 
 Plug 'prabirshrestha/async.vim'
 Plug 'ishitaku5522/asyncomplete.vim', {'branch': 'add_get_source_info'}
