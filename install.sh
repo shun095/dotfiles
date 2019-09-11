@@ -506,7 +506,7 @@ build_tmux_install_deps() {
 
     if type apt > /dev/null 2>&1; then
 
-        local deps='git automake pkg-config libevent-dev libncurses5-dev libncursesw5-dev'
+        local deps='git automake pkg-config libevent-dev libncurses5-dev libncursesw5-dev bison'
 
         if [[ $(whoami) = 'root' ]]; then
             apt update
