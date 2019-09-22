@@ -29,7 +29,7 @@ update_plugin() {
 }
 
 
-update_plugin "prabirshrestha/asyncomplete.vim"
+# update_plugin "prabirshrestha/asyncomplete.vim"
 update_plugin "prabirshrestha/asyncomplete-buffer.vim"
 update_plugin "prabirshrestha/vim-lsp"
 update_plugin "yami-beta/asyncomplete-omni.vim"
