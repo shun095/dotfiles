@@ -89,7 +89,9 @@ let g:terminal_ansi_colors = [
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+if s:has_python3 || s:has_python
+  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+endif
 Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'prabirshrestha/asyncomplete-buffer.vim'
 Plug 'prabirshrestha/asyncomplete-necovim.vim'
