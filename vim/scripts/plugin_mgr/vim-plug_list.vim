@@ -87,7 +87,7 @@ let g:terminal_ansi_colors = [
 
 
 Plug 'prabirshrestha/async.vim'
-Plug 'ishitaku5522/asyncomplete.vim', {'branch': 'add_get_source_info'}
+Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 Plug 'prabirshrestha/asyncomplete-file.vim'
