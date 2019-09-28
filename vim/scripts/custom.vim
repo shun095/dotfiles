@@ -1181,6 +1181,7 @@ if mymisc#plug_tap('vim-lsp')
 
   let g:myvimrc_vimlsp_config = {}
   let g:myvimrc_vimlsp_filetypes = []
+  let g:myvimrc_vimlsp_disabled_filetypes = []
 
   function! custom#myvimrc_vimlsp_cmd(key, server_info) abort
     return get(g:myvimrc_lsp_general_config[a:key], 'cmd')
@@ -1190,40 +1191,45 @@ if mymisc#plug_tap('vim-lsp')
     return lsp#utils#path_to_uri(mymisc#find_project_dir(extend(get(g:myvimrc_lsp_general_config[a:key],'root_marker',[]), g:mymisc_projectdir_reference_files)))
   endfunction
 
-  augroup vimrc_vimlsp
-    for s:key in keys(g:myvimrc_lsp_general_config)
-      if g:myvimrc_lsp_general_config[s:key]['is_executable']
+  function! custom#myvimrc_vimlsp_setup() abort
+    augroup vimrc_vimlsp
+      for s:key in keys(g:myvimrc_lsp_general_config)
+        if g:myvimrc_lsp_general_config[s:key]['is_executable']
 
-        let s:cmd_func = eval('function(''custom#myvimrc_vimlsp_cmd'',['''.s:key.'''])')
-        let s:root_uri_func = eval('function(''custom#myvimrc_vimlsp_root_uri'',['''.s:key.'''])')
+          let s:cmd_func = eval('function(''custom#myvimrc_vimlsp_cmd'',['''.s:key.'''])')
+          let s:root_uri_func = eval('function(''custom#myvimrc_vimlsp_root_uri'',['''.s:key.'''])')
 
-        let s:vimlsp_config = {}
-        let s:vimlsp_config['name'] = g:myvimrc_lsp_general_config[s:key]['name']
-        let s:vimlsp_config['cmd'] = s:cmd_func
-        let s:vimlsp_config['whitelist'] = g:myvimrc_lsp_general_config[s:key]['filetype']
-        let s:vimlsp_config['priority'] = 100
-        let s:vimlsp_config['root_uri'] = s:root_uri_func
-        exe "let s:vimlsp_config['workspace_config'] = " . string(get(g:myvimrc_lsp_general_config[s:key], 'workspace_config'))
+          let l:vimlsp_config = {}
+          let l:vimlsp_config['name'] = g:myvimrc_lsp_general_config[s:key]['name']
+          let l:vimlsp_config['cmd'] = s:cmd_func
+          let l:vimlsp_config['whitelist'] = g:myvimrc_lsp_general_config[s:key]['filetype']
+          let l:vimlsp_config['priority'] = 100
+          let l:vimlsp_config['root_uri'] = s:root_uri_func
+          exe "let l:vimlsp_config['workspace_config'] = " . string(get(g:myvimrc_lsp_general_config[s:key], 'workspace_config'))
 
-        let g:myvimrc_vimlsp_config[s:key] = s:vimlsp_config
-        call extend(g:myvimrc_vimlsp_filetypes, g:myvimrc_lsp_general_config[s:key]['filetype'])
+          let g:myvimrc_vimlsp_config[s:key] = l:vimlsp_config
+          call extend(g:myvimrc_vimlsp_filetypes, g:myvimrc_lsp_general_config[s:key]['filetype'])
 
-        for s:lsp_filetype in s:vimlsp_config['whitelist']
-          exe "au FileType " . s:lsp_filetype . " command! -buffer LspKill call lsp#stop_server('".s:vimlsp_config['name']."')"
-        endfor
+          for s:lsp_filetype in l:vimlsp_config['whitelist']
+            exe "au FileType " . s:lsp_filetype . " command! -buffer LspKill call lsp#stop_server('".l:vimlsp_config['name']."')"
+          endfor
 
-        exe "au User lsp_setup call lsp#register_server(g:myvimrc_vimlsp_config['".s:key."'])"
-      endif
-    endfor
+          exe "au User lsp_setup call lsp#register_server(g:myvimrc_vimlsp_config['".s:key."'])"
+        else
+          " TODO: Show warning if language server is not available.
+        endif
+      endfor
 
-    for s:lsp_filetype in g:myvimrc_vimlsp_filetypes
-      exe "au FileType " . s:lsp_filetype . " nnoremap <buffer> <leader><c-]> :<C-u>LspDefinition<CR>"
-      exe "au FileType " . s:lsp_filetype . " nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>"
-      exe "au FileType " . s:lsp_filetype . " vnoremap <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>"
-      exe "au FileType " . s:lsp_filetype . " setl omnifunc=lsp#complete"
-    endfor
-  augroup END
+      for s:lsp_filetype in g:myvimrc_vimlsp_filetypes
+        exe "au FileType " . s:lsp_filetype . " nnoremap <buffer> <leader><c-]> :<C-u>LspDefinition<CR>"
+        exe "au FileType " . s:lsp_filetype . " nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>"
+        exe "au FileType " . s:lsp_filetype . " vnoremap <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>"
+        exe "au FileType " . s:lsp_filetype . " setl omnifunc=lsp#complete"
+      endfor
+    augroup END
+  endfunction
 
+  call custom#myvimrc_vimlsp_setup()
 endif
 
 if mymisc#plug_tap('asyncomplete.vim')
