@@ -120,6 +120,7 @@ Plug 'Quramy/tsuquyomi', {'for': ['javascript', 'typescript']}
 Plug 'vim-scripts/dbext.vim', {'for': ['sql']}
 Plug 'othree/csscomplete.vim'
 Plug 'Shougo/neco-vim' " for vimscript
+Plug 'freitass/todo.txt-vim'
 
 " Snippets, templates
 Plug 'Shougo/neosnippet.vim'
