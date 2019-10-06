@@ -475,7 +475,7 @@ build_vim_install_deps() {
 
     if type apt > /dev/null 2>&1; then
 
-        local deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1'
+        local deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1 gawk'
 
         if [[ $(whoami) = 'root' ]]; then
             apt update
