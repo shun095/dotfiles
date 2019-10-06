@@ -490,11 +490,19 @@ build_vim_install_deps() {
         local deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
 
         if [[ $(whoami) = 'root' ]]; then
-            yum remove git* -y
+            if yum list installed git2u >/dev/null 2>&1; then
+                :
+            else
+                yum remove git* -y
+            fi
             yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
             yum install -y ${deps} || true
         else
-            sudo yum remove git* -y
+            if sudo yum list installed git2u >/dev/null 2>&1; then
+                :
+            else
+                sudo yum remove git* -y
+            fi
             sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
             sudo yum install -y ${deps} || true
         fi
@@ -521,11 +529,19 @@ build_tmux_install_deps() {
         local deps='git2u automake libevent-devel ncurses-devel make gcc byacc'
 
         if [[ $(whoami) = 'root' ]]; then
-            yum remove git* -y
+            if yum list installed git2u >/dev/null 2>&1; then
+                :
+            else
+                yum remove git* -y
+            fi
             yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
             yum install -y ${deps} || true
         else
-            sudo yum remove git* -y
+            if sudo yum list installed git2u >/dev/null 2>&1; then
+                :
+            else
+                sudo yum remove git* -y
+            fi
             sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
             sudo yum install -y ${deps} || true
         fi
