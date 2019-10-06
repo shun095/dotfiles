@@ -98,7 +98,7 @@ Plug 'prabirshrestha/asyncomplete-necovim.vim'
 Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 Plug 'ishitaku5522/asyncomplete-omni.vim'
 " Plug 'prabirshrestha/vim-lsp'
-Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspaceEdit'}
+Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspace'}
 " Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
 
 Plug 'scrooloose/nerdtree'
