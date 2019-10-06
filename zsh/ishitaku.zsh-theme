@@ -22,13 +22,14 @@ function check_git_prompt_info() {
 
 function get_right_prompt() {
     echo -n "%{$reset_color%}["
-    echo -n "%{$fg_no_bold[cyan]%}%D{%Y-%m-%d %H:%M:%S}"
+    # echo -n "%{$fg_no_bold[cyan]%}%D{%Y-%m-%d %H:%M:%S}"
+    echo -n "%D{%Y-%m-%d %H:%M:%S}"
     echo -n "%{$reset_color%}]"
 }
 
 function get_pyenv_prompt() {
     if type pyenv > /dev/null; then
-        echo " (pyenv $(pyenv_prompt_info))"
+        echo " (pyenv:$(pyenv_prompt_info))"
     fi
 }
 
@@ -41,7 +42,7 @@ zle -N accept-line re-prompt
 
 PROMPT='
 '$MARK' $(get_right_prompt)%{$reset_color%}$(get_pyenv_prompt)$(check_git_prompt_info)
-%{$fg_bold[$USERCOLOR]%}%n%{$reset_color%}@%{$fg_bold[magenta]%}%m %{$fg_no_bold[yellow]%}%5~
+%{$fg_bold[$USERCOLOR]%}%n%{$reset_color%}@%{$fg_bold[blue]%}%m %{$reset_color%}%5~
 %{$fg_bold[cyan]%}$ %{$reset_color%}'
 
 # RPROMPT='$(get_right_prompt)'
