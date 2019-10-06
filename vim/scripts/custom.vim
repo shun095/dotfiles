@@ -800,7 +800,11 @@ if mymisc#plug_tap('fzf.vim')
   command! -bang -nargs=* GGrep
         \ call fzf#vim#grep(
         \   'git grep --line-number '.shellescape(<q-args>), 0,
-        \   { 'dir': systemlist('git rev-parse --show-toplevel')[0] }, <bang>0)
+        \   extend({ 'dir': systemlist('git rev-parse --show-toplevel')[0] },
+        \          <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?')),
+        \   <bang>0)
+
+  let g:fzf_layout = { 'down': '~80%' }
   " let g:fzf_colors =
   "       \ { 'fg':      ['fg', 'Normal'],
   "       \   'bg':      ['bg', 'Normal'],
