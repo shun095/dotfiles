@@ -1,5 +1,8 @@
 ﻿" vim:set foldmethod=marker:
 " INITIALIZE {{{
+
+if !1 | finish | endif
+
 set encoding=utf-8
 language C
 
