@@ -128,7 +128,7 @@ echo_section() {
     for i in $(seq ${num_remain}); do
         result="${result}="
     done
-    echo -e "\n\e[32m${result}\n\e[0m"
+    echo -e "\n[32m${result}\n[0m"
 }
 
 update_repositories() {
