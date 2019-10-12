@@ -6,19 +6,8 @@ case $- in
     *) return;;
 esac
 
-# If running in raw tty, don't do anything
-if [[ $TERM = 'linux' ]]; then
-    return
-fi
-
+# GENERAL CONFIG
 export EDITOR=vim
-export MYDOTFILES=$HOME/dotfiles
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=59"
-
-export USE_CCACHE=1
-
-export GOPATH=$HOME/.gopath
-
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
 export PATH="$HOME/.go/bin:$PATH"
@@ -30,39 +19,59 @@ export PATH="$HOME/build/nvim-qt/bin:$PATH"
 export PATH="$HOME/build/nvim/bin:$PATH"
 export PATH="$HOME/build/vim/bin:$PATH"
 
-export ZSH_COMPDUMP=$HOME/.zcompdump
-source $MYDOTFILES/zsh/ohmyzshrc.zsh
-source $MYDOTFILES/zsh/cd_history_bookmark.zsh
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=4'
+# Removing duplicates in $PATH
+_path=""
+for _p in $(echo $PATH | tr ":" " "); do
+  case ":${_path}:" in
+    *:"${_p}":* )
+      ;;
+    * )
+      if [ "$_path" ]; then
+        _path="$_path:$_p"
+      else
+        _path=$_p
+      fi
+      ;;
+  esac
+done
+export PATH=$_path
+unset _p
+unset _path
+
+# GENERAL
+export MYDOTFILES=$HOME/dotfiles
+
+# LANGUAGE SPECIFIC
+export GOPATH=$HOME/.gopath
+export USE_CCACHE=1
+
+# ZSH PLUGIN CONFIG
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
 
 if type highlight > /dev/null; then
     HIGHLIGHT_SIZE_MAX=262143  # 256KiB
     local hloptions="--replace-tabs=8 --style=molokai ${HIGHLIGHT_OPTIONS:-}"
-    local previewcmd='highlight --out-format="xterm256" --force '${hloptions}' {} '
+    local previewcmd="highlight --out-format="xterm256" --force "${hloptions}" {} "
 elif type pygmentize > /dev/null; then
-    local previewcmd='pygmentize -O style=monokai -f console256 -g {}'
+    local previewcmd="pygmentize -O style=monokai -f console256 -g {}"
 else
-    local previewcmd='cat {}'
+    local previewcmd="cat {}"
 fi
-local fzf_color='--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5'
-export FZF_DEFAULT_OPTS='--height 80% --reverse --preview "'$previewcmd'" --preview-window=right:50%:hidden --bind=?:toggle-preview'
+local fzf_color="--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5"
+export FZF_DEFAULT_OPTS="--height 80% --reverse --preview \""$previewcmd"\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
 
-export HISTFILE=~/.zsh_history
-export HISTSIZE=999999
-export SAVEHIST=$HISTSIZE
-
-setopt auto_cd
+source $MYDOTFILES/zsh/ohmyzshrc.zsh
+source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 
 function chpwd() {
     _cd_history_bookmark_save_cd_history
-    # ls --color=auto
 }
 
 function maila(){
-    \tmux source ~/dotfiles/tmux/mutt_tile
+    \tmux source $HOME/dotfiles/tmux/mutt_tile
 }
 function mailb(){
-    \tmux source ~/dotfiles/tmux/mutt_tile2
+    \tmux source $HOME/dotfiles/tmux/mutt_tile2
 }
 
 function urlencode {
@@ -117,9 +126,18 @@ function fadd() {
     done
 }
 
-function fghq() {
+function fhq() {
     local dir
     dir=$(ghq list > /dev/null | fzf --no-multi) && cd $(ghq root)/$dir
+}
+alias fghq="fhq"
+
+function gvim_call(){
+    if [[ $(\gvim --serverlist 2>/dev/null|wc -l) -ne 0 ]]; then
+        \gvim --remote $*
+    else
+        \gvim $*
+    fi
 }
 
 if type trash-put > /dev/null; then
@@ -131,40 +149,23 @@ if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
 fi
 
 if type colordiff > /dev/null; then
-    alias diff='colordiff -u'
+    alias diff="colordiff -u"
 else
-    alias diff='diff -u'
+    alias diff="diff -u"
 fi
 
-if type tensorboard > /dev/null; then
-    function _tensorboard_alias() {
-        tensorboard --logdir=$*
-    }
-
-    alias tb=_tensorboard_alias
-fi
-
-gvim_call(){
-    if [[ $(\gvim --serverlist 2>/dev/null|wc -l) -ne 0 ]]; then
-        \gvim --remote $*
-    else
-        \gvim $*
-    fi
-
-}
-
-if [[ ! $TERM = 'linux' ]]; then
-    if [[ $TERM = 'xterm' ]]; then
+if [[ ! $TERM = "linux" ]]; then
+    if [[ $TERM = "xterm" ]]; then
         export TERM=xterm-256color
     fi
-    if [[ $VIM_TERMINAL = '' && $TMUX = '' ]]; then
+    if [[ $VIM_TERMINAL = "" && $TMUX = "" ]]; then
         tmux_call
     fi
     alias tmux=tmux_call
 fi
 
 if type $HOME/build/vim/bin/vim > /dev/null; then
-    ;
+    :
 elif type /usr/local/bin/vim > /dev/null;then
     alias vim=/usr/local/bin/vim
 fi
@@ -172,24 +173,47 @@ fi
 if type /usr/local/bin/gvim > /dev/null;then
     alias gvim=/usr/local/bin/gvim
 fi
+
 if type /usr/local/bin/emacs > /dev/null;then
     alias emacs=/usr/local/bin/emacs
 fi
 
 # Simple vim
-alias svim="vim --cmd 'let g:use_plugins=0'"
+alias svim="vim --cmd \"let g:use_plugins=0\""
 alias tgvim="gvim --remote-tab-silent"
 alias tvim="vim --remote-tab-silent"
 alias gnvim="nvim-qt"
 
 alias dir="dir --group-directories-first --color=auto"
 if type pygmentize > /dev/null; then
-    alias ccat='pygmentize -O style=monokai -f console256 -g'
+    alias ccat="pygmentize -O style=monokai -f console256 -g"
     alias pyg="pygmentize"
 fi
-stty stop undef
 
+# Check if 'kubectl' is a command in $PATH
+if [ $commands[kubectl] ]; then
+  # Placeholder 'kubectl' shell function:
+  # Will only be executed on the first call to 'kubectl'
+  function kubectl() {
+    # Remove this function, subsequent calls will execute 'kubectl' directly
+    unfunction "$0"
+    # Load auto-completion
+    source <(kubectl completion zsh)
+    # Execute 'kubectl' binary
+    $0 "$@"
+  }
+fi
+
+
+# ZSH CONFIG
+## BIND
+stty stop undef
 bindkey \^U backward-kill-line
+
+export ZSH_COMPDUMP=$HOME/.zcompdump
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=999999
+export SAVEHIST=$HISTSIZE
 
 setopt auto_param_slash      # ディレクトリ名の補完で末尾の / を自動的に付加し、次の補完に備える
 setopt mark_dirs             # ファイル名の展開でディレクトリにマッチした場合 末尾に / を付加
@@ -203,6 +227,7 @@ setopt always_last_prompt    # カーソル位置は保持したままファイ�
 setopt print_eight_bit       # 日本語ファイル名等8ビットを通す
 setopt extended_glob         # 拡張グロブで補完(~とか^とか。例えばless *.txt~memo.txt ならmemo.txt 以外の *.txt にマッチ)
 setopt globdots              # 明確なドットの指定なしで.から始まるファイルをマッチ
+setopt auto_cd               # "./dir"で"cd ./dir"になる
 
 zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
 zstyle ':completion:*' group-name ''
@@ -218,36 +243,3 @@ zstyle ':completion:*:warnings' format '%F{red}No matches for:%F{yellow} %d%f'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' use-cache true
 
-# Check if 'kubectl' is a command in $PATH
-if [ $commands[kubectl] ]; then
-  # Placeholder 'kubectl' shell function:
-  # Will only be executed on the first call to 'kubectl'
-  kubectl() {
-    # Remove this function, subsequent calls will execute 'kubectl' directly
-    unfunction "$0"
-    # Load auto-completion
-    source <(kubectl completion zsh)
-    # Execute 'kubectl' binary
-    $0 "$@"
-  }
-fi
-
-# Removing duplicates in $PATH
-_path=""
-for _p in $(echo $PATH | tr ':' ' '); do
-  case ":${_path}:" in
-    *:"${_p}":* )
-      ;;
-    * )
-      if [ "$_path" ]; then
-        _path="$_path:$_p"
-      else
-        _path=$_p
-      fi
-      ;;
-  esac
-done
-export PATH=$_path
-
-unset _p
-unset _path
