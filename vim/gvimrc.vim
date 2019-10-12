@@ -14,9 +14,9 @@ if has('gui_running')
 
   if has('win32')
     set renderoptions=type:directx
-    set guifont=Cica:h11
+    set guifont=Cica:h12
   else
-    set guifont=Cica\ 11
+    set guifont=Cica\ 12
   endif
 
   function! s:save_winpos(save_window_file) abort
