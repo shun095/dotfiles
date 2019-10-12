@@ -15,34 +15,6 @@ else
   let s:has_python = g:false
 endif
 
-let s:lazy_plugins = {}
-
-function! s:lazy_plugin_register(plugin, event) abort
-  if !has_key(s:lazy_plugins, a:event)
-    let s:lazy_plugins[a:event] = []
-  endif
-
-  let name = split(a:plugin, '/')[-1]
-  let s:lazy_plugins[a:event] = add(s:lazy_plugins[a:event], name)
-  execute "Plug '" . a:plugin . "', {'on': []}"
-endfunction
-
-function! s:on_insert_enter_load() abort
-  if !has_key(s:lazy_plugins, 'InsertEnter')
-    return
-  endif
-  for l:plug_name in s:lazy_plugins['InsertEnter']
-    call plug#load(l:plug_name)
-  endfor
-endfunction
-
-augroup myload_on_insert_enter
-  autocmd!
-  autocmd InsertEnter *
-        \ call s:on_insert_enter_load() | autocmd! myload_on_insert_enter
-augroup END
-
-
 " Color schemes
 Plug 'rakr/vim-one'
 let g:terminal_ansi_colors = [
@@ -84,7 +56,6 @@ let g:terminal_ansi_colors = [
 " else
 "   Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 " endif
-
 
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
