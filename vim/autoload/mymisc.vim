@@ -17,12 +17,15 @@ fun! mymisc#ime_deactivate() abort
       call system('fcitx-remote -c')
     endif
   elseif has('mac')
-    return
-    if has('job')
-      call job_start('osascript -e "tell application \"System Events\" to key code 102"')
+    if executable('swim')
+      call job_start(['swim', 'use', 'com.google.inputmethod.Japanese.Roman'],
+            \ {'in_io': 'null', 'out_io': 'null', 'err_io': 'null'})
     else
-      call system('osascript -e "tell application \"System Events\" to key code 102"')
+      call job_start(['osascript', '-e', 'tell application "System Events" to key code {102}'],
+            \ {'in_io': 'null', 'out_io': 'null', 'err_io': 'null'})
     endif
+  else
+    call system('osascript -e "tell application \"System Events\" to key code 102"')
   endif
 endf
 
