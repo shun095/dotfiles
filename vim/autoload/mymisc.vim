@@ -117,6 +117,22 @@ fun! mymisc#copydirpath() abort
   let @+ = expand('%:p:h')
 endf
 
+fun! mymisc#cd_history() abort
+  if executable("fzf")
+    let l:opts = fzf#wrap()
+
+    for s in ['sink', 'sink*']
+      if has_key(l:opts, s)
+        call remove(l:opts, s)
+      endif
+    endfor
+
+    let l:opts['sink'] = 'cd'
+    let l:opts['source'] = 'cat $HOME/.cd_history'
+    call fzf#run(l:opts)
+  endif
+endf
+
 fun! mymisc#command_at_destdir(destination,commandlist) abort
   if a:destination ==# ''
     echohl WarningMsg
@@ -360,3 +376,4 @@ fun! mymisc#set_statusline_vars() abort
     let w:mymisc_status_gitgutter .= ' '
   endif
 endf
+

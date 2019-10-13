@@ -501,6 +501,7 @@ try
         \ 'tags-'
         \ ]
   command! CdProject execute "cd " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
+  command! CdHistory call mymisc#cd_history()
 
   command! CpPath call mymisc#copypath()
   command! CpFileName call mymisc#copyfname()
