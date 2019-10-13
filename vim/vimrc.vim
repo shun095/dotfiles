@@ -186,20 +186,22 @@ try
   highlight link User4 Special
   highlight link User5 Comment
 
-  set statusline=%m%r%h%w%q
-  set statusline+=\ %f\ %<%=
-  set statusline+=%{Myvimrc_statusline_tagbar()}
-  set statusline+=%2*
-  set statusline+=\ %{Myvimrc_statusline_git()}
-  set statusline+=%4*
-  set statusline+=%{Myvimrc_statusline_gitgutter()}
-  set statusline+=%3*
-  set statusline+=%{&ft==#''?'':'['.&ft.']\ '}
+  let &statusline=''
+  let &statusline.='%m%r%h%w%q'
+  let &statusline.=' %f %<%='
+  let &statusline.='%{Myvimrc_statusline_tagbar()}'
+  let &statusline.='%2*'
+  let &statusline.=' %{Myvimrc_statusline_git()}'
+  let &statusline.='%4*'
+  let &statusline.='%{Myvimrc_statusline_gitgutter()}'
+  let &statusline.='%3*'
+  " スペースの制御のため%yは使わない
+  let &statusline.='%{&ft==#""?"":"[".&ft."] "}'
   if has('multi_byte')
-    set statusline+=%1*%{&fileencoding!=#''?&fileencoding:&encoding}
+    let &statusline.='%1*%{&fenc==#""?&enc:&fenc}'
   endif
-  set statusline+=\(%{&fileformat})
-  set statusline+=\ %5*%3p%%%5l:%-3v
+  let &statusline.='(%{&fileformat})'
+  let &statusline.=' %5*%3p%%%5l:%-3v'
 
   augroup vimrc_status_vars
     autocmd!
