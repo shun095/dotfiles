@@ -4,7 +4,7 @@
 if !1 | finish | endif
 
 set encoding=utf-8
-language C
+" language C
 
 scriptencoding utf-8
 
@@ -819,6 +819,7 @@ try
     try
       set background=dark
       if has('gui_running') || exists('&t_Co') && &t_Co >= 256
+        set background=light
         colorscheme one
       else
         colorscheme default
