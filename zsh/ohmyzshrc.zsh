@@ -53,6 +53,7 @@ ZSH_THEME="ishitaku"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+gnu-utils
 git
 git-auto-fetch
 tmux
@@ -68,6 +69,7 @@ gradle
 python
 pip
 pyenv
+# aws
 
 # brew
 sudo
