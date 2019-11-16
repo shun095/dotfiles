@@ -258,7 +258,7 @@ if mymisc#plug_tap('nerdtree')
   let g:NERDTreeWinSize = 35
 
   let g:NERDTreeMinimalUI = 0
-  let g:NERDTreeShowBookmarks = 1
+  let g:NERDTreeShowBookmarks = 0
   let g:NERDTreeHighlightCursorline = 1
   let g:NERDTreeIgnore = ['\.meta',
         \ '\.sw[po]',
