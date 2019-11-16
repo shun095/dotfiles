@@ -804,7 +804,7 @@ if mymisc#plug_tap('fzf.vim')
         \          <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?')),
         \   <bang>0)
 
-  let g:fzf_layout = { 'down': '~80%' }
+  let g:fzf_layout = { 'down': '~50%' }
   " let g:fzf_colors =
   "       \ { 'fg':      ['fg', 'Normal'],
   "       \   'bg':      ['bg', 'Normal'],

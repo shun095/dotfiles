@@ -58,7 +58,7 @@ else
     local previewcmd="cat {}"
 fi
 local fzf_color="--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5"
-export FZF_DEFAULT_OPTS="--height 80% --reverse --preview \""$previewcmd"\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
+export FZF_DEFAULT_OPTS="--height 50% --reverse --preview \""$previewcmd"\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
 
 source $MYDOTFILES/zsh/ohmyzshrc.zsh
 source $MYDOTFILES/zsh/cd_history_bookmark.zsh

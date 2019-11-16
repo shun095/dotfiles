@@ -186,6 +186,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'iberianpig/tig-explorer.vim'
 
 " General purpose motions
 Plug 'tpope/vim-repeat'
