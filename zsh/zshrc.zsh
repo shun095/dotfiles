@@ -146,6 +146,10 @@ function gvim_call(){
     fi
 }
 
+if type git-xlsx-textconv > /dev/null; then
+    alias xlsxtxt="git-xlsx-textconv"
+fi
+
 if type trash-put > /dev/null; then
     alias trm="trash-put"
 fi
