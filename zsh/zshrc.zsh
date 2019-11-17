@@ -74,7 +74,7 @@ function mailb(){
     \tmux source $HOME/dotfiles/tmux/mutt_tile2
 }
 
-function urlencode {
+function urlencode(){
   echo "$1" | nkf -WwMQ | tr = %
 }
 
@@ -126,11 +126,17 @@ function fadd() {
     done
 }
 
-function fhq() {
+function fghq() {
     local dir
     dir=$(ghq list > /dev/null | fzf --no-multi) && cd $(ghq root)/$dir
 }
-alias fghq="fhq"
+alias fhq="fghq"
+
+function cdproject() {
+  if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    cd `pwd`/`git rev-parse --show-cdup`
+  fi
+}
 
 function gvim_call(){
     if [[ $(\gvim --serverlist 2>/dev/null|wc -l) -ne 0 ]]; then
