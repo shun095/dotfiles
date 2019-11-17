@@ -196,8 +196,12 @@ alias gnvim="nvim-qt"
 
 alias dir="dir --group-directories-first --color=auto"
 if type pygmentize > /dev/null; then
-    alias ccat="pygmentize -O style=monokai -f console256 -g"
-    alias pyg="pygmentize"
+    alias pyg="pygmentize -O style=monokai -f 256 -g"
+    alias ccat="pyg"
+fi
+
+if type highlight > /dev/null; then
+    alias hlt="highlight -O ansi"
 fi
 
 # Check if 'kubectl' is a command in $PATH
