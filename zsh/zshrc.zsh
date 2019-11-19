@@ -47,6 +47,7 @@ export USE_CCACHE=1
 
 # ZSH PLUGIN CONFIG
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
+export ZSH_HIGHLIGHT_MAXLENGTH=80
 
 if type highlight > /dev/null; then
     HIGHLIGHT_SIZE_MAX=262143  # 256KiB
