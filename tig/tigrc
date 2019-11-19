@@ -18,6 +18,7 @@ set diff-view   = line-number:yes,interval=1 text:yes,commit-title-overflow=no
 
 # utf-8 文字で画面描画する (~でトグル)
 # set line-graphics = utf-8
+set line-graphics = ascii
 
 # タブサイズ
 set tab-size = 4
