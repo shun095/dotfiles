@@ -516,6 +516,14 @@ try
   command! Transparent hi Normal ctermbg=none guibg=NONE
   command! -nargs=1 -bang TabWidth exe 'set sw='.<args>.' sts='.<args>.' '.(<bang>0 ? 'no' : '').'et'
 
+  command! CreateNewPlan call s:create_new_plan()
+
+  function! s:create_new_plan() abort
+    let l:plandir = $HOME . '/plans/'
+    exe '!cp -i '.l:plandir.'/_plan_template.txt '.l:plandir.'/plan'.strftime("%Y%m%d").'.txt'
+    exe 'e '.l:plandir.'/plan'.strftime("%Y%m%d").'.txt'
+  endfunction
+
   command! FollowSymlink call s:follow_symlink()
   function! s:follow_symlink()
     let l:fname = resolve(expand('%:p'))
