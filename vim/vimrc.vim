@@ -440,7 +440,8 @@ try
   vnoremap <leader>d "_d
   " replace currently selected text with default register
   " without yanking it
-  vnoremap <leader>p "_dP
+  vnoremap <leader>p "_dp
+  vnoremap <leader>P "_dP
 
   function! s:lexplore(arg) abort
     let tail = expand('%:t')
