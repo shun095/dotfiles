@@ -128,7 +128,7 @@ fun! mymisc#cd_history() abort
     endfor
 
     let l:opts['sink'] = 'cd'
-    let l:opts['source'] = 'cat $HOME/.cd_history'
+    let l:opts['source'] = 'tac $HOME/.cd_history'
     call fzf#run(l:opts)
   endif
 endf
