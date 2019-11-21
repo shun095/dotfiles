@@ -128,7 +128,7 @@ fun! mymisc#cd_history() abort
     endfor
 
     let l:opts['sink'] = 'cd'
-    let l:opts['source'] = 'tac $HOME/.cd_history'
+    let l:opts['source'] = 'tac $HOME/.cd_history | sed -e "s?^'.getcwd().'\$??g" | sed ''s/#.*//g'' | sed ''/^\s*$/d'' | cat'
     call fzf#run(l:opts)
   endif
 endf
