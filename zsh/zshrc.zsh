@@ -7,7 +7,9 @@ case $- in
 esac
 
 # GENERAL CONFIG
-export EDITOR=vim
+if [[ "${EDITOR}" = "" ]]; then
+    export EDITOR=vim
+fi
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
 export PATH="$HOME/.go/bin:$PATH"
@@ -171,6 +173,11 @@ if [[ ! $TERM = "linux" ]]; then
     fi
     if [[ $VIM_TERMINAL = "" && $TMUX = "" ]]; then
         tmux_call
+    fi
+    if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
+        source "${VIM_EDITERM_SETUP}"
+        alias :e=":edit"
+        alias :dr=":drop"
     fi
     alias tmux=tmux_call
 fi

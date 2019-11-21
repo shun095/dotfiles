@@ -150,7 +150,8 @@ try
   set tags+=./tags;,./tags-ja;                             " タグファイルを上層に向かって探す
   set autoread                                             " 他のソフトで、編集中ファイルが変更されたとき自動Reload
   set noautochdir                                          " 今開いてるファイルにカレントディレクトリを移動するか
-  set ambiwidth=double                                     " 全角記号（「→」など）の文字幅
+  " ambiwidth: single for tools on :terminal
+  set ambiwidth=single                                     " 全角記号（「→」など）の文字幅
   set mouse=a                                              " マウスを有効化
   set mousehide                                            " 入力中にポインタを消すかどうか
   set mousemodel=popup                                     " Behavior of right-click
@@ -418,11 +419,9 @@ try
     tnoremap <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
   else
     tnoremap <C-w><C-w> <C-w>.
-    tnoremap <C-w><Space>j <C-w>N<C-w>J15<C-w>_i
-    tnoremap <C-w><Space>k <C-w>N<C-w>K15<C-w>_i
+    tnoremap <C-w><Space>_ <C-w>N15<C-w>_i
   endif
-  nnoremap <C-w><Space>j <C-w>J15<C-w>_
-  nnoremap <C-w><Space>k <C-w>K15<C-w>_
+  nnoremap <C-w><Space>_ 15<C-w>_
 
   noremap! <C-f> <Right>
   noremap! <C-b> <Left>
