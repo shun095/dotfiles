@@ -113,7 +113,7 @@ try
     set diffopt+=algorithm:histogram,indent-heuristic        " Diff options
   endif
   set visualbell t_vb=                                     " Disable beep sounds
-  set nocursorline                                         " Highlight of cursor line/column
+  set cursorline                                           " Highlight of cursor line/column
   set nocursorcolumn
   set backspace=indent,eol,start                           " Make backspace's behavior good
   set clipboard=unnamed,unnamedplus                        " Enable clipboard
