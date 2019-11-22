@@ -1180,7 +1180,7 @@ if mymisc#plug_tap('vim-lsp')
         \       '-data',
         \       fnamemodify("~", ":p") . '/.eclipse.jdt.ls/workspace/',
         \     ],
-        \     'root_marker': ['.project'],
+        \     'root_marker': ['.git', '.project'],
         \   }
 
   let g:myvimrc_vimlsp_config = {}
