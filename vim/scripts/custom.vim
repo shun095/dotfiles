@@ -756,6 +756,11 @@ if mymisc#plug_tap('fzf.vim')
     let $FZF_DEFAULT_COMMAND = substitute(g:ctrlp_user_command,'%s','.','g')
   endif
 
+  " for GVIM
+  if !exists('$FZF_DEFAULT_OPTS')
+    let $FZF_DEFAULT_OPTS="--height 50% --reverse --preview \"cat {}\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
+  endif
+
   function! s:history(arg, options, bang)
   let bang = a:bang || a:arg[len(a:arg)-1] == '!'
     let options = a:options
