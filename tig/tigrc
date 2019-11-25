@@ -54,6 +54,9 @@ bind generic E      view-grep
 # G でファイル末尾に移動 (default: :toggle commit-title-graph)
 bind generic G      move-last-line
 bind main    G      move-last-line
+bind generic s      view-status
+bind generic S      view-stage
+bind main    c      ?git checkout %(commit)
 
 # Alt-g で :toggle commit-title-graph
 bind main    <Ctrl-g> :toggle commit-title-graph
