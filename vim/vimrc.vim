@@ -449,12 +449,16 @@ try
     exe "Lexplore ".a:arg
     normal 99h
 
-    let netrw_top = substitute(w:netrw_treetop,'\','/','g')
-    let tree_nodes = split(substitute(full, netrw_top, '', 'g'),'/')
+    try
+      let netrw_top = substitute(w:netrw_treetop,'\','/','g')
+      let tree_nodes = split(substitute(full, netrw_top, '', 'g'),'/')
 
-    for node in tree_nodes
-      call search('\(^\|\s\)\zs'.node.'\(/\|\)$')
-    endfor
+      for node in tree_nodes
+        call search('\(^\|\s\)\zs'.node.'\(/\|\)$')
+      endfor
+    catch
+      " pass
+    endtry
 
     if !exists("w:mynetrw_wide")
       let w:mynetrw_wide = 0
@@ -474,8 +478,9 @@ try
     call s:lex_apply_toggle()
   endfunction
 
-  nnoremap <Leader>e :<C-u>call <SID>lexplore('%:h')<CR>
-  nnoremap <Leader>E :<C-u>call <SID>lexplore('.')<CR>
+  nnoremap <Leader>E :<C-u>call <SID>lexplore('%:h')<CR>
+  nnoremap <Leader>e :<C-u>call <SID>lexplore('')<CR>
+  nnoremap <Leader><C-e> :<C-u>call <SID>lexplore('.')<CR>
   let g:netrw_banner = 0
   let g:netrw_altfile = 1
   let g:netrw_liststyle = 3
@@ -543,11 +548,12 @@ try
   endfunction
 
   function! s:get_termrun_cmd(cmd, height) abort
-    if has('nvim')
-      let l:terminal_cmd = ':bel '.a:height.'split term://'
-    else
-      let l:terminal_cmd = ':bel terminal ++rows='.a:height.' '
-    endif
+    " if has('nvim')
+    "   let l:terminal_cmd = ':bel '.a:height.'split term://'
+    " else
+    "   let l:terminal_cmd = ':bel terminal ++rows='.a:height.' '
+    " endif
+    let l:terminal_cmd = ':terminal'
     let l:ret = l:terminal_cmd . a:cmd
     return l:ret
   endfunction

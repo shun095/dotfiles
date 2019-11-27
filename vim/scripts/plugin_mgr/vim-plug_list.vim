@@ -72,13 +72,13 @@ Plug 'ishitaku5522/asyncomplete-omni.vim'
 Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspace'}
 " Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
 
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'ishitaku5522/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'scrooloose/nerdtree'
+" Plug 'jistr/vim-nerdtree-tabs'
+" Plug 'ishitaku5522/nerdtree-git-plugin'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Plug 'ryanoasis/vim-devicons'
-" Plug 'justinmk/vim-dirvish'
+Plug 'justinmk/vim-dirvish'
 "
 Plug 'francoiscabrol/ranger.vim'
 
@@ -152,7 +152,6 @@ Plug 'pprovost/vim-ps1'
 " Plug 'ishitaku5522/ctrlp.vim', {'branch': 'develop'}
 " Plug 'mattn/ctrlp-register'
 " Plug 'mattn/ctrlp-mark'
-
 " Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'junegunn/fzf.vim'
 

@@ -10,6 +10,7 @@ endif
 
 if mymisc#plug_tap('vim-dirvish')
   nnoremap <silent> <Leader>e :call <SID>mydirvish_start('.',0)<CR>
+  nnoremap <silent> <Leader><C-e> :call <SID>mydirvish_start('.',1)<CR>
   nnoremap <silent> <Leader>E :call <SID>mydirvish_start('%:p:h',1)<CR>
 
   let g:mydirvish_hidden = 1
@@ -18,14 +19,18 @@ if mymisc#plug_tap('vim-dirvish')
   fun! s:mydirvish_start(path, force_change_path)
     let path = expand(a:path)
 
-    if exists('t:mydirvish_winid') && win_gotoid(t:mydirvish_winid)
-      let w:mydirvish_before = [expand("%:p")]
+    if exists('t:mydirvish_winid') 
+      let l:mydirvish_last_file = expand("%:p")
+      if win_gotoid(t:mydirvish_winid)
+        let w:mydirvish_before = [expand("%:p")]
 
-      if a:force_change_path
-        exe 'Dirvish ' . path
+        if a:force_change_path
+          exe 'Dirvish ' . path
+          silent call search('\V\^'.escape(l:mydirvish_last_file, '\').'\$', 'cw')
+        endif
+
+        return
       endif
-
-      return
     endif
 
     40vsplit
@@ -47,6 +52,9 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_open()
+    if !exists('w:mydirvish_before')
+      let w:mydirvish_before = []
+    endif
     if len(w:mydirvish_before) > 1
       call remove(w:mydirvish_before,0,1)
     elseif len(w:mydirvish_before) == 1
@@ -92,7 +100,7 @@ if mymisc#plug_tap('vim-dirvish')
     xnoremap <buffer> i    :call <SID>mydirvish_open()<CR>
     nnoremap <buffer> o    :call <SID>mydirvish_open()<CR>
     xnoremap <buffer> o    :call <SID>mydirvish_open()<CR>
-    nnoremap <buffer> ~    :call <SID>mydirvish_start($HOME)<CR>
+    nnoremap <buffer> ~    :call <SID>mydirvish_start($HOME,1)<CR>
 
     " 独自quitスクリプト
     nnoremap <buffer> q    :call <SID>mydirvish_quit()<cr>
@@ -102,11 +110,20 @@ if mymisc#plug_tap('vim-dirvish')
     nnoremap <buffer> s    :call <SID>mydirvish_toggle_sortfiles()<CR>
 
     " Shell operations
-    nnoremap <buffer> dd   :Shdo rm -rf {}<CR>
-    vnoremap <buffer> d    :Shdo rm -rf {}<CR>
+    if executable('trash-put')
+      nnoremap <buffer> dd   :Shdo trash-put {}<CR>
+      nnoremap <buffer> md   :Shdo trash-put {}<CR>
+      vnoremap <buffer> d    :Shdo trash-put {}<CR>
+    else
+      nnoremap <buffer> dd   :Shdo rm -rf {}<CR>
+      nnoremap <buffer> md   :Shdo rm -rf {}<CR>
+      vnoremap <buffer> d    :Shdo rm -rf {}<CR>
+    endif
     nnoremap <buffer> rr   :Shdo mv {}<CR>
+    nnoremap <buffer> mm   :Shdo mv {}<CR>
     vnoremap <buffer> r    :Shdo mv {}<CR>
     nnoremap <buffer> cc   :Shdo cp {}<CR>
+    nnoremap <buffer> mc   :Shdo cp {}<CR>
     vnoremap <buffer> c    :Shdo cp {}<CR>
 
     call <SID>mydirvish_apply_config()
@@ -117,6 +134,7 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_apply_config()
+    let l:line = getline('.')
     normal R
     if g:mydirvish_sort
       call s:mydirvish_do_sort()
@@ -124,6 +142,7 @@ if mymisc#plug_tap('vim-dirvish')
     if g:mydirvish_hidden
       call s:mydirvish_do_hide()
     endif
+    silent call search('\V\^'.escape(l:line, '\').'\$', 'cw')
   endf
 
   fun! s:mydirvish_do_sort()
@@ -131,7 +150,7 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_do_hide()
-    keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d _
+    silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d _
   endf
 
   fun! s:mydirvish_toggle_hiddenfiles()
@@ -1101,8 +1120,8 @@ if mymisc#plug_tap('LanguageClient-neovim')
 endif
 
 if mymisc#plug_tap('vim-lsp')
-  " let g:lsp_log_verbose = 1
-  " let g:lsp_log_file = "/tmp/vim-lsp.log"
+  " let g:lsp_log_verbose = 0
+  " let g:lsp_log_file = tempname()
   " call delete(g:lsp_log_file)
   augroup vimrc_vimlsp
     autocmd!
