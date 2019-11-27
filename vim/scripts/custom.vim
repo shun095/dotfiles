@@ -26,7 +26,7 @@ if mymisc#plug_tap('vim-dirvish')
 
         if a:force_change_path
           exe 'Dirvish ' . path
-          silent call search('\V\^'.escape(l:mydirvish_last_file, '\').'\$', 'cw')
+          " silent call search('\V\^'.escape(l:mydirvish_last_file, '\').'\$', 'cw')
         endif
 
         return
@@ -75,6 +75,19 @@ if mymisc#plug_tap('vim-dirvish')
     endif
   endf
 
+  fun! s:mydirvish_up()
+    if !exists('w:mydirvish_before')
+      let w:mydirvish_before = []
+    endif
+    if len(w:mydirvish_before) > 1
+      let w:mydirvish_before[1] = getline('.')
+    else
+      call extend(w:mydirvish_before, [getline('.')])
+    endif
+    " echom 'Dirvish %:p:h'.repeat(':h',v:count1)
+    exe 'Dirvish %:p:h'.repeat(':h',v:count1)
+  endf
+
   fun s:mydirvish_init_buffer()
     if !exists('w:mydirvish_before')
       let w:mydirvish_before = []
@@ -92,8 +105,8 @@ if mymisc#plug_tap('vim-dirvish')
     " hとlによる移動
     nnoremap <buffer> l    :call <SID>mydirvish_open()<CR>
     xnoremap <buffer> l    :call <SID>mydirvish_open()<CR>
-    nmap     <buffer> h    <Plug>(dirvish_up)
-    xmap     <buffer> h    <Plug>(dirvish_up)
+    nnoremap <buffer> h    :call <SID>mydirvish_up()<CR>
+    xnoremap <buffer> h    :call <SID>mydirvish_up()<CR>
     nnoremap <buffer> <CR> :call <SID>mydirvish_open()<CR>
     xnoremap <buffer> <CR> :call <SID>mydirvish_open()<CR>
     nnoremap <buffer> i    :call <SID>mydirvish_open()<CR>
@@ -134,7 +147,7 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_apply_config()
-    let l:line = getline('.')
+    " let l:line = getline('.')
     normal R
     if g:mydirvish_sort
       call s:mydirvish_do_sort()
@@ -142,7 +155,7 @@ if mymisc#plug_tap('vim-dirvish')
     if g:mydirvish_hidden
       call s:mydirvish_do_hide()
     endif
-    silent call search('\V\^'.escape(l:line, '\').'\$', 'cw')
+    " silent call search('\V\^'.escape(l:line, '\').'\$', 'cw')
   endf
 
   fun! s:mydirvish_do_sort()
