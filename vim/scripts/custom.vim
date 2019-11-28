@@ -26,7 +26,9 @@ if mymisc#plug_tap('vim-dirvish')
 
         if a:force_change_path
           exe 'Dirvish ' . path
-          " silent call search('\V\^'.escape(l:mydirvish_last_file, '\').'\$', 'cw')
+        elseif &ft !=# 'dirvish'
+          let path = get(g:, 'mydirvish_last_dir', path)
+          exe 'Dirvish ' . path
         endif
 
         return
@@ -76,9 +78,8 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_up()
-    if !exists('w:mydirvish_before')
-      let w:mydirvish_before = []
-    endif
+    let w:mydirvish_before = get(w:, 'mydirvish_before', [])
+
     if len(w:mydirvish_before) > 1
       let w:mydirvish_before[1] = getline('.')
     else
