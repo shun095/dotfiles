@@ -16,7 +16,7 @@ _NUM_PARALLEL=4
 _PREFIX=$HOME/build/${SOFTWARE_NAME}
 
 cd ${_SCRIPT_DIR}/${SOFTWARE_NAME}
-# git fetch --all -t -f
+git fetch -t
 git checkout ${BRANCH_NAME}
 
 if ${NEEDS_PULL}; then

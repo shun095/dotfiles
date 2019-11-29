@@ -34,10 +34,8 @@ if mymisc#plug_tap('vim-dirvish')
         return
       endif
     endif
-
-    40vsplit
+    vertical topleft 40split
     set winfixwidth
-    normal =
 
     let w:mydirvish_by_split = 1
     let w:mydirvish_before = [expand("%:p")]
@@ -125,20 +123,17 @@ if mymisc#plug_tap('vim-dirvish')
 
     " Shell operations
     if executable('trash-put')
-      nnoremap <buffer> dd   :Shdo trash-put {}<CR>
       nnoremap <buffer> md   :Shdo trash-put {}<CR>
       vnoremap <buffer> d    :Shdo trash-put {}<CR>
     else
-      nnoremap <buffer> dd   :Shdo rm -rf {}<CR>
       nnoremap <buffer> md   :Shdo rm -rf {}<CR>
       vnoremap <buffer> d    :Shdo rm -rf {}<CR>
     endif
-    nnoremap <buffer> rr   :Shdo mv {}<CR>
     nnoremap <buffer> mm   :Shdo mv {}<CR>
-    vnoremap <buffer> r    :Shdo mv {}<CR>
-    nnoremap <buffer> cc   :Shdo cp {}<CR>
+    vnoremap <buffer> m    :Shdo mv {}<CR>
     nnoremap <buffer> mc   :Shdo cp {}<CR>
     vnoremap <buffer> c    :Shdo cp {}<CR>
+    nnoremap <buffer> ma   :let @z = @%<CR><C-w>p:drop <C-r>z
 
     call <SID>mydirvish_apply_config()
 
@@ -206,7 +201,6 @@ if mymisc#plug_tap('vim-dirvish')
     if exists("w:mydirvish_by_split") && w:mydirvish_by_split && winnr("$") > 1
       unlet w:mydirvish_by_split
       q
-      normal =
     endif
   endf
 
