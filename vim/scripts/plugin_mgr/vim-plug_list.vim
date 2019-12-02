@@ -144,7 +144,7 @@ Plug 'pboettch/vim-cmake-syntax', {'for': ['cmake']}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
 Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
 Plug 'aklt/plantuml-syntax', {'for': ['plantuml']}
-Plug 'vim-scripts/bash-support.vim'
+" Plug 'vim-scripts/bash-support.vim'
 Plug 'pprovost/vim-ps1'
 " Plug 'hdima/python-syntax'
 
