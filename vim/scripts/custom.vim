@@ -129,10 +129,10 @@ if mymisc#plug_tap('vim-dirvish')
       nnoremap <buffer> md   :Shdo rm -rf {}<CR>
       vnoremap <buffer> d    :Shdo rm -rf {}<CR>
     endif
-    nnoremap <buffer> mm   :Shdo mv {}<CR>
-    vnoremap <buffer> m    :Shdo mv {}<CR>
-    nnoremap <buffer> mc   :Shdo cp {}<CR>
-    vnoremap <buffer> c    :Shdo cp {}<CR>
+    nnoremap <buffer> mm   :Shdo mv {} {}_move<CR>
+    vnoremap <buffer> m    :Shdo mv {} {}_move<CR>
+    nnoremap <buffer> mc   :Shdo cp {} {}_copy<CR>
+    vnoremap <buffer> c    :Shdo cp {} {}_copy<CR>
     nnoremap <buffer> ma   :let @z = @%<CR><C-w>p:drop <C-r>z
 
     call <SID>mydirvish_apply_config()
