@@ -149,6 +149,18 @@ function gvim_call(){
     fi
 }
 
+if type gsed > /dev/null; then
+    alias sed="gsed"
+fi
+if type gls > /dev/null; then
+    alias ls="gls --color"
+    alias la="gls --color -a"
+    alias ll="gls --color -la"
+fi
+if type ggrep > /dev/null; then
+    alias grep="ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
+fi
+
 if type git-xlsx-textconv > /dev/null; then
     alias xlsxtxt="git-xlsx-textconv"
 fi
