@@ -697,8 +697,21 @@ try
     if !has('nvim') && v:version >= 801
       autocmd TerminalOpen * setl nonumber nowrap
     endif
+
     " Markdown
-    let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'cpp', 'c', 'vim']
+    let g:markdown_fenced_languages = [
+          \   'bash=sh',
+          \   'c',
+          \   'cpp',
+          \   'css',
+          \   'go',
+          \   'html',
+          \   'java',
+          \   'javascript',
+          \   'python',
+          \   'sh',
+          \   'vim',
+          \ ]
 
     " HTML,XML,CSS,JavaScript
     autocmd Filetype html,xml,vue setl noexpandtab softtabstop=4 shiftwidth=4 foldmethod=indent
