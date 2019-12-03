@@ -518,6 +518,11 @@ try
         \ ]
   command! CdProject execute "cd " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
   command! CdHistory call mymisc#cd_history()
+  if executable('tig')
+    command! Tig call mymisc#command_at_destdir(
+          \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
+          \ [":terminal ++rows=999 ++close tig"])
+  endif
 
   command! CpPath call mymisc#copypath()
   command! CpFileName call mymisc#copyfname()
