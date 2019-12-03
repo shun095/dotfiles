@@ -34,7 +34,7 @@ if mymisc#plug_tap('vim-dirvish')
         return
       endif
     endif
-    vertical topleft 40split
+    vertical topleft 35split
     set winfixwidth
 
     let w:mydirvish_by_split = 1
