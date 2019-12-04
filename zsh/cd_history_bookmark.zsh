@@ -24,11 +24,11 @@
 
 _cd_history_bookmark_limit=100
 
-if sed --version 2>/dev/null | grep -q GNU; then
-    _cd_history_bookmark_sedi="sed -i -e"
+if \sed --version 2>/dev/null | grep -q GNU; then
+    _cd_history_bookmark_sedi='\sed -i -e'
     tac="tac"
 else
-    _cd_history_bookmark_sedi="sed -i .bak -e"
+    _cd_history_bookmark_sedi='\sed -i .bak -e'
     tac="tail -r"
 fi
 

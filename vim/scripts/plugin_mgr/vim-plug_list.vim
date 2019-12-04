@@ -195,7 +195,7 @@ Plug 'deris/vim-shot-f'
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-submode'
 Plug 'bkad/CamelCaseMotion'
-Plug 'deton/jasegment.vim'
+" Plug 'deton/jasegment.vim'
 
 " Applications
 Plug 'glidenote/memolist.vim', {'on': ['MemoNew', 'MemoList']}
