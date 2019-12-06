@@ -15,6 +15,7 @@ if mymisc#plug_tap('vim-dirvish')
 
   let g:mydirvish_hidden = 1
   let g:mydirvish_sort = 1
+  let g:mydirvish_width = 35
 
   fun! s:mydirvish_start(path, force_change_path)
     let path = expand(a:path)
@@ -34,10 +35,11 @@ if mymisc#plug_tap('vim-dirvish')
         return
       endif
     endif
-    vertical topleft 35split
+    exe 'vertical topleft ' . g:mydirvish_width . 'split'
     set winfixwidth
 
     let w:mydirvish_by_split = 1
+    let w:mydirvish_default_width = 1
     let w:mydirvish_before = [l:mydirvish_last_file]
 
     if a:force_change_path
@@ -137,6 +139,8 @@ if mymisc#plug_tap('vim-dirvish')
     xnoremap <buffer> o     :call <SID>mydirvish_open()<CR>
     nnoremap <buffer> ~     :call <SID>mydirvish_start($HOME,1)<CR>
 
+    nnoremap <buffer> A     :call <SID>mydirvish_toggle_winwidth()<CR>
+
     " 独自quitスクリプト
     nnoremap <buffer> q    :call <SID>mydirvish_quit()<cr>
 
@@ -163,6 +167,18 @@ if mymisc#plug_tap('vim-dirvish')
     " 開いていたファイルやDirectory(w:mydirvish_before)にカーソルをあわせる
     call <SID>mydirvish_update_beforelist()
     call <SID>mydirvish_selectprevdir()
+  endf
+
+  fun! s:mydirvish_toggle_winwidth()
+    if exists('w:mydirvish_default_width') && w:mydirvish_default_width
+      normal |
+      let w:mydirvish_default_width = 0
+      setl conceallevel=0
+    else
+      exe 'normal ' . g:mydirvish_width . '|'
+      let w:mydirvish_default_width = 1
+      setl conceallevel=2
+    endif
   endf
 
   fun! s:mydirvish_apply_config()
