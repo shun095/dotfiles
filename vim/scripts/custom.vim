@@ -51,7 +51,13 @@ if mymisc#plug_tap('vim-dirvish')
     let t:mydirvish_winid = win_getid(winnr())
   endf
 
-  fun! s:mydirvish_open()
+  fun! s:mydirvish_open(...)
+    if a:0 > 0
+      let l:cmd = a:1
+    else
+      let l:cmd = 'edit'
+    endif
+
     if !exists('w:mydirvish_before')
       let w:mydirvish_before = []
     endif
@@ -62,16 +68,29 @@ if mymisc#plug_tap('vim-dirvish')
     endif
 
     if exists("w:mydirvish_by_split")
+      " on custom dirvish window
       if match(getline("."),"[\\/]$") >= 0
-        call dirvish#open('edit', 0)
+        " directory
+        call dirvish#open(l:cmd, 0)
       else
+        " file
         let g:mydirvish_tmp = getline('.')
         wincmd p
-        exe "drop " . g:mydirvish_tmp
+        if l:cmd ==# 'edit'
+          let l:cmd = 'drop'
+        elseif l:cmd ==# 'vsplit'
+          vsplit
+          let l:cmd = 'drop'
+        elseif l:cmd ==# 'split'
+          split
+          let l:cmd = 'drop'
+        endif
+        exe l:cmd . " " . g:mydirvish_tmp
         unlet g:mydirvish_tmp
       endif
     else
-      call dirvish#open('edit', 0)
+      " on original dirvish window
+      call dirvish#open(l:cmd, 0)
     endif
   endf
 
@@ -102,24 +121,26 @@ if mymisc#plug_tap('vim-dirvish')
     augroup END
 
     " hとlによる移動
-    nnoremap <buffer> l    :call <SID>mydirvish_open()<CR>
-    xnoremap <buffer> l    :call <SID>mydirvish_open()<CR>
-    nnoremap <buffer> h    :call <SID>mydirvish_up()<CR>
-    xnoremap <buffer> h    :call <SID>mydirvish_up()<CR>
-    nnoremap <buffer> <CR> :call <SID>mydirvish_open()<CR>
-    xnoremap <buffer> <CR> :call <SID>mydirvish_open()<CR>
-    nnoremap <buffer> i    :call <SID>mydirvish_open()<CR>
-    xnoremap <buffer> i    :call <SID>mydirvish_open()<CR>
-    nnoremap <buffer> o    :call <SID>mydirvish_open()<CR>
-    xnoremap <buffer> o    :call <SID>mydirvish_open()<CR>
-    nnoremap <buffer> ~    :call <SID>mydirvish_start($HOME,1)<CR>
+    nnoremap <buffer> <C-t> :call <SID>mydirvish_open('tabedit')<CR>
+    xnoremap <buffer> <C-t> :call <SID>mydirvish_open('tabedit')<CR>
+    nnoremap <buffer> u     :call <SID>mydirvish_up()<CR>
+    xnoremap <buffer> u     :call <SID>mydirvish_up()<CR>
+    nnoremap <buffer> <CR>  :call <SID>mydirvish_open()<CR>
+    xnoremap <buffer> <CR>  :call <SID>mydirvish_open()<CR>
+    nnoremap <buffer> i     :call <SID>mydirvish_open('split')<CR>
+    xnoremap <buffer> i     :call <SID>mydirvish_open('split')<CR>
+    nnoremap <buffer> s     :call <SID>mydirvish_open('vsplit')<CR>
+    xnoremap <buffer> s     :call <SID>mydirvish_open('vsplit')<CR>
+    nnoremap <buffer> o     :call <SID>mydirvish_open()<CR>
+    xnoremap <buffer> o     :call <SID>mydirvish_open()<CR>
+    nnoremap <buffer> ~     :call <SID>mydirvish_start($HOME,1)<CR>
 
     " 独自quitスクリプト
     nnoremap <buffer> q    :call <SID>mydirvish_quit()<cr>
 
     " .とsに隠しファイルとソートを割り当て
     nnoremap <buffer> .    :call <SID>mydirvish_toggle_hiddenfiles()<CR>
-    nnoremap <buffer> s    :call <SID>mydirvish_toggle_sortfiles()<CR>
+    nnoremap <buffer> S    :call <SID>mydirvish_toggle_sortfiles()<CR>
 
     " Shell operations
     if executable('trash-put')
