@@ -18,11 +18,11 @@ if mymisc#plug_tap('vim-dirvish')
 
   fun! s:mydirvish_start(path, force_change_path)
     let path = expand(a:path)
+    let l:mydirvish_last_file = expand("%:p")
 
     if exists('t:mydirvish_winid') 
-      let l:mydirvish_last_file = expand("%:p")
       if win_gotoid(t:mydirvish_winid)
-        let w:mydirvish_before = [expand("%:p")]
+        let w:mydirvish_before = [expand("%:p"), l:mydirvish_last_file]
 
         if a:force_change_path
           exe 'Dirvish ' . path
@@ -38,7 +38,7 @@ if mymisc#plug_tap('vim-dirvish')
     set winfixwidth
 
     let w:mydirvish_by_split = 1
-    let w:mydirvish_before = [expand("%:p")]
+    let w:mydirvish_before = [l:mydirvish_last_file]
 
     if a:force_change_path
       exe 'Dirvish ' . path
@@ -1213,6 +1213,14 @@ if mymisc#plug_tap('vim-lsp')
         \       fnamemodify("~", ":p") . '/.eclipse.jdt.ls/workspace/',
         \     ],
         \     'root_marker': ['.git', '.project'],
+        \   }
+
+  let g:myvimrc_lsp_general_config['go'] =
+        \   {
+        \     'name': 'gopls',
+        \     'filetype': ['go'],
+        \     'is_executable': executable('gopls'),
+        \     'cmd': ['gopls', '-mode', 'stdio'],
         \   }
 
   let g:myvimrc_vimlsp_config = {}

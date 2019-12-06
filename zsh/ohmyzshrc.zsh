@@ -53,26 +53,35 @@ ZSH_THEME="ishitaku"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-gnu-utils
+aws
+cargo
+cloudfoundry
+docker
+docker-compose
+emacs
+fzf
+gcloud
 git
 git-auto-fetch
-tmux
-tig
-fzf
-ripgrep
-docker
-# kubectl
-
-mvn
+git-escape-magic
+gnu-utils
+go
+golang
 gradle
-
-python
+minikube
+mvn
+node
+npm
+npx
 pip
 pyenv
-# aws
-
-# brew
+python
+ripgrep
 sudo
+tig
+tmux
+vscode
+yarn
 
 # command-not-found
 history-substring-search

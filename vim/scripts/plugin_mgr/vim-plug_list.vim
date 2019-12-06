@@ -118,7 +118,7 @@ Plug 'iamcco/markdown-preview.vim', {'for': ['markdown']}
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'jceb/vim-orgmode', {'for': ['org']}
 Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
-Plug 'fatih/vim-go', {'for': ['go']}
+" Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
 Plug 'mopp/next-alter.vim', {'for': ['c', 'cpp', 'vim']}
 Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
