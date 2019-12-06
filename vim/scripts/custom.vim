@@ -123,6 +123,8 @@ if mymisc#plug_tap('vim-dirvish')
     " hとlによる移動
     nnoremap <buffer> <C-t> :call <SID>mydirvish_open('tabedit')<CR>
     xnoremap <buffer> <C-t> :call <SID>mydirvish_open('tabedit')<CR>
+    nnoremap <buffer> -     :call <SID>mydirvish_up()<CR>
+    xnoremap <buffer> -     :call <SID>mydirvish_up()<CR>
     nnoremap <buffer> u     :call <SID>mydirvish_up()<CR>
     xnoremap <buffer> u     :call <SID>mydirvish_up()<CR>
     nnoremap <buffer> <CR>  :call <SID>mydirvish_open()<CR>

@@ -54,6 +54,7 @@ ZSH_THEME="ishitaku"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 aws
+# brew # unnecessary for newest brew
 cargo
 cloudfoundry
 docker
@@ -82,7 +83,6 @@ tig
 tmux
 vscode
 yarn
-
 # command-not-found
 history-substring-search
 zsh-completions

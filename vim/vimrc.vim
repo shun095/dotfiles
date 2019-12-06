@@ -580,7 +580,8 @@ try
   nnoremap <Leader>gp :call <SID>my_git_push()<CR>
   nnoremap <Leader>gl :call <SID>my_git_pull()<CR>
   nnoremap <Leader>te :T<CR>
-  command! T execute s:get_termrun_cmd(&shell, g:myvimrc_term_winheight)
+  command! T execute s:get_termrun_cmd(match(&shell, 'zsh') ? &shell . ' --login' : &shell,
+        \ g:myvimrc_term_winheight)
 
   if !has('nvim')
     " Forked from https://qiita.com/shiena/items/1dcb20e99f43c9383783

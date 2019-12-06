@@ -6,16 +6,20 @@ case $- in
     *) return;;
 esac
 
+
 # GENERAL CONFIG
 if [[ "${EDITOR}" = "" ]]; then
     export EDITOR=vim
 fi
-export PATH="/usr/local/go/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
-export PATH="$HOME/.go/bin:$PATH"
-export PATH="$GOPATH/bin:$PATH"
+
+# LANGUAGE SPECIFIC
+export GOPATH=$HOME/.gopath
 export PATH="$HOME/build/go/bin:$PATH"
+export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/build/node/bin:$PATH"
+export PATH="$HOME/.nodebrew/current/bin:$PATH"
 export PATH="$HOME/build/tig/bin:$PATH"
 export PATH="$HOME/build/tmux/bin:$PATH"
 export PATH="$HOME/build/emacs/bin:$PATH"
@@ -24,31 +28,32 @@ export PATH="$HOME/build/nvim-qt/bin:$PATH"
 export PATH="$HOME/build/nvim/bin:$PATH"
 export PATH="$HOME/build/vim/bin:$PATH"
 
-# Removing duplicates in $PATH
-_path=""
-for _p in $(echo $PATH | tr ":" " "); do
-  case ":${_path}:" in
-    *:"${_p}":* )
-      ;;
-    * )
-      if [ "$_path" ]; then
-        _path="$_path:$_p"
-      else
-        _path=$_p
-      fi
-      ;;
-  esac
-done
-export PATH=$_path
-unset _p
-unset _path
+export USE_CCACHE=1
+
+remove_dups_in_path(){
+    # Removing duplicates in $PATH
+    _path=""
+    for _p in $(echo $PATH | tr ":" " "); do
+        case ":${_path}:" in
+            *:"${_p}":* )
+                ;;
+            * )
+                if [ "$_path" ]; then
+                    _path="$_path:$_p"
+                else
+                    _path=$_p
+                fi
+                ;;
+        esac
+    done
+    export PATH=$_path
+    unset _p
+    unset _path
+}
+
 
 # GENERAL
 export MYDOTFILES=$HOME/dotfiles
-
-# LANGUAGE SPECIFIC
-export GOPATH=$HOME/.gopath
-export USE_CCACHE=1
 
 # ZSH PLUGIN CONFIG
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
@@ -66,25 +71,31 @@ fi
 local fzf_color="--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5"
 export FZF_DEFAULT_OPTS="--height 50% --reverse --preview \""$previewcmd"\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
 
+
+# source oh-my-zsh config
+#
 source $MYDOTFILES/zsh/ohmyzshrc.zsh
+
+remove_dups_in_path
+
 source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 
-function chpwd() {
+chpwd() {
     _cd_history_bookmark_save_cd_history
 }
 
-function maila(){
+maila(){
     \tmux source $HOME/dotfiles/tmux/mutt_tile
 }
-function mailb(){
+mailb(){
     \tmux source $HOME/dotfiles/tmux/mutt_tile2
 }
 
-function urlencode(){
+urlencode(){
   echo "$1" | nkf -WwMQ | tr = %
 }
 
-function tmux_call(){
+tmux_call(){
     if [[ $# -eq 0 ]]; then
         title "$USER@$HOST"
         export DISABLE_AUTO_TITLE=true
@@ -113,7 +124,7 @@ function tmux_call(){
     fi
 }
 
-function fadd() {
+fadd() {
     local out q n addfiles
     while out=$(git status --short | awk '{if (substr($0,2,1) !~ / /) print $2}' | fzf --multi --exit-0 --expect=ctrl-d --expect=ctrl-p); do
         q=$(head -1 <<< "$out")
@@ -132,19 +143,19 @@ function fadd() {
     done
 }
 
-function fghq() {
+fghq() {
     local dir
     dir=$(ghq list > /dev/null | fzf --no-multi) && cd $(ghq root)/$dir
 }
 alias fhq="fghq"
 
-function cdproject() {
+cdproject() {
   if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
     cd `pwd`/`git rev-parse --show-cdup`
   fi
 }
 
-function gvim_call(){
+gvim_call(){
     if [[ $(\gvim --serverlist 2>/dev/null|wc -l) -ne 0 ]]; then
         \gvim --remote $*
     else
@@ -152,6 +163,7 @@ function gvim_call(){
     fi
 }
 
+# GNU Tools on Mac
 if type gsed > /dev/null; then
     alias sed="gsed"
 fi
@@ -164,14 +176,17 @@ if type ggrep > /dev/null; then
     alias grep="ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
 fi
 
+# Excel diff
 if type git-xlsx-textconv > /dev/null; then
     alias xlsxtxt="git-xlsx-textconv"
 fi
 
+# Trash
 if type trash-put > /dev/null; then
     alias trm="trash-put"
 fi
 
+# Local configuration
 if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
     source "$HOME/localrcs/zsh-local.zsh"
 fi
@@ -191,8 +206,6 @@ if [[ ! $TERM = "linux" ]]; then
     fi
     if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
         source "${VIM_EDITERM_SETUP}"
-        alias :e=":edit"
-        alias :dr=":drop"
     fi
     alias tmux=tmux_call
 fi
