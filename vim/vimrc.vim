@@ -584,38 +584,21 @@ try
         \ g:myvimrc_term_winheight)
 
   if !has('nvim')
-    " Forked from https://qiita.com/shiena/items/1dcb20e99f43c9383783
-    command! MSYSTerm call s:MSYSTerm()
-    function! s:MSYSTerm()
-      if !exists('g:myvimrc_msys_dir')
-        let g:myvimrc_msys_dir = 'C:/msys64'
-      endif
+    let g:myvimrc_msys_dir = 
+          \ get(g:, 'myvimrc_msys_dir', 'C:/msys64')
+    command! MSYSTerm call mymisc#mintty_sh(
+                \ "MSYS64", 
+                \ g:myvimrc_msys_dir .. '/usr/bin/bash.exe',
+                \ g:myvimrc_msys_dir .. '/usr/bin/locale.exe')
 
-      let l:msys_locale_path = g:myvimrc_msys_dir . '/usr/bin/locale.exe'
-      let l:msys_bash_path = g:myvimrc_msys_dir . '/usr/bin/bash.exe'
-      " 日本語Windowsの場合`ja`が設定されるので、入力ロケールに合わせたUTF-8に設定しなおす
-      let l:env = {
-            \ 'LANG': systemlist('"' . l:msys_locale_path . '" -iU')[0],
-            \ }
-
-      " remote連携のための設定
-      if has('clientserver')
-        call extend(l:env, {
-              \ 'GVIM': $VIMRUNTIME,
-              \ 'VIM_SERVERNAME': v:servername,
-              \ })
-      endif
-
-      " term_startでgit for windowsのbashを実行する
-      call term_start([l:msys_bash_path, '-l'], {
-            \ 'term_name': 'MSYS',
-            \ 'term_finish': 'close',
-            \ 'curwin': g:false,
-            \ 'cwd': $USERPROFILE,
-            \ 'env': l:env,
-            \ })
-    endfunction
+    let g:myvimrc_gitbash_dir = 
+          \ get(g:, 'myvimrc_gitbash_dir', substitute(fnamemodify(exepath('git'),':h:h:p'), '\', '/', 'g'))
+    command! GitBash call mymisc#mintty_sh(
+                \ "GitBash", 
+                \ g:myvimrc_gitbash_dir .. '/usr/bin/bash.exe',
+                \ g:myvimrc_gitbash_dir .. '/usr/bin/locale.exe')
   endif
+
 
   if has('win32') && executable('git')
     let s:command_openssl = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\openssl.exe'

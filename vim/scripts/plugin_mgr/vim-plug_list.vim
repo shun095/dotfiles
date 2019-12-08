@@ -202,7 +202,9 @@ Plug 'glidenote/memolist.vim', {'on': ['MemoNew', 'MemoList']}
 Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 
 " Tools
-Plug 'ishitaku5522/vim-editerm'
+if has('vimscript-3')
+  Plug 'ishitaku5522/vim-editerm'
+endif
 Plug 'thinca/vim-quickrun'
 Plug 'lambdalisue/suda.vim'
 Plug 'editorconfig/editorconfig-vim'

@@ -255,10 +255,6 @@ fun! mymisc#previm_save_html(dirpath) abort
   endif
 endf
 
-fun! mymisc#test() abort
-  return s:File.copy(expand('~/old.txt'),expand('~/new.txt'))
-endf
-
 function! mymisc#tabline() abort
   let s = ''
   for i in range(tabpagenr('$'))
@@ -375,5 +371,31 @@ fun! mymisc#set_statusline_vars() abort
     let w:mymisc_status_gitgutter .= '-' . gutter_lst[2]
     let w:mymisc_status_gitgutter .= ' '
   endif
+endf
+
+
+" Forked from https://qiita.com/shiena/items/1dcb20e99f43c9383783
+fun! mymisc#mintty_sh(term_name, shell_exe_path, locale_exe_path)
+  " 日本語Windowsの場合`ja`が設定されるので、入力ロケールに合わせたUTF-8に設定しなおす
+  let l:env = {
+        \ 'LANG': systemlist('"' . a:locale_exe_path . '" -iU')[0],
+        \ }
+
+  " remote連携のための設定
+  if has('clientserver')
+    call extend(l:env, {
+          \ 'GVIM': $VIMRUNTIME,
+          \ 'VIM_SERVERNAME': v:servername,
+          \ })
+  endif
+
+  " term_startでgit for windowsのbashを実行する
+  call term_start([a:shell_exe_path, '-l'], {
+        \ 'term_name': a:term_name,
+        \ 'term_finish': 'close',
+        \ 'curwin': g:false,
+        \ 'cwd': $USERPROFILE,
+        \ 'env': l:env,
+        \ })
 endf
 
