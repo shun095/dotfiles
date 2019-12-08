@@ -19,7 +19,7 @@ try
     let $MYDOTFILES = $HOME . '/dotfiles'
   endif
 
-  let $MYVIMHOME=$MYDOTFILES . '/vim'
+  let $MYVIMHOME = $MYDOTFILES . '/vim'
 
   if !exists('g:use_plugins')
     let g:use_plugins = g:true

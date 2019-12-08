@@ -326,7 +326,7 @@ fun! mymisc#plug_tap(name) abort
   endif
 endf
 
-fun! mymisc#preview_window_is_opened()
+fun! mymisc#preview_window_is_opened() abort
   for nr in range(1, winnr('$'))
     if getwinvar(nr, "&pvw") == 1
       " found a preview
@@ -375,26 +375,28 @@ endf
 
 
 " Forked from https://qiita.com/shiena/items/1dcb20e99f43c9383783
-fun! mymisc#mintty_sh(term_name, shell_exe_path, locale_exe_path)
+fun! mymisc#mintty_sh(term_name, shell_exe_path, locale_exe_path) abort
+  let l:mydotfiles = substitute($MYDOTFILES, '\', '/', 'g')
+  let l:mydotfiles = substitute(l:mydotfiles, '\C^\([A-Z]\)\:', '/\1', '')
+  let g:tmp = l:mydotfiles
   " 日本語Windowsの場合`ja`が設定されるので、入力ロケールに合わせたUTF-8に設定しなおす
   let l:env = {
         \ 'LANG': systemlist('"' . a:locale_exe_path . '" -iU')[0],
+        \ 'VIMRUNTIME': "",
+        \ 'MYDOTFILES': l:mydotfiles
         \ }
 
   " remote連携のための設定
-  if has('clientserver')
-    call extend(l:env, {
-          \ 'GVIM': $VIMRUNTIME,
-          \ 'VIM_SERVERNAME': v:servername,
-          \ })
-  endif
+  " if has('clientserver')
+  "   call extend(l:env, {
+  "         \ 'GVIM': $VIMRUNTIME,
+  "         \ 'VIM_SERVERNAME': v:servername,
+  "         \ })
+  " endif
 
   " term_startでgit for windowsのbashを実行する
   call term_start([a:shell_exe_path, '-l'], {
         \ 'term_name': a:term_name,
-        \ 'term_finish': 'close',
-        \ 'curwin': g:false,
-        \ 'cwd': $USERPROFILE,
         \ 'env': l:env,
         \ })
 endf
