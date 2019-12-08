@@ -378,12 +378,15 @@ endf
 fun! mymisc#mintty_sh(term_name, shell_exe_path, locale_exe_path) abort
   let l:mydotfiles = substitute($MYDOTFILES, '\', '/', 'g')
   let l:mydotfiles = substitute(l:mydotfiles, '\C^\([A-Z]\)\:', '/\1', '')
-  let g:tmp = l:mydotfiles
+
+  let l:editor = substitute($EDITOR, '\', '/', 'g')
+  let l:editor = substitute(l:editor, '\C^\([A-Z]\)\:', '/\1', '')
   " 日本語Windowsの場合`ja`が設定されるので、入力ロケールに合わせたUTF-8に設定しなおす
   let l:env = {
         \ 'LANG': systemlist('"' . a:locale_exe_path . '" -iU')[0],
         \ 'VIMRUNTIME': "",
-        \ 'MYDOTFILES': l:mydotfiles
+        \ 'MYDOTFILES': l:mydotfiles,
+        \ 'EDITOR': l:editor
         \ }
 
   " remote連携のための設定
