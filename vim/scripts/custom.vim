@@ -17,7 +17,7 @@ if mymisc#plug_tap('vim-dirvish')
   let g:mydirvish_sort = 1
   let g:mydirvish_width = 35
 
-  fun! s:mydirvish_start(path, force_change_path)
+  fun! s:mydirvish_start(path, force_change_path) abort
     let path = expand(a:path)
     let l:mydirvish_last_file = expand("%:p")
 
@@ -53,7 +53,7 @@ if mymisc#plug_tap('vim-dirvish')
     let t:mydirvish_winid = win_getid(winnr())
   endf
 
-  fun! s:mydirvish_open(...)
+  fun! s:mydirvish_open(...) abort
     if a:0 > 0
       let l:cmd = a:1
     else
@@ -96,7 +96,7 @@ if mymisc#plug_tap('vim-dirvish')
     endif
   endf
 
-  fun! s:mydirvish_up()
+  fun! s:mydirvish_up() abort
     let w:mydirvish_before = get(w:, 'mydirvish_before', [])
 
     if len(w:mydirvish_before) > 1
@@ -108,7 +108,7 @@ if mymisc#plug_tap('vim-dirvish')
     exe 'Dirvish %:p:h'.repeat(':h',v:count1)
   endf
 
-  fun s:mydirvish_init_buffer()
+  fun s:mydirvish_init_buffer() abort
     if !exists('w:mydirvish_before')
       let w:mydirvish_before = []
     endif
@@ -123,44 +123,44 @@ if mymisc#plug_tap('vim-dirvish')
     augroup END
 
     " hとlによる移動
-    nnoremap <buffer> <C-t> :call <SID>mydirvish_open('tabedit')<CR>
-    xnoremap <buffer> <C-t> :call <SID>mydirvish_open('tabedit')<CR>
-    nnoremap <buffer> -     :call <SID>mydirvish_up()<CR>
-    xnoremap <buffer> -     :call <SID>mydirvish_up()<CR>
-    nnoremap <buffer> u     :call <SID>mydirvish_up()<CR>
-    xnoremap <buffer> u     :call <SID>mydirvish_up()<CR>
-    nnoremap <buffer> <CR>  :call <SID>mydirvish_open()<CR>
-    xnoremap <buffer> <CR>  :call <SID>mydirvish_open()<CR>
-    nnoremap <buffer> i     :call <SID>mydirvish_open('split')<CR>
-    xnoremap <buffer> i     :call <SID>mydirvish_open('split')<CR>
-    nnoremap <buffer> s     :call <SID>mydirvish_open('vsplit')<CR>
-    xnoremap <buffer> s     :call <SID>mydirvish_open('vsplit')<CR>
-    nnoremap <buffer> o     :call <SID>mydirvish_open()<CR>
-    xnoremap <buffer> o     :call <SID>mydirvish_open()<CR>
-    nnoremap <buffer> ~     :call <SID>mydirvish_start($HOME,1)<CR>
+    nnoremap <buffer> <C-t> :<C-u>call <SID>mydirvish_open('tabedit')<CR>
+    xnoremap <buffer> <C-t> :<C-u>call <SID>mydirvish_open('tabedit')<CR>
+    nnoremap <buffer> -     :<C-u>call <SID>mydirvish_up()<CR>
+    xnoremap <buffer> -     :<C-u>call <SID>mydirvish_up()<CR>
+    nnoremap <buffer> u     :<C-u>call <SID>mydirvish_up()<CR>
+    xnoremap <buffer> u     :<C-u>call <SID>mydirvish_up()<CR>
+    nnoremap <buffer> <CR>  :<C-u>call <SID>mydirvish_open()<CR>
+    xnoremap <buffer> <CR>  :<C-u>call <SID>mydirvish_open()<CR>
+    nnoremap <buffer> i     :<C-u>call <SID>mydirvish_open('split')<CR>
+    xnoremap <buffer> i     :<C-u>call <SID>mydirvish_open('split')<CR>
+    nnoremap <buffer> s     :<C-u>call <SID>mydirvish_open('vsplit')<CR>
+    xnoremap <buffer> s     :<C-u>call <SID>mydirvish_open('vsplit')<CR>
+    nnoremap <buffer> o     :<C-u>call <SID>mydirvish_open()<CR>
+    xnoremap <buffer> o     :<C-u>call <SID>mydirvish_open()<CR>
+    nnoremap <buffer> ~     :<C-u>call <SID>mydirvish_start($HOME,1)<CR>
 
-    nnoremap <buffer> A     :call <SID>mydirvish_toggle_winwidth()<CR>
+    nnoremap <buffer> A     :<C-u>call <SID>mydirvish_toggle_winwidth()<CR>
 
     " 独自quitスクリプト
-    nnoremap <buffer> q    :call <SID>mydirvish_quit()<cr>
+    nnoremap <buffer> q     :<C-u>call <SID>mydirvish_quit()<CR>
 
     " .とsに隠しファイルとソートを割り当て
-    nnoremap <buffer> .    :call <SID>mydirvish_toggle_hiddenfiles()<CR>
-    nnoremap <buffer> S    :call <SID>mydirvish_toggle_sortfiles()<CR>
+    nnoremap <buffer> .     :<C-u>call <SID>mydirvish_toggle_hiddenfiles()<CR>
+    nnoremap <buffer> S     :<C-u>call <SID>mydirvish_toggle_sortfiles()<CR>
 
     " Shell operations
     if executable('trash-put')
-      nnoremap <buffer> md   :Shdo trash-put {}<CR>
-      vnoremap <buffer> d    :Shdo trash-put {}<CR>
+      nnoremap <buffer> md   :<C-u>Shdo trash-put {}<CR>
+      vnoremap <buffer> d    :<C-u>Shdo trash-put {}<CR>
     else
-      nnoremap <buffer> md   :Shdo rm -rf {}<CR>
-      vnoremap <buffer> d    :Shdo rm -rf {}<CR>
+      nnoremap <buffer> md   :<C-u>Shdo rm -rf {}<CR>
+      vnoremap <buffer> d    :<C-u>Shdo rm -rf {}<CR>
     endif
-    nnoremap <buffer> mm   :Shdo mv {} {}_move<CR>
-    vnoremap <buffer> m    :Shdo mv {} {}_move<CR>
-    nnoremap <buffer> mc   :Shdo cp {} {}_copy<CR>
-    vnoremap <buffer> c    :Shdo cp {} {}_copy<CR>
-    nnoremap <buffer> ma   :let @z = @%<CR><C-w>p:drop <C-r>z
+    nnoremap <buffer> mm   :<C-u>Shdo mv {} {}_move<CR>
+    vnoremap <buffer> m    :<C-u>Shdo mv {} {}_move<CR>
+    nnoremap <buffer> mc   :<C-u>Shdo cp {} {}_copy<CR>
+    vnoremap <buffer> c    :<C-u>Shdo cp {} {}_copy<CR>
+    nnoremap <buffer> ma   :<C-u>let @z = @%<CR><C-w>p:<C-u>call <SID>mydirvish_create_newfile('<C-r>z')<Left><Left>
 
     call <SID>mydirvish_apply_config()
 
@@ -169,7 +169,24 @@ if mymisc#plug_tap('vim-dirvish')
     call <SID>mydirvish_selectprevdir()
   endf
 
-  fun! s:mydirvish_toggle_winwidth()
+  fun! s:mydirvish_create_newfile(path) abort abort
+    let l:path = expand(a:path)
+    let l:dirpath = fnamemodify(l:path, ':h')
+
+    if !isdirectory(l:dirpath)
+      try
+        call mkdir(l:dirpath, 'p')
+      catch
+        echomsg v:exception
+        echomsg 'Couldn''t make directory: ' .. l:dirpath
+      endtry
+    endif
+    if !isdirectory(l:path)
+      exe 'drop ' .. escape(l:path, ' ')
+    endif
+  endf
+
+  fun! s:mydirvish_toggle_winwidth() abort
     if exists('w:mydirvish_default_width') && w:mydirvish_default_width
       normal |
       let w:mydirvish_default_width = 0
@@ -181,7 +198,7 @@ if mymisc#plug_tap('vim-dirvish')
     endif
   endf
 
-  fun! s:mydirvish_apply_config()
+  fun! s:mydirvish_apply_config() abort
     " let l:line = getline('.')
     normal R
     if g:mydirvish_sort
@@ -193,37 +210,37 @@ if mymisc#plug_tap('vim-dirvish')
     " silent call search('\V\^'.escape(l:line, '\').'\$', 'cw')
   endf
 
-  fun! s:mydirvish_do_sort()
+  fun! s:mydirvish_do_sort() abort
     sort /.*\([\\\/]\)\@=/
   endf
 
-  fun! s:mydirvish_do_hide()
+  fun! s:mydirvish_do_hide() abort
     silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d _
   endf
 
-  fun! s:mydirvish_toggle_hiddenfiles()
+  fun! s:mydirvish_toggle_hiddenfiles() abort
     let g:mydirvish_hidden = !g:mydirvish_hidden
     call s:mydirvish_apply_config()
   endf
 
-  fun! s:mydirvish_toggle_sortfiles()
+  fun! s:mydirvish_toggle_sortfiles() abort
     let g:mydirvish_sort = !g:mydirvish_sort
     call s:mydirvish_apply_config()
   endf
 
-  fun! s:mydirvish_update_beforelist()
+  fun! s:mydirvish_update_beforelist() abort
     if len(w:mydirvish_before) == 0 || w:mydirvish_before[0] !=# expand("%:p")
       call insert(w:mydirvish_before,expand("%:p"))
     endif
   endf
 
-  fun! s:mydirvish_selectprevdir()
+  fun! s:mydirvish_selectprevdir() abort
     if len(w:mydirvish_before) > 1
       call search('\V\^'.escape(w:mydirvish_before[1], '\').'\$', 'cw')
     endif
   endf
 
-  fun! s:mydirvish_clean_on_quit()
+  fun! s:mydirvish_clean_on_quit() abort
     if exists('w:mydirvish_by_split') && exists('t:mydirvish_winid')
       unlet t:mydirvish_winid
     endif
@@ -233,7 +250,8 @@ if mymisc#plug_tap('vim-dirvish')
     endif
   endf
 
-  fun! s:mydirvish_quit()
+  fun! s:mydirvish_quit() abort
+    nunmap <buffer> q
     nmap <buffer> q <plug>(dirvish_quit)
     normal q
     call s:mydirvish_clean_on_quit()

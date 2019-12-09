@@ -523,6 +523,7 @@ try
           \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
           \ [":topleft 999split | :terminal ++curwin ++close tig"])
   endif
+  command! Todo drop ~/todo.txt
 
   command! CpPath call mymisc#copypath()
   command! CpFileName call mymisc#copyfname()
