@@ -89,6 +89,7 @@ Plug 'francoiscabrol/ranger.vim'
 Plug 'OmniSharp/omnisharp-vim', {'for': ['cs']}
 Plug 'Quramy/tsuquyomi', {'for': ['javascript', 'typescript']}
 Plug 'vim-scripts/dbext.vim', {'for': ['sql']}
+Plug 'tpope/vim-dadbod', {'for': ['sql']}
 Plug 'othree/csscomplete.vim'
 Plug 'Shougo/neco-vim' " for vimscript
 Plug 'freitass/todo.txt-vim'
