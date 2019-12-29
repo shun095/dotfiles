@@ -83,7 +83,7 @@ tig
 tmux
 vscode
 yarn
-# command-not-found
+command-not-found
 history-substring-search
 zsh-completions
 zsh-syntax-highlighting
