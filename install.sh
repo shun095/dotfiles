@@ -426,7 +426,10 @@ install_essential_dependencies() {
         return
     fi
 
-    if type apt > /dev/null 2>&1; then
+    if type brew > /dev/null 2>&1; then
+        brew update
+        brew install $deps
+    elif type apt > /dev/null 2>&1; then
         if [[ $(whoami) = 'root' ]]; then
             apt update
             apt install -y $deps

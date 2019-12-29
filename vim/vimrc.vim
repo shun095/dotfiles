@@ -109,7 +109,7 @@ try
     set emoji                                              " 絵文字を全角表示
   endif
 
-  if v:version >= 801
+  if has('patch-8.1.1313')
     set diffopt+=algorithm:histogram,indent-heuristic        " Diff options
   endif
   set visualbell t_vb=                                     " Disable beep sounds

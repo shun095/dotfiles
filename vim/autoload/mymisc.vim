@@ -18,7 +18,13 @@ fun! mymisc#ime_deactivate() abort
     endif
   elseif has('mac')
     if executable('swim')
-      call system('swim use com.apple.inputmethod.Kotoeri.Roman')
+      call system('swim use com.google.inputmethod.Japanese.Roman')
+      if v:shell_error
+        call system('swim use com.apple.inputmethod.Kotoeri.Roman')
+      endif
+      if v:shell_error
+        call system('swim use com.apple.keylayout.ABC')
+      endif
     endif
   else
   endif
