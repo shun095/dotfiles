@@ -169,8 +169,11 @@ if type gsed > /dev/null; then
 fi
 if type gls > /dev/null; then
     alias ls="gls --color"
+
+    alias l="gls --color -lah"
     alias la="gls --color -la"
     alias ll="gls --color -l"
+    alias lsa="gls --color -lah"
 fi
 if type ggrep > /dev/null; then
     alias grep="ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
