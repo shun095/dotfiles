@@ -33,11 +33,11 @@ if [ "$(uname)" == 'Darwin'  ]; then
         --with-lua-prefix=/usr/local/ \
         --enable-luainterp=dynamic \
         --with-luajit \
-        --enable-python3interp=dynamic \
+        --enable-python3interp=yes \
+        --with-python3-command=python3 \
         --enable-rubyinterp=dynamic \
         --enable-autoservername \
         --enable-terminal
-        # --with-python3-command=python3.6 \
         # --enable-pythoninterp=dynamic \
         # --enable-perlinterp=dynamic \
         _NUM_PARALLEL=$(sysctl -n hw.logicalcpu_max)

@@ -701,6 +701,7 @@ try
           \   'python',
           \   'sh',
           \   'vim',
+          \   'sql',
           \ ]
 
     " HTML,XML,CSS,JavaScript

@@ -71,33 +71,9 @@ fi
 local fzf_color="--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5"
 export FZF_DEFAULT_OPTS="--height 50% --reverse --preview \""$previewcmd"\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
 
-
-# source oh-my-zsh config
-#
-source $MYDOTFILES/zsh/ohmyzshrc.zsh
-
-remove_dups_in_path
-
-source $MYDOTFILES/zsh/cd_history_bookmark.zsh
-
-chpwd() {
-    _cd_history_bookmark_save_cd_history
-}
-
-maila(){
-    \tmux source $HOME/dotfiles/tmux/mutt_tile
-}
-mailb(){
-    \tmux source $HOME/dotfiles/tmux/mutt_tile2
-}
-
-urlencode(){
-  echo "$1" | nkf -WwMQ | tr = %
-}
-
 tmux_call(){
     if [[ $# -eq 0 ]]; then
-        title "$USER@$HOST"
+        # title "$USER@$HOST"
         export DISABLE_AUTO_TITLE=true
         if [[ $(\tmux list-sessions 2>/dev/null|wc -l) -ne 0 ]]; then
             _tmux_call_exist_sessions=($(\tmux list-sessions|sed "s/:.*//"))
@@ -122,6 +98,43 @@ tmux_call(){
     else
         \tmux $*
     fi
+}
+
+if [[ ! $TERM = "linux" ]]; then
+    if [[ $TERM = "xterm" ]]; then
+        export TERM=xterm-256color
+    fi
+    if [[ $VIM_TERMINAL = "" && $TMUX = "" ]]; then
+        tmux_call
+    fi
+    if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
+        source "${VIM_EDITERM_SETUP}"
+    fi
+    alias tmux=tmux_call
+fi
+
+
+# source oh-my-zsh config
+#
+source $MYDOTFILES/zsh/ohmyzshrc.zsh
+
+remove_dups_in_path
+
+source $MYDOTFILES/zsh/cd_history_bookmark.zsh
+
+chpwd() {
+    _cd_history_bookmark_save_cd_history
+}
+
+maila(){
+    \tmux source $HOME/dotfiles/tmux/mutt_tile
+}
+mailb(){
+    \tmux source $HOME/dotfiles/tmux/mutt_tile2
+}
+
+urlencode(){
+  echo "$1" | nkf -WwMQ | tr = %
 }
 
 fadd() {
@@ -198,19 +211,6 @@ if type colordiff > /dev/null; then
     alias diff="colordiff -u"
 else
     alias diff="diff -u"
-fi
-
-if [[ ! $TERM = "linux" ]]; then
-    if [[ $TERM = "xterm" ]]; then
-        export TERM=xterm-256color
-    fi
-    if [[ $VIM_TERMINAL = "" && $TMUX = "" ]]; then
-        tmux_call
-    fi
-    if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
-        source "${VIM_EDITERM_SETUP}"
-    fi
-    alias tmux=tmux_call
 fi
 
 if type $HOME/build/vim/bin/vim > /dev/null; then
