@@ -216,6 +216,7 @@ if mymisc#plug_tap('vim-dirvish')
 
   fun! s:mydirvish_do_hide() abort
     silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d _
+    silent keeppatterns g@\v[\/][^\/]+(\.pyo)$@d _
   endf
 
   fun! s:mydirvish_toggle_hiddenfiles() abort
