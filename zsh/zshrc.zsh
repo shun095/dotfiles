@@ -243,6 +243,10 @@ if type highlight > /dev/null; then
     alias hlt="highlight -O ansi"
 fi
 
+function cddir() {
+    cd $(dirname "$1")
+}
+
 # Check if 'kubectl' is a command in $PATH
 if [ $commands[kubectl] ]; then
   # Placeholder 'kubectl' shell function:
