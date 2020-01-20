@@ -1079,7 +1079,7 @@ endif
 if mymisc#plug_tap('ale')
   let g:ale_fixers = {
         \ 'javascript': ['prettier'],
-        \ 'vue':        ['prettier'],
+        \ 'vue':        [''],
         \ }
   let g:ale_fix_on_save = 0
   let g:ale_linters = {
@@ -1186,9 +1186,8 @@ if mymisc#plug_tap('LanguageClient-neovim')
 endif
 
 if mymisc#plug_tap('vim-lsp')
-  " let g:lsp_log_verbose = 0
-  " let g:lsp_log_file = tempname()
-  " call delete(g:lsp_log_file)
+  " let g:lsp_log_verbose = 1
+  " let g:lsp_log_file = $HOME .. "/.vim/vim-lsp.log"
   augroup vimrc_vimlsp
     autocmd!
   augroup END
@@ -1341,7 +1340,7 @@ if mymisc#plug_tap('vim-lsp')
 endif
 
 if mymisc#plug_tap('asyncomplete.vim')
-  " call mymisc#config#asyncomplete_setup()
+  call mymisc#config#asyncomplete_setup()
 endif
 
 if mymisc#plug_tap('clang_complete')
@@ -1585,7 +1584,7 @@ endif
 if mymisc#plug_tap('vim-vue')
   augroup vimrc-vue
     autocmd!
-    autocmd FileType vue syntax sync fromstart
+    " autocmd FileType vue syntax sync fromstart
     " autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
   augroup END
 endif

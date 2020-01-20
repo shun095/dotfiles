@@ -10,15 +10,15 @@ function! mymisc#config#asyncomplete_setup()
   " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
   " call delete(g:asyncomplete_log_file)
 
-  if mymisc#plug_tap('asyncomplete-omni.vim')
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-          \ 'name': 'omni',
-          \ 'whitelist': ['*'],
-          \ 'blacklist': g:myvimrc_vimlsp_filetypes,
-          \ 'priority': 80,
-          \ 'completor': function('asyncomplete#sources#omni#completor')
-          \  }))
-  endif
+  " if mymisc#plug_tap('asyncomplete-omni.vim')
+  "   au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+  "         \ 'name': 'omni',
+  "         \ 'whitelist': ['*'],
+  "         \ 'blacklist': g:myvimrc_vimlsp_filetypes,
+  "         \ 'priority': 80,
+  "         \ 'completor': function('asyncomplete#sources#omni#completor')
+  "         \  }))
+  " endif
 
   " au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#tsuquyomi#get_source_options({
   "       \ 'name': 'tsuquyomi',
