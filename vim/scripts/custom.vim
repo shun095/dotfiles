@@ -123,44 +123,46 @@ if mymisc#plug_tap('vim-dirvish')
     augroup END
 
     " hとlによる移動
-    nnoremap <buffer> <C-t> :<C-u>call <SID>mydirvish_open('tabedit')<CR>
-    xnoremap <buffer> <C-t> :<C-u>call <SID>mydirvish_open('tabedit')<CR>
-    nnoremap <buffer> -     :<C-u>call <SID>mydirvish_up()<CR>
-    xnoremap <buffer> -     :<C-u>call <SID>mydirvish_up()<CR>
-    nnoremap <buffer> u     :<C-u>call <SID>mydirvish_up()<CR>
-    xnoremap <buffer> u     :<C-u>call <SID>mydirvish_up()<CR>
-    nnoremap <buffer> <CR>  :<C-u>call <SID>mydirvish_open()<CR>
-    xnoremap <buffer> <CR>  :<C-u>call <SID>mydirvish_open()<CR>
-    nnoremap <buffer> i     :<C-u>call <SID>mydirvish_open('split')<CR>
-    xnoremap <buffer> i     :<C-u>call <SID>mydirvish_open('split')<CR>
-    nnoremap <buffer> s     :<C-u>call <SID>mydirvish_open('vsplit')<CR>
-    xnoremap <buffer> s     :<C-u>call <SID>mydirvish_open('vsplit')<CR>
-    nnoremap <buffer> o     :<C-u>call <SID>mydirvish_open()<CR>
-    xnoremap <buffer> o     :<C-u>call <SID>mydirvish_open()<CR>
-    nnoremap <buffer> ~     :<C-u>call <SID>mydirvish_start($HOME,1)<CR>
+    nnoremap <buffer><silent> <C-t> :<C-u>call <SID>mydirvish_open('tabedit')<CR>
+    xnoremap <buffer><silent> <C-t> :<C-u>call <SID>mydirvish_open('tabedit')<CR>
+    nnoremap <buffer><silent> -     :<C-u>call <SID>mydirvish_up()<CR>
+    xnoremap <buffer><silent> -     :<C-u>call <SID>mydirvish_up()<CR>
+    nnoremap <buffer><silent> u     :<C-u>call <SID>mydirvish_up()<CR>
+    xnoremap <buffer><silent> u     :<C-u>call <SID>mydirvish_up()<CR>
+    nnoremap <buffer><silent> <CR>  :<C-u>call <SID>mydirvish_open()<CR>
+    xnoremap <buffer><silent> <CR>  :<C-u>call <SID>mydirvish_open()<CR>
+    nnoremap <buffer><silent> i     :<C-u>call <SID>mydirvish_open('split')<CR>
+    xnoremap <buffer><silent> i     :<C-u>call <SID>mydirvish_open('split')<CR>
+    nnoremap <buffer><silent> s     :<C-u>call <SID>mydirvish_open('vsplit')<CR>
+    xnoremap <buffer><silent> s     :<C-u>call <SID>mydirvish_open('vsplit')<CR>
+    nnoremap <buffer><silent> o     :<C-u>call <SID>mydirvish_open()<CR>
+    xnoremap <buffer><silent> o     :<C-u>call <SID>mydirvish_open()<CR>
+    nnoremap <buffer><silent> ~     :<C-u>call <SID>mydirvish_start($HOME,1)<CR>
 
-    nnoremap <buffer> A     :<C-u>call <SID>mydirvish_toggle_winwidth()<CR>
+    nnoremap <buffer><silent> A     :<C-u>call <SID>mydirvish_toggle_winwidth()<CR>
 
     " 独自quitスクリプト
-    nnoremap <buffer> q     :<C-u>call <SID>mydirvish_quit()<CR>
+    nnoremap <buffer><silent> q     :<C-u>call <SID>mydirvish_quit()<CR>
 
     " .とsに隠しファイルとソートを割り当て
-    nnoremap <buffer> .     :<C-u>call <SID>mydirvish_toggle_hiddenfiles()<CR>
-    nnoremap <buffer> S     :<C-u>call <SID>mydirvish_toggle_sortfiles()<CR>
+    nnoremap <buffer><silent> .     :<C-u>call <SID>mydirvish_toggle_hiddenfiles()<CR>
+    nnoremap <buffer><silent> S     :<C-u>call <SID>mydirvish_toggle_sortfiles()<CR>
 
     " Shell operations
     if executable('trash-put')
-      nnoremap <buffer> md   :<C-u>Shdo trash-put {}<CR>
-      vnoremap <buffer> d    :<C-u>Shdo trash-put {}<CR>
+      nnoremap <buffer><silent> md   :<C-u>Shdo trash-put {}<CR>
+      vnoremap <buffer><silent> d    :<C-u>Shdo trash-put {}<CR>
     else
-      nnoremap <buffer> md   :<C-u>Shdo rm -rf {}<CR>
-      vnoremap <buffer> d    :<C-u>Shdo rm -rf {}<CR>
+      nnoremap <buffer><silent> md   :<C-u>Shdo rm -rf {}<CR>
+      vnoremap <buffer><silent> d    :<C-u>Shdo rm -rf {}<CR>
     endif
-    nnoremap <buffer> mm   :<C-u>Shdo mv {} {}_move<CR>
-    vnoremap <buffer> m    :<C-u>Shdo mv {} {}_move<CR>
-    nnoremap <buffer> mc   :<C-u>Shdo cp {} {}_copy<CR>
-    vnoremap <buffer> c    :<C-u>Shdo cp {} {}_copy<CR>
-    nnoremap <buffer> ma   :<C-u>let @z = @%<CR><C-w>p:<C-u>call <SID>mydirvish_create_newfile('<C-r>z')<Left><Left>
+    nnoremap <buffer><silent> mm   :<C-u>Shdo mv {} {}_<CR>
+    vnoremap <buffer><silent> m    :<C-u>Shdo mv {} {}_<CR>
+    nnoremap <buffer><silent> mc   :<C-u>Shdo cp {} {}_<CR>
+    vnoremap <buffer><silent> c    :<C-u>Shdo cp {} {}_<CR>
+    nnoremap <buffer><silent> ma   :<C-u>let @z = @%<CR><C-w>p:<C-u>call <SID>mydirvish_create_newfile('<C-r>z')<Left><Left>
+
+    nnoremap <buffer><silent> cd   :<C-u>exe 'cd '..getline('.')<CR>
 
     call <SID>mydirvish_apply_config()
 
