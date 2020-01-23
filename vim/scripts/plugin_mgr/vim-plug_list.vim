@@ -151,9 +151,9 @@ Plug 'pprovost/vim-ps1'
 " Plug 'hdima/python-syntax'
 
 " General purpose viewers/indicators
-" Plug 'ishitaku5522/ctrlp.vim', {'branch': 'develop'}
-" Plug 'mattn/ctrlp-register'
-" Plug 'mattn/ctrlp-mark'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mattn/ctrlp-register'
+Plug 'mattn/ctrlp-mark'
 " Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'junegunn/fzf.vim'
 
@@ -161,12 +161,11 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'junegunn/vim-peekaboo'
 
-
-" if has('win32')
-"   Plug 'ishitaku5522/cpsm'
-" else
-"   Plug 'nixprime/cpsm'
-" endif
+if has('win32')
+  Plug 'ishitaku5522/cpsm'
+else
+  Plug 'nixprime/cpsm', {'do': './install.sh'}
+endif
 Plug 'FelikZ/ctrlp-py-matcher'
 
 Plug 'mbbill/undotree', {'on': ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']}

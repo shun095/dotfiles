@@ -815,25 +815,20 @@ if mymisc#plug_tap('ctrlp.vim')
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
-  " if has('win32')
-  " if g:mymisc_files_is_available && !has('win32')
-  "   let g:ctrlp_user_command = 'files %s -a -i "^(\.git|\.hg|\.svn|_darcs|\.bzr|node_modules)$"'
-  if g:mymisc_rg_is_available
+  if g:mymisc_files_is_available
+    let g:ctrlp_user_command = 'files %s -a'
+  elseif g:mymisc_rg_is_available
     let g:ctrlp_user_command = 'rg %s --files --color=never --line-buffered --glob ""'
   elseif g:mymisc_pt_is_available
     let g:ctrlp_user_command = 'pt ' . s:ctrlp_command_options . ' %s'
   elseif g:mymisc_ag_is_available
     let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
+  elseif has('unix')
+    " Brought from denite
+    let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
   else
     let g:ctrlp_user_command = ''
   endif
-  " else
-  "   " Brought from denite
-  if has('unix')
-    let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
-  endif
-  " let g:ctrlp_user_command = 'find %s -type f'       " MacOSX/Linux
-  " endif
 
   unlet s:ctrlp_command_options
 endif
