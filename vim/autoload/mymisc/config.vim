@@ -27,14 +27,14 @@ function! mymisc#config#asyncomplete_setup()
   "       \ 'completor': function('asyncomplete#sources#tsuquyomi#completor')
   "       \  }))
 
-  if mymisc#plug_tap('asyncomplete-necovim.vim')
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-          \ 'name': 'necovim',
-          \ 'whitelist': ['vim'],
-          \ 'priority': 100,
-          \ 'completor': function('asyncomplete#sources#necovim#completor'),
-          \ }))
-  endif
+  " if mymisc#plug_tap('asyncomplete-necovim.vim')
+  "   au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+  "         \ 'name': 'necovim',
+  "         \ 'whitelist': ['vim'],
+  "         \ 'priority': 100,
+  "         \ 'completor': function('asyncomplete#sources#necovim#completor'),
+  "         \ }))
+  " endif
 
   if mymisc#plug_tap('asyncomplete-file.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
