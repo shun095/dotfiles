@@ -123,6 +123,22 @@ fun! mymisc#copydirpath() abort
   let @+ = expand('%:p:h')
 endf
 
+fun! mymisc#fzf(src, cmd) abort
+  if executable("fzf")
+    let l:opts = fzf#wrap()
+
+    for s in ['sink', 'sink*']
+      if has_key(l:opts, s)
+        call remove(l:opts, s)
+      endif
+    endfor
+
+    let l:opts['sink'] = a:cmd
+    let l:opts['source'] = a:src
+    call fzf#run(l:opts)
+  endif
+endf
+
 fun! mymisc#cd_history() abort
   if executable("fzf")
     let l:opts = fzf#wrap()

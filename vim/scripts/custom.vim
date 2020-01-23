@@ -1336,6 +1336,10 @@ if mymisc#plug_tap('vim-lsp')
   "       exe "au FileType " . s:lsp_filetype . " setl omnifunc=lsp#complete"
   "     endfor
   "   augroup END
+  exe "au FileType * nnoremap <buffer> <leader><c-]> :<C-u>LspDefinition<CR>"
+  exe "au FileType * nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>"
+  exe "au FileType * vnoremap <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>"
+  exe "au FileType * setl omnifunc=lsp#complete"
   " endfunction
 
   " call custom#myvimrc_vimlsp_setup()

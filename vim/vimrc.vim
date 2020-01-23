@@ -518,6 +518,7 @@ try
         \ ]
   command! CdProject execute "cd " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
   command! CdHistory call mymisc#cd_history()
+  command! Ghq call mymisc#fzf('ghq list', 'cd $(ghq root)')
   if executable('tig')
     command! Tig call mymisc#command_at_destdir(
           \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
@@ -734,6 +735,9 @@ try
 
     " C#
     autocmd FileType cs setl noexpandtab
+
+    " Shell
+    autocmd FileType sh setl noexpandtab softtabstop=4 shiftwidth=4
 
     " Vim
     let g:vimsyn_folding = 'aflmpPrt'
