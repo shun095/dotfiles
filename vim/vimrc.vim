@@ -704,6 +704,7 @@ try
           \   'vim',
           \   'sql',
           \ ]
+    let g:markdown_syntax_conceal = 0
 
     " HTML,XML,CSS,JavaScript
     autocmd Filetype html,xml,vue setl noexpandtab softtabstop=4 shiftwidth=4 foldmethod=indent
