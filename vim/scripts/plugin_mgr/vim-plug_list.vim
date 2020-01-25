@@ -203,7 +203,7 @@ Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 
 " Tools
 if has('vimscript-3')
-  Plug 'ishitaku5522/vim-editerm'
+  Plug 'kyoh86/vim-editerm'
 endif
 Plug 'thinca/vim-quickrun'
 Plug 'lambdalisue/suda.vim'
