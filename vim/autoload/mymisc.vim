@@ -74,7 +74,8 @@ fun! mymisc#git_callback(ch, msg) abort
     let s:git_newer_exists = g:false
   endif
 
-  if match(a:msg,'fatal: unable to access') == 0
+  if match(a:msg,'fatal: unable to access') == 0 ||
+        \ match(a:msg, 'fatal: Could not read from remote repository.')
     let s:git_newer_exists = g:false
     echomsg 'Couldn''t connect to github'
   endif
