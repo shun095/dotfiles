@@ -12,3 +12,4 @@
 *gtags-cscope.vim
 *~
 *.zwc
+.DS_Store
