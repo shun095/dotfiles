@@ -154,7 +154,6 @@ Plug 'pprovost/vim-ps1'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
-" Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'junegunn/fzf.vim'
 
 " Plug 'Shougo/denite.nvim'

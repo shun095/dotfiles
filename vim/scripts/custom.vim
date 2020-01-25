@@ -767,7 +767,7 @@ if mymisc#plug_tap('ctrlp.vim')
 
   " let g:ctrlp_root_markers = ['.ctrlproot']
   let g:ctrlp_mruf_default_order = 1
-  let s:ctrlp_my_match_func = {}
+  let s:ctrlp_match_funcs = []
 
   let g:ctrlp_types = ['fil', 'buf']
 
@@ -778,27 +778,61 @@ if mymisc#plug_tap('ctrlp.vim')
     if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
       autocmd VimEnter * echomsg "Cpsm has not been built yet."
     else
-      let s:ctrlp_my_match_func = { 'match' : 'cpsm#CtrlPMatch' }
+      call add(s:ctrlp_match_funcs,'cpsm#CtrlPMatch')
     endif
     let g:cpsm_query_inverting_delimiter = ' '
-
   elseif mymisc#plug_tap('ctrlp-py-matcher') " ========== For pymatcher
-    let s:ctrlp_my_match_func = { 'match' : 'pymatcher#PyMatch' }
+    call add(s:ctrlp_match_funcs, 'pymatcher#PyMatch')
   endif
 
-  let g:ctrlp_match_func = s:ctrlp_my_match_func
+  function! MigemoMatch(items, str, limit, mmode, ispath, crfile, regex)
+    let tmp = tempname()
+    try
+      if a:str =~ '^\s*$'
+        return a:items
+      endif
+      call writefile(split(iconv(join(a:items, "\n"), &encoding, 'utf-8'), "\n"), tmp)
+      return split(iconv(system(
+            \  printf('migemogrep %s %s',
+            \    shellescape(a:str),
+            \    shellescape(tmp))), 'utf-8', &encoding), "\n")
+    catch
+      return []
+    finally
+      call delete(tmp)
+    endtry
+  endfunction
+
+  call add(s:ctrlp_match_funcs, 'MigemoMatch')
+
+  if len(s:ctrlp_match_funcs) >= 0
+    let s:ctrlp_match_func_idx = 0
+    let g:ctrlp_match_func = {'match': s:ctrlp_match_funcs[s:ctrlp_match_func_idx]}
+  endif
+
+  function! s:ctrlp_rotate_matchers() abort
+    if len(s:ctrlp_match_funcs) ==# 0
+      return
+    endif
+    let s:ctrlp_match_func_idx = s:ctrlp_match_func_idx + 1
+    if len(s:ctrlp_match_funcs) <= s:ctrlp_match_func_idx
+      let s:ctrlp_match_func_idx = 0
+    endif
+
+    let g:ctrlp_match_func = {'match': s:ctrlp_match_funcs[s:ctrlp_match_func_idx]}
+    echomsg "Current CtrlP match function: " .. string(s:ctrlp_match_funcs[s:ctrlp_match_func_idx])
+  endfunction
 
   augroup vimrc_ctrlp
     autocmd!
-    autocmd VimEnter * com! -n=? -com=dir CtrlPMRUFiles let g:ctrlp_match_func = {} |
+    autocmd VimEnter * com! -n=? -com=dir CtrlPMRUFiles
+          \ let s:tmp_ctrlp_match_func = g:ctrlp_match_func |
+          \ let g:ctrlp_match_func = {} |
           \ cal ctrlp#init('mru', { 'dir': <q-args> }) |
-          \ let g:ctrlp_match_func = s:ctrlp_my_match_func
+          \ let g:ctrlp_match_func = s:tmp_ctrlp_match_func
   augroup END
 
-  command! CtrlPOldFiles cal ctrlp#init(ctrlp#oldfiles#id())
-  " command! CtrlPOldFiles let g:ctrlp_match_func = {} |
-  "       \ cal ctrlp#init(ctrlp#oldfiles#id()) |
-  "       \ let g:ctrlp_match_func = s:ctrlp_my_match_func
+  command! CtrlPOldFiles call ctrlp#init(ctrlp#oldfiles#id())
 
   nnoremap <Leader><Leader> :CtrlP<CR>
   nnoremap <Leader>T        :CtrlPTag<CR>
@@ -812,6 +846,21 @@ if mymisc#plug_tap('ctrlp.vim')
   nnoremap <Leader>r        :CtrlPRegister<CR>
   nnoremap <Leader>u        :CtrlPOldFiles<CR>
   nnoremap <Leader>`        :CtrlPMark<CR>
+
+  nnoremap <Leader>pp       :CtrlP<CR>
+  nnoremap <Leader>pT       :CtrlPTag<CR>
+  nnoremap <Leader>pal      :CtrlPLine<CR>
+  nnoremap <Leader>pb       :CtrlPBuffer<CR>
+  nnoremap <Leader>pc       :CtrlPCurWD<CR>
+  nnoremap <Leader>pf       :CtrlP<CR>
+  " gr
+  nnoremap <Leader>pl       :CtrlPLine %<CR>
+  nnoremap <Leader>po       :CtrlPBufTag<CR>
+  nnoremap <Leader>pr       :CtrlPRegister<CR>
+  nnoremap <Leader>pu       :CtrlPOldFiles<CR>
+  nnoremap <Leader>p`       :CtrlPMark<CR>
+
+  nnoremap <Leader>pm       :call <SID>ctrlp_rotate_matchers()<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
