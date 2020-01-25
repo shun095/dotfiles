@@ -518,7 +518,7 @@ try
         \ ]
   command! CdProject execute "cd " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
   command! CdHistory call mymisc#cd_history()
-  command! Ghq call mymisc#fzf('ghq list', 'cd $(ghq root)')
+  command! Ghq call mymisc#fzf('ghq list -p', 'cd')
   if executable('tig')
     command! Tig call mymisc#command_at_destdir(
           \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
