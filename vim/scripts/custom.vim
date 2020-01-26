@@ -471,6 +471,9 @@ if mymisc#plug_tap('vim-quickrun')
 
   function! s:hook.on_module_loaded(session, context)
     let l:clang_complete = findfile(".clang_complete",".;")
+    if l:clang_complete ==# ""
+      return
+    endif
     let a:session.config.cmdopt .= ' '.join(readfile(l:clang_complete))
 
     let paths = filter(split(&path, ','), "len(v:val) && v:val !=#'.' && v:val !~# 'mingw'")
