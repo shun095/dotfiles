@@ -416,6 +416,9 @@ install_essential_dependencies() {
     if !(type git > /dev/null 2>&1); then
         deps="${deps} git"
     fi
+    if !(type vim > /dev/null 2>&1); then
+        deps="${deps} vim"
+    fi
     if !(type tmux > /dev/null 2>&1); then
         deps="${deps} tmux"
     fi
