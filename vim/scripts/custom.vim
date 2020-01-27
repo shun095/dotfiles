@@ -108,19 +108,16 @@ if mymisc#plug_tap('vim-dirvish')
     exe 'Dirvish %:p:h'.repeat(':h',v:count1)
   endf
 
-  fun s:mydirvish_init_buffer() abort
+  fun! s:mydirvish_init_buffer() abort
+    " Guard nested loading
+    if exists('b:mydirvish_no_init_buffer')
+      return
+    endif
     if !exists('w:mydirvish_before')
       let w:mydirvish_before = []
     endif
 
     let g:mydirvish_last_dir = expand('%:p:h')
-
-    augroup mydirvish
-      autocmd!
-      if exists('##TextChanged') && has('conceal')
-        autocmd TextChanged,TextChangedI <buffer> exe 'setlocal conceallevel=2'
-      endif
-    augroup END
 
     " hとlによる移動
     nnoremap <buffer><silent> <C-t> :<C-u>call <SID>mydirvish_open('tabedit')<CR>
@@ -201,15 +198,25 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_apply_config() abort
-    " let l:line = getline('.')
+    " Guard nested loading.: 'normal R' hooks FileType dirvish again
+    let b:mydirvish_no_init_buffer = 1
     normal R
+    unlet b:mydirvish_no_init_buffer
+
+    augroup vimrc_dirvish_buffer
+      autocmd!
+      " Overwrite TextChanged <buffer> setlocal conceallevel=0 on buf_init()
+      if exists('##TextChanged') && has('conceal')
+        autocmd TextChanged,TextChangedI <buffer> exe 'setlocal conceallevel=2'
+      endif
+    augroup END
+
     if g:mydirvish_sort
       call s:mydirvish_do_sort()
     endif
     if g:mydirvish_hidden
       call s:mydirvish_do_hide()
     endif
-    " silent call search('\V\^'.escape(l:line, '\').'\$', 'cw')
   endf
 
   fun! s:mydirvish_do_sort() abort
