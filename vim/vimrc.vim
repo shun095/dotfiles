@@ -419,9 +419,9 @@ try
     tnoremap <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
   else
     tnoremap <C-w><C-w> <C-w>.
-    tnoremap <C-w><Space>_ <C-w>N15<C-w>_i
+    tnoremap <C-w><Space><Space> <C-w>N15<C-w>_i
   endif
-  nnoremap <C-w><Space>_ 15<C-w>_
+  nnoremap <C-w><Space><Space> 15<C-w>_
 
   noremap! <C-f> <Right>
   noremap! <C-b> <Left>
