@@ -419,9 +419,9 @@ try
     tnoremap <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
   else
     tnoremap <C-w><C-w> <C-w>.
-    tnoremap <C-w><Space><Space> <C-w>N15<C-w>_i
+    tnoremap <C-w><Space><Space> <C-w>:call <SID>set_winheight_small()<CR>
   endif
-  nnoremap <C-w><Space><Space> 15<C-w>_
+  nnoremap <C-w><Space><Space> :call <SID>set_winheight_small()<CR>
 
   noremap! <C-f> <Right>
   noremap! <C-b> <Left>
@@ -554,36 +554,37 @@ try
     call setpos('.', pos)
   endfunction
 
-  function! s:get_termrun_cmd(cmd, height) abort
-    " if has('nvim')
-    "   let l:terminal_cmd = ':bel '.a:height.'split term://'
-    " else
-    "   let l:terminal_cmd = ':bel terminal ++rows='.a:height.' '
-    " endif
+  function! s:get_termrun_cmd(cmd) abort
     let l:terminal_cmd = ':terminal '
     let l:ret = l:terminal_cmd . a:cmd
     return l:ret
   endfunction
 
-  let g:myvimrc_term_winheight = 15
+  let g:myvimrc_term_winheight=15
+  function! s:set_winheight_small() abort
+    execute 'normal! ' .. g:myvimrc_term_winheight .. '_'
+  endfunction
+
+  function! s:my_git_cmd(git_cmd) abort
+    let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
+    let l:cmd = s:get_termrun_cmd('git ' .. a:git_cmd)
+    call mymisc#command_at_destdir(l:target_dir, [l:cmd])
+    call s:set_winheight_small()
+  endfunction
 
   function! s:my_git_push() abort
-    let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
-    let l:cmd = s:get_termrun_cmd('git push',g:myvimrc_term_winheight)
-    call mymisc#command_at_destdir(l:target_dir, [l:cmd])
+    call s:my_git_cmd('push')
   endfunction
 
   function! s:my_git_pull() abort
-    let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
-    let l:cmd = s:get_termrun_cmd('git pull',g:myvimrc_term_winheight)
-    call mymisc#command_at_destdir(l:target_dir, [l:cmd])
+    call s:my_git_cmd('pull')
   endfunction
 
   nnoremap <Leader>gp :call <SID>my_git_push()<CR>
   nnoremap <Leader>gl :call <SID>my_git_pull()<CR>
   nnoremap <Leader>te :T<CR>
-  command! T execute s:get_termrun_cmd(match(&shell, 'zsh') ? &shell . ' --login' : &shell,
-        \ g:myvimrc_term_winheight)
+  command! T execute s:get_termrun_cmd(match(&shell, 'zsh') ? &shell . ' --login' : &shell) 
+        \ | call s:set_winheight_small()
 
   if !has('nvim')
     let g:myvimrc_msys_dir = 
@@ -687,6 +688,7 @@ try
   augroup VIMRC
     if !has('nvim') && v:version >= 801
       autocmd TerminalOpen * setl nonumber nowrap
+      autocmd TerminalOpen * nnoremap <silent><buffer>q :bw<CR>
     endif
 
     " Markdown
@@ -771,6 +773,7 @@ try
     " set wrap to global one in in diff mode
     autocmd FilterWritePre * if &diff | setlocal wrap< | endif
     if !has('nvim') && v:version >= 810
+      autocmd TerminalOpen * setl listchars= nonumber
       autocmd TerminalOpen * setl listchars= nonumber
     endif
   augroup END
