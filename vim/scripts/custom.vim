@@ -812,10 +812,12 @@ if mymisc#plug_tap('ctrlp.vim')
       call delete(tmp)
     endtry
   endfunction
+  
+  if executable('migemogrep')
+    call add(s:ctrlp_match_funcs, 'MigemoMatch')
+  endif
 
-  call add(s:ctrlp_match_funcs, 'MigemoMatch')
-
-  if len(s:ctrlp_match_funcs) >= 0
+  if len(s:ctrlp_match_funcs) > 0
     let s:ctrlp_match_func_idx = 0
     let g:ctrlp_match_func = {'match': s:ctrlp_match_funcs[s:ctrlp_match_func_idx]}
   endif

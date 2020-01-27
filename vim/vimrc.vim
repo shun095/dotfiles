@@ -583,7 +583,7 @@ try
   nnoremap <Leader>gp :call <SID>my_git_push()<CR>
   nnoremap <Leader>gl :call <SID>my_git_pull()<CR>
   nnoremap <Leader>te :T<CR>
-  command! T execute s:get_termrun_cmd(match(&shell, 'zsh') ? &shell . ' --login' : &shell) 
+  command! T execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell) 
         \ | call s:set_winheight_small()
 
   if !has('nvim')
