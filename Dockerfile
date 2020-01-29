@@ -1,14 +1,10 @@
 FROM ubuntu
-ENV HOME=/home/home
-ENV TERM=xterm
 
-RUN apt update
-RUN apt upgrade -y
-RUN apt install -y curl
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y curl lsb-release && \
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ishitaku5522/dotfiles/master/install.sh)" && \
+    ~/dotfiles/install.sh buildtools && \
+    chsh -s /bin/zsh
 
-WORKDIR $HOME
-COPY . ./dotfiles
-RUN ./dotfiles/install.sh
-RUN ./dotfiles/install.sh buildtools
-RUN chsh -s /bin/zsh
-CMD /bin/zsh
+CMD ["/bin/bash"]

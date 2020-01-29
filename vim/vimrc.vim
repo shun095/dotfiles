@@ -580,9 +580,9 @@ try
     call s:my_git_cmd('pull')
   endfunction
 
-  nnoremap <Leader>gp :call <SID>my_git_push()<CR>
-  nnoremap <Leader>gl :call <SID>my_git_pull()<CR>
-  nnoremap <Leader>te :T<CR>
+  nnoremap <Leader>gp :<C-u>call <SID>my_git_push()<CR>
+  nnoremap <Leader>gl :<C-u>call <SID>my_git_pull()<CR>
+  nnoremap <Leader>te :<C-u>T<CR>
   command! T execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell) 
         \ | call s:set_winheight_small()
 
@@ -709,9 +709,9 @@ try
     let g:markdown_syntax_conceal = 0
 
     " HTML,XML,CSS,JavaScript
-    autocmd Filetype html,xml,vue setl noexpandtab softtabstop=4 shiftwidth=4 foldmethod=indent
+    autocmd Filetype html,xml,vue setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
     autocmd Filetype css setl foldmethod=syntax
-    autocmd FileType javascript,jade,pug setl foldmethod=syntax noexpandtab softtabstop=4 shiftwidth=4
+    autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
 
     " Markdown
     autocmd FileType markdown setl expandtab softtabstop=2 shiftwidth=2

@@ -88,7 +88,7 @@ Plug 'francoiscabrol/ranger.vim'
 
 " Language specific completions
 Plug 'OmniSharp/omnisharp-vim', {'for': ['cs']}
-Plug 'Quramy/tsuquyomi', {'for': ['javascript', 'typescript']}
+" Plug 'Quramy/tsuquyomi', {'for': ['javascript', 'typescript']}
 Plug 'vim-scripts/dbext.vim', {'for': ['sql']}
 Plug 'tpope/vim-dadbod', {'for': ['sql']}
 Plug 'othree/csscomplete.vim'
