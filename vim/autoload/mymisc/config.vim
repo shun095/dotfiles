@@ -40,7 +40,7 @@ function! mymisc#config#asyncomplete_setup()
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
           \ 'name': 'file',
           \ 'whitelist': ['*'],
-          \ 'priority': 50,
+          \ 'priority': -50,
           \ 'completor': function('asyncomplete#sources#file#completor')
           \ }))
   endif
@@ -49,7 +49,7 @@ function! mymisc#config#asyncomplete_setup()
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
           \ 'name': 'neosnippet',
           \ 'whitelist': ['*'],
-          \ 'priority': 70,
+          \ 'priority': -30,
           \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
           \ }))
   endif
@@ -59,7 +59,7 @@ function! mymisc#config#asyncomplete_setup()
       au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
             \ 'name': 'ultisnips',
             \ 'whitelist': ['*'],
-            \ 'priority': 60,
+            \ 'priority': -40,
             \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
             \ }))
     endif
@@ -69,7 +69,7 @@ function! mymisc#config#asyncomplete_setup()
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
           \ 'name': 'buffer',
           \ 'whitelist': ['*'],
-          \ 'priority': 0,
+          \ 'priority': -100,
           \ 'completor': function('asyncomplete#sources#buffer#completor'),
           \ }))
   endif
