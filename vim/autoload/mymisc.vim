@@ -70,18 +70,19 @@ function! mymisc#git_end_callback_nvim(ch, msg, event) abort
 endf
 
 function! mymisc#git_callback(ch, msg) abort
+  call add(s:git_qflist, {'text':a:msg})
+
   if match(a:msg,'Already up') == 0
     let s:git_newer_exists = g:false
+    return
   endif
 
   if match(a:msg,'fatal: unable to access') == 0 ||
-        \ match(a:msg, 'fatal: Could not read from remote repository.')
+        \ match(a:msg, 'fatal: Could not read from remote repository.') == 0
     let s:git_newer_exists = g:false
     echomsg 'Couldn''t connect to github'
+    return
   endif
-
-  call add(s:git_qflist, {'text':a:msg})
-  " echom "mymisc: " . a:msg
 endf
 
 function! mymisc#git_end_callback(ch, msg) abort
