@@ -555,7 +555,11 @@ try
   endfunction
 
   function! s:get_termrun_cmd(cmd) abort
-    let l:terminal_cmd = ':terminal '
+    if has('nvim')
+      let l:terminal_cmd = ':split term://'
+    else
+      let l:terminal_cmd = ':terminal '
+    endif
     let l:ret = l:terminal_cmd . a:cmd
     return l:ret
   endfunction
