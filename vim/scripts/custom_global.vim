@@ -9,8 +9,8 @@ augroup vimrc_custom_global
   if mymisc#plug_tap('lexima.vim')
     autocmd VimEnter * call lexima#init()
   endif
-  autocmd VimEnter * imap <expr><CR> <SID>my_cr_main()
-  autocmd VimEnter * imap <expr><TAB> <SID>my_tab_main()
+  autocmd VimEnter * imap <silent><expr> <CR> <SID>my_cr_main()
+  autocmd VimEnter * imap <silent><expr> <TAB> <SID>my_tab_main()
 augroup END
 
 smap <expr> <Tab>
