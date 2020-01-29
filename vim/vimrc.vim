@@ -580,9 +580,9 @@ try
     call s:my_git_cmd('pull')
   endfunction
 
-  nnoremap <Leader>gp :call <SID>my_git_push()<CR>
-  nnoremap <Leader>gl :call <SID>my_git_pull()<CR>
-  nnoremap <Leader>te :T<CR>
+  nnoremap <Leader>gp :<C-u>call <SID>my_git_push()<CR>
+  nnoremap <Leader>gl :<C-u>call <SID>my_git_pull()<CR>
+  nnoremap <Leader>te :<C-u>T<CR>
   command! T execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell) 
         \ | call s:set_winheight_small()
 

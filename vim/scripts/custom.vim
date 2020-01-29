@@ -9,9 +9,9 @@ if mymisc#plug_tap('YouCompleteMe')
 endif
 
 if mymisc#plug_tap('vim-dirvish')
-  nnoremap <silent> <Leader>e :call <SID>mydirvish_start('.',0)<CR>
-  nnoremap <silent> <Leader><C-e> :call <SID>mydirvish_start('.',1)<CR>
-  nnoremap <silent> <Leader>E :call <SID>mydirvish_start('%:p:h',1)<CR>
+  nnoremap <silent> <Leader>e :<C-u>call <SID>mydirvish_start('.',0)<CR>
+  nnoremap <silent> <Leader><C-e> :<C-u>call <SID>mydirvish_start('.',1)<CR>
+  nnoremap <silent> <Leader>E :<C-u>call <SID>mydirvish_start('%:p:h',1)<CR>
 
   let g:mydirvish_hidden = 1
   let g:mydirvish_sort = 1
@@ -357,13 +357,13 @@ if mymisc#plug_tap('memolist.vim')
   " let g:memolist_ex_cmd = 'e'
   " endif
 
-  nmap <Leader>mn :MemoNew<cr>
+  nmap <Leader>mn :<C-u>MemoNew<cr>
   " if mymisc#plug_tap('denite.nvim')
   "   nnoremap <Leader>ml :execute ":Denite" "-path='".g:memolist_path."'" "file_rec"<cr>
   if mymisc#plug_tap('defx.nvim')
-    nnoremap <Leader>ml :execute "Defx " . expand(g:memolist_path)<cr>
+    nnoremap <Leader>ml :<C-u>execute "Defx " . expand(g:memolist_path)<cr>
   else
-    nnoremap <Leader>ml :MemoList<cr>
+    nnoremap <Leader>ml :<C-u>MemoList<cr>
   endif
 endif
 
@@ -444,7 +444,7 @@ if mymisc#plug_tap('restart.vim')
 endif
 
 if mymisc#plug_tap('tagbar')
-  nnoremap <silent> <Leader>t :TagbarOpen j<CR>
+  nnoremap <silent> <Leader>t :<C-u>TagbarOpen j<CR>
   let g:tagbar_show_linenumbers = 0
   let g:tagbar_sort = 0
   let g:tagbar_indent = 1
@@ -575,7 +575,7 @@ if mymisc#plug_tap('vim-quickrun')
     unlet s:quickrun_windows_config
   endif
 
-  nmap <silent> <Leader>R :QuickRun<CR>
+  nmap <silent> <Leader>R :<C-u>QuickRun<CR>
   nnoremap <expr><silent> <C-c> quickrun#is_running() ?
         \ <SID>mymisc_quickrun_sweep() : "\<C-c>"
 
@@ -878,33 +878,33 @@ if mymisc#plug_tap('ctrlp.vim')
 
   command! CtrlPOldFiles call ctrlp#init(ctrlp#oldfiles#id())
 
-  nnoremap <Leader><Leader> :CtrlP<CR>
-  nnoremap <Leader>T        :CtrlPTag<CR>
-  nnoremap <Leader>al       :CtrlPLine<CR>
-  nnoremap <Leader>b        :CtrlPBuffer<CR>
-  nnoremap <Leader>c        :CtrlPCurWD<CR>
-  nnoremap <Leader>f        :CtrlP<CR>
+  nnoremap <Leader><Leader> :<C-u>CtrlP<CR>
+  nnoremap <Leader>T        :<C-u>CtrlPTag<CR>
+  nnoremap <Leader>al       :<C-u>CtrlPLine<CR>
+  nnoremap <Leader>b        :<C-u>CtrlPBuffer<CR>
+  nnoremap <Leader>c        :<C-u>CtrlPCurWD<CR>
+  nnoremap <Leader>f        :<C-u>CtrlP<CR>
   " gr
-  nnoremap <Leader>l        :CtrlPLine %<CR>
-  nnoremap <Leader>o        :CtrlPBufTag<CR>
-  nnoremap <Leader>r        :CtrlPRegister<CR>
-  nnoremap <Leader>u        :CtrlPOldFiles<CR>
-  nnoremap <Leader>`        :CtrlPMark<CR>
+  nnoremap <Leader>l        :<C-u>CtrlPLine %<CR>
+  nnoremap <Leader>o        :<C-u>CtrlPBufTag<CR>
+  nnoremap <Leader>r        :<C-u>CtrlPRegister<CR>
+  nnoremap <Leader>u        :<C-u>CtrlPOldFiles<CR>
+  nnoremap <Leader>`        :<C-u>CtrlPMark<CR>
 
-  nnoremap <Leader>pp       :CtrlP<CR>
-  nnoremap <Leader>pT       :CtrlPTag<CR>
-  nnoremap <Leader>pal      :CtrlPLine<CR>
-  nnoremap <Leader>pb       :CtrlPBuffer<CR>
-  nnoremap <Leader>pc       :CtrlPCurWD<CR>
-  nnoremap <Leader>pf       :CtrlP<CR>
+  nnoremap <Leader>pp       :<C-u>CtrlP<CR>
+  nnoremap <Leader>pT       :<C-u>CtrlPTag<CR>
+  nnoremap <Leader>pal      :<C-u>CtrlPLine<CR>
+  nnoremap <Leader>pb       :<C-u>CtrlPBuffer<CR>
+  nnoremap <Leader>pc       :<C-u>CtrlPCurWD<CR>
+  nnoremap <Leader>pf       :<C-u>CtrlP<CR>
   " gr
-  nnoremap <Leader>pl       :CtrlPLine %<CR>
-  nnoremap <Leader>po       :CtrlPBufTag<CR>
-  nnoremap <Leader>pr       :CtrlPRegister<CR>
-  nnoremap <Leader>pu       :CtrlPOldFiles<CR>
-  nnoremap <Leader>p`       :CtrlPMark<CR>
+  nnoremap <Leader>pl       :<C-u>CtrlPLine %<CR>
+  nnoremap <Leader>po       :<C-u>CtrlPBufTag<CR>
+  nnoremap <Leader>pr       :<C-u>CtrlPRegister<CR>
+  nnoremap <Leader>pu       :<C-u>CtrlPOldFiles<CR>
+  nnoremap <Leader>p`       :<C-u>CtrlPMark<CR>
 
-  nnoremap <Leader>pm       :call <SID>ctrlp_rotate_matchers()<CR>
+  nnoremap <Leader>pm       :<C-u>call <SID>ctrlp_rotate_matchers()<CR>
 
   let s:ctrlp_command_options = '--hidden --nocolor --nogroup --follow -g ""'
 
@@ -964,18 +964,18 @@ if mymisc#plug_tap('fzf.vim')
 
   command! -bang -nargs=* History call s:history(<q-args>, {'options': '--no-sort'}, <bang>0)
 
-  nnoremap <Leader><Leader> :execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
-  nnoremap <Leader>T        :Tags<CR>
-  nnoremap <Leader>al       :Lines<CR>
-  nnoremap <Leader>b        :Buffers<CR>
-  nnoremap <Leader>c        :Files<CR>
-  nnoremap <Leader>f        :execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
+  nnoremap <Leader><Leader> :<C-u>execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
+  nnoremap <Leader>T        :<C-u>Tags<CR>
+  nnoremap <Leader>al       :<C-u>Lines<CR>
+  nnoremap <Leader>b        :<C-u>Buffers<CR>
+  nnoremap <Leader>c        :<C-u>Files<CR>
+  nnoremap <Leader>f        :<C-u>execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
   " gr
-  nnoremap <Leader>l        :BLines<CR>
-  nnoremap <Leader>o        :BTags<CR>
+  nnoremap <Leader>l        :<C-u>BLines<CR>
+  nnoremap <Leader>o        :<C-u>BTags<CR>
   " r
-  nnoremap <Leader>u        :History<CR>
-  nnoremap <Leader>`        :Marks<CR>
+  nnoremap <Leader>u        :<C-u>History<CR>
+  nnoremap <Leader>`        :<C-u>Marks<CR>
 
   command! -bang -nargs=* GGrep
         \ call fzf#vim#grep(
@@ -1636,7 +1636,7 @@ endif
 
 if mymisc#plug_tap('vim-gitgutter')
   let g:gitgutter_async = 1
-  nnoremap <Leader>gg :GitGutterAll<CR>
+  nnoremap <Leader>gg :<C-u>GitGutterAll<CR>
   augroup vimrc_gitgutter
     autocmd!
     autocmd User GitGutter call mymisc#set_statusline_vars()
