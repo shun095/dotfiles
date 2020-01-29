@@ -37,6 +37,8 @@ function! mymisc#git_auto_updating() abort
     exe 'cd ' . $MYDOTFILES
     let s:git_newer_exists = g:true
     let s:git_qflist = []
+
+    echo 'Checking dotfiles repository...'
     if has('job')
       call job_start('git pull', {'callback': 'mymisc#git_callback', 'exit_cb': 'mymisc#git_end_callback'})
     elseif has('nvim')
@@ -74,13 +76,14 @@ function! mymisc#git_callback(ch, msg) abort
 
   if match(a:msg,'Already up') == 0
     let s:git_newer_exists = g:false
+    echo 'dotfiles are up-to-date.'
     return
   endif
 
   if match(a:msg,'fatal: unable to access') == 0 ||
         \ match(a:msg, 'fatal: Could not read from remote repository.') == 0
     let s:git_newer_exists = g:false
-    echomsg 'Couldn''t connect to github'
+    echomsg 'Couldn''t connect to github.'
     return
   endif
 endf
