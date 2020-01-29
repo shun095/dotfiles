@@ -18,9 +18,8 @@ smap <expr> <Tab>
       \   "\<Plug>(neosnippet_expand_or_jump)":
       \   "\<Plug>(RemapUltiSnipsJumpForwardTrigger)"
 smap <S-Tab> <Plug>(RemapUltiSnipsJumpBackwardTrigger)
-autocmd FileType c,cpp,h,hpp,python nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>
 
-fun! s:toggle_preview_window()
+fun! Myvimrc_toggle_preview_window()
   if mymisc#preview_window_is_opened()
     normal z
   else

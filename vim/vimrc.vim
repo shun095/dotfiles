@@ -709,9 +709,9 @@ try
     let g:markdown_syntax_conceal = 0
 
     " HTML,XML,CSS,JavaScript
-    autocmd Filetype html,xml,vue setl noexpandtab softtabstop=4 shiftwidth=4 foldmethod=indent
+    autocmd Filetype html,xml,vue setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
     autocmd Filetype css setl foldmethod=syntax
-    autocmd FileType javascript,jade,pug setl foldmethod=syntax noexpandtab softtabstop=4 shiftwidth=4
+    autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
 
     " Markdown
     autocmd FileType markdown setl expandtab softtabstop=2 shiftwidth=2

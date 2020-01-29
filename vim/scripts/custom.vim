@@ -1167,17 +1167,20 @@ if mymisc#plug_tap('deoplete.nvim')
 endif
 
 if mymisc#plug_tap('ale')
+  " tsserverはeslintを呼ばないので別でlinterを定義する必要あり
   let g:ale_fixers = {
-        \ 'javascript': ['prettier'],
-        \ 'vue':        [''],
+        \ 'javascript': ['eslint'],
+        \ 'typescript': ['eslint'],
+        \ 'vue': ['eslint'],
         \ }
   let g:ale_fix_on_save = 0
   let g:ale_linters = {
-        \ 'cpp':        [''],
-        \ 'python':     [''],
-        \ 'java':       [''],
-        \ 'javascript': [''],
-        \ 'typescript': [''],
+        \ 'cpp': [''],
+        \ 'python': [''],
+        \ 'java': [''],
+        \ 'javascript': ['eslint'],
+        \ 'typescript': ['eslint'],
+        \ 'vue': ['eslint'],
         \ }
   let g:ale_sign_error = 'E'
   let g:ale_sign_warning = 'W'
@@ -1424,10 +1427,13 @@ if mymisc#plug_tap('vim-lsp')
   "       exe "au FileType " . s:lsp_filetype . " setl omnifunc=lsp#complete"
   "     endfor
   "   augroup END
-  exe "au FileType * nnoremap <buffer> <leader><c-]> :<C-u>LspDefinition<CR>"
-  exe "au FileType * nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>"
-  exe "au FileType * vnoremap <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>"
-  exe "au FileType * setl omnifunc=lsp#complete"
+  au FileType * nnoremap <leader><c-]> :<C-u>LspDefinition<CR>
+  au FileType * nnoremap <leader>K :<C-u>call Myvimrc_toggle_preview_window()<CR>
+  au FileType * vnoremap <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>
+  au FileType * nnoremap <leader>= :<C-u>LspDocumentFormatSync<CR>
+  au FileType * nnoremap <leader>=l :<C-u>LspDocumentFormatSync<CR>
+  au FileType * nnoremap <leader>=a :<C-u>ALEFix<CR>
+  " exe "au FileType * setl omnifunc=lsp#complete"
   " endfunction
 
   " call custom#myvimrc_vimlsp_setup()
