@@ -87,7 +87,13 @@ if mymisc#plug_tap('vim-dirvish')
           split
           let l:cmd = 'drop'
         endif
-        exe l:cmd . " " . g:mydirvish_tmp
+        try
+          exe l:cmd . " " . g:mydirvish_tmp
+        catch /\(E319\|E492\)/
+          echomsg ":drop is not available code:"
+          echomsg "  " . v:exception
+          exe "edit " . g:mydirvish_tmp
+        endtry
         unlet g:mydirvish_tmp
       endif
     else
@@ -159,7 +165,7 @@ if mymisc#plug_tap('vim-dirvish')
     vnoremap <buffer><silent> c    :<C-u>Shdo cp {} {}_<CR>
     nnoremap <buffer><silent> ma   :<C-u>let @z = @%<CR><C-w>p:<C-u>call <SID>mydirvish_create_newfile('<C-r>z')<Left><Left>
 
-    nnoremap <buffer><silent> cd   :<C-u>exe 'cd '..getline('.')<CR>
+    nnoremap <buffer><silent> cd   :<C-u>exe 'cd ' . getline('.')<CR>
 
     call <SID>mydirvish_apply_config()
 
@@ -177,11 +183,17 @@ if mymisc#plug_tap('vim-dirvish')
         call mkdir(l:dirpath, 'p')
       catch
         echomsg v:exception
-        echomsg 'Couldn''t make directory: ' .. l:dirpath
+        echomsg 'Couldn''t make directory: ' . l:dirpath
       endtry
     endif
     if !isdirectory(l:path)
-      exe 'drop ' .. escape(l:path, ' ')
+      try
+        exe 'drop ' . escape(l:path, ' ')
+      catch /\(E319\|E492\)/
+        echomsg ":drop is not available code:"
+        echomsg "  " . v:exception
+        exe "edit " . g:mydirvish_tmp
+      endtry
     endif
   endf
 
@@ -832,7 +844,7 @@ if mymisc#plug_tap('ctrlp.vim')
     endif
 
     let g:ctrlp_match_func = {'match': s:ctrlp_match_funcs[s:ctrlp_match_func_idx]}
-    echomsg "Current CtrlP match function: " .. string(s:ctrlp_match_funcs[s:ctrlp_match_func_idx])
+    echomsg "Current CtrlP match function: " . string(s:ctrlp_match_funcs[s:ctrlp_match_func_idx])
   endfunction
 
   augroup vimrc_ctrlp
@@ -1245,7 +1257,7 @@ endif
 
 if mymisc#plug_tap('vim-lsp')
   " let g:lsp_log_verbose = 1
-  " let g:lsp_log_file = $HOME .. "/.vim/vim-lsp.log"
+  " let g:lsp_log_file = $HOME . "/.vim/vim-lsp.log"
   augroup vimrc_vimlsp
     autocmd!
   augroup END
@@ -1379,9 +1391,9 @@ if mymisc#plug_tap('vim-lsp')
 
   "         exe "au User lsp_setup call lsp#register_server(g:myvimrc_vimlsp_config['".s:key."'])"
   "         exe "au FileType " . join(g:myvimrc_lsp_general_config[s:key]['filetype'], ",") . " command! -buffer LspKill call lsp#stop_server('".l:vimlsp_config['name']."')"
-  "         exe "au FileType " . join(g:myvimrc_lsp_general_config[s:key]['filetype'], ",") . " echomsg \"Language Server for " .. string(s:key) .. " is available.\""
+  "         exe "au FileType " . join(g:myvimrc_lsp_general_config[s:key]['filetype'], ",") . " echomsg \"Language Server for " . string(s:key) . " is available.\""
   "       else
-  "         exe "au FileType " . join(g:myvimrc_lsp_general_config[s:key]['filetype'], ",") . " echoerr \"Language Server for " .. string(s:key) .. " is not available.\""
+  "         exe "au FileType " . join(g:myvimrc_lsp_general_config[s:key]['filetype'], ",") . " echoerr \"Language Server for " . string(s:key) . " is not available.\""
   "       endif
   "     endfor
 

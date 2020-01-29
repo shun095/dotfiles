@@ -562,12 +562,12 @@ try
 
   let g:myvimrc_term_winheight=15
   function! s:set_winheight_small() abort
-    execute 'normal! ' .. g:myvimrc_term_winheight .. '_'
+    execute 'normal! ' . g:myvimrc_term_winheight . '_'
   endfunction
 
   function! s:my_git_cmd(git_cmd) abort
     let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
-    let l:cmd = s:get_termrun_cmd('git ' .. a:git_cmd)
+    let l:cmd = s:get_termrun_cmd('git ' . a:git_cmd)
     call mymisc#command_at_destdir(l:target_dir, [l:cmd])
     call s:set_winheight_small()
   endfunction
@@ -591,15 +591,15 @@ try
           \ get(g:, 'myvimrc_msys_dir', 'C:/msys64')
     command! MSYSTerm call mymisc#mintty_sh(
                 \ "MSYS64", 
-                \ g:myvimrc_msys_dir .. '/usr/bin/bash.exe',
-                \ g:myvimrc_msys_dir .. '/usr/bin/locale.exe')
+                \ g:myvimrc_msys_dir . '/usr/bin/bash.exe',
+                \ g:myvimrc_msys_dir . '/usr/bin/locale.exe')
 
     let g:myvimrc_gitbash_dir = 
           \ get(g:, 'myvimrc_gitbash_dir', substitute(fnamemodify(exepath('git'),':h:h:p'), '\', '/', 'g'))
     command! GitBash call mymisc#mintty_sh(
                 \ "GitBash", 
-                \ g:myvimrc_gitbash_dir .. '/usr/bin/bash.exe',
-                \ g:myvimrc_gitbash_dir .. '/usr/bin/locale.exe')
+                \ g:myvimrc_gitbash_dir . '/usr/bin/bash.exe',
+                \ g:myvimrc_gitbash_dir . '/usr/bin/locale.exe')
   endif
 
 
