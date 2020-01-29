@@ -137,24 +137,43 @@ urlencode(){
   echo "$1" | nkf -WwMQ | tr = %
 }
 
-fadd() {
-    local out q n addfiles
+fad() {
+    local out q n tgt_files
     while out=$(git status --short | awk '{if (substr($0,2,1) !~ / /) print $2}' | fzf --multi --exit-0 --expect=ctrl-d --expect=ctrl-p); do
         q=$(head -1 <<< "$out")
         n=$[$(wc -l <<< "$out") - 1]
-        addfiles=(`echo $(tail "-$n" <<< "$out")`)
-        [[ -z "$addfiles" ]] && continue
+        tgt_files=(`echo $(tail "-$n" <<< "$out")`)
+        [[ -z "$tgt_files" ]] && continue
         if [ "$q" = ctrl-d ]; then
-            git diff --color=always $addfiles | less -R
+            git diff --color=always $tgt_files | less -R
         elif [ "$q" = ctrl-p ]; then
-            for addfile in $addfiles; do
-                git add -p $addfile
+            for tgt_file in $tgt_files; do
+                git add -p $tgt_file
             done
         else
-            git add $addfiles
+            git add $tgt_files
         fi
     done
 }
+frs() {
+    local out q n tgt_files
+    while out=$(git status --short | awk '{if (substr($0,1,1) ~ /M/) print $2}' | fzf --multi --exit-0 --expect=ctrl-d --expect=ctrl-p); do
+        q=$(head -1 <<< "$out")
+        n=$[$(wc -l <<< "$out") - 1]
+        tgt_files=(`echo $(tail "-$n" <<< "$out")`)
+        [[ -z "$tgt_files" ]] && continue
+        if [ "$q" = ctrl-d ]; then
+            git diff --color=always --staged $tgt_files | less -R
+        elif [ "$q" = ctrl-p ]; then
+            for tgt_file in $tgt_files; do
+                git reset -p HEAD $tgt_file
+            done
+        else
+            git reset HEAD $tgt_files
+        fi
+    done
+}
+
 
 fghq() {
     local dir
