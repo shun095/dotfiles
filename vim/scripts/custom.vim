@@ -19,12 +19,10 @@ if mymisc#plug_tap('vim-dirvish')
 
   function! s:mydirvish_update_callback(timer) abort
     let l:prev_winid = win_getid(winnr())
-    if exists('t:mydirvish_winid') 
-      if win_gotoid(t:mydirvish_winid)
-        normal R
-        call win_gotoid(l:prev_winid)
-       echom "timer" 
-      endif
+    if exists('t:mydirvish_winid') && win_gotoid(t:mydirvish_winid)
+      normal R
+      call win_gotoid(l:prev_winid)
+      echom "timer" 
     endif
   endfunction
 
@@ -32,19 +30,17 @@ if mymisc#plug_tap('vim-dirvish')
     let path = expand(a:path)
     let l:mydirvish_last_file = expand("%:p")
 
-    if exists('t:mydirvish_winid') 
-      if win_gotoid(t:mydirvish_winid)
-        let w:mydirvish_before = [expand("%:p"), l:mydirvish_last_file]
+    if exists('t:mydirvish_winid') && win_gotoid(t:mydirvish_winid)
+      let w:mydirvish_before = [expand("%:p"), l:mydirvish_last_file]
 
-        if a:force_change_path
-          exe 'Dirvish ' . path
-        elseif &ft !=# 'dirvish'
-          let path = get(g:, 'mydirvish_last_dir', path)
-          exe 'Dirvish ' . path
-        endif
-
-        return
+      if a:force_change_path
+        exe 'Dirvish ' . path
+      elseif &ft !=# 'dirvish'
+        let path = get(g:, 'mydirvish_last_dir', path)
+        exe 'Dirvish ' . path
       endif
+
+      return
     endif
     exe 'vertical topleft ' . g:mydirvish_width . 'split'
     set winfixwidth
@@ -293,9 +289,7 @@ if mymisc#plug_tap('vim-dirvish')
   endf
 
   fun! s:mydirvish_quit() abort
-    nunmap <buffer> q
-    nmap <buffer> q <plug>(dirvish_quit)
-    normal q
+    execute "normal \<plug>(dirvish_quit)"
     call s:mydirvish_clean_on_quit()
     if exists("w:mydirvish_by_split") && w:mydirvish_by_split && winnr("$") > 1
       unlet w:mydirvish_by_split
