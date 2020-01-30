@@ -80,7 +80,7 @@ Plug 'mattn/vim-lsp-settings'
 
 " Plug 'ryanoasis/vim-devicons'
 Plug 'justinmk/vim-dirvish'
-"
+" Plug 'lambdalisue/fern.vim'
 Plug 'francoiscabrol/ranger.vim'
 
 " Plug 'Shougo/defx.nvim'

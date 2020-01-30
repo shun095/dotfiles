@@ -84,7 +84,14 @@ if mymisc#plug_tap('vim-dirvish')
       else
         " file
         let g:mydirvish_tmp = getline('.')
-        wincmd p
+        if winnr("$") == 1
+          call s:mydirvish_clean_on_quit()
+          if exists('w:mydirvish_by_split') && w:mydirvish_by_split
+            unlet w:mydirvish_by_split
+          endif
+        else
+          wincmd p
+        endif
         if l:cmd ==# 'edit'
           let l:cmd = 'drop'
         elseif l:cmd ==# 'vsplit'
