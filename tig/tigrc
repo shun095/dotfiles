@@ -56,7 +56,8 @@ bind generic G      move-last-line
 bind main    G      move-last-line
 bind generic s      view-status
 bind generic S      view-stage
-bind main    c      ?git checkout %(commit)
+bind main    C      ?git checkout %(commit)
+bind main    c      ?git cherry-pick %(commit)
 
 # Alt-g で :toggle commit-title-graph
 bind main    <Ctrl-g> :toggle commit-title-graph
