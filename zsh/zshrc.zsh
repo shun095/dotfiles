@@ -157,7 +157,7 @@ fad() {
 }
 frs() {
     local out q n tgt_files
-    while out=$(git status --short | awk '{if (substr($0,1,1) ~ /M/) print $2}' | fzf --multi --exit-0 --expect=ctrl-d --expect=ctrl-p); do
+    while out=$(git status --short | awk '{if (substr($0,2,1) ~ / /) print $2}' | fzf --multi --exit-0 --expect=ctrl-d --expect=ctrl-p); do
         q=$(head -1 <<< "$out")
         n=$[$(wc -l <<< "$out") - 1]
         tgt_files=(`echo $(tail "-$n" <<< "$out")`)
