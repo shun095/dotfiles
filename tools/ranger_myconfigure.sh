@@ -7,9 +7,9 @@
 set -eu
 
 ## CONFIG
-SOFTWARE_NAME="tmux"
-BRANCH_NAME="3.0"
-NEEDS_PULL=false
+SOFTWARE_NAME="ranger"
+BRANCH_NAME="master"
+NEEDS_PULL=true
 
 ## COMMON
 _SCRIPT_DIR=$(cd $(dirname $0);pwd)
@@ -21,7 +21,7 @@ fi
 _PREFIX=$HOME/build/${SOFTWARE_NAME}
 
 cd ${_SCRIPT_DIR}/${SOFTWARE_NAME}
-git fetch -t
+# git fetch -t
 git checkout ${BRANCH_NAME}
 
 if ${NEEDS_PULL}; then
@@ -29,6 +29,11 @@ if ${NEEDS_PULL}; then
 fi
 
 ## BUILD
-./autogen.sh
-./configure --prefix=$_PREFIX
-make -j${_NUM_PARALLEL} install
+target_path=$HOME/usr/bin/ranger
+mkdir -p $HOME/usr/bin
+if [ -e ${target_path} ];then
+    :
+else
+    ln -s $(pwd)/ranger.py ${target_path}
+fi
+unset target_path

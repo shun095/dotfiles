@@ -7,9 +7,9 @@
 set -eu
 
 ## CONFIG
-SOFTWARE_NAME="tmux"
-BRANCH_NAME="3.0"
-NEEDS_PULL=false
+SOFTWARE_NAME="tig"
+BRANCH_NAME="master"
+NEEDS_PULL=true
 
 ## COMMON
 _SCRIPT_DIR=$(cd $(dirname $0);pwd)
@@ -21,7 +21,7 @@ fi
 _PREFIX=$HOME/build/${SOFTWARE_NAME}
 
 cd ${_SCRIPT_DIR}/${SOFTWARE_NAME}
-git fetch -t
+# git fetch -t
 git checkout ${BRANCH_NAME}
 
 if ${NEEDS_PULL}; then

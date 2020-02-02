@@ -1,17 +1,20 @@
 FROM ubuntu
 
+RUN apt-get update
+RUN apt-get install -y curl lsb-release
+
 ### For local repository
-# COPY . $HOME/dotfiles
+COPY . /root/dotfiles
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y curl lsb-release && \
-    if [ ! -d "$HOME/dotfiles" ]; then \
-        bash -c "$(curl -fsSL https://raw.githubusercontent.com/ishitaku5522/dotfiles/master/install.sh)"; \
-    else \
+RUN if [ -d $HOME/dotfiles ]; then \
         $HOME/dotfiles/install.sh; \
-    fi && \
-    $HOME/dotfiles/install.sh buildtools && \
-    chsh -s /bin/zsh
+    else \
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/ishitaku5522/dotfiles/master/install.sh)"; \
+    fi \
+    && $HOME/dotfiles/install.sh buildtools \
+    && chsh -s /bin/zsh
 
-CMD ["/bin/bash"]
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+
+CMD ["/bin/zsh"]

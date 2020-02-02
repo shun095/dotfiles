@@ -6,23 +6,29 @@
 #
 set -eu
 
+## CONFIG
 SOFTWARE_NAME="vim"
 BRANCH_NAME="master"
 NEEDS_PULL=true
 
+## COMMON
 _SCRIPT_DIR=$(cd $(dirname $0);pwd)
-_NUM_PARALLEL=4
+if [ "$(uname)" == 'Darwin'  ]; then
+    _NUM_PARALLEL=$(sysctl -n hw.logicalcpu_max)
+else
+    _NUM_PARALLEL=$(grep processor /proc/cpuinfo | wc -l)
+fi
 _PREFIX=$HOME/build/${SOFTWARE_NAME}
 
 cd ${_SCRIPT_DIR}/${SOFTWARE_NAME}
-# git fetch --all -t
+# git fetch -t
 git checkout ${BRANCH_NAME}
 
 if ${NEEDS_PULL}; then
     git pull
 fi
 
-# Script to build
+## BUILD
 if [ "$(uname)" == 'Darwin'  ]; then
     ./configure --prefix=${_PREFIX} \
         --with-features=huge \
@@ -40,7 +46,6 @@ if [ "$(uname)" == 'Darwin'  ]; then
         --enable-terminal
         # --enable-pythoninterp=dynamic \
         # --enable-perlinterp=dynamic \
-        _NUM_PARALLEL=$(sysctl -n hw.logicalcpu_max)
 else
     ./configure --prefix=${_PREFIX} \
         --with-features=huge \

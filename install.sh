@@ -411,7 +411,6 @@ clone_dotfiles_repository() {
 }
 
 install_essential_dependencies() {
-    echo_section "Installing essential softwares"
     local deps=''
     if !(type git > /dev/null 2>&1); then
         deps="${deps} git"
@@ -424,6 +423,11 @@ install_essential_dependencies() {
     fi
     if !(type zsh > /dev/null 2>&1); then
         deps="${deps} zsh"
+    fi
+
+    if type apt-get > /dev/null 2>&1; then
+        # Ubuntu has mawk as default and this replace it.
+        deps="${deps} gawk"
     fi
 
     install_deps "essential softwares" "${deps}"
@@ -499,7 +503,7 @@ install_deps() {
 build_vim_install_deps() {
     local deps=""
     if type apt-get > /dev/null 2>&1; then
-        deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1 gawk'
+        deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1'
     elif type yum > /dev/null 2>&1; then
         deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
     fi
@@ -538,6 +542,7 @@ make_install() {
     popd
 }
 
+
 build_vim_make_install() {
     echo_section "Compiling vim"
     make_install "vim_myconfigure.sh" "https://github.com/vim/vim"
@@ -546,6 +551,16 @@ build_vim_make_install() {
 build_tmux_make_install() {
     echo_section "Compiling tmux"
     make_install "tmux_myconfigure.sh" "https://github.com/tmux/tmux"
+}
+
+build_tig_make_install() {
+    echo_section "Compiling tig"
+    make_install "tig_myconfigure.sh" "https://github.com/jonas/tig"
+}
+
+build_ranger_make_install() {
+    echo_section "Installing ranger"
+    make_install "ranger_myconfigure.sh" "https://github.com/ranger/ranger"
 }
 
 build_vim(){
@@ -572,6 +587,8 @@ uninstall_built_tools(){
 buildtools(){
     build_vim
     build_tmux
+    build_tig_make_install
+    build_ranger_make_install
 }
 
 deploy() {
@@ -607,12 +624,10 @@ redeploy() {
 
 update() {
     update_repositories
-    if [[ -e $HOME/programs/vim_myconfigure.sh ]]; then
-        build_vim_make_install
-    fi
-    if [[ -e $HOME/programs/tmux_myconfigure.sh ]]; then
-        build_tmux_make_install
-    fi
+    build_vim_make_install
+    build_tmux_make_install
+    build_tig_make_install
+    build_ranger_make_install
     redeploy
     update_vim_plugins
 }
@@ -669,6 +684,7 @@ fi
 
 check_arguments ${arg}
 ascii_art
+echo "Argument: ${arg}"
 
 if [[ ${arg} != "debug" ]]; then
     backup
