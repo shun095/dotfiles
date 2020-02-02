@@ -10,8 +10,8 @@ set -eu
 export MYDOTFILES=$HOME/dotfiles
 
 if [ ! -z ${ZSH_NAME:-} ];then
-  setopt localoptions ksharrays
-  echo "runnning on zsh"
+    setopt localoptions ksharrays
+    echo "runnning on zsh"
 fi
 
 #tseoitj aowiejfoajiwe
@@ -25,12 +25,12 @@ OHMYZSHDIR="$HOME/.oh-my-zsh"
 ZSHRC="$HOME/.zshrc"
 
 ZSHFILES=(
-"$HOME/.zshrc"
-"$HOME/.zlogin" 
-"$HOME/.zlogout"
-"$HOME/.zpreztorc"
-"$HOME/.zprofile"
-"$HOME/.zshenv"
+    "$HOME/.zshrc"
+    "$HOME/.zlogin" 
+    "$HOME/.zlogout"
+    "$HOME/.zpreztorc"
+    "$HOME/.zprofile"
+    "$HOME/.zshenv"
 )
 
 VIMRC="$HOME/.vimrc"
@@ -49,27 +49,27 @@ else
 fi
 
 SYMLINKS=(
-${VIMRC}
-${GVIMRC}
-${TMUXCONF}
-${FLAKE8}
-${VINTRC}
-${EMACSINIT}
-${NVIMRC}
-${GNVIMRC}
-${TIGRC}
+    ${VIMRC}
+    ${GVIMRC}
+    ${TMUXCONF}
+    ${FLAKE8}
+    ${VINTRC}
+    ${EMACSINIT}
+    ${NVIMRC}
+    ${GNVIMRC}
+    ${TIGRC}
 )
 
 SYMTARGET=(
-"${MYDOTFILES}/vim/vimrc.vim"
-"${MYDOTFILES}/vim/gvimrc.vim"
-"${MYDOTFILES}/tmux/tmux.conf"
-"${MYDOTFILES}/python/lint/flake8"
-"${MYDOTFILES}/python/lint/vintrc.yml"
-"${MYDOTFILES}/emacs/spacemacs"
-"${MYDOTFILES}/vim/vimrc.vim"
-"${MYDOTFILES}/vim/ginit.vim"
-"${MYDOTFILES}/tig/tigrc"
+    "${MYDOTFILES}/vim/vimrc.vim"
+    "${MYDOTFILES}/vim/gvimrc.vim"
+    "${MYDOTFILES}/tmux/tmux.conf"
+    "${MYDOTFILES}/python/lint/flake8"
+    "${MYDOTFILES}/python/lint/vintrc.yml"
+    "${MYDOTFILES}/emacs/spacemacs"
+    "${MYDOTFILES}/vim/vimrc.vim"
+    "${MYDOTFILES}/vim/ginit.vim"
+    "${MYDOTFILES}/tig/tigrc"
 )
 
 # actual files
@@ -155,7 +155,7 @@ update_repositories() {
             git pull
         popd
         pushd zsh-completions
-        git pull
+            git pull
         popd
     popd
 }
@@ -425,29 +425,8 @@ install_essential_dependencies() {
     if !(type zsh > /dev/null 2>&1); then
         deps="${deps} zsh"
     fi
-    if [[ ${deps} = '' ]]; then
-        clone_dotfiles_repository
-        return
-    fi
 
-    if type brew > /dev/null 2>&1; then
-        brew update
-        brew install $deps
-    elif type apt > /dev/null 2>&1; then
-        if [[ $(whoami) = 'root' ]]; then
-            apt update
-            apt install -y $deps
-        else
-            sudo apt update
-            sudo apt install -y $deps
-        fi
-    elif type yum > /dev/null 2>&1; then
-        if [[ $(whoami) = 'root' ]]; then
-            yum install -y ${deps} || true
-        else
-            sudo yum install -y ${deps} || true
-        fi
-    fi
+    install_deps "essential softwares" "${deps}"
 
     clone_dotfiles_repository
 }
@@ -478,83 +457,63 @@ update_vim_plugins() {
     fi
 }
 
-build_vim_install_deps() {
-    echo_section "Installing vim build dependencies"
+install_deps() {
+    local msg=$1
+    local deps=$2
+    echo_section "Installing dependencies for: ${msg}"
+    local sudo=""
+    echo
+    echo "Packages:"
+    echo "  ${deps}"
+    echo
 
-    if type apt > /dev/null 2>&1; then
+    if [[ ${deps} = '' ]]; then
+        echo "No packages found."
+        return
+    fi
 
-        local deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1 gawk'
+    if [[ ! $(whoami) = 'root' ]]; then
+        sudo="sudo "
+    fi
 
-        if [[ $(whoami) = 'root' ]]; then
-            apt update
-            apt install -y ${deps}
-        else
-            sudo apt update
-            sudo apt install -y ${deps}
-        fi
-
+    if type brew > /dev/null 2>&1; then
+        brew update
+        brew upgrade
+        brew install ${deps}
+    elif type apt-get > /dev/null 2>&1; then
+        ${sudo} apt-get update
+        ${sudo} apt-get upgrade -y
+        ${sudo} apt-get install -y ${deps}
     elif type yum > /dev/null 2>&1; then
-
-        local deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
-
-        if [[ $(whoami) = 'root' ]]; then
-            if yum list installed git2u >/dev/null 2>&1; then
-                :
-            else
-                yum remove git* -y
-            fi
-            yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
-            yum install -y ${deps} || true
+        ${sudo} yum update
+        if ${sudo} yum list installed git2u >/dev/null 2>&1; then
+            :
         else
-            if sudo yum list installed git2u >/dev/null 2>&1; then
-                :
-            else
-                sudo yum remove git* -y
-            fi
-            sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
-            sudo yum install -y ${deps} || true
+            ${sudo} yum remove git* -y
         fi
+        ${sudo} yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
+        ${sudo} yum install -y ${deps} || true
     fi
 }
 
-build_tmux_install_deps() {
-    echo_section "Installing tmux build dependencies"
-
-    if type apt > /dev/null 2>&1; then
-
-        local deps='git automake pkg-config libevent-dev libncurses5-dev libncursesw5-dev bison'
-
-        if [[ $(whoami) = 'root' ]]; then
-            apt update
-            apt install -y ${deps}
-        else
-            sudo apt update
-            sudo apt install -y ${deps}
-        fi
-
+build_vim_install_deps() {
+    local deps=""
+    if type apt-get > /dev/null 2>&1; then
+        deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1 gawk'
     elif type yum > /dev/null 2>&1; then
-
-        local deps='git2u automake libevent-devel ncurses-devel make gcc byacc'
-
-        if [[ $(whoami) = 'root' ]]; then
-            if yum list installed git2u >/dev/null 2>&1; then
-                :
-            else
-                yum remove git* -y
-            fi
-            yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
-            yum install -y ${deps} || true
-        else
-            if sudo yum list installed git2u >/dev/null 2>&1; then
-                :
-            else
-                sudo yum remove git* -y
-            fi
-            sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
-            sudo yum install -y ${deps} || true
-        fi
+        deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
     fi
+    install_deps "vim build" "${deps}"
+}
 
+build_tmux_install_deps() {
+    local deps=""
+    if type apt-get > /dev/null 2>&1; then
+        deps='git automake pkg-config libevent-dev libncurses5-dev libncursesw5-dev bison'
+    elif type yum > /dev/null 2>&1; then
+        deps='git2u automake libevent-devel ncurses-devel make gcc byacc'
+    fi
+    install_deps "tmux build" "${deps}"
 }
 
 make_install() {
