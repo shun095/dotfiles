@@ -693,7 +693,7 @@ try
   " AUTOCMDS {{{
   augroup VIMRC
     if !has('nvim') && v:version >= 801
-      autocmd TerminalOpen * setl nonumber nowrap
+      autocmd TerminalOpen * setl nonumber nowrap nolist
       autocmd TerminalOpen * nnoremap <silent><buffer>q :bw<CR>
     endif
 
