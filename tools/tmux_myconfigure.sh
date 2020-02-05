@@ -8,8 +8,8 @@ set -eu
 
 ## CONFIG
 SOFTWARE_NAME="tmux"
-BRANCH_NAME="3.0"
-NEEDS_PULL=false
+BRANCH_NAME="master"
+NEEDS_PULL=true
 
 ## COMMON
 _SCRIPT_DIR=$(cd $(dirname $0);pwd)
