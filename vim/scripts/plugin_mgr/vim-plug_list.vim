@@ -65,13 +65,13 @@ if s:has_python3 || s:has_python
 endif
 Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'prabirshrestha/asyncomplete-buffer.vim'
-" Plug 'prabirshrestha/asyncomplete-necovim.vim'
 Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
-Plug 'ishitaku5522/asyncomplete-omni.vim'
 Plug 'prabirshrestha/vim-lsp'
-" Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspace'}
 Plug 'mattn/vim-lsp-settings'
+" Plug 'prabirshrestha/asyncomplete-necovim.vim'
+" Plug 'ishitaku5522/asyncomplete-omni.vim'
 " Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
+" Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspace'}
 
 " Plug 'scrooloose/nerdtree'
 " Plug 'jistr/vim-nerdtree-tabs'
