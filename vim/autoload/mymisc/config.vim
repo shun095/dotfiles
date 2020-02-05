@@ -79,24 +79,34 @@ function! mymisc#config#asyncomplete_setup()
   "--- Reference ---
   " function! s:default_preprocessor(options, matches) abort
   "   let l:items = []
+  "   let l:startcols = []
   "   for [l:source_name, l:matches] in items(a:matches)
+  "     let l:startcol = l:matches['startcol']
+  "     let l:base = a:options['typed'][l:startcol - 1:]
   "     for l:item in l:matches['items']
-  "       if stridx(l:item['word'], a:options['base']) == 0
+  "       if stridx(l:item['word'], l:base) == 0
+  "         let l:startcols += [l:startcol]
   "         call add(l:items, l:item)
   "       endif
   "     endfor
   "   endfor
+
+  "   let a:options['startcol'] = min(l:startcols)
 
   "   call asyncomplete#preprocess_complete(a:options, l:items)
   " endfunction
 
   function! s:sort_by_priority_preprocessor(options, matches) abort
     let l:items = []
+    let l:startcols = []
     for [l:source_name, l:matches] in items(a:matches)
+      let l:startcol = l:matches['startcol']
+      let l:base = a:options['typed'][l:startcol - 1:]
+      let l:priority = get(asyncomplete#get_source_info(l:source_name),'priority',0)
       for l:item in l:matches['items']
-        if stridx(l:item['word'], a:options['base']) == 0
-          let l:item['priority'] =
-                \ get(asyncomplete#get_source_info(l:source_name),'priority',0)
+        if stridx(l:item['word'], l:base) == 0
+          let l:startcols += [l:startcol]
+          let l:item['priority'] = l:priority
           call add(l:items, l:item)
         endif
       endfor
@@ -108,30 +118,30 @@ function! mymisc#config#asyncomplete_setup()
   endfunction
 
 
-  function! s:preprocess_fuzzy(ctx, matches) abort
-    let l:visited = {}
-    let l:items = []
-    let l:expression = ""
+  " function! s:preprocess_fuzzy(ctx, matches) abort
+  "   let l:visited = {}
+  "   let l:items = []
+  "   let l:expression = ""
 
-    for char_nr in str2list(a:ctx['base'])
-      let char = nr2char(char_nr) 
-      let l:expression .= char . '\k*'
-    endfor
+  "   for char_nr in str2list(a:ctx['base'])
+  "     let char = nr2char(char_nr) 
+  "     let l:expression .= char . '\k*'
+  "   endfor
 
-    for [l:source_name, l:matches] in items(a:matches)
-      for l:item in l:matches['items']
-        if match(l:item['word'], l:expression) == 0
-          call add(l:items, l:item)
-        endif
-      endfor
-    endfor
+  "   for [l:source_name, l:matches] in items(a:matches)
+  "     for l:item in l:matches['items']
+  "       if match(l:item['word'], l:expression) == 0
+  "         call add(l:items, l:item)
+  "       endif
+  "     endfor
+  "   endfor
 
-    call asyncomplete#preprocess_complete(a:ctx, l:items)
-  endfunction
+  "   call asyncomplete#preprocess_complete(a:ctx, l:items)
+  " endfunction
 
   let g:asyncomplete_preprocessor = [function('s:sort_by_priority_preprocessor')]
   " let g:asyncomplete_preprocessor = [function('s:preprocess_fuzzy')]
-  let g:asyncomplete_popup_delay = 200
+  let g:asyncomplete_popup_delay = 100
 
   augroup vimrc_asyncomplete
     autocmd!

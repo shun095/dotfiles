@@ -166,9 +166,9 @@ try
   set fileformats=unix,dos,mac                             " 改行コード自動判別優先順位の設定
   " set complete=.,w,b,u,U,k,kspell,s,t,t
   if v:version >= 800
-    set completeopt=menuone,noselect                         " 補完関係の設定,Ycmで自動設定される
+    set completeopt=menuone,noselect                       " 補完関係の設定,Ycmで自動設定される
   endif
-  set pumheight=10                                         " 補完ウィンドウ最大高さ
+  set pumheight=20                                         " 補完ウィンドウ最大高さ
   set iminsert=0                                           " IMEの管理
   set imsearch=0
 
