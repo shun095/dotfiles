@@ -138,6 +138,7 @@ try
   set cmdheight=2                                          " コマンドラインの高さ
   set showtabline=2                                        " タブバーを常に表示
   set shortmess-=Tt
+  set nostartofline                                        " オンの場合Gなどのときに行頭に移動する
   set sidescroll=1                                         " 横スクロール刻み幅
   set sidescrolloff=1                                         " 横スクロール刻み幅
   set number                                               " 行番号表示
@@ -377,7 +378,7 @@ try
         " 無事認識後元の状態に戻すことでfast_esc()のバインドの反応も早くする
         iunmap <ESC>
         let s:old_tlen = &timeoutlen
-        set timeoutlen=100
+        set timeoutlen=50
 
         cnoremap <ESC>n <Down>
         cnoremap <ESC>p <Up>
@@ -392,7 +393,7 @@ try
         inoremap <ESC> <C-w>
 
         call feedkeys("\<ESC>", 'i')
-        call timer_start(200, 'Myvimrc_fast_esc_unmap', {'repeat':1})
+        call timer_start(100, 'Myvimrc_fast_esc_unmap', {'repeat':1})
         return ''
       endfunction
 
