@@ -5,7 +5,7 @@ if &compatible
 endif
 
 if mymisc#plug_tap('YouCompleteMe')
-  call mymisc#config#YouCompleteMe_setup()
+  call mymisc#config#YouCompleteMe#setup()
 endif
 
 if mymisc#plug_tap('vim-dirvish')
@@ -1437,7 +1437,7 @@ if mymisc#plug_tap('vim-lsp')
 endif
 
 if mymisc#plug_tap('asyncomplete.vim')
-  call mymisc#config#asyncomplete_setup()
+  call mymisc#config#asyncomplete#setup()
 endif
 
 if mymisc#plug_tap('clang_complete')
