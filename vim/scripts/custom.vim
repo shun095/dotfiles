@@ -348,24 +348,7 @@ if mymisc#plug_tap('markdown-preview.vim')
 endif
 
 if mymisc#plug_tap('memolist.vim')
-  " let g:memolist_memo_suffix = 'txt'
-  " let g:memolist_unite = 1
-  " let g:memolist_denite = 1
-  " let g:memolist_vimfiler = 1
-  " let g:memolist_vimfiler_option = '-force-quit'
-  " let g:memolist_ex_cmd = 'Denite file_rec '
-  " if mymisc#plug_tap('nerdtree')
-  " let g:memolist_ex_cmd = 'e'
-  " endif
-
-  nmap <Leader>mn :<C-u>MemoNew<cr>
-  " if mymisc#plug_tap('denite.nvim')
-  "   nnoremap <Leader>ml :execute ":Denite" "-path='".g:memolist_path."'" "file_rec"<cr>
-  if mymisc#plug_tap('defx.nvim')
-    nnoremap <Leader>ml :<C-u>execute "Defx " . expand(g:memolist_path)<cr>
-  else
-    nnoremap <Leader>ml :<C-u>MemoList<cr>
-  endif
+  call mymisc#config#memolist#setup()
 endif
 
 if mymisc#plug_tap('nerdtree')
@@ -985,7 +968,7 @@ if mymisc#plug_tap('fzf.vim')
         \          <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?')),
         \   <bang>0)
 
-  let g:fzf_layout = { 'down': '~50%' }
+  " let g:fzf_layout = { 'down': '~50%' }
   " let g:fzf_colors =
   "       \ { 'fg':      ['fg', 'Normal'],
   "       \   'bg':      ['bg', 'Normal'],
