@@ -13,10 +13,14 @@ augroup vimrc_custom_global
   autocmd VimEnter * imap <silent><expr> <TAB> <SID>my_tab_main()
 augroup END
 
-smap <expr> <Tab>
-      \ neosnippet#expandable_or_jumpable() ? 
-      \   "\<Plug>(neosnippet_expand_or_jump)":
-      \   "\<Plug>(RemapUltiSnipsJumpForwardTrigger)"
+if mymisc#plug_tap('neosnippet.vim')
+  smap <expr> <Tab>
+        \ neosnippet#expandable_or_jumpable() ? 
+        \   "\<Plug>(neosnippet_expand_or_jump)":
+        \   "\<Plug>(RemapUltiSnipsJumpForwardTrigger)"
+else
+  smap <Tab> <Plug>(RemapUltiSnipsJumpForwardTrigger)
+endif
 smap <S-Tab> <Plug>(RemapUltiSnipsJumpBackwardTrigger)
 
 fun! Myvimrc_toggle_preview_window()

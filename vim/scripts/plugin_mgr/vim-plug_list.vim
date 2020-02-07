@@ -36,10 +36,9 @@ let g:terminal_ansi_colors = [
 " Plug 'morhetz/gruvbox'
 " Plug 'reedes/vim-colors-pencil'
 " Plug 'tomasr/molokai'
-"
+
 " Plug 'roxma/nvim-yarp'
 " Plug 'roxma/vim-hug-neovim-rpc'
-"
 " Plug 'Shougo/deoplete.nvim'
 " Plug 'Shougo/deoplete-lsp'
 " call lsp#server#add('python', ['python', '-m', 'pyls'])
@@ -64,10 +63,12 @@ if s:has_python3 || s:has_python
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
 Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'prabirshrestha/asyncomplete-buffer.vim'
-Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+Plug 'ishitaku5522/asyncomplete-buffer.vim'
+" Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+
 " Plug 'prabirshrestha/asyncomplete-necovim.vim'
 " Plug 'ishitaku5522/asyncomplete-omni.vim'
 " Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
@@ -96,8 +97,8 @@ Plug 'Shougo/neco-vim' " for vimscript
 Plug 'freitass/todo.txt-vim'
 
 " Snippets, templates
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
 if s:has_python3 || s:has_python
   Plug 'SirVer/ultisnips'
 endif

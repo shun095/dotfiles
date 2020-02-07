@@ -1,0 +1,91 @@
+priority -60
+
+global !p
+import datetime
+import calendar
+def my_snippets_next_weekday(d, weekday):
+    days_ahead = weekday - d.weekday()
+    if days_ahead <= 0: # Target day already happened this week
+        days_ahead += 7
+    return d + datetime.timedelta(days_ahead)
+def my_snippets_calendar(year, month):
+	return calendar.month(year, month)
+endglobal
+
+snippet cal "Calendar" b
+`!p d = datetime.date.today()
+snip.rv = my_snippets_calendar(d.year, d.month)`
+endsnippet
+
+snippet caln "Next month calendar" b
+`!p year = datetime.date.today().year
+month = datetime.date.today().month + 1
+if month > 12:
+	year = year + 1
+	month = month % 12
+snip.rv = my_snippets_calendar(year, month)`
+endsnippet
+
+snippet call "Last month calendar" b
+`!p year = datetime.date.today().year
+month = datetime.date.today().month - 1
+if month < 1:
+	year = year - 1
+	month = month % 12
+	if month == 0:
+		month = 12
+snip.rv = my_snippets_calendar(year, month)`
+endsnippet
+
+snippet caly "Year calendar" b
+`!p d = datetime.date.today()
+snip.rv = calendar.calendar(d.year)`
+endsnippet
+
+snippet Mon "Next Monday"
+`!p snip.rv = my_snippets_next_weekday(datetime.date.today(), 0)`
+endsnippet
+
+snippet Tue "Next Tuesday"
+`!p snip.rv = my_snippets_next_weekday(datetime.date.today(), 1)`
+endsnippet
+
+snippet Wed "Next Wednesday"
+`!p snip.rv = my_snippets_next_weekday(datetime.date.today(), 2)`
+endsnippet
+
+snippet Thu "Next Thursday"
+`!p snip.rv = my_snippets_next_weekday(datetime.date.today(), 3)`
+endsnippet
+
+snippet Fri "Next Friday"
+`!p snip.rv = my_snippets_next_weekday(datetime.date.today(), 4)`
+endsnippet
+
+snippet Sat "Next Saturday"
+`!p snip.rv = my_snippets_next_weekday(datetime.date.today(), 5)`
+endsnippet
+
+snippet Sun "Next Sunday"
+`!p snip.rv = my_snippets_next_weekday(datetime.date.today(), 6)`
+endsnippet
+
+snippet today "Today"
+`!v strftime("%Y-%m-%d", localtime())`${1}
+endsnippet
+
+snippet tomorrow "Tomorrow"
+`!v strftime("%Y-%m-%d", localtime()+60*60*24*1)`${1}
+endsnippet
+
+snippet yesterday "Yesterday"
+`!v strftime("%Y-%m-%d", localtime()-60*60*24*1)`${1}
+endsnippet
+
+snippet day_after_tomorrow "The day after tomorrow"
+`!v strftime("%Y-%m-%d", localtime()+60*60*24*2)`${1}
+endsnippet
+
+snippet day_before_yesterday "The day before yesterday"
+`!v strftime("%Y-%m-%d", localtime()-60*60*24*2)`${1}
+endsnippet
