@@ -6,27 +6,6 @@ function! mymisc#config#nerdcommenter#setup() abort
         \ 'python': { 'left': '#', 'leftAlt': '# ' },
         \ }
 
-  let s:nc_tmp_ft = ''
-  function! NERDCommenter_before()
-    if &ft == 'vue'
-      let s:nc_tmp_ft = 'vue'
-      let stack = synstack(line('.'), col('.'))
-      if len(stack) > 0
-        let syn = synIDattr((stack)[0], 'name')
-        if len(syn) > 0
-          exe 'setf ' . substitute(tolower(syn), '^vue_', '', '')
-        endif
-      endif
-    endif
-  endfunction
-
-  function! NERDCommenter_after()
-    if s:nc_tmp_ft == 'vue'
-      setf vue
-      let s:nc_tmp_ft = ''
-    endif
-  endfunction
-
   xmap gcc <Plug>NERDCommenterComment
   nmap gcc <Plug>NERDCommenterComment
   xmap gcn <Plug>NERDCommenterNested
