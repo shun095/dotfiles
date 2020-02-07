@@ -716,9 +716,12 @@ try
     let g:markdown_syntax_conceal = 0
 
     " HTML,XML,CSS,JavaScript
-    autocmd Filetype html,xml,vue setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
+    autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
     autocmd Filetype css setl foldmethod=syntax
     autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
+
+    " Vue
+    autocmd FileType vue setl iskeyword+=$,-,:,/ expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
 
     " Markdown
     autocmd FileType markdown setl expandtab softtabstop=2 shiftwidth=2
