@@ -92,25 +92,35 @@ function! mymisc#config#asyncomplete#setup() abort
 
   function! s:sort_by_priority_preprocessor(options, matches) abort
     let l:items = []
-    let l:startcols = []
-    for [l:source_name, l:matches] in items(a:matches)
+    let l:min_startcol = 100000
+    " let l:startcols = []
+
+    " let l:expression = ""
+    " for char_nr in str2list(a:options['base'])
+    "   let char = nr2char(char_nr) 
+    "   let l:expression .= char . '\k*'
+    " endfor
+
+    let l:matches_all = deepcopy(a:matches)
+
+    for [l:source_name, l:matches] in items(l:matches_all)
       let l:startcol = l:matches['startcol']
       let l:base = a:options['typed'][l:startcol - 1:]
-      let l:priority = get(asyncomplete#get_source_info(l:source_name),'priority',0)
-      for l:item in l:matches['items']
-        if stridx(l:item['word'], l:base) == 0
-          let l:startcols += [l:startcol]
-          let l:item['priority'] = l:priority
-          call add(l:items, l:item)
-        endif
-      endfor
+      let l:min_startcol = l:min_startcol > l:startcol ? l:startcol : l:min_startcol
+      let l:priority = get(asyncomplete#get_source_info(l:source_name), 'priority', 0)
+
+      let l:items += map(
+            \ filter(
+            \   l:matches['items'], 
+            \   'stridx(v:val["word"], l:base) == 0'),
+            \ 'extend(v:val, {"priority": l:priority})')
+      " filter(l:item_set, 'match(v:val["word"], l:expression) == 0')
     endfor
 
-    let l:items = sort(l:items, {a, b -> b['priority'] - a['priority']})
+    let a:options['startcol'] = l:min_startcol
 
-    call asyncomplete#preprocess_complete(a:options, l:items)
+    call asyncomplete#preprocess_complete(a:options, sort(l:items, {a, b -> b['priority'] - a['priority']}))
   endfunction
-
 
   " function! s:preprocess_fuzzy(ctx, matches) abort
   "   let l:visited = {}
