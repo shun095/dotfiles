@@ -14,9 +14,9 @@ NEEDS_PULL=true
 ## COMMON
 _SCRIPT_DIR=$(cd $(dirname $0);pwd)
 if [ "$(uname)" == 'Darwin'  ]; then
-    _NUM_PARALLEL=$(sysctl -n hw.logicalcpu_max)
+	_NUM_PARALLEL=$(sysctl -n hw.logicalcpu_max)
 else
-    _NUM_PARALLEL=$(grep processor /proc/cpuinfo | wc -l)
+	_NUM_PARALLEL=$(grep processor /proc/cpuinfo | wc -l)
 fi
 _PREFIX=$HOME/build/${SOFTWARE_NAME}
 
@@ -25,43 +25,45 @@ cd ${_SCRIPT_DIR}/${SOFTWARE_NAME}
 git checkout ${BRANCH_NAME}
 
 if ${NEEDS_PULL}; then
-    git pull
+	if git pull | grep "Already up"; then
+		exit 0
+	fi
 fi
 
 ## BUILD
 if [ "$(uname)" == 'Darwin'  ]; then
-    ./configure --prefix=${_PREFIX} \
-        --with-features=huge \
-        --enable-fail-if-missing \
-        --enable-fontset \
-        --enable-multibyte \
-        --enable-gui=auto \
-        --with-lua-prefix=/usr/local/ \
-        --enable-luainterp=dynamic \
-        --with-luajit \
-        --enable-python3interp=yes \
-        --with-python3-command=python3 \
-        --enable-rubyinterp=dynamic \
-        --enable-autoservername \
-        --enable-terminal
-        # --enable-pythoninterp=dynamic \
-        # --enable-perlinterp=dynamic \
-else
-    ./configure --prefix=${_PREFIX} \
-        --with-features=huge \
-        --enable-fail-if-missing \
-        --enable-fontset \
-        --enable-multibyte \
-        --enable-gui=auto \
-        --enable-luainterp=dynamic \
-        --with-luajit \
-        --enable-python3interp=dynamic \
-        --with-python3-command=python3.6 \
-        --enable-rubyinterp=dynamic \
-        --enable-autoservername \
-        --enable-terminal
-        # --enable-pythoninterp=dynamic \
-        # --enable-perlinterp=dynamic \
-fi
+	./configure --prefix=${_PREFIX} \
+		--with-features=huge \
+		--enable-fail-if-missing \
+		--enable-fontset \
+		--enable-multibyte \
+		--enable-gui=auto \
+		--with-lua-prefix=/usr/local/ \
+		--enable-luainterp=dynamic \
+		--with-luajit \
+		--enable-python3interp=yes \
+		--with-python3-command=python3 \
+		--enable-rubyinterp=dynamic \
+		--enable-autoservername \
+		--enable-terminal
+			# --enable-pythoninterp=dynamic \
+			# --enable-perlinterp=dynamic \
+		else
+			./configure --prefix=${_PREFIX} \
+				--with-features=huge \
+				--enable-fail-if-missing \
+				--enable-fontset \
+				--enable-multibyte \
+				--enable-gui=auto \
+				--enable-luainterp=dynamic \
+				--with-luajit \
+				--enable-python3interp=dynamic \
+				--with-python3-command=python3.6 \
+				--enable-rubyinterp=dynamic \
+				--enable-autoservername \
+				--enable-terminal
+							# --enable-pythoninterp=dynamic \
+							# --enable-perlinterp=dynamic \
+				fi
 
-make -j${_NUM_PARALLEL} install
+				make -j${_NUM_PARALLEL} install
