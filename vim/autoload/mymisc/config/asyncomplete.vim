@@ -90,10 +90,14 @@ function! mymisc#config#asyncomplete#setup() abort
   "   call asyncomplete#preprocess_complete(a:options, l:items)
   " endfunction
 
-  function! s:sort_by_priority_preprocessor(options, matches) abort
+  function! s:preprocessor(options, matches) abort
+    call timer_start(1, function('s:sort_by_priority_preprocessor', [a:options, a:matches]))
+  endfunction
+
+  function! s:sort_by_priority_preprocessor(options, matches, timer) abort
     let l:items = []
     let l:startcols = []
-    if match(a:options['typed'],'\s\+$') >= 0
+    if match(a:options['typed'],'^\s*$') >= 0
       return
     endif
     for [l:source_name, l:matches] in items(a:matches)
@@ -135,7 +139,7 @@ function! mymisc#config#asyncomplete#setup() abort
   "   call asyncomplete#preprocess_complete(a:ctx, l:items)
   " endfunction
 
-  let g:asyncomplete_preprocessor = [function('s:sort_by_priority_preprocessor')]
+  let g:asyncomplete_preprocessor = [function('s:preprocessor')]
   " let g:asyncomplete_preprocessor = [function('s:preprocess_fuzzy')]
   let g:asyncomplete_popup_delay = 100
 
