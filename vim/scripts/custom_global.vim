@@ -11,6 +11,7 @@ augroup vimrc_custom_global
   endif
   autocmd VimEnter * imap <silent><expr> <CR> <SID>my_cr_main()
   autocmd VimEnter * imap <silent><expr> <TAB> <SID>my_tab_main()
+  autocmd VimEnter * imap <silent><expr> <C-e> <SID>my_ctrle_main()
 augroup END
 
 if mymisc#plug_tap('neosnippet.vim')
@@ -18,10 +19,7 @@ if mymisc#plug_tap('neosnippet.vim')
         \ neosnippet#expandable_or_jumpable() ? 
         \   "\<Plug>(neosnippet_expand_or_jump)":
         \   "\<Plug>(RemapUltiSnipsJumpForwardTrigger)"
-else
-  smap <Tab> <Plug>(RemapUltiSnipsJumpForwardTrigger)
 endif
-smap <S-Tab> <Plug>(RemapUltiSnipsJumpBackwardTrigger)
 
 fun! Myvimrc_toggle_preview_window()
   if mymisc#preview_window_is_opened()
@@ -70,6 +68,18 @@ function! s:my_cr_noulti()
     return asyncomplete#close_popup()
   else
     return "\<C-y>"
+  endif
+endfunction
+
+function! s:my_ctrle_main() abort
+  if pumvisible()
+    if mymisc#plug_tap('asyncomplete.vim')
+      return asyncomplete#cancel_popup()
+    else
+      return "\<C-e>"
+    endif
+  else
+    return "\<End>"
   endif
 endfunction
 

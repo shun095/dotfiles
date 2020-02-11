@@ -12,6 +12,10 @@ if mymisc#plug_tap('vim-dirvish')
   call mymisc#config#dirvish#setup()
 endif
 
+if mymisc#plug_tap('vim-dirvish-git')
+  call mymisc#config#dirvish_git#setup()
+endif
+
 if mymisc#plug_tap('vim-easymotion')
   let g:EasyMotion_do_mapping = 0
   nmap s <Plug>(easymotion-overwin-f2)
@@ -238,15 +242,6 @@ if mymisc#plug_tap('delimitMate')
 endif
 
 if mymisc#plug_tap('ultisnips')
-  " To Manage mappgins by my self
-  let g:UltiSnipsExpandTrigger       = '<Plug>(RemapUltiSnipsExpandTrigger)'
-  let g:UltiSnipsListSnippets        = '<Plug>(RemapUltiSnipsListSnippets)'
-  let g:UltiSnipsJumpForwardTrigger  = '<Plug>(RemapUltiSnipsJumpForwardTrigger)'
-  let g:UltiSnipsJumpBackwardTrigger = '<Plug>(RemapUltiSnipsJumpBackwardTrigger)'
-
-  smap <Tab> <Plug>(RemapUltiSnipsJumpForwardTrigger)
-  smap <S-Tab> <Plug>(RemapUltiSnipsJumpBackwardTrigger)
-
   if has('unix')
     if has('python3')
       let g:UltiSnipsUsePythonVersion = 3
@@ -255,7 +250,15 @@ if mymisc#plug_tap('ultisnips')
     endif
   endif
 
-  imap <expr><S-TAB> pumvisible() ?
+  " To Manage mappgins by my self
+  let g:UltiSnipsExpandTrigger       = '<Plug>(RemapUltiSnipsExpandTrigger)'
+  let g:UltiSnipsListSnippets        = '<Plug>(RemapUltiSnipsListSnippets)'
+  let g:UltiSnipsJumpForwardTrigger  = '<Plug>(RemapUltiSnipsJumpForwardTrigger)'
+  let g:UltiSnipsJumpBackwardTrigger = '<Plug>(RemapUltiSnipsJumpBackwardTrigger)'
+
+  smap <silent> <Tab> <Plug>(RemapUltiSnipsJumpForwardTrigger)
+  smap <silent> <S-Tab> <Plug>(RemapUltiSnipsJumpBackwardTrigger)
+  imap <silent> <expr><S-TAB> pumvisible() ?
         \ "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
 endif
 
@@ -516,7 +519,7 @@ if mymisc#plug_tap('nerdtree-git-plugin')
 endif
 
 if mymisc#plug_tap('vim-airline')
-  set ambiwidth=double
+  set ambiwidth=single
   if !exists('g:airline_symbols')
     let g:airline_symbols = {}
   endif
@@ -524,11 +527,22 @@ if mymisc#plug_tap('vim-airline')
   let g:airline_left_alt_sep = ''
   let g:airline_right_sep = ''
   let g:airline_right_alt_sep = ''
+
+  let g:airline_symbols.crypt = '🔒'
+  let g:airline_symbols.paste = 'ρ'
+  let g:airline_symbols.spell = 'Ꞩ'
+  let g:airline_symbols.notexists = 'Ɇ'
+  let g:airline_symbols.whitespace = 'Ξ'
+
   let g:airline_symbols.branch = ''
   let g:airline_symbols.readonly = ''
   let g:airline_symbols.linenr = '☰'
   let g:airline_symbols.maxlinenr = ''
-  let g:airline_symbols.dirty='⚡'
+  let g:airline_symbols.dirty='[!]'
+endif
+
+if mymisc#plug_tap('jasegment.vim')
+  call mymisc#config#jasegment#setup()
 endif
 
 source $MYDOTFILES/vim/scripts/custom_global.vim

@@ -46,24 +46,20 @@ if [ "$(uname)" == 'Darwin'  ]; then
 		--enable-rubyinterp=dynamic \
 		--enable-autoservername \
 		--enable-terminal
-			# --enable-pythoninterp=dynamic \
-			# --enable-perlinterp=dynamic \
-		else
-			./configure --prefix=${_PREFIX} \
-				--with-features=huge \
-				--enable-fail-if-missing \
-				--enable-fontset \
-				--enable-multibyte \
-				--enable-gui=auto \
-				--enable-luainterp=dynamic \
-				--with-luajit \
-				--enable-python3interp=dynamic \
-				--with-python3-command=python3.6 \
-				--enable-rubyinterp=dynamic \
-				--enable-autoservername \
-				--enable-terminal
-							# --enable-pythoninterp=dynamic \
-							# --enable-perlinterp=dynamic \
-				fi
+else
+	./configure --prefix=${_PREFIX} \
+		--with-features=huge \
+		--enable-fail-if-missing \
+		--enable-fontset \
+		--enable-multibyte \
+		--enable-gui=auto \
+		--enable-luainterp=dynamic \
+		--with-luajit \
+		--enable-python3interp=dynamic \
+		--with-python3-command=python3.6 \
+		--enable-rubyinterp=dynamic \
+		--enable-autoservername \
+		--enable-terminal
+fi
 
-				make -j${_NUM_PARALLEL} install
+make -j${_NUM_PARALLEL} install

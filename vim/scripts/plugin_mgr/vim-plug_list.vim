@@ -63,7 +63,7 @@ if s:has_python3 || s:has_python
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
 Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'ishitaku5522/asyncomplete-buffer.vim'
+Plug 'ishitaku5522/asyncomplete-buffer.vim', {'branch': 'japanese_completion'}
 " Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
@@ -81,6 +81,7 @@ Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 
 " Plug 'ryanoasis/vim-devicons'
 Plug 'justinmk/vim-dirvish'
+Plug 'kristijanhusak/vim-dirvish-git'
 " Plug 'lambdalisue/fern.vim'
 Plug 'francoiscabrol/ranger.vim'
 
@@ -196,7 +197,7 @@ Plug 'deris/vim-shot-f'
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-submode'
 Plug 'bkad/CamelCaseMotion'
-" Plug 'deton/jasegment.vim'
+Plug 'deton/jasegment.vim'
 
 " Applications
 Plug 'glidenote/memolist.vim', {'on': ['MemoNew', 'MemoList']}

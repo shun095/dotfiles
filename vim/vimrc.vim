@@ -4,7 +4,8 @@
 if !1 | finish | endif
 
 set encoding=utf-8
-" language C
+language ja_JP
+set spelllang=en_us
 
 scriptencoding utf-8
 
@@ -166,9 +167,10 @@ try
   set fileformats=unix,dos,mac                             " 改行コード自動判別優先順位の設定
   " set complete=.,w,b,u,U,k,kspell,s,t,t
   if v:version >= 800
-    set completeopt=menuone,noselect                       " 補完関係の設定,Ycmで自動設定される
+    set completeopt=menuone,noselect,noinsert,popup        " 補完関係の設定,Ycmで自動設定される
   endif
   set pumheight=20                                         " 補完ウィンドウ最大高さ
+  set pumwidth=0                                           " 補完ウィンドウの最小幅
   set iminsert=0                                           " IMEの管理
   set imsearch=0
 
@@ -901,14 +903,13 @@ try
   if getcwd() ==# $VIMRUNTIME
     cd $HOME
   endif
-
 catch
   call add(g:msgs_on_startup, 'Error in vimrc!')
   call add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
 finally
   augroup VIMRC
     for s:msg in g:msgs_on_startup
-      execute "autocmd VimEnter * echomsg '".s:msg."'"
+      execute "autocmd VimEnter * call mymisc#util#log_error('".s:msg."')"
     endfor
   augroup END
 endtry

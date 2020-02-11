@@ -83,22 +83,20 @@ function! mymisc#git_callback(ch, msg) abort
   if match(a:msg,'fatal: unable to access') == 0 ||
         \ match(a:msg, 'fatal: Could not read from remote repository.') == 0
     let s:git_newer_exists = g:false
-    echomsg 'Couldn''t connect to github.'
+    call mymisc#util#log_warn('Couldn''t connect to github.')
     return
   endif
 endf
 
 function! mymisc#git_end_callback(ch, msg) abort
   if s:git_qflist == []
-    echom 'Couldn''t get git information'
+    call mymisc#util#log_warn('Couldn''t get git information')
     return
   endif
 
   call setqflist(s:git_qflist)
   if s:git_newer_exists == g:true
-    echohl WarningMsg
-    echom 'New vimrc was downloaded. Please restart to use it!!'
-    echohl none
+    call mymisc#util#log_warn('New vimrc was downloaded. Please restart to use it!!')
     cope
     if has('gui_running') && exists(":Restart")
       sleep 1
@@ -130,9 +128,7 @@ endf
 
 function! mymisc#fzf(src, cmd) abort
   if !executable("fzf")
-    echohl WarningMsg
-    echomsg "fzf is not installed."
-    echohl none
+    call mymisc#util#log_warn("fzf is not installed.")
     return
   endif
   let l:opts = fzf#wrap()
@@ -156,16 +152,12 @@ endf
 
 function! mymisc#command_at_destdir(destination,commandlist) abort
   if a:destination ==# ''
-    echohl WarningMsg
-    echom "Destination dir must be specified for mymisc#command_at_destdir"
-    echohl none
+    call mymisc#util#log_warn("Destination dir must be specified for mymisc#command_at_destdir")
     return
   endif
 
   if type(a:commandlist) != 3
-    echohl WarningMsg
-    echom "Command list shoud be list for mymisc#command_at_destdir"
-    echohl none
+    call mymisc#util#log_warn("Command list shoud be list for mymisc#command_at_destdir")
     return
   endif
 
