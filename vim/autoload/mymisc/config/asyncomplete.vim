@@ -35,7 +35,7 @@ function! mymisc#config#asyncomplete#setup() abort
           \ 'completor': function('asyncomplete#sources#buffer#completor'),
           \ }))
     " バッファが変わった時に補完候補を一旦クリアするか
-    let g:asyncomplete_buffer_clear_cache = 0
+    " let g:asyncomplete_buffer_clear_cache = 0
   endif
 
   imap <C-x><Space> <Plug>(asyncomplete_force_refresh)
