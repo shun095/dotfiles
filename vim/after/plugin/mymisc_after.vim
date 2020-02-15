@@ -1,4 +1,4 @@
-fun! mymisc_after#write_log()
+function! mymisc_after#write_log()
   redir @z
   mes
   redir END

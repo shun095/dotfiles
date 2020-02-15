@@ -82,7 +82,7 @@ function! mymisc#config#quickrun#setup() abort
   nnoremap <expr><silent> <C-c> quickrun#is_running() ?
         \ <SID>mymisc_quickrun_sweep() : "\<C-c>"
 
-  fun! s:mymisc_quickrun_sweep()
+  function! s:mymisc_quickrun_sweep()
     echo 'Quickrun Interrupted'
     call quickrun#sweep_sessions()
   endf

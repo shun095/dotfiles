@@ -14,7 +14,7 @@ let g:plugin_mgr = {
       \ 'enabled': false,
       \}
 
-fun! g:plugin_mgr.install() abort
+function! g:plugin_mgr.install() abort
   let succeeded = g:false
 
   let diag_message = 'Dein is not installed yet.Install now?'
@@ -34,7 +34,7 @@ fun! g:plugin_mgr.install() abort
   return succeeded
 endfun
 
-fun! g:plugin_mgr.load() abort
+function! g:plugin_mgr.load() abort
   " Confirm whether or not install dein if not exists
   if !isdirectory(self.manager_dir) && self.enabled == g:true
     " deinがインストールされてない場合そのままではプラグインは使わない
@@ -45,7 +45,7 @@ fun! g:plugin_mgr.load() abort
   endif
 endf
 
-fun! g:plugin_mgr.plug_install() abort
+function! g:plugin_mgr.plug_install() abort
   augroup vimrc_dein_install_plugs
     autocmd!
   augroup END
@@ -62,7 +62,7 @@ fun! g:plugin_mgr.plug_install() abort
   endif
 endf
 
-fun! g:plugin_mgr.init() abort
+function! g:plugin_mgr.init() abort
   " Dein main settings {{{
   exe 'set runtimepath+=' . g:plugin_mgr.manager_dir
 

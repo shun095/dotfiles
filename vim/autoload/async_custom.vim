@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-fun! async_custom#denite(...) abort
+function! async_custom#denite(...) abort
   call denite#custom#option('default','auto_resize','1')
   " call denite#custom#option('default','winheight','10')
   call denite#custom#option('default','reversed','1')

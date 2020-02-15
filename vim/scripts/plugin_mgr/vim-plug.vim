@@ -17,7 +17,7 @@ let g:plugin_mgr = {
       \ 'init_state': "none"
       \}
 
-fun! g:plugin_mgr.install() abort
+function! g:plugin_mgr.install() abort
   let succeeded = g:false
 
   call system(printf('curl -fLo "%s/.vim/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',substitute($HOME,'\','/','g')))
@@ -31,7 +31,7 @@ fun! g:plugin_mgr.install() abort
   return succeeded
 endfun
 
-fun! g:plugin_mgr.load() abort
+function! g:plugin_mgr.load() abort
   if !filereadable(self.manager_dir . '/plug.vim')
     let self.enabled = g:false
     if self.install()
@@ -44,7 +44,7 @@ fun! g:plugin_mgr.load() abort
   endif
 endf
 
-fun! g:plugin_mgr.init() abort
+function! g:plugin_mgr.init() abort
   " let g:plug_window = 'topleft new'
   set runtimepath+=$HOME/.vim
   call plug#begin(self.plugin_dir)

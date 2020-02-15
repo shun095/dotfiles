@@ -21,7 +21,7 @@ if mymisc#plug_tap('neosnippet.vim')
         \   "\<Plug>(RemapUltiSnipsJumpForwardTrigger)"
 endif
 
-fun! Myvimrc_toggle_preview_window()
+function! Myvimrc_toggle_preview_window()
   if mymisc#preview_window_is_opened()
     normal z
   else

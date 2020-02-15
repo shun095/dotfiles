@@ -212,17 +212,17 @@ try
     autocmd CursorHold,CursorHoldI * call mymisc#set_statusline_vars()
   augroup END
 
-  fun! Myvimrc_statusline_tagbar() abort
+  function! Myvimrc_statusline_tagbar() abort
     return get(w:,'mymisc_status_tagbar','')
-  endf
+  endfunction
 
-  fun! Myvimrc_statusline_git() abort
+  function! Myvimrc_statusline_git() abort
     return get(w:,'mymisc_status_git','')
-  endf
+  endfunction
 
-  fun! Myvimrc_statusline_gitgutter() abort
+  function! Myvimrc_statusline_gitgutter() abort
     return get(w:,'mymisc_status_gitgutter','')
-  endf
+  endfunction
   " }}}
 
   let g:mymisc_files_is_available = (executable('files') ? g:true : g:false)

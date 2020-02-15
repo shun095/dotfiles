@@ -18,7 +18,7 @@ function! mymisc#config#dirvish#setup() abort
     endif
   endfunction
 
-  fun! s:mydirvish_start(path, force_change_path) abort
+  function! s:mydirvish_start(path, force_change_path) abort
     let path = expand(a:path)
     let l:mydirvish_last_file = expand("%:p")
 
@@ -52,7 +52,7 @@ function! mymisc#config#dirvish#setup() abort
     let t:mydirvish_winid = win_getid(winnr())
   endf
 
-  fun! s:mydirvish_open(...) abort
+  function! s:mydirvish_open(...) abort
     if a:0 > 0
       let l:cmd = a:1
     else
@@ -108,7 +108,7 @@ function! mymisc#config#dirvish#setup() abort
     endif
   endf
 
-  fun! s:mydirvish_up() abort
+  function! s:mydirvish_up() abort
     let w:mydirvish_before = get(w:, 'mydirvish_before', [])
 
     if len(w:mydirvish_before) > 1
@@ -120,7 +120,7 @@ function! mymisc#config#dirvish#setup() abort
     exe 'Dirvish %:p:h'.repeat(':h',v:count1)
   endf
 
-  fun! s:mydirvish_init_buffer() abort
+  function! s:mydirvish_init_buffer() abort
     " Guard nested loading
     if exists('b:mydirvish_no_init_buffer')
       return
@@ -180,7 +180,7 @@ function! mymisc#config#dirvish#setup() abort
     call <SID>mydirvish_selectprevdir()
   endf
 
-  fun! s:mydirvish_create_newfile(current_path) abort abort
+  function! s:mydirvish_create_newfile(current_path) abort abort
     let l:path = input("Create new file or directory: ", expand(a:current_path), "file")
     let l:dirpath = fnamemodify(l:path, ':h')
 
@@ -212,7 +212,7 @@ function! mymisc#config#dirvish#setup() abort
     endif
   endf
 
-  fun! s:mydirvish_toggle_winwidth() abort
+  function! s:mydirvish_toggle_winwidth() abort
     if exists('w:mydirvish_default_width') && w:mydirvish_default_width
       normal |
       let w:mydirvish_default_width = 0
@@ -224,7 +224,7 @@ function! mymisc#config#dirvish#setup() abort
     endif
   endf
 
-  fun! s:mydirvish_apply_config() abort
+  function! s:mydirvish_apply_config() abort
     " Guard nested loading.: 'normal R' hooks FileType dirvish again
     let b:mydirvish_no_init_buffer = 1
     normal R
@@ -246,38 +246,38 @@ function! mymisc#config#dirvish#setup() abort
     endif
   endf
 
-  fun! s:mydirvish_do_sort() abort
+  function! s:mydirvish_do_sort() abort
     sort /.*\([\\\/]\)\@=/
   endf
 
-  fun! s:mydirvish_do_hide() abort
+  function! s:mydirvish_do_hide() abort
     silent keeppatterns g@\v[\/]\.[^\/]+[\/]?$@d _
     silent keeppatterns g@\v[\/][^\/]+(\.pyo)$@d _
   endf
 
-  fun! s:mydirvish_toggle_hiddenfiles() abort
+  function! s:mydirvish_toggle_hiddenfiles() abort
     let g:mydirvish_hidden = !g:mydirvish_hidden
     call s:mydirvish_apply_config()
   endf
 
-  fun! s:mydirvish_toggle_sortfiles() abort
+  function! s:mydirvish_toggle_sortfiles() abort
     let g:mydirvish_sort = !g:mydirvish_sort
     call s:mydirvish_apply_config()
   endf
 
-  fun! s:mydirvish_update_beforelist() abort
+  function! s:mydirvish_update_beforelist() abort
     if len(w:mydirvish_before) == 0 || w:mydirvish_before[0] !=# expand("%:p")
       call insert(w:mydirvish_before,expand("%:p"))
     endif
   endf
 
-  fun! s:mydirvish_selectprevdir() abort
+  function! s:mydirvish_selectprevdir() abort
     if len(w:mydirvish_before) > 1
       call search('\V\^'.escape(w:mydirvish_before[1], '\').'\$', 'cw')
     endif
   endf
 
-  fun! s:mydirvish_clean_on_quit() abort
+  function! s:mydirvish_clean_on_quit() abort
     if exists('w:mydirvish_by_split') && exists('t:mydirvish_winid')
       unlet t:mydirvish_winid
     endif
@@ -287,7 +287,7 @@ function! mymisc#config#dirvish#setup() abort
     endif
   endf
 
-  fun! s:mydirvish_quit() abort
+  function! s:mydirvish_quit() abort
     execute "normal \<plug>(dirvish_quit)"
     call s:mydirvish_clean_on_quit()
     if exists("w:mydirvish_by_split") && w:mydirvish_by_split && winnr("$") > 1
