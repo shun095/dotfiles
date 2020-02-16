@@ -81,7 +81,6 @@ Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 
 " Plug 'ryanoasis/vim-devicons'
 Plug 'justinmk/vim-dirvish'
-Plug 'kristijanhusak/vim-dirvish-git'
 " Plug 'lambdalisue/fern.vim'
 Plug 'francoiscabrol/ranger.vim'
 
