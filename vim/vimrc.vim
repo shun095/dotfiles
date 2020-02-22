@@ -4,7 +4,13 @@
 if !1 | finish | endif
 
 set encoding=utf-8
-language ja_JP
+
+try
+  language ja_JP
+catch
+  language C
+endtry
+
 set spelllang=en_us
 
 scriptencoding utf-8

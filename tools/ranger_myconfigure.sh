@@ -12,25 +12,15 @@ BRANCH_NAME="master"
 NEEDS_PULL=true
 
 ## COMMON
+. $MYDOTFILES/tools/myconfigure_setup.sh
 _SCRIPT_DIR=$(cd $(dirname $0);pwd)
-if [ "$(uname)" == 'Darwin'  ]; then
-	_NUM_PARALLEL=$(sysctl -n hw.logicalcpu_max)
-else
-	_NUM_PARALLEL=$(grep processor /proc/cpuinfo | wc -l)
-fi
-_PREFIX=$HOME/build/${SOFTWARE_NAME}
-
-cd ${_SCRIPT_DIR}/${SOFTWARE_NAME}
-# git fetch -t
-git checkout ${BRANCH_NAME}
-
-if ${NEEDS_PULL}; then
-	if git pull | grep "Already up"; then
-		exit 0
-	fi
-fi
+_NUM_PARALLEL=$(get_num_cpus)
+_PREFIX=$(get_prefix $SOFTWARE_NAME)
+_REPO_DIR=${_SCRIPT_DIR}/${SOFTWARE_NAME}
+update_repository "${_REPO_DIR}" "${BRANCH_NAME}" "${NEEDS_PULL}"
 
 ## BUILD
+cd $_REPO_DIR
 target_path=$HOME/usr/bin/ranger
 mkdir -p $HOME/usr/bin
 if [ -e ${target_path} ];then
