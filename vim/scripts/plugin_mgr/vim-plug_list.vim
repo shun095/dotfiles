@@ -28,14 +28,14 @@ let g:terminal_ansi_colors = [
 
 " Plug 'NLKNguyen/papercolor-theme'
 " Plug 'ajh17/spacegray.vim'
-" Plug 'cocopon/iceberg.vim'
+Plug 'cocopon/iceberg.vim'
 " Plug 'jdkanani/vim-material-theme'
 " Plug 'jonathanfilip/vim-lucius'
 " Plug 'joshdick/onedark.vim'
 " Plug 'lifepillar/vim-solarized8'
-" Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
 " Plug 'reedes/vim-colors-pencil'
-" Plug 'tomasr/molokai'
+Plug 'tomasr/molokai'
 
 " Plug 'roxma/nvim-yarp'
 " Plug 'roxma/vim-hug-neovim-rpc'
