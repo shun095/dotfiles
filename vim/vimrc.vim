@@ -598,21 +598,21 @@ try
   nnoremap <Leader>gp :<C-u>call <SID>my_git_push()<CR>
   nnoremap <Leader>gl :<C-u>call <SID>my_git_pull()<CR>
   nnoremap <Leader>te :<C-u>T<CR>
-  command! T execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell) 
+  command! T execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
         \ | call s:set_winheight_small()
 
   if !has('nvim')
-    let g:myvimrc_msys_dir = 
+    let g:myvimrc_msys_dir =
           \ get(g:, 'myvimrc_msys_dir', 'C:/msys64')
     command! MSYSTerm call mymisc#mintty_sh(
-                \ "MSYS64", 
+                \ "MSYS64",
                 \ g:myvimrc_msys_dir . '/usr/bin/bash.exe',
                 \ g:myvimrc_msys_dir . '/usr/bin/locale.exe')
 
-    let g:myvimrc_gitbash_dir = 
+    let g:myvimrc_gitbash_dir =
           \ get(g:, 'myvimrc_gitbash_dir', substitute(fnamemodify(exepath('git'),':h:h:p'), '\', '/', 'g'))
     command! GitBash call mymisc#mintty_sh(
-                \ "GitBash", 
+                \ "GitBash",
                 \ g:myvimrc_gitbash_dir . '/usr/bin/bash.exe',
                 \ g:myvimrc_gitbash_dir . '/usr/bin/locale.exe')
   endif

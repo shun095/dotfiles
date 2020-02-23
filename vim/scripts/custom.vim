@@ -26,7 +26,6 @@ if mymisc#plug_tap('foldCC.vim')
   let g:foldCCtext_head = ''
   let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
   set foldtext=FoldCCtext()
-  set fillchars=vert:\|
 endif
 
 if mymisc#plug_tap('html5.vim')
