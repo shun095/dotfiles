@@ -12,11 +12,11 @@ if has('gui_running')
   set lines=40
   " endif
 
-  if has('win32')
+  if has('win32') || has('mac')
     set renderoptions=type:directx
-    set guifont=Cica:h12
+    set guifont=JetBrainsMonoNerdFontCompleteM-Regular:h12
   else
-    set guifont=Cica\ 12
+    set guifont=JetBrainsMonoNerdFontCompleteM-Regular\ 12
   endif
 
   function! s:save_winpos(save_window_file) abort
