@@ -6,7 +6,6 @@ case $- in
     *) return;;
 esac
 
-
 # GENERAL CONFIG
 if [[ "${EDITOR}" = "" ]]; then
     export EDITOR=vim
@@ -14,15 +13,16 @@ fi
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
 
-# LANGUAGE SPECIFIC
 export GOPATH=$HOME/.gopath
 export PATH="$HOME/build/go/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
+
 export PATH="$HOME/build/node/bin:$PATH"
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
+
+export PATH="$HOME/build/emacs/bin:$PATH"
 export PATH="$HOME/build/tig/bin:$PATH"
 export PATH="$HOME/build/tmux/bin:$PATH"
-export PATH="$HOME/build/emacs/bin:$PATH"
 export PATH="$HOME/build/ctags/bin:$PATH"
 export PATH="$HOME/build/nvim-qt/bin:$PATH"
 export PATH="$HOME/build/nvim/bin:$PATH"
@@ -30,8 +30,84 @@ export PATH="$HOME/build/vim/bin:$PATH"
 
 export USE_CCACHE=1
 
-remove_dups_in_path(){
-    # Removing duplicates in $PATH
+# GENERAL
+export MYDOTFILES=$HOME/dotfiles
+
+# ZSH PLUGIN CONFIG
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
+export ZSH_HIGHLIGHT_MAXLENGTH=300
+
+_zshrc_get_fzf_default_opts() {
+    if type highlight > /dev/null; then
+        HIGHLIGHT_SIZE_MAX=262143  # 256KiB
+        local hloptions="--replace-tabs=8 --style=molokai ${HIGHLIGHT_OPTIONS:-}"
+        local previewcmd="highlight --out-format="xterm256" --force "${hloptions}" {} "
+    elif type pygmentize > /dev/null; then
+        local previewcmd="pygmentize -O style=monokai -f console256 -g {}"
+    else
+        local previewcmd="cat {}"
+    fi
+    # local fzf_color="--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5"
+    echo "--height 50% --reverse --preview \""$previewcmd"\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
+}
+export FZF_DEFAULT_OPTS=$(_zshrc_get_fzf_default_opts)
+
+# Should be called before source ohmyzshrc for faster boot
+_zshrc_custom_tmux(){
+    if [[ $# -eq 0 ]]; then
+        # title "$USER@$HOST"
+        # export DISABLE_AUTO_TITLE=true
+        local _lst_ses=$(\tmux list-sessions)
+        local _exist_sessions=
+        local _attached_sessions=
+        local _detached_sessions=
+        if [[ ! -z $_lst_ses ]]; then
+            _exist_sessions=$(echo $_lst_ses | sed "s/:.*//")
+            _attached_sessions=$(echo $_lst_ses | grep attached | sed "s/:.*//")
+            _detached_sessions=$(echo $_lst_ses | grep -v attached | sed "s/:.*//")
+        fi
+
+        if [[ $_exist_sessions = $_attached_sessions ]]; then
+            local idx=0
+            if [[ ! -z $_exist_sessions ]];then
+                echo $_exist_sessions |
+                    while read line; do
+                        if [[ $idx -eq $line ]]; then
+                            (( idx++ ))
+                        else
+                            break
+                        fi
+                    done
+            fi
+            \tmux -u new-session -s $idx
+        else
+            echo $(echo $_detached_sessions | head -n 1)
+            \tmux -u attach -t $(echo $_detached_sessions | head -n 1)
+        fi
+        # export DISABLE_AUTO_TITLE=
+    else
+        \tmux $*
+    fi
+}
+
+if [[ ! $TERM = "linux" ]]; then
+    if [[ $TERM = "xterm" ]]; then
+        export TERM=xterm-256color
+    fi
+    if [[ $VIM_TERMINAL = "" && $TMUX = "" ]]; then
+        _zshrc_custom_tmux
+    fi
+    if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
+        source "${VIM_EDITERM_SETUP}"
+    fi
+    alias tmux=_zshrc_custom_tmux
+fi
+
+# source oh-my-zsh config
+source $MYDOTFILES/zsh/ohmyzshrc.zsh
+
+# Removing duplicates in $PATH
+remove_dups_in_path() {
     _path=""
     for _p in $(echo $PATH | tr ":" " "); do
         case ":${_path}:" in
@@ -50,93 +126,30 @@ remove_dups_in_path(){
     unset _p
     unset _path
 }
-
-
-# GENERAL
-export MYDOTFILES=$HOME/dotfiles
-
-# ZSH PLUGIN CONFIG
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
-export ZSH_HIGHLIGHT_MAXLENGTH=80
-
-if type highlight > /dev/null; then
-    HIGHLIGHT_SIZE_MAX=262143  # 256KiB
-    local hloptions="--replace-tabs=8 --style=molokai ${HIGHLIGHT_OPTIONS:-}"
-    local previewcmd="highlight --out-format="xterm256" --force "${hloptions}" {} "
-elif type pygmentize > /dev/null; then
-    local previewcmd="pygmentize -O style=monokai -f console256 -g {}"
-else
-    local previewcmd="cat {}"
-fi
-local fzf_color="--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5"
-export FZF_DEFAULT_OPTS="--height 50% --reverse --preview \""$previewcmd"\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
-
-tmux_call(){
-    if [[ $# -eq 0 ]]; then
-        # title "$USER@$HOST"
-        export DISABLE_AUTO_TITLE=true
-        if [[ $(\tmux list-sessions 2>/dev/null|wc -l) -ne 0 ]]; then
-            _tmux_call_exist_sessions=($(\tmux list-sessions|sed "s/:.*//"))
-            _tmux_call_attached_sessions=($(\tmux list-sessions|grep attached|sed "s/:.*//"))
-            _tmux_call_detached_sessions=($(\tmux list-sessions|grep -v attached|sed "s/:.*//"))
-        else
-            _tmux_call_exist_sessions=
-            _tmux_call_attached_sessions=
-            _tmux_call_detached_sessions=
-        fi
-
-        if [[ $#_tmux_call_exist_sessions -eq $#_tmux_call_attached_sessions ]]; then
-            idx=0
-            while [[ -n ${_tmux_call_exist_sessions[(re)$idx]} ]]; do
-                (( idx++ ))
-            done
-            \tmux -u new-session -s $idx
-        else
-            \tmux -u attach -t ${_tmux_call_detached_sessions[1]}
-        fi
-        export DISABLE_AUTO_TITLE=
-    else
-        \tmux $*
-    fi
-}
-
-if [[ ! $TERM = "linux" ]]; then
-    if [[ $TERM = "xterm" ]]; then
-        export TERM=xterm-256color
-    fi
-    if [[ $VIM_TERMINAL = "" && $TMUX = "" ]]; then
-        tmux_call
-    fi
-    if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
-        source "${VIM_EDITERM_SETUP}"
-    fi
-    alias tmux=tmux_call
-fi
-
-
-# source oh-my-zsh config
-#
-source $MYDOTFILES/zsh/ohmyzshrc.zsh
-
 remove_dups_in_path
 
+# 'cdhi' command
 source $MYDOTFILES/zsh/cd_history_bookmark.zsh
 
+##### Functions ##### {{{
+# Built in
 chpwd() {
     _cd_history_bookmark_save_cd_history
 }
 
-maila(){
-    \tmux source $HOME/dotfiles/tmux/mutt_tile
-}
-mailb(){
-    \tmux source $HOME/dotfiles/tmux/mutt_tile2
-}
+# Custom
+# maila(){
+#     \tmux source $HOME/dotfiles/tmux/mutt_tile
+# }
+# mailb(){
+#     \tmux source $HOME/dotfiles/tmux/mutt_tile2
+# }
 
 urlencode(){
   echo "$1" | nkf -WwMQ | tr = %
 }
 
+# FZF
 fad() {
     local out q n tgt_files
     while out=$(git status --short | awk '{if (substr($0,2,1) !~ / /) print $2}' | fzf --multi --exit-0 --expect=ctrl-d --expect=ctrl-p); do
@@ -173,8 +186,6 @@ frs() {
         fi
     done
 }
-
-
 fghq() {
     local dir
     dir=$(ghq list > /dev/null | fzf --no-multi) && cd $(ghq root)/$dir
@@ -187,14 +198,26 @@ cdproject() {
   fi
 }
 
-gvim_call(){
-    if [[ $(\gvim --serverlist 2>/dev/null|wc -l) -ne 0 ]]; then
-        \gvim --remote $*
-    else
-        \gvim $*
-    fi
+cddir() {
+    cd $(dirname "$1")
 }
 
+# Check if 'kubectl' is a command in $PATH
+if [ $commands[kubectl] ]; then
+  # Placeholder 'kubectl' shell function:
+  # Will only be executed on the first call to 'kubectl'
+  kubectl() {
+    # Remove this function, subsequent calls will execute 'kubectl' directly
+    unfunction "$0"
+    # Load auto-completion
+    source <(kubectl completion zsh)
+    # Execute 'kubectl' binary
+    $0 "$@"
+  }
+fi
+##### Functions END ##### }}}
+
+##### Aliases ##### {{{
 # GNU Tools on Mac
 if type gsed > /dev/null; then
     alias sed="gsed"
@@ -221,11 +244,6 @@ if type trash-put > /dev/null; then
     alias trm="trash-put"
 fi
 
-# Local configuration
-if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
-    source "$HOME/localrcs/zsh-local.zsh"
-fi
-
 if type colordiff > /dev/null; then
     alias diff="colordiff -u"
 else
@@ -242,15 +260,15 @@ if type /usr/local/bin/gvim > /dev/null;then
     alias gvim=/usr/local/bin/gvim
 fi
 
-if type /usr/local/bin/emacs > /dev/null;then
-    alias emacs=/usr/local/bin/emacs
-fi
-
 # Simple vim
 alias svim="vim --cmd \"let g:use_plugins=0\""
 alias tgvim="gvim --remote-tab-silent"
 alias tvim="vim --remote-tab-silent"
 alias gnvim="nvim-qt"
+
+if type /usr/local/bin/emacs > /dev/null;then
+    alias emacs=/usr/local/bin/emacs
+fi
 
 alias dir="dir --group-directories-first --color=auto"
 if type pygmentize > /dev/null; then
@@ -262,26 +280,9 @@ if type highlight > /dev/null; then
     alias hlt="highlight -O ansi"
 fi
 
-function cddir() {
-    cd $(dirname "$1")
-}
+##### Aliases END ##### }}}
 
-# Check if 'kubectl' is a command in $PATH
-if [ $commands[kubectl] ]; then
-  # Placeholder 'kubectl' shell function:
-  # Will only be executed on the first call to 'kubectl'
-  function kubectl() {
-    # Remove this function, subsequent calls will execute 'kubectl' directly
-    unfunction "$0"
-    # Load auto-completion
-    source <(kubectl completion zsh)
-    # Execute 'kubectl' binary
-    $0 "$@"
-  }
-fi
-
-
-# ZSH CONFIG
+##### Configurations ##### {{{
 ## BIND
 stty stop undef
 bindkey \^U backward-kill-line
@@ -318,4 +319,10 @@ zstyle ':completion:*:messages' format '%F{yellow}-- %d%f'
 zstyle ':completion:*:warnings' format '%F{red}No matches for:%F{yellow} %d%f'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' use-cache true
+##### Configurations END ##### }}}
+#
+# Override by local configurations
+if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
+    source "$HOME/localrcs/zsh-local.zsh"
+fi
 
