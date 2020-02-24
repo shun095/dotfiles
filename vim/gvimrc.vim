@@ -12,8 +12,10 @@ if has('gui_running')
   set lines=40
   " endif
 
-  if has('win32') || has('mac')
+  if has('win32')
     set renderoptions=type:directx
+    set guifont=JetBrainsMono_Nerd_Font_Mono:h10
+  elseif has('mac')
     set guifont=JetBrainsMonoNerdFontCompleteM-Regular:h12
   else
     set guifont=JetBrainsMonoNerdFontCompleteM-Regular\ 12
