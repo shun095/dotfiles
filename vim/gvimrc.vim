@@ -18,7 +18,7 @@ if has('gui_running')
   elseif has('mac')
     set guifont=JetBrainsMonoNerdFontCompleteM-Regular:h12
   else
-    set guifont=JetBrainsMonoNerdFontCompleteM-Regular\ 12
+    set guifont=JetBrainsMono\ Nerd\ Font\ Mono\ 10
   endif
 
   function! s:save_winpos(save_window_file) abort
