@@ -606,7 +606,7 @@ try
   command! T execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
         \ | call s:set_winheight_small()
 
-  if !has('nvim')
+  if !has('nvim') && has('win32')
     let g:myvimrc_msys_dir =
           \ get(g:, 'myvimrc_msys_dir', 'C:/msys64')
     command! MSYSTerm call mymisc#mintty_sh(
