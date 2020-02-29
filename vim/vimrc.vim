@@ -173,10 +173,15 @@ try
   set fileformats=unix,dos,mac                             " 改行コード自動判別優先順位の設定
   " set complete=.,w,b,u,U,k,kspell,s,t,t
   if v:version >= 800
-    set completeopt=menuone,noselect,noinsert,popup        " 補完関係の設定,Ycmで自動設定される
+    set completeopt=menuone,noselect,noinsert              " 補完関係の設定,Ycmで自動設定される
+    if has('patch-8.1.1880')
+      set completeopt+=popup
+    endif
   endif
   set pumheight=20                                         " 補完ウィンドウ最大高さ
-  set pumwidth=0                                           " 補完ウィンドウの最小幅
+  if has('patch-8.0.1491')
+    set pumwidth=0                                           " 補完ウィンドウの最小幅
+  endif
   set iminsert=0                                           " IMEの管理
   set imsearch=0
 
@@ -915,7 +920,10 @@ catch
 finally
   augroup VIMRC
     for s:msg in g:msgs_on_startup
-      execute "autocmd VimEnter * call mymisc#util#log_error('".s:msg."')"
+      " mymisc#utilが読み込まれないこともあるためここで定義
+      execute "autocmd VimEnter * echohl ErrorMsg"
+      execute "autocmd VimEnter * echomsg '" . s:msg . "'"
+      execute "autocmd VimEnter * echohl none"
     endfor
   augroup END
 endtry
