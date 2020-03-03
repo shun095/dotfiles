@@ -11,6 +11,7 @@ function! mymisc#config#ale#setup() abort
   let g:ale_linters = {
         \ 'javascript': ['eslint'],
         \ 'typescript': ['eslint'],
+        \ 'python': [],
         \ }
   " NOTE: Default ale linters:
   " {
