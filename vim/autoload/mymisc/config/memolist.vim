@@ -11,6 +11,8 @@ function! mymisc#config#memolist#setup() abort
   " let g:memolist_ex_cmd = 'e'
   " endif
 
+  let g:memolist_memo_suffix = "md"
+
   nmap <Leader>mn :<C-u>MemoNew<cr>
   " if mymisc#plug_tap('denite.nvim')
   "   nnoremap <Leader>ml :execute ":Denite" "-path='".g:memolist_path."'" "file_rec"<cr>

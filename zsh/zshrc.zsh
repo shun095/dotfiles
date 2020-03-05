@@ -280,6 +280,8 @@ if type highlight > /dev/null; then
     alias hlt="highlight -O ansi"
 fi
 
+autoload -Uz zmv
+alias zmv='noglob zmv -W'
 ##### Aliases END ##### }}}
 
 ##### Configurations ##### {{{
@@ -305,6 +307,7 @@ setopt print_eight_bit       # 日本語ファイル名等8ビットを通す
 setopt extended_glob         # 拡張グロブで補完(~とか^とか。例えばless *.txt~memo.txt ならmemo.txt 以外の *.txt にマッチ)
 setopt globdots              # 明確なドットの指定なしで.から始まるファイルをマッチ
 setopt auto_cd               # "./dir"で"cd ./dir"になる
+
 
 zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
 zstyle ':completion:*' group-name ''

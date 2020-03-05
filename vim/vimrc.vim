@@ -6,7 +6,7 @@ if !1 | finish | endif
 set encoding=utf-8
 
 try
-  language ja_JP
+  language ja_JP.UTF-8
 catch
   language C
 endtry
@@ -192,7 +192,7 @@ try
   set sessionoptions+=slash
 
   set viminfo+='500
-  set viminfo+=%10
+  " set viminfo+=%10
 
   " Statusline settings {{{
   highlight link User1 Normal
@@ -548,7 +548,23 @@ try
   command! Ctags call mymisc#ctags_project(g:mymisc_projectdir_reference_files)
   command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
   " command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
-  command! Transparent hi Normal ctermbg=none guibg=NONE
+  function! s:transparent() abort
+    highlight Normal ctermbg=NONE guibg=NONE
+    highlight NonText ctermbg=NONE guibg=NONE
+    highlight EndOfBuffer ctermbg=NONE guibg=NONE
+    highlight Folded ctermbg=NONE guibg=NONE
+    highlight LineNr ctermbg=NONE guibg=NONE
+    highlight CursorLineNr ctermbg=NONE guibg=NONE
+    highlight SpecialKey ctermbg=NONE guibg=NONE
+    highlight ALEErrorSign ctermbg=NONE guibg=NONE
+    highlight ALEWarningSign ctermbg=NONE guibg=NONE
+    highlight GitGutterAdd ctermbg=NONE guibg=NONE
+    highlight GitGutterChange ctermbg=NONE guibg=NONE
+    highlight GitGutterChangeDelete ctermbg=NONE guibg=NONE
+    highlight GitGutterDelete ctermbg=NONE guibg=NONE
+  endfunction
+  " command! Transparent hi Normal ctermbg=none guibg=NONE
+  command! Transparent call s:transparent()
   command! -nargs=1 -bang TabWidth exe 'set sw='.<args>.' sts='.<args>.' '.(<bang>0 ? 'no' : '').'et'
 
   command! CreateNewPlan call s:create_new_plan()

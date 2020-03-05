@@ -117,7 +117,8 @@ Plug 'jiangmiao/auto-pairs'
 
 " Language/environment specific plugins
 Plug 'lervag/vimtex', {'for': ['tex']}
-Plug 'iamcco/markdown-preview.vim', {'for': ['markdown']}
+" Plug 'iamcco/markdown-preview.vim', {'for': ['markdown']}
+Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'jceb/vim-orgmode', {'for': ['org']}
 Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
@@ -128,6 +129,7 @@ Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
 Plug 'ishitaku5522/rosmake.vim', {'on': ['Catkinmake', 'Rosmake']}
 Plug 'alvan/vim-closetag', {'for': ['xml', 'html', 'xhtml', 'phtml']}
 Plug 'chrisbra/csv.vim', {'for': ['csv']}
+Plug 'lambdalisue/vim-pyenv', {'for': ['python']}
 
 " Syntax highlights
 Plug 'othree/html5.vim', {'for': ['html']}
