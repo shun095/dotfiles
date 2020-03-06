@@ -38,11 +38,11 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
 export ZSH_HIGHLIGHT_MAXLENGTH=300
 
 _zshrc_get_fzf_default_opts() {
-    if type highlight > /dev/null; then
+    if command -v highlight > /dev/null; then
         HIGHLIGHT_SIZE_MAX=262143  # 256KiB
         local hloptions="--replace-tabs=8 --style=molokai ${HIGHLIGHT_OPTIONS:-}"
         local previewcmd="highlight --out-format="xterm256" --force "${hloptions}" {} "
-    elif type pygmentize > /dev/null; then
+    elif command -v pygmentize > /dev/null; then
         local previewcmd="pygmentize -O style=monokai -f console256 -g {}"
     else
         local previewcmd="cat {}"
@@ -150,7 +150,7 @@ urlencode(){
 }
 
 # FZF
-fad() {
+fadd() {
     local out q n tgt_files
     while out=$(git status --short | awk '{if (substr($0,2,1) !~ / /) print $2}' | fzf --multi --exit-0 --expect=ctrl-d --expect=ctrl-p); do
         q=$(head -1 <<< "$out")
@@ -168,7 +168,9 @@ fad() {
         fi
     done
 }
-frs() {
+alias fad="fadd"
+
+frst() {
     local out q n tgt_files
     while out=$(git status --short | awk '{if (substr($0,2,1) ~ / /) print $2}' | fzf --multi --exit-0 --expect=ctrl-d --expect=ctrl-p); do
         q=$(head -1 <<< "$out")
@@ -186,6 +188,8 @@ frs() {
         fi
     done
 }
+alias frs="frst"
+
 fghq() {
     local dir
     dir=$(ghq list > /dev/null | fzf --no-multi) && cd $(ghq root)/$dir
@@ -198,31 +202,39 @@ cdproject() {
   fi
 }
 
+if command -v pbpaste > /dev/null; then
+    cdpaste() {
+        if [ -d $(pbpaste) ]; then
+            cd $(pbpaste)
+        else
+            cd $(dirname $(pbpaste))
+        fi
+    }
+fi
+
 cddir() {
     cd $(dirname "$1")
 }
 
-# Check if 'kubectl' is a command in $PATH
-if [ $commands[kubectl] ]; then
-  # Placeholder 'kubectl' shell function:
-  # Will only be executed on the first call to 'kubectl'
+if command -v kubectl > /dev/null; then
   kubectl() {
     # Remove this function, subsequent calls will execute 'kubectl' directly
     unfunction "$0"
     # Load auto-completion
     source <(kubectl completion zsh)
-    # Execute 'kubectl' binary
+    complete -o default -F __start_kubectl k
     $0 "$@"
   }
+  alias k="kubectl"
 fi
 ##### Functions END ##### }}}
 
 ##### Aliases ##### {{{
 # GNU Tools on Mac
-if type gsed > /dev/null; then
+if command -v gsed > /dev/null; then
     alias sed="gsed"
 fi
-if type gls > /dev/null; then
+if command -v gls > /dev/null; then
     alias ls="gls --color"
 
     alias l="gls --color -lah"
@@ -230,33 +242,33 @@ if type gls > /dev/null; then
     alias ll="gls --color -l"
     alias lsa="gls --color -lah"
 fi
-if type ggrep > /dev/null; then
+if command -v ggrep > /dev/null; then
     alias grep="ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
 fi
 
 # Excel diff
-if type git-xlsx-textconv > /dev/null; then
+if command -v git-xlsx-textconv > /dev/null; then
     alias xlsxtxt="git-xlsx-textconv"
 fi
 
 # Trash
-if type trash-put > /dev/null; then
+if command -v trash-put > /dev/null; then
     alias trm="trash-put"
 fi
 
-if type colordiff > /dev/null; then
+if command -v colordiff > /dev/null; then
     alias diff="colordiff -u"
 else
     alias diff="diff -u"
 fi
 
-if type $HOME/build/vim/bin/vim > /dev/null; then
+if command -v $HOME/build/vim/bin/vim > /dev/null; then
     :
-elif type /usr/local/bin/vim > /dev/null;then
+elif command -v /usr/local/bin/vim > /dev/null;then
     alias vim=/usr/local/bin/vim
 fi
 
-if type /usr/local/bin/gvim > /dev/null;then
+if command -v /usr/local/bin/gvim > /dev/null;then
     alias gvim=/usr/local/bin/gvim
 fi
 
@@ -266,19 +278,21 @@ alias tgvim="gvim --remote-tab-silent"
 alias tvim="vim --remote-tab-silent"
 alias gnvim="nvim-qt"
 
-if type /usr/local/bin/emacs > /dev/null;then
+if command -v /usr/local/bin/emacs > /dev/null;then
     alias emacs=/usr/local/bin/emacs
 fi
 
 alias dir="dir --group-directories-first --color=auto"
-if type pygmentize > /dev/null; then
+if command -v pygmentize > /dev/null; then
     alias pyg="pygmentize -O style=monokai -f 256 -g"
     alias ccat="pyg"
 fi
 
-if type highlight > /dev/null; then
+if command -v highlight > /dev/null; then
     alias hlt="highlight -O ansi"
 fi
+
+alias ggr="git graph"
 
 autoload -Uz zmv
 alias zmv='noglob zmv -W'
