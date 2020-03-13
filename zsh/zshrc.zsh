@@ -336,6 +336,7 @@ zstyle ':completion:*:messages' format '%F{yellow}-- %d%f'
 zstyle ':completion:*:warnings' format '%F{red}No matches for:%F{yellow} %d%f'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' use-cache true
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 ##### Configurations END ##### }}}
 #
 # Override by local configurations
