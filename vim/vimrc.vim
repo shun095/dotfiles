@@ -345,6 +345,7 @@ try
   noremap! <C-a> <Home>
   noremap! <C-e> <End>
   inoremap <C-k> <Right><ESC>Da
+  inoremap <C-l> <Delete>
   cnoremap <C-@> <C-a>
 
   if has('gui_running')

@@ -159,16 +159,16 @@ function! mymisc#config#dirvish#setup() abort
 
     " Shell operations
     if executable('trash-put')
-      nnoremap <buffer><silent> md   :<C-u>Shdo trash-put {}<CR>
-      vnoremap <buffer><silent> d    :<C-u>Shdo trash-put {}<CR>
+      nnoremap <buffer><silent> md   :<C-u>call <SID>mydirvish_shdo("trash-put {}")<CR>
+      vnoremap <buffer><silent> d    :<C-u>call <SID>mydirvish_shdo("trash-put {}")<CR>
     else
-      nnoremap <buffer><silent> md   :<C-u>Shdo rm -rf {}<CR>
-      vnoremap <buffer><silent> d    :<C-u>Shdo rm -rf {}<CR>
+      nnoremap <buffer><silent> md   :<C-u>call <SID>mydirvish_shdo("rm -rf {}")<CR>
+      vnoremap <buffer><silent> d    :<C-u>call <SID>mydirvish_shdo("rm -rf {}")<CR>
     endif
-    nnoremap <buffer><silent> mm   :<C-u>Shdo mv {} {}_<CR>
-    vnoremap <buffer><silent> m    :<C-u>Shdo mv {} {}_<CR>
-    nnoremap <buffer><silent> mc   :<C-u>Shdo cp {} {}_<CR>
-    vnoremap <buffer><silent> c    :<C-u>Shdo cp {} {}_<CR>
+    nnoremap <buffer><silent> mm   :<C-u>call <SID>mydirvish_shdo("mv {} {}")<CR>
+    vnoremap <buffer><silent> m    :<C-u>call <SID>mydirvish_shdo("mv {} {}")<CR>
+    nnoremap <buffer><silent> mc   :<C-u>call <SID>mydirvish_shdo("cp {} {}_")<CR>
+    vnoremap <buffer><silent> c    :<C-u>call <SID>mydirvish_shdo("cp {} {}_")<CR>
     nnoremap <buffer><silent> ma   :<C-u>let @z = @%<CR>:<C-u>call <SID>mydirvish_create_newfile('<C-r>z')<CR>
 
     nnoremap <buffer><silent> cd   :<C-u>exe 'cd ' . getline('.')<CR>
@@ -212,15 +212,32 @@ function! mymisc#config#dirvish#setup() abort
     endif
   endf
 
-  function! s:mydirvish_toggle_winwidth() abort
+  function! s:mydirvish_shdo(arg) abort
     if exists('w:mydirvish_default_width') && w:mydirvish_default_width
+      call s:mydirvish_winwidth_maximize()
+    endif
+
+    exe "Shdo " . a:arg
+
+  endfunction
+
+  function! s:mydirvish_winwidth_maximize() abort
       normal |
       let w:mydirvish_default_width = 0
       setl conceallevel=0
-    else
+  endfunction
+
+  function! s:mydirvish_winwidth_default() abort
       exe 'normal ' . g:mydirvish_width . '|'
       let w:mydirvish_default_width = 1
       setl conceallevel=2
+  endfunction
+
+  function! s:mydirvish_toggle_winwidth() abort
+    if exists('w:mydirvish_default_width') && w:mydirvish_default_width
+      call s:mydirvish_winwidth_maximize()
+    else
+      call s:mydirvish_winwidth_default()
     endif
   endf
 

@@ -18,7 +18,7 @@ update_repository() {
 	local branch_name=$2
 	local needs_pull=$3
 	cd ${repo_dir}
-	git fetch -t
+	git fetch -t -f
 	git checkout ${branch_name}
 
 	if ${needs_pull}; then

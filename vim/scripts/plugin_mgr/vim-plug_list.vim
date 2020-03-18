@@ -111,7 +111,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
 " Plug 'gorodinskiy/vim-coloresque' " Color preview
 
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 " Plug 'Raimondi/delimitMate'
 " Plug 'cohama/lexima.vim'
 
