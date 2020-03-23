@@ -411,7 +411,7 @@ try
         return ''
       endfunction
 
-      inoremap <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+      " inoremap <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
 
       " cnoremap <ESC>n <Down>
       " cnoremap <ESC>p <Up>
