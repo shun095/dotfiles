@@ -1,6 +1,7 @@
 scriptencoding utf-8
 
 function! mymisc#config#memolist#setup() abort
+  let g:memolist_prompt_tags = 1
   " let g:memolist_memo_suffix = 'txt'
   " let g:memolist_unite = 1
   " let g:memolist_denite = 1

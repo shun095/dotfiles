@@ -17,6 +17,8 @@ export GOPATH=$HOME/.gopath
 export PATH="$HOME/build/go/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 
+export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
+
 export PATH="$HOME/build/node/bin:$PATH"
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 
@@ -94,7 +96,7 @@ if [[ ! $TERM = "linux" ]]; then
     if [[ $TERM = "xterm" ]]; then
         export TERM=xterm-256color
     fi
-    if [[ $VIM_TERMINAL = "" && $TMUX = "" ]]; then
+    if [[ $VIM_TERMINAL = "" && $TMUX = "" && $TERM_PROGRAM != "vscode" ]]; then
         _zshrc_custom_tmux
     fi
     if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
