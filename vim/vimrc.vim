@@ -591,7 +591,7 @@ try
     if has('nvim')
       let l:terminal_cmd = ':split term://'
     else
-      let l:terminal_cmd = ':terminal '
+      let l:terminal_cmd = ':bel terminal '
     endif
     let l:ret = l:terminal_cmd . a:cmd
     return l:ret
@@ -742,6 +742,7 @@ try
           \   'sh',
           \   'vim',
           \   'sql',
+          \   'yaml'
           \ ]
     let g:markdown_syntax_conceal = 0
 

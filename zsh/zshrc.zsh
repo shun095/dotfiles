@@ -215,8 +215,9 @@ if command -v pbpaste > /dev/null; then
 fi
 
 cddir() {
-    cd $(dirname "$1")
+    cd $(dirname "$@")
 }
+alias cdd="cddir"
 
 if command -v kubectl > /dev/null; then
   kubectl() {

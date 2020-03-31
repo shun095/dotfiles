@@ -58,6 +58,8 @@ function! mymisc#config#fzf#setup() abort
         \          <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?')),
         \   <bang>0)
 
+  exe "command! Dotfiles :FZF " . $MYDOTFILES
+
   " let g:fzf_layout = { 'down': '~50%' }
   " let g:fzf_colors =
   "       \ { 'fg':      ['fg', 'Normal'],
