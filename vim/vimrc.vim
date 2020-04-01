@@ -191,8 +191,7 @@ try
   set sessionoptions-=blank
   set sessionoptions+=slash
 
-  set viminfo+='500
-  " set viminfo+=%10
+  set viminfo='500,<50,s10,h
 
   " Statusline settings {{{
   highlight link User1 Normal
