@@ -218,18 +218,6 @@ cddir() {
     cd $(dirname "$@")
 }
 alias cdd="cddir"
-
-if command -v kubectl > /dev/null; then
-  kubectl() {
-    # Remove this function, subsequent calls will execute 'kubectl' directly
-    unfunction "$0"
-    # Load auto-completion
-    source <(kubectl completion zsh)
-    complete -o default -F __start_kubectl k
-    $0 "$@"
-  }
-  alias k="kubectl"
-fi
 ##### Functions END ##### }}}
 
 ##### Aliases ##### {{{

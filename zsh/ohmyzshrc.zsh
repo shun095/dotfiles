@@ -83,8 +83,10 @@ tig
 tmux
 vscode
 yarn
+kubectl
 # command-not-found
 history-substring-search
+vagrant
 zsh-completions
 zsh-syntax-highlighting
 zsh-autosuggestions
