@@ -59,7 +59,7 @@ cargo
 cloudfoundry
 docker
 docker-compose
-emacs
+# emacs
 fzf
 gcloud
 git
@@ -79,6 +79,7 @@ pyenv
 python
 ripgrep
 sudo
+ssh-agent
 tig
 tmux
 vscode

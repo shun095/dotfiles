@@ -74,13 +74,13 @@ Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 " Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
 " Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspace'}
 
-" Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 " Plug 'jistr/vim-nerdtree-tabs'
 " Plug 'ishitaku5522/nerdtree-git-plugin'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Plug 'ryanoasis/vim-devicons'
-Plug 'justinmk/vim-dirvish'
+" Plug 'justinmk/vim-dirvish'
 " Plug 'lambdalisue/fern.vim'
 Plug 'francoiscabrol/ranger.vim'
 
