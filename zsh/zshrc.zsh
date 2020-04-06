@@ -34,6 +34,22 @@ export USE_CCACHE=1
 
 # GENERAL
 export MYDOTFILES=$HOME/dotfiles
+export FPATH="$MYDOTFILES/zsh/completions:$FPATH"
+
+# Custom Completions
+# Completion should be before compinit
+if [ ! -d $MYDOTFILES/zsh/completions ]; then
+    mkdir -p $MYDOTFILES/zsh/completions/
+fi
+
+# gitlab cli completion
+if command -v lab > /dev/null && [ ! -f $MYDOTFILES/zsh/completions/_lab ]; then
+    lab completion zsh > $MYDOTFILES/zsh/completions/_lab
+fi
+# github cli completion
+if command -v hub > /dev/null && [ ! -f $MYDOTFILES/zsh/completions/_hub ]; then
+    curl -L https://raw.githubusercontent.com/github/hub/master/etc/hub.zsh_completion -o $MYDOTFILES/zsh/completions/_hub
+fi
 
 # ZSH PLUGIN CONFIG
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"

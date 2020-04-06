@@ -84,6 +84,7 @@ tig
 tmux
 vscode
 yarn
+kube-ps1
 kubectl
 # command-not-found
 history-substring-search

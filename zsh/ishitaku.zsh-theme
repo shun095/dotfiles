@@ -20,16 +20,18 @@ function check_git_prompt_info() {
     echo -n "%{$reset_color%}"
 }
 
-function get_right_prompt() {
-    echo -n "%{$reset_color%}["
+function get_datetime() {
+    echo -n "%{$reset_color%}"
     # echo -n "%{$fg_no_bold[cyan]%}%D{%Y-%m-%d %H:%M:%S}"
-    echo -n "%D{%Y-%m-%d %H:%M:%S}"
-    echo -n "%{$reset_color%}]"
+    echo -n "%D{%Y/%m/%d %H:%M:%S}"
+    echo -n "%{$reset_color%}"
 }
 
 function get_pyenv_prompt() {
     if type pyenv > /dev/null; then
-        echo " (pyenv:$(pyenv_prompt_info))"
+        if [ ! $(pyenv_prompt_info) = "system" ]; then
+            echo " (pyenv:$(pyenv_prompt_info))"
+        fi
     fi
 }
 
@@ -41,11 +43,12 @@ re-prompt() {
 zle -N accept-line re-prompt
 
 PROMPT='
-'$MARK' $(get_right_prompt)%{$reset_color%}$(get_pyenv_prompt)$(check_git_prompt_info)
+'$MARK' $(get_datetime) $(kube_ps1)%{$reset_color%}$(get_pyenv_prompt)$(check_git_prompt_info)
 %{$fg_bold[$USERCOLOR]%}%n%{$reset_color%}@%{$fg_bold[blue]%}%m %{$reset_color%}%5~
 %{$fg_bold[cyan]%}$ %{$reset_color%}'
 
-# RPROMPT='$(get_right_prompt)'
+# RPROMPT='$(get_datetime)'
+
 
 # Format for git_prompt_info()
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%}%{$fg_bold[blue]%}"

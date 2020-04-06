@@ -13,3 +13,5 @@
 *~
 *.zwc
 .DS_Store
+
+zsh/completions/*
