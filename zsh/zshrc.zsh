@@ -112,7 +112,7 @@ if [[ ! $TERM = "linux" ]]; then
     if [[ $TERM = "xterm" ]]; then
         export TERM=xterm-256color
     fi
-    if [[ $VIM_TERMINAL = "" && $TMUX = "" && $TERM_PROGRAM != "vscode" ]]; then
+    if [[ $VIM_TERMINAL = "" && $TMUX = "" && $TERM_PROGRAM != "vscode" && "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]]; then
         _zshrc_custom_tmux
     fi
     if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
@@ -210,7 +210,7 @@ alias frs="frst"
 
 fghq() {
     local dir
-    dir=$(ghq list > /dev/null | fzf --no-multi) && cd $(ghq root)/$dir
+    dir=$(ghq list > /dev/null | fzf --no-multi --preview 'git --git-dir=$(ghq root)/{}/.git log --color=always --oneline --decorate --graph --branches --tags --remotes') && cd $(ghq root)/$dir
 }
 alias fhq="fghq"
 
@@ -234,6 +234,16 @@ cddir() {
     cd $(dirname "$@")
 }
 alias cdd="cddir"
+
+
+xlsxdiff(){
+    diff <(xlsxtxt $1) <(xlsxtxt $2)
+}
+
+header_appjson() {
+    echo 'Content-Type: application/json'
+}
+
 ##### Functions END ##### }}}
 
 ##### Aliases ##### {{{

@@ -1,0 +1,6 @@
+snippet whiler "while read ..." b
+while read line${2: > /dev/null}
+do
+	${3:echo $line}
+done < ${1:input.txt}
+endsnippet

@@ -8,6 +8,7 @@ function! mymisc#config#defx#setup() abort
 
   nnoremap <silent> <Leader>E :call defx#util#call_defx('Defx', expand('%:p:h') . ' -split=vertical -search=' . expand('%:p'))<CR>
   nnoremap <silent> <Leader>e :call defx#util#call_defx('Defx', ' -split=vertical')<CR>
+  nnoremap <silent> <Leader><C-e> :call defx#util#call_defx('Defx', '. -split=vertical')<CR>
 
   function! s:expand(path) abort
     return s:substitute_path_separator(
