@@ -1,5 +1,6 @@
 # Reference: https://qiita.com/sfus/items/063797a1dd8fdc7d032f
 
+set main-options = --all
 # main view の左端にコミットIDを表示する
 set main-view = date id author:full,width=0 commit-title:graph=v2,refs=yes,overflow=no
 
@@ -47,6 +48,8 @@ color cursor      black yellow
 color title-blur  black white
 color title-focus black green
 
+
+##### Mappings #####
 # g をファイル先頭に移動に変更、 view-grep を再割当て
 bind generic g      move-first-line
 bind generic E      view-grep
@@ -78,3 +81,17 @@ bind generic <Ctrl-r> refresh
 bind main    .      !sh -c "git diff %(commit) | tig"
 bind diff    .      !sh -c "git diff %(commit) | tig"
 bind refs    .      !sh -c "git diff %(branch) | tig"
+
+# F で fetch (default: :toggle file-name / :toggle commit-title-refs)
+bind generic F      ?git fetch --all -t -f
+bind main    F      ?git fetch --all -t -f
+
+# Alt-f で :toggle file-name / :toggle commit-title-refs
+bind generic <Esc>f :toggle file-name
+bind main    <Esc>f :toggle commit-title-refs
+
+# U で pull
+bind generic U      ?git pull %(remote)
+
+# P で remote への push
+bind generic P      ?git push -u %(remote) %(repo:head)

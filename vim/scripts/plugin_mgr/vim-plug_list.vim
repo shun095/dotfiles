@@ -15,6 +15,9 @@ else
   let s:has_python = g:false
 endif
 
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
+" Plug 'Shougo/defx.nvim'
 " Color schemes
 Plug 'rakr/vim-one'
 let g:terminal_ansi_colors = [
@@ -37,8 +40,6 @@ Plug 'morhetz/gruvbox'
 " Plug 'reedes/vim-colors-pencil'
 Plug 'tomasr/molokai'
 
-" Plug 'roxma/nvim-yarp'
-" Plug 'roxma/vim-hug-neovim-rpc'
 " Plug 'Shougo/deoplete.nvim'
 " Plug 'Shougo/deoplete-lsp'
 " call lsp#server#add('python', ['python', '-m', 'pyls'])
@@ -75,8 +76,8 @@ Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 " Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspace'}
 
 Plug 'scrooloose/nerdtree'
-" Plug 'jistr/vim-nerdtree-tabs'
-" Plug 'ishitaku5522/nerdtree-git-plugin'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'ishitaku5522/nerdtree-git-plugin'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Plug 'ryanoasis/vim-devicons'
@@ -84,7 +85,6 @@ Plug 'scrooloose/nerdtree'
 " Plug 'lambdalisue/fern.vim'
 Plug 'francoiscabrol/ranger.vim'
 
-" Plug 'Shougo/defx.nvim'
 " Plug 'kristijanhusak/defx-git'
 
 " Language specific completions
