@@ -218,6 +218,7 @@ cdproject() {
   if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
     cd `pwd`/`git rev-parse --show-cdup`
   fi
+alias cdpr="cdproject"
 }
 
 if command -v pbpaste > /dev/null; then
@@ -228,6 +229,8 @@ if command -v pbpaste > /dev/null; then
             cd $(dirname $(pbpaste))
         fi
     }
+    alias cdp="cdpaste"
+    alias cdpa="cdpaste"
 fi
 
 cddir() {
