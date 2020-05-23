@@ -26,7 +26,7 @@ ZSHRC="$HOME/.zshrc"
 
 ZSHFILES=(
     "$HOME/.zshrc"
-    "$HOME/.zlogin" 
+    "$HOME/.zlogin"
     "$HOME/.zlogout"
     "$HOME/.zpreztorc"
     "$HOME/.zprofile"
@@ -95,7 +95,7 @@ EOF
 
 
 ascii_art() {
-    cat << EOF 
+    cat << EOF
 [34m
      _     _   ___ _ _
    _| |___| |_|  _|_| |___ ___
@@ -162,11 +162,11 @@ update_repositories() {
 
 backup_file() {
     # .~rc exists
-    if [[ -e "$1" ]]; then 
+    if [[ -e "$1" ]]; then
         # .~rc.bak0 exists
-        if [[ -e "$1.bak0" ]]; then 
+        if [[ -e "$1.bak0" ]]; then
             # .~rc differs from .~rc.bak0
-            if [[ $(diff "$1" "$1.bak0") ]]; then 
+            if [[ $(diff "$1" "$1.bak0") ]]; then
                 for idx in $(seq 3 -1 0); do
                     if [[ -e "$1.bak$idx" ]]; then
                         echo "Renaming exist backup"
@@ -323,7 +323,7 @@ deploy_ohmyzsh_files() {
             if [[ -e "${item}" ]]; then
                 read -r -p "${item} already exists. Overwrite with ${item}.bak0? [y/N] " response
                 case "$response" in
-                    [yY][eE][sS]|[yY]) 
+                    [yY][eE][sS]|[yY])
                         echo "Restore backup of ${item}"
                         cat ${item}.bak0 > ${item}
                         ;;
@@ -390,7 +390,7 @@ backup() {
 compile_zshfiles() {
     echo_section "Compiling zsh files"
     case $SHELL in
-        */zsh) 
+        */zsh)
             # assume Zsh
             $MYDOTFILES/tools/zsh_compile.zsh || true
             ;;
