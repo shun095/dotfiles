@@ -8,8 +8,8 @@ set -eu
 
 ## CONFIG
 SOFTWARE_NAME="tmux"
-BRANCH_NAME="master"
-NEEDS_PULL=true
+BRANCH_NAME="3.1b"
+NEEDS_PULL=false
 
 ## COMMON
 . $MYDOTFILES/tools/myconfigure_setup.sh

@@ -67,7 +67,7 @@ git
 git-auto-fetch
 git-escape-magic
 gnu-utils
-go
+# go
 golang
 gradle
 minikube
