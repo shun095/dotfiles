@@ -76,6 +76,7 @@ node
 npm
 # npx
 pip
+postgres
 pyenv
 python
 ripgrep

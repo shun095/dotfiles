@@ -320,6 +320,8 @@ alias zmv='noglob zmv -W'
 
 alias http-echo='http-echo-server'
 alias http-srv='python3 -m http.server 3000'
+alias dock='docker'
+alias doco='docker-compose'
 ##### Aliases END ##### }}}
 
 ##### Configurations ##### {{{
