@@ -80,7 +80,7 @@ postgres
 pyenv
 python
 ripgrep
-sudo
+# sudo
 ssh-agent
 tig
 tmux
