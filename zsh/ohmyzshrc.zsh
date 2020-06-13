@@ -77,17 +77,17 @@ npm
 # npx
 pip
 postgres
-pyenv
+# pyenv
 python
 ripgrep
 # sudo
-ssh-agent
+# ssh-agent
 tig
 tmux
 vscode
 yarn
 kube-ps1
-kubectl
+# kubectl
 # command-not-found
 history-substring-search
 vagrant

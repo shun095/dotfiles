@@ -44,11 +44,11 @@ if [ ! -d $MYDOTFILES/zsh/completions ]; then
 fi
 
 # gitlab cli completion
-if command -v lab > /dev/null && [ ! -f $MYDOTFILES/zsh/completions/_lab ]; then
+if command -v lab > /dev/null 2>&1 && [ ! -f $MYDOTFILES/zsh/completions/_lab ]; then
     lab completion zsh > $MYDOTFILES/zsh/completions/_lab
 fi
 # github cli completion
-if command -v hub > /dev/null && [ ! -f $MYDOTFILES/zsh/completions/_hub ]; then
+if command -v hub > /dev/null 2>&1 && [ ! -f $MYDOTFILES/zsh/completions/_hub ]; then
     curl -L https://raw.githubusercontent.com/github/hub/master/etc/hub.zsh_completion -o $MYDOTFILES/zsh/completions/_hub
 fi
 
@@ -57,11 +57,11 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
 export ZSH_HIGHLIGHT_MAXLENGTH=300
 
 _zshrc_get_fzf_default_opts() {
-    if command -v highlight > /dev/null; then
+    if command -v highlight > /dev/null 2>&1; then
         HIGHLIGHT_SIZE_MAX=262143  # 256KiB
         local hloptions="--replace-tabs=8 --style=molokai ${HIGHLIGHT_OPTIONS:-}"
         local previewcmd="highlight --out-format="xterm256" --force "${hloptions}" {} "
-    elif command -v pygmentize > /dev/null; then
+    elif command -v pygmentize > /dev/null 2>&1; then
         local previewcmd="pygmentize -O style=monokai -f console256 -g {}"
     else
         local previewcmd="cat {}"
@@ -211,7 +211,7 @@ alias frs="frst"
 
 fghq() {
     local dir
-    dir=$(ghq list > /dev/null | fzf --no-multi --preview 'git --git-dir=$(ghq root)/{}/.git log --color=always --oneline --decorate --graph --branches --tags --remotes') && cd $(ghq root)/$dir
+    dir=$(ghq list > /dev/null 2>&1 | fzf --no-multi --preview 'git --git-dir=$(ghq root)/{}/.git log --color=always --oneline --decorate --graph --branches --tags --remotes') && cd $(ghq root)/$dir
 }
 alias fhq="fghq"
 
@@ -222,7 +222,7 @@ cdproject() {
 alias cdpr="cdproject"
 }
 
-if command -v pbpaste > /dev/null; then
+if command -v pbpaste > /dev/null 2>&1; then
     cdpaste() {
         if [ -d $(pbpaste) ]; then
             cd $(pbpaste)
@@ -252,10 +252,10 @@ header_appjson() {
 
 ##### Aliases ##### {{{
 # GNU Tools on Mac
-if command -v gsed > /dev/null; then
+if command -v gsed > /dev/null 2>&1; then
     alias sed="gsed"
 fi
-if command -v gls > /dev/null; then
+if command -v gls > /dev/null 2>&1; then
     alias ls="gls --color"
 
     alias l="gls --color -lah"
@@ -263,33 +263,33 @@ if command -v gls > /dev/null; then
     alias ll="gls --color -l"
     alias lsa="gls --color -lah"
 fi
-if command -v ggrep > /dev/null; then
+if command -v ggrep > /dev/null 2>&1; then
     alias grep="ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
 fi
 
 # Excel diff
-if command -v git-xlsx-textconv > /dev/null; then
+if command -v git-xlsx-textconv > /dev/null 2>&1; then
     alias xlsxtxt="git-xlsx-textconv"
 fi
 
 # Trash
-if command -v trash-put > /dev/null; then
+if command -v trash-put > /dev/null 2>&1; then
     alias trm="trash-put"
 fi
 
-if command -v colordiff > /dev/null; then
+if command -v colordiff > /dev/null 2>&1; then
     alias diff="colordiff -u"
 else
     alias diff="diff -u"
 fi
 
-if command -v $HOME/build/vim/bin/vim > /dev/null; then
+if command -v $HOME/build/vim/bin/vim > /dev/null 2>&1; then
     :
-elif command -v /usr/local/bin/vim > /dev/null;then
+elif command -v /usr/local/bin/vim > /dev/null 2>&1;then
     alias vim=/usr/local/bin/vim
 fi
 
-if command -v /usr/local/bin/gvim > /dev/null;then
+if command -v /usr/local/bin/gvim > /dev/null 2>&1;then
     alias gvim=/usr/local/bin/gvim
 fi
 
@@ -299,17 +299,17 @@ alias tgvim="gvim --remote-tab-silent"
 alias tvim="vim --remote-tab-silent"
 alias gnvim="nvim-qt"
 
-if command -v /usr/local/bin/emacs > /dev/null;then
+if command -v /usr/local/bin/emacs > /dev/null 2>&1;then
     alias emacs=/usr/local/bin/emacs
 fi
 
 alias dir="dir --group-directories-first --color=auto"
-if command -v pygmentize > /dev/null; then
+if command -v pygmentize > /dev/null 2>&1; then
     alias pyg="pygmentize -O style=monokai -f 256 -g"
     alias ccat="pyg"
 fi
 
-if command -v highlight > /dev/null; then
+if command -v highlight > /dev/null 2>&1; then
     alias hlt="highlight -O ansi"
 fi
 
@@ -322,6 +322,17 @@ alias http-echo='http-echo-server'
 alias http-srv='python3 -m http.server 3000'
 alias dock='docker'
 alias doco='docker-compose'
+
+if command -v kubectl >/dev/null 2>&1; then
+  kubectl () {
+    unset -f kubectl
+    # lazy load
+    source <(kubectl completion ${SHELL##*/})
+    kubectl "$@"
+  }
+fi
+alias k='kubectl'
+
 ##### Aliases END ##### }}}
 
 ##### Configurations ##### {{{
