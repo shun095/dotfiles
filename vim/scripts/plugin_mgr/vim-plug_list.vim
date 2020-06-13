@@ -77,7 +77,7 @@ Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'ishitaku5522/nerdtree-git-plugin'
+" Plug 'ishitaku5522/nerdtree-git-plugin'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Plug 'ryanoasis/vim-devicons'
