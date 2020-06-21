@@ -108,9 +108,8 @@ _zshrc_custom_tmux(){
         \tmux $*
     fi
 }
-
 if [[ ! $TERM = "linux" ]]; then
-    if [[ $TERM = "xterm" ]]; then
+    if [[ $TERM = "xterm" || $TERM = "xterm-kitty" ]]; then
         export TERM=xterm-256color
     fi
     if [[ $VIM_TERMINAL = "" && $TMUX = "" && $TERM_PROGRAM != "vscode" && "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]]; then
@@ -333,6 +332,38 @@ if command -v kubectl >/dev/null 2>&1; then
 fi
 alias k='kubectl'
 
+alias cauthget='curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $(pbpaste)" https://example.com/'
+alias cauthpost='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $(pbpaste)" https://example.com -d '
+alias cauthput='curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer $(pbpaste)" https://example.com -d '
+alias cauthdelete='curl -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer $(pbpaste)" https://example.com/'
+alias cget='curl -X GET -H "Content-Type: application/json" https://example.com/'
+alias cpost='curl -X POST -H "Content-Type: application/json" https://example.com -d '
+alias cput='curl -X PUT -H "Content-Type: application/json" https://example.com -d '
+alias cdelete='curl -X DELETE -H "Content-Type: application/json" https://example.com/'
+
+# https://qiita.com/astrsk_hori/items/b42fb0e9784146407d08
+my-open-alias() {
+    if [ -z "$RBUFFER" ] ; then
+        my-open-alias-aux
+    else
+        zle end-of-line
+    fi
+}
+
+my-open-alias-aux() {
+    str=${LBUFFER%% }
+    bp=$str
+    str=${str##* }
+    bp=${bp%%${str}}
+    targets=`alias ${str}`
+    if [ $targets ]; then
+        cmd=`echo $targets|cut -d"=" -f2`
+        LBUFFER=$bp${cmd//\'/}
+    fi
+}
+
+zle -N my-open-alias
+bindkey "^ " my-open-alias
 ##### Aliases END ##### }}}
 
 ##### Configurations ##### {{{

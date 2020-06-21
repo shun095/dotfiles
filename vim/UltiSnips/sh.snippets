@@ -1,6 +1,18 @@
-snippet whiler "while read ..." b
+snippet whileread "while read ..." b
 while read line${2: > /dev/null}
 do
 	${3:echo $line}
 done < ${1:input.txt}
+endsnippet
+
+snippet SCRIPT_PATH "SCRIPT_PATH = ..." b
+SCRIPT_PATH="$( cd "$(dirname "\$0")" >/dev/null 2>&1 ; pwd -P )"
+${0}
+endsnippet
+
+snippet curlpost "curl POST"
+curl -X POST -H "Content-Type: application/json" -d '${1:}' ${2:http://localhost:8080/}
+endsnippet
+snippet curlget "curl GET"
+curl -X GET
 endsnippet

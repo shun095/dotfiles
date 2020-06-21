@@ -16,7 +16,7 @@ augroup END
 
 if mymisc#plug_tap('neosnippet.vim')
   smap <expr> <Tab>
-        \ neosnippet#expandable_or_jumpable() ? 
+        \ neosnippet#expandable_or_jumpable() ?
         \   "\<Plug>(neosnippet_expand_or_jump)":
         \   "\<Plug>(RemapUltiSnipsJumpForwardTrigger)"
 endif
@@ -87,7 +87,7 @@ function! s:my_tab_main() abort
   if pumvisible()
     return "\<C-n>"
   elseif mymisc#plug_tap('neosnippet.vim') && neosnippet#expandable_or_jumpable()
-    return "\<Plug>(neosnippet_expand_or_jump)" 
+    return "\<Plug>(neosnippet_expand_or_jump)"
   else
     return "\<C-r>=".s:SID()."try_ultisnips_expand() ? \"\" : ".s:SID()."my_tab_noulti() \<CR>"
   endif

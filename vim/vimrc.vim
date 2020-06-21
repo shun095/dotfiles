@@ -562,6 +562,8 @@ try
     highlight GitGutterChange ctermbg=NONE guibg=NONE
     highlight GitGutterChangeDelete ctermbg=NONE guibg=NONE
     highlight GitGutterDelete ctermbg=NONE guibg=NONE
+    highlight SignColumn ctermbg=NONE guibg=NONE
+    highlight CursorLine cterm=underline gui=underline ctermbg=NONE guibg=NONE
   endfunction
   " command! Transparent hi Normal ctermbg=none guibg=NONE
   command! Transparent call s:transparent()
