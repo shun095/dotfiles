@@ -592,7 +592,8 @@ try
     if has('nvim')
       let l:terminal_cmd = ':split term://'
     else
-      let l:terminal_cmd = ':bel terminal '
+      " let l:terminal_cmd = ':bel terminal '
+      let l:terminal_cmd = ':terminal '
     endif
     let l:ret = l:terminal_cmd . a:cmd
     return l:ret
@@ -600,7 +601,7 @@ try
 
   let g:myvimrc_term_winheight=15
   function! s:set_winheight_small() abort
-    execute 'normal! ' . g:myvimrc_term_winheight . '_'
+    " execute 'normal! ' . g:myvimrc_term_winheight . '_'
   endfunction
 
   function! s:my_git_cmd(git_cmd) abort
