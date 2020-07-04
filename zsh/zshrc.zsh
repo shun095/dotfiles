@@ -332,14 +332,14 @@ if command -v kubectl >/dev/null 2>&1; then
 fi
 alias k='kubectl'
 
-alias cauthget='curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $(pbpaste)" https://example.com/'
-alias cauthpost='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $(pbpaste)" https://example.com -d '
-alias cauthput='curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer $(pbpaste)" https://example.com -d '
-alias cauthdelete='curl -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer $(pbpaste)" https://example.com/'
-alias cget='curl -X GET -H "Content-Type: application/json" https://example.com/'
-alias cpost='curl -X POST -H "Content-Type: application/json" https://example.com -d '
-alias cput='curl -X PUT -H "Content-Type: application/json" https://example.com -d '
-alias cdelete='curl -X DELETE -H "Content-Type: application/json" https://example.com/'
+alias cauthget='curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $CURL_AUTH_TOKEN" https://localhost/'
+alias cauthpost='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $CURL_AUTH_TOKEN" https://localhost -d '
+alias cauthput='curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer $CURL_AUTH_TOKEN" https://localhost -d '
+alias cauthdelete='curl -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer $CURL_AUTH_TOKEN" https://localhost/'
+alias cget='curl -X GET -H "Content-Type: application/json" https://localhost/'
+alias cpost='curl -X POST -H "Content-Type: application/json" https://localhost -d '
+alias cput='curl -X PUT -H "Content-Type: application/json" https://localhost -d '
+alias cdelete='curl -X DELETE -H "Content-Type: application/json" https://localhost/'
 
 # https://qiita.com/astrsk_hori/items/b42fb0e9784146407d08
 my-open-alias() {

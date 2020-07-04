@@ -744,7 +744,8 @@ try
           \   'sh',
           \   'vim',
           \   'sql',
-          \   'yaml'
+          \   'yaml',
+          \   'json'
           \ ]
     let g:markdown_syntax_conceal = 0
 
