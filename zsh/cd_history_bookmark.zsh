@@ -22,7 +22,7 @@
 #    bkmk -> bookmark current directory
 #    delbkmk -> delete current direcotry from bookmark list
 
-_cd_history_bookmark_limit=100
+_cd_history_bookmark_limit=9999
 
 if \sed --version 2>/dev/null | grep -q GNU; then
     _cd_history_bookmark_sedi='\sed -i -e'

@@ -117,8 +117,8 @@ function! mymisc#config#ctrlp#setup() abort
   elseif g:mymisc_ag_is_available
     let g:ctrlp_user_command = 'ag ' . s:ctrlp_command_options . ' %s'
   elseif has('unix')
-    " Brought from denite
-    let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o  -type l -print -o -type f -print'
+    " Brought and modified from denite
+    let g:ctrlp_user_command = 'find -L %s -path "*/.git/*" -prune -o -path "*/.hg/*" -prune -o -path "*/.svn/*" -prune -o -type l -print -o -type f -print'
   else
     let g:ctrlp_user_command = ''
   endif

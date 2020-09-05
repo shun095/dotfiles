@@ -2,7 +2,7 @@
 
 set main-options = --all
 # main view の左端にコミットIDを表示する
-set main-view = date id author:full,width=0 commit-title:graph=v2,refs=yes,overflow=no
+set main-view = date:local=true id author:full,width=0 commit-title:graph=v2,refs=yes,overflow=no
 
 # blame view の行数表示をON、intervalを1に
 set blame-view  = date author:full,width=0 id:color=yes line-number:yes,interval=1 text

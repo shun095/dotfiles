@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 function! mymisc#config#memolist#setup() abort
-  let g:memolist_prompt_tags = 1
+  let g:memolist_prompt_tags = 0
   " let g:memolist_memo_suffix = 'txt'
   " let g:memolist_unite = 1
   " let g:memolist_denite = 1
@@ -19,6 +19,8 @@ function! mymisc#config#memolist#setup() abort
   "   nnoremap <Leader>ml :execute ":Denite" "-path='".g:memolist_path."'" "file_rec"<cr>
   if mymisc#plug_tap('defx.nvim')
     nnoremap <Leader>ml :<C-u>execute "Defx " . expand(g:memolist_path)<CR>
+  elseif mymisc#plug_tap('fern.vim')
+    nnoremap <Leader>ml :<C-u>execute "Fern " . expand(g:memolist_path) . " -drawer"<CR>
   else
     nnoremap <Leader>ml :<C-u>MemoList<CR>
   endif

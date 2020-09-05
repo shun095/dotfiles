@@ -235,8 +235,8 @@ try
   endfunction
   " }}}
 
-  let g:mymisc_files_is_available = (executable('files') ? g:true : g:false)
-  let g:mymisc_rg_is_available = (executable('rg') ? g:true : g:false)
+  let g:mymisc_files_is_available = g:false " (executable('files') ? g:true : g:false)
+  let g:mymisc_rg_is_available = g:false " (executable('rg') ? g:true : g:false)
   let g:mymisc_pt_is_available = (executable('pt') ? g:true : g:false)
   let g:mymisc_ag_is_available = (executable('ag') ? g:true : g:false)
   let g:mymisc_fcitx_is_available = (executable('fcitx-remote') ? g:true : g:false)

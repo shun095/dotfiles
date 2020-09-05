@@ -60,6 +60,10 @@ if mymisc#plug_tap('nerdtree')
   call mymisc#config#nerdtree#setup()
 endif
 
+if mymisc#plug_tap('fern.vim')
+  call mymisc#config#fern#setup()
+endif
+
 if mymisc#plug_tap('open-browser.vim')
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
   nmap gx <Plug>(openbrowser-smart-search)

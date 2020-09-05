@@ -1,12 +1,12 @@
-snippet whileread "while read ..." b
+snippet whileread "while read ..."
 while read line${2: > /dev/null}
 do
 	${3:echo $line}
 done < ${1:input.txt}
 endsnippet
 
-snippet SCRIPT_PATH "SCRIPT_PATH = ..." b
-SCRIPT_PATH="$( cd "$(dirname "\$0")" >/dev/null 2>&1 ; pwd -P )"
+snippet script_dir "SCRIPT_DIR = ..."
+SCRIPT_DIR="$( cd "$(dirname "\$0")" >/dev/null 2>&1 ; pwd -P )"
 ${0}
 endsnippet
 

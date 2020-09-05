@@ -62,6 +62,7 @@ docker
 docker-compose
 # emacs
 fzf
+flutter
 gcloud
 git
 git-auto-fetch
@@ -77,7 +78,7 @@ npm
 # npx
 pip
 postgres
-# pyenv
+pyenv
 python
 ripgrep
 # sudo
