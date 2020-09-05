@@ -601,7 +601,7 @@ try
 
   let g:myvimrc_term_winheight=15
   function! s:set_winheight_small() abort
-    " execute 'normal! ' . g:myvimrc_term_winheight . '_'
+    execute 'normal! ' . g:myvimrc_term_winheight . '_'
   endfunction
 
   function! s:my_git_cmd(git_cmd) abort
@@ -623,7 +623,7 @@ try
   nnoremap <Leader>gl :<C-u>call <SID>my_git_pull()<CR>
   nnoremap <Leader>te :<C-u>T<CR>
   command! T execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
-        \ | call s:set_winheight_small()
+        " \ | call s:set_winheight_small()
 
   if !has('nvim') && has('win32')
     let g:myvimrc_msys_dir =
