@@ -297,6 +297,7 @@ alias svim="vim --cmd \"let g:use_plugins=0\""
 alias tgvim="gvim --remote-tab-silent"
 alias tvim="vim --remote-tab-silent"
 alias gnvim="nvim-qt"
+alias memo="vim -c \"MemoNew\""
 
 if command -v /usr/local/bin/emacs > /dev/null 2>&1;then
     alias emacs=/usr/local/bin/emacs
