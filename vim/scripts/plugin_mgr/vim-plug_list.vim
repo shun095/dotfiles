@@ -162,11 +162,11 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'junegunn/vim-peekaboo'
 
-if has('win32')
-  Plug 'ishitaku5522/cpsm'
-else
-  Plug 'nixprime/cpsm', {'do': './install.sh'}
-endif
+" if has('win32')
+"   Plug 'ishitaku5522/cpsm'
+" else
+"   Plug 'nixprime/cpsm', {'do': './install.sh'}
+" endif
 Plug 'FelikZ/ctrlp-py-matcher'
 
 Plug 'mbbill/undotree', {'on': ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']}
