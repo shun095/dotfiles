@@ -224,9 +224,9 @@ alias cdpr="cdproject"
 if command -v pbpaste > /dev/null 2>&1; then
     cdpaste() {
         if [ -d $(pbpaste) ]; then
-            cd $(pbpaste)
+            cd "$(pbpaste)"
         else
-            cd $(dirname $(pbpaste))
+            cd "$(dirname $(pbpaste))"
         fi
     }
     alias cdp="cdpaste"

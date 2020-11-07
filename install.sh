@@ -225,8 +225,8 @@ git_configulation() {
     echo_section "Configuring Git"
     # git config --global core.editor vim
     git config --global alias.graph "log --graph --all --date=local --pretty=format:'%C(auto)%h%C(magenta) %cd %C(yellow)[%cr]%C(auto)%d%n    %C(auto)%s%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset'"
-    git config --global pager.diff "diff-so-fancy | less --tabs=4 -RFX"
-    git config --global pager.show "diff-so-fancy | less --tabs=4 -RFX"
+    # git config --global pager.diff "diff-so-fancy | less --tabs=4 -RFX"
+    # git config --global pager.show "diff-so-fancy | less --tabs=4 -RFX"
 }
 
 download_plugin_repositories(){
@@ -626,10 +626,10 @@ redeploy() {
 
 update() {
     update_repositories
-    build_vim_make_install
-    build_tmux_make_install
-    build_tig_make_install
-    build_ranger_make_install
+    # build_vim_make_install
+    # build_tmux_make_install
+    # build_tig_make_install
+    # build_ranger_make_install
     redeploy
     update_vim_plugins
 }
