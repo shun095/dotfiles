@@ -297,8 +297,8 @@ fi
 
 # Simple vim
 alias svim="vim --cmd \"let g:use_plugins=0\""
-alias tgvim="gvim --remote-tab-silent"
-alias tvim="vim --remote-tab-silent"
+# alias tgvim="gvim --remote-tab-silent"
+# alias tvim="vim --remote-tab-silent"
 alias gnvim="nvim-qt"
 alias memo="vim -c \"MemoNew\""
 

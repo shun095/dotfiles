@@ -185,6 +185,7 @@ Plug 'Yggdroot/indentLine'
 " Git plugins
 " Plug 'lambdalisue/gina.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
 " Plug 'iberianpig/tig-explorer.vim'
