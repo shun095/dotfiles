@@ -222,6 +222,7 @@ endif
 " Libraries
 Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
+Plug 'haya14busa/vim-migemo'
 
 Plug 'ishitaku5522/revimses'
 
