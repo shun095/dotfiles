@@ -20,6 +20,8 @@ fi
 FZFDIR="$HOME/.fzf"
 ZPREZTODIR="${ZDOTDIR:-$HOME}/.zprezto"
 OHMYZSHDIR="$HOME/.oh-my-zsh"
+TMUXPLUGINSDIR="$HOME/.tmux/plugins"
+TMUXTPMDIR="$TMUXPLUGINSDIR/tpm"
 
 # symlinks
 ZSHRC="$HOME/.zshrc"
@@ -133,18 +135,23 @@ echo_section() {
 }
 
 update_repositories() {
-    echo_section "Checking plugin repositories"
+    echo_section "Upgrading plugin repositories"
 
     pushd ${MYDOTFILES}
         git pull
     popd
-    echo "Checking fzf repository"
+    echo "Upgrading fzf repository"
     pushd ${FZFDIR}
         git pull
     popd
     echo "Upgrading oh-my-zsh repository"
     pushd ${OHMYZSHDIR}
-        sh ./tools/upgrade.sh
+        set +e
+        ./tools/upgrade.sh
+        set -e
+        if [[ ! ($? == 80 || $? == 0) ]];then
+            exit $?
+        fi
     popd
     echo "Upgrading oh-my-zsh plugins"
     pushd ${OHMYZSHDIR}/custom/plugins
@@ -157,6 +164,10 @@ update_repositories() {
         pushd zsh-completions
             git pull
         popd
+    popd
+    echo "Upgrading tmux tpm repository"
+    pushd ${TMUXTPMDIR}
+        git pull
     popd
 }
 
@@ -223,10 +234,12 @@ uninstall_plugins() {
 
 git_configulation() {
     echo_section "Configuring Git"
+    set -x
     # git config --global core.editor vim
     git config --global alias.graph "log --graph --all --date=local --pretty=format:'%C(auto)%h%C(magenta) %cd %C(yellow)[%cr]%C(auto)%d%n    %C(auto)%s%n    %C(green)Committer:%cN <%cE>%n    %C(blue)Author   :%aN <%aE>%Creset'"
     # git config --global pager.diff "diff-so-fancy | less --tabs=4 -RFX"
     # git config --global pager.show "diff-so-fancy | less --tabs=4 -RFX"
+    set +x
 }
 
 download_plugin_repositories(){
@@ -250,6 +263,10 @@ download_plugin_repositories(){
         if [[ ! -e ${OHMYZSHDIR}/custom/themes ]]; then
             mkdir -p ${OHMYZSHDIR}/custom/themes
         fi
+    fi
+
+    if [[ ! -e ${TMUXTPMDIR} ]]; then
+        git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
 }
 
@@ -434,7 +451,9 @@ install_essential_dependencies() {
 
     if type apt-get > /dev/null 2>&1; then
         # Ubuntu has mawk as default and this replace it.
-        deps="${deps} gawk"
+        if !(type gawk > /dev/null 2>&1); then
+            deps="${deps} gawk"
+        fi
     fi
 
     install_deps "essential softwares" "${deps}"
@@ -452,6 +471,7 @@ install_vim_plugins() {
             vim --not-a-term --cmd 'set shortmess=a cmdheight=2' -c ':PlugInstall --sync' -c ':qa!'
         fi
     fi
+    echo "Installed."
 }
 
 update_vim_plugins() {
@@ -466,6 +486,7 @@ update_vim_plugins() {
             # $MYDOTFILES/tools/update_vimplugin_repos.sh
         fi
     fi
+    echo "Updated."
 }
 
 install_deps() {
@@ -473,15 +494,16 @@ install_deps() {
     local deps=$2
     echo_section "Installing dependencies for: ${msg}"
     local sudo=""
+
+    if [[ ${deps} = '' ]]; then
+        echo "Nothing to do."
+        return
+    fi
+
     echo
     echo "Packages:"
     echo "  ${deps}"
     echo
-
-    if [[ ${deps} = '' ]]; then
-        echo "No packages found."
-        return
-    fi
 
     if [[ ! $(whoami) = 'root' ]]; then
         sudo="sudo "
@@ -698,8 +720,4 @@ if [[ ${arg} != "debug" ]]; then
     ${arg}
 fi
 
-echo -e "\nFINISHED!!!\n"
-
-if [ ${arg} = "install" ] && type zsh && ! echo $SHELL | grep zsh; then
-    zsh --login
-fi
+echo -e "\nDone.\n"
