@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -55,6 +54,10 @@ fi
 # ZSH PLUGIN CONFIG
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
 export ZSH_HIGHLIGHT_MAXLENGTH=300
+# export ZSH_TMUX_AUTOSTART=true
+export KUBE_PS1_SYMBOL_DEFAULT='K8s'
+export KUBE_PS1_PREFIX='['
+export KUBE_PS1_SUFFIX=']'
 
 _zshrc_get_fzf_default_opts() {
     if command -v highlight > /dev/null 2>&1; then
@@ -98,10 +101,10 @@ _zshrc_custom_tmux(){
                         fi
                     done
             fi
-            timeout 10 \tmux -u new-session -s $idx
+            \tmux -u new-session -s $idx
         else
             echo $(echo $_detached_sessions | head -n 1)
-            timeout 10 \tmux -u attach -t $(echo $_detached_sessions | head -n 1)
+            \tmux -u attach -t $(echo $_detached_sessions | head -n 1)
         fi
         # export DISABLE_AUTO_TITLE=
     else
@@ -369,7 +372,7 @@ bindkey "^ " my-open-alias
 
 ##### Configurations ##### {{{
 ## BIND
-stty stop undef
+[[ $- == *i* ]] && stty -ixon
 bindkey \^U backward-kill-line
 
 export ZSH_COMPDUMP=$HOME/.zcompdump
