@@ -407,8 +407,13 @@ compile_zshfiles() {
 
 clone_dotfiles_repository() {
     echo_section "Cloning dotfiles repository"
-    if [[ ! -e $MYDOTFILES ]]; then
+    if [[ ! -d $MYDOTFILES/.git ]]; then
+        if [[ -d $MYDOTFILES ]]; then
+            rm -rf $MYDOTFILES
+        fi
         git clone https://github.com/ishitaku5522/dotfiles $MYDOTFILES
+    else
+        echo "Nothing to do."
     fi
 }
 
