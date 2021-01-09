@@ -215,21 +215,21 @@ fghq() {
 alias fhq="fghq"
 
 cdproject() {
-  if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-    cd `pwd`/`git rev-parse --show-cdup`
-  fi
-alias cdpr="cdproject"
+    if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        cd `pwd`/`git rev-parse --show-cdup`
+    fi
+    alias cdpr="cdproject"
+    alias cdp="cdproject"
 }
 
 if command -v pbpaste > /dev/null 2>&1; then
     cdpaste() {
-        if [ -d $(pbpaste) ]; then
+        if [ -d "$(pbpaste)" ]; then
             cd "$(pbpaste)"
         else
-            cd "$(dirname $(pbpaste))"
+            cd "$(dirname "$(pbpaste)")"
         fi
     }
-    alias cdp="cdpaste"
     alias cdpa="cdpaste"
 fi
 
