@@ -7,7 +7,7 @@ function! mymisc#config#fern#setup() abort
   nnoremap <Leader>n :Fern<space>
   augroup vimrc_fern
     autocmd! *
-    autocmd FileType fern setl nonumber
+    " autocmd FileType fern setl nonumber
     autocmd FileType fern IndentLinesDisable
     autocmd FileType fern nnoremap <buffer> q :<C-u>close<CR>
   augroup END
