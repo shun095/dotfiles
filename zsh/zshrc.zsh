@@ -98,10 +98,10 @@ _zshrc_custom_tmux(){
                         fi
                     done
             fi
-            \tmux -u new-session -s $idx
+            timeout 10 \tmux -u new-session -s $idx
         else
             echo $(echo $_detached_sessions | head -n 1)
-            \tmux -u attach -t $(echo $_detached_sessions | head -n 1)
+            timeout 10 \tmux -u attach -t $(echo $_detached_sessions | head -n 1)
         fi
         # export DISABLE_AUTO_TITLE=
     else
