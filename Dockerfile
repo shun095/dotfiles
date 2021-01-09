@@ -6,8 +6,10 @@ COPY . /root/dotfiles
 RUN apt-get update \
     && apt-get install -y curl lsb-release \
     && if [ -d $HOME/dotfiles ]; then \
+        echo "dotfiles found."; \
         $HOME/dotfiles/install.sh; \
     else \
+        echo "dotfiles not found."; \
         bash -c "$(curl -fsSL https://raw.githubusercontent.com/ishitaku5522/dotfiles/master/install.sh)"; \
     fi \
     && $HOME/dotfiles/install.sh buildtools \
