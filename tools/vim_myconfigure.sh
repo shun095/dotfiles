@@ -33,8 +33,8 @@ if [ "$(uname)" = 'Darwin'  ]; then
 		--with-luajit \
 		--enable-python3interp=yes \
 		--with-python3-command=python3 \
-		--enable-rubyinterp=dynamic \
 		--enable-autoservername \
+		--enable-rubyinterp=dynamic \
 		--enable-terminal
 else
 	./configure --prefix=${_PREFIX} \
@@ -46,10 +46,11 @@ else
 		--enable-luainterp=dynamic \
 		--with-luajit \
 		--enable-python3interp=dynamic \
-		--with-python3-command=python3.6 \
-		--enable-rubyinterp=dynamic \
+		--with-python3-command=python3 \
 		--enable-autoservername \
+		--enable-rubyinterp=dynamic \
 		--enable-terminal
 fi
 
-make -j${_NUM_PARALLEL} install
+make -j${_NUM_PARALLEL}
+make install

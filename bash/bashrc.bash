@@ -10,3 +10,5 @@ bind '"\e[Z":menu-complete-backward'
 bind "set show-all-if-ambiguous on"
 # 1回目のTABで途中まで文字列が一緒だったらそこまでは補完する
 bind "set menu-complete-display-prefix on"
+# ctrl+sでforward searchをできるようにする
+[[ $- == *i* ]] && stty -ixon

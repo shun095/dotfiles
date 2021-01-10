@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -55,6 +54,10 @@ fi
 # ZSH PLUGIN CONFIG
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
 export ZSH_HIGHLIGHT_MAXLENGTH=300
+# export ZSH_TMUX_AUTOSTART=true
+export KUBE_PS1_SYMBOL_DEFAULT='K8s'
+export KUBE_PS1_PREFIX='['
+export KUBE_PS1_SUFFIX=']'
 
 _zshrc_get_fzf_default_opts() {
     if command -v highlight > /dev/null 2>&1; then
@@ -215,21 +218,21 @@ fghq() {
 alias fhq="fghq"
 
 cdproject() {
-  if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-    cd `pwd`/`git rev-parse --show-cdup`
-  fi
-alias cdpr="cdproject"
+    if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        cd `pwd`/`git rev-parse --show-cdup`
+    fi
+    alias cdpr="cdproject"
+    alias cdp="cdproject"
 }
 
 if command -v pbpaste > /dev/null 2>&1; then
     cdpaste() {
-        if [ -d $(pbpaste) ]; then
-            cd $(pbpaste)
+        if [ -d "$(pbpaste)" ]; then
+            cd "$(pbpaste)"
         else
-            cd $(dirname $(pbpaste))
+            cd "$(dirname "$(pbpaste)")"
         fi
     }
-    alias cdp="cdpaste"
     alias cdpa="cdpaste"
 fi
 
@@ -294,8 +297,8 @@ fi
 
 # Simple vim
 alias svim="vim --cmd \"let g:use_plugins=0\""
-alias tgvim="gvim --remote-tab-silent"
-alias tvim="vim --remote-tab-silent"
+# alias tgvim="gvim --remote-tab-silent"
+# alias tvim="vim --remote-tab-silent"
 alias gnvim="nvim-qt"
 alias memo="vim -c \"MemoNew\""
 
@@ -369,7 +372,7 @@ bindkey "^ " my-open-alias
 
 ##### Configurations ##### {{{
 ## BIND
-stty stop undef
+[[ $- == *i* ]] && stty -ixon
 bindkey \^U backward-kill-line
 
 export ZSH_COMPDUMP=$HOME/.zcompdump

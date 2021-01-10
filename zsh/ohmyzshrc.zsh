@@ -84,7 +84,7 @@ ripgrep
 # sudo
 # ssh-agent
 tig
-tmux
+# tmux # this overwrites tmux command
 vscode
 yarn
 kube-ps1

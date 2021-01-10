@@ -2,6 +2,7 @@
 
 local MARK="%(?,%{$fg_bold[blue]%}>,%{$fg_bold[red]%}[%?]"$'\n'">)"
 if [[ "$USER" == "root" ]]; then USERCOLOR="red"; else USERCOLOR="green"; fi
+local SHELL_MARK=""
 
 # Git sometimes goes into a detached head state. git_prompt_info doesn't
 # return anything in this case. So wrap it in another function and check
@@ -21,6 +22,7 @@ function check_git_prompt_info() {
 }
 
 function get_datetime() {
+    echo -n " "
     echo -n "%{$reset_color%}"
     # echo -n "%{$fg_no_bold[cyan]%}%D{%Y-%m-%d %H:%M:%S}"
     echo -n "%D{%Y/%m/%d %H:%M:%S}"
@@ -30,7 +32,7 @@ function get_datetime() {
 function get_pyenv_prompt() {
     if type pyenv > /dev/null; then
         if [ ! $(pyenv_prompt_info) = "system" ]; then
-            echo " (pyenv:$(pyenv_prompt_info))"
+            echo -n " [pyenv|$(pyenv_prompt_info)]"
         fi
     fi
 }
@@ -40,10 +42,15 @@ re-prompt() {
     zle .accept-line
 }
 
+get_kube_ps1_prompt(){
+    if type kube_ps1 > /dev/null; then
+        echo -n " $(kube_ps1)"
+    fi
+}
+
 zle -N accept-line re-prompt
 
-PROMPT='
-'$MARK' $(get_datetime) $(kube_ps1)%{$reset_color%}$(get_pyenv_prompt)$(check_git_prompt_info)
+PROMPT=$MARK'$(get_datetime)$(get_kube_ps1_prompt)%{$reset_color%}$(get_pyenv_prompt)$(check_git_prompt_info)
 %{$fg_bold[$USERCOLOR]%}%n%{$reset_color%}@%{$fg_bold[blue]%}%m %{$reset_color%}%5~
 %{$fg_bold[cyan]%}$ %{$reset_color%}'
 

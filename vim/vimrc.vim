@@ -194,12 +194,6 @@ try
   set viminfo='500,<50,s10,h
 
   " Statusline settings {{{
-  highlight link User1 Normal
-  highlight link User2 Title
-  highlight link User3 Directory
-  highlight link User4 Special
-  highlight link User5 Comment
-
   let &statusline=''
   let &statusline.='%m%r%h%w%q'
   let &statusline.=' %f %<%='
@@ -212,10 +206,13 @@ try
   " スペースの制御のため%yは使わない
   let &statusline.='%{&ft==#""?"":"[".&ft."] "}'
   if has('multi_byte')
-    let &statusline.='%1*%{&fenc==#""?&enc:&fenc}'
+    let &statusline.='%1*'
+    let &statusline.='%{&fenc==#""?&enc:&fenc}'
   endif
   let &statusline.='(%{&fileformat})'
-  let &statusline.=' %5*%3p%%%5l:%-3v'
+  let &statusline.=' '
+  let &statusline.='%5*'
+  let &statusline.='%3p%%%5l:%-3v'
 
   augroup vimrc_status_vars
     autocmd!
@@ -317,10 +314,10 @@ try
   nnoremap <ESC><ESC> :noh<CR><ESC>
   nnoremap <ESC>^[ <ESC>^[
 
-  nnoremap Y v$hy
+  " nnoremap Y v$hy
 
-  nnoremap <C-g> 2<C-g>
-  nnoremap <C-]> g<C-]>
+  " nnoremap <C-g> 2<C-g>
+  " nnoremap <C-]> g<C-]>
 
   vnoremap <c-a> <c-a>gv
   vnoremap <c-x> <c-x>gv
@@ -551,21 +548,29 @@ try
   command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
   " command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
   function! s:transparent() abort
+
     highlight Normal ctermbg=NONE guibg=NONE
     highlight NonText ctermbg=NONE guibg=NONE
-    highlight EndOfBuffer ctermbg=NONE guibg=NONE
+    " highlight EndOfBuffer ctermbg=NONE guibg=NONE
     highlight Folded ctermbg=NONE guibg=NONE
     highlight LineNr ctermbg=NONE guibg=NONE
     highlight CursorLineNr ctermbg=NONE guibg=NONE
     highlight SpecialKey ctermbg=NONE guibg=NONE
-    highlight ALEErrorSign ctermbg=NONE guibg=NONE
-    highlight ALEWarningSign ctermbg=NONE guibg=NONE
-    highlight GitGutterAdd ctermbg=NONE guibg=NONE
-    highlight GitGutterChange ctermbg=NONE guibg=NONE
-    highlight GitGutterChangeDelete ctermbg=NONE guibg=NONE
-    highlight GitGutterDelete ctermbg=NONE guibg=NONE
+    highlight Error ctermbg=NONE guibg=NONE
+    highlight ErrorMsg ctermbg=NONE guibg=NONE
+    highlight Todo ctermbg=NONE guibg=NONE
+    " highlight ALEErrorSign ctermbg=NONE guibg=NONE
+    " highlight ALEWarningSign ctermbg=NONE guibg=NONE
+    " highlight GitGutterAdd ctermbg=NONE guibg=NONE
+    " highlight GitGutterChange ctermbg=NONE guibg=NONE
+    " highlight GitGutterChangeDelete ctermbg=NONE guibg=NONE
+    " highlight GitGutterDelete ctermbg=NONE guibg=NONE
     highlight SignColumn ctermbg=NONE guibg=NONE
     highlight CursorLine cterm=underline gui=underline ctermbg=NONE guibg=NONE
+    highlight StatusLine cterm=underline gui=underline ctermbg=NONE guibg=NONE
+    highlight StatusLineNC cterm=NONE gui=NONE ctermbg=NONE guibg=NONE
+    " highlight StatusLineTerm cterm=NONE gui=NONE ctermbg=NONE guibg=NONE
+    highlight TabLineFill ctermbg=NONE guibg=NONE
   endfunction
   " command! Transparent hi Normal ctermbg=none guibg=NONE
   command! Transparent call s:transparent()
@@ -728,8 +733,8 @@ try
   " AUTOCMDS {{{
   augroup VIMRC
     if !has('nvim') && v:version >= 801
-      autocmd TerminalOpen * setl nonumber nowrap nolist
-      autocmd TerminalOpen * nnoremap <silent><buffer>q :bw<CR>
+      " autocmd TerminalOpen * setl nonumber nowrap nolist
+      " autocmd TerminalOpen * nnoremap <silent><buffer>q :bw<CR>
     endif
 
     " Markdown
@@ -806,6 +811,7 @@ try
 
     autocmd InsertLeave * call mymisc#ime_deactivate()
     autocmd VimEnter * call mymisc#git_auto_updating()
+    " autocmd VimEnter * call s:transparent()
 
     autocmd BufRead *.launch setl ft=xml
 
@@ -915,6 +921,12 @@ try
         set background=dark
       endif
     endtry
+
+    highlight link User1 Normal
+    highlight link User2 Title
+    highlight link User3 Directory
+    highlight link User4 Special
+    highlight link User5 Comment
 
     " highlight! Terminal ctermbg=black guibg=black
     " }}} WHEN PLUGINS ARE ENABLED END
