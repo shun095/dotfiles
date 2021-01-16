@@ -730,10 +730,13 @@ try
 
   " AUTOCMDS {{{
   augroup VIMRC
-    if !has('nvim') && v:version >= 801
-      " autocmd TerminalOpen * setl nonumber nowrap nolist
-      " autocmd TerminalOpen * nnoremap <silent><buffer>q :bw<CR>
-    endif
+    " HTML,XML,CSS,JavaScript
+    autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
+    autocmd Filetype css setl foldmethod=syntax
+    autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
+
+    " Vue
+    autocmd FileType vue setl iskeyword+=$,-,:,/ expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
 
     " Markdown
     let g:markdown_fenced_languages = [
@@ -753,16 +756,6 @@ try
           \   'json'
           \ ]
     let g:markdown_syntax_conceal = 0
-
-    " HTML,XML,CSS,JavaScript
-    autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
-    autocmd Filetype css setl foldmethod=syntax
-    autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
-
-    " Vue
-    autocmd FileType vue setl iskeyword+=$,-,:,/ expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
-
-    " Markdown
     autocmd FileType markdown setl expandtab softtabstop=2 shiftwidth=2
 
     " Json
@@ -822,9 +815,10 @@ try
 
     " set wrap to global one in in diff mode
     autocmd FilterWritePre * if &diff | setlocal wrap< | endif
-    if !has('nvim') && v:version >= 810
+
+    if !has('nvim') && v:version >= 801
       autocmd TerminalOpen * setl listchars= nonumber
-      autocmd TerminalOpen * setl listchars= nonumber
+      autocmd TerminalOpen * nnoremap <buffer>q :bw<CR>
     endif
   augroup END
   "}}} AUTOCMDS END
