@@ -83,6 +83,10 @@ Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 " Plug 'ryanoasis/vim-devicons'
 " Plug 'justinmk/vim-dirvish'
 Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-hijack.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 " Plug 'francoiscabrol/ranger.vim'
 
 " Plug 'kristijanhusak/defx-git'
@@ -116,42 +120,43 @@ Plug 'w0rp/ale'
 " Plug 'cohama/lexima.vim'
 
 " Language/environment specific plugins
-Plug 'lervag/vimtex', {'for': ['tex']}
+Plug 'shun095/rosmake.vim', {'on': ['Catkinmake', 'Rosmake']}
+Plug 'mopp/next-alter.vim', {'for': ['c', 'cpp', 'vim']}
+Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
+Plug 'chrisbra/csv.vim', {'for': ['csv']}
+" Plug 'fatih/vim-go', {'for': ['go']}
+Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml', 'phtml']}
+Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
+Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
 " Plug 'iamcco/markdown-preview.vim', {'for': ['markdown']}
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'jceb/vim-orgmode', {'for': ['org']}
-Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
-" Plug 'fatih/vim-go', {'for': ['go']}
-Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
-Plug 'mopp/next-alter.vim', {'for': ['c', 'cpp', 'vim']}
-Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
-Plug 'shun095/rosmake.vim', {'on': ['Catkinmake', 'Rosmake']}
-Plug 'alvan/vim-closetag', {'for': ['xml', 'html', 'xhtml', 'phtml']}
-Plug 'chrisbra/csv.vim', {'for': ['csv']}
+Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
 Plug 'lambdalisue/vim-pyenv', {'for': ['python']}
+Plug 'lervag/vimtex', {'for': ['tex']}
 
 " Syntax highlights
-Plug 'othree/html5.vim', {'for': ['html']}
-Plug 'digitaltoad/vim-pug', {'for': ['pug', 'jade']}
+" Plug 'vim-scripts/bash-support.vim', {'for': ['bash']}
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
+Plug 'pboettch/vim-cmake-syntax', {'for': ['cmake']}
 Plug 'briancollins/vim-jst', {'for': ['ejs', 'jst']}
+Plug 'othree/html5.vim', {'for': ['html']}
+" Plug 'pangloss/vim-javascript', {'for': ['javascript']}
+Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'groenewege/vim-less', {'for': ['less']}
+Plug 'chr4/nginx.vim', {'for': ['nginx']}
+Plug 'aklt/plantuml-syntax', {'for': ['plantuml']}
+Plug 'pprovost/vim-ps1', {'for': ['ps1']}
+Plug 'digitaltoad/vim-pug', {'for': ['pug', 'jade']}
+" Plug 'hdima/python-syntax', {'for': ['python']}
 Plug 'cakebaker/scss-syntax.vim', {'for': ['scss']}
 Plug 'wavded/vim-stylus', {'for': ['stylus']}
-Plug 'leafgarland/typescript-vim', {'for': ['typescript']}
-" Plug 'pangloss/vim-javascript', {'for': ['javascript']}
-Plug 'posva/vim-vue', {'for': ['vue']}
-Plug 'elzr/vim-json', {'for': ['json']}
-Plug 'cespare/vim-toml', {'for':'toml'}
 Plug 'tmux-plugins/vim-tmux', {'for': ['tmux']}
-Plug 'chr4/nginx.vim', {'for': ['nginx']}
-Plug 'pboettch/vim-cmake-syntax', {'for': ['cmake']}
-Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
-Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
-Plug 'aklt/plantuml-syntax', {'for': ['plantuml']}
-" Plug 'vim-scripts/bash-support.vim'
-Plug 'pprovost/vim-ps1'
-" Plug 'hdima/python-syntax'
+Plug 'cespare/vim-toml', {'for': ['toml']}
+Plug 'leafgarland/typescript-vim', {'for': ['typescript']}
+Plug 'vim-jp/syntax-vim-ex', {'for': ['vim']}
+Plug 'posva/vim-vue', {'for': ['vue']}
 
 " General purpose viewers/indicators
 Plug 'ctrlpvim/ctrlp.vim'
