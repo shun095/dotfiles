@@ -604,6 +604,16 @@ try
     return l:ret
   endfunction
 
+  function! s:open_terminal_file() abort
+    let l:target_dir = expand('%:p:h')
+    let l:cmd = s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
+    call mymisc#command_at_destdir(l:target_dir, [l:cmd])
+  endfunction
+
+  function! s:open_terminal_current() abort
+    execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
+  endfunction
+
   let g:myvimrc_term_winheight=15
   function! s:set_winheight_small() abort
     execute 'normal! ' . g:myvimrc_term_winheight . '_'
@@ -627,8 +637,9 @@ try
   nnoremap <Leader>gp :<C-u>call <SID>my_git_push()<CR>
   nnoremap <Leader>gl :<C-u>call <SID>my_git_pull()<CR>
   nnoremap <Leader>te :<C-u>T<CR>
-  command! T execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
-        " \ | call s:set_winheight_small()
+  nnoremap <Leader>tc :<C-u>Tc<CR>
+  command! T call s:open_terminal_file()
+  command! Tc call s:open_terminal_current()
 
   if !has('nvim') && has('win32')
     let g:myvimrc_msys_dir =
