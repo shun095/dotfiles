@@ -828,7 +828,7 @@ try
     autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 
     if !has('nvim') && v:version >= 801
-      autocmd TerminalOpen * setl listchars= nonumber
+      autocmd TerminalOpen * setl nonumber
       autocmd TerminalOpen * nnoremap <buffer>q :bw<CR>
     endif
   augroup END
