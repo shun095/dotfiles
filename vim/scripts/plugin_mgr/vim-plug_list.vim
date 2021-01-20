@@ -15,17 +15,18 @@ else
   let s:has_python = g:false
 endif
 
-" Plug 'roxma/nvim-yarp'
-" Plug 'roxma/vim-hug-neovim-rpc'
-" Plug 'Shougo/defx.nvim'
-" Color schemes
-Plug 'rakr/vim-one'
 let g:terminal_ansi_colors = [
       \ '#282c34', '#e06c75', '#98c379', '#d19a66',
       \ '#61afef', '#c678dd', '#56b6c2', '#abb2bf',
       \ '#5c6370', '#e06c75', '#98c379', '#d19a66',
       \ '#61afef', '#c678dd', '#56b6c2', '#ffffff'
       \ ]
+
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
+" Plug 'Shougo/defx.nvim'
+" Color schemes
+Plug 'rakr/vim-one'
 " Plug 'morhetz/gruvbox'
 " Plug 'joshdick/onedark.vim'
 
@@ -63,25 +64,29 @@ if s:has_python3 || s:has_python
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
 Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'ishitaku5522/asyncomplete-buffer.vim', {'branch': 'japanese_completion'}
+Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
 " Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 
 " Plug 'prabirshrestha/asyncomplete-necovim.vim'
-" Plug 'ishitaku5522/asyncomplete-omni.vim'
-" Plug 'ishitaku5522/asyncomplete-tsuquyomi.vim'
-" Plug 'ishitaku5522/vim-lsp', {'branch': 'javaApplyWorkspace'}
+" Plug 'shun095/asyncomplete-omni.vim'
+" Plug 'shun095/asyncomplete-tsuquyomi.vim'
+" Plug 'shun095/vim-lsp', {'branch': 'javaApplyWorkspace'}
 
 " Plug 'scrooloose/nerdtree'
 " Plug 'jistr/vim-nerdtree-tabs'
-" Plug 'ishitaku5522/nerdtree-git-plugin'
+" Plug 'shun095/nerdtree-git-plugin'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Plug 'ryanoasis/vim-devicons'
 " Plug 'justinmk/vim-dirvish'
 Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-hijack.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 " Plug 'francoiscabrol/ranger.vim'
 
 " Plug 'kristijanhusak/defx-git'
@@ -115,42 +120,43 @@ Plug 'w0rp/ale'
 " Plug 'cohama/lexima.vim'
 
 " Language/environment specific plugins
-Plug 'lervag/vimtex', {'for': ['tex']}
+Plug 'shun095/rosmake.vim', {'on': ['Catkinmake', 'Rosmake']}
+Plug 'mopp/next-alter.vim', {'for': ['c', 'cpp', 'vim']}
+Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
+Plug 'chrisbra/csv.vim', {'for': ['csv']}
+" Plug 'fatih/vim-go', {'for': ['go']}
+Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml', 'phtml']}
+Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
+Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
 " Plug 'iamcco/markdown-preview.vim', {'for': ['markdown']}
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'jceb/vim-orgmode', {'for': ['org']}
-Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
-" Plug 'fatih/vim-go', {'for': ['go']}
-Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
-Plug 'mopp/next-alter.vim', {'for': ['c', 'cpp', 'vim']}
-Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
-Plug 'ishitaku5522/rosmake.vim', {'on': ['Catkinmake', 'Rosmake']}
-Plug 'alvan/vim-closetag', {'for': ['xml', 'html', 'xhtml', 'phtml']}
-Plug 'chrisbra/csv.vim', {'for': ['csv']}
+Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
 Plug 'lambdalisue/vim-pyenv', {'for': ['python']}
+Plug 'lervag/vimtex', {'for': ['tex']}
 
 " Syntax highlights
-Plug 'othree/html5.vim', {'for': ['html']}
-Plug 'digitaltoad/vim-pug', {'for': ['pug', 'jade']}
+" Plug 'vim-scripts/bash-support.vim', {'for': ['bash']}
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
+Plug 'pboettch/vim-cmake-syntax', {'for': ['cmake']}
 Plug 'briancollins/vim-jst', {'for': ['ejs', 'jst']}
+Plug 'othree/html5.vim', {'for': ['html']}
+" Plug 'pangloss/vim-javascript', {'for': ['javascript']}
+Plug 'elzr/vim-json', {'for': ['json']}
 Plug 'groenewege/vim-less', {'for': ['less']}
+Plug 'chr4/nginx.vim', {'for': ['nginx']}
+Plug 'aklt/plantuml-syntax', {'for': ['plantuml']}
+Plug 'pprovost/vim-ps1', {'for': ['ps1']}
+Plug 'digitaltoad/vim-pug', {'for': ['pug', 'jade']}
+" Plug 'hdima/python-syntax', {'for': ['python']}
 Plug 'cakebaker/scss-syntax.vim', {'for': ['scss']}
 Plug 'wavded/vim-stylus', {'for': ['stylus']}
-Plug 'leafgarland/typescript-vim', {'for': ['typescript']}
-" Plug 'pangloss/vim-javascript', {'for': ['javascript']}
-Plug 'posva/vim-vue', {'for': ['vue']}
-Plug 'elzr/vim-json', {'for': ['json']}
-Plug 'cespare/vim-toml', {'for':'toml'}
 Plug 'tmux-plugins/vim-tmux', {'for': ['tmux']}
-Plug 'chr4/nginx.vim', {'for': ['nginx']}
-Plug 'pboettch/vim-cmake-syntax', {'for': ['cmake']}
-Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
-Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
-Plug 'aklt/plantuml-syntax', {'for': ['plantuml']}
-" Plug 'vim-scripts/bash-support.vim'
-Plug 'pprovost/vim-ps1'
-" Plug 'hdima/python-syntax'
+Plug 'cespare/vim-toml', {'for': ['toml']}
+Plug 'leafgarland/typescript-vim', {'for': ['typescript']}
+Plug 'vim-jp/syntax-vim-ex', {'for': ['vim']}
+Plug 'posva/vim-vue', {'for': ['vue']}
 
 " General purpose viewers/indicators
 Plug 'ctrlpvim/ctrlp.vim'
@@ -163,7 +169,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-peekaboo'
 
 " if has('win32')
-"   Plug 'ishitaku5522/cpsm'
+"   Plug 'shun095/cpsm'
 " else
 "   Plug 'nixprime/cpsm', {'do': './install.sh'}
 " endif
@@ -206,7 +212,7 @@ Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 
 " Tools
 if has('vimscript-3')
-  Plug 'kyoh86/vim-editerm'
+  Plug 'shun095/vim-editerm', {'branch': 'feature/line_number_support'}
 endif
 Plug 'thinca/vim-quickrun'
 Plug 'lambdalisue/suda.vim'
@@ -224,7 +230,7 @@ Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'haya14busa/vim-migemo'
 
-Plug 'ishitaku5522/revimses'
+Plug 'shun095/revimses'
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

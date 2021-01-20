@@ -606,6 +606,16 @@ try
     return l:ret
   endfunction
 
+  function! s:open_terminal_file() abort
+    let l:target_dir = expand('%:p:h')
+    let l:cmd = s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
+    call mymisc#command_at_destdir(l:target_dir, [l:cmd])
+  endfunction
+
+  function! s:open_terminal_current() abort
+    execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
+  endfunction
+
   let g:myvimrc_term_winheight=15
   function! s:set_winheight_small() abort
     execute 'normal! ' . g:myvimrc_term_winheight . '_'
@@ -629,8 +639,9 @@ try
   nnoremap <Leader>gp :<C-u>call <SID>my_git_push()<CR>
   nnoremap <Leader>gl :<C-u>call <SID>my_git_pull()<CR>
   nnoremap <Leader>te :<C-u>T<CR>
-  command! T execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
-        " \ | call s:set_winheight_small()
+  nnoremap <Leader>tc :<C-u>Tc<CR>
+  command! T call s:open_terminal_file()
+  command! Tc call s:open_terminal_current()
 
   if !has('nvim') && has('win32')
     let g:myvimrc_msys_dir =
@@ -732,10 +743,13 @@ try
 
   " AUTOCMDS {{{
   augroup VIMRC
-    if !has('nvim') && v:version >= 801
-      " autocmd TerminalOpen * setl nonumber nowrap nolist
-      " autocmd TerminalOpen * nnoremap <silent><buffer>q :bw<CR>
-    endif
+    " HTML,XML,CSS,JavaScript
+    autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
+    autocmd Filetype css setl foldmethod=syntax
+    autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
+
+    " Vue
+    autocmd FileType vue setl iskeyword+=$,-,:,/ expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
 
     " Markdown
     let g:markdown_fenced_languages = [
@@ -755,16 +769,6 @@ try
           \   'json'
           \ ]
     let g:markdown_syntax_conceal = 0
-
-    " HTML,XML,CSS,JavaScript
-    autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
-    autocmd Filetype css setl foldmethod=syntax
-    autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
-
-    " Vue
-    autocmd FileType vue setl iskeyword+=$,-,:,/ expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
-
-    " Markdown
     autocmd FileType markdown setl expandtab softtabstop=2 shiftwidth=2
 
     " Json
@@ -824,9 +828,10 @@ try
 
     " set wrap to global one in in diff mode
     autocmd FilterWritePre * if &diff | setlocal wrap< | endif
-    if !has('nvim') && v:version >= 810
+
+    if !has('nvim') && v:version >= 801
       autocmd TerminalOpen * setl listchars= nonumber
-      autocmd TerminalOpen * setl listchars= nonumber
+      autocmd TerminalOpen * nnoremap <buffer>q :bw<CR>
     endif
   augroup END
   "}}} AUTOCMDS END

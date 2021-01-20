@@ -94,7 +94,7 @@ if mymisc#plug_tap('restart.vim')
 endif
 
 if mymisc#plug_tap('tagbar')
-  nnoremap <silent> <Leader>t :<C-u>TagbarOpen j<CR>
+  nnoremap <silent> <Leader>ta :<C-u>TagbarOpen j<CR>
   let g:tagbar_show_linenumbers = 0
   let g:tagbar_sort = 0
   let g:tagbar_indent = 1
