@@ -225,6 +225,11 @@ cdproject() {
     alias cdp="cdproject"
 }
 
+if command -v xsel > /dev/null 2>&1; then
+    alias pbcopy="xsel -ib"
+    alias pbpaste="xsel -ob"
+fi
+
 if command -v pbpaste > /dev/null 2>&1; then
     cdpaste() {
         if [ -d "$(pbpaste)" ]; then
