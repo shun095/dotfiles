@@ -429,9 +429,11 @@ try
     tnoremap <C-w><C-w> <C-w>
     tnoremap <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
   else
-    tnoremap <C-w><C-w> <C-w>.
-    tnoremap <C-w><Space>te <C-w>:T<CR>
-    tnoremap <C-w><Space><Space> <C-w>:call <SID>set_winheight_small()<CR>
+    if has('terminal')
+      tnoremap <C-w><C-w> <C-w>.
+      tnoremap <C-w><Space>te <C-w>:T<CR>
+      tnoremap <C-w><Space><Space> <C-w>:call <SID>set_winheight_small()<CR>
+    endif
   endif
   nnoremap <C-w><Space><Space> :call <SID>set_winheight_small()<CR>
 

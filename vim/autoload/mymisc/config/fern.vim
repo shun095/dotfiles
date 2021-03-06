@@ -12,6 +12,7 @@ function! mymisc#config#fern#setup() abort
 
     IndentLinesDisable
     nnoremap <buffer> q :<C-u>close<CR>
+    nmap <buffer> <CR> <Plug>(fern-action-open-or-enter)
     nmap <buffer> I <Plug>(fern-action-hidden:toggle)
     nmap <buffer> <C-l> <Plug>(fern-action-reload:all)
     nmap <buffer> o <Plug>(fern-action-open-or-expand)

@@ -7,7 +7,11 @@ function! mymisc#config#fzf#setup() abort
 
   " for GVIM
   if !exists('$FZF_DEFAULT_OPTS')
-    let $FZF_DEFAULT_OPTS="--height 50% --reverse --preview \"cat {}\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
+    if !has('win32')
+      let $FZF_DEFAULT_OPTS="--height 50% --reverse --preview \"cat {}\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
+    else
+      let $FZF_DEFAULT_OPTS="--reverse --preview \"cat {}\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
+    endif
   endif
 
   function! s:history(arg, options, bang)
