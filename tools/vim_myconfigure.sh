@@ -21,6 +21,7 @@ update_repository "${_REPO_DIR}" "${BRANCH_NAME}" "${NEEDS_PULL}"
 
 ## BUILD
 cd $_REPO_DIR
+make distclean
 if [ "$(uname)" = 'Darwin'  ]; then
 	./configure --prefix=${_PREFIX} \
 		--with-features=huge \
