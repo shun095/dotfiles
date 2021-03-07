@@ -9,7 +9,7 @@ RUN apt-get update \
         $HOME/dotfiles/install.sh; \
     else \
         echo "dotfiles installer is not found. Fetching from the repo."; \
-        bash -c "$(curl -fsSL https://raw.githubusercontent.com/ishitaku5522/dotfiles/master/install.sh)"; \
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/shun095/dotfiles/master/install.sh)"; \
     fi \
     && $HOME/dotfiles/install.sh buildtools \
     && chsh -s /bin/zsh \

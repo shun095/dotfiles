@@ -6,11 +6,11 @@
 # Distributed under terms of the MIT license.
 
 tmpfile=$(mktemp)
-curl -sS -L -o ${tmpfile} https://raw.githubusercontent.com/ishitaku5522/dotfiles/master/Dockerfile
+curl -sS -L -o ${tmpfile} https://raw.githubusercontent.com/shun095/dotfiles/master/Dockerfile
 echo "Dockerfile:"
 cat ${tmpfile}
 echo
 
-docker build -f ${tmpfile} -t ishitaku_dotfiles .
+docker build -f ${tmpfile} -t shun095_dotfiles .
 rm ${tmpfile}
-docker run -it --rm --name ishitaku_dotfiles ishitaku_dotfiles /bin/zsh --login
+docker run -it --rm --name shun095_dotfiles shun095_dotfiles /bin/zsh --login

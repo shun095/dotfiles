@@ -11,6 +11,6 @@ if [ -d "${MYDOTFILES}/.git" ];then
 	popd
 	${MYDOTFILES}/install-invoke.sh $@
 else
-	bash -c "$(curl -fsSL https://raw.githubusercontent.com/ishitaku5522/dotfiles/master/install-invoke.sh)"; \
+	bash -c "$(curl -fsSL https://raw.githubusercontent.com/shun095/dotfiles/master/install-invoke.sh)"; \
 fi
 

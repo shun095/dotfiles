@@ -13,7 +13,7 @@ export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
 
 export GOPATH=$HOME/.gopath
-export PATH="$HOME/build/go/bin:$PATH"
+export PATH="$HOME/build/go/bin:/usr/local/go/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 
 export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
