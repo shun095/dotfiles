@@ -814,7 +814,7 @@ try
     autocmd FileType help let &l:iskeyword = '!-~,^*,^|,^",' . &iskeyword
 
     autocmd InsertLeave * call mymisc#ime_deactivate()
-    autocmd VimEnter * call mymisc#git_auto_updating()
+    " autocmd VimEnter * call mymisc#git_auto_updating()
     " autocmd VimEnter * call s:transparent()
 
     autocmd BufRead *.launch setl ft=xml
