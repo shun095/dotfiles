@@ -151,6 +151,7 @@ function! mymisc#config#lsp#setup() abort
   "   augroup END
   au FileType * nnoremap <leader><c-]> :<C-u>LspDefinition<CR>
   au FileType * nnoremap <leader>K :<C-u>call Myvimrc_toggle_preview_window()<CR>
+  au FileType * nnoremap <leader><C-k> :<C-u>call Myvimrc_toggle_preview_window()<CR>
   au FileType * vnoremap <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>
   au FileType * nnoremap <leader>= :<C-u>LspDocumentFormatSync<CR>
   au FileType * nnoremap <leader>=l :<C-u>LspDocumentFormatSync<CR>

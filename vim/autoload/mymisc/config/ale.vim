@@ -35,4 +35,8 @@ function! mymisc#config#ale#setup() abort
   let g:ale_sign_info = 'I'
   let g:ale_sign_style_error = 'e'
   let g:ale_sign_style_warning = 'w'
+
+  if filereadable($HOME . "/.vim/lombok.jar")
+    let g:ale_java_javac_executable = "javac -cp " . $HOME . "/.vim/lombok.jar"
+  endif
 endfunction
