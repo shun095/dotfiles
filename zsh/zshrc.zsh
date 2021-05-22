@@ -230,6 +230,10 @@ if command -v xsel > /dev/null 2>&1; then
     alias pbpaste="xsel -ob"
 fi
 
+if command -v pbcopy > /dev/null 2>&1; then
+    alias pwdcopy="pwd | pbcopy"
+fi
+
 if command -v pbpaste > /dev/null 2>&1; then
     cdpaste() {
         if [ -d "$(pbpaste)" ]; then

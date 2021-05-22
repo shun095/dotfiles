@@ -5,11 +5,11 @@ if !1 | finish | endif
 
 set encoding=utf-8
 
-try
-  language ja_JP.UTF-8
-catch
-  language C
-endtry
+" try
+"   language ja_JP.UTF-8
+" catch
+"   language C
+" endtry
 
 set spelllang=en_us
 
@@ -108,90 +108,111 @@ try
   endif
 
   if v:version >= 800
-    " if !has('nvim')
-    "   set cryptmethod=blowfish2
-    " endif
-    set breakindent                                        " version8以降搭載の便利オプション
-    set display=truncate
-    set emoji                                              " 絵文字を全角表示
+    set breakindent                                                            " version8以降搭載の便利オプション
+    set display=truncate                                                       " 一行が長い場合でも@にせずちゃんと表示
+    set emoji                                                                  " 絵文字を全角表示
+    set completeopt=menuone,noselect,noinsert                                  " 補完関係の設定,Ycmで自動設定される
   endif
 
-  if has('patch-8.1.1313')
-    set diffopt+=algorithm:histogram,indent-heuristic        " Diff options
+  if has('patch-8.1.1880')
+    set completeopt+=popup
   endif
-  set visualbell t_vb=                                     " Disable beep sounds
-  set cursorline                                           " Highlight of cursor line/column
+  if has('patch-8.1.1313')
+    set diffopt+=algorithm:histogram,indent-heuristic                          " Diff options
+  endif
+  if has('patch-8.0.1491')
+    set pumwidth=0                                                             " 補完ウィンドウの最小幅
+  endif
+  set pumheight=20                                                             " 補完ウィンドウ最大高さ
+
+  set visualbell t_vb=                                                         " Disable beep sounds
+  set cursorline                                                               " Highlight of cursor line/column
   set nocursorcolumn
-  set backspace=indent,eol,start                           " Make backspace's behavior good
-  set clipboard=unnamed,unnamedplus                        " Enable clipboard
-  set ignorecase                                           " Ignore case when search
-  set smartcase                                            " When search word starts with uppercase, it doesn't ignore case
-  set foldmethod=marker                                    " Set methods for folding
-  set nofoldenable                                         " Set fold disable as default
-  set tabstop=4                                            " Make width of TAB character as rhs
-  set shiftwidth=4                                         " Set number of spaces used by indenting (eg. >>, << or auto-indent)
-  set softtabstop=4                                        " Set number of spaces inserted by <tab> button or deleted by <bs>
-  set expandtab                                            " Expand tabs to spaces
-  set autoindent                                           " Enable auto indenting
-  set list                                                 " Show invisible characters
-  set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:< " How invisible characters will be shown
+  set backspace=indent,eol,start                                               " Make backspace's behavior good
+  set clipboard=unnamed,unnamedplus                                            " Enable clipboard
+  set ignorecase                                                               " Ignore case when search
+  set smartcase                                                                " When search word starts with uppercase, it doesn't ignore case
+  set foldmethod=marker                                                        " Set methods for folding
+  set nofoldenable                                                             " Set fold disable as default
+  set tabstop=4                                                                " Make width of TAB character as rhs
+  set shiftwidth=4                                                             " Set number of spaces used by indenting (eg. >>, << or auto-indent)
+  set softtabstop=4                                                            " Set number of spaces inserted by <tab> button or deleted by <bs>
+  set expandtab                                                                " Expand tabs to spaces
+  set autoindent                                                               " Enable auto indenting
+  set list                                                                     " Show invisible characters
+  set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<                     " How invisible characters will be shown
   set nofixendofline
   set synmaxcol=500
-  set wildmenu                                             " Enable completion for commands
-  set wildmode=longest:full,full                           " Behavior config for wildmenu
-  set laststatus=2                                         " Enable status line
-  set display=lastline                                     " 一行が長い場合でも@にせずちゃんと表示
-  set showcmd                                              " 入力中のコマンドを右下に表示
-  set cmdheight=2                                          " コマンドラインの高さ
-  set showtabline=2                                        " タブバーを常に表示
+  set wildmenu                                                                 " Enable completion for commands
+  set wildmode=longest:full,full                                               " Behavior config for wildmenu
+  set laststatus=2                                                             " Enable status line
+  set display=lastline                                                         " 一行が長い場合でも@にせずちゃんと表示
+  set showcmd                                                                  " 入力中のコマンドを右下に表示
+  set cmdheight=2                                                              " コマンドラインの高さ
+  set showtabline=2                                                            " タブバーを常に表示
   set shortmess-=Tt
-  set nostartofline                                        " オンの場合Gなどのときに行頭に移動する
-  set sidescroll=1                                         " 横スクロール刻み幅
-  set sidescrolloff=1                                         " 横スクロール刻み幅
-  set number                                               " 行番号表示
+  set nostartofline                                                            " オンの場合Gなどのときに行頭に移動する
+  set sidescroll=1                                                             " 横スクロール刻み幅
+  set sidescrolloff=1                                                          " 横スクロール刻み幅
+  set number                                                                   " 行番号表示
   set norelativenumber
-  set hlsearch                                             " 文字列検索時にハイライトする
-  set incsearch                                            " 文字入力中に検索を開始
-  set ruler                                                " Show line number of right bottom
-  set hidden                                               " You can hide buffer to background without saving
-  set noequalalways                                        " splitしたときにウィンドウが同じ大きさになるよう調節する
-  set tags+=./tags;,./tags-ja;                             " タグファイルを上層に向かって探す
-  set autoread                                             " 他のソフトで、編集中ファイルが変更されたとき自動Reload
-  set noautochdir                                          " 今開いてるファイルにカレントディレクトリを移動するか
-  " ambiwidth: single for tools on :terminal
-  set ambiwidth=single                                     " 全角記号（「→」など）の文字幅
-  set mouse=a                                              " マウスを有効化
-  set mousehide                                            " 入力中にポインタを消すかどうか
-  set mousemodel=popup                                     " Behavior of right-click
-  set lazyredraw                                           " スクロールが間に合わない時などに描画を省略する
-  set updatetime=1000                                      " Wait time until swap file will be written
+  set hlsearch                                                                 " 文字列検索時にハイライトする
+  set incsearch                                                                " 文字入力中に検索を開始
+  set ruler                                                                    " Show line number of right bottom
+  set hidden                                                                   " You can hide buffer to background without saving
+  set noequalalways                                                            " splitしたときにウィンドウが同じ大きさになるよう調節する
+  set tags+=./tags;,./tags-ja;                                                 " タグファイルを上層に向かって探す
+  set autoread                                                                 " 他のソフトで、編集中ファイルが変更されたとき自動Reload
+  set noautochdir                                                              " 今開いてるファイルにカレントディレクトリを移動するか
+  set ambiwidth=single                                                         " 全角記号（「→」など）の文字幅 :terminalのためにsingleに設定
+  set mouse=a                                                                  " マウスを有効化
+  set mousehide                                                                " 入力中にポインタを消すかどうか
+  set mousemodel=popup                                                         " Behavior of right-click
+  set lazyredraw                                                               " スクロールが間に合わない時などに描画を省略する
+  set updatetime=1000                                                          " Wait time until swap file will be written
   set timeout
   set ttimeout
-  set timeoutlen=1000                                      " マッピングの時間切れまでの時間
-  set ttimeoutlen=100                                      " キーコードの時間切れまでの時間
-  set fileencodings=utf-8,sjis,iso-2022-jp,cp932,euc-jp    " 文字コード自動判別優先順位の設定
-  set fileformats=unix,dos,mac                             " 改行コード自動判別優先順位の設定
+  set timeoutlen=1000                                                          " マッピングの時間切れまでの時間
+  set ttimeoutlen=100                                                          " キーコードの時間切れまでの時間
+  set fileencodings=ucs-bom,utf-8,sjis,iso-2022-jp,cp932,euc-jp,default,latin1 " 文字コード自動判別優先順位の設定
+  set fileformats=unix,dos,mac                                                 " 改行コード自動判別優先順位の設定
   " set complete=.,w,b,u,U,k,kspell,s,t,t
-  if v:version >= 800
-    set completeopt=menuone,noselect,noinsert              " 補完関係の設定,Ycmで自動設定される
-    if has('patch-8.1.1880')
-      set completeopt+=popup
-    endif
-  endif
-  set pumheight=20                                         " 補完ウィンドウ最大高さ
-  if has('patch-8.0.1491')
-    set pumwidth=0                                           " 補完ウィンドウの最小幅
-  endif
-  set iminsert=0                                           " IMEの管理
+  set iminsert=0                                                               " IMEの管理
   set imsearch=0
 
-  set sessionoptions&                                      " セッションファイルに保存する内容
+  set sessionoptions&                                                          " セッションファイルに保存する内容
   set sessionoptions-=options
   set sessionoptions-=folds
   set sessionoptions-=blank
   set sessionoptions+=slash
 
   set viminfo='500,<50,s10,h
+
+  " set undofileでアンドゥデータをファイルを閉じても残しておく
+  " 該当フォルダがなければ作成
+  if !isdirectory($HOME . '/.vim/undofiles')
+    call mkdir($HOME . '/.vim/undofiles','p')
+  endif
+
+  set undodir=$HOME/.vim/undofiles
+  set undofile
+
+  " set backupでバックアップファイルを保存する
+  " 該当フォルダがなければ作成
+  if !isdirectory($HOME . '/.vim/backupfiles')
+    call mkdir($HOME . '/.vim/backupfiles','p')
+  endif
+
+  set backupdir=$HOME/.vim/backupfiles
+  set backup
+
+  " change swap file directory
+  if !isdirectory($HOME . '/tmp')
+    call mkdir($HOME . '/tmp','p')
+  endif
+
+  set dir-=.
+  set dir^=$HOME/tmp//
 
   " Statusline settings {{{
   let &statusline=''
@@ -263,32 +284,6 @@ try
   " elseif g:mymisc_ag_is_available
   "   set grepprg=ag\ --nogroup\ --nocolor\ --column\ --follow\ $*\ .
   " endif
-
-  " set undofileでアンドゥデータをファイルを閉じても残しておく
-  " 該当フォルダがなければ作成
-  if !isdirectory($HOME . '/.vim/undofiles')
-    call mkdir($HOME . '/.vim/undofiles','p')
-  endif
-
-  set undodir=$HOME/.vim/undofiles
-  set undofile
-
-  " set backupでバックアップファイルを保存する
-  " 該当フォルダがなければ作成
-  if !isdirectory($HOME . '/.vim/backupfiles')
-    call mkdir($HOME . '/.vim/backupfiles','p')
-  endif
-
-  set backupdir=$HOME/.vim/backupfiles
-  set backup
-
-  " change swap file directory
-  if !isdirectory($HOME . '/tmp')
-    call mkdir($HOME . '/tmp','p')
-  endif
-
-  set dir-=.
-  set dir^=$HOME/tmp//
   " }}} OPTIONS END
 
   " MAPPING {{{
