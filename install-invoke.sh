@@ -533,10 +533,10 @@ build_vim_install_deps() {
     local deps=""
 	local tmp_deps=""
     if type apt-get > /dev/null 2>&1; then
-        tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1'
+        tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.2 liblua5.2-dev luajit libluajit-5.1-2'
         for package in ${tmp_deps}
         do
-            if !(dpkg -l ${package} > /dev/null 2>&1); then
+            if ! dpkg -s ${package} > /dev/null 2>&1; then
                 deps="${deps} ${package}"
             fi
         done
@@ -553,7 +553,7 @@ build_tmux_install_deps() {
         tmp_deps='git automake pkg-config libevent-dev libncurses5-dev libncursesw5-dev bison'
         for package in ${tmp_deps}
         do
-            if !(dpkg -l ${package} > /dev/null 2>&1); then
+            if ! dpkg -s ${package} > /dev/null 2>&1; then
                 deps="${deps} ${package}"
             fi
         done
