@@ -28,7 +28,7 @@ function! mymisc#config#fzf#setup() abort
 
   command! -bang -nargs=* Grep
         \ call fzf#vim#grep(
-        \   substitute(&grepprg, '\$\*', '', 'g' ).' -i --color=always '.shellescape(<q-args>).' .', 0,
+        \   substitute(&grepprg, '\$\*', '', 'g' ).' --color=always '.shellescape(<q-args>).' .', 0,
         \   <bang>0 ? fzf#vim#with_preview('up:60%')
         \           : fzf#vim#with_preview('right:50%:hidden', '?'),
         \   <bang>0)

@@ -75,7 +75,12 @@ SYMTARGET=(
 )
 
 # actual files
-TMUXLOCAL="$HOME/localrcs/tmux-local"
+LOCALRCSDIR="$HOME/localrcs"
+LOCALRCS=(
+    "$LOCALRCSDIR/tmux-local"
+    "$LOCALRCSDIR/vim-local.vim"
+    "$LOCALRCSDIR/zsh-local.zsh"
+)
 TRASH="$HOME/.trash"
 
 help() {
@@ -531,7 +536,7 @@ install_deps() {
 
 build_vim_install_deps() {
     local deps=""
-	local tmp_deps=""
+    local tmp_deps=""
     if type apt-get > /dev/null 2>&1; then
         tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
         for package in ${tmp_deps}
@@ -644,11 +649,16 @@ deploy() {
     git_configulation
 
     # Not symlink
-    if [[ ! -e ${TMUXLOCAL} ]]; then
-        mkdir -p $HOME/localrcs
-        touch $HOME/localrcs/tmux-local
-        echo "tmuxlocal is made"
+    if [[ ! -e ${LOCALRCSDIR} ]]; then
+        mkdir -p ${LOCALRCSDIR}
     fi
+
+    for rcfile in ${LOCALRCS[@]}; do
+        if [[ ! -e ${rcfile} ]]; then
+            touch ${rcfile}
+            echo "made ${rcfile}"
+        fi
+    done
 
     if [[ ! -e ${TRASH} ]]; then
         mkdir ${TRASH}
