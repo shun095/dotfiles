@@ -432,10 +432,10 @@ if mymisc#plug_tap('gina.vim')
 endif
 
 if mymisc#plug_tap('vim-fugitive')
-  nnoremap <Leader>gs :<C-u>Gstatus<CR>
-  nnoremap <Leader>gc :<C-u>Gcommit<CR>
-  nnoremap <Leader>gf :<C-u>Gfetch --all -t<CR>
-  nnoremap <Leader>gm :<C-u>Gmerge<CR>
+  nnoremap <Leader>gs :<C-u>Git<CR>
+  nnoremap <Leader>gc :<C-u>Git commit<CR>
+  nnoremap <Leader>gf :<C-u>Git fetch --all -t<CR>
+  nnoremap <Leader>gm :<C-u>Git merge<CR>
 endif
 
 if mymisc#plug_tap('vim-gitgutter')

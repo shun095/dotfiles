@@ -162,7 +162,7 @@ Plug 'posva/vim-vue', {'for': ['vue']}
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf.vim'
 Plug 'mattn/ctrlp-matchfuzzy'
 
 " Plug 'Shougo/denite.nvim'
