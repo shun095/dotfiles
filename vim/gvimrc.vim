@@ -13,7 +13,7 @@ if has('gui_running')
   " endif
 
   if has('win32')
-    set guifont=JetBrainsMono_Nerd_Font_Mono:h10
+    set guifont=JetBrainsMono_NF:h10
   elseif has('mac')
     set guifont=JetBrainsMonoNerdFontCompleteM-Regular:h12
   else
