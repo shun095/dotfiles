@@ -534,7 +534,7 @@ try
           \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
           \ [":tabe | :terminal ++curwin ++close tig"])
   endif
-  command! Todo drop ~/todo.txt
+  command! Todo exe 'drop ' . get(g:,'memolist_path',$HOME . '/memo') . '/todo.txt'
 
   command! CpPath call mymisc#copypath()
   command! CpFileName call mymisc#copyfname()
