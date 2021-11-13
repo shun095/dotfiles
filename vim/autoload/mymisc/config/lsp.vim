@@ -22,6 +22,47 @@ function! mymisc#config#lsp#setup() abort
   hi link LspInformationText ALEInfoSign
   hi link LspHintText ALEInfoSign
 
+  " function! Myvimrc_test_execute_command() abort
+  "   let l:servers = lsp#get_allowed_servers()
+
+  "   let l:command_id = lsp#_new_command()
+
+  "   let g:lsp_settings = {
+  "         \ 'eclipse-jdt-ls': {
+  "         \   'args': [
+  "         \     '-classpath ~/.vim/plugged/vimspector/gadgets/windows/download/vscode-java-debug/0.26.0/root/extension/server/com.microsoft.java.debug.plugin-0.26.0.jar;'
+  "         \   ]
+  "         \ }}
+
+  "   let l:server = l:servers[0]
+
+  "   call lsp#send_request(l:server, {
+  "       \ 'method': 'workspace/executeCommand',
+  "       \ 'params': {
+  "       \   'command': 'vscode.java.startDebugSession'
+  "       \ },
+  "       \ 'on_notification': function('s:handle_execute_command', [l:server, l:command_id, 'execute_command']),
+  "       \ })
+  "       " \   'arguments': "",
+  " endfunction
+
+  " function! s:handle_execute_command(server, last_command_id, type, data) abort
+  "   if a:last_command_id != lsp#_last_command()
+  "       return
+  "   endif
+
+  "   if lsp#client#is_error(a:data['response'])
+  "       call lsp#utils#error('Failed to retrieve '. a:type . ' for ' . a:server . ': ' . lsp#client#error_message(a:data['response']))
+  "       return
+  "   endif
+
+  "   call vimspector#LaunchWithSettings({'DAPPort': a:data['response']['result']})
+  " endfunction
+
+  " let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+
+  " command! LaunchDebug call Myvimrc_test_execute_command()
+
   " let g:myvimrc_lsp_general_config = {}
   " let g:myvimrc_lsp_general_config['cpp'] =
   "       \   {

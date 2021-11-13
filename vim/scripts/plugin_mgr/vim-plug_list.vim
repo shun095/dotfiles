@@ -69,6 +69,7 @@ Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+" Plug 'puremourning/vimspector'
 
 " Plug 'prabirshrestha/asyncomplete-necovim.vim'
 " Plug 'shun095/asyncomplete-omni.vim'
@@ -162,7 +163,8 @@ Plug 'posva/vim-vue', {'for': ['vue']}
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf.vim'
+Plug 'mattn/ctrlp-matchfuzzy'
 
 " Plug 'Shougo/denite.nvim'
 
@@ -173,7 +175,7 @@ Plug 'junegunn/vim-peekaboo'
 " else
 "   Plug 'nixprime/cpsm', {'do': './install.sh'}
 " endif
-Plug 'FelikZ/ctrlp-py-matcher'
+" Plug 'FelikZ/ctrlp-py-matcher'
 
 Plug 'mbbill/undotree', {'on': ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']}
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpen']}

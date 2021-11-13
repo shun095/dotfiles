@@ -13,7 +13,9 @@ function! mymisc#config#ctrlp#setup() abort
 
   let g:ctrlp_types = ['fil', 'buf']
 
-  if mymisc#plug_tap('cpsm') " ========== For cpsm
+  if mymisc#plug_tap('ctrlp-matchfuzzy')
+    call add(s:ctrlp_match_funcs, 'ctrlp_matchfuzzy#matcher')
+  elseif mymisc#plug_tap('cpsm') " ========== For cpsm
     " let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
     let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
 
