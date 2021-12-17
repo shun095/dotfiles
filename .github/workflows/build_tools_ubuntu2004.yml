@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Test install.sh buildtools on Ubuntu 20.04
 
 on:
   push:
@@ -14,6 +14,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
+    - name: Test install.sh buildtools
       run: ./install.sh build_tools
 
