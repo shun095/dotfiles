@@ -597,11 +597,11 @@ make_install() {
 
 	current_path=$(pwd)
 
-    ln -s ${current_path}/tools/myconfigure_setup.sh ./myconfigure_setup.sh
     pushd $MYDOTFILES/build
         if [[ ! -e ${script} ]]; then
+            ln -s ${current_path}/tools/myconfigure_setup.sh ./myconfigure_setup.sh
             ln -s ${current_path}/tools/${script} ./$script
-			ls
+            ls -la
         fi
 
         if [[ ! -d $(echo "${repo}" | rev | cut -d'/' -f 1 | rev) ]]; then
