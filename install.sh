@@ -9,8 +9,8 @@ if [ -d "${MYDOTFILES}/.git" ];then
 		echo "Updating dotfiles"
 		git pull
 	popd
-	timeout 900 ${MYDOTFILES}/install-invoke.sh $@
+	${MYDOTFILES}/install-invoke.sh $@
 else
-	timeout 900 bash -c "$(curl -fsSL https://raw.githubusercontent.com/shun095/dotfiles/master/install-invoke.sh)"; \
+	bash -c "$(curl -fsSL https://raw.githubusercontent.com/shun095/dotfiles/master/install-invoke.sh)"; \
 fi
 
