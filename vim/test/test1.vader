@@ -1,0 +1,24 @@
+# Test case
+Given sh (some shell code):
+  #!/bin/bash
+
+Do (complete UltiSnips snippet):
+  A\<Enter>whileread\<TAB>\<Esc>
+
+Expect sh (expand UltiSnips snippet):
+  #!/bin/bash
+  while read line > /dev/null
+  do
+  	echo $line
+  done < input.txt
+
+
+# Test case
+Given sh (some shell code):
+  only_for_test_snippet
+
+Do (complete neosnippet snippet):
+  A\<TAB>\<Esc>
+
+Expect sh (expand neosnippet snippet):
+  only_for_test_snippet_expanded

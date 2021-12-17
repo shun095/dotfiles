@@ -10,7 +10,7 @@ get_num_cpus() {
 
 get_prefix() {
 	local sw_name=$1
-	echo $HOME/build/${sw_name}
+	echo $MYDOTFILES/build/${sw_name}
 }
 
 update_repository() {
