@@ -8,8 +8,10 @@
 
 set -eux
 
-export MYDOTFILES="$HOME/dotfiles"
-export MYDOTFILES_LITERAL='~/dotfiles'
+SCRIPT_DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+export MYDOTFILES="${SCRIPT_DIR}"
+export MYDOTFILES_LITERAL='${SCRIPT_DIR}'
 export MYVIMDIR=$HOME/.vim
 
 if [ ! -z ${ZSH_NAME:-} ];then
@@ -365,7 +367,7 @@ deploy_ohmyzsh_files() {
     fi
 
     # append line if zshrc doesn't has below line
-    append_line 1 "source $MYDOTFILES_LITERAL/zsh/zshrc.zsh" "$HOME/.zshrc"
+    append_line 1 "source $MYDOTFILES/zsh/zshrc.zsh" "$HOME/.zshrc"
     insert_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
 }
 
@@ -395,8 +397,8 @@ deploy_selfmade_rcfiles() {
         \unlink $GVIMRC
     fi
 
-	vimrc_path=$MYDOTFILES_LITERAL/vim/vimrc.vim
-	gvimrc_path=$MYDOTFILES_LITERAL/vim/gvimrc.vim
+	vimrc_path=$MYDOTFILES/vim/vimrc.vim
+	gvimrc_path=$MYDOTFILES/vim/gvimrc.vim
     append_line 1 "source ${vimrc_path}" ${VIMRC}
     append_line 1 "source ${gvimrc_path}" ${GVIMRC}
 }
@@ -490,7 +492,7 @@ install_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ ! -d $MYVIMDIR/plugged ]]; then
-            timeout 300 vim -V9vimlog.log --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugInstall --sync' -c ':qa!'; cat vimlog.log
+            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugInstall --sync' -c ':qa!';
         fi
     fi
     echo "Installed."
@@ -503,8 +505,8 @@ update_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ -d $HOME/.vim/plugged ]]; then
-            timeout 300 vim -V9vimlog.log --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpgrade' -c ':qa!'; cat vimlog.log
-            timeout 300 vim -V9vimlog.log --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpdate --sync' -c ':qa!'; cat vimlog.log
+            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpgrade' -c ':qa!';
+            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpdate --sync' -c ':qa!';
             # $MYDOTFILES/tools/update_vimplugin_repos.sh
         fi
     fi

@@ -1,0 +1,6 @@
+Execute (Trigger loading VimEnter):
+  if has('vim_starting')
+    doautocmd VimEnter
+  endif
+
+Include: test1.vader

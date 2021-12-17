@@ -4,7 +4,7 @@
 #
 # Distributed under terms of the MIT license.
 #
-set -eu
+set -eux
 
 ## CONFIG
 SOFTWARE_NAME="vim"
@@ -53,3 +53,10 @@ fi
 
 make -j${_NUM_PARALLEL}
 make install
+
+echo "STARTING VADER TEST"
+export VADER_OUTPUT_FILE=./test_result.log
+timeout 60 ${_PREFIX}/bin/vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
+echo "VADER TEST RESULT"
+cat ${VADER_OUTPUT_FILE}
+

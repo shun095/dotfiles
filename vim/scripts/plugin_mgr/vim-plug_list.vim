@@ -65,7 +65,7 @@ if s:has_python3 || s:has_python
 endif
 Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
-" Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'thomasfaingnaert/vim-lsp-ultisnips'
@@ -102,8 +102,8 @@ Plug 'Shougo/neco-vim' " for vimscript
 Plug 'freitass/todo.txt-vim'
 
 " Snippets, templates
-" Plug 'Shougo/neosnippet.vim'
-" Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 if s:has_python3 || s:has_python
   Plug 'SirVer/ultisnips'
 endif
@@ -231,6 +231,7 @@ endif
 Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'haya14busa/vim-migemo'
+Plug 'junegunn/vader.vim'
 
 Plug 'shun095/revimses'
 
