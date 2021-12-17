@@ -5,7 +5,7 @@
 #
 # Distributed under terms of the MIT license.
 
-set -eu
+set -eux
 
 export MYDOTFILES="$HOME/dotfiles"
 export MYDOTFILES_LITERAL='~/dotfiles'
@@ -762,6 +762,8 @@ if [[ ${arg} != "debug" ]]; then
     backup
     ${arg}
 fi
+
+set +x
 
 echo -e "\nDone.\n"
 # vim: set sw=4 sts=4 et
