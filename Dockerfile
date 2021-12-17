@@ -4,7 +4,7 @@ FROM ubuntu
 COPY . /root/dotfiles
 
 RUN apt-get update \
-    && apt-get install -y curl lsb-release \
+    && apt-get install -y curl lsb-release git \
     && if [ -f $HOME/dotfiles/install.sh ]; then \
         $HOME/dotfiles/install.sh; \
     else \
