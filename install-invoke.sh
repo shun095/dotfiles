@@ -515,14 +515,16 @@ install_deps() {
         sudo="sudo "
     fi
 
-    if type brew > /dev/null 2>&1; then
+	if [[ $OSTYPE == 'darwin'* ]]; then
         brew update
         brew upgrade
-        brew install ${deps} zxcvzxcv
-    elif type apt-get > /dev/null 2>&1; then
+        brew install ${deps}
+	elif [[ $(lsb_release -rs) == "18.04" ]]; then
         ${sudo} apt-get update
         ${sudo} apt-get upgrade -y
-        ${sudo} apt-get install -y ${deps} zxcvzxcv
+        ${sudo} apt-get install -y ${deps}
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+        # Do nothing on Windows Git Bash
     elif type yum > /dev/null 2>&1; then
         ${sudo} yum update
         if ${sudo} yum list installed git2u >/dev/null 2>&1; then
