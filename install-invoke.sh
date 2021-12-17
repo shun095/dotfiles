@@ -597,6 +597,7 @@ make_install() {
 
 	current_path=$(pwd)
 
+    ln -s ${current_path}/tools/myconfigure_setup.sh ./myconfigure_setup.sh
     pushd $MYDOTFILES/build
         if [[ ! -e ${script} ]]; then
             ln -s ${current_path}/tools/${script} ./$script
