@@ -56,7 +56,7 @@ make install
 
 
 export VADER_OUTPUT_FILE=./test_result.log
-${_PREFIX}/bin/vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
+timeout 60 ${_PREFIX}/bin/vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
 echo "VADER TEST RESULT"
 cat ${VADER_OUTPUT_FILE}
 
