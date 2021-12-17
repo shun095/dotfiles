@@ -469,6 +469,14 @@ install_essential_dependencies() {
         fi
     fi
 
+
+	if [[ $OSTYPE == 'darwin'* ]]; then
+		if !(type gtimeout > /dev/null 2>&1); then
+			deps="${deps} coreutils"
+			alias timeout="gtimeout"
+		fi
+	fi
+
     install_deps "essential softwares" "${deps}"
 
     clone_dotfiles_repository
@@ -481,7 +489,7 @@ install_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ ! -d $MYVIMDIR/plugged ]]; then
-            timeout 120 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugInstall --sync' -c ':qa!'
+            timeout 180 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugInstall --sync' -c ':qa!'
         fi
     fi
     echo "Installed."
@@ -494,8 +502,8 @@ update_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ -d $HOME/.vim/plugged ]]; then
-            timeout 120 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpgrade' -c ':qa!'
-            timeout 120 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpdate --sync' -c ':qa!'
+            timeout 180 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpgrade' -c ':qa!'
+            timeout 180 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpdate --sync' -c ':qa!'
             # $MYDOTFILES/tools/update_vimplugin_repos.sh
         fi
     fi
