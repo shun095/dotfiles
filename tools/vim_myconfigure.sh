@@ -44,8 +44,7 @@ else
 		--enable-fontset \
 		--enable-multibyte \
 		--enable-gui=auto \
-		--enable-luainterp=dynamic \
-		--with-luajit \
+		--enable-luainterp=no \
 		--enable-python3interp=dynamic \
 		--with-python3-command=python3 \
 		--enable-autoservername \
