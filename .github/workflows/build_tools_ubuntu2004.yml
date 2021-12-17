@@ -15,5 +15,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Test install.sh buildtools
-      run: ./install.sh build_tools
+      run: ./install.sh buildtools
 
