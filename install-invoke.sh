@@ -597,7 +597,8 @@ make_install() {
 
     pushd $HOME/programs
         if [[ ! -e ${script} ]]; then
-            ln -s $MYDOTFILES/tools/${script}
+            ln -s $MYDOTFILES/tools/${script} ./$script
+			ls
         fi
 
         if [[ ! -d $(echo "${repo}" | rev | cut -d'/' -f 1 | rev) ]]; then
