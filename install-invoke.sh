@@ -598,8 +598,10 @@ make_install() {
 	current_path=$(pwd)
 
     pushd $MYDOTFILES/build
-        if [[ ! -e ${script} ]]; then
+        if [[ ! -e ./myconfigure_setup.sh ]]; then
             ln -s ${current_path}/tools/myconfigure_setup.sh ./myconfigure_setup.sh
+        fi
+        if [[ ! -e ${script} ]]; then
             ln -s ${current_path}/tools/${script} ./$script
             ls -la
         fi
@@ -770,4 +772,4 @@ fi
 set +x
 
 echo -e "\nDone.\n"
-# vim: set sw=4 sts=4 et
+# vim: set sw=4 sts=4 et :
