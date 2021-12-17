@@ -7,7 +7,8 @@
 
 set -eu
 
-export MYDOTFILES=$HOME/dotfiles
+export MYDOTFILES="$HOME/dotfiles"
+export MYDOTFILES_LITERAL='~/dotfiles'
 export MYVIMDIR=$HOME/.vim
 
 if [ ! -z ${ZSH_NAME:-} ];then
@@ -207,6 +208,11 @@ remove_rcfiles() {
     delete_line 1 "source $MYDOTFILES/zsh/zshrc.zsh" "$HOME/.zshrc"
     delete_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
 
+	vimrc_path=$MYDOTFILES/vim/vimrc.vim
+	gvimrc_path=$MYDOTFILES/vim/gvimrc.vim
+    delete_line 1 "source ${vimrc_path}" ${VIMRC}
+    delete_line 1 "source ${gvimrc_path}" ${GVIMRC}
+
     for item in ${SYMLINKS[@]}; do
         remove_rcfiles_symlink $item
     done
@@ -358,7 +364,7 @@ deploy_ohmyzsh_files() {
     fi
 
     # append line if zshrc doesn't has below line
-    append_line 1 "source $MYDOTFILES/zsh/zshrc.zsh" "$HOME/.zshrc"
+    append_line 1 "source $MYDOTFILES_LITERAL/zsh/zshrc.zsh" "$HOME/.zshrc"
     insert_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
 }
 
@@ -371,9 +377,9 @@ deploy_selfmade_rcfiles() {
             mkdir -p $(dirname ${SYMTARGET[${i}]})
             touch ${SYMTARGET[${i}]}
             mkdir -p $(dirname ${SYMLINKS[${i}]})
-            ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
-            echo "Made link: ${SYMLINKS[${i}]}"
+            echo "Making link: ${SYMLINKS[${i}]}"
             echo "           --> ${SYMTARGET[${i}]}"
+            ln -s ${SYMTARGET[${i}]} ${SYMLINKS[${i}]}
         else
             echo "${SYMLINKS[${i}]} already exists!!"
         fi
@@ -388,13 +394,8 @@ deploy_selfmade_rcfiles() {
         \unlink $GVIMRC
     fi
 
-    if type cygpath > /dev/null 2>&1; then
-        vimrc_path=$(cygpath -w $MYDOTFILES/vi/vimrc.vim)
-        gvimrc_path=$(cygpath -w $MYDOTFILES/vi/gvimrc.vim)
-    else
-        vimrc_path=$MYDOTFILES/vi/vimrc.vim
-        gvimrc_path=$MYDOTFILES/vi/gvimrc.vim
-    fi
+	vimrc_path=$MYDOTFILES_LITERAL/vim/vimrc.vim
+	gvimrc_path=$MYDOTFILES_LITERAL/vim/gvimrc.vim
     append_line 1 "source ${vimrc_path}" ${VIMRC}
     append_line 1 "source ${gvimrc_path}" ${GVIMRC}
 }
@@ -480,7 +481,7 @@ install_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ ! -d $MYVIMDIR/plugged ]]; then
-            vim --not-a-term --cmd 'set shortmess=a cmdheight=2' -c ':PlugInstall --sync' -c ':qa!'
+            timeout 120 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugInstall --sync' -c ':qa!'
         fi
     fi
     echo "Installed."
@@ -493,8 +494,8 @@ update_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ -d $HOME/.vim/plugged ]]; then
-            vim --not-a-term --cmd 'set shortmess=a cmdheight=5' -c ':PlugUpgrade' -c ':qa!'
-            vim --not-a-term --cmd 'set shortmess=a cmdheight=5' -c ':PlugUpdate --sync' -c ':qa!'
+            timeout 120 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpgrade' -c ':qa!'
+            timeout 120 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpdate --sync' -c ':qa!'
             # $MYDOTFILES/tools/update_vimplugin_repos.sh
         fi
     fi
@@ -529,7 +530,7 @@ install_deps() {
         ${sudo} apt-get update
         ${sudo} apt-get upgrade -y
         ${sudo} apt-get install -y ${deps}
-    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+    elif type cygpath > /dev/null 2>&1; then
         # Do nothing on Windows Git Bash
         :
     elif type yum > /dev/null 2>&1; then

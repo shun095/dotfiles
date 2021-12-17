@@ -3,16 +3,6 @@
 
 if !1 | finish | endif
 
-set encoding=utf-8
-
-" try
-"   language ja_JP.UTF-8
-" catch
-"   language C
-" endtry
-
-set spelllang=en_us
-
 scriptencoding utf-8
 
 let g:true = 1
@@ -21,6 +11,9 @@ let g:false = 0
 let g:msgs_on_startup = []
 
 try
+
+  set encoding=utf-8
+  set spelllang=en_us
 
   if !exists('$MYDOTFILES')
     let $MYDOTFILES = $HOME . '/dotfiles'
@@ -32,7 +25,9 @@ try
   if !exists('g:use_plugins')
     let g:use_plugins = g:true
   endif
-
+  if !exists('g:is_test')
+    let g:is_test = g:false
+  endif
 
   " Force to use python3
   if has("python3")
@@ -959,6 +954,9 @@ try
 catch
   call add(g:msgs_on_startup, 'Error in vimrc!')
   call add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
+  if g:is_test
+    cq!
+  endif
 finally
   augroup VIMRC
     for s:msg in g:msgs_on_startup
