@@ -124,6 +124,12 @@ if [[ ! $TERM = "linux" ]]; then
     alias tmux=_zshrc_custom_tmux
 fi
 
+
+if [ $(uname) = "Darwin" ]; then
+    alias excel='open -n /Applications/Microsoft\ Excel.app'
+fi
+
+
 # source oh-my-zsh config
 source $MYDOTFILES/zsh/ohmyzshrc.zsh
 
