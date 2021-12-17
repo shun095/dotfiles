@@ -367,7 +367,7 @@ deploy_ohmyzsh_files() {
     fi
 
     # append line if zshrc doesn't has below line
-    append_line 1 "source $MYDOTFILES_LITERAL/zsh/zshrc.zsh" "$HOME/.zshrc"
+    append_line 1 "source $MYDOTFILES/zsh/zshrc.zsh" "$HOME/.zshrc"
     insert_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
 }
 
@@ -397,8 +397,8 @@ deploy_selfmade_rcfiles() {
         \unlink $GVIMRC
     fi
 
-	vimrc_path=$MYDOTFILES_LITERAL/vim/vimrc.vim
-	gvimrc_path=$MYDOTFILES_LITERAL/vim/gvimrc.vim
+	vimrc_path=$MYDOTFILES/vim/vimrc.vim
+	gvimrc_path=$MYDOTFILES/vim/gvimrc.vim
     append_line 1 "source ${vimrc_path}" ${VIMRC}
     append_line 1 "source ${gvimrc_path}" ${GVIMRC}
 }
