@@ -525,6 +525,7 @@ install_deps() {
         ${sudo} apt-get install -y ${deps}
     elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
         # Do nothing on Windows Git Bash
+        :
     elif type yum > /dev/null 2>&1; then
         ${sudo} yum update
         if ${sudo} yum list installed git2u >/dev/null 2>&1; then
@@ -748,3 +749,4 @@ if [[ ${arg} != "debug" ]]; then
 fi
 
 echo -e "\nDone.\n"
+# vim: set sw=4 sts=4 et
