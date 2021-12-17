@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# vim: sw=4 sts=4 et :
 #
 # install.sh
 # Copyright (C) 2018 ishitaku5522
@@ -538,6 +539,10 @@ install_deps() {
         ${sudo} apt-get update
         ${sudo} apt-get upgrade -y
         ${sudo} apt-get install -y ${deps}
+	elif [[ $(lsb_release -rs) == "20.04" ]]; then
+        ${sudo} apt-get update
+        ${sudo} apt-get upgrade -y
+        ${sudo} apt-get install -y ${deps}
     elif type cygpath > /dev/null 2>&1; then
         # Do nothing on Windows Git Bash
         :
@@ -556,10 +561,18 @@ install_deps() {
 build_vim_install_deps() {
     local deps=""
     local tmp_deps=""
-    if type apt-get > /dev/null 2>&1; then
+    if [[ $OSTYPE == 'darwin'* ]]; then
+        tmp_deps='lua'
+    elif [[ $(lsb_release -rs) == "18.04" ]]; then
         tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
-        for package in ${tmp_deps}
-        do
+        for package in ${tmp_deps}; do
+            if ! dpkg -s ${package} > /dev/null 2>&1; then
+                deps="${deps} ${package}"
+            fi
+        done
+	elif [[ $(lsb_release -rs) == "20.04" ]]; then
+        tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
+        for package in ${tmp_deps}; do
             if ! dpkg -s ${package} > /dev/null 2>&1; then
                 deps="${deps} ${package}"
             fi
@@ -772,4 +785,3 @@ fi
 set +x
 
 echo -e "\nDone.\n"
-# vim: set sw=4 sts=4 et :

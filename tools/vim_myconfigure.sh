@@ -29,9 +29,7 @@ if [ "$(uname)" = 'Darwin'  ]; then
 		--enable-fontset \
 		--enable-multibyte \
 		--enable-gui=auto \
-		--with-lua-prefix=/usr/local/ \
-		--enable-luainterp=dynamic \
-		--with-luajit \
+		--enable-luainterp=no \
 		--enable-python3interp=yes \
 		--with-python3-command=python3 \
 		--enable-autoservername \
@@ -44,7 +42,8 @@ else
 		--enable-fontset \
 		--enable-multibyte \
 		--enable-gui=auto \
-		--enable-luainterp=no \
+		--enable-luainterp=dynamic \
+		--with-luajit \
 		--enable-python3interp=dynamic \
 		--with-python3-command=python3 \
 		--enable-autoservername \
