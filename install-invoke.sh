@@ -492,7 +492,7 @@ install_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ ! -d $MYVIMDIR/plugged ]]; then
-            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugInstall --sync' -c ':qa!'; cat vimlog.log
+            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugInstall --sync' -c ':qa!';
         fi
     fi
     echo "Installed."
@@ -505,8 +505,8 @@ update_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ -d $HOME/.vim/plugged ]]; then
-            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpgrade' -c ':qa!'; cat vimlog.log
-            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpdate --sync' -c ':qa!'; cat vimlog.log
+            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpgrade' -c ':qa!';
+            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpdate --sync' -c ':qa!';
             # $MYDOTFILES/tools/update_vimplugin_repos.sh
         fi
     fi
