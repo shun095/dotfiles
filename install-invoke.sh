@@ -518,11 +518,11 @@ install_deps() {
     if type brew > /dev/null 2>&1; then
         brew update
         brew upgrade
-        brew install ${deps}
+        brew install ${deps} zxcvzxcv
     elif type apt-get > /dev/null 2>&1; then
         ${sudo} apt-get update
         ${sudo} apt-get upgrade -y
-        ${sudo} apt-get install -y ${deps}
+        ${sudo} apt-get install -y ${deps} zxcvzxcv
     elif type yum > /dev/null 2>&1; then
         ${sudo} yum update
         if ${sudo} yum list installed git2u >/dev/null 2>&1; then
