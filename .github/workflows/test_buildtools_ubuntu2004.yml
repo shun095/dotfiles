@@ -1,4 +1,4 @@
-name: Test install.sh buildtools on Ubuntu 18.04
+name: Test buildtools on Ubuntu 20.04
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
 
   build:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2

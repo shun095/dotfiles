@@ -12,28 +12,33 @@ fi
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
 
+# golang
 export GOPATH=$HOME/.gopath
 export PATH="$HOME/build/go/bin:/usr/local/go/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 
+# ruby
 export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
 
+# node js
 export PATH="$HOME/build/node/bin:$PATH"
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
-
-export PATH="$HOME/build/emacs/bin:$PATH"
-export PATH="$HOME/build/tig/bin:$PATH"
-export PATH="$HOME/build/tmux/bin:$PATH"
-export PATH="$HOME/build/ctags/bin:$PATH"
-export PATH="$HOME/Applications/MacVim.app/Contents/bin/:$PATH"
-export PATH="$HOME/build/nvim-qt/bin:$PATH"
-export PATH="$HOME/build/nvim/bin:$PATH"
-export PATH="$HOME/build/vim/bin:$PATH"
 
 export USE_CCACHE=1
 
 # GENERAL
 export MYDOTFILES=$HOME/dotfiles
+
+# tools
+export PATH="$HOME/Applications/MacVim.app/Contents/bin/:$PATH"
+export PATH="$MYDOTFILES/build/emacs/bin:$PATH"
+export PATH="$MYDOTFILES/build/tig/bin:$PATH"
+export PATH="$MYDOTFILES/build/tmux/bin:$PATH"
+export PATH="$MYDOTFILES/build/ctags/bin:$PATH"
+export PATH="$MYDOTFILES/build/nvim-qt/bin:$PATH"
+export PATH="$MYDOTFILES/build/nvim/bin:$PATH"
+export PATH="$MYDOTFILES/build/vim/bin:$PATH"
+
 export FPATH="$MYDOTFILES/zsh/completions:$FPATH"
 
 # Custom Completions

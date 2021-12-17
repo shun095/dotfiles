@@ -1,4 +1,4 @@
-name: Test install.sh buildtools on Mac OS
+name: Test install on Windows
 
 on:
   push:
@@ -10,9 +10,10 @@ jobs:
 
   build:
 
-    runs-on: macos-11
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Test install.sh buildtools
-      run: ./install-invoke.sh buildtools
+      shell: cmd
+      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh"'

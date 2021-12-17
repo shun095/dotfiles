@@ -591,13 +591,15 @@ make_install() {
     local script=$1
     local repo=$2
 
-    if [[ ! -d $HOME/programs ]]; then
-        mkdir -p $HOME/programs
+    if [[ ! -d $MYDOTFILES/build ]]; then
+        mkdir -p $MYDOTFILES/build
     fi
 
-    pushd $HOME/programs
+	current_path=$(pwd)
+
+    pushd $MYDOTFILES/build
         if [[ ! -e ${script} ]]; then
-            ln -s $MYDOTFILES/tools/${script} ./$script
+            ln -s ${current_path}/tools/${script} ./$script
 			ls
         fi
 
@@ -643,12 +645,12 @@ build_tmux(){
 }
 
 uninstall_built_tools(){
-    \unlink $HOME/programs/vim_myconfigure.sh
-    \rm -rf $HOME/programs/vim
+    \unlink $MYDOTFILES/build/vim_myconfigure.sh
+    \rm -rf $MYDOTFILES/build/vim
     \rm -rf $HOME/build/vim
 
-    \unlink $HOME/programs/tmux_myconfigure.sh
-    \rm -rf $HOME/programs/tmux
+    \unlink $MYDOTFILES/build/tmux_myconfigure.sh
+    \rm -rf $MYDOTFILES/build/tmux
     \rm -rf $HOME/build/tmux
 }
 
