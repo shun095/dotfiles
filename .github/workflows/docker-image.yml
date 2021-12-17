@@ -15,5 +15,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: bash -c "./trial.sh"
+      run: docker build -f Dockerfile -t shun095_dotfiles .
 
