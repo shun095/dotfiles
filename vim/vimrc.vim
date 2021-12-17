@@ -27,6 +27,7 @@ try
   endif
 
   let $MYVIMHOME = $MYDOTFILES . '/vim'
+  let $MYVIMRUNTIME = $HOME . '/.vim'
 
   if !exists('g:use_plugins')
     let g:use_plugins = g:true
@@ -237,6 +238,7 @@ try
 
   augroup vimrc_status_vars
     autocmd!
+    " 移植するか要検討
     autocmd CursorHold,CursorHoldI * call mymisc#set_statusline_vars()
   augroup END
 

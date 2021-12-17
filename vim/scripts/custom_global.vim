@@ -86,16 +86,22 @@ endfunction
 function! s:my_tab_main() abort
   if pumvisible()
     return "\<C-n>"
+  elseif mymisc#plug_tap('vim-vsnip') && vsnip#available(1)
+    return "\<Plug>(vsnip-expand-or-jump)"
   elseif mymisc#plug_tap('neosnippet.vim') && neosnippet#expandable_or_jumpable()
     return "\<Plug>(neosnippet_expand_or_jump)"
   else
-    return "\<C-r>=".s:SID()."try_ultisnips_expand() ? \"\" : ".s:SID()."my_tab_noulti() \<CR>"
+    return "\<C-r>=".s:SID()."try_ultisnips_expand() ? \"\" : ".s:SID()."my_tab_noulti()\<CR>"
   endif
 endfunction
 
 function! s:try_ultisnips_expand()
-  call UltiSnips#ExpandSnippetOrJump()
-  return g:ulti_expand_or_jump_res
+  if exists("*UltiSnips#ExpandSnippetOrJump")
+    call UltiSnips#ExpandSnippetOrJump()
+    return g:ulti_expand_or_jump_res
+  else
+    return ""
+  endif
 endfunction
 
 function! s:my_tab_noulti() abort

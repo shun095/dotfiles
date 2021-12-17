@@ -8,6 +8,7 @@
 set -eu
 
 export MYDOTFILES=$HOME/dotfiles
+export MYVIMDIR=$HOME/.vim
 
 if [ ! -z ${ZSH_NAME:-} ];then
     setopt localoptions ksharrays
@@ -472,7 +473,7 @@ install_vim_plugins() {
     export PATH=$PATH:$HOME/build/vim/bin
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
-        if [[ ! -d $HOME/.vim/plugged ]]; then
+        if [[ ! -d $MYVIMDIR/plugged ]]; then
             vim --not-a-term --cmd 'set shortmess=a cmdheight=2' -c ':PlugInstall --sync' -c ':qa!'
         fi
     fi
