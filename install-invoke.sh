@@ -492,6 +492,10 @@ install_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ ! -d $MYVIMDIR/plugged ]]; then
+            if [[ -d $MYDOTFILES/build/vim ]]; then
+                export PATH=$MYDOTFILES/build/vim/bin/:$PATH
+            fi
+            vim --version
             timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugInstall --sync' -c ':qa!';
         fi
     fi
@@ -505,6 +509,10 @@ update_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ -d $HOME/.vim/plugged ]]; then
+            if [[ -d $MYDOTFILES/build/vim ]]; then
+                export PATH=$MYDOTFILES/build/vim/bin/:$PATH
+            fi
+            vim --version
             timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpgrade' -c ':qa!';
             timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpdate --sync' -c ':qa!';
             # $MYDOTFILES/tools/update_vimplugin_repos.sh
@@ -743,6 +751,14 @@ reinstall() {
     install
 }
 
+runtest() {
+    echo "STARTING VADER TEST"
+    export VADER_OUTPUT_FILE=./test_result.log
+    timeout 60 ${MYDOTFILES}/build/vim/bin/vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
+    echo "VADER TEST RESULT"
+    cat ${VADER_OUTPUT_FILE}
+}
+
 check_arguments() {
     case $1 in
         --help)
@@ -757,6 +773,7 @@ check_arguments() {
         uninstall) ;;
         debug)     ;;
         buildtools)     ;;
+        runtest) ;;
         *)
             echo "Unknown argument: ${arg}"
             help
