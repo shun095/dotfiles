@@ -6,7 +6,7 @@ COPY . /root/dotfiles
 RUN apt-get update \
     && apt-get install -y locales \
     && locale-gen ja_JP.UTF-8 \
-    && export LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8 
+    && export LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8 \
     && apt-get install -y curl lsb-release git \
     && if [ -f $HOME/dotfiles/install.sh ]; then \
         $HOME/dotfiles/install.sh; \
