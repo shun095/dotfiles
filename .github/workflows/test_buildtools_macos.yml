@@ -1,4 +1,4 @@
-name: Test install.sh buildtools on Ubuntu 18.04
+name: Test buildtools on Mac OS
 
 on:
   push:
@@ -10,9 +10,9 @@ jobs:
 
   build:
 
-    runs-on: ubuntu-18.04
+    runs-on: macos-11
 
     steps:
     - uses: actions/checkout@v2
     - name: Test install.sh buildtools
-      run: ./install.sh buildtools
+      run: ./install-invoke.sh buildtools

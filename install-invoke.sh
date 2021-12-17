@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
+# vim: sw=4 sts=4 et :
 #
 # install.sh
 # Copyright (C) 2018 ishitaku5522
 #
 # Distributed under terms of the MIT license.
 
-set -eu
+set -eux
 
 export MYDOTFILES="$HOME/dotfiles"
 export MYDOTFILES_LITERAL='~/dotfiles'
@@ -489,7 +490,7 @@ install_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ ! -d $MYVIMDIR/plugged ]]; then
-            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugInstall --sync' -c ':qa!'
+            timeout 300 vim -V9vimlog.log --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugInstall --sync' -c ':qa!'; cat vimlog.log
         fi
     fi
     echo "Installed."
@@ -502,8 +503,8 @@ update_vim_plugins() {
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ -d $HOME/.vim/plugged ]]; then
-            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpgrade' -c ':qa!'
-            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpdate --sync' -c ':qa!'
+            timeout 300 vim -V9vimlog.log --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpgrade' -c ':qa!'; cat vimlog.log
+            timeout 300 vim -V9vimlog.log --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpdate --sync' -c ':qa!'; cat vimlog.log
             # $MYDOTFILES/tools/update_vimplugin_repos.sh
         fi
     fi
@@ -538,6 +539,10 @@ install_deps() {
         ${sudo} apt-get update
         ${sudo} apt-get upgrade -y
         ${sudo} apt-get install -y ${deps}
+	elif [[ $(lsb_release -rs) == "20.04" ]]; then
+        ${sudo} apt-get update
+        ${sudo} apt-get upgrade -y
+        ${sudo} apt-get install -y ${deps}
     elif type cygpath > /dev/null 2>&1; then
         # Do nothing on Windows Git Bash
         :
@@ -556,10 +561,18 @@ install_deps() {
 build_vim_install_deps() {
     local deps=""
     local tmp_deps=""
-    if type apt-get > /dev/null 2>&1; then
+    if [[ $OSTYPE == 'darwin'* ]]; then
+        deps='lua automake'
+    elif [[ $(lsb_release -rs) == "18.04" ]]; then
         tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
-        for package in ${tmp_deps}
-        do
+        for package in ${tmp_deps}; do
+            if ! dpkg -s ${package} > /dev/null 2>&1; then
+                deps="${deps} ${package}"
+            fi
+        done
+	elif [[ $(lsb_release -rs) == "20.04" ]]; then
+        tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
+        for package in ${tmp_deps}; do
             if ! dpkg -s ${package} > /dev/null 2>&1; then
                 deps="${deps} ${package}"
             fi
@@ -591,13 +604,19 @@ make_install() {
     local script=$1
     local repo=$2
 
-    if [[ ! -d $HOME/programs ]]; then
-        mkdir -p $HOME/programs
+    if [[ ! -d $MYDOTFILES/build ]]; then
+        mkdir -p $MYDOTFILES/build
     fi
 
-    pushd $HOME/programs
+	current_path=$(pwd)
+
+    pushd $MYDOTFILES/build
+        if [[ ! -e ./myconfigure_setup.sh ]]; then
+            ln -s ${current_path}/tools/myconfigure_setup.sh ./myconfigure_setup.sh
+        fi
         if [[ ! -e ${script} ]]; then
-            ln -s $MYDOTFILES/tools/${script}
+            ln -s ${current_path}/tools/${script} ./$script
+            ls -la
         fi
 
         if [[ ! -d $(echo "${repo}" | rev | cut -d'/' -f 1 | rev) ]]; then
@@ -642,12 +661,12 @@ build_tmux(){
 }
 
 uninstall_built_tools(){
-    \unlink $HOME/programs/vim_myconfigure.sh
-    \rm -rf $HOME/programs/vim
+    \unlink $MYDOTFILES/build/vim_myconfigure.sh
+    \rm -rf $MYDOTFILES/build/vim
     \rm -rf $HOME/build/vim
 
-    \unlink $HOME/programs/tmux_myconfigure.sh
-    \rm -rf $HOME/programs/tmux
+    \unlink $MYDOTFILES/build/tmux_myconfigure.sh
+    \rm -rf $MYDOTFILES/build/tmux
     \rm -rf $HOME/build/tmux
 }
 
@@ -763,5 +782,6 @@ if [[ ${arg} != "debug" ]]; then
     ${arg}
 fi
 
+set +x
+
 echo -e "\nDone.\n"
-# vim: set sw=4 sts=4 et

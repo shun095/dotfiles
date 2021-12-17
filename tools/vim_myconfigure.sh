@@ -12,7 +12,7 @@ BRANCH_NAME="master"
 NEEDS_PULL=true
 
 ## COMMON
-. $MYDOTFILES/tools/myconfigure_setup.sh
+. ./myconfigure_setup.sh
 _SCRIPT_DIR=$(cd $(dirname $0);pwd)
 _NUM_PARALLEL=$(get_num_cpus)
 _PREFIX=$(get_prefix $SOFTWARE_NAME)
@@ -29,9 +29,7 @@ if [ "$(uname)" = 'Darwin'  ]; then
 		--enable-fontset \
 		--enable-multibyte \
 		--enable-gui=auto \
-		--with-lua-prefix=/usr/local/ \
-		--enable-luainterp=dynamic \
-		--with-luajit \
+		--enable-luainterp=no \
 		--enable-python3interp=yes \
 		--with-python3-command=python3 \
 		--enable-autoservername \
