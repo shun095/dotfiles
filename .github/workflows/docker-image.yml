@@ -15,5 +15,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: bash -c "$(curl -fsSL https://raw.githubusercontent.com/ishitaku5522/dotfiles/master/trial.sh)"
+      run: bash -c "./trial.sh"
 
