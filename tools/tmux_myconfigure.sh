@@ -12,7 +12,7 @@ BRANCH_NAME="3.2"
 NEEDS_PULL=true
 
 ## COMMON
-. myconfigure_setup.sh
+. ./myconfigure_setup.sh
 _SCRIPT_DIR=$(cd $(dirname $0);pwd)
 _NUM_PARALLEL=$(get_num_cpus)
 _PREFIX=$(get_prefix $SOFTWARE_NAME)
