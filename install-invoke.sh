@@ -27,15 +27,6 @@ TMUXTPMDIR="$TMUXPLUGINSDIR/tpm"
 # symlinks
 ZSHRC="$HOME/.zshrc"
 
-ZSHFILES=(
-    "$HOME/.zshrc"
-    "$HOME/.zlogin"
-    "$HOME/.zlogout"
-    "$HOME/.zpreztorc"
-    "$HOME/.zprofile"
-    "$HOME/.zshenv"
-)
-
 VIMRC="$HOME/.vimrc"
 GVIMRC="$HOME/.gvimrc"
 TMUXCONF="$HOME/.tmux.conf"
@@ -52,8 +43,6 @@ else
 fi
 
 SYMLINKS=(
-    ${VIMRC}
-    ${GVIMRC}
     ${TMUXCONF}
     ${FLAKE8}
     ${VINTRC}
@@ -64,8 +53,6 @@ SYMLINKS=(
 )
 
 SYMTARGET=(
-    "${MYDOTFILES}/vim/vimrc.vim"
-    "${MYDOTFILES}/vim/gvimrc.vim"
     "${MYDOTFILES}/tmux/tmux.conf"
     "${MYDOTFILES}/python/lint/flake8"
     "${MYDOTFILES}/python/lint/vintrc.yml"
@@ -217,10 +204,8 @@ remove_rcfiles_symlink() {
 remove_rcfiles() {
     echo_section "Removeing existing RC files"
 
-    for rcfile in ${ZSHFILES[@]}; do
-        name=$(basename $rcfile)
-        remove_rcfiles_symlink "${ZDOTDIR:-$HOME}/${name}"
-    done
+    delete_line 1 "source $MYDOTFILES/zsh/zshrc.zsh" "$HOME/.zshrc"
+    delete_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
 
     for item in ${SYMLINKS[@]}; do
         remove_rcfiles_symlink $item
@@ -306,6 +291,32 @@ append_line() {
     fi
 }
 
+delete_line() {
+    set -e
+
+    local update line file pat lno
+    update="$1"
+    line="$2"
+    file="$3"
+    pat="${4:-}"
+
+    echo "Update $file:"
+    echo "  - $line"
+    [ -f "$file" ] || touch "$file"
+    if [ $# -lt 4 ]; then
+        lno=$(\grep -nF "$line" "$file" | sed 's/:.*//' | tr '\n' ' ')
+    else
+        lno=$(\grep -nF "$pat" "$file" | sed 's/:.*//' | tr '\n' ' ')
+    fi
+    if [ -n "$lno" ]; then
+        echo "    - Already exists: line #$lno"
+        sed --in-place --follow-symlinks "${lno}d" $file
+        echo "    - Deleted."
+    else
+        echo "    ~ Line is not exists. Skipped."
+    fi
+}
+
 insert_line() {
     set -e
 
@@ -342,25 +353,6 @@ insert_line() {
 deploy_ohmyzsh_files() {
     echo_section "Installing oh my zsh"
 
-    for item in ${ZSHFILES[@]}; do
-        # restore zshfiles backup if exists
-        if [[ -e "${item}.bak0" ]]; then
-            if [[ -e "${item}" ]]; then
-                read -r -p "${item} already exists. Overwrite with ${item}.bak0? [y/N] " response
-                case "$response" in
-                    [yY][eE][sS]|[yY])
-                        echo "Restore backup of ${item}"
-                        cat ${item}.bak0 > ${item}
-                        ;;
-                    *)  ;;
-                esac
-            else
-                echo "Restore backup of ${item}"
-                cat ${item}.bak0 > ${item}
-            fi
-        fi
-    done
-
     if [[ ! -e ${OHMYZSHDIR}/custom/themes/ishitaku.zsh-theme ]]; then
         ln -s $MYDOTFILES/zsh/ishitaku.zsh-theme ${OHMYZSHDIR}/custom/themes/
     fi
@@ -386,6 +378,25 @@ deploy_selfmade_rcfiles() {
             echo "${SYMLINKS[${i}]} already exists!!"
         fi
     done
+
+    if [[ -L $VIMRC ]]; then
+        echo "Removing symlink: $VIMRC"
+        \unlink $VIMRC
+    fi
+    if [[ -L $GVIMRC ]]; then
+        echo "Removing symlink: $GVIMRC"
+        \unlink $GVIMRC
+    fi
+
+    if type cygpath > /dev/null 2>&1; then
+        vimrc_path=$(cygpath -w $MYDOTFILES/vi/vimrc.vim)
+        gvimrc_path=$(cygpath -w $MYDOTFILES/vi/gvimrc.vim)
+    else
+        vimrc_path=$MYDOTFILES/vi/vimrc.vim
+        gvimrc_path=$MYDOTFILES/vi/gvimrc.vim
+    fi
+    append_line 1 "source ${vimrc_path}" ${VIMRC}
+    append_line 1 "source ${gvimrc_path}" ${GVIMRC}
 }
 
 deploy_fzf() {
@@ -399,11 +410,6 @@ deploy_fzf() {
 
 backup() {
     echo_section "Making back up files"
-    for item in ${ZSHFILES[@]}; do
-        if [[ -e $item ]]; then
-            backup_file $item
-        fi
-    done
 
     for item in ${SYMLINKS[@]}; do
         if [[ -e $item ]]; then

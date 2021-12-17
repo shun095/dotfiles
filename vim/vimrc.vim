@@ -168,7 +168,7 @@ try
   set ambiwidth=single                                                         " 全角記号（「→」など）の文字幅 :terminalのためにsingleに設定
   set mouse=a                                                                  " マウスを有効化
   set mousehide                                                                " 入力中にポインタを消すかどうか
-  set mousemodel=popup                                                         " Behavior of right-click
+  set mousemodel=                                                              " Behavior of right-click
   set lazyredraw                                                               " スクロールが間に合わない時などに描画を省略する
   set updatetime=1000                                                          " Wait time until swap file will be written
   set timeout
@@ -340,6 +340,11 @@ try
   inoremap <C-k> <Right><ESC>Da
   inoremap <C-l> <Delete>
   cnoremap <C-@> <C-a>
+
+  if has('mouse')
+    nmap <X1Mouse> <C-o>
+    nmap <X2Mouse> <C-i>
+  endif
 
   if has('gui_running')
     noremap! <M-n> <Down>

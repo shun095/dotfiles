@@ -13,7 +13,10 @@ function! mymisc#config#fern#setup() abort
     IndentLinesDisable
     nnoremap <silent> <buffer> q             :<C-u>close<CR>
     nmap     <silent> <buffer> <CR>          <Plug>(fern-action-open-or-enter)
-    nmap     <silent> <buffer> <2-LeftMouse> <Plug>(fern-action-open-or-enter)
+    nmap     <silent> <buffer> <2-LeftMouse> <Plug>(fern-action-open-or-expand)
+    nmap     <silent> <buffer> <2-RightMouse> <Plug>(fern-action-collapse)
+    nmap     <silent> <buffer> <X2Mouse> <Plug>(fern-action-open-or-enter)
+    nmap     <silent> <buffer> <X1Mouse> <Plug>(fern-action-leave)
     nmap     <silent> <buffer> I             <Plug>(fern-action-hidden:toggle)
     nmap     <silent> <buffer> <C-l>         <Plug>(fern-action-reload:all)
     nmap     <silent> <buffer> o             <Plug>(fern-action-open-or-expand)
