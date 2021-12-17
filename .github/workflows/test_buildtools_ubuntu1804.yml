@@ -1,4 +1,4 @@
-name: Test install.sh on Windows
+name: Test buildtools on Ubuntu 18.04
 
 on:
   push:
@@ -10,10 +10,9 @@ jobs:
 
   build:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v2
     - name: Test install.sh buildtools
-      shell: cmd
-      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install.sh"'
+      run: ./install-invoke.sh buildtools
