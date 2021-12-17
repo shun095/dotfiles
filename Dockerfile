@@ -2,8 +2,11 @@ FROM ubuntu
 
 ### Only for local repository
 COPY . /root/dotfiles
-RUN localedef -i ja_JP -c -f UTF-8 -A /usr/share/locale/locale.alias ja_JP.UTF-8
+
 RUN apt-get update \
+    && apt-get install -y locales \
+    && locale-gen ja_JP.UTF-8 \
+    && export LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
     && apt-get install -y curl lsb-release git \
     && if [ -f $HOME/dotfiles/install.sh ]; then \
         $HOME/dotfiles/install.sh; \
