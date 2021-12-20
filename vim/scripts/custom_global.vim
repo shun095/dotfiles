@@ -21,22 +21,6 @@ if mymisc#plug_tap('neosnippet.vim')
         \   "\<Plug>(RemapUltiSnipsJumpForwardTrigger)"
 endif
 
-function! Myvimrc_toggle_preview_window()
-  if mymisc#preview_window_is_opened()
-    normal z
-  else
-    if mymisc#plug_tap('YouCompleteMe')
-      YcmCompleter GetDoc
-    elseif mymisc#plug_tap('LanguageClient-neovim')
-      call LanguageClient#textDocument_hover()
-    elseif mymisc#plug_tap('vim-lsp')
-      LspHover
-    else
-      normal! K
-    endif
-  endif
-endf
-
 function! s:my_close_pair_function() abort
   if mymisc#plug_tap('auto-pairs')
     return "\<CR>\<C-R>=AutoPairsReturn()\<CR>"

@@ -417,3 +417,19 @@ function! mymisc#mintty_sh(term_name, shell_exe_path, locale_exe_path) abort
         \ })
 endf
 
+function! mymisc#toggle_preview_window()
+  if mymisc#preview_window_is_opened()
+    normal z
+  else
+    if mymisc#plug_tap('YouCompleteMe')
+      YcmCompleter GetDoc
+    elseif mymisc#plug_tap('LanguageClient-neovim')
+      call LanguageClient#textDocument_hover()
+    elseif mymisc#plug_tap('vim-lsp')
+      LspHover
+    else
+      normal! K
+    endif
+  endif
+endf
+
