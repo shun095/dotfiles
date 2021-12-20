@@ -6,7 +6,7 @@
 #
 # Distributed under terms of the MIT license.
 
-set -eux
+set -eu
 
 SCRIPT_DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
@@ -814,7 +814,5 @@ if [[ ${arg} != "debug" ]]; then
     backup
     ${arg}
 fi
-
-set +x
 
 echo -e "\nDone.\n"

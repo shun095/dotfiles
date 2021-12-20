@@ -4,7 +4,7 @@
 #
 # Distributed under terms of the MIT license.
 #
-set -eux
+set -eu
 
 ## CONFIG
 SOFTWARE_NAME="vim"
