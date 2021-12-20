@@ -397,10 +397,24 @@ deploy_selfmade_rcfiles() {
         \unlink $GVIMRC
     fi
 
-	vimrc_path=$MYDOTFILES/vim/vimrc.vim
-	gvimrc_path=$MYDOTFILES/vim/gvimrc.vim
-    append_line 1 "source ${vimrc_path}" ${VIMRC}
-    append_line 1 "source ${gvimrc_path}" ${GVIMRC}
+
+    vimrc_path=$MYDOTFILES/vim/vimrc.vim
+    gvimrc_path=$MYDOTFILES/vim/gvimrc.vim
+
+    if type cygpath > /dev/null 2>&1; then
+        cyg_vimrc_path=$(cygpath -w ${vimrc_path})
+        cyg_gvimrc_path=$(cygpath -w ${gvimrc_path})
+
+        vimrc_line="if !has('win32') | source ${vimrc_path} | else | source ${cyg_vimrc_path} | endif"
+        gvimrc_line="if !has('win32') | source ${gvimrc_path} | else | source ${cyg_gvimrc_path} | endif"
+
+    else
+        vimrc_line="source ${vimrc_path}"
+        gvimrc_line="source ${gvimrc_path}"
+    fi
+
+    append_line 1 "${vimrc_line}" ${VIMRC}
+    append_line 1 "${gvimrc_line}" ${GVIMRC}
 }
 
 deploy_fzf() {
