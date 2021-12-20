@@ -17,3 +17,6 @@ jobs:
     - name: Test install.sh buildtools
       shell: cmd
       run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh"'
+    - name: Test :PlugInstall
+      shell: cmd
+      run: 'vim --not-a-term --cmd "let g:is_test = 1" --cmd "set shortmess=a cmdheight=10" -c ":PlugInstall --sync" -c ":qa!"'
