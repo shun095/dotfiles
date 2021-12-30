@@ -83,7 +83,9 @@ try
       let &t_EI = '[2 q'
     else
       if has('win32')
-        set termguicolors
+        if has('vcon')
+          set termguicolors
+        endif
       else
         if $TERM ==# 'linux'
           set t_Co=16  " Limited colors on terminal
@@ -955,6 +957,7 @@ catch
   call add(g:msgs_on_startup, 'Error in vimrc!')
   call add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
   if g:is_test
+    call writefile(g:msgs_on_startup, $VADER_OUTPUT_FILE)
     cq!
   endif
 finally

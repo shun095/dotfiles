@@ -11,8 +11,13 @@ jobs:
   build:
 
     runs-on: macos-11
+    timeout-minutes: 15
 
     steps:
     - uses: actions/checkout@v2
     - name: Test install.sh buildtools
-      run: ./install-invoke.sh buildtools && ./install-invoke.sh && ./install-invoke.sh runtest
+      run: ./install-invoke.sh buildtools
+    - name: Test install.sh install
+      run: ./install-invoke.sh
+    - name: Test install.sh runtest
+      run: ./install-invoke.sh runtest

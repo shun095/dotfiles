@@ -11,9 +11,16 @@ jobs:
   build:
 
     runs-on: windows-latest
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2
-    - name: Test install.sh buildtools
+    - name: Install vim with chocolatey
+      shell: cmd
+      run: 'choco install vim python3'
+    - name: Test install.sh install
       shell: cmd
       run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh"'
+    - name: Test install.sh runtest
+      shell: cmd
+      run: 'runtest.bat'
