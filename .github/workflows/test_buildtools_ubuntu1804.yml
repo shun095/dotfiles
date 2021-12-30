@@ -11,8 +11,9 @@ jobs:
   build:
 
     runs-on: ubuntu-18.04
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2
     - name: Test install.sh buildtools
-      run: ./install-invoke.sh buildtools && ./install-invoke.sh && ./install-invoke.sh runtest
+      run: ./install-invoke.sh buildtools && ./install-invoke.sh && ./install-invoke.sh update && ./install-invoke.sh runtest

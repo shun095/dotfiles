@@ -11,9 +11,10 @@ jobs:
   build:
 
     runs-on: windows-latest
+    timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2
     - name: Test install.sh buildtools
       shell: cmd
-      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh"'
+      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh && ./install.sh update && ./install.sh runtest"'

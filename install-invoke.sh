@@ -19,8 +19,6 @@ if [ ! -z ${ZSH_NAME:-} ];then
     echo "runnning on zsh"
 fi
 
-#tseoitj aowiejfoajiwe
-
 # directories
 FZFDIR="$HOME/.fzf"
 ZPREZTODIR="${ZDOTDIR:-$HOME}/.zprezto"
@@ -107,6 +105,7 @@ sleep 1
 }
 
 echo_section() {
+    # print section log
     local desc=$1
     local num_desc=${#desc}
     local num_remain=$(tput cols)
@@ -134,38 +133,43 @@ echo_section() {
 update_repositories() {
     echo_section "Upgrading plugin repositories"
 
-    pushd ${MYDOTFILES}
-        git pull
-    popd
+    local old_cwd=$(pwd)
+
+    echo "Upgrading dotfiles repository"
+    git --git-dir=${MYDOTFILES}/.git --work-tree=${MYDOTFILES} pull
+
     echo "Upgrading fzf repository"
-    pushd ${FZFDIR}
-        git pull
-    popd
+    git --git-dir=${FZFDIR}/.git --work-tree=${FZFDIR} pull
+
     echo "Upgrading oh-my-zsh repository"
-    pushd ${OHMYZSHDIR}
-        set +e
-        ./tools/upgrade.sh
-        set -e
-        if [[ ! ($? == 80 || $? == 0) ]];then
-            exit $?
-        fi
-    popd
+    cd ${OHMYZSHDIR}
+    set +e
+    ./tools/upgrade.sh
+    set -e
+
+    # if not newest (80) or upgraded (0), exit as error
+    if [[ ! ($? == 80 || $? == 0) ]];then
+        exit $?
+    fi
+
     echo "Upgrading oh-my-zsh plugins"
-    pushd ${OHMYZSHDIR}/custom/plugins
-        pushd zsh-syntax-highlighting
-            git pull
-        popd
-        pushd zsh-autosuggestions
-            git pull
-        popd
-        pushd zsh-completions
-            git pull
-        popd
-    popd
+    git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-syntax-highlighting/.git \
+        --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-syntax-highlighting/ \
+        pull
+
+    git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-autosuggestions/.git \
+        --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-autosuggestions/ \
+        pull
+
+    git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-completions/.git \
+        --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-completions/ \
+        pull
+
+
     echo "Upgrading tmux tpm repository"
-    pushd ${TMUXTPMDIR}
-        git pull
-    popd
+    git --git-dir=${TMUXTPMDIR}/.git --work-tree=${TMUXTPMDIR} pull
+
+    cd ${old_cwd}
 }
 
 backup_file() {
@@ -211,8 +215,8 @@ remove_rcfiles() {
     delete_line 1 "source $MYDOTFILES/zsh/zshrc.zsh" "$HOME/.zshrc"
     delete_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
 
-	vimrc_path=$MYDOTFILES/vim/vimrc.vim
-	gvimrc_path=$MYDOTFILES/vim/gvimrc.vim
+    vimrc_path=$MYDOTFILES/vim/vimrc.vim
+    gvimrc_path=$MYDOTFILES/vim/gvimrc.vim
     delete_line 1 "source ${vimrc_path}" ${VIMRC}
     delete_line 1 "source ${gvimrc_path}" ${GVIMRC}
 
@@ -243,32 +247,39 @@ git_configulation() {
 }
 
 download_plugin_repositories(){
-    # install fzf
+    local old_cwd=$(pwd)
+
+    # Install fzf
     if [[ ! -e ${FZFDIR} ]]; then
         echo_section "Downloading fzf"
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf &
     fi
 
+    # Install oh-my-zsh
     if [[ ! -e ${OHMYZSHDIR} ]]; then
         echo_section "Downloading oh my zsh"
         git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-        pushd ~/.oh-my-zsh/custom/plugins
-            git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git &
-            git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions &
-            git clone --depth 1 https://github.com/zsh-users/zsh-completions &
-        popd
+
+        cd ~/.oh-my-zsh/custom/plugins
+        git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git &
+        git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions &
+        git clone --depth 1 https://github.com/zsh-users/zsh-completions &
 
         wait
+
+        cd ${old_cwd}
 
         if [[ ! -e ${OHMYZSHDIR}/custom/themes ]]; then
             mkdir -p ${OHMYZSHDIR}/custom/themes
         fi
     fi
 
+    # Install tmux tpm
     if [[ ! -e ${TMUXTPMDIR} ]]; then
         git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
 }
+
 
 append_line() {
     set -e
@@ -487,12 +498,12 @@ install_essential_dependencies() {
     fi
 
 
-	if [[ $OSTYPE == 'darwin'* ]]; then
-		if !(type gtimeout > /dev/null 2>&1); then
-			deps="${deps} coreutils"
-			alias timeout="gtimeout"
-		fi
-	fi
+    # if [[ $OSTYPE == 'darwin'* ]]; then
+    #     if !(type gtimeout > /dev/null 2>&1); then
+    #         deps="${deps} coreutils"
+    #         alias timeout="gtimeout"
+    #     fi
+    # fi
 
     install_deps "essential softwares" "${deps}"
 
@@ -509,8 +520,9 @@ install_vim_plugins() {
             if [[ -d $MYDOTFILES/build/vim ]]; then
                 export PATH=$MYDOTFILES/build/vim/bin/:$PATH
             fi
-            vim --version
-            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugInstall --sync' -c ':qa!';
+            vim --not-a-term --version
+            echo "Running :PlugInstall"
+            vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ' :PlugInstall --sync | :qa '
         fi
     fi
     echo "Installed."
@@ -526,100 +538,99 @@ update_vim_plugins() {
             if [[ -d $MYDOTFILES/build/vim ]]; then
                 export PATH=$MYDOTFILES/build/vim/bin/:$PATH
             fi
-            vim --version
-            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpgrade' -c ':qa!';
-            timeout 300 vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ':PlugUpdate --sync' -c ':qa!';
-            # $MYDOTFILES/tools/update_vimplugin_repos.sh
+            vim --not-a-term --version
+            echo "Running :PlugUpgrade, :PlugUpdate"
+            vim --not-a-term --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' -c ' :PlugUpgrade | :PlugUpdate --sync | :qa '
         fi
     fi
     echo "Updated."
 }
 
 install_deps() {
-    local msg=$1
-    local deps=$2
-    echo_section "Installing dependencies for: ${msg}"
-    local sudo=""
+local msg=$1
+local deps=$2
+echo_section "Installing dependencies for: ${msg}"
+local sudo=""
 
-    if [[ ${deps} = '' ]]; then
-        echo "Nothing to do."
-        return
-    fi
+if [[ ${deps} = '' ]]; then
+    echo "Nothing to do."
+    return
+fi
 
-    echo
-    echo "Packages:"
-    echo "  ${deps}"
-    echo
+echo
+echo "Packages:"
+echo "  ${deps}"
+echo
 
-    if [[ ! $(whoami) = 'root' ]]; then
-        sudo="sudo "
-    fi
+if [[ ! $(whoami) = 'root' ]]; then
+    sudo="sudo "
+fi
 
-	if [[ $OSTYPE == 'darwin'* ]]; then
-        brew update
-        brew upgrade
-        brew install ${deps}
-	elif [[ $(lsb_release -rs) == "18.04" ]]; then
-        ${sudo} apt-get update
-        ${sudo} apt-get upgrade -y
-        ${sudo} apt-get install -y ${deps}
-	elif [[ $(lsb_release -rs) == "20.04" ]]; then
-        ${sudo} apt-get update
-        ${sudo} apt-get upgrade -y
-        ${sudo} apt-get install -y ${deps}
-    elif type cygpath > /dev/null 2>&1; then
-        # Do nothing on Windows Git Bash
+if [[ $OSTYPE == 'darwin'* ]]; then
+    brew update
+    brew upgrade
+    brew install ${deps}
+elif [[ $(lsb_release -rs) == "18.04" ]]; then
+    ${sudo} apt-get update
+    ${sudo} apt-get upgrade -y
+    ${sudo} apt-get install -y ${deps}
+elif [[ $(lsb_release -rs) == "20.04" ]]; then
+    ${sudo} apt-get update
+    ${sudo} apt-get upgrade -y
+    ${sudo} apt-get install -y ${deps}
+elif type cygpath > /dev/null 2>&1; then
+    # Do nothing on Windows Git Bash
+    :
+elif type yum > /dev/null 2>&1; then
+    ${sudo} yum update
+    if ${sudo} yum list installed git2u >/dev/null 2>&1; then
         :
-    elif type yum > /dev/null 2>&1; then
-        ${sudo} yum update
-        if ${sudo} yum list installed git2u >/dev/null 2>&1; then
-            :
-        else
-            ${sudo} yum remove git* -y
-        fi
-        ${sudo} yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
-        ${sudo} yum install -y ${deps} || true
+    else
+        ${sudo} yum remove git* -y
     fi
+    ${sudo} yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
+    ${sudo} yum install -y ${deps} || true
+fi
 }
 
 build_vim_install_deps() {
-    local deps=""
-    local tmp_deps=""
-    if [[ $OSTYPE == 'darwin'* ]]; then
-        deps='lua automake'
-    elif [[ $(lsb_release -rs) == "18.04" ]]; then
-        tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
-        for package in ${tmp_deps}; do
-            if ! dpkg -s ${package} > /dev/null 2>&1; then
-                deps="${deps} ${package}"
-            fi
-        done
-	elif [[ $(lsb_release -rs) == "20.04" ]]; then
-        tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
-        for package in ${tmp_deps}; do
-            if ! dpkg -s ${package} > /dev/null 2>&1; then
-                deps="${deps} ${package}"
-            fi
-        done
-    elif type yum > /dev/null 2>&1; then
-        deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
-    fi
-    install_deps "vim build" "${deps}"
+local deps=""
+local tmp_deps=""
+if [[ $OSTYPE == 'darwin'* ]]; then
+    deps='lua automake'
+elif [[ $(lsb_release -rs) == "18.04" ]]; then
+    tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
+    for package in ${tmp_deps}; do
+        if ! dpkg -s ${package} > /dev/null 2>&1; then
+            deps="${deps} ${package}"
+        fi
+    done
+elif [[ $(lsb_release -rs) == "20.04" ]]; then
+    tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
+    for package in ${tmp_deps}; do
+        if ! dpkg -s ${package} > /dev/null 2>&1; then
+            deps="${deps} ${package}"
+        fi
+    done
+elif type yum > /dev/null 2>&1; then
+    deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
+fi
+install_deps "vim build" "${deps}"
 }
 
 build_tmux_install_deps() {
-    local deps=""
-    local tmp_deps=""
-    if type apt-get > /dev/null 2>&1; then
-        tmp_deps='git automake pkg-config libevent-dev libncurses5-dev libncursesw5-dev bison'
-        for package in ${tmp_deps}
-        do
-            if ! dpkg -s ${package} > /dev/null 2>&1; then
-                deps="${deps} ${package}"
-            fi
-        done
-    elif type yum > /dev/null 2>&1; then
-        deps='git2u automake libevent-devel ncurses-devel make gcc byacc'
+local deps=""
+local tmp_deps=""
+if type apt-get > /dev/null 2>&1; then
+    tmp_deps='git automake pkg-config libevent-dev libncurses5-dev libncursesw5-dev bison'
+    for package in ${tmp_deps}
+    do
+        if ! dpkg -s ${package} > /dev/null 2>&1; then
+            deps="${deps} ${package}"
+        fi
+    done
+elif type yum > /dev/null 2>&1; then
+    deps='git2u automake libevent-devel ncurses-devel make gcc byacc'
     fi
     install_deps "tmux build" "${deps}"
 }
@@ -632,23 +643,23 @@ make_install() {
         mkdir -p $MYDOTFILES/build
     fi
 
-	current_path=$(pwd)
+    current_path=$(pwd)
 
     pushd $MYDOTFILES/build
-        if [[ ! -e ./myconfigure_setup.sh ]]; then
-            ln -s ${current_path}/tools/myconfigure_setup.sh ./myconfigure_setup.sh
-        fi
-        if [[ ! -e ${script} ]]; then
-            ln -s ${current_path}/tools/${script} ./$script
-            ls -la
-        fi
+    if [[ ! -e ./myconfigure_setup.sh ]]; then
+        ln -s ${current_path}/tools/myconfigure_setup.sh ./myconfigure_setup.sh
+    fi
+    if [[ ! -e ${script} ]]; then
+        ln -s ${current_path}/tools/${script} ./$script
+        ls -la
+    fi
 
-        if [[ ! -d $(echo "${repo}" | rev | cut -d'/' -f 1 | rev) ]]; then
-            git clone --depth 1 ${repo}
-        fi
+    if [[ ! -d $(echo "${repo}" | rev | cut -d'/' -f 1 | rev) ]]; then
+        git clone --depth 1 ${repo}
+    fi
 
-        chmod +x ./${script}
-        ./${script}
+    chmod +x ./${script}
+    ./${script}
     popd
 }
 
@@ -768,7 +779,7 @@ reinstall() {
 runtest() {
     echo "STARTING VADER TEST"
     export VADER_OUTPUT_FILE=./test_result.log
-    timeout 60 ${MYDOTFILES}/build/vim/bin/vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
+    ${MYDOTFILES}/build/vim/bin/vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
     echo "VADER TEST RESULT"
     cat ${VADER_OUTPUT_FILE}
 }
