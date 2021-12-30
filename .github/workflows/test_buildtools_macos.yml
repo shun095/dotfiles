@@ -16,4 +16,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Test install.sh buildtools
-      run: ./install-invoke.sh buildtools && ./install-invoke.sh && ./install-invoke.sh update && ./install-invoke.sh runtest
+      run: ./install-invoke.sh buildtools
+    - name: Test install.sh install
+      run: ./install-invoke.sh
+    - name: Test install.sh update
+      run: ./install-invoke.sh update
+    - name: Test install.sh runtest
+      run: ./install-invoke.sh runtest

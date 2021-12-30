@@ -15,6 +15,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Test install.sh buildtools
+    - name: Test install.sh install
       shell: cmd
-      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh && ./install.sh update && ./install.sh runtest"'
+      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh"'
+    - name: Test install.sh update
+      shell: cmd
+      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh update"'
+    - name: Test install.sh runtest
+      shell: cmd
+      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh runtest"'
