@@ -18,9 +18,6 @@ jobs:
     - name: Test install.sh install
       shell: cmd
       run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh"'
-    - name: Test install.sh update
-      shell: cmd
-      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh update"'
     - name: Test install.sh runtest
       shell: cmd
       run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh runtest"'

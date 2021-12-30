@@ -19,7 +19,5 @@ jobs:
       run: ./install-invoke.sh buildtools
     - name: Test install.sh install
       run: ./install-invoke.sh
-    - name: Test install.sh update
-      run: ./install-invoke.sh update
     - name: Test install.sh runtest
       run: ./install-invoke.sh runtest
