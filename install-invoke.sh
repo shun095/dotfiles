@@ -513,8 +513,6 @@ install_essential_dependencies() {
 install_vim_plugins() {
     echo_section "Installing vim plugins"
 
-    export PATH=$PATH:$HOME/build/vim/bin
-
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ ! -d $MYVIMDIR/plugged ]]; then
             if [[ -d $MYDOTFILES/build/vim ]]; then
@@ -530,8 +528,6 @@ install_vim_plugins() {
 
 update_vim_plugins() {
     echo_section "Updating vim plugins"
-
-    export PATH=$PATH:$HOME/build/vim/bin
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
         if [[ -d $HOME/.vim/plugged ]]; then
@@ -779,7 +775,12 @@ reinstall() {
 runtest() {
     echo "STARTING VADER TEST"
     export VADER_OUTPUT_FILE=./test_result.log
-    ${MYDOTFILES}/build/vim/bin/vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
+
+    if [[ -d $MYDOTFILES/build/vim ]]; then
+        export PATH=$MYDOTFILES/build/vim/bin/:$PATH
+    fi
+
+    vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
     echo "VADER TEST RESULT"
     cat ${VADER_OUTPUT_FILE}
 }
