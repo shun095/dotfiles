@@ -83,7 +83,9 @@ try
       let &t_EI = '[2 q'
     else
       if has('win32')
-        set termguicolors
+        if has('vcon')
+          set termguicolors
+        endif
       else
         if $TERM ==# 'linux'
           set t_Co=16  " Limited colors on terminal
