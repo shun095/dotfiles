@@ -955,6 +955,7 @@ catch
   call add(g:msgs_on_startup, 'Error in vimrc!')
   call add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
   if g:is_test
+    call writefile(g:msgs_on_startup, $VADER_OUTPUT_FILE)
     cq!
   endif
 finally
