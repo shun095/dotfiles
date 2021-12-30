@@ -63,7 +63,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 if s:has_python3 || s:has_python
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
-Plug 'prabirshrestha/asyncomplete-file.vim'
+" Plug 'prabirshrestha/asyncomplete-file.vim' " Disabled because when I insert '//' on Windows, vim freezes.
 Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
 Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 Plug 'prabirshrestha/vim-lsp'
