@@ -575,7 +575,8 @@ elif [[ $(lsb_release -rs) == "20.04" ]]; then
     ${sudo} apt-get upgrade -y
     ${sudo} apt-get install -y ${deps}
 elif type cygpath > /dev/null 2>&1; then
-    winget install vim
+    # Do nothing on cygwin
+    :
 elif type yum > /dev/null 2>&1; then
     ${sudo} yum update
     if ${sudo} yum list installed git2u >/dev/null 2>&1; then
