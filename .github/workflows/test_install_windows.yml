@@ -20,4 +20,4 @@ jobs:
       run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh"'
     - name: Test install.sh runtest
       shell: cmd
-      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh runtest"'
+      run: 'set VADER_OUTPUT_FILE=test_result.log && vim --not-a-term --cmd "let g:is_test = 1" --cmd "set shortmess=a cmdheight=10" -c "Vader! "./vim/test/myvimrc.vader"" & type test_result.log'

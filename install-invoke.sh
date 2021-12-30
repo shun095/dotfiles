@@ -575,8 +575,7 @@ elif [[ $(lsb_release -rs) == "20.04" ]]; then
     ${sudo} apt-get upgrade -y
     ${sudo} apt-get install -y ${deps}
 elif type cygpath > /dev/null 2>&1; then
-    # Do nothing on Windows Git Bash
-    :
+    winget install vim
 elif type yum > /dev/null 2>&1; then
     ${sudo} yum update
     if ${sudo} yum list installed git2u >/dev/null 2>&1; then
@@ -773,6 +772,7 @@ reinstall() {
 }
 
 runtest() {
+    set +e
     echo "STARTING VADER TEST"
     export VADER_OUTPUT_FILE=./test_result.log
 
@@ -781,8 +781,13 @@ runtest() {
     fi
 
     vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
+    return_code=$?
+
     echo "VADER TEST RESULT"
     cat ${VADER_OUTPUT_FILE}
+
+    set -e
+    return $return_code
 }
 
 check_arguments() {
