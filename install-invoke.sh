@@ -45,7 +45,6 @@ else
 fi
 
 SYMLINKS=(
-    ${TMUXCONF}
     ${FLAKE8}
     ${VINTRC}
     ${EMACSINIT}
@@ -55,7 +54,6 @@ SYMLINKS=(
 )
 
 SYMTARGET=(
-    "${MYDOTFILES}/tmux/tmux.conf"
     "${MYDOTFILES}/python/lint/flake8"
     "${MYDOTFILES}/python/lint/vintrc.yml"
     "${MYDOTFILES}/emacs/spacemacs"
@@ -407,7 +405,10 @@ deploy_selfmade_rcfiles() {
         echo "Removing symlink: $GVIMRC"
         \unlink $GVIMRC
     fi
-
+    if [[ -L $TMUXCONF ]]; then
+        echo "Removing symlink: $TMUXCONF"
+        \unlink $TMUXCONF
+    fi
 
     vimrc_path=$MYDOTFILES/vim/vimrc.vim
     gvimrc_path=$MYDOTFILES/vim/gvimrc.vim
@@ -419,10 +420,13 @@ deploy_selfmade_rcfiles() {
         vimrc_line="if !has('win32') | source ${vimrc_path} | else | source ${cyg_vimrc_path} | endif"
         gvimrc_line="if !has('win32') | source ${gvimrc_path} | else | source ${cyg_gvimrc_path} | endif"
 
+        tmux_conf_line=$MYDOTFILES/tmux/windows.tmux.conf
     else
         vimrc_line="source ${vimrc_path}"
         gvimrc_line="source ${gvimrc_path}"
     fi
+
+
 
     append_line 1 "${vimrc_line}" ${VIMRC}
     append_line 1 "${gvimrc_line}" ${GVIMRC}

@@ -26,7 +26,7 @@ set -g set-titles                   on
 # bind   C-y run       'tmux set-buffer -- "$(xsel -ob)"; tmux paste-buffer'
 # bind   -T copy-mode    MouseDrag1Pane send -X begin-selection
 # unbind -T copy-mode    MouseDragEnd1Pane
-# setw   -g mode-keys    vi
+setw   -g mode-keys    vi
 # bind   [  run          'tmux copy-mode; tmux display "Copy mode"'
 # bind   -T copy-mode-vi Space          send -X begin-selection
 
@@ -35,21 +35,24 @@ set -g set-titles                   on
 # bind   -T copy-mode-vi Enter          send -X copy-pipe-and-cancel 'pbcopy'
 # bind   ]  run          'tmux set-buffer -- "$(pbpaste)"; tmux paste-buffer'
 
-if-shell "uname | grep -q Darwin" \
-"bind -T copy-mode-vi Enter send -X copy-pipe 'pbcopy'" \
-"bind -T copy-mode-vi Enter send -X copy-pipe 'xsel -ip && xsel -op | xsel -ib'"
+bind -T copy-mode-vi     Enter            send -X copy-pipe 'cat | clip.exe'
+bind ]  run              'tmux set-buffer -- "$(powershell.exe Get-Clipboard)"; tmux paste-buffer'
 
-if-shell "uname | grep -q Darwin" \
-"bind ] run 'tmux set-buffer -- \"$(pbpaste)\"; tmux paste-buffer'" \
-"bind ] run 'tmux set-buffer -- \"$(xsel -ob)\"; tmux paste-buffer'"
+# if-shell "uname | grep -q Darwin" \
+# "bind -T copy-mode-vi Enter send -X copy-pipe 'pbcopy'" \
+# "bind -T copy-mode-vi Enter send -X copy-pipe 'xsel -ip && xsel -op | xsel -ib'"
 
-if-shell "uname | grep -q Darwin" \
-"bind -T copy-mode-vi DoubleClick1Pane select-pane \\; send -X select-word \\; run -d 1.0 \\; send -X copy-pipe-and-cancel 'pbcopy'" \
-"bind -T copy-mode-vi DoubleClick1Pane select-pane \\; send -X select-word \\; run -d 1.0 \\; send -X copy-pipe-and-cancel 'xclip -in -sel primary'"
+# if-shell "uname | grep -q Darwin" \
+# "bind ] run 'tmux set-buffer -- \"$(pbpaste)\"; tmux paste-buffer'" \
+# "bind ] run 'tmux set-buffer -- \"$(xsel -ob)\"; tmux paste-buffer'"
 
-if-shell "uname | grep -q Darwin" \
-"bind -n DoubleClick1Pane select-pane \\; copy-mode -M \\; send -X select-word \\; run -d 1.0 \\; send -X copy-pipe-and-cancel 'pbcopy'" \
-"bind -n DoubleClick1Pane select-pane \\; copy-mode -M \\; send -X select-word \\; run -d 1.0 \\; send -X copy-pipe-and-cancel 'xclip -in -sel primary'"
+# if-shell "uname | grep -q Darwin" \
+# "bind -T copy-mode-vi DoubleClick1Pane select-pane \\; send -X select-word \\; run -d 1.0 \\; send -X copy-pipe-and-cancel 'pbcopy'" \
+# "bind -T copy-mode-vi DoubleClick1Pane select-pane \\; send -X select-word \\; run -d 1.0 \\; send -X copy-pipe-and-cancel 'xclip -in -sel primary'"
+
+# if-shell "uname | grep -q Darwin" \
+# "bind -n DoubleClick1Pane select-pane \\; copy-mode -M \\; send -X select-word \\; run -d 1.0 \\; send -X copy-pipe-and-cancel 'pbcopy'" \
+# "bind -n DoubleClick1Pane select-pane \\; copy-mode -M \\; send -X select-word \\; run -d 1.0 \\; send -X copy-pipe-and-cancel 'xclip -in -sel primary'"
 
 # bind   -T copy-mode-vi MouseDrag1Pane send -X begin-selection
 unbind -T copy-mode-vi MouseDragEnd1Pane

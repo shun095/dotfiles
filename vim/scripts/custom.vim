@@ -433,9 +433,9 @@ endif
 
 if mymisc#plug_tap('vim-fugitive')
   nnoremap <Leader>gs :<C-u>Git<CR>
-  nnoremap <Leader>gc :<C-u>Git commit<CR>
+  nnoremap <Leader>gc :<C-u>Git checkout 
   nnoremap <Leader>gf :<C-u>Git fetch --all -t<CR>
-  nnoremap <Leader>gm :<C-u>Git merge<CR>
+  nnoremap <Leader>gm :<C-u>Git merge 
 endif
 
 if mymisc#plug_tap('vim-gitgutter')

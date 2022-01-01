@@ -1,8 +1,8 @@
 scriptencoding utf-8
 
 function! mymisc#config#lsp#setup() abort
-  " let g:lsp_log_verbose = 1
-  " let g:lsp_log_file = $HOME . "/.vim/vim-lsp.log"
+  let g:lsp_log_verbose = 1
+  let g:lsp_log_file = $HOME . "/.vim/vim-lsp.log"
   augroup vimrc_vimlsp
     autocmd!
   augroup END
