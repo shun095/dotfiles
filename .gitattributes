@@ -5,3 +5,4 @@
 *.vim       text eol=lf
 *.bat       text eol=crlf
 *.jpg       -text
+*.tmux.conf text eol=lf
