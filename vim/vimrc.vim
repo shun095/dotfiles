@@ -631,12 +631,16 @@ try
     call s:my_git_cmd('push')
   endfunction
 
+  function! s:my_git_push_setupstream() abort
+    call s:my_git_cmd('push -u origin HEAD')
+  endfunction
+
   function! s:my_git_pull() abort
     call s:my_git_cmd('pull')
   endfunction
 
   nnoremap <Leader>gp :<C-u>call <SID>my_git_push()<CR>
-  nnoremap <Leader>gl :<C-u>call <SID>my_git_pull()<CR>
+  nnoremap <Leader>gP :<C-u>call <SID>my_git_push_setupstream()<CR>
   nnoremap <Leader>te :<C-u>T<CR>
   nnoremap <Leader>tc :<C-u>Tc<CR>
   command! T call s:open_terminal_file()
@@ -652,9 +656,9 @@ try
 
     let g:myvimrc_gitbash_dir =
           \ get(g:, 'myvimrc_gitbash_dir', substitute(fnamemodify(exepath('git'),':h:h:p'), '\', '/', 'g'))
-    command! GitBash call mymisc#mintty_sh(
+    command! Gbash call mymisc#mintty_sh(
                 \ "GitBash",
-                \ g:myvimrc_gitbash_dir . '/usr/bin/bash.exe',
+                \ g:myvimrc_gitbash_dir . '/bin/bash.exe',
                 \ g:myvimrc_gitbash_dir . '/usr/bin/locale.exe')
   endif
 
@@ -829,7 +833,7 @@ try
     autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 
     if !has('nvim') && v:version >= 801
-      autocmd TerminalOpen * setl nonumber
+      autocmd TerminalOpen * setl nonumber nolist
       autocmd TerminalOpen * nnoremap <buffer>q :bw<CR>
     endif
   augroup END
@@ -885,7 +889,7 @@ try
     let g:vimproc#download_windows_dll = 1
 
     " Initialize plugin manager
-    if g:plugin_mgr['init']() == "installing"
+    if g:plugin_mgr['init']() ==# 'installing'
 
       augroup vimplug_install
         autocmd!
