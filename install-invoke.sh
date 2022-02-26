@@ -420,16 +420,16 @@ deploy_selfmade_rcfiles() {
         vimrc_line="if !has('win32') | source ${vimrc_path} | else | source ${cyg_vimrc_path} | endif"
         gvimrc_line="if !has('win32') | source ${gvimrc_path} | else | source ${cyg_gvimrc_path} | endif"
 
-        tmux_conf_line=$MYDOTFILES/tmux/windows.tmux.conf
     else
         vimrc_line="source ${vimrc_path}"
         gvimrc_line="source ${gvimrc_path}"
     fi
 
-
+    tmux_conf_line="source $MYDOTFILES/tmux/common.tmux.conf"
 
     append_line 1 "${vimrc_line}" ${VIMRC}
     append_line 1 "${gvimrc_line}" ${GVIMRC}
+    append_line 1 "${tmux_conf_line}" ${TMUXCONF}
 }
 
 deploy_fzf() {

@@ -889,7 +889,7 @@ try
     let g:vimproc#download_windows_dll = 1
 
     " Initialize plugin manager
-    if g:plugin_mgr['init']() == "installing"
+    if g:plugin_mgr['init']() ==# 'installing'
 
       augroup vimplug_install
         autocmd!
