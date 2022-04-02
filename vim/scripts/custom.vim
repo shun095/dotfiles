@@ -4,38 +4,38 @@ if &compatible
   set nocompatible
 en
 
-if mymisc#plug_tap('YouCompleteMe')
+if mymisc#startup#plug_tap('YouCompleteMe')
   cal mymisc#config#YouCompleteMe#setup()
 en
 
-if mymisc#plug_tap('vim-dirvish')
+if mymisc#startup#plug_tap('vim-dirvish')
   cal mymisc#config#dirvish#setup()
 en
 
-if mymisc#plug_tap('vim-dirvish-git')
+if mymisc#startup#plug_tap('vim-dirvish-git')
   cal mymisc#config#dirvish_git#setup()
 en
 
-if mymisc#plug_tap('vim-easymotion')
+if mymisc#startup#plug_tap('vim-easymotion')
   let g:EasyMotion_do_mapping = 0
   nmap s <Plug>(easymotion-overwin-f2)
 en
 
-if mymisc#plug_tap('foldCC.vim')
+if mymisc#startup#plug_tap('foldCC.vim')
   let g:foldCCtext_enable_autofdc_adjuster = 1
   let g:foldCCtext_head = ''
   let g:foldCCtext_tail = 'printf(" %4d lines Lv%-2d", v:foldend-v:foldstart+1, v:foldlevel)'
   set foldtext=FoldCCtext()
 en
 
-if mymisc#plug_tap('html5.vim')
+if mymisc#startup#plug_tap('html5.vim')
   let g:html5_event_handler_attributes_complete = 1
   let g:html5_rdfa_attributes_complete = 1
   let g:html5_microdata_attributes_complete = 1
   let g:html5_aria_attributes_complete = 1
 en
 
-if mymisc#plug_tap('markdown-preview.vim')
+if mymisc#startup#plug_tap('markdown-preview.vim')
   let g:mkdp_auto_close = 1
   let g:mkdp_auto_open = 0
   let g:mkdp_auto_start = 0
@@ -52,19 +52,19 @@ if mymisc#plug_tap('markdown-preview.vim')
   en
 en
 
-if mymisc#plug_tap('memolist.vim')
+if mymisc#startup#plug_tap('memolist.vim')
   cal mymisc#config#memolist#setup()
 en
 
-if mymisc#plug_tap('nerdtree')
+if mymisc#startup#plug_tap('nerdtree')
   cal mymisc#config#nerdtree#setup()
 en
 
-if mymisc#plug_tap('fern.vim')
+if mymisc#startup#plug_tap('fern.vim')
   cal mymisc#config#fern#setup()
 en
 
-if mymisc#plug_tap('open-browser.vim')
+if mymisc#startup#plug_tap('open-browser.vim')
   let g:netrw_nogx = 1 " disable netrw's gx mapping.
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
@@ -73,7 +73,7 @@ if mymisc#plug_tap('open-browser.vim')
   command! -nargs=1 Weblio OpenBrowser http://ejje.weblio.jp/content/<args>
 en
 
-if mymisc#plug_tap('previm')
+if mymisc#startup#plug_tap('previm')
   let g:previm_enable_realtime = 1
   " let g:previm_custom_css_path =
   let g:previm_disable_default_css = 1
@@ -89,11 +89,11 @@ if mymisc#plug_tap('previm')
   aug END
 en
 
-if mymisc#plug_tap('restart.vim')
+if mymisc#startup#plug_tap('restart.vim')
   let g:restart_sessionoptions = &sessionoptions
 en
 
-if mymisc#plug_tap('tagbar')
+if mymisc#startup#plug_tap('tagbar')
   nno <silent> <Leader>ta :<C-u>TagbarOpen j<CR>
   let g:tagbar_show_linenumbers = 0
   let g:tagbar_sort = 0
@@ -109,13 +109,13 @@ if mymisc#plug_tap('tagbar')
   aug END
 en
 
-if mymisc#plug_tap('undotree')
+if mymisc#startup#plug_tap('undotree')
   let g:undotree_WindowLayout = 2
   let g:undotree_SplitWidth = 30
   nno <Leader>gu :<C-u>UndotreeToggle<cr>
 en
 
-if mymisc#plug_tap('vim-searchindex')
+if mymisc#startup#plug_tap('vim-searchindex')
   aug vimrc_searchindex
     au!
     au VimEnter * vno * "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>/<CR>:<C-u>SearchIndex<CR>
@@ -125,7 +125,7 @@ if mymisc#plug_tap('vim-searchindex')
   aug END
 en
 
-if mymisc#plug_tap('vim-anzu')
+if mymisc#startup#plug_tap('vim-anzu')
   " mapping
   nmap n <Plug>(anzu-n-with-echo)
   nmap N <Plug>(anzu-N-with-echo)
@@ -138,7 +138,7 @@ if mymisc#plug_tap('vim-anzu')
   " nmap # <Plug>(anzu-sharp-with-echo)
 en
 
-if mymisc#plug_tap('vim-easy-align')
+if mymisc#startup#plug_tap('vim-easy-align')
   " ヴィジュアルモードで選択し，easy-align 呼んで整形．(e.g. vip<Enter>)
   vmap <Enter> <Plug>(LiveEasyAlign)
   " easy-align を呼んだ上で，移動したりテキストオブジェクトを指定して整形．(e.g. gaip)
@@ -147,40 +147,40 @@ if mymisc#plug_tap('vim-easy-align')
   " xmap ga <Plug>(EasyAlign)
 en
 
-if mymisc#plug_tap('vim-quickrun')
+if mymisc#startup#plug_tap('vim-quickrun')
   cal mymisc#config#quickrun#setup()
 en
 
-if mymisc#plug_tap('vimshell.vim')
+if mymisc#startup#plug_tap('vimshell.vim')
   let g:vimshell_prompt = '% '
   let g:vimshell_secondary_prompt = '> '
   let g:vimshell_user_prompt = 'getcwd()'
 en
 
-if mymisc#plug_tap('vimtex')
+if mymisc#startup#plug_tap('vimtex')
   cal mymisc#config#vimtex#setup()
 en
 
-if mymisc#plug_tap('revimses')
+if mymisc#startup#plug_tap('revimses')
   let g:revimses#sessionoptions = &sessionoptions
 en
 
-if mymisc#plug_tap('vim-indent-guides')
+if mymisc#startup#plug_tap('vim-indent-guides')
   let g:indent_guides_enable_on_vim_startup = 1
   let g:indent_guides_auto_colors = 1
   let g:indent_guides_color_change_percent = 5
 en
 
-if mymisc#plug_tap('calendar.vim')
+if mymisc#startup#plug_tap('calendar.vim')
   aug vimrc_calendar
     au!
   aug END
 
-  if mymisc#plug_tap('vim-indent-guides')
+  if mymisc#startup#plug_tap('vim-indent-guides')
     au vimrc_calendar FileType calendar IndentGuidesDisable
   en
 
-  if mymisc#plug_tap('indentLine')
+  if mymisc#startup#plug_tap('indentLine')
     au vimrc_calendar FileType calendar IndentLinesDisable
   en
 
@@ -190,11 +190,11 @@ if mymisc#plug_tap('calendar.vim')
   let g:calendar_first_day='sunday'
 en
 
-if mymisc#plug_tap('autofmt')
+if mymisc#startup#plug_tap('autofmt')
   set formatexpr=autofmt#japanese#formatexpr()
 en
 
-if mymisc#plug_tap('vimfiler.vim')
+if mymisc#startup#plug_tap('vimfiler.vim')
   let g:vimfiler_as_default_explorer = 1
   " cal vimfiler#custom#profile('default', 'context', {
   "       \   'split' : 1,
@@ -209,30 +209,30 @@ if mymisc#plug_tap('vimfiler.vim')
   nno <silent> <Leader>E :VimFilerCurrentDir -force-quit -split -winwidth=35 -simple <CR>
 en
 
-if mymisc#plug_tap('defx.nvim')
+if mymisc#startup#plug_tap('defx.nvim')
   cal mymisc#config#defx#setup()
 en
 
-if mymisc#plug_tap('ctrlp.vim')
+if mymisc#startup#plug_tap('ctrlp.vim')
   cal mymisc#config#ctrlp#setup()
 en
 
-if mymisc#plug_tap('fzf.vim')
+if mymisc#startup#plug_tap('fzf.vim')
   cal mymisc#config#fzf#setup()
 en
 
-if mymisc#plug_tap('vim-peekaboo')
+if mymisc#startup#plug_tap('vim-peekaboo')
   " let g:peekaboo_window = 'vert abo 40new'
   " let g:peekaboo_compact = 1
   " let g:peekaboo_prefix = '<leader>'
   " let g:peekaboo_ins_prefix = '<C-x>'
 en
 
-if mymisc#plug_tap('denite.nvim')
+if mymisc#startup#plug_tap('denite.nvim')
   cal mymisc#config#denite#setup()
 en
 
-if mymisc#plug_tap('delimitMate')
+if mymisc#startup#plug_tap('delimitMate')
   let delimitMate_expand_cr = 1
   let delimitMate_expand_space = 1
   let delimitMate_expand_inside_quotes = 1
@@ -244,7 +244,7 @@ if mymisc#plug_tap('delimitMate')
   " aug END
 en
 
-if mymisc#plug_tap('ultisnips')
+if mymisc#startup#plug_tap('ultisnips')
   if has('unix')
     if has('python3')
       let g:UltiSnipsUsePythonVersion = 3
@@ -265,36 +265,36 @@ if mymisc#plug_tap('ultisnips')
         \ "\<C-p>" : "\<C-r>=UltiSnips#JumpBackwards()<CR>"
 en
 
-if mymisc#plug_tap('supertab')
+if mymisc#startup#plug_tap('supertab')
   let g:SuperTabDefaultCompletionType = '<c-n>'
 en
 
-if mymisc#plug_tap('deoplete.nvim')
+if mymisc#startup#plug_tap('deoplete.nvim')
   cal mymisc#config#deoplete#setup()
 en
 
-if mymisc#plug_tap('ale')
+if mymisc#startup#plug_tap('ale')
   cal mymisc#config#ale#setup()
 en
 
-if mymisc#plug_tap('LanguageClient-neovim')
+if mymisc#startup#plug_tap('LanguageClient-neovim')
   cal mymisc#config#LanguageClient#setup()
 en
 
-if mymisc#plug_tap('vim-lsp')
+if mymisc#startup#plug_tap('vim-lsp')
   cal mymisc#config#lsp#setup()
 en
 
-if mymisc#plug_tap('asyncomplete.vim')
+if mymisc#startup#plug_tap('asyncomplete.vim')
   cal mymisc#config#asyncomplete#setup()
 en
 
-if mymisc#plug_tap('clang_complete')
+if mymisc#startup#plug_tap('clang_complete')
   " let g:clang_library_path='/usr/lib/llvm-3.8/lib'
   let g:clang_complete_auto=0
 en
 
-if mymisc#plug_tap('jedi-vim')
+if mymisc#startup#plug_tap('jedi-vim')
   let g:jedi#completions_enabled = 0
   let g:jedi#show_call_signatures = 2
   let g:jedi#auto_initialization = 0
@@ -307,13 +307,13 @@ if mymisc#plug_tap('jedi-vim')
   aug END
 en
 
-if mymisc#plug_tap('omnisharp-vim')
+if mymisc#startup#plug_tap('omnisharp-vim')
   let g:OmniSharp_selector_ui = 'ctrlp'
   let g:omnicomplete_fetch_full_documentation = 1
   let g:OmniSharp_want_snippet = 0
   let g:OmniSharp_timeout = 5
 
-  if mymisc#plug_tap('deoplete.nvim')
+  if mymisc#startup#plug_tap('deoplete.nvim')
     cal deoplete#custom#source('omnisharp','input_pattern','[^. \t0-9]\.\w*')
   en
 
@@ -329,30 +329,30 @@ if mymisc#plug_tap('omnisharp-vim')
   aug END
 en
 
-if mymisc#plug_tap('tsuquyomi')
+if mymisc#startup#plug_tap('tsuquyomi')
   let g:tsuquyomi_completion_detail = 1
   let g:tsuquyomi_javascript_support = 1
 en
 
-if mymisc#plug_tap('nerdcommenter')
+if mymisc#startup#plug_tap('nerdcommenter')
   cal mymisc#config#nerdcommenter#setup()
 en
 
-if mymisc#plug_tap('vim-javacomplete2')
+if mymisc#startup#plug_tap('vim-javacomplete2')
   aug vimrc_javacomplete2
     au!
     au Filetype java setlocal omnifunc=javacomplete#Complete
   aug END
 en
 
-if mymisc#plug_tap('vim-cpp-enhanced-highlight')
+if mymisc#startup#plug_tap('vim-cpp-enhanced-highlight')
   let g:cpp_class_scope_highlight = 1
   let g:cpp_member_variable_highlight = 1
   let g:cpp_class_decl_highlight = 1
   let g:cpp_concepts_highlight = 1
 en
 
-if mymisc#plug_tap('next-alter.vim')
+if mymisc#startup#plug_tap('next-alter.vim')
   nmap <F4> <Plug>(next-alter-open)
   aug vimrc_nextalter
     au!
@@ -360,14 +360,14 @@ if mymisc#plug_tap('next-alter.vim')
   aug END
 en
 
-if mymisc#plug_tap('auto-pairs')
+if mymisc#startup#plug_tap('auto-pairs')
   let g:AutoPairsMapCR = 0
   let g:AutoPairsFlyMode = 0
   let g:AutoPairsMultilineClose = 1
   let g:AutoPairsShortcutBackInsert = '<C-j>'
 en
 
-if mymisc#plug_tap('lexima.vim')
+if mymisc#startup#plug_tap('lexima.vim')
   let g:lexima_ctrlh_as_backspace = 1
 
   for [begin, end] in [['(', ')'], ['{','}'], ['[',']']]
@@ -380,32 +380,32 @@ if mymisc#plug_tap('lexima.vim')
   endfor
 en
 
-if mymisc#plug_tap('vim-submode')
+if mymisc#startup#plug_tap('vim-submode')
   cal mymisc#config#submode#setup()
 en
 
-if mymisc#plug_tap('indentLine')
+if mymisc#startup#plug_tap('indentLine')
   " let g:indentLine_showFirstIndentLevel=1
 en
 
-if mymisc#plug_tap('vim-autoformat')
+if mymisc#startup#plug_tap('vim-autoformat')
   let g:autoformat_verbosemode = 1
 en
 
-if mymisc#plug_tap('vim-startify')
+if mymisc#startup#plug_tap('vim-startify')
   let g:startify_files_number = 20
 en
 
-if mymisc#plug_tap('vim-devicons')
+if mymisc#startup#plug_tap('vim-devicons')
   let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
   let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 en
 
-if mymisc#plug_tap('vim-go')
+if mymisc#startup#plug_tap('vim-go')
   let g:go_gocode_propose_builtins = 0
 en
 
-if mymisc#plug_tap('gina.vim')
+if mymisc#startup#plug_tap('gina.vim')
   cabbrev G Gina
   nno <Leader>gs :<C-u>Gina status --opener=split<CR>
   nno <Leader>gc :<C-u>Gina commit --opener=split<CR>
@@ -431,14 +431,14 @@ if mymisc#plug_tap('gina.vim')
         \)
 en
 
-if mymisc#plug_tap('vim-fugitive')
+if mymisc#startup#plug_tap('vim-fugitive')
   nno <Leader>gs :<C-u>Git<CR>
   nno <Leader>gc :<C-u>Git checkout 
   nno <Leader>gf :<C-u>Git fetch --all -t<CR>
   nno <Leader>gm :<C-u>Git merge 
 en
 
-if mymisc#plug_tap('vim-gitgutter')
+if mymisc#startup#plug_tap('vim-gitgutter')
   let g:gitgutter_async = 1
   nno <Leader>gg :<C-u>GitGutterAll<CR>
   aug vimrc_gitgutter
@@ -448,7 +448,7 @@ if mymisc#plug_tap('vim-gitgutter')
   aug END
 en
 
-if mymisc#plug_tap('rainbow_parentheses.vim')
+if mymisc#startup#plug_tap('rainbow_parentheses.vim')
   let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{','}']]
   aug vimrc-rainbow
     au!
@@ -464,7 +464,7 @@ if mymisc#plug_tap('rainbow_parentheses.vim')
   " aug END
 en
 
-if mymisc#plug_tap('rainbow')
+if mymisc#startup#plug_tap('rainbow')
   " let g:rainbow_active = 1
   let g:rainbow_conf = {
         \ 'guifgs': ['#e06c75', '#98c379', '#d19a66', '#61afef', '#c678dd', '#56b6c2'],
@@ -472,7 +472,7 @@ if mymisc#plug_tap('rainbow')
         \ }
 en
 
-if mymisc#plug_tap('vim-nerdtree-syntax-highlight')
+if mymisc#startup#plug_tap('vim-nerdtree-syntax-highlight')
   " let g:NERDTreeFileExtensionHighlightFullName = 1
   " let g:NERDTreeExactMatchHighlightFullName = 1
   " let g:NERDTreePatternMatchHighlightFullName = 1
@@ -481,11 +481,11 @@ if mymisc#plug_tap('vim-nerdtree-syntax-highlight')
   let g:NERDTreeLimitedSyntax = 1
 en
 
-if mymisc#plug_tap('vim-nerdtree-tabs')
+if mymisc#startup#plug_tap('vim-nerdtree-tabs')
   let g:nerdtree_tabs_open_on_gui_startup = 0
 en
 
-if mymisc#plug_tap('vim-vue')
+if mymisc#startup#plug_tap('vim-vue')
   aug vimrc-vue
     au!
     " au FileType vue syntax sync fromstart
@@ -493,11 +493,11 @@ if mymisc#plug_tap('vim-vue')
   aug END
 en
 
-if mymisc#plug_tap('CamelCaseMotion')
+if mymisc#startup#plug_tap('CamelCaseMotion')
   cal camelcasemotion#CreateMotionMappings(',')
 en
 
-if mymisc#plug_tap('sonictemplate-vim')
+if mymisc#startup#plug_tap('sonictemplate-vim')
   let g:sonictemplate_vim_template_dir = [
         \ $MYDOTFILES.'/vim/template',
         \ ]
@@ -506,7 +506,7 @@ if mymisc#plug_tap('sonictemplate-vim')
   let g:sonictemplate_postfix_key     = "\<C-g>\<C-y>\<C-b>"
 en
 
-if mymisc#plug_tap('nerdtree-git-plugin')
+if mymisc#startup#plug_tap('nerdtree-git-plugin')
   let g:NERDTreeIndicatorMapCustom = {
         \ 'Modified'  : '!',
         \ 'Staged'    : '+',
@@ -521,11 +521,11 @@ if mymisc#plug_tap('nerdtree-git-plugin')
         \ }
 en
 
-if mymisc#plug_tap('vim-airline')
+if mymisc#startup#plug_tap('vim-airline')
   cal mymisc#config#airline#setup()
 en
 
-if mymisc#plug_tap('jasegment.vim')
+if mymisc#startup#plug_tap('jasegment.vim')
   cal mymisc#config#jasegment#setup()
 en
 

@@ -26,7 +26,7 @@ fun! mymisc#config#defx#setup() abort
 
   let s:defx_custom_columns = 'mark:indent:icon:filename:type:size:time'
 
-  if mymisc#plug_tap('defx-git')
+  if mymisc#startup#plug_tap('defx-git')
     let s:defx_custom_columns = 'mark:indent:icon:git:filename:type:size:time'
   endif
 

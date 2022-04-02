@@ -31,7 +31,10 @@ try
 
   " Force to use python3
   if has("python3")
+    let g:myvimrc_has_python3 = g:true
     py3 pass
+  else
+    let g:myvimrc_has_python3 = g:false
   en
 
   if has("pythonx")
@@ -608,7 +611,7 @@ try
   fun! s:open_terminal_file() abort
     let l:target_dir = expand('%:p:h')
     let l:cmd = s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
-    cal mymisc#_at_destdir(l:target_dir, [l:cmd])
+    cal mymisc#command_at_destdir(l:target_dir, [l:cmd])
   endf
 
   fun! s:open_terminal_current() abort
@@ -623,7 +626,7 @@ try
   fun! s:my_git_cmd(git_cmd) abort
     let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
     let l:cmd = s:get_termrun_cmd('git ' . a:git_cmd)
-    cal mymisc#_at_destdir(l:target_dir, [l:cmd])
+    cal mymisc#command_at_destdir(l:target_dir, [l:cmd])
     cal s:set_winheight_small()
   endf
 
@@ -883,7 +886,7 @@ try
     " if !exists('$FZF_DEFAULT_OPTS')
     "   let $FZF_DEFAULT_OPTS='--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5'
     " en
-    " nn <silent><expr><Leader><C-f><C-f> mymisc#_at_destdir(mymisc#find_project_dir(['.git','tags']),['FZF'])
+    " nn <silent><expr><Leader><C-f><C-f> mymisc#command_at_destdir(mymisc#find_project_dir(['.git','tags']),['FZF'])
     " nn <silent> <Leader><C-f>c :FZF .<CR>
 
     " vimproc

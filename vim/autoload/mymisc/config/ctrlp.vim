@@ -13,9 +13,9 @@ fun! mymisc#config#ctrlp#setup() abort
 
   let g:ctrlp_types = ['fil', 'buf']
 
-  if mymisc#plug_tap('ctrlp-matchfuzzy')
+  if mymisc#startup#plug_tap('ctrlp-matchfuzzy')
     call add(s:ctrlp_match_funcs, 'ctrlp_matchfuzzy#matcher')
-  elseif mymisc#plug_tap('cpsm') " ========== For cpsm
+  elseif mymisc#startup#plug_tap('cpsm') " ========== For cpsm
     " let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
     let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
 
@@ -25,31 +25,32 @@ fun! mymisc#config#ctrlp#setup() abort
       call add(s:ctrlp_match_funcs,'cpsm#CtrlPMatch')
     endif
     let g:cpsm_query_inverting_delimiter = ' '
-  elseif mymisc#plug_tap('ctrlp-py-matcher') " ========== For pymatcher
+  elseif mymisc#startup#plug_tap('ctrlp-py-matcher') " ========== For pymatcher
     call add(s:ctrlp_match_funcs, 'pymatcher#PyMatch')
   endif
 
-  fun! MigemoMatch(items, str, limit, mmode, ispath, crfile, regex)
-    let tmp = tempname()
-    try
-      if a:str =~ '^\s*$'
-        return a:items
-      endif
-      call writefile(split(iconv(join(a:items, "\n"), &encoding, 'utf-8'), "\n"), tmp)
-      return split(iconv(system(
-            \  printf('migemogrep %s %s',
-            \    shellescape(a:str),
-            \    shellescape(tmp))), 'utf-8', &encoding), "\n")
-    catch
-      return []
-    finally
-      call delete(tmp)
-    endt
-  endf
-  
-  if executable('migemogrep')
-    call add(s:ctrlp_match_funcs, 'MigemoMatch')
-  endif
+  " 使わない上、if executableがパフォーマンスに悪いためコメントアウト
+  "fun! MigemoMatch(items, str, limit, mmode, ispath, crfile, regex)
+  "  let tmp = tempname()
+  "  try
+  "    if a:str =~ '^\s*$'
+  "      return a:items
+  "    endif
+  "    call writefile(split(iconv(join(a:items, "\n"), &encoding, 'utf-8'), "\n"), tmp)
+  "    return split(iconv(system(
+  "          \  printf('migemogrep %s %s',
+  "          \    shellescape(a:str),
+  "          \    shellescape(tmp))), 'utf-8', &encoding), "\n")
+  "  catch
+  "    return []
+  "  finally
+  "    call delete(tmp)
+  "  endt
+  "endf
+  "
+  "if executable('migemogrep')
+  "  call add(s:ctrlp_match_funcs, 'MigemoMatch')
+  "endif
 
   if len(s:ctrlp_match_funcs) > 0
     let s:ctrlp_match_func_idx = 0

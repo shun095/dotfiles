@@ -2,7 +2,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-if has('python3')
+if g:myvimrc_has_python3
   let s:has_python3 = g:true
   py3 pass
 else
@@ -142,7 +142,7 @@ Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'jceb/vim-orgmode', {'for': ['org']}
 Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
 Plug 'lambdalisue/vim-pyenv', {'for': ['python']}
-Plug 'lervag/vimtex', {'for': ['tex']}
+"Plug 'lervag/vimtex', {'for': ['tex']}
 
 " Syntax highlights
 " Plug 'vim-scripts/bash-support.vim', {'for': ['bash']}
@@ -228,7 +228,7 @@ Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 
 " Tools
 if has('vimscript-3')
-  Plug 'shun095/vim-editerm', {'branch': 'feature/line_number_support'}
+  Plug 'kyoh86/vim-editerm'
 endif
 Plug 'thinca/vim-quickrun'
 " Plug 'lambdalisue/suda.vim'
@@ -250,6 +250,8 @@ Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 " Plug 'haya14busa/vim-migemo'
 Plug 'junegunn/vader.vim'
+
+Plug 'dstein64/vim-startuptime'
 
 Plug 'shun095/revimses'
 

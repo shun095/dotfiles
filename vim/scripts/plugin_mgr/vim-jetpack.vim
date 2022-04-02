@@ -36,15 +36,15 @@ fun! g:plugin_mgr.install() abort
 endfun
 
 fun! g:plugin_mgr.load() abort
-  if !filereadable(self.manager_dir . '/jetpack.vim')
-    let self.enabled = g:false
-    if self.install()
-      exe 'source ' . self.manager_dir . '/jetpack.vim'
-      let self.enabled = g:true
-      let self.init_state = "installing"
+  if !filereadable(self['manager_dir'] . '/jetpack.vim')
+    let self['enabled'] = g:false
+    if self['install']()
+      exe 'source ' . self['manager_dir'] . '/jetpack.vim'
+      let self['enabled'] = g:true
+      let self['init_state'] = "installing"
     endif
   else
-    let self.init_state = "installed"
+    let self['init_state'] = "installed"
   endif
 endf
 
@@ -60,7 +60,7 @@ fun! g:plugin_mgr.init() abort
   source $MYDOTFILES/vim/scripts/plugin_mgr/plugin-list.vim
   call jetpack#end()
 
-  return self.init_state
+  return self['init_state']
 
 endf
 

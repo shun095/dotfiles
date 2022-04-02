@@ -36,26 +36,26 @@ fun! g:plugin_mgr.install() abort
 endf
 
 fun! g:plugin_mgr.load() abort
-  if !filereadable(self.manager_dir . '/plug.vim')
-    let self.enabled = g:false
-    if self.install()
-      exe 'source ' . self.manager_dir . '/plug.vim'
-      let self.enabled = g:true
-      let self.init_state = "installing"
+  if !filereadable(self['manager_dir'] . '/plug.vim')
+    let self['enabled'] = g:false
+    if self['install']()
+      exe 'source ' . self['manager_dir'] . '/plug.vim'
+      let self['enabled'] = g:true
+      let self['init_state'] = "installing"
     endif
   else
-    let self.init_state = "installed"
+    let self['init_state'] = "installed"
   endif
 endf
 
 fun! g:plugin_mgr.init() abort
   " let g:plug_window = 'topleft new'
   set runtimepath+=$HOME/.vim
-  cal plug#begin(self.plugin_dir)
+  cal plug#begin(self['plugin_dir'])
   source $MYDOTFILES/vim/scripts/plugin_mgr/plugin-list.vim
   cal plug#end()
 
-  return self.init_state
+  return self['init_state']
 
 endf
 

@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 fun! mymisc#config#asyncomplete#setup() abort
-  if mymisc#plug_tap('asyncomplete-file.vim')
+  if mymisc#startup#plug_tap('asyncomplete-file.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
           \ 'name': 'file',
           \ 'whitelist': ['*'],
@@ -9,7 +9,7 @@ fun! mymisc#config#asyncomplete#setup() abort
           \ 'completor': function('asyncomplete#sources#file#completor')
           \ }))
   endif
-  if mymisc#plug_tap('asyncomplete-neosnippet.vim')
+  if mymisc#startup#plug_tap('asyncomplete-neosnippet.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
           \ 'name': 'neosnippet',
           \ 'whitelist': ['*'],
@@ -17,7 +17,7 @@ fun! mymisc#config#asyncomplete#setup() abort
           \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
           \ }))
   endif
-  if mymisc#plug_tap('asyncomplete-ultisnips.vim')
+  if mymisc#startup#plug_tap('asyncomplete-ultisnips.vim')
     if has('python3') || has('python')
       au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
             \ 'name': 'ultisnips',
@@ -27,7 +27,7 @@ fun! mymisc#config#asyncomplete#setup() abort
             \ }))
     endif
   endif
-  if mymisc#plug_tap('asyncomplete-buffer.vim')
+  if mymisc#startup#plug_tap('asyncomplete-buffer.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
           \ 'name': 'buffer',
           \ 'whitelist': ['*'],

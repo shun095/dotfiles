@@ -47,7 +47,7 @@ fun! mymisc#git_auto_updating() abort
             \  'on_stderr': 'mymisc#git_callback_nvim',
             \  'on_exit': 'mymisc#git_end_callback_nvim'})
     else
-      if mymisc#plug_tap('vimproc.vim')
+      if mymisc#startup#plug_tap('vimproc.vim')
         call vimproc#system('git pull &')
       endif
     endif
@@ -329,17 +329,6 @@ fun! mymisc#tabname(n) abort
   return _
 endf
 
-fun! mymisc#plug_tap(name) abort
-  if exists('*dein#tap')
-    return dein#tap(a:name)
-  elseif exists(':Jetpack')
-    return jetpack#tap(a:name)
-  elseif exists(':Plug')
-    return has_key(g:plugs,a:name)
-  else
-    return g:false
-  endif
-endf
 
 fun! mymisc#preview_window_is_opened() abort
   for nr in range(1, winnr('$'))
@@ -423,11 +412,11 @@ fun! mymisc#toggle_preview_window()
   if mymisc#preview_window_is_opened()
     normal z
   else
-    if mymisc#plug_tap('YouCompleteMe')
+    if mymisc#startup#plug_tap('YouCompleteMe')
       YcmCompleter GetDoc
-    elseif mymisc#plug_tap('LanguageClient-neovim')
+    elseif mymisc#startup#plug_tap('LanguageClient-neovim')
       call LanguageClient#textDocument_hover()
-    elseif mymisc#plug_tap('vim-lsp')
+    elseif mymisc#startup#plug_tap('vim-lsp')
       LspHover
     else
       normal! K
