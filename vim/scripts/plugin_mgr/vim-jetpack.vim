@@ -18,13 +18,13 @@ let g:plugin_mgr = {
       \}
 
 fun! g:plugin_mgr.install_plugins() abort
-  PlugInstall --sync | source ~/.vimrc
+  Jetpack | source ~/.vimrc
 endf
 
 fun! g:plugin_mgr.install() abort
   let succeeded = g:false
 
-  cal system(printf('curl -fLo "%s/.vim/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',substitute($HOME,'\','/','g')))
+  call system(printf('curl -fLo "%s/.vim/autoload/jetpack.vim" --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim',substitute($HOME,'\','/','g')))
 
   if v:shell_error == 0
     let succeeded = g:true
@@ -33,13 +33,13 @@ fun! g:plugin_mgr.install() abort
   endif
 
   return succeeded
-endf
+endfun
 
 fun! g:plugin_mgr.load() abort
-  if !filereadable(self.manager_dir . '/plug.vim')
+  if !filereadable(self.manager_dir . '/jetpack.vim')
     let self.enabled = g:false
     if self.install()
-      exe 'source ' . self.manager_dir . '/plug.vim'
+      exe 'source ' . self.manager_dir . '/jetpack.vim'
       let self.enabled = g:true
       let self.init_state = "installing"
     endif
@@ -50,10 +50,15 @@ endf
 
 fun! g:plugin_mgr.init() abort
   " let g:plug_window = 'topleft new'
+  " Alias to Jetpack for migration from vim-plug
+  com! -nargs=* Plug Jetpack <args>
+  com! -nargs=* PlugInstall JetpackSync
+  com! -nargs=* PlugUpdate JetpackSync
+
   set runtimepath+=$HOME/.vim
-  cal plug#begin(self.plugin_dir)
+  call jetpack#begin()
   source $MYDOTFILES/vim/scripts/plugin_mgr/plugin-list.vim
-  cal plug#end()
+  call jetpack#end()
 
   return self.init_state
 

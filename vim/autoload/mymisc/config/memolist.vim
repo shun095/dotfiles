@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-function! mymisc#config#memolist#setup() abort
+fun! mymisc#config#memolist#setup() abort
   let g:memolist_prompt_tags = 0
   " let g:memolist_memo_suffix = 'txt'
   " let g:memolist_unite = 1
@@ -16,16 +16,16 @@ function! mymisc#config#memolist#setup() abort
 
   nmap <Leader>mn :<C-u>MemoNew<cr>
   " if mymisc#plug_tap('denite.nvim')
-  "   nnoremap <Leader>ml :execute ":Denite" "-path='".g:memolist_path."'" "file_rec"<cr>
+  "   nno <Leader>ml :execute ":Denite" "-path='".g:memolist_path."'" "file_rec"<cr>
   if mymisc#plug_tap('defx.nvim')
-    nnoremap <Leader>ml :<C-u>execute "Defx " . expand(g:memolist_path)<CR>
+    nno <Leader>ml :<C-u>execute "Defx " . expand(g:memolist_path)<CR>
   elseif mymisc#plug_tap('fern.vim')
-    nnoremap <Leader>ml :<C-u>execute "Fern " . expand(g:memolist_path) . " -drawer"<CR>
+    nno <Leader>ml :<C-u>execute "Fern " . expand(g:memolist_path) . " -drawer"<CR>
   else
-    nnoremap <Leader>ml :<C-u>MemoList<CR>
+    nno <Leader>ml :<C-u>MemoList<CR>
   endif
   if mymisc#plug_tap('fzf.vim')
     let g:memolist_path = get(g:,'memolist_path',$HOME . '/memo')
-    nnoremap <Leader>mf :<C-u>execute ":FZF " . expand(g:memolist_path)<CR>
+    nno <Leader>mf :<C-u>execute ":FZF " . expand(g:memolist_path)<CR>
   endif
-endfunction
+endf

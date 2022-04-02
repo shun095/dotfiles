@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-function! mymisc#config#nerdcommenter#setup() abort
+fun! mymisc#config#nerdcommenter#setup() abort
   let g:NERDSpaceDelims = 1
   let g:NERDCustomDelimiters = {
         \ 'python': { 'left': '#', 'leftAlt': '# ' },
@@ -29,4 +29,4 @@ function! mymisc#config#nerdcommenter#setup() abort
   nmap gcb <Plug>NERDCommenterAlignBoth
   xmap gcu <Plug>NERDCommenterUncomment
   nmap gcu <Plug>NERDCommenterUncomment
-endfunction
+endf

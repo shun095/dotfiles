@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-function! mymisc#config#deoplete#setup() abort
+fun! mymisc#config#deoplete#setup() abort
   " For debugging
   " call deoplete#custom#option('profile', v:true)
   " call deoplete#enable_logging('DEBUG', $HOME.'/.vim/deoplete.log')
@@ -12,7 +12,7 @@ function! mymisc#config#deoplete#setup() abort
 
   let g:deoplete#enable_at_startup = 1
 
-  inoremap <expr><C-Space> deoplete#mappings#manual_complete()
+  ino <expr><C-Space> deoplete#mappings#manual_complete()
 
   call deoplete#custom#var('omni', 'input_patterns', {
         \ 'html':       ['\w+'],
@@ -41,4 +41,4 @@ function! mymisc#config#deoplete#setup() abort
         \   'hpp': ['clang_complete'],
         \   }
         \ })
-endfunction
+endf

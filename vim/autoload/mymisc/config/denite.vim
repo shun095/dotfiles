@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-function! mymisc#config#denite#setup() abort
+fun! mymisc#config#denite#setup() abort
   let g:neomru#file_mru_ignore_pattern = '^vaffle\|^quickrun\|'.
         \ '\~$\|\.\%(o\|exe\|dll\|bak\|zwc\|pyc\|sw[po]\)$'.
         \ '\|\%(^\|/\)\.\%(hg\|git\|bzr\|svn\)\%($\|/\)'.
@@ -31,16 +31,16 @@ function! mymisc#config#denite#setup() abort
   call denite#custom#source('buffer',   'sorters',  [])
 
   " Change mappings.
-  call denite#custom#map('insert', '<C-j>',  '<denite:move_to_next_line>',     'noremap')
-  call denite#custom#map('insert', '<C-k>',  '<denite:move_to_previous_line>', 'noremap')
-  call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>',     'noremap')
-  call denite#custom#map('insert', '<Up>',   '<denite:move_to_previous_line>', 'noremap')
-  call denite#custom#map('insert', '<C-t>',  '<denite:do_action:tabopen>',     'noremap')
-  call denite#custom#map('insert', '<C-v>',  '<denite:do_action:vsplit>',      'noremap')
-  call denite#custom#map('insert', '<C-s>',  '<denite:do_action:split>',       'noremap')
-  call denite#custom#map('insert', '<C-CR>', '<denite:do_action:split>',       'noremap')
-  call denite#custom#map('insert', '<C-x>',  '<denite:do_action:split>',       'noremap')
-  call denite#custom#map('insert', '<C-g>',  '<denite:leave_mode>',            'noremap')
+  call denite#custom#map('insert', '<C-j>',  '<denite:move_to_next_line>',     'no')
+  call denite#custom#map('insert', '<C-k>',  '<denite:move_to_previous_line>', 'no')
+  call denite#custom#map('insert', '<Down>', '<denite:move_to_next_line>',     'no')
+  call denite#custom#map('insert', '<Up>',   '<denite:move_to_previous_line>', 'no')
+  call denite#custom#map('insert', '<C-t>',  '<denite:do_action:tabopen>',     'no')
+  call denite#custom#map('insert', '<C-v>',  '<denite:do_action:vsplit>',      'no')
+  call denite#custom#map('insert', '<C-s>',  '<denite:do_action:split>',       'no')
+  call denite#custom#map('insert', '<C-CR>', '<denite:do_action:split>',       'no')
+  call denite#custom#map('insert', '<C-x>',  '<denite:do_action:split>',       'no')
+  call denite#custom#map('insert', '<C-g>',  '<denite:leave_mode>',            'no')
 
   if exists("g:ctrlp_user_command") && g:ctrlp_user_command !=# ''
     call denite#custom#var('file_rec', 'command', split(substitute(g:ctrlp_user_command,'%s',':directory','g'),' '))
@@ -57,16 +57,16 @@ function! mymisc#config#denite#setup() abort
   endif
 
   " Mappings
-  nnoremap <silent> <Leader><Leader> :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec file_mru buffer'])<CR>
-  " nnoremap <silent> <Leader>T :<C-u>Denite tag<CR>
+  nno <silent> <Leader><Leader> :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec file_mru buffer'])<CR>
+  " nno <silent> <Leader>T :<C-u>Denite tag<CR>
   " al
-  " nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
-  nnoremap <silent> <Leader>c :<C-u>Denite file_rec<CR>
-  nnoremap <silent> <Leader>f :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
-  nnoremap <silent> <Leader>gr :<C-u>Denite grep -no-quit<CR>
-  " nnoremap <silent> <Leader>l :<C-u>Denite line<CR>
-  " nnoremap <silent> <Leader>o :<C-u>Denite outline<CR>
-  " nnoremap <silent> <Leader>r :<C-u>Denite register<CR>
-  " nnoremap <silent> <Leader>u :<C-u>Denite file_mru<CR>
+  " nno <silent> <Leader>b :<C-u>Denite buffer<CR>
+  nno <silent> <Leader>c :<C-u>Denite file_rec<CR>
+  nno <silent> <Leader>f :call mymisc#command_at_destdir(expand('%:h'),['DeniteProjectDir file_rec'])<CR>
+  nno <silent> <Leader>gr :<C-u>Denite grep -no-quit<CR>
+  " nno <silent> <Leader>l :<C-u>Denite line<CR>
+  " nno <silent> <Leader>o :<C-u>Denite outline<CR>
+  " nno <silent> <Leader>r :<C-u>Denite register<CR>
+  " nno <silent> <Leader>u :<C-u>Denite file_mru<CR>
   " ` Marks
-endfunction
+endf

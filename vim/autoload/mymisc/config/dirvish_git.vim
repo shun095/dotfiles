@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-function! mymisc#config#dirvish_git#setup() abort
+fun! mymisc#config#dirvish_git#setup() abort
   let g:dirvish_git_indicators = {
         \ 'Modified'  : '!',
         \ 'Staged'    : '+',
@@ -10,4 +10,4 @@ function! mymisc#config#dirvish_git#setup() abort
         \ 'Ignored'   : 'i',
         \ 'Unknown'   : '?'
         \ }
-endfunction
+endf

@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-function! mymisc#config#LanguageClient#setup() abort
+fun! mymisc#config#LanguageClient#setup() abort
   " let g:LanguageClient_loggingLevel = 'DEBUG'
   " let g:LanguageClient_loggingFile = $HOME.'/.vim/languageClient.log'
   " let g:LanguageClient_serverStderr = $HOME.'/.vim/languageServer.log'
@@ -63,28 +63,28 @@ function! mymisc#config#LanguageClient#setup() abort
         \     "signTexthl": "ALEInfoSign",
         \   },
         \ }
-  augroup vimrc_langclient
-    autocmd!
-    autocmd FileType vue setlocal iskeyword+=$ iskeyword+=-
-    autocmd FileType c,cpp,h,hpp,python nnoremap <buffer> <C-]> :call LanguageClient#textDocument_definition()<CR>
-  augroup END
+  aug vimrc_langclient
+    au!
+    au FileType vue setlocal iskeyword+=$ iskeyword+=-
+    au FileType c,cpp,h,hpp,python nno <buffer> <C-]> :call LanguageClient#textDocument_definition()<CR>
+  aug END
 
-  command! LC call LanguageClient_contextMenu()
-  command! LCHover call LanguageClient#textDocument_hover()
-  command! LCDefinition call LanguageClient#textDocument_definition()
-  command! LCTypeDefinition call LanguageClient#textDocument_typeDefinition()
-  command! LCImplementation call LanguageClient#textDocument_implementation()
-  command! LCRename call LanguageClient#textDocument_rename()
-  command! LCDocumentSymbol call LanguageClient#textDocument_documentSymbol()
-  command! LCReferences call LanguageClient#textDocument_references()
-  command! LCCodeAction call LanguageClient#textDocument_codeAction()
-  command! LCCompletion call LanguageClient#textDocument_completion()
-  command! LCFormatting call LanguageClient#textDocument_formatting()
-  command! -range LCRangeFormatting call LanguageClient#textDocument_rangeFormatting()
-  command! -bang LCDocumentHighlight if empty('<bang>')
+  com! LC call LanguageClient_contextMenu()
+  com! LCHover call LanguageClient#textDocument_hover()
+  com! LCDefinition call LanguageClient#textDocument_definition()
+  com! LCTypeDefinition call LanguageClient#textDocument_typeDefinition()
+  com! LCImplementation call LanguageClient#textDocument_implementation()
+  com! LCRename call LanguageClient#textDocument_rename()
+  com! LCDocumentSymbol call LanguageClient#textDocument_documentSymbol()
+  com! LCReferences call LanguageClient#textDocument_references()
+  com! LCCodeAction call LanguageClient#textDocument_codeAction()
+  com! LCCompletion call LanguageClient#textDocument_completion()
+  com! LCFormatting call LanguageClient#textDocument_formatting()
+  com! -range LCRangeFormatting call LanguageClient#textDocument_rangeFormatting()
+  com! -bang LCDocumentHighlight if empty('<bang>')
         \ | call LanguageClient#textDocument_documentHighlight()
         \ | else
           \ | call LanguageClient#clearDocumentHighlight()
           \ | endif
 
-endfunction
+endf

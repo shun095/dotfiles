@@ -63,7 +63,8 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 if s:has_python3 || s:has_python
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
-" Plug 'prabirshrestha/asyncomplete-file.vim' " Disabled because when I insert '//' on Windows, vim freezes.
+" Disabled because when I insert '//' on Windows, vim freezes.
+" Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
 Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -100,7 +101,9 @@ Plug 'OmniSharp/omnisharp-vim', {'for': ['cs']}
 Plug 'vim-scripts/dbext.vim', {'for': ['sql']}
 Plug 'tpope/vim-dadbod', {'for': ['sql']}
 Plug 'othree/csscomplete.vim', {'for': ['css']}
-Plug 'Shougo/neco-vim' " for vimscript
+
+" for vimscript
+Plug 'Shougo/neco-vim'
 Plug 'freitass/todo.txt-vim'
 
 " Snippets, templates
@@ -117,7 +120,8 @@ Plug 'mattn/sonictemplate-vim'
 " General purpose completions, linters
 Plug 'scrooloose/nerdcommenter'
 Plug 'w0rp/ale'
-" Plug 'gorodinskiy/vim-coloresque' " Color preview
+" Color preview
+" Plug 'gorodinskiy/vim-coloresque'
 
 " Plug 'jiangmiao/auto-pairs'
 " Plug 'Raimondi/delimitMate'
@@ -163,7 +167,9 @@ Plug 'vim-jp/syntax-vim-ex', {'for': ['vim']}
 Plug 'posva/vim-vue', {'for': ['vue']}
 
 " General purpose viewers/indicators
-Plug 'ctrlpvim/ctrlp.vim' ",{'on':['CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark','CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark']}
+"
+Plug 'ctrlpvim/ctrlp.vim'
+"/ ,{'on':['CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark','CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark']}
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
 " Plug 'junegunn/fzf.vim'
@@ -224,10 +230,12 @@ Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 if has('vimscript-3')
   Plug 'shun095/vim-editerm', {'branch': 'feature/line_number_support'}
 endif
-Plug 'thinca/vim-quickrun' ", {'on':'QuickRun'}
+Plug 'thinca/vim-quickrun'
 " Plug 'lambdalisue/suda.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'tyru/open-browser.vim' " Non lazy load for QuickRun with pandoc
+
+" Non lazy load for QuickRun with pandoc
+Plug 'tyru/open-browser.vim'
 Plug 'haya14busa/vim-open-googletranslate', {'on':'OpenGoogleTranslate'}
 Plug 'tyru/capture.vim', {'on':'Capture'}
 

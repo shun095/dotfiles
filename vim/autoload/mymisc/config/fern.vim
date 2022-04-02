@@ -1,17 +1,17 @@
 scriptencoding utf-8
 
-function! mymisc#config#fern#setup() abort
+fun! mymisc#config#fern#setup() abort
 
-  nnoremap <silent> <Leader>e :FernDo :<CR>
-  nnoremap <silent> <Leader>E :Fern %:h -drawer -reveal=%:p<CR>
-  nnoremap <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p<CR>
-  nnoremap <silent> <Leader>n :Fern<space>
+  nno <silent> <Leader>e :FernDo :<CR>
+  nno <silent> <Leader>E :Fern %:h -drawer -reveal=%:p<CR>
+  nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p<CR>
+  nno <silent> <Leader>n :Fern<space>
 
-  function! s:init_fern() abort
+  fun! s:init_fern() abort
     " Write custom code here
 
     IndentLinesDisable
-    nnoremap <silent> <buffer> q             :<C-u>close<CR>
+    nno <silent> <buffer> q             :<C-u>close<CR>
     nmap     <silent> <buffer> <CR>          <Plug>(fern-action-open-or-enter)
     nmap     <silent> <buffer> <2-LeftMouse> <Plug>(fern-action-open-or-expand)
     nmap     <silent> <buffer> <2-RightMouse> <Plug>(fern-action-collapse)
@@ -33,28 +33,28 @@ function! mymisc#config#fern#setup() abort
     unmap <silent> <buffer> N
     nmap  <silent> <buffer> n n
     unmap <silent> <buffer> n
-  endfunction
+  endf
 
-  augroup vimrc_fern
-    autocmd! *
-    autocmd FileType fern call s:init_fern()
-  augroup END
+  aug vimrc_fern
+    au! *
+    au FileType fern call s:init_fern()
+  aug END
 
   if mymisc#plug_tap('fern-preview.vim')
-    function! s:fern_settings() abort
+    fun! s:fern_settings() abort
       nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
       nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
       nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
       nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
       nmap <silent> <buffer> <expr> <Plug>(fern-quit-or-close-preview) fern_preview#smart_preview("\<Plug>(fern-action-preview:close)", ":q\<CR>")
       nmap <silent> <buffer> q <Plug>(fern-quit-or-close-preview)
-    endfunction
+    endf
 
-    augroup fern-settings
-      autocmd!
-      autocmd FileType fern call s:fern_settings()
-    augroup END
+    aug fern-settings
+      au!
+      au FileType fern call s:fern_settings()
+    aug END
   endif
 
   let g:fern#renderer = 'nerdfont'
-endfunction
+endf

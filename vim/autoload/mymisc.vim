@@ -6,7 +6,7 @@ endif
 let s:V = vital#mymisc#new()
 let s:File = s:V.import('System.File')
 
-function! mymisc#ime_deactivate() abort
+fun! mymisc#ime_deactivate() abort
   if !has('mac') && !g:mymisc_fcitx_is_available
     return
   endif
@@ -31,7 +31,7 @@ function! mymisc#ime_deactivate() abort
 endf
 
 " Auto updating vimrc
-function! mymisc#git_auto_updating() abort
+fun! mymisc#git_auto_updating() abort
   if !exists('g:called_mygit_func')
     let s:save_cd = getcwd()
     exe 'cd ' . $MYDOTFILES
@@ -58,20 +58,20 @@ function! mymisc#git_auto_updating() abort
   endif
 endf
 
-function! mymisc#git_callback_nvim(ch, msg, event) abort
+fun! mymisc#git_callback_nvim(ch, msg, event) abort
   for msgstr in a:msg
     if msgstr !=# ''
       call mymisc#git_callback(a:ch, msgstr)
     endif
-  endfor
+  endfo
 endf
 
-function! mymisc#git_end_callback_nvim(ch, msg, event) abort
+fun! mymisc#git_end_callback_nvim(ch, msg, event) abort
   let exit_code = string(a:msg)
   call mymisc#git_end_callback(a:ch, exit_code)  
 endf
 
-function! mymisc#git_callback(ch, msg) abort
+fun! mymisc#git_callback(ch, msg) abort
   call add(s:git_qflist, {'text':a:msg})
 
   if match(a:msg,'Already up') == 0
@@ -88,7 +88,7 @@ function! mymisc#git_callback(ch, msg) abort
   endif
 endf
 
-function! mymisc#git_end_callback(ch, msg) abort
+fun! mymisc#git_end_callback(ch, msg) abort
   if s:git_qflist == []
     call mymisc#util#log_warn('Couldn''t get git information')
     return
@@ -108,25 +108,25 @@ function! mymisc#git_end_callback(ch, msg) abort
   endif
 endf
 
-function! mymisc#copypath() abort
+fun! mymisc#copypath() abort
   let @" = expand('%:p')
   let @* = expand('%:p')
   let @+ = expand('%:p')
 endf
 
-function! mymisc#copyfname() abort
+fun! mymisc#copyfname() abort
   let @" = expand('%:t')
   let @* = expand('%:t')
   let @+ = expand('%:t')
 endfun
 
-function! mymisc#copydirpath() abort
+fun! mymisc#copydirpath() abort
   let @" = expand('%:p:h')
   let @* = expand('%:p:h')
   let @+ = expand('%:p:h')
 endf
 
-function! mymisc#fzf(src, cmd) abort
+fun! mymisc#fzf(src, cmd) abort
   if !executable("fzf")
     call mymisc#util#log_warn("fzf is not installed.")
     return
@@ -137,20 +137,20 @@ function! mymisc#fzf(src, cmd) abort
     if has_key(l:opts, s)
       call remove(l:opts, s)
     endif
-  endfor
+  endfo
 
   let l:opts['sink'] = a:cmd
   let l:opts['source'] = a:src
   call fzf#run(l:opts)
 endf
 
-function! mymisc#cd_history() abort
+fun! mymisc#cd_history() abort
   call mymisc#fzf(
         \ 'tac $HOME/.cd_history | sed -e "s?^'.getcwd().'\$??g" | sed ''s/#.*//g'' | sed ''/^\s*$/d'' | cat',
         \ 'cd')
 endf
 
-function! mymisc#command_at_destdir(destination,commandlist) abort
+fun! mymisc#command_at_destdir(destination,commandlist) abort
   if a:destination ==# ''
     call mymisc#util#log_warn("Destination dir must be specified for mymisc#command_at_destdir")
     return
@@ -165,11 +165,11 @@ function! mymisc#command_at_destdir(destination,commandlist) abort
   exe 'cd ' . a:destination
   for command in a:commandlist
     exe command
-  endfor
+  endfo
   exe 'cd ' . l:previous_cwd
 endf
 
-function! mymisc#find_project_dir(searchname_arg) abort
+fun! mymisc#find_project_dir(searchname_arg) abort
 
   if type(a:searchname_arg) == 1 " stringのとき
     let l:arg_is_string = 1
@@ -222,7 +222,7 @@ function! mymisc#find_project_dir(searchname_arg) abort
   return l:destdir
 endf
 
-function! mymisc#ctags_project(project_marker_list) abort
+fun! mymisc#ctags_project(project_marker_list) abort
   let l:tags_dir = mymisc#find_project_dir(a:project_marker_list)
 
   if l:tags_dir ==# ''
@@ -241,20 +241,20 @@ function! mymisc#ctags_project(project_marker_list) abort
     let msg = split(g:mymisc_system_msg, "\n")
     for m in msg
       echomsg "[mymisc] ".m
-    endfor
+    endfo
     echohl none
   endif
 endf
 
-function! mymisc#print_callback(ch,msg) abort
+fun! mymisc#print_callback(ch,msg) abort
   echom a:msg
 endf
 
-function! mymisc#job_start(cmd) abort
+fun! mymisc#job_start(cmd) abort
   call job_start(a:cmd,{'callback':'mymisc#print_callback'})
 endfun
 
-function! mymisc#previm_save_html(dirpath) abort
+fun! mymisc#previm_save_html(dirpath) abort
   if a:dirpath ==# ''
     let dirpath = './' . expand('%:t:r')
   endif
@@ -268,7 +268,7 @@ function! mymisc#previm_save_html(dirpath) abort
   endif
 endf
 
-function! mymisc#tabline() abort
+fun! mymisc#tabline() abort
   let s = ''
   for i in range(tabpagenr('$'))
     " 強調表示グループの選択
@@ -298,7 +298,7 @@ function! mymisc#tabline() abort
 
     " ラベルは MyTabLabel() で作成する
     let s .= ' %{mymisc#tabname(' . (i + 1) . ')} '
-  endfor
+  endfo
 
   " 最後のタブページの後は TabLineFill で埋め、タブページ番号をリセッ
   " トする
@@ -310,9 +310,9 @@ function! mymisc#tabline() abort
   endif
 
   return s
-endfunction
+endf
 
-function! mymisc#tabname(n) abort
+fun! mymisc#tabname(n) abort
   let buflist = tabpagebuflist(a:n)
   let winnr = tabpagewinnr(a:n)
   let name = expand('#'.buflist[winnr - 1].':p')
@@ -327,11 +327,13 @@ function! mymisc#tabname(n) abort
 
   let _ = substitute(_, '\\', '/', 'g')
   return _
-endfunction
+endf
 
-function! mymisc#plug_tap(name) abort
+fun! mymisc#plug_tap(name) abort
   if exists('*dein#tap')
     return dein#tap(a:name)
+  elseif exists(':Jetpack')
+    return jetpack#tap(a:name)
   elseif exists(':Plug')
     return has_key(g:plugs,a:name)
   else
@@ -339,17 +341,17 @@ function! mymisc#plug_tap(name) abort
   endif
 endf
 
-function! mymisc#preview_window_is_opened() abort
+fun! mymisc#preview_window_is_opened() abort
   for nr in range(1, winnr('$'))
     if getwinvar(nr, "&pvw") == 1
       " found a preview
       return 1
     endif  
-  endfor
+  endfo
   return 0
 endfun
 
-function! mymisc#set_statusline_vars() abort
+fun! mymisc#set_statusline_vars() abort
   if exists('*tagbar#currenttag()')
     let w:mymisc_status_tagbar = ''
     let w:mymisc_status_tagbar .= tagbar#currenttag('[%s] ','')
@@ -374,7 +376,7 @@ function! mymisc#set_statusline_vars() abort
       let w:mymisc_status_git .= ' '
     endif
   catch 
-  endtry
+  endt
 
   if exists('*GitGutterGetHunkSummary()')
     let w:mymisc_status_gitgutter = ''
@@ -388,7 +390,7 @@ endf
 
 
 " Forked from https://qiita.com/shiena/items/1dcb20e99f43c9383783
-function! mymisc#mintty_sh(term_name, shell_exe_path, locale_exe_path) abort
+fun! mymisc#mintty_sh(term_name, shell_exe_path, locale_exe_path) abort
   let l:mydotfiles = substitute($MYDOTFILES, '\', '/', 'g')
   let l:mydotfiles = substitute(l:mydotfiles, '\C^\([A-Z]\)\:', '/\1', '')
 
@@ -417,7 +419,7 @@ function! mymisc#mintty_sh(term_name, shell_exe_path, locale_exe_path) abort
         \ })
 endf
 
-function! mymisc#toggle_preview_window()
+fun! mymisc#toggle_preview_window()
   if mymisc#preview_window_is_opened()
     normal z
   else

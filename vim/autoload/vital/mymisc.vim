@@ -8,49 +8,49 @@ let s:cache_sid = {}
 
 " function() wrapper
 if v:version > 703 || v:version == 703 && has('patch1170')
-  function! s:_function(fstr) abort
+  fun! s:_function(fstr) abort
     return function(a:fstr)
-  endfunction
+  endf
 else
-  function! s:_SID() abort
+  fun! s:_SID() abort
     return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze__SID$')
-  endfunction
+  endf
   let s:_s = '<SNR>' . s:_SID() . '_'
-  function! s:_function(fstr) abort
+  fun! s:_function(fstr) abort
     return function(substitute(a:fstr, 's:', s:_s, 'g'))
-  endfunction
+  endf
 endif
 
-function! vital#{s:plugin_name}#new() abort
+fun! vital#{s:plugin_name}#new() abort
   return s:new(s:plugin_name)
-endfunction
+endf
 
-function! vital#{s:plugin_name}#import(...) abort
+fun! vital#{s:plugin_name}#import(...) abort
   if !exists('s:V')
     let s:V = s:new(s:plugin_name)
   endif
   return call(s:V.import, a:000, s:V)
-endfunction
+endf
 
 let s:Vital = {}
 
-function! s:new(plugin_name) abort
+fun! s:new(plugin_name) abort
   let base = deepcopy(s:Vital)
   let base._plugin_name = a:plugin_name
   return base
-endfunction
+endf
 
-function! s:vital_files() abort
+fun! s:vital_files() abort
   if !exists('s:vital_files')
     let s:vital_files = map(
     \   s:is_vital_vim ? s:_global_vital_files() : s:_self_vital_files(),
     \   'fnamemodify(v:val, ":p:gs?[\\\\/]?/?")')
   endif
   return copy(s:vital_files)
-endfunction
+endf
 let s:Vital.vital_files = s:_function('s:vital_files')
 
-function! s:import(name, ...) abort dict
+fun! s:import(name, ...) abort dict
   let target = {}
   let functions = []
   for a in a:000
@@ -60,7 +60,7 @@ function! s:import(name, ...) abort dict
       let functions = a
     endif
     unlet a
-  endfor
+  endfo
   let module = self._import(a:name)
   if empty(functions)
     call extend(target, module, 'keep')
@@ -69,13 +69,13 @@ function! s:import(name, ...) abort dict
       if has_key(module, f) && !has_key(target, f)
         let target[f] = module[f]
       endif
-    endfor
+    endfo
   endif
   return target
-endfunction
+endf
 let s:Vital.import = s:_function('s:import')
 
-function! s:load(...) abort dict
+fun! s:load(...) abort dict
   for arg in a:000
     let [name; as] = type(arg) == type([]) ? arg[: 1] : [arg, arg]
     let target = split(join(as, ''), '\W\+')
@@ -97,65 +97,65 @@ function! s:load(...) abort dict
       call extend(dict, self._import(name))
     endif
     unlet arg
-  endfor
+  endfo
   return self
-endfunction
+endf
 let s:Vital.load = s:_function('s:load')
 
-function! s:unload() abort dict
+fun! s:unload() abort dict
   let s:loaded = {}
   let s:cache_sid = {}
   unlet! s:vital_files
-endfunction
+endf
 let s:Vital.unload = s:_function('s:unload')
 
-function! s:exists(name) abort dict
+fun! s:exists(name) abort dict
   if a:name !~# '\v^\u\w*%(\.\u\w*)*$'
     throw 'vital: Invalid module name: ' . a:name
   endif
   return s:_module_path(a:name) isnot# ''
-endfunction
+endf
 let s:Vital.exists = s:_function('s:exists')
 
-function! s:search(pattern) abort dict
+fun! s:search(pattern) abort dict
   let paths = s:_extract_files(a:pattern, self.vital_files())
   let modules = sort(map(paths, 's:_file2module(v:val)'))
   return s:_uniq(modules)
-endfunction
+endf
 let s:Vital.search = s:_function('s:search')
 
-function! s:plugin_name() abort dict
+fun! s:plugin_name() abort dict
   return self._plugin_name
-endfunction
+endf
 let s:Vital.plugin_name = s:_function('s:plugin_name')
 
-function! s:_self_vital_files() abort
+fun! s:_self_vital_files() abort
   let builtin = printf('%s/__%s__/', s:vital_base_dir, s:plugin_name)
   let installed = printf('%s/_%s/', s:vital_base_dir, s:plugin_name)
   let base = builtin . ',' . installed
   return split(globpath(base, '**/*.vim', 1), "\n")
-endfunction
+endf
 
-function! s:_global_vital_files() abort
+fun! s:_global_vital_files() abort
   let pattern = 'autoload/vital/__*__/**/*.vim'
   return split(globpath(&runtimepath, pattern, 1), "\n")
-endfunction
+endf
 
-function! s:_extract_files(pattern, files) abort
+fun! s:_extract_files(pattern, files) abort
   let tr = {'.': '/', '*': '[^/]*', '**': '.*'}
   let target = substitute(a:pattern, '\.\|\*\*\?', '\=tr[submatch(0)]', 'g')
   let regexp = printf('autoload/vital/[^/]\+/%s.vim$', target)
   return filter(a:files, 'v:val =~# regexp')
-endfunction
+endf
 
-function! s:_file2module(file) abort
+fun! s:_file2module(file) abort
   let filename = fnamemodify(a:file, ':p:gs?[\\/]?/?')
   let tail = matchstr(filename, 'autoload/vital/_\w\+/\zs.*\ze\.vim$')
   return join(split(tail, '[\\/]\+'), '.')
-endfunction
+endf
 
 " @param {string} name e.g. Data.List
-function! s:_import(name) abort dict
+fun! s:_import(name) abort dict
   if has_key(s:loaded, a:name)
     return copy(s:loaded[a:name])
   endif
@@ -174,25 +174,25 @@ function! s:_import(name) abort dict
     catch
       unlet s:loaded[a:name]
       throw 'vital: fail to call ._vital_loaded(): ' . v:exception
-    endtry
+    endt
   endif
   return copy(s:loaded[a:name])
-endfunction
+endf
 let s:Vital._import = s:_function('s:_import')
 
 " s:_get_module() returns module object wihch has all script local functions.
-function! s:_get_module(name) abort dict
+fun! s:_get_module(name) abort dict
   let funcname = s:_import_func_name(self.plugin_name(), a:name)
   try
     return call(funcname, [])
   catch /^Vim\%((\a\+)\)\?:E117/
     return s:_get_builtin_module(a:name)
-  endtry
-endfunction
+  endt
+endf
 
-function! s:_get_builtin_module(name) abort
+fun! s:_get_builtin_module(name) abort
  return s:sid2sfuncs(s:_module_sid(a:name))
-endfunction
+endf
 
 if s:is_vital_vim
   " For vital.vim, we can use s:_get_builtin_module directly
@@ -201,11 +201,11 @@ else
   let s:Vital._get_module = s:_function('s:_get_module')
 endif
 
-function! s:_import_func_name(plugin_name, module_name) abort
+fun! s:_import_func_name(plugin_name, module_name) abort
   return printf('vital#_%s#%s#import', a:plugin_name, s:_dot_to_sharp(a:module_name))
-endfunction
+endf
 
-function! s:_module_sid(name) abort
+fun! s:_module_sid(name) abort
   let path = s:_module_path(a:name)
   if !filereadable(path)
     throw 'vital: module not found: ' . a:name
@@ -222,27 +222,27 @@ function! s:_module_sid(name) abort
     endif
   endif
   return sid
-endfunction
+endf
 
-function! s:_module_path(name) abort
+fun! s:_module_path(name) abort
   return get(s:_extract_files(a:name, s:vital_files()), 0, '')
-endfunction
+endf
 
-function! s:_module_sid_base_dir() abort
+fun! s:_module_sid_base_dir() abort
   return s:is_vital_vim ? &rtp : s:project_root
-endfunction
+endf
 
-function! s:_dot_to_sharp(name) abort
+fun! s:_dot_to_sharp(name) abort
   return substitute(a:name, '\.', '#', 'g')
-endfunction
+endf
 
-function! s:_source(path) abort
+fun! s:_source(path) abort
   execute 'source' fnameescape(a:path)
-endfunction
+endf
 
 " @vimlint(EVL102, 1, l:_)
 " @vimlint(EVL102, 1, l:__)
-function! s:_sid(path, filter_pattern) abort
+fun! s:_sid(path, filter_pattern) abort
   let unified_path = s:_unify_path(a:path)
   if has_key(s:cache_sid, unified_path)
     return s:cache_sid[unified_path]
@@ -253,16 +253,16 @@ function! s:_sid(path, filter_pattern) abort
       let s:cache_sid[unified_path] = sid
       return s:cache_sid[unified_path]
     endif
-  endfor
+  endfo
   return 0
-endfunction
+endf
 
 " We want to use a execute() builtin function instead of s:_execute(),
 " however there is a bug in execute().
 " execute() returns empty string when it is called in
 " completion function of user defined ex command.
 " https://github.com/vim-jp/issues/issues/1129
-function! s:_execute(cmd) abort
+fun! s:_execute(cmd) abort
   let [save_verbose, save_verbosefile] = [&verbose, &verbosefile]
   set verbose=0 verbosefile=
   redir => res
@@ -270,7 +270,7 @@ function! s:_execute(cmd) abort
   redir END
   let [&verbose, &verbosefile] = [save_verbose, save_verbosefile]
   return res
-endfunction
+endf
 
 if filereadable(expand('<sfile>:r') . '.VIM') " is case-insensitive or not
   let s:_unify_path_cache = {}
@@ -278,7 +278,7 @@ if filereadable(expand('<sfile>:r') . '.VIM') " is case-insensitive or not
   " Note: On windows, vim can't expand path names from 8.3 formats.
   " So if getting full path via <sfile> and $HOME was set as 8.3 format,
   " vital load duplicated scripts. Below's :~ avoid this issue.
-  function! s:_unify_path(path) abort
+  fun! s:_unify_path(path) abort
     if has_key(s:_unify_path_cache, a:path)
       return s:_unify_path_cache[a:path]
     endif
@@ -286,36 +286,36 @@ if filereadable(expand('<sfile>:r') . '.VIM') " is case-insensitive or not
     \                   a:path, ':p')), ':~:gs?[\\/]?/?'))
     let s:_unify_path_cache[a:path] = value
     return value
-  endfunction
+  endf
 else
-  function! s:_unify_path(path) abort
+  fun! s:_unify_path(path) abort
     return resolve(fnamemodify(a:path, ':p:gs?[\\/]?/?'))
-  endfunction
+  endf
 endif
 
 " copied and modified from Vim.ScriptLocal
 let s:SNR = join(map(range(len("\<SNR>")), '"[\\x" . printf("%0x", char2nr("\<SNR>"[v:val])) . "]"'), '')
-function! s:sid2sfuncs(sid) abort
+fun! s:sid2sfuncs(sid) abort
   let fs = split(s:_execute(printf(':function /^%s%s_', s:SNR, a:sid)), "\n")
   let r = {}
   let pattern = printf('\m^function\s<SNR>%d_\zs\w\{-}\ze(', a:sid)
   for fname in map(fs, 'matchstr(v:val, pattern)')
     let r[fname] = function(s:_sfuncname(a:sid, fname))
-  endfor
+  endfo
   return r
-endfunction
+endf
 
 "" Return funcname of script local functions with SID
-function! s:_sfuncname(sid, funcname) abort
+fun! s:_sfuncname(sid, funcname) abort
   return printf('<SNR>%s_%s', a:sid, a:funcname)
-endfunction
+endf
 
 if exists('*uniq')
-  function! s:_uniq(list) abort
+  fun! s:_uniq(list) abort
     return uniq(a:list)
-  endfunction
+  endf
 else
-  function! s:_uniq(list) abort
+  fun! s:_uniq(list) abort
     let i = len(a:list) - 1
     while 0 < i
       if a:list[i] ==# a:list[i - 1]
@@ -324,5 +324,5 @@ else
       let i -= 1
     endwhile
     return a:list
-  endfunction
+  endf
 endif
