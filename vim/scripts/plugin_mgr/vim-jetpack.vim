@@ -28,8 +28,9 @@ fun! g:plugin_mgr.install() abort
 
   if v:shell_error == 0
     let succeeded = g:true
+    echomsg "vim-jetpack installed."
   else
-    echoerr "vim-plug couldn't be installed correctly."
+    echoerr "vim-jetpack couldn't be installed correctly."
   endif
 
   return succeeded
@@ -54,6 +55,7 @@ fun! g:plugin_mgr.init() abort
   com! -nargs=* Plug Jetpack <args>
   com! -nargs=* PlugInstall JetpackSync
   com! -nargs=* PlugUpdate JetpackSync
+  com! -nargs=* PlugUpgrade call g:plugin_mgr['install']()
 
   set runtimepath+=$HOME/.vim
   let g:jetpack#optimization = 2
