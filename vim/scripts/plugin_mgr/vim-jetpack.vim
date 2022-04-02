@@ -49,13 +49,17 @@ fun! g:plugin_mgr.load() abort
   endif
 endf
 
+fun! s:call_jetpacksync()
+  JetpackSync
+endf
+
 fun! g:plugin_mgr.init() abort
   " let g:plug_window = 'topleft new'
   " Alias to Jetpack for migration from vim-plug
   com! -nargs=* Plug Jetpack <args>
-  com! -nargs=* PlugInstall JetpackSync
-  com! -nargs=* PlugUpdate JetpackSync
-  com! -nargs=* PlugUpgrade call g:plugin_mgr['install']()
+  com! -nargs=* PlugInstall cal <SID>call_jetpacksync()
+  com! -nargs=* PlugUpdate cal <SID>call_jetpacksync()
+  com! -nargs=* PlugUpgrade cal g:plugin_mgr['install']() <args>
 
   set runtimepath+=$HOME/.vim
   let g:jetpack#optimization = 2
