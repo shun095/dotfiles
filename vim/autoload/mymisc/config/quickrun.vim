@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-function! mymisc#config#quickrun#setup() abort
+fun! mymisc#config#quickrun#setup() abort
   " quickrun modules
   " quickrun-hook-add-include-option {{{
   let s:hook = {
@@ -11,7 +11,7 @@ function! mymisc#config#quickrun#setup() abort
         \   },
         \ }
 
-  function! s:hook.on_module_loaded(session, context)
+  fun! s:hook.on_module_loaded(session, context)
     let l:clang_complete = findfile(".clang_complete",".;")
     if l:clang_complete ==# ""
       return
@@ -22,7 +22,7 @@ function! mymisc#config#quickrun#setup() abort
     if len(paths)
       let a:session.config.cmdopt .= ' -I'.join(paths, ' -I')
     endif
-  endfunction
+  endf
 
   call quickrun#module#register(s:hook, 1)
   unlet s:hook
@@ -79,12 +79,12 @@ function! mymisc#config#quickrun#setup() abort
   endif
 
   nmap <silent> <Leader>R :<C-u>QuickRun<CR>
-  nnoremap <expr><silent> <C-c> quickrun#is_running() ?
+  nno <expr><silent> <C-c> quickrun#is_running() ?
         \ <SID>mymisc_quickrun_sweep() : "\<C-c>"
 
-  function! s:mymisc_quickrun_sweep()
+  fun! s:mymisc_quickrun_sweep()
     echo 'Quickrun Interrupted'
     call quickrun#sweep_sessions()
   endf
-endfunction
+endf
 

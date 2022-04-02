@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-function! mymisc#config#ale#setup() abort
+fun! mymisc#config#ale#setup() abort
   " tsserverはeslintを呼ばないので別でlinterを定義する必要あり
   let g:ale_fixers = {
         \ 'javascript': ['eslint'],
@@ -39,4 +39,4 @@ function! mymisc#config#ale#setup() abort
   if filereadable($HOME . "/.vim/lombok.jar")
     let g:ale_java_javac_executable = "javac -cp " . $HOME . "/.vim/lombok.jar"
   endif
-endfunction
+endf

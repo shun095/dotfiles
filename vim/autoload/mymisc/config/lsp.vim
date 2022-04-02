@@ -1,11 +1,11 @@
 scriptencoding utf-8
 
-function! mymisc#config#lsp#setup() abort
+fun! mymisc#config#lsp#setup() abort
   let g:lsp_log_verbose = 1
   let g:lsp_log_file = $HOME . "/.vim/vim-lsp.log"
-  augroup vimrc_vimlsp
-    autocmd!
-  augroup END
+  aug vimrc_vimlsp
+    au!
+  aug END
 
   let g:lsp_signs_enabled           = 1
   let g:lsp_signs_error             = {'text': 'E'}
@@ -22,7 +22,7 @@ function! mymisc#config#lsp#setup() abort
   hi link LspInformationText ALEInfoSign
   hi link LspHintText ALEInfoSign
 
-  " function! Myvimrc_test_execute_command() abort
+  " fun! Myvimrc_test_execute_command() abort
   "   let l:servers = lsp#get_allowed_servers()
 
   "   let l:command_id = lsp#_new_command()
@@ -44,9 +44,9 @@ function! mymisc#config#lsp#setup() abort
   "       \ 'on_notification': function('s:handle_execute_command', [l:server, l:command_id, 'execute_command']),
   "       \ })
   "       " \   'arguments': "",
-  " endfunction
+  " endf
 
-  " function! s:handle_execute_command(server, last_command_id, type, data) abort
+  " fun! s:handle_execute_command(server, last_command_id, type, data) abort
   "   if a:last_command_id != lsp#_last_command()
   "       return
   "   endif
@@ -57,11 +57,11 @@ function! mymisc#config#lsp#setup() abort
   "   endif
 
   "   call vimspector#LaunchWithSettings({'DAPPort': a:data['response']['result']})
-  " endfunction
+  " endf
 
   " let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 
-  " command! LaunchDebug call Myvimrc_test_execute_command()
+  " com! LaunchDebug call Myvimrc_test_execute_command()
 
   " let g:myvimrc_lsp_general_config = {}
   " let g:myvimrc_lsp_general_config['cpp'] =
@@ -148,16 +148,16 @@ function! mymisc#config#lsp#setup() abort
   " let g:myvimrc_vimlsp_filetypes = []
   " let g:myvimrc_vimlsp_disabled_filetypes = []
 
-  " function! custom#myvimrc_vimlsp_cmd(key, server_info) abort
+  " fun! custom#myvimrc_vimlsp_cmd(key, server_info) abort
   "   return get(g:myvimrc_lsp_general_config[a:key], 'cmd')
-  " endfunction
+  " endf
 
-  " function! custom#myvimrc_vimlsp_root_uri(key, server_info) abort
+  " fun! custom#myvimrc_vimlsp_root_uri(key, server_info) abort
   "   return lsp#utils#path_to_uri(mymisc#find_project_dir(extend(get(g:myvimrc_lsp_general_config[a:key],'root_marker',[]), g:mymisc_projectdir_reference_files)))
-  " endfunction
+  " endf
 
-  " function! custom#myvimrc_vimlsp_setup() abort
-  "   augroup vimrc_vimlsp
+  " fun! custom#myvimrc_vimlsp_setup() abort
+  "   aug vimrc_vimlsp
   "     for s:key in keys(g:myvimrc_lsp_general_config)
   "       if g:myvimrc_lsp_general_config[s:key]['is_executable']
 
@@ -176,29 +176,29 @@ function! mymisc#config#lsp#setup() abort
   "         call extend(g:myvimrc_vimlsp_filetypes, g:myvimrc_lsp_general_config[s:key]['filetype'])
 
   "         exe "au User lsp_setup call lsp#register_server(g:myvimrc_vimlsp_config['".s:key."'])"
-  "         exe "au FileType " . join(g:myvimrc_lsp_general_config[s:key]['filetype'], ",") . " command! -buffer LspKill call lsp#stop_server('".l:vimlsp_config['name']."')"
+  "         exe "au FileType " . join(g:myvimrc_lsp_general_config[s:key]['filetype'], ",") . " com! -buffer LspKill call lsp#stop_server('".l:vimlsp_config['name']."')"
   "         exe "au FileType " . join(g:myvimrc_lsp_general_config[s:key]['filetype'], ",") . " echomsg \"Language Server for " . string(s:key) . " is available.\""
   "       else
   "         exe "au FileType " . join(g:myvimrc_lsp_general_config[s:key]['filetype'], ",") . " echoerr \"Language Server for " . string(s:key) . " is not available.\""
   "       endif
-  "     endfor
+  "     endfo
 
   "     for s:lsp_filetype in g:myvimrc_vimlsp_filetypes
-  "       exe "au FileType " . s:lsp_filetype . " nnoremap <buffer> <leader><c-]> :<C-u>LspDefinition<CR>"
-  "       exe "au FileType " . s:lsp_filetype . " nnoremap <buffer> K :call <SID>toggle_preview_window()<CR>"
-  "       exe "au FileType " . s:lsp_filetype . " vnoremap <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>"
+  "       exe "au FileType " . s:lsp_filetype . " nno <buffer> <leader><c-]> :<C-u>LspDefinition<CR>"
+  "       exe "au FileType " . s:lsp_filetype . " nno <buffer> K :call <SID>toggle_preview_window()<CR>"
+  "       exe "au FileType " . s:lsp_filetype . " vno <buffer> <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>"
   "       exe "au FileType " . s:lsp_filetype . " setl omnifunc=lsp#complete"
-  "     endfor
-  "   augroup END
-  au FileType * nnoremap <leader><c-]> :<C-u>LspDefinition<CR>
-  au FileType * nnoremap <leader>K :<C-u>call mymisc#toggle_preview_window()<CR>
-  au FileType * nnoremap <leader><C-k> :<C-u>call mymisc#toggle_preview_window()<CR>
-  au FileType * vnoremap <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>
-  au FileType * nnoremap <leader>= :<C-u>LspDocumentFormatSync<CR>
-  au FileType * nnoremap <leader>=l :<C-u>LspDocumentFormatSync<CR>
-  au FileType * nnoremap <leader>=a :<C-u>ALEFix<CR>
+  "     endfo
+  "   aug END
+  au FileType * nno <leader><c-]> :<C-u>LspDefinition<CR>
+  au FileType * nno <leader>K :<C-u>call mymisc#toggle_preview_window()<CR>
+  au FileType * nno <leader><C-k> :<C-u>call mymisc#toggle_preview_window()<CR>
+  au FileType * vno <leader>= :<C-u>'<,'>LspDocumentRangeFormat<CR>
+  au FileType * nno <leader>= :<C-u>LspDocumentFormatSync<CR>
+  au FileType * nno <leader>=l :<C-u>LspDocumentFormatSync<CR>
+  au FileType * nno <leader>=a :<C-u>ALEFix<CR>
   " exe "au FileType * setl omnifunc=lsp#complete"
-  " endfunction
+  " endf
 
   " call custom#myvimrc_vimlsp_setup()
-endfunction
+endf

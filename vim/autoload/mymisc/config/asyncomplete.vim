@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
-function! mymisc#config#asyncomplete#setup() abort
-  if mymisc#plug_tap('asyncomplete-file.vim')
+fun! mymisc#config#asyncomplete#setup() abort
+  if mymisc#startup#plug_tap('asyncomplete-file.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
           \ 'name': 'file',
           \ 'whitelist': ['*'],
@@ -9,7 +9,7 @@ function! mymisc#config#asyncomplete#setup() abort
           \ 'completor': function('asyncomplete#sources#file#completor')
           \ }))
   endif
-  if mymisc#plug_tap('asyncomplete-neosnippet.vim')
+  if mymisc#startup#plug_tap('asyncomplete-neosnippet.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
           \ 'name': 'neosnippet',
           \ 'whitelist': ['*'],
@@ -17,7 +17,7 @@ function! mymisc#config#asyncomplete#setup() abort
           \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
           \ }))
   endif
-  if mymisc#plug_tap('asyncomplete-ultisnips.vim')
+  if mymisc#startup#plug_tap('asyncomplete-ultisnips.vim')
     if has('python3') || has('python')
       au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
             \ 'name': 'ultisnips',
@@ -27,7 +27,7 @@ function! mymisc#config#asyncomplete#setup() abort
             \ }))
     endif
   endif
-  if mymisc#plug_tap('asyncomplete-buffer.vim')
+  if mymisc#startup#plug_tap('asyncomplete-buffer.vim')
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
           \ 'name': 'buffer',
           \ 'whitelist': ['*'],
@@ -40,11 +40,11 @@ function! mymisc#config#asyncomplete#setup() abort
 
   imap <C-x><Space> <Plug>(asyncomplete_force_refresh)
 
-  function! s:preprocessor(options, matches) abort
+  fun! s:preprocessor(options, matches) abort
     call timer_start(1, function('s:sort_by_priority_preprocessor', [a:options, a:matches]))
-  endfunction
+  endf
 
-  function! s:sort_by_priority_preprocessor(options, matches, timer) abort
+  fun! s:sort_by_priority_preprocessor(options, matches, timer) abort
     let l:items = []
     let l:startcols = []
 
@@ -61,25 +61,25 @@ function! mymisc#config#asyncomplete#setup() abort
         endif
         let l:item['priority'] = l:priority
         call extend(l:source_items, [l:item])
-      endfor
+      endfo
       if len(l:source_items) > 0
         call extend(l:startcols, [l:startcol])
       endif
       call extend(l:items, l:source_items)
-    endfor
+    endfo
 
     let a:options['startcol'] = min(l:startcols)
 
     call asyncomplete#preprocess_complete(a:options, sort(l:items, {a, b -> b['priority'] - a['priority']}))
-  endfunction
+  endf
 
   " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
   let g:asyncomplete_preprocessor = [function('s:preprocessor')]
   let g:asyncomplete_popup_delay = 200
   let g:asyncomplete_auto_completeopt = 0
 
-  augroup vimrc_asyncomplete
-    autocmd!
-    autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
-  augroup END
-endfunction
+  aug vimrc_asyncomplete
+    au!
+    au InsertLeave * if pumvisible() == 0 | pclose | endif
+  aug END
+endf

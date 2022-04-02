@@ -3,18 +3,18 @@ if &compatible
   set nocompatible
 endif
 
-function! mymisc#util#log_info(mes) abort
+fun! mymisc#util#log_info(mes) abort
   echomsg string(a:mes)
-endfunction
+endf
 
-function! mymisc#util#log_warn(mes) abort
+fun! mymisc#util#log_warn(mes) abort
   echohl WarningMsg
   echomsg string(a:mes)
   echohl none
-endfunction
+endf
 
-function! mymisc#util#log_error(mes) abort
+fun! mymisc#util#log_error(mes) abort
   echohl ErrorMsg
   echomsg string(a:mes)
   echohl none
-endfunction
+endf

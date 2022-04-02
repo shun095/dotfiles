@@ -1,10 +1,10 @@
 scriptencoding utf-8
 
-function! mymisc#config#vimtex#setup() abort
-  augroup vimrc_vimtex
-    autocmd!
-    autocmd BufReadPre *.tex let b:vimtex_main = 'main.tex'
-  augroup END
+fun! mymisc#config#vimtex#setup() abort
+  aug vimrc_vimtex
+    au!
+    au BufReadPre *.tex let b:vimtex_main = 'main.tex'
+  aug END
 
   let g:vimtex_compiler_latexmk_engines = { '_' : '-pdfdvi' }
   let g:vimtex_compiler_latexmk = {
@@ -46,4 +46,4 @@ function! mymisc#config#vimtex#setup() abort
       let g:vimtex_view_general_viewer = 'xdg-open'
     endif
   endif
-endfunction
+endf

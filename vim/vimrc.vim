@@ -1,7 +1,7 @@
 ﻿" vim:set foldmethod=marker:
 " INITIALIZE {{{
 
-if !1 | finish | endif
+if !1 | finish | en
 
 scriptencoding utf-8
 
@@ -12,43 +12,46 @@ let g:msgs_on_startup = []
 
 try
 
-  set encoding=utf-8
-  set spelllang=en_us
+  se encoding=utf-8
+  se spelllang=en_us
 
   if !exists('$MYDOTFILES')
     let $MYDOTFILES = $HOME . '/dotfiles'
-  endif
+  en
 
   let $MYVIMHOME = $MYDOTFILES . '/vim'
   let $MYVIMRUNTIME = $HOME . '/.vim'
 
   if !exists('g:use_plugins')
     let g:use_plugins = g:true
-  endif
+  en
   if !exists('g:is_test')
     let g:is_test = g:false
-  endif
+  en
 
   " Force to use python3
   if has("python3")
+    let g:myvimrc_has_python3 = g:true
     py3 pass
-  endif
+  else
+    let g:myvimrc_has_python3 = g:false
+  en
 
   if has("pythonx")
-    set pyxversion=3
-  endif
+    se pyxversion=3
+  en
 
   " }}}
 
   " OPTIONS {{{
   let g:mapleader = "\<space>"
 
-  augroup VIMRC
+  aug VIMRC
     " Initialize augroup
-    autocmd!
-  augroup END
+    au!
+  aug END
 
-  function! s:toggle_color_mode() abort
+  fun! s:toggle_color_mode() abort
     if get(s:,'color_mode','B') !=# 'A'
       " Pattern A:
       let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -67,150 +70,150 @@ try
       " gnome-term + docker + raw  : work
       " gnome-term + docker + tmux : doesn't work
       let s:color_mode_a = 'B'
-    endif
+    en
 
-    set termguicolors " TrueColor on terminal
-  endfunction
+    se termguicolors " TrueColor on terminal
+  endf
 
-  command! ColorModeToggle call <SID>toggle_color_mode()
+  com! ColorModeToggle cal <SID>toggle_color_mode()
 
   if !has('gui_running')
     if match($TERM, '256color') > 0
       if v:version >= 800
-        call s:toggle_color_mode()
-      endif
+        cal s:toggle_color_mode()
+      en
       let &t_SI = '[5 q'
       let &t_EI = '[2 q'
     else
       if has('win32')
         if has('vcon')
-          set termguicolors
-        endif
+          se termguicolors
+        en
       else
         if $TERM ==# 'linux'
-          set t_Co=16  " Limited colors on terminal
+          se t_Co=16  " Limited colors on terminal
         else
-          set t_Co=256 " Limited colors on terminal
-        endif
-      endif
-    endif
-  endif
+          se t_Co=256 " Limited colors on terminal
+        en
+      en
+    en
+  en
 
   " Color term in :terminal
   if $TERM ==# 'screen-256color'
     let $TERM = 'xterm-256color'
-  endif
+  en
 
   if !has('nvim')
-    set ttymouse=xterm2
-  endif
+    se ttymouse=xterm2
+  en
 
   if v:version >= 800
-    set breakindent                                                            " version8以降搭載の便利オプション
-    set display=truncate                                                       " 一行が長い場合でも@にせずちゃんと表示
-    set emoji                                                                  " 絵文字を全角表示
-    set completeopt=menuone,noselect,noinsert                                  " 補完関係の設定,Ycmで自動設定される
-  endif
+    se breakindent                                                            " version8以降搭載の便利オプション
+    se display=truncate                                                       " 一行が長い場合でも@にせずちゃんと表示
+    se emoji                                                                  " 絵文字を全角表示
+    se completeopt=menuone,noselect,noinsert                                  " 補完関係の設定,Ycmで自動設定される
+  en
 
   if has('patch-8.1.1880')
-    set completeopt+=popup
-  endif
+    se completeopt+=popup
+  en
   if has('patch-8.1.1313')
-    set diffopt+=algorithm:histogram,indent-heuristic                          " Diff options
-  endif
+    se diffopt+=algorithm:histogram,indent-heuristic                          " Diff options
+  en
   if has('patch-8.0.1491')
-    set pumwidth=0                                                             " 補完ウィンドウの最小幅
-  endif
-  set pumheight=20                                                             " 補完ウィンドウ最大高さ
+    se pumwidth=0                                                             " 補完ウィンドウの最小幅
+  en
+  se pumheight=20                                                             " 補完ウィンドウ最大高さ
 
-  set visualbell t_vb=                                                         " Disable beep sounds
-  set cursorline                                                               " Highlight of cursor line/column
-  set nocursorcolumn
-  set backspace=indent,eol,start                                               " Make backspace's behavior good
-  set clipboard=unnamed,unnamedplus                                            " Enable clipboard
-  set ignorecase                                                               " Ignore case when search
-  set smartcase                                                                " When search word starts with uppercase, it doesn't ignore case
-  set foldmethod=marker                                                        " Set methods for folding
-  set nofoldenable                                                             " Set fold disable as default
-  set tabstop=4                                                                " Make width of TAB character as rhs
-  set shiftwidth=4                                                             " Set number of spaces used by indenting (eg. >>, << or auto-indent)
-  set softtabstop=4                                                            " Set number of spaces inserted by <tab> button or deleted by <bs>
-  set expandtab                                                                " Expand tabs to spaces
-  set autoindent                                                               " Enable auto indenting
-  set list                                                                     " Show invisible characters
-  set listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<                     " How invisible characters will be shown
-  set nofixendofline
-  set synmaxcol=500
-  set wildmenu                                                                 " Enable completion for commands
-  set wildmode=longest:full,full                                               " Behavior config for wildmenu
-  set laststatus=2                                                             " Enable status line
-  set display=lastline                                                         " 一行が長い場合でも@にせずちゃんと表示
-  set showcmd                                                                  " 入力中のコマンドを右下に表示
-  set cmdheight=2                                                              " コマンドラインの高さ
-  set showtabline=2                                                            " タブバーを常に表示
-  set shortmess-=Tt
-  set nostartofline                                                            " オンの場合Gなどのときに行頭に移動する
-  set sidescroll=1                                                             " 横スクロール刻み幅
-  set sidescrolloff=1                                                          " 横スクロール刻み幅
-  set number                                                                   " 行番号表示
-  set norelativenumber
-  set hlsearch                                                                 " 文字列検索時にハイライトする
-  set incsearch                                                                " 文字入力中に検索を開始
-  set ruler                                                                    " Show line number of right bottom
-  set hidden                                                                   " You can hide buffer to background without saving
-  set noequalalways                                                            " splitしたときにウィンドウが同じ大きさになるよう調節する
-  set tags+=./tags;,./tags-ja;                                                 " タグファイルを上層に向かって探す
-  set autoread                                                                 " 他のソフトで、編集中ファイルが変更されたとき自動Reload
-  set noautochdir                                                              " 今開いてるファイルにカレントディレクトリを移動するか
-  set ambiwidth=single                                                         " 全角記号（「→」など）の文字幅 :terminalのためにsingleに設定
-  set mouse=a                                                                  " マウスを有効化
-  set mousehide                                                                " 入力中にポインタを消すかどうか
-  set mousemodel=                                                              " Behavior of right-click
-  set lazyredraw                                                               " スクロールが間に合わない時などに描画を省略する
-  set updatetime=1000                                                          " Wait time until swap file will be written
-  set timeout
-  set ttimeout
-  set timeoutlen=1000                                                          " マッピングの時間切れまでの時間
-  set ttimeoutlen=100                                                          " キーコードの時間切れまでの時間
-  set fileencodings=ucs-bom,utf-8,sjis,iso-2022-jp,cp932,euc-jp,default,latin1 " 文字コード自動判別優先順位の設定
-  set fileformats=unix,dos,mac                                                 " 改行コード自動判別優先順位の設定
-  " set complete=.,w,b,u,U,k,kspell,s,t,t
-  set iminsert=0                                                               " IMEの管理
-  set imsearch=0
+  se visualbell t_vb=                                                         " Disable beep sounds
+  se cursorline                                                               " Highlight of cursor line/column
+  se nocursorcolumn
+  se backspace=indent,eol,start                                               " Make backspace's behavior good
+  se clipboard=unnamed,unnamedplus                                            " Enable clipboard
+  se ignorecase                                                               " Ignore case when search
+  se smartcase                                                                " When search word starts with uppercase, it doesn't ignore case
+  se foldmethod=marker                                                        " Set methods for folding
+  se nofoldenable                                                             " Set fold disable as default
+  se tabstop=4                                                                " Make width of TAB character as rhs
+  se shiftwidth=4                                                             " Set number of spaces used by indenting (eg. >>, << or auto-indent)
+  se softtabstop=4                                                            " Set number of spaces inserted by <tab> button or deleted by <bs>
+  se expandtab                                                                " Expand tabs to spaces
+  se autoindent                                                               " Enable auto indenting
+  se list                                                                     " Show invisible characters
+  se listchars=tab:>\ ,trail:-,eol:$,extends:>,precedes:<                     " How invisible characters will be shown
+  se nofixendofline
+  se synmaxcol=500
+  se wildmenu                                                                 " Enable completion for s
+  se wildmode=longest:full,full                                               " Behavior config for wildmenu
+  se laststatus=2                                                             " Enable status line
+  se display=lastline                                                         " 一行が長い場合でも@にせずちゃんと表示
+  se showcmd                                                                  " 入力中のコマンドを右下に表示
+  se cmdheight=2                                                              " コマンドラインの高さ
+  se showtabline=2                                                            " タブバーを常に表示
+  se shortmess-=Tt
+  se nostartofline                                                            " オンの場合Gなどのときに行頭に移動する
+  se sidescroll=1                                                             " 横スクロール刻み幅
+  se sidescrolloff=1                                                          " 横スクロール刻み幅
+  se number                                                                   " 行番号表示
+  se norelativenumber
+  se hlsearch                                                                 " 文字列検索時にハイライトする
+  se incsearch                                                                " 文字入力中に検索を開始
+  se ruler                                                                    " Show line number of right bottom
+  se hidden                                                                   " You can hide buffer to background without saving
+  se noequalalways                                                            " splitしたときにウィンドウが同じ大きさになるよう調節する
+  se tags+=./tags;,./tags-ja;                                                 " タグファイルを上層に向かって探す
+  se autoread                                                                 " 他のソフトで、編集中ファイルが変更されたとき自動Reload
+  se noautochdir                                                              " 今開いてるファイルにカレントディレクトリを移動するか
+  se ambiwidth=single                                                         " 全角記号（「→」など）の文字幅 :terminalのためにsingleに設定
+  se mouse=a                                                                  " マウスを有効化
+  se mousehide                                                                " 入力中にポインタを消すかどうか
+  se mousemodel=                                                              " Behavior of right-click
+  se lazyredraw                                                               " スクロールが間に合わない時などに描画を省略する
+  se updatetime=1000                                                          " Wait time until swap file will be written
+  se timeout
+  se ttimeout
+  se timeoutlen=1000                                                          " マッピングの時間切れまでの時間
+  se ttimeoutlen=100                                                          " キーコードの時間切れまでの時間
+  se fileencodings=ucs-bom,utf-8,sjis,iso-2022-jp,cp932,euc-jp,default,latin1 " 文字コード自動判別優先順位の設定
+  se fileformats=unix,dos,mac                                                 " 改行コード自動判別優先順位の設定
+  " se complete=.,w,b,u,U,k,kspell,s,t,t
+  se iminsert=0                                                               " IMEの管理
+  se imsearch=0
 
-  set sessionoptions&                                                          " セッションファイルに保存する内容
-  set sessionoptions-=options
-  set sessionoptions-=folds
-  set sessionoptions-=blank
-  set sessionoptions+=slash
+  se sessionoptions&                                                          " セッションファイルに保存する内容
+  se sessionoptions-=options
+  se sessionoptions-=folds
+  se sessionoptions-=blank
+  se sessionoptions+=slash
 
-  set viminfo='500,<50,s10,h
+  se viminfo='500,<50,s10,h
 
-  " set undofileでアンドゥデータをファイルを閉じても残しておく
+  " se undofileでアンドゥデータをファイルを閉じても残しておく
   " 該当フォルダがなければ作成
   if !isdirectory($HOME . '/.vim/undofiles')
-    call mkdir($HOME . '/.vim/undofiles','p')
-  endif
+    cal mkdir($HOME . '/.vim/undofiles','p')
+  en
 
-  set undodir=$HOME/.vim/undofiles
-  set undofile
+  se undodir=$HOME/.vim/undofiles
+  se undofile
 
-  " set backupでバックアップファイルを保存する
+  " se backupでバックアップファイルを保存する
   " 該当フォルダがなければ作成
   if !isdirectory($HOME . '/.vim/backupfiles')
-    call mkdir($HOME . '/.vim/backupfiles','p')
-  endif
+    cal mkdir($HOME . '/.vim/backupfiles','p')
+  en
 
-  set backupdir=$HOME/.vim/backupfiles
-  set backup
+  se backupdir=$HOME/.vim/backupfiles
+  se backup
 
   " change swap file directory
   if !isdirectory($HOME . '/tmp')
-    call mkdir($HOME . '/tmp','p')
-  endif
+    cal mkdir($HOME . '/tmp','p')
+  en
 
-  set dir-=.
-  set dir^=$HOME/tmp//
+  se dir-=.
+  se dir^=$HOME/tmp//
 
   " Statusline settings {{{
   let &statusline=''
@@ -227,29 +230,29 @@ try
   if has('multi_byte')
     let &statusline.='%1*'
     let &statusline.='%{&fenc==#""?&enc:&fenc}'
-  endif
+  en
   let &statusline.='(%{&fileformat})'
   let &statusline.=' '
   let &statusline.='%5*'
   let &statusline.='%3p%%%5l:%-3v'
 
-  augroup vimrc_status_vars
-    autocmd!
+  aug vimrc_status_vars
+    au!
     " 移植するか要検討
-    autocmd CursorHold,CursorHoldI * call mymisc#set_statusline_vars()
-  augroup END
+    au CursorHold,CursorHoldI * cal mymisc#set_statusline_vars()
+  aug END
 
-  function! Myvimrc_statusline_tagbar() abort
-    return get(w:,'mymisc_status_tagbar','')
-  endfunction
+  fun! Myvimrc_statusline_tagbar() abort
+    retu get(w:,'mymisc_status_tagbar','')
+  endf
 
-  function! Myvimrc_statusline_git() abort
-    return get(w:,'mymisc_status_git','')
-  endfunction
+  fun! Myvimrc_statusline_git() abort
+    retu get(w:,'mymisc_status_git','')
+  endf
 
-  function! Myvimrc_statusline_gitgutter() abort
-    return get(w:,'mymisc_status_gitgutter','')
-  endfunction
+  fun! Myvimrc_statusline_gitgutter() abort
+    retu get(w:,'mymisc_status_gitgutter','')
+  endf
   " }}}
 
   let g:mymisc_files_is_available = g:false " (executable('files') ? g:true : g:false)
@@ -264,198 +267,198 @@ try
   if has('win32') && executable('git')
     " Use Git-bash's grep
     let s:grep_exe_path = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\grep.exe'
-    exe 'set grepprg=' . escape('"' . s:grep_exe_path . '" -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
+    exe 'se grepprg=' . escape('"' . s:grep_exe_path . '" -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
   elseif has('mac')
     if executable('ggrep')
-      exe 'set grepprg=' . escape('ggrep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
+      exe 'se grepprg=' . escape('ggrep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
     else
-      exe 'set grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
-    endif
+      exe 'se grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
+    en
   elseif has('unix')
-    exe 'set grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
-  endif
+    exe 'se grepprg=' . escape('grep -rnIH --exclude-dir='.s:exclude_dirs.' --exclude='.s:excludes.' $*', ' \"')
+  en
 
   " " agがあればgrepの代わりにagを使う
   " if g:mymisc_rg_is_available
-  "   set grepprg=rg\ --vimgrep\ --follow\ $*\ .
+  "   se grepprg=rg\ --vimgrep\ --follow\ $*\ .
   " elseif g:mymisc_pt_is_available
-  "   set grepprg=pt\ --nogroup\ --nocolor\ --column\ --follow\ $*\ .
+  "   se grepprg=pt\ --nogroup\ --nocolor\ --column\ --follow\ $*\ .
   " elseif g:mymisc_ag_is_available
-  "   set grepprg=ag\ --nogroup\ --nocolor\ --column\ --follow\ $*\ .
-  " endif
+  "   se grepprg=ag\ --nogroup\ --nocolor\ --column\ --follow\ $*\ .
+  " en
   " }}} OPTIONS END
 
   " MAPPING {{{
   " Move cursor in display lines method
-  nnoremap j gj
-  nnoremap k gk
-  nnoremap gj j
-  nnoremap gk k
-  nnoremap <Down> gj
-  nnoremap <Up> gk
+  nn j gj
+  nn k gk
+  nn gj j
+  nn gk k
+  nn <Down> gj
+  nn <Up> gk
 
-  vnoremap j gj
-  vnoremap k gk
-  vnoremap gj j
-  vnoremap gk k
-  vnoremap <Down> gj
-  vnoremap <Up> gk
+  vn j gj
+  vn k gk
+  vn gj j
+  vn gk k
+  vn <Down> gj
+  vn <Up> gk
 
-  nnoremap <C-Tab> gt
-  nnoremap <C-S-Tab> gT
+  nn <C-Tab> gt
+  nn <C-S-Tab> gT
 
   " Clear highlighting on escape in normal mode
-  nnoremap <ESC><ESC> :noh<CR><ESC>
-  nnoremap <ESC>^[ <ESC>^[
+  nn <ESC><ESC> :noh<CR><ESC>
+  nn <ESC>^[ <ESC>^[
 
-  " nnoremap Y v$hy
+  " nn Y v$hy
 
-  " nnoremap <C-g> 2<C-g>
-  " nnoremap <C-]> g<C-]>
+  " nn <C-g> 2<C-g>
+  " nn <C-]> g<C-]>
 
-  vnoremap <c-a> <c-a>gv
-  vnoremap <c-x> <c-x>gv
+  vn <c-a> <c-a>gv
+  vn <c-x> <c-x>gv
 
   " ビジュアルモードでも*検索が使えるようにする
-  augroup vimrc_searchindex
+  aug vimrc_searchindex
     " Avoid error on startup caused by <unique> in vim-searchindex
-    autocmd!
-    autocmd VimEnter * vnoremap * "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>/<CR>
-    autocmd VimEnter * vnoremap g* "9y:<C-u>let @/ = @9.'\C'<CR>/<CR>
-    autocmd VimEnter * vnoremap # "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>?<CR>
-    autocmd VimEnter * vnoremap g# "9y:<C-u>let @/ = @9.'\C'<CR>?<CR>
-  augroup END
+    au!
+    au VimEnter * vn * "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>/<CR>
+    au VimEnter * vn g* "9y:<C-u>let @/ = @9.'\C'<CR>/<CR>
+    au VimEnter * vn # "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>?<CR>
+    au VimEnter * vn g# "9y:<C-u>let @/ = @9.'\C'<CR>?<CR>
+  aug END
 
   " とりあえずvery magic
-  " nnoremap / /\v
+  " nn / /\v
 
-  " !マークはInsert ModeとCommand-line Modeへのマッピング
-  " emacs like keymap in insert/command mode
+  " !マークはInsert Modeと-line Modeへのマッピング
+  " emacs like keymap in insert/ mode
 
-  noremap! <C-a> <Home>
-  noremap! <C-e> <End>
-  inoremap <C-k> <Right><ESC>Da
-  inoremap <C-l> <Delete>
-  cnoremap <C-@> <C-a>
+  no! <C-a> <Home>
+  no! <C-e> <End>
+  ino <C-k> <Right><ESC>Da
+  ino <C-l> <Delete>
+  cno <C-@> <C-a>
 
   if has('mouse')
     nmap <X1Mouse> <C-o>
     nmap <X2Mouse> <C-i>
-  endif
+  en
 
   if has('gui_running')
-    noremap! <M-n> <Down>
-    noremap! <M-p> <Up>
-    noremap! <M-f> <S-Right>
-    noremap! <M-b> <S-Left>
-    noremap! <M-BS> <C-w>
+    no! <M-n> <Down>
+    no! <M-p> <Up>
+    no! <M-f> <S-Right>
+    no! <M-b> <S-Left>
+    no! <M-BS> <C-w>
   elseif has('nvim')
-    noremap! <M-n> <Down>
-    noremap! <M-p> <Up>
-    noremap! <M-f> <S-Right>
-    noremap! <M-b> <S-Left>
-    noremap! <M-C-H> <C-w>
-    noremap! <M-BS> <C-w>
+    no! <M-n> <Down>
+    no! <M-p> <Up>
+    no! <M-f> <S-Right>
+    no! <M-b> <S-Left>
+    no! <M-C-H> <C-w>
+    no! <M-BS> <C-w>
   else
     if has('win32')
-      noremap! î  <Down>
-      noremap! ð <Up>
-      noremap! æ <S-Right>
-      noremap! â  <S-Left>
-      noremap!  <C-w>
+      no! î  <Down>
+      no! ð <Up>
+      no! æ <S-Right>
+      no! â  <S-Left>
+      no!  <C-w>
     else
-      function! Myvimrc_fast_esc_unmap(timer) abort
-        cunmap <ESC>n
-        cunmap <ESC>p
-        cunmap <ESC>f
-        cunmap <ESC>b
-        cunmap <ESC>
+      fun! Myvimrc_fast_esc_unmap(timer) abort
+        cu <ESC>n
+        cu <ESC>p
+        cu <ESC>f
+        cu <ESC>b
+        cu <ESC>
 
-        iunmap <ESC>n
-        iunmap <ESC>p
-        iunmap <ESC>f
-        iunmap <ESC>b
-        iunmap <ESC>
+        iu <ESC>n
+        iu <ESC>p
+        iu <ESC>f
+        iu <ESC>b
+        iu <ESC>
 
         let &timeoutlen=s:old_tlen
-        inoremap <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
-      endfunction
+        ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+      endf
 
-      function! s:fast_esc() abort
+      fun! s:fast_esc() abort
         " ESCが押されたらtimeoutlenを短くして
         " ESCが認識されるのを早くする。
         " 無事認識後元の状態に戻すことでfast_esc()のバインドの反応も早くする
-        iunmap <ESC>
+        iu <ESC>
         let s:old_tlen = &timeoutlen
-        set timeoutlen=50
+        se timeoutlen=50
 
-        cnoremap <ESC>n <Down>
-        cnoremap <ESC>p <Up>
-        cnoremap <ESC>f <S-Right>
-        cnoremap <ESC>b <S-Left>
-        cnoremap <ESC> <C-w>
+        cno <ESC>n <Down>
+        cno <ESC>p <Up>
+        cno <ESC>f <S-Right>
+        cno <ESC>b <S-Left>
+        cno <ESC> <C-w>
 
-        inoremap <ESC>n <Down>
-        inoremap <ESC>p <Up>
-        inoremap <ESC>f <S-Right>
-        inoremap <ESC>b <S-Left>
-        inoremap <ESC> <C-w>
+        ino <ESC>n <Down>
+        ino <ESC>p <Up>
+        ino <ESC>f <S-Right>
+        ino <ESC>b <S-Left>
+        ino <ESC> <C-w>
 
-        call feedkeys("\<ESC>", 'i')
-        call timer_start(100, 'Myvimrc_fast_esc_unmap', {'repeat':1})
-        return ''
-      endfunction
+        cal feedkeys("\<ESC>", 'i')
+        cal timer_start(100, 'Myvimrc_fast_esc_unmap', {'repeat':1})
+        retu ''
+      endf
 
-      " inoremap <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+      " ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
 
-      " cnoremap <ESC>n <Down>
-      " cnoremap <ESC>p <Up>
-      " cnoremap <ESC>f <S-Right>
-      " cnoremap <ESC>b <S-Left>
-      " cnoremap <ESC> <C-w>
+      " cno <ESC>n <Down>
+      " cno <ESC>p <Up>
+      " cno <ESC>f <S-Right>
+      " cno <ESC>b <S-Left>
+      " cno <ESC> <C-w>
 
-      " inoremap <ESC>n <Down>
-      " inoremap <ESC>p <Up>
-      " inoremap <ESC>f <S-Right>
-      " inoremap <ESC>b <S-Left>
-      " inoremap <ESC> <C-w>
-    endif
-  endif
+      " ino <ESC>n <Down>
+      " ino <ESC>p <Up>
+      " ino <ESC>f <S-Right>
+      " ino <ESC>b <S-Left>
+      " ino <ESC> <C-w>
+    en
+  en
 
   if has('nvim')
-    tnoremap <C-w>      <C-\><C-n>G<C-w>
-    tnoremap <C-w>.     <C-w>
-    tnoremap <C-w><C-w> <C-w>
-    tnoremap <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
+    tno <C-w>      <C-\><C-n>G<C-w>
+    tno <C-w>.     <C-w>
+    tno <C-w><C-w> <C-w>
+    tno <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
   else
     if has('terminal')
-      tnoremap <C-w><C-w> <C-w>.
-      tnoremap <C-w><Space>te <C-w>:T<CR>
-      tnoremap <C-w><Space><Space> <C-w>:call <SID>set_winheight_small()<CR>
-    endif
-  endif
-  nnoremap <C-w><Space><Space> :call <SID>set_winheight_small()<CR>
+      tno <C-w><C-w> <C-w>.
+      tno <C-w><Space>te <C-w>:T<CR>
+      tno <C-w><Space><Space> <C-w>:cal <SID>set_winheight_small()<CR>
+    en
+  en
+  nn <C-w><Space><Space> :cal <SID>set_winheight_small()<CR>
 
-  noremap! <C-f> <Right>
-  noremap! <C-b> <Left>
+  no! <C-f> <Right>
+  no! <C-b> <Left>
 
-  noremap! <C-g><C-g> <ESC>
+  no! <C-g><C-g> <ESC>
 
-  cnoremap <C-o> <C-a>
-  cnoremap <C-p> <up>
-  cnoremap <C-n> <down>
+  cno <C-o> <C-a>
+  cno <C-p> <up>
+  cno <C-n> <down>
 
-  nnoremap <Leader>u  :<C-u>/ oldfiles<Home>browse filter /
+  nn <Leader>u  :<C-u>/ oldfiles<Home>browse filter /
 
   " delete without yanking
-  nnoremap <leader>d "_d
-  vnoremap <leader>d "_d
+  nn <leader>d "_d
+  vn <leader>d "_d
   " replace currently selected text with default register
   " without yanking it
-  vnoremap <leader>p "_dp
-  vnoremap <leader>P "_dP
+  vn <leader>p "_dp
+  vn <leader>P "_dP
 
-  function! s:lexplore(arg) abort
+  fun! s:lexplore(arg) abort
     let tail = expand('%:t')
     let full = substitute(expand('%:p'),'\','/','g')
 
@@ -467,33 +470,33 @@ try
       let tree_nodes = split(substitute(full, netrw_top, '', 'g'),'/')
 
       for node in tree_nodes
-        call search('\(^\|\s\)\zs'.node.'\(/\|\)$')
-      endfor
+        cal search('\(^\|\s\)\zs'.node.'\(/\|\)$')
+      endfo
     catch
       " pass
-    endtry
+    endt
 
     if !exists("w:mynetrw_wide")
       let w:mynetrw_wide = 0
-    endif
-  endfunction
+    en
+  endf
 
-  function! s:lex_apply_toggle() abort
+  fun! s:lex_apply_toggle() abort
     if w:mynetrw_wide
       normal! |
     else
       exe "normal! ".abs(g:netrw_winsize)."|"
-    endif
-  endfunction
+    en
+  endf
 
-  function! s:lex_toggle_width() abort
+  fun! s:lex_toggle_width() abort
     let w:mynetrw_wide = !w:mynetrw_wide
-    call s:lex_apply_toggle()
-  endfunction
+    cal s:lex_apply_toggle()
+  endf
 
-  nnoremap <Leader>E :<C-u>call <SID>lexplore('%:h')<CR>
-  nnoremap <Leader>e :<C-u>call <SID>lexplore('')<CR>
-  nnoremap <Leader><C-e> :<C-u>call <SID>lexplore('.')<CR>
+  nn <Leader>E :<C-u>cal <SID>lexplore('%:h')<CR>
+  nn <Leader>e :<C-u>cal <SID>lexplore('')<CR>
+  nn <Leader><C-e> :<C-u>cal <SID>lexplore('.')<CR>
   let g:netrw_banner = 0
   let g:netrw_altfile = 1
   let g:netrw_liststyle = 3
@@ -503,24 +506,24 @@ try
   let g:netrw_winsize = -35
   let g:netrw_list_hide= '\(^\|\s\s\)\zs\.\S\+'
   " let g:netrw_winsize = 20
-  autocmd VIMRC FileType netrw setl bufhidden=delete
-  autocmd VIMRC FileType netrw nnoremap <buffer> q :<C-u>bw<CR>
-  autocmd VIMRC FileType netrw nnoremap <buffer> qq :<C-u>bw<CR>
-  autocmd VIMRC FileType netrw nnoremap <buffer> A :<C-u>call <SID>lex_toggle_width()<CR>
+  au VIMRC FileType netrw setl bufhidden=delete
+  au VIMRC FileType netrw nn <buffer> q :<C-u>bw<CR>
+  au VIMRC FileType netrw nn <buffer> qq :<C-u>bw<CR>
+  au VIMRC FileType netrw nn <buffer> A :<C-u>cal <SID>lex_toggle_width()<CR>
   " }}} MAPPING END
 
-  " COMMANDS {{{
+  " S {{{
   " Sudoで強制保存
   if has('unix')
     if has('nvim')
-      command! Wsudo :w suda://%
+      com! Wsudo :w suda://%
     else
-      command! Wsudo execute("w !sudo tee % > /dev/null")
-    endif
-  endif
+      com! Wsudo execute("w !sudo tee % > /dev/null")
+    en
+  en
 
   " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
-  command! CdCurrent cd\ %:h
+  com! CdCurrent cd\ %:h
   let g:mymisc_projectdir_reference_files = [
         \ '.hg/',
         \ '.git/',
@@ -529,163 +532,163 @@ try
         \ 'tags',
         \ 'tags-'
         \ ]
-  command! CdProject execute "cd " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
-  command! CdHistory call mymisc#cd_history()
-  command! Ghq call mymisc#fzf('ghq list -p', 'cd')
-  command! Fhq call mymisc#fzf('ghq list -p', 'cd')
+  com! CdProject exe "cd " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
+  com! CdHistory cal mymisc#cd_history()
+  com! Ghq cal mymisc#fzf('ghq list -p', 'cd')
+  com! Fhq cal mymisc#fzf('ghq list -p', 'cd')
   if executable('tig')
-    command! Tig call mymisc#command_at_destdir(
+    com! Tig cal mymisc#command_at_destdir(
           \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
           \ [":tabe | :terminal ++curwin ++close tig"])
-  endif
-  command! Todo exe 'drop ' . get(g:,'memolist_path',$HOME . '/memo') . '/todo.txt'
+  en
+  com! Todo exe 'drop ' . get(g:,'memolist_path',$HOME . '/memo') . '/todo.txt'
 
-  command! CpPath call mymisc#copypath()
-  command! CpFileName call mymisc#copyfname()
-  command! CpDirPath call mymisc#copydirpath()
-  command! Ctags call mymisc#ctags_project(g:mymisc_projectdir_reference_files)
-  command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
-  " command! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
-  function! s:transparent() abort
+  com! CpPath cal mymisc#copypath()
+  com! CpFileName cal mymisc#copyfname()
+  com! CpDirPath cal mymisc#copydirpath()
+  com! Ctags cal mymisc#ctags_project(g:mymisc_projectdir_reference_files)
+  com! DiffOrig vert new | se bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+  " com! Transparent set notermguicolors | hi Normal ctermbg=none | hi SpecialKey ctermbg=none | hi NonText ctermbg=none | hi LineNr ctermbg=none | hi EndOfBuffer ctermbg=none
+  fun! s:transparent() abort
 
-    highlight Normal ctermbg=NONE guibg=NONE
-    highlight NonText ctermbg=NONE guibg=NONE
-    " highlight EndOfBuffer ctermbg=NONE guibg=NONE
-    highlight Folded ctermbg=NONE guibg=NONE
-    highlight LineNr ctermbg=NONE guibg=NONE
-    highlight CursorLineNr ctermbg=NONE guibg=NONE
-    highlight SpecialKey ctermbg=NONE guibg=NONE
-    highlight Error ctermbg=NONE guibg=NONE
-    highlight ErrorMsg ctermbg=NONE guibg=NONE
-    highlight Todo ctermbg=NONE guibg=NONE
-    " highlight ALEErrorSign ctermbg=NONE guibg=NONE
-    " highlight ALEWarningSign ctermbg=NONE guibg=NONE
-    " highlight GitGutterAdd ctermbg=NONE guibg=NONE
-    " highlight GitGutterChange ctermbg=NONE guibg=NONE
-    " highlight GitGutterChangeDelete ctermbg=NONE guibg=NONE
-    " highlight GitGutterDelete ctermbg=NONE guibg=NONE
-    highlight SignColumn ctermbg=NONE guibg=NONE
-    highlight CursorLine cterm=underline gui=underline ctermbg=NONE guibg=NONE
-    highlight StatusLine cterm=underline gui=underline ctermbg=NONE guibg=NONE
-    highlight StatusLineNC cterm=NONE gui=NONE ctermbg=NONE guibg=NONE
-    " highlight StatusLineTerm cterm=NONE gui=NONE ctermbg=NONE guibg=NONE
-    highlight TabLineFill ctermbg=NONE guibg=NONE
-  endfunction
-  " command! Transparent hi Normal ctermbg=none guibg=NONE
-  command! Transparent call s:transparent()
-  command! -nargs=1 -bang TabWidth exe 'set sw='.<args>.' sts='.<args>.' '.(<bang>0 ? 'no' : '').'et'
+    hi Normal ctermbg=NONE guibg=NONE
+    hi NonText ctermbg=NONE guibg=NONE
+    " hi EndOfBuffer ctermbg=NONE guibg=NONE
+    hi Folded ctermbg=NONE guibg=NONE
+    hi LineNr ctermbg=NONE guibg=NONE
+    hi CursorLineNr ctermbg=NONE guibg=NONE
+    hi SpecialKey ctermbg=NONE guibg=NONE
+    hi Error ctermbg=NONE guibg=NONE
+    hi ErrorMsg ctermbg=NONE guibg=NONE
+    hi Todo ctermbg=NONE guibg=NONE
+    " hi ALEErrorSign ctermbg=NONE guibg=NONE
+    " hi ALEWarningSign ctermbg=NONE guibg=NONE
+    " hi GitGutterAdd ctermbg=NONE guibg=NONE
+    " hi GitGutterChange ctermbg=NONE guibg=NONE
+    " hi GitGutterChangeDelete ctermbg=NONE guibg=NONE
+    " hi GitGutterDelete ctermbg=NONE guibg=NONE
+    hi SignColumn ctermbg=NONE guibg=NONE
+    hi CursorLine cterm=underline gui=underline ctermbg=NONE guibg=NONE
+    hi StatusLine cterm=underline gui=underline ctermbg=NONE guibg=NONE
+    hi StatusLineNC cterm=NONE gui=NONE ctermbg=NONE guibg=NONE
+    " hi StatusLineTerm cterm=NONE gui=NONE ctermbg=NONE guibg=NONE
+    hi TabLineFill ctermbg=NONE guibg=NONE
+  endf
+  " com! Transparent hi Normal ctermbg=none guibg=NONE
+  com! Transparent cal s:transparent()
+  com! -nargs=1 -bang TabWidth exe 'se sw='.<args>.' sts='.<args>.' '.(<bang>0 ? 'no' : '').'et'
 
-  command! CreateNewPlan call s:create_new_plan()
+  com! CreateNewPlan cal s:create_new_plan()
 
-  function! s:create_new_plan() abort
+  fun! s:create_new_plan() abort
     let l:plandir = $HOME . '/plans/'
     exe '!cp -i '.l:plandir.'/_plan_template.txt '.l:plandir.'/plan'.strftime("%Y%m%d").'.txt'
     exe 'e '.l:plandir.'/plan'.strftime("%Y%m%d").'.txt'
-  endfunction
+  endf
 
-  command! FollowSymlink call s:follow_symlink()
-  function! s:follow_symlink()
+  com! FollowSymlink cal s:follow_symlink()
+  fun! s:follow_symlink()
     let l:fname = resolve(expand('%:p'))
     let l:pos = getpos('.')
     let l:bufname = bufname('%')
     enew
     exec 'bw '. l:bufname
     exec "e " . fname
-    call setpos('.', pos)
-  endfunction
+    cal setpos('.', pos)
+  endf
 
-  function! s:get_termrun_cmd(cmd) abort
+  fun! s:get_termrun_cmd(cmd) abort
     if has('nvim')
       let l:terminal_cmd = ':split term://'
     else
       " let l:terminal_cmd = ':bel terminal '
       let l:terminal_cmd = ':terminal '
-    endif
+    en
     let l:ret = l:terminal_cmd . a:cmd
-    return l:ret
-  endfunction
+    retu l:ret
+  endf
 
-  function! s:open_terminal_file() abort
+  fun! s:open_terminal_file() abort
     let l:target_dir = expand('%:p:h')
     let l:cmd = s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
-    call mymisc#command_at_destdir(l:target_dir, [l:cmd])
-  endfunction
+    cal mymisc#command_at_destdir(l:target_dir, [l:cmd])
+  endf
 
-  function! s:open_terminal_current() abort
-    execute s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
-  endfunction
+  fun! s:open_terminal_current() abort
+    exe s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
+  endf
 
   let g:myvimrc_term_winheight=15
-  function! s:set_winheight_small() abort
-    execute 'normal! ' . g:myvimrc_term_winheight . '_'
-  endfunction
+  fun! s:set_winheight_small() abort
+    exe 'normal! ' . g:myvimrc_term_winheight . '_'
+  endf
 
-  function! s:my_git_cmd(git_cmd) abort
+  fun! s:my_git_cmd(git_cmd) abort
     let l:target_dir = mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
     let l:cmd = s:get_termrun_cmd('git ' . a:git_cmd)
-    call mymisc#command_at_destdir(l:target_dir, [l:cmd])
-    call s:set_winheight_small()
-  endfunction
+    cal mymisc#command_at_destdir(l:target_dir, [l:cmd])
+    cal s:set_winheight_small()
+  endf
 
-  function! s:my_git_push() abort
-    call s:my_git_cmd('push')
-  endfunction
+  fun! s:my_git_push() abort
+    cal s:my_git_cmd('push')
+  endf
 
-  function! s:my_git_push_setupstream() abort
-    call s:my_git_cmd('push -u origin HEAD')
-  endfunction
+  fun! s:my_git_push_setupstream() abort
+    cal s:my_git_cmd('push -u origin HEAD')
+  endf
 
-  function! s:my_git_pull() abort
-    call s:my_git_cmd('pull')
-  endfunction
+  fun! s:my_git_pull() abort
+    cal s:my_git_cmd('pull')
+  endf
 
-  nnoremap <Leader>gp :<C-u>call <SID>my_git_push()<CR>
-  nnoremap <Leader>gP :<C-u>call <SID>my_git_push_setupstream()<CR>
-  nnoremap <Leader>te :<C-u>T<CR>
-  nnoremap <Leader>tc :<C-u>Tc<CR>
-  command! T call s:open_terminal_file()
-  command! Tc call s:open_terminal_current()
+  nn <Leader>gp :<C-u>cal <SID>my_git_push()<CR>
+  nn <Leader>gP :<C-u>cal <SID>my_git_push_setupstream()<CR>
+  nn <Leader>te :<C-u>T<CR>
+  nn <Leader>tc :<C-u>Tc<CR>
+  com! T cal s:open_terminal_file()
+  com! Tc cal s:open_terminal_current()
 
   if !has('nvim') && has('win32')
     let g:myvimrc_msys_dir =
           \ get(g:, 'myvimrc_msys_dir', 'C:/msys64')
-    command! MSYSTerm call mymisc#mintty_sh(
-                \ "MSYS64",
-                \ g:myvimrc_msys_dir . '/usr/bin/bash.exe',
-                \ g:myvimrc_msys_dir . '/usr/bin/locale.exe')
+    com! MSYSTerm cal mymisc#mintty_sh(
+          \ "MSYS64",
+          \ g:myvimrc_msys_dir . '/usr/bin/bash.exe',
+          \ g:myvimrc_msys_dir . '/usr/bin/locale.exe')
 
     let g:myvimrc_gitbash_dir =
           \ get(g:, 'myvimrc_gitbash_dir', substitute(fnamemodify(exepath('git'),':h:h:p'), '\', '/', 'g'))
-    command! Gbash call mymisc#mintty_sh(
-                \ "GitBash",
-                \ g:myvimrc_gitbash_dir . '/bin/bash.exe',
-                \ g:myvimrc_gitbash_dir . '/usr/bin/locale.exe')
-  endif
+    com! Gbash cal mymisc#mintty_sh(
+          \ "GitBash",
+          \ g:myvimrc_gitbash_dir . '/bin/bash.exe',
+          \ g:myvimrc_gitbash_dir . '/usr/bin/locale.exe')
+  en
 
 
   if has('win32') && executable('git')
-    let s:command_openssl = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\openssl.exe'
+    let s:_openssl = fnamemodify(exepath('git'),':h:h:p').'\usr\bin\openssl.exe'
   elseif has('unix')
-    let s:command_openssl = 'openssl'
-  endif
+    let s:_openssl = 'openssl'
+  en
 
-  function! s:encrypt_openssl(version) abort
+  fun! s:encrypt_openssl(version) abort
     let pass = inputsecret('Password: ')
     if pass ==# ''
       echom 'Aborted.'
-      return
-    endif
+      retu
+    en
 
     let pass_confirm = inputsecret('Verify password: ')
     if pass_confirm ==# ''
       echom 'Aborted.'
-      return
-    endif
+      retu
+    en
 
     if pass !=# pass_confirm
       echom 'Passwords are different. Aborted.'
-      return
-    endif
+      retu
+    en
 
     let fname_base = expand('%') . '.crypt'
     let fname = fname_base
@@ -697,62 +700,62 @@ try
     endwhile
 
     if a:version >= 111
-      call systemlist('"' . s:command_openssl . '" aes-256-cbc -pbkdf2 -e -in ' . expand('%') .  ' -out ' . fname . ' -pass pass:' . pass)
+      cal systemlist('"' . s:_openssl . '" aes-256-cbc -pbkdf2 -e -in ' . expand('%') .  ' -out ' . fname . ' -pass pass:' . pass)
     else
-      call systemlist('"' . s:command_openssl . '" aes-256-cbc -e -in ' . expand('%') .  ' -out ' . fname . ' -pass pass:' . pass)
-    endif
+      cal systemlist('"' . s:_openssl . '" aes-256-cbc -e -in ' . expand('%') .  ' -out ' . fname . ' -pass pass:' . pass)
+    en
     exe 'split ' . fname
-  endfunction
+  endf
 
-  function! s:decrypt_openssl(version) abort
+  fun! s:decrypt_openssl(version) abort
     let pass = inputsecret('Password: ')
 
     if a:version >= 111
-      let decrypted = systemlist('"' . s:command_openssl . '" aes-256-cbc -pbkdf2 -d -in ' . expand('%') . ' -pass pass:' . pass)
+      let decrypted = systemlist('"' . s:_openssl . '" aes-256-cbc -pbkdf2 -d -in ' . expand('%') . ' -pass pass:' . pass)
     else
-      let decrypted = systemlist('"' . s:command_openssl . '" aes-256-cbc -d -in ' . expand('%') . ' -pass pass:' . pass)
-    endif
+      let decrypted = systemlist('"' . s:_openssl . '" aes-256-cbc -d -in ' . expand('%') . ' -pass pass:' . pass)
+    en
     new
-    call append(0, decrypted)
+    cal append(0, decrypted)
     normal! G
     if getline('.') ==# ''
       normal! dd
-    endif
-  endfunction
+    en
+  endf
 
-  command! EncryptOld call s:encrypt_openssl(110)
-  command! DecryptOld call s:decrypt_openssl(110)
-  command! Encrypt    call s:encrypt_openssl(111)
-  command! Decrypt    call s:decrypt_openssl(111)
+  com! EncryptOld cal s:encrypt_openssl(110)
+  com! DecryptOld cal s:decrypt_openssl(110)
+  com! Encrypt    cal s:encrypt_openssl(111)
+  com! Decrypt    cal s:decrypt_openssl(111)
 
-  function! s:open_file_explorer(path) abort
+  fun! s:open_file_explorer(path) abort
     if a:path ==# ''
       let path = '.'
     else
       let path = a:path
-    endif
+    en
 
     if has('win32')
-      call system("explorer.exe " . expand(path))
+      cal system("explorer.exe " . expand(path))
     elseif has('mac')
-      call system('open ' . expand(path))
+      cal system('open ' . expand(path))
     else
-      call system("xdg-open " . expand(path))
-    endif
-  endfunction
+      cal system("xdg-open " . expand(path))
+    en
+  endf
 
-  command! -nargs=? -complete=dir OpenExplorer call s:open_file_explorer('<args>')
-  " }}} COMMANDS END
+  com! -nargs=? -complete=dir OpenExplorer cal s:open_file_explorer('<args>')
+  " }}} S END
 
-  " AUTOCMDS {{{
-  augroup VIMRC
+  " auS {{{
+  aug VIMRC
     " HTML,XML,CSS,JavaScript
-    autocmd Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
-    autocmd Filetype css setl foldmethod=syntax
-    autocmd FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
+    au Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
+    au Filetype css setl foldmethod=syntax
+    au FileType javascript,jade,pug setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
 
     " Vue
-    autocmd FileType vue setl iskeyword+=$,-,:,/ expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
+    au FileType vue setl iskeyword+=$,-,:,/ expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
 
     " Markdown
     let g:markdown_fenced_languages = [
@@ -772,98 +775,99 @@ try
           \   'json'
           \ ]
     let g:markdown_syntax_conceal = 0
-    autocmd FileType markdown setl expandtab softtabstop=2 shiftwidth=2
+    au FileType markdown setl expandtab softtabstop=2 shiftwidth=2
 
     " Json
     let g:vim_json_syntax_conceal = 0
 
     " Java
-    autocmd FileType java setl noexpandtab softtabstop=4 shiftwidth=4
+    au FileType java setl noexpandtab softtabstop=4 shiftwidth=4
 
     " Python
     let g:python_highlight_all = 1
-    autocmd FileType python setl foldmethod=indent
-    " autocmd FileType python setl autoindent nosmartindent
-    " autocmd FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
-    autocmd FileType python inoremap <buffer> # X#
-    autocmd FileType python nnoremap <buffer> >> i<C-t><ESC>^
+    au FileType python setl foldmethod=indent
+    " au FileType python setl autoindent nosmartindent
+    " au FileType python setl cinwords=if,elif,else,for,while,try,except,finally,def,class
+    au FileType python ino <buffer> # X#
+    au FileType python nn <buffer> >> i<C-t><ESC>^
 
     " Latex
     let g:tex_conceal = ""
 
     " C++
-    autocmd FileType c,cpp setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
+    au FileType c,cpp setl foldmethod=syntax expandtab softtabstop=2 shiftwidth=2
 
     " C#
-    autocmd FileType cs setl noexpandtab
+    au FileType cs setl noexpandtab
 
     " Shell
-    autocmd FileType sh setl noexpandtab softtabstop=4 shiftwidth=4
+    au FileType sh setl noexpandtab softtabstop=4 shiftwidth=4
 
     " Vim
     let g:vimsyn_folding = 'aflmpPrt'
-    autocmd FileType vim setl expandtab softtabstop=2 shiftwidth=2
-    autocmd BufRead *.vim setl foldmethod=syntax
+    au FileType vim setl expandtab softtabstop=2 shiftwidth=2
+    au BufRead *.vim setl foldmethod=syntax
 
     " QuickFix
     " Auto open
-    autocmd QuickFixCmdPost * cwindow
-    autocmd FileType qf nnoremap <silent><buffer> q :bw<CR>
+    au QuickFixCmdPost * cwindow
+    au FileType qf nn <silent><buffer> q :bw<CR>
     " Preview with p
-    autocmd FileType qf noremap <silent><buffer> p  <CR>zz<C-w>p
+    au FileType qf no <silent><buffer> p  <CR>zz<C-w>p
 
     " Help
-    autocmd FileType help nnoremap <silent><buffer>q :bw<CR>
-    autocmd FileType help let &l:iskeyword = '!-~,^*,^|,^",' . &iskeyword
+    au FileType help nn <silent><buffer>q :bw<CR>
+    au FileType help let &l:iskeyword = '!-~,^*,^|,^",' . &iskeyword
 
-    autocmd InsertLeave * call mymisc#ime_deactivate()
-    " autocmd VimEnter * call mymisc#git_auto_updating()
-    " autocmd VimEnter * call s:transparent()
+    au InsertLeave * cal mymisc#ime_deactivate()
+    " au VimEnter * cal mymisc#git_auto_updating()
+    " au VimEnter * cal s:transparent()
 
-    autocmd BufRead *.launch setl ft=xml
+    au BufRead *.launch setl ft=xml
 
     " クリップボードが無名レジスタと違ったら
     " (他のソフトでコピーしてきたということなので)
     " 他のレジスタに保存しておく
     " 2019-09-29 大きなクリップボードをコピーしたとき重いのでやめる
-    " autocmd FocusGained,CursorHold,CursorHoldI * if @* !=# "" && @* !=# @" | let @0 = @* | endif
-    " autocmd FocusGained,CursorHold,CursorHoldI * if @+ !=# "" && @+ !=# @" | let @0 = @+ | endif
+    " au FocusGained,CursorHold,CursorHoldI * if @* !=# "" && @* !=# @" | let @0 = @* | en
+    " au FocusGained,CursorHold,CursorHoldI * if @+ !=# "" && @+ !=# @" | let @0 = @+ | en
 
     " set wrap to global one in in diff mode
-    autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+    au FilterWritePre * if &diff | setlocal wrap< | en
 
     if !has('nvim') && v:version >= 801
-      autocmd TerminalOpen * setl nonumber nolist
-      autocmd TerminalOpen * nnoremap <buffer>q :bw<CR>
-    endif
-  augroup END
-  "}}} AUTOCMDS END
+      au TerminalOpen * setl nonumber nolist
+      au TerminalOpen * nn <buffer>q :bw<CR>
+    en
+  aug END
+  "}}} auS END
 
   " BUILT-IN PLUGINS {{{
   if v:version >= 800
     if !has('nvim')
-      packadd! editexisting
-      packadd! matchit
-    endif
+      pa! editexisting
+      pa! matchit
+    en
 
-    packadd! termdebug
-  endif
+    pa! termdebug
+  en
   " }}} BUILT-IN PLUGINS END
 
   " DOT DIRECTORY PLUGINS {{{
   let s:myplugins = $MYDOTFILES . '/vim'
-  exe 'set runtimepath+=' . escape(s:myplugins, ' \')
+  exe 'se runtimepath+=' . escape(s:myplugins, ' \')
   "}}} DOT DIRECTORY PLUGINS END
 
   " PLUGIN MANAGER SETUP {{{
 
-  " source $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
-  source $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
+  " so $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
+  " so $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
+  so $MYDOTFILES/vim/scripts/plugin_mgr/vim-jetpack.vim
 
   let g:plugin_mgr['enabled'] = g:use_plugins
 
   " Install plugin manager if it's not available
-  call g:plugin_mgr['load']()
+  cal g:plugin_mgr['load']()
 
   " }}} PLUGIN MANAGER SETUP END
   "
@@ -873,17 +877,17 @@ try
 
     " Local settings
     if filereadable($HOME . '/localrcs/vim-local.vim')
-      source $HOME/localrcs/vim-local.vim
-    endif
+      so $HOME/localrcs/vim-local.vim
+    en
 
     " Manual setup plugins
     " fzf
-    set runtimepath+=$HOME/.fzf/
+    se runtimepath+=$HOME/.fzf/
     " if !exists('$FZF_DEFAULT_OPTS')
     "   let $FZF_DEFAULT_OPTS='--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5'
-    " endif
-    " nnoremap <silent><expr><Leader><C-f><C-f> mymisc#command_at_destdir(mymisc#find_project_dir(['.git','tags']),['FZF'])
-    " nnoremap <silent> <Leader><C-f>c :FZF .<CR>
+    " en
+    " nn <silent><expr><Leader><C-f><C-f> mymisc#command_at_destdir(mymisc#find_project_dir(['.git','tags']),['FZF'])
+    " nn <silent> <Leader><C-f>c :FZF .<CR>
 
     " vimproc
     let g:vimproc#download_windows_dll = 1
@@ -891,52 +895,52 @@ try
     " Initialize plugin manager
     if g:plugin_mgr['init']() ==# 'installing'
 
-      augroup vimplug_install
-        autocmd!
-        autocmd VimEnter * PlugInstall --sync | source ~/.vimrc
-      augroup END
+      aug vimplug_install
+        au!
+        au VimEnter * cal g:plugin_mgr['install_plugins']()
+      aug END
       finish
-    endif
+    en
 
     try
       " Load settings of plugins
-      source $MYVIMHOME/scripts/lazy_hooks.vim
-      source $MYVIMHOME/scripts/custom.vim
+      so $MYVIMHOME/scripts/lazy_hooks.vim
+      so $MYVIMHOME/scripts/custom.vim
 
       " Local after settings
       if filereadable($HOME . '/localrcs/vim-localafter.vim')
-        source $HOME/localrcs/vim-localafter.vim
-      endif
+        so $HOME/localrcs/vim-localafter.vim
+      en
     catch
-      call add(g:msgs_on_startup, 'Error in custom.vim!')
-      call add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
-    endtry
+      cal add(g:msgs_on_startup, 'Error in custom.vim!')
+      cal add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
+    endt
 
     " Colorschemes
     try
-      set background=dark
+      se background=dark
       if has('gui_running') || exists('&t_Co') && &t_Co >= 256
         colorscheme PaperColor
       else
         colorscheme default
         if !has('gui_running')
-          set background=dark
-        endif
-      endif
+          se background=dark
+        en
+      en
     catch
       colorscheme default
       if !has('gui_running')
-        set background=dark
-      endif
-    endtry
+        se background=dark
+      en
+    endt
 
-    highlight link User1 Normal
-    highlight link User2 Title
-    highlight link User3 Directory
-    highlight link User4 Special
-    highlight link User5 Comment
+    hi link User1 Normal
+    hi link User2 Title
+    hi link User3 Directory
+    hi link User4 Special
+    hi link User5 Comment
 
-    " highlight! Terminal ctermbg=black guibg=black
+    " hi! Terminal ctermbg=black guibg=black
     " }}} WHEN PLUGINS ARE ENABLED END
 
   else
@@ -947,30 +951,30 @@ try
 
     colorscheme default
     if !has('gui_running')
-      set background=dark
-    endif
+      se background=dark
+    en
     " }}} WHEN PLUGINS ARE DISABLED END
 
-  endif
+  en
 
   " Let default pwd to $HOME on Windows
   if getcwd() ==# $VIMRUNTIME
     cd $HOME
-  endif
+  en
 catch
-  call add(g:msgs_on_startup, 'Error in vimrc!')
-  call add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
+  cal add(g:msgs_on_startup, 'Error in vimrc!')
+  cal add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
   if g:is_test
-    call writefile(g:msgs_on_startup, $VADER_OUTPUT_FILE)
+    cal writefile(g:msgs_on_startup, $VADER_OUTPUT_FILE)
     cq!
-  endif
-finally
-  augroup VIMRC
+  en
+fina
+  aug VIMRC
     for s:msg in g:msgs_on_startup
       " mymisc#utilが読み込まれないこともあるためここで定義
-      execute "autocmd VimEnter * echohl ErrorMsg"
-      execute "autocmd VimEnter * echomsg '" . s:msg . "'"
-      execute "autocmd VimEnter * echohl none"
-    endfor
-  augroup END
-endtry
+      exe "au VimEnter * echohl ErrorMsg"
+      exe "au VimEnter * echomsg '" . s:msg . "'"
+      exe "au VimEnter * echohl none"
+    endfo
+  aug END
+endt

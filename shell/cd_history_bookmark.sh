@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env sh
 
 # cd_history_bookmark
 # Copyright (C) 2017 ishitaku5522 <ishitaku5522@gmail.com>

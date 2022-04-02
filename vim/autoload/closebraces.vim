@@ -25,25 +25,25 @@ let s:default_rules = [
       \   },
       \ ]
 
-function! closebraces#init() abort
+fun! closebraces#init() abort
   let g:closebraces#rules = s:default_rules
   let s:rules_begin_strs = []
   let s:rules_end_strs = []
   for rule in g:closebraces#rules
     call add(s:rules_begin_strs, rule['begin'])
     call add(s:rules_end_strs, rule['end'])
-  endfor
-endfunction
+  endfo
+endf
 
-function! s:begin_idx(str) abort
+fun! s:begin_idx(str) abort
   return index(s:rules_begin_strs, a:str)
-endfunction
+endf
   
-function! s:end_idx(str) abort
+fun! s:end_idx(str) abort
   return index(s:rules_end_strs, a:str)
-endfunction
+endf
 
-function! s:brace_is_opening() abort
+fun! s:brace_is_opening() abort
   let str_curline = getline('.')
   let str_before_cur = str_curline[:getcurpos()[2]-2]
   let str_after_cur = str_curline[getcurpos()[2]-1:]
@@ -57,11 +57,11 @@ function! s:brace_is_opening() abort
     if match_begin >= 0
       return [i, begin_str]
     endif
-  endfor
+  endfo
   return []
-endfunction
+endf
 
-function! s:cursor_is_between_braces() abort
+fun! s:cursor_is_between_braces() abort
   let str_curline = getline('.')
   let str_before_cur = str_curline[:getcurpos()[2]-2]
   let str_after_cur = str_curline[getcurpos()[2]-1:]
@@ -78,16 +78,16 @@ function! s:cursor_is_between_braces() abort
       let match_end = match(str_after_cur, end_str)
       return [match_begin, match_end, begin_str, end_str]
     endif
-  endfor
+  endfo
 
   return []
-endfunction
+endf
 
-function! s:should_not_close(str_after_cur) abort
+fun! s:should_not_close(str_after_cur) abort
   return (match(a:str_after_cur, '\w') == 0)
-endfunction
+endf
 
-function! closebraces#insert(str) abort
+fun! closebraces#insert(str) abort
   let str_curline = getline('.')
   let str_before_cur = str_curline[:getcurpos()[2]-2]
   let str_after_cur = str_curline[getcurpos()[2]-1:]
@@ -156,7 +156,7 @@ function! closebraces#insert(str) abort
 
       for i in range(distance+1)
         let ret .= s:right
-      endfor
+      endfo
 
       return ret
     endif
@@ -198,7 +198,7 @@ function! closebraces#insert(str) abort
         let end_distance = match(str_after_cur, end_str)
         for i in range(end_distance+1)
           let ret .= s:right . "\<bs>"
-        endfor
+        endfo
         let ret .= "\<bs>"
         return ret
       else
@@ -219,4 +219,4 @@ function! closebraces#insert(str) abort
   endif
 
   return input_str
-endfunction
+endf

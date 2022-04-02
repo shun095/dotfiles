@@ -1,10 +1,10 @@
 scriptencoding utf-8
 
-function! mymisc#config#nerdtree#setup() abort
-  nnoremap <Leader>e :NERDTreeFocus<CR>
-  nnoremap <Leader>E :NERDTreeFind<CR>
-  nnoremap <Leader><c-e> :NERDTreeCWD<CR>
-  nnoremap <Leader>n :NERDTree<space>
+fun! mymisc#config#nerdtree#setup() abort
+  nno <Leader>e :NERDTreeFocus<CR>
+  nno <Leader>E :NERDTreeFind<CR>
+  nno <Leader><c-e> :NERDTreeCWD<CR>
+  nno <Leader>n :NERDTree<space>
 
   " let g:NERDTreeMapOpenSplit = 's'
   " let g:NERDTreeMapPreviewSplit = 'gs'
@@ -40,9 +40,9 @@ function! mymisc#config#nerdtree#setup() abort
     let g:NERDTreeRemoveDirCmd = 'trash-put '
   endif
 
-  augroup vimrc_nerdtree
-    autocmd!
-    autocmd FileType nerdtree nnoremap <buffer> j 0j
-    autocmd FileType nerdtree nnoremap <buffer> k 0k
-  augroup END
-endfunction
+  aug vimrc_nerdtree
+    au!
+    au FileType nerdtree nno <buffer> j 0j
+    au FileType nerdtree nno <buffer> k 0k
+  aug END
+endf

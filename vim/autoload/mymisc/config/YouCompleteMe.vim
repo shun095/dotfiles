@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-function! mymisc#config#YouCompleteMe#setup() abort
+fun! mymisc#config#YouCompleteMe#setup() abort
   let g:ycm_global_ycm_extra_conf = $MYDOTFILES . '/vim/scripts/.ycm_extra_conf.py'
   let g:ycm_min_num_of_chars_for_completion = 3
   let g:ycm_complete_in_comments = 1
@@ -16,12 +16,12 @@ function! mymisc#config#YouCompleteMe#setup() abort
 
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-  " autocmd VIMRCCUSTOM FileType python nnoremap <buffer> K :<C-u>YcmCompleter GetDoc<CR>
-  nnoremap <leader><c-]> :<C-u>YcmCompleter GoTo<CR>
-  nnoremap <leader>} :<C-u>YcmCompleter GoToDefinition<CR>
-  nnoremap <leader>{ :<C-u>YcmCompleter GoToDeclaration<CR>
-  augroup vimrc_ycm
-    autocmd!
-    autocmd FileType c,cpp,h,hpp,python nnoremap <buffer> <c-]> :<C-u>YcmCompleter GoTo<CR>
-  augroup END
-endfunction
+  " au VIMRCCUSTOM FileType python nno <buffer> K :<C-u>YcmCompleter GetDoc<CR>
+  nno <leader><c-]> :<C-u>YcmCompleter GoTo<CR>
+  nno <leader>} :<C-u>YcmCompleter GoToDefinition<CR>
+  nno <leader>{ :<C-u>YcmCompleter GoToDeclaration<CR>
+  aug vimrc_ycm
+    au!
+    au FileType c,cpp,h,hpp,python nno <buffer> <c-]> :<C-u>YcmCompleter GoTo<CR>
+  aug END
+endf
