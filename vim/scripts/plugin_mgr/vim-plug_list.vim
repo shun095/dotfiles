@@ -89,6 +89,7 @@ Plug 'lambdalisue/fern-git-status.vim'
 Plug 'lambdalisue/fern-ssh'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'yuki-yano/fern-preview.vim'
 " Plug 'francoiscabrol/ranger.vim'
 
 " Plug 'kristijanhusak/defx-git'
@@ -98,7 +99,7 @@ Plug 'OmniSharp/omnisharp-vim', {'for': ['cs']}
 " Plug 'Quramy/tsuquyomi', {'for': ['javascript', 'typescript']}
 Plug 'vim-scripts/dbext.vim', {'for': ['sql']}
 Plug 'tpope/vim-dadbod', {'for': ['sql']}
-Plug 'othree/csscomplete.vim'
+Plug 'othree/csscomplete.vim', {'for': ['css']}
 Plug 'Shougo/neco-vim' " for vimscript
 Plug 'freitass/todo.txt-vim'
 
@@ -109,6 +110,7 @@ if s:has_python3 || s:has_python
   Plug 'SirVer/ultisnips'
 endif
 Plug 'honza/vim-snippets'
+
 Plug 'mattn/sonictemplate-vim'
 " Plug 'aperezdc/vim-template'
 
@@ -161,7 +163,7 @@ Plug 'vim-jp/syntax-vim-ex', {'for': ['vim']}
 Plug 'posva/vim-vue', {'for': ['vue']}
 
 " General purpose viewers/indicators
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim' ",{'on':['CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark','CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark']}
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
 " Plug 'junegunn/fzf.vim'
@@ -222,13 +224,15 @@ Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 if has('vimscript-3')
   Plug 'shun095/vim-editerm', {'branch': 'feature/line_number_support'}
 endif
-Plug 'thinca/vim-quickrun'
-Plug 'lambdalisue/suda.vim'
+Plug 'thinca/vim-quickrun' ", {'on':'QuickRun'}
+" Plug 'lambdalisue/suda.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tyru/open-browser.vim' " Non lazy load for QuickRun with pandoc
 Plug 'haya14busa/vim-open-googletranslate', {'on':'OpenGoogleTranslate'}
-Plug 'tyru/capture.vim'
+Plug 'tyru/capture.vim', {'on':'Capture'}
+
 if has('nvim') && has('win32')
+  " Auto change IME on windows for nvim
   Plug 'pepo-le/win-ime-con.nvim'
   let g:win_ime_con_mode = 0
 endif
@@ -236,7 +240,7 @@ endif
 " Libraries
 Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
-Plug 'haya14busa/vim-migemo'
+" Plug 'haya14busa/vim-migemo'
 Plug 'junegunn/vader.vim'
 
 Plug 'shun095/revimses'
