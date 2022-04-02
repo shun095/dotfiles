@@ -26,11 +26,11 @@ let g:terminal_ansi_colors = [
 " Plug 'roxma/vim-hug-neovim-rpc'
 " Plug 'Shougo/defx.nvim'
 " Color schemes
-Plug 'rakr/vim-one'
+" Plug 'rakr/vim-one'
 " Plug 'morhetz/gruvbox'
 " Plug 'joshdick/onedark.vim'
-
-" Plug 'NLKNguyen/papercolor-theme'
+" Plug 'arcticicestudio/nord-vim'
+Plug 'NLKNguyen/papercolor-theme'
 " Plug 'ajh17/spacegray.vim'
 Plug 'cocopon/iceberg.vim'
 " Plug 'jdkanani/vim-material-theme'
