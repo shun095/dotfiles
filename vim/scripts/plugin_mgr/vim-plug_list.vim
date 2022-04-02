@@ -165,7 +165,12 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
 " Plug 'junegunn/fzf.vim'
-Plug 'mattn/ctrlp-matchfuzzy'
+
+if exists('*matchfuzzy')
+  Plug 'mattn/ctrlp-matchfuzzy'
+else
+  Plug 'FelikZ/ctrlp-py-matcher'
+endif
 
 " Plug 'Shougo/denite.nvim'
 
