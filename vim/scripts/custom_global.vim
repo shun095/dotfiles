@@ -9,9 +9,10 @@ augroup vimrc_custom_global
   if mymisc#startup#plug_tap('lexima.vim')
     autocmd VimEnter * call lexima#init()
   endif
-  autocmd VimEnter * imap <silent><expr> <CR> <SID>my_cr_main()
-  autocmd VimEnter * imap <silent><expr> <TAB> <SID>my_tab_main()
-  autocmd VimEnter * imap <silent><expr> <C-e> <SID>my_ctrle_main()
+  autocmd InsertEnter * imap <silent><expr> <CR> <SID>my_cr_main()
+  autocmd InsertEnter * imap <silent><expr> <TAB> <SID>my_tab_main()
+  autocmd InsertEnter * imap <silent><expr> <C-e> <SID>my_ctrle_main()
+  autocmd InsertEnter * autocmd! vimrc_custom_global InsertEnter
 augroup END
 
 if mymisc#startup#plug_tap('neosnippet.vim')

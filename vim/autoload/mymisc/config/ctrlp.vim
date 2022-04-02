@@ -70,14 +70,18 @@ fun! mymisc#config#ctrlp#setup() abort
     echomsg "Current CtrlP match function: " . string(s:ctrlp_match_funcs[s:ctrlp_match_func_idx])
   endf
 
-  aug vimrc_ctrlp
-    au!
-    au VimEnter * com! -n=? -com=dir CtrlPMRUFiles
-          \ let s:tmp_ctrlp_match_func = g:ctrlp_match_func |
-          \ let g:ctrlp_match_func = {} |
-          \ cal ctrlp#init('mru', { 'dir': <q-args> }) |
-          \ let g:ctrlp_match_func = s:tmp_ctrlp_match_func
-  aug END
+  "CtrlPOldFilesで不要
+  "fun! s:ctrlp_mru_files(args) abort
+  "  let s:tmp_ctrlp_match_func = g:ctrlp_match_func
+  "  let g:ctrlp_match_func = {}
+  "  cal ctrlp#init('mru', { 'dir': a:args })
+  "  let g:ctrlp_match_func = s:tmp_ctrlp_match_func
+  "endf
+
+  "aug vimrc_ctrlp
+  "  au!
+  "  au VimEnter * com! -n=? -com=dir CtrlPMRUFiles cal <SID>ctrlp_mru_files(<q-args>)
+  "aug END
 
   com! CtrlPOldFiles call ctrlp#init(ctrlp#oldfiles#id())
 

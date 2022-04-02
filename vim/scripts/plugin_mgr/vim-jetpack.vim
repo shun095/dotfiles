@@ -56,6 +56,7 @@ fun! g:plugin_mgr.init() abort
   com! -nargs=* PlugUpdate JetpackSync
 
   set runtimepath+=$HOME/.vim
+  let g:jetpack#optimization = 2
   call jetpack#begin()
   source $MYDOTFILES/vim/scripts/plugin_mgr/plugin-list.vim
   call jetpack#end()

@@ -118,10 +118,10 @@ en
 if mymisc#startup#plug_tap('vim-searchindex')
   aug vimrc_searchindex
     au!
-    au VimEnter * vno * "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>/<CR>:<C-u>SearchIndex<CR>
-    au VimEnter * vno g* "9y:<C-u>let @/ = @9.'\C'<CR>/<CR>:<C-u>SearchIndex<CR>
-    au VimEnter * vno # "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>?<CR>:<C-u>SearchIndex<CR>
-    au VimEnter * vno g# "9y:<C-u>let @/ = @9.'\C'<CR>?<CR>:<C-u>SearchIndex<CR>
+    au ModeChanged *:[vV\x16]* vno * "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>/<CR>:<C-u>SearchIndex<CR>
+    au ModeChanged *:[vV\x16]* vno g* "9y:<C-u>let @/ = @9.'\C'<CR>/<CR>:<C-u>SearchIndex<CR>
+    au ModeChanged *:[vV\x16]* vno # "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>?<CR>:<C-u>SearchIndex<CR>
+    au ModeChanged *:[vV\x16]* vno g# "9y:<C-u>let @/ = @9.'\C'<CR>?<CR>:<C-u>SearchIndex<CR>
   aug END
 en
 
