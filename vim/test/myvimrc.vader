@@ -3,4 +3,5 @@ Execute (Trigger loading VimEnter):
     doautocmd VimEnter
   endif
 
-Include: test1.vader
+Include: snippet_test.vader
+Include: fuzzyfinder_test.vader

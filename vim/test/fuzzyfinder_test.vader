@@ -1,0 +1,9 @@
+# Test case
+Given txt (some txt):
+  Before
+
+Do (Search fuzzyfinder_test.txt):
+  \<Space>\<Space>fuzzytesttxt\<CR>
+
+Expect txt (Fuzzy finder test result):
+  This is fuzzyfinder test!

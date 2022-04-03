@@ -16,3 +16,5 @@
 
 zsh/completions/*
 build/
+
+test_result.log
