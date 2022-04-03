@@ -161,7 +161,7 @@ remove_dups_in_path() {
 remove_dups_in_path
 
 # 'cdhi' command
-source $MYDOTFILES/shell/cd_history_bookmark.zsh
+source $MYDOTFILES/shell/cd_history_bookmark.sh
 
 ##### Functions ##### {{{
 # Built in
