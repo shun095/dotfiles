@@ -543,7 +543,7 @@ update_vim_plugins() {
             if [[ -d $MYDOTFILES/build/vim ]]; then
                 export PATH=$MYDOTFILES/build/vim/bin/:$PATH
             fi
-            vim --not-a-term --version
+            vim --not-a-term -T xterm-256color --version
             echo "Running :PlugUpgrade, :PlugUpdate"
             vim --not-a-term \
                 --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \

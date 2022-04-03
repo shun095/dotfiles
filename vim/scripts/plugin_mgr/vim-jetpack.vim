@@ -28,8 +28,9 @@ fun! g:plugin_mgr.install() abort
 
   if v:shell_error == 0
     let succeeded = g:true
+    echomsg "vim-jetpack installed."
   else
-    echoerr "vim-plug couldn't be installed correctly."
+    echoerr "vim-jetpack couldn't be installed correctly."
   endif
 
   return succeeded
@@ -48,12 +49,17 @@ fun! g:plugin_mgr.load() abort
   endif
 endf
 
+fun! s:call_jetpacksync()
+  JetpackSync
+endf
+
 fun! g:plugin_mgr.init() abort
   " let g:plug_window = 'topleft new'
   " Alias to Jetpack for migration from vim-plug
   com! -nargs=* Plug Jetpack <args>
-  com! -nargs=* PlugInstall JetpackSync
-  com! -nargs=* PlugUpdate JetpackSync
+  com! -nargs=* PlugInstall cal <SID>call_jetpacksync()
+  com! -nargs=* PlugUpdate cal <SID>call_jetpacksync()
+  com! -nargs=* PlugUpgrade cal g:plugin_mgr['install']() <args>
 
   set runtimepath+=$HOME/.vim
   let g:jetpack#optimization = 2
