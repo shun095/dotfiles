@@ -528,7 +528,8 @@ install_vim_plugins() {
                 --cmd 'let g:is_test = 1' \
                 --cmd 'set shortmess=a cmdheight=10' \
                 --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
-                -c ' :PlugInstall --sync | :qa '
+                -c ':PlugInstall --sync' \
+                -c ':qa!'
 
         fi
     fi
@@ -548,7 +549,9 @@ update_vim_plugins() {
             vim --not-a-term \
                 --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
                 --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
-                -c ' :PlugUpgrade | :PlugUpdate --sync | :qa '
+                -c ':PlugUpgrade' \
+                -c ':PlugUpdate --sync' \
+                -c ':qa!'
         fi
     fi
     echo "Updated."
