@@ -524,7 +524,12 @@ install_vim_plugins() {
             fi
             vim --not-a-term --version
             echo "Running :PlugInstall"
-            vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c ' :PlugInstall --sync | :qa '
+            vim --not-a-term \
+                --cmd 'let g:is_test = 1' \
+                --cmd 'set shortmess=a cmdheight=10' \
+                --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
+                -c ' :PlugInstall --sync | :qa '
+
         fi
     fi
     echo "Installed."
@@ -540,7 +545,10 @@ update_vim_plugins() {
             fi
             vim --not-a-term --version
             echo "Running :PlugUpgrade, :PlugUpdate"
-            vim --not-a-term --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' -c ' :PlugUpgrade | :PlugUpdate --sync | :qa '
+            vim --not-a-term \
+                --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
+                --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
+                -c ' :PlugUpgrade | :PlugUpdate --sync | :qa '
         fi
     fi
     echo "Updated."
@@ -785,7 +793,11 @@ runtest() {
         export PATH=$MYDOTFILES/build/vim/bin/:$PATH
     fi
 
-    vim --not-a-term --cmd 'let g:is_test = 1' --cmd 'set shortmess=a cmdheight=10' -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
+    vim --not-a-term \
+        --cmd 'let g:is_test = 1' \
+        --cmd 'set shortmess=a cmdheight=10' \
+        --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
+        -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
     return_code=$?
 
     echo "VADER TEST RESULT"
