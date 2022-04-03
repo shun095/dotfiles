@@ -409,19 +409,19 @@ try
         retu ''
       endf
 
-      " ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+      ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
 
-      " cno <ESC>n <Down>
-      " cno <ESC>p <Up>
-      " cno <ESC>f <S-Right>
-      " cno <ESC>b <S-Left>
-      " cno <ESC> <C-w>
+      cno <ESC>n <Down>
+      cno <ESC>p <Up>
+      cno <ESC>f <S-Right>
+      cno <ESC>b <S-Left>
+      cno <ESC> <C-w>
 
-      " ino <ESC>n <Down>
-      " ino <ESC>p <Up>
-      " ino <ESC>f <S-Right>
-      " ino <ESC>b <S-Left>
-      " ino <ESC> <C-w>
+      ino <ESC>n <Down>
+      ino <ESC>p <Up>
+      ino <ESC>f <S-Right>
+      ino <ESC>b <S-Left>
+      ino <ESC> <C-w>
     en
   en
 
