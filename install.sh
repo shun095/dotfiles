@@ -11,7 +11,7 @@ if [ -d "${MYDOTFILES}/.git" ];then
 	popd
 	${MYDOTFILES}/install-invoke.sh $@
 else
-	# bash -c "$(curl -fsSL https://raw.githubusercontent.com/shun095/dotfiles/master/install-invoke.sh)"; \
-	exit 1
+	git clone https://github.com/shun095/dotfiles.git ${MYDOTFILES}
+	${MYDOTFILES}/install.sh
 fi
 
