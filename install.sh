@@ -12,6 +12,6 @@ if [ -d "${MYDOTFILES}/.git" ];then
 	${MYDOTFILES}/install-invoke.sh $@
 else
 	git clone https://github.com/shun095/dotfiles.git ${MYDOTFILES}
-	$0 "$@"
+	${MYDOTFILES}/install.sh
 fi
 
