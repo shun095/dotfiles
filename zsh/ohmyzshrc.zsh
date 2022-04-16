@@ -56,7 +56,7 @@ plugins=(
 adb
 aws
 # brew # unnecessary for newest brew
-cargo
+rust
 cloudfoundry
 docker
 docker-compose

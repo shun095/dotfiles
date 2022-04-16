@@ -71,6 +71,10 @@ LOCALRCS=(
 )
 TRASH="$HOME/.trash"
 
+if command -v gsed > /dev/null 2>&1; then
+    alias sed="gsed"
+fi
+
 help() {
     cat << EOF
 
@@ -288,7 +292,7 @@ append_line() {
     file="$3"
     pat="${4:-}"
 
-    echo "Update $file:"
+    echo "Update $file (append):"
     echo "  - $line"
     [ -f "$file" ] || touch "$file"
     if [ $# -lt 4 ]; then
@@ -318,7 +322,7 @@ delete_line() {
     file="$3"
     pat="${4:-}"
 
-    echo "Update $file:"
+    echo "Update $file (delete):"
     echo "  - $line"
     [ -f "$file" ] || touch "$file"
     if [ $# -lt 4 ]; then
@@ -328,7 +332,7 @@ delete_line() {
     fi
     if [ -n "$lno" ]; then
         echo "    - Already exists: line #$lno"
-        sed --in-place --follow-symlinks "${lno}d" $file
+        sed -i --follow-symlinks "${lno}d" $file
         echo "    - Deleted."
     else
         echo "    ~ Line is not exists. Skipped."
@@ -344,7 +348,7 @@ insert_line() {
     file="$3"
     pat="${4:-}"
 
-    echo "Update $file:"
+    echo "Update $file (insert):"
     echo "  - $line"
     [ -f "$file" ] || touch "$file"
     if [ $# -lt 4 ]; then
@@ -357,7 +361,7 @@ insert_line() {
     else
         if [ $update -eq 1 ]; then
             if [ -s "$file" ]; then
-                sed --in-place --follow-symlinks "1s/^/$line\n/" $file
+                sed -i --follow-symlinks "1s/^/$line\n/" $file
             else
                 echo $line > $file
             fi
