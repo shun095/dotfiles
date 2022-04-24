@@ -596,14 +596,20 @@ elif [[ $(lsb_release -rs) == "20.04" ]]; then
 elif type cygpath > /dev/null 2>&1; then
     # Do nothing on cygwin
     :
+elif type dnf > /dev/null 2>&1; then
+    ${sudo} dnf update
+    ${sudo} dnf install -y ${deps} || true
 elif type yum > /dev/null 2>&1; then
     ${sudo} yum update
-    if ${sudo} yum list installed git2u >/dev/null 2>&1; then
-        :
-    else
-        ${sudo} yum remove git* -y
+    if cat /etc/redhat-release | grep " 7."; then
+        # Cent/RHEL 7
+        if ${sudo} yum list installed git2u >/dev/null 2>&1; then
+            :
+        else
+            ${sudo} yum remove git* -y
+        fi
+        ${sudo} yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
     fi
-    ${sudo} yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
     ${sudo} yum install -y ${deps} || true
 fi
 }
@@ -627,6 +633,8 @@ elif [[ $(lsb_release -rs) == "20.04" ]]; then
             deps="${deps} ${package}"
         fi
     done
+elif type dnf > /dev/null 2>&1; then
+    deps='git gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
 elif type yum > /dev/null 2>&1; then
     deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
 fi
@@ -644,6 +652,8 @@ if type apt-get > /dev/null 2>&1; then
             deps="${deps} ${package}"
         fi
     done
+elif type dnf > /dev/null 2>&1; then
+    deps='git automake libevent-devel ncurses-devel make gcc byacc'
 elif type yum > /dev/null 2>&1; then
     deps='git2u automake libevent-devel ncurses-devel make gcc byacc'
     fi
