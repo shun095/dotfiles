@@ -118,10 +118,17 @@ en
 if mymisc#startup#plug_tap('vim-searchindex')
   aug vimrc_searchindex
     au!
-    au ModeChanged *:[vV\x16]* vno * "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>/<CR>:<C-u>SearchIndex<CR>
-    au ModeChanged *:[vV\x16]* vno g* "9y:<C-u>let @/ = @9.'\C'<CR>/<CR>:<C-u>SearchIndex<CR>
-    au ModeChanged *:[vV\x16]* vno # "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>?<CR>:<C-u>SearchIndex<CR>
-    au ModeChanged *:[vV\x16]* vno g# "9y:<C-u>let @/ = @9.'\C'<CR>?<CR>:<C-u>SearchIndex<CR>
+    if has('patch-8.2.3430')
+      au ModeChanged *:[vV\x16]* vno * "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>/<CR>:<C-u>SearchIndex<CR>
+      au ModeChanged *:[vV\x16]* vno g* "9y:<C-u>let @/ = @9.'\C'<CR>/<CR>:<C-u>SearchIndex<CR>
+      au ModeChanged *:[vV\x16]* vno # "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>?<CR>:<C-u>SearchIndex<CR>
+      au ModeChanged *:[vV\x16]* vno g# "9y:<C-u>let @/ = @9.'\C'<CR>?<CR>:<C-u>SearchIndex<CR>
+    else
+      au VimEnter * vnoremap * "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>/<CR>:<C-u>SearchIndex<CR>
+      au VimEnter * vnoremap g* "9y:<C-u>let @/ = @9.'\C'<CR>/<CR>:<C-u>SearchIndex<CR>
+      au VimEnter * vnoremap # "9y:<C-u>let @/ = '\<'.@9.'\>\C'<CR>?<CR>:<C-u>SearchIndex<CR>
+      au VimEnter * vnoremap g# "9y:<C-u>let @/ = @9.'\C'<CR>?<CR>:<C-u>SearchIndex<CR>
+    en
   aug END
 en
 
