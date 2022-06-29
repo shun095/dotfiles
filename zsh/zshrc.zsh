@@ -305,13 +305,19 @@ else
     alias diff="diff -u"
 fi
 
-if command -v $HOME/build/vim/bin/vim > /dev/null 2>&1; then
-    :
+if command -v $MYDOTFILES/build/vim/bin/vim > /dev/null 2>&1; then
+    alias vim=$MYDOTFILES/build/vim/bin/vim
+elif command -v $HOME/build/vim/bin/vim > /dev/null 2>&1; then
+    alias vim=$HOME/build/vim/bin/vim
 elif command -v /usr/local/bin/vim > /dev/null 2>&1;then
     alias vim=/usr/local/bin/vim
 fi
 
-if command -v /usr/local/bin/gvim > /dev/null 2>&1;then
+if command -v $MYDOTFILES/build/vim/bin/gvim > /dev/null 2>&1; then
+    alias vim=$MYDOTFILES/build/vim/bin/gvim
+elif command -v $HOME/build/vim/bin/gvim > /dev/null 2>&1; then
+    alias vim=$HOME/build/vim/bin/gvim
+elif command -v /usr/local/bin/gvim > /dev/null 2>&1;then
     alias gvim=/usr/local/bin/gvim
 fi
 
