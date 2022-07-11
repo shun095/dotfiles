@@ -290,19 +290,19 @@ try
 
   " MAPPING {{{
   " Move cursor in display lines method
-  nn j gj
-  nn k gk
-  nn gj j
-  nn gk k
-  nn <Down> gj
-  nn <Up> gk
+  " nn j gj
+  " nn k gk
+  " nn gj j
+  " nn gk k
+  " nn <Down> gj
+  " nn <Up> gk
 
-  vn j gj
-  vn k gk
-  vn gj j
-  vn gk k
-  vn <Down> gj
-  vn <Up> gk
+  " vn j gj
+  " vn k gk
+  " vn gj j
+  " vn gk k
+  " vn <Down> gj
+  " vn <Up> gk
 
   nn <C-Tab> gt
   nn <C-S-Tab> gT
@@ -409,19 +409,19 @@ try
         retu ''
       endf
 
-      ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+      " ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
 
-      cno <ESC>n <Down>
-      cno <ESC>p <Up>
-      cno <ESC>f <S-Right>
-      cno <ESC>b <S-Left>
-      cno <ESC> <C-w>
+      " cno <ESC>n <Down>
+      " cno <ESC>p <Up>
+      " cno <ESC>f <S-Right>
+      " cno <ESC>b <S-Left>
+      " cno <ESC> <C-w>
 
-      ino <ESC>n <Down>
-      ino <ESC>p <Up>
-      ino <ESC>f <S-Right>
-      ino <ESC>b <S-Left>
-      ino <ESC> <C-w>
+      " ino <ESC>n <Down>
+      " ino <ESC>p <Up>
+      " ino <ESC>f <S-Right>
+      " ino <ESC>b <S-Left>
+      " ino <ESC> <C-w>
     en
   en
 
@@ -432,7 +432,7 @@ try
     tno <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
   else
     if has('terminal')
-      tno <C-w><C-w> <C-w>.
+      " tno <C-w><C-w> <C-w>.
       tno <C-w><Space>te <C-w>:T<CR>
       tno <C-w><Space><Space> <C-w>:cal <SID>set_winheight_small()<CR>
     en
