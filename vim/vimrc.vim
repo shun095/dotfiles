@@ -304,6 +304,16 @@ try
   " vn <Down> gj
   " vn <Up> gk
 
+  nmap <C-w>+ <C-w>+<SID>ws
+  nmap <C-w>- <C-w>-<SID>ws
+  nmap <C-w>> <C-w>><SID>ws
+  nmap <C-w>< <C-w><<SID>ws
+  nnoremap <script> <SID>ws+ <C-w>5+<SID>ws
+  nnoremap <script> <SID>ws- <C-w>5-<SID>ws
+  nnoremap <script> <SID>ws> <C-w>5><SID>ws
+  nnoremap <script> <SID>ws< <C-w>5<<SID>ws
+  nmap <SID>ws <Nop>
+
   nn <C-Tab> gt
   nn <C-S-Tab> gT
 
@@ -367,47 +377,47 @@ try
       no! â  <S-Left>
       no!  <C-w>
     else
-      fun! Myvimrc_fast_esc_unmap(timer) abort
-        cu <ESC>n
-        cu <ESC>p
-        cu <ESC>f
-        cu <ESC>b
-        cu <ESC>
+      " fun! Myvimrc_fast_esc_unmap(timer) abort
+      "   cu <ESC>n
+      "   cu <ESC>p
+      "   cu <ESC>f
+      "   cu <ESC>b
+      "   cu <ESC>
 
-        iu <ESC>n
-        iu <ESC>p
-        iu <ESC>f
-        iu <ESC>b
-        iu <ESC>
+      "   iu <ESC>n
+      "   iu <ESC>p
+      "   iu <ESC>f
+      "   iu <ESC>b
+      "   iu <ESC>
 
-        let &timeoutlen=s:old_tlen
-        ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
-      endf
+      "   let &timeoutlen=s:old_tlen
+      "   ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+      " endf
 
-      fun! s:fast_esc() abort
-        " ESCが押されたらtimeoutlenを短くして
-        " ESCが認識されるのを早くする。
-        " 無事認識後元の状態に戻すことでfast_esc()のバインドの反応も早くする
-        iu <ESC>
-        let s:old_tlen = &timeoutlen
-        se timeoutlen=50
+      " fun! s:fast_esc() abort
+      "   " ESCが押されたらtimeoutlenを短くして
+      "   " ESCが認識されるのを早くする。
+      "   " 無事認識後元の状態に戻すことでfast_esc()のバインドの反応も早くする
+      "   iu <ESC>
+      "   let s:old_tlen = &timeoutlen
+      "   se timeoutlen=50
 
-        cno <ESC>n <Down>
-        cno <ESC>p <Up>
-        cno <ESC>f <S-Right>
-        cno <ESC>b <S-Left>
-        cno <ESC> <C-w>
+      "   cno <ESC>n <Down>
+      "   cno <ESC>p <Up>
+      "   cno <ESC>f <S-Right>
+      "   cno <ESC>b <S-Left>
+      "   cno <ESC> <C-w>
 
-        ino <ESC>n <Down>
-        ino <ESC>p <Up>
-        ino <ESC>f <S-Right>
-        ino <ESC>b <S-Left>
-        ino <ESC> <C-w>
+      "   ino <ESC>n <Down>
+      "   ino <ESC>p <Up>
+      "   ino <ESC>f <S-Right>
+      "   ino <ESC>b <S-Left>
+      "   ino <ESC> <C-w>
 
-        cal feedkeys("\<ESC>", 'i')
-        cal timer_start(100, 'Myvimrc_fast_esc_unmap', {'repeat':1})
-        retu ''
-      endf
+      "   cal feedkeys("\<ESC>", 'i')
+      "   cal timer_start(100, 'Myvimrc_fast_esc_unmap', {'repeat':1})
+      "   retu ''
+      " endf
 
       " ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
 

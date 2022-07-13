@@ -219,7 +219,7 @@ Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
 Plug 'deris/vim-shot-f'
 Plug 'junegunn/vim-easy-align'
-Plug 'kana/vim-submode'
+" Plug 'kana/vim-submode'
 Plug 'bkad/CamelCaseMotion'
 Plug 'deton/jasegment.vim'
 
