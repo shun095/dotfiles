@@ -71,6 +71,10 @@ LOCALRCS=(
 )
 TRASH="$HOME/.trash"
 
+if command -v gsed > /dev/null 2>&1; then
+    alias sed="gsed"
+fi
+
 help() {
     cat << EOF
 
@@ -288,7 +292,7 @@ append_line() {
     file="$3"
     pat="${4:-}"
 
-    echo "Update $file:"
+    echo "Update $file (append):"
     echo "  - $line"
     [ -f "$file" ] || touch "$file"
     if [ $# -lt 4 ]; then
@@ -318,7 +322,7 @@ delete_line() {
     file="$3"
     pat="${4:-}"
 
-    echo "Update $file:"
+    echo "Update $file (delete):"
     echo "  - $line"
     [ -f "$file" ] || touch "$file"
     if [ $# -lt 4 ]; then
@@ -328,7 +332,7 @@ delete_line() {
     fi
     if [ -n "$lno" ]; then
         echo "    - Already exists: line #$lno"
-        sed --in-place --follow-symlinks "${lno}d" $file
+        sed -i --follow-symlinks "${lno}d" $file
         echo "    - Deleted."
     else
         echo "    ~ Line is not exists. Skipped."
@@ -344,7 +348,7 @@ insert_line() {
     file="$3"
     pat="${4:-}"
 
-    echo "Update $file:"
+    echo "Update $file (insert):"
     echo "  - $line"
     [ -f "$file" ] || touch "$file"
     if [ $# -lt 4 ]; then
@@ -357,7 +361,7 @@ insert_line() {
     else
         if [ $update -eq 1 ]; then
             if [ -s "$file" ]; then
-                sed --in-place --follow-symlinks "1s/^/$line\n/" $file
+                sed -i --follow-symlinks "1s/^/$line\n/" $file
             else
                 echo $line > $file
             fi
@@ -592,14 +596,20 @@ elif [[ $(lsb_release -rs) == "20.04" ]]; then
 elif type cygpath > /dev/null 2>&1; then
     # Do nothing on cygwin
     :
+elif type dnf > /dev/null 2>&1; then
+    ${sudo} dnf update
+    ${sudo} dnf install -y ${deps} || true
 elif type yum > /dev/null 2>&1; then
     ${sudo} yum update
-    if ${sudo} yum list installed git2u >/dev/null 2>&1; then
-        :
-    else
-        ${sudo} yum remove git* -y
+    if cat /etc/redhat-release | grep " 7."; then
+        # Cent/RHEL 7
+        if ${sudo} yum list installed git2u >/dev/null 2>&1; then
+            :
+        else
+            ${sudo} yum remove git* -y
+        fi
+        ${sudo} yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
     fi
-    ${sudo} yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
     ${sudo} yum install -y ${deps} || true
 fi
 }
@@ -623,6 +633,8 @@ elif [[ $(lsb_release -rs) == "20.04" ]]; then
             deps="${deps} ${package}"
         fi
     done
+elif type dnf > /dev/null 2>&1; then
+    deps='git gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
 elif type yum > /dev/null 2>&1; then
     deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
 fi
@@ -640,6 +652,8 @@ if type apt-get > /dev/null 2>&1; then
             deps="${deps} ${package}"
         fi
     done
+elif type dnf > /dev/null 2>&1; then
+    deps='git automake libevent-devel ncurses-devel make gcc byacc'
 elif type yum > /dev/null 2>&1; then
     deps='git2u automake libevent-devel ncurses-devel make gcc byacc'
     fi

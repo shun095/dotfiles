@@ -5,6 +5,11 @@
 #
 # Distributed under terms of the MIT license.
 
+set -eu
+
+mkdir -p shun095_dotfiles
+cd shun095_dotfiles
+
 tmpfile=$(mktemp)
 curl -sS -L -o ${tmpfile} https://raw.githubusercontent.com/shun095/dotfiles/master/Dockerfile
 echo "Dockerfile:"

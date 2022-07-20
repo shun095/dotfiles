@@ -182,7 +182,8 @@ endif
 
 " Plug 'Shougo/denite.nvim'
 
-Plug 'junegunn/vim-peekaboo'
+" 矩形選択での^R"ペーストで複数行一括で挿入できなくなるためDisable
+" Plug 'junegunn/vim-peekaboo'
 
 " if has('win32')
 "   Plug 'shun095/cpsm'
@@ -218,7 +219,7 @@ Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
 Plug 'deris/vim-shot-f'
 Plug 'junegunn/vim-easy-align'
-Plug 'kana/vim-submode'
+" Plug 'kana/vim-submode'
 Plug 'bkad/CamelCaseMotion'
 Plug 'deton/jasegment.vim'
 
