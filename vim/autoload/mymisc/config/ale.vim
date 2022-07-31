@@ -12,6 +12,7 @@ fun! mymisc#config#ale#setup() abort
         \ 'javascript': ['eslint'],
         \ 'typescript': ['eslint'],
         \ 'python': [],
+        \ 'java': [],
         \ }
   " NOTE: Default ale linters:
   " {
