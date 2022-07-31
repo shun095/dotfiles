@@ -468,6 +468,10 @@ try
   vn <leader>p "_dp
   vn <leader>P "_dP
 
+  vno <leader>ty y:call system("tmux load-buffer -", @0)<cr>
+  nno <leader>tyy yy:call system("tmux load-buffer -", @0)<cr>
+  nno <leader>tp :let @0 = system("tmux save-buffer -")<cr>"0p
+
   fun! s:lexplore(arg) abort
     let tail = expand('%:t')
     let full = substitute(expand('%:p'),'\','/','g')
