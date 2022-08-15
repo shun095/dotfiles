@@ -54,7 +54,7 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 adb
-aws
+# aws
 # brew # unnecessary for newest brew
 rust
 cloudfoundry

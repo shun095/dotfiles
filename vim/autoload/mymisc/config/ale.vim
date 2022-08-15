@@ -12,6 +12,7 @@ fun! mymisc#config#ale#setup() abort
         \ 'javascript': ['eslint'],
         \ 'typescript': ['eslint'],
         \ 'python': [],
+        \ 'java': [],
         \ }
   " NOTE: Default ale linters:
   " {
@@ -38,5 +39,8 @@ fun! mymisc#config#ale#setup() abort
 
   if filereadable($HOME . "/.vim/lombok.jar")
     let g:ale_java_javac_executable = "javac -cp " . $HOME . "/.vim/lombok.jar"
+  endif
+  if filereadable($HOME . "/.local/share/vim-lsp-settings/servers/eclipse-jdt-ls/lombok.jar")
+    let g:ale_java_javac_executable = "javac -cp " . $HOME . "/.local/share/vim-lsp-settings/servers/eclipse-jdt-ls/lombok.jar"
   endif
 endf

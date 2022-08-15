@@ -26,9 +26,13 @@ _cd_history_bookmark_limit=9999
 
 if \sed --version 2>/dev/null | grep -q GNU; then
     _cd_history_bookmark_sedi='\sed -i -e'
-    tac="tac"
 else
     _cd_history_bookmark_sedi='\sed -i .bak -e'
+fi
+
+if command -v tac > /dev/null 2>&1; then
+    tac="tac"
+else
     tac="tail -r"
 fi
 

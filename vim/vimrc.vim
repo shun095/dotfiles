@@ -290,19 +290,29 @@ try
 
   " MAPPING {{{
   " Move cursor in display lines method
-  nn j gj
-  nn k gk
-  nn gj j
-  nn gk k
-  nn <Down> gj
-  nn <Up> gk
+  " nn j gj
+  " nn k gk
+  " nn gj j
+  " nn gk k
+  " nn <Down> gj
+  " nn <Up> gk
 
-  vn j gj
-  vn k gk
-  vn gj j
-  vn gk k
-  vn <Down> gj
-  vn <Up> gk
+  " vn j gj
+  " vn k gk
+  " vn gj j
+  " vn gk k
+  " vn <Down> gj
+  " vn <Up> gk
+
+  nmap <C-w>+ <C-w>+<SID>ws
+  nmap <C-w>- <C-w>-<SID>ws
+  nmap <C-w>> <C-w>><SID>ws
+  nmap <C-w>< <C-w><<SID>ws
+  nnoremap <script> <SID>ws+ <C-w>5+<SID>ws
+  nnoremap <script> <SID>ws- <C-w>5-<SID>ws
+  nnoremap <script> <SID>ws> <C-w>5><SID>ws
+  nnoremap <script> <SID>ws< <C-w>5<<SID>ws
+  nmap <SID>ws <Nop>
 
   nn <C-Tab> gt
   nn <C-S-Tab> gT
@@ -367,61 +377,61 @@ try
       no! â  <S-Left>
       no!  <C-w>
     else
-      fun! Myvimrc_fast_esc_unmap(timer) abort
-        cu <ESC>n
-        cu <ESC>p
-        cu <ESC>f
-        cu <ESC>b
-        cu <ESC>
+      " fun! Myvimrc_fast_esc_unmap(timer) abort
+      "   cu <ESC>n
+      "   cu <ESC>p
+      "   cu <ESC>f
+      "   cu <ESC>b
+      "   cu <ESC>
 
-        iu <ESC>n
-        iu <ESC>p
-        iu <ESC>f
-        iu <ESC>b
-        iu <ESC>
+      "   iu <ESC>n
+      "   iu <ESC>p
+      "   iu <ESC>f
+      "   iu <ESC>b
+      "   iu <ESC>
 
-        let &timeoutlen=s:old_tlen
-        ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
-      endf
+      "   let &timeoutlen=s:old_tlen
+      "   ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+      " endf
 
-      fun! s:fast_esc() abort
-        " ESCが押されたらtimeoutlenを短くして
-        " ESCが認識されるのを早くする。
-        " 無事認識後元の状態に戻すことでfast_esc()のバインドの反応も早くする
-        iu <ESC>
-        let s:old_tlen = &timeoutlen
-        se timeoutlen=50
+      " fun! s:fast_esc() abort
+      "   " ESCが押されたらtimeoutlenを短くして
+      "   " ESCが認識されるのを早くする。
+      "   " 無事認識後元の状態に戻すことでfast_esc()のバインドの反応も早くする
+      "   iu <ESC>
+      "   let s:old_tlen = &timeoutlen
+      "   se timeoutlen=50
 
-        cno <ESC>n <Down>
-        cno <ESC>p <Up>
-        cno <ESC>f <S-Right>
-        cno <ESC>b <S-Left>
-        cno <ESC> <C-w>
+      "   cno <ESC>n <Down>
+      "   cno <ESC>p <Up>
+      "   cno <ESC>f <S-Right>
+      "   cno <ESC>b <S-Left>
+      "   cno <ESC> <C-w>
 
-        ino <ESC>n <Down>
-        ino <ESC>p <Up>
-        ino <ESC>f <S-Right>
-        ino <ESC>b <S-Left>
-        ino <ESC> <C-w>
+      "   ino <ESC>n <Down>
+      "   ino <ESC>p <Up>
+      "   ino <ESC>f <S-Right>
+      "   ino <ESC>b <S-Left>
+      "   ino <ESC> <C-w>
 
-        cal feedkeys("\<ESC>", 'i')
-        cal timer_start(100, 'Myvimrc_fast_esc_unmap', {'repeat':1})
-        retu ''
-      endf
+      "   cal feedkeys("\<ESC>", 'i')
+      "   cal timer_start(100, 'Myvimrc_fast_esc_unmap', {'repeat':1})
+      "   retu ''
+      " endf
 
-      ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
+      " ino <silent> <ESC> <C-r>=<C-u><SID>fast_esc()<CR>
 
-      cno <ESC>n <Down>
-      cno <ESC>p <Up>
-      cno <ESC>f <S-Right>
-      cno <ESC>b <S-Left>
-      cno <ESC> <C-w>
+      " cno <ESC>n <Down>
+      " cno <ESC>p <Up>
+      " cno <ESC>f <S-Right>
+      " cno <ESC>b <S-Left>
+      " cno <ESC> <C-w>
 
-      ino <ESC>n <Down>
-      ino <ESC>p <Up>
-      ino <ESC>f <S-Right>
-      ino <ESC>b <S-Left>
-      ino <ESC> <C-w>
+      " ino <ESC>n <Down>
+      " ino <ESC>p <Up>
+      " ino <ESC>f <S-Right>
+      " ino <ESC>b <S-Left>
+      " ino <ESC> <C-w>
     en
   en
 
@@ -432,7 +442,7 @@ try
     tno <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
   else
     if has('terminal')
-      tno <C-w><C-w> <C-w>.
+      " tno <C-w><C-w> <C-w>.
       tno <C-w><Space>te <C-w>:T<CR>
       tno <C-w><Space><Space> <C-w>:cal <SID>set_winheight_small()<CR>
     en
@@ -457,6 +467,10 @@ try
   " without yanking it
   vn <leader>p "_dp
   vn <leader>P "_dP
+
+  vno <leader>ty y:call system("tmux load-buffer -", @0)<cr>
+  nno <leader>tyy yy:call system("tmux load-buffer -", @0)<cr>
+  nno <leader>tp :let @0 = system("tmux save-buffer -")<cr>"0p
 
   fun! s:lexplore(arg) abort
     let tail = expand('%:t')
