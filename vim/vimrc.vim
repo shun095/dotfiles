@@ -987,7 +987,7 @@ fina
     for s:msg in g:msgs_on_startup
       " mymisc#utilが読み込まれないこともあるためここで定義
       exe "au VimEnter * echohl ErrorMsg"
-      exe "au VimEnter * echomsg '" . s:msg . "'"
+      exe "au VimEnter * echomsg " . string(s:msg)
       exe "au VimEnter * echohl none"
     endfo
   aug END
