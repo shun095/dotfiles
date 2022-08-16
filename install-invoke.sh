@@ -593,6 +593,14 @@ elif [[ $(lsb_release -rs) == "20.04" ]]; then
     ${sudo} apt-get update
     ${sudo} apt-get upgrade -y
     ${sudo} apt-get install -y ${deps}
+elif [[ $(lsb_release -rs) == "22.04" ]]; then
+    ${sudo} apt-get update
+    ${sudo} apt-get upgrade -y
+    ${sudo} apt-get install -y ${deps}
+elif type apt-get > /dev/null 2>&1; then
+    ${sudo} apt-get update
+    ${sudo} apt-get upgrade -y
+    ${sudo} apt-get install -y ${deps}
 elif type cygpath > /dev/null 2>&1; then
     # Do nothing on cygwin
     :
