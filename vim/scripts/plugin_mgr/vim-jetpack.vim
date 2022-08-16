@@ -18,7 +18,8 @@ let g:plugin_mgr = {
       \}
 
 fun! g:plugin_mgr.install_plugins() abort
-  Jetpack | source ~/.vimrc
+  Jetpack
+  so ~/.vimrc
 endf
 
 fun! g:plugin_mgr.install() abort
@@ -38,6 +39,7 @@ endfun
 
 fun! g:plugin_mgr.load() abort
   if !filereadable(self['manager_dir'] . '/jetpack.vim')
+    echomsg string(self['manager_dir'] . '/jetpack.vim')
     let self['enabled'] = g:false
     if self['install']()
       exe 'source ' . self['manager_dir'] . '/jetpack.vim'
@@ -65,6 +67,7 @@ fun! g:plugin_mgr.init() abort
   packadd vim-jetpack
   let g:jetpack#optimization = 2
   call jetpack#begin()
+  Jetpack 'tani/vim-jetpack', {'opt': 1}
   source $MYDOTFILES/vim/scripts/plugin_mgr/plugin-list.vim
   call jetpack#end()
 
