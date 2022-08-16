@@ -61,6 +61,7 @@ fun! g:plugin_mgr.init() abort
   com! -nargs=* PlugUpdate cal <SID>call_jetpacksync()
   com! -nargs=* PlugUpgrade cal g:plugin_mgr['install']() <args>
 
+  set runtimepath+=$HOME/.vim
   packadd vim-jetpack
   let g:jetpack#optimization = 2
   call jetpack#begin()
