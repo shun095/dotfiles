@@ -11,8 +11,7 @@ endif
 "   installing: Installing at this launch
 "   installed:  Already installed
 let g:plugin_mgr = {
-      \ 'plugin_dir': escape(substitute($HOME.'/.vim/plugged','\','/','g'),' '),
-      \ 'manager_dir': escape(substitute($HOME.'/.vim/pack/jetpack/opt/vim-jetpack/plugin','\','/','g'),' '),
+      \ 'manager_dir': escape(substitute($MYVIMRUNTIME . '/pack/jetpack/opt/vim-jetpack/plugin','\','/','g'),' '),
       \ 'enabled': false,
       \ 'init_state': "none"
       \}
@@ -25,7 +24,11 @@ endf
 fun! g:plugin_mgr.install() abort
   let succeeded = g:false
 
-  call system(printf('curl -fLo "%s/.vim/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim" --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim', substitute($HOME,'\','/','g')))
+  if has('win32')
+    call system(printf('curl -fLo "%s/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim" --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim', substitute($MYVIMRUNTIME,'\','/','g')))
+  else
+    call system(printf('curl -fLo "%s/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim" --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim', substitute($MYVIMRUNTIME,'\','/','g')))
+  endif
 
   if v:shell_error == 0
     let succeeded = g:true
@@ -63,7 +66,10 @@ fun! g:plugin_mgr.init() abort
   com! -nargs=* PlugUpdate cal <SID>call_jetpacksync()
   com! -nargs=* PlugUpgrade cal g:plugin_mgr['install']() <args>
 
-  set runtimepath+=$HOME/.vim
+  if has('win32unix')
+    call system('ln -s ~/vimfiles ~/.vim')
+  endif
+
   packadd vim-jetpack
   let g:jetpack#optimization = 2
   call jetpack#begin()

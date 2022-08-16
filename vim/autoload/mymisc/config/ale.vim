@@ -37,8 +37,8 @@ fun! mymisc#config#ale#setup() abort
   let g:ale_sign_style_error = 'e'
   let g:ale_sign_style_warning = 'w'
 
-  if filereadable($HOME . "/.vim/lombok.jar")
-    let g:ale_java_javac_executable = "javac -cp " . $HOME . "/.vim/lombok.jar"
+  if filereadable($MYVIMRUNTIME . "/lombok.jar")
+    let g:ale_java_javac_executable = "javac -cp " . $MYVIMRUNTIME . "/lombok.jar"
   endif
   if filereadable($HOME . "/.local/share/vim-lsp-settings/servers/eclipse-jdt-ls/lombok.jar")
     let g:ale_java_javac_executable = "javac -cp " . $HOME . "/.local/share/vim-lsp-settings/servers/eclipse-jdt-ls/lombok.jar"

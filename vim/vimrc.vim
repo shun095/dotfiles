@@ -20,7 +20,11 @@ try
   en
 
   let $MYVIMHOME = $MYDOTFILES . '/vim'
-  let $MYVIMRUNTIME = $HOME . '/.vim'
+  if has('win32')
+    let $MYVIMRUNTIME = $HOME . '/vimfiles'
+  else
+    let $MYVIMRUNTIME = $HOME . '/.vim'
+  endif
 
   if !exists('g:use_plugins')
     let g:use_plugins = g:true
@@ -191,20 +195,20 @@ try
 
   " se undofileでアンドゥデータをファイルを閉じても残しておく
   " 該当フォルダがなければ作成
-  if !isdirectory($HOME . '/.vim/undofiles')
-    cal mkdir($HOME . '/.vim/undofiles','p')
+  if !isdirectory($MYVIMRUNTIME . '/undofiles')
+    cal mkdir($MYVIMRUNTIME . '/undofiles', 'p')
   en
 
-  se undodir=$HOME/.vim/undofiles
+  se undodir=$MYVIMRUNTIME/undofiles
   se undofile
 
   " se backupでバックアップファイルを保存する
   " 該当フォルダがなければ作成
-  if !isdirectory($HOME . '/.vim/backupfiles')
-    cal mkdir($HOME . '/.vim/backupfiles','p')
+  if !isdirectory($MYVIMRUNTIME . '/backupfiles')
+    cal mkdir($MYVIMRUNTIME . '/backupfiles', 'p')
   en
 
-  se backupdir=$HOME/.vim/backupfiles
+  se backupdir=$MYVIMRUNTIME/backupfiles
   se backup
 
   " change swap file directory

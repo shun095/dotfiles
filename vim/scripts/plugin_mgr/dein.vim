@@ -9,8 +9,8 @@ endif
 let g:dein#install_max_processes = 8
 
 let g:plugin_mgr = {
-      \ 'plugin_dir': escape(substitute($HOME.'/.vim/dein','\','/','g'),' '),
-      \ 'manager_dir': escape(substitute($HOME.'/.vim/dein/repos/github.com/Shougo/dein.vim','\','/','g'),' '),
+      \ 'plugin_dir': escape(substitute($MYVIMRUNTIME . '/dein','\','/','g'),' '),
+      \ 'manager_dir': escape(substitute($MYVIMRUNTIME . '/dein/repos/github.com/Shougo/dein.vim','\','/','g'),' '),
       \ 'enabled': false,
       \}
 

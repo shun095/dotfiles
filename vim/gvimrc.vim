@@ -5,8 +5,8 @@ if has('gui_running')
   set visualbell t_vb=
   set guioptions=rchb
 
-  " if filereadable(expand('$HOME/.vim/lastwinpos.vim'))
-  "   exe "so " . expand('$HOME/.vim/lastwinpos.vim')
+  " if filereadable(expand('$MYVIMRUNTIME/lastwinpos.vim'))
+  "   exe "so " . expand('$MYVIMRUNTIME/lastwinpos.vim')
   " else
   set columns=158
   set lines=40
@@ -42,6 +42,6 @@ if has('gui_running')
 
   augroup GVIMRC
     autocmd!
-    autocmd VimLeavePre * call s:save_winpos(expand('$HOME/.vim/lastwinpos.vim'))
+    autocmd VimLeavePre * call s:save_winpos(expand('$MYVIMRUNTIME/lastwinpos.vim'))
   augroup END
 endif

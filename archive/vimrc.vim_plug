@@ -1,9 +1,0 @@
-set laststatus=2
-set statusline=%{gina#component#repo#preset()}
-
-call plug#begin('~/.vim/plugged')
-
-Plug 'lambdalisue/gina.vim'
-Plug 'lambdalisue/vital-Whisky' 
-
-call plug#end()
