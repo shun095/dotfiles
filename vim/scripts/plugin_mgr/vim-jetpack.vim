@@ -41,12 +41,6 @@ fun! g:plugin_mgr.install() abort
 endfun
 
 fun! g:plugin_mgr.load() abort
-  if has('win32unix')
-    if !isdirectory($MYVIMRUNTIME)
-      mkdir($HOME . '/vimfiles')
-      call system('powershell New-Item -ItemType SymbolicLink -Path "~/.vim" -Target "~/vimfiles"')
-    endif
-  endif
 
   if !filereadable(self['manager_dir'] . '/jetpack.vim')
     echomsg string(self['manager_dir'] . '/jetpack.vim')
