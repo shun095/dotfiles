@@ -41,6 +41,7 @@ fun! g:plugin_mgr.install() abort
 endfun
 
 fun! g:plugin_mgr.load() abort
+
   if !filereadable(self['manager_dir'] . '/jetpack.vim')
     echomsg string(self['manager_dir'] . '/jetpack.vim')
     let self['enabled'] = g:false
@@ -65,10 +66,6 @@ fun! g:plugin_mgr.init() abort
   com! -nargs=* PlugInstall cal <SID>call_jetpacksync()
   com! -nargs=* PlugUpdate cal <SID>call_jetpacksync()
   com! -nargs=* PlugUpgrade cal g:plugin_mgr['install']() <args>
-
-  if has('win32unix')
-    call system('ln -s ~/vimfiles ~/.vim')
-  endif
 
   packadd vim-jetpack
   let g:jetpack#optimization = 2

@@ -19,19 +19,28 @@ try
     let $MYDOTFILES = $HOME . '/dotfiles'
   en
 
-  let $MYVIMHOME = $MYDOTFILES . '/vim'
-  if has('win32')
-    let $MYVIMRUNTIME = $HOME . '/vimfiles'
-  else
-    let $MYVIMRUNTIME = $HOME . '/.vim'
-  endif
-
   if !exists('g:use_plugins')
     let g:use_plugins = g:true
   en
   if !exists('g:is_test')
     let g:is_test = g:false
   en
+
+  let $MYVIMHOME = $MYDOTFILES . '/vim'
+  if has('win32')
+    let $MYVIMRUNTIME = $HOME . '/vimfiles'
+  else
+    let $MYVIMRUNTIME = $HOME . '/.vim'
+    if has('win32unix')
+      call mkdir($HOME . '/vimfiles', 'p')
+      if getftype(expand('~/.vim')) == ""
+        let msg = system('powershell New-Item -ItemType SymbolicLink -Path "~/.vim" -Target "~/vimfiles"')
+        if v:shell_error != 0
+          throw 'You need to administrator to install.: ' . string(msg)
+        endif
+      endif
+    endif
+  endif
 
   " Force to use python3
   if has("python3")
