@@ -2,7 +2,7 @@
 
 set -eu
 
-plugdir="$HOME/.vim/plugged/"
+plugdir="$MYVIMRUNTIME/plugged/"
 
 
 update_plugin() {

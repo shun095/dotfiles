@@ -8,11 +8,16 @@
 
 set -eu
 
-SCRIPT_DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+SCRIPT_DIR="$(cd "$(dirname "$0")" >/dev/null 2>&1; pwd -P)"
 
 export MYDOTFILES="${SCRIPT_DIR}"
 export MYDOTFILES_LITERAL='${SCRIPT_DIR}'
-export MYVIMDIR=$HOME/.vim
+if type cygpath > /dev/null 2>&1; then
+    export MYVIMRUNTIME=$HOME/vimfiles
+else
+    export MYVIMRUNTIME=$HOME/.vim
+fi
+export VADER_OUTPUT_FILE=./test_result.log
 
 if [ ! -z ${ZSH_NAME:-} ];then
     setopt localoptions ksharrays
@@ -522,7 +527,7 @@ install_vim_plugins() {
     echo_section "Installing vim plugins"
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
-        if [[ ! -d $MYVIMDIR/plugged ]]; then
+        if [[ ! -d $MYVIMRUNTIME/plugged ]]; then
             if [[ -d $MYDOTFILES/build/vim ]]; then
                 export PATH=$MYDOTFILES/build/vim/bin/:$PATH
             fi
@@ -544,7 +549,7 @@ update_vim_plugins() {
     echo_section "Updating vim plugins"
 
     if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
-        if [[ -d $HOME/.vim/plugged ]]; then
+        if [[ -d $MYVIMRUNTIME/plugged ]] || [[ -d $MYVIMRUNTIME/pack ]]; then
             if [[ -d $MYDOTFILES/build/vim ]]; then
                 export PATH=$MYDOTFILES/build/vim/bin/:$PATH
             fi
@@ -812,7 +817,6 @@ reinstall() {
 runtest() {
     set +e
     echo "STARTING VADER TEST"
-    export VADER_OUTPUT_FILE=./test_result.log
 
     if [[ -d $MYDOTFILES/build/vim ]]; then
         export PATH=$MYDOTFILES/build/vim/bin/:$PATH

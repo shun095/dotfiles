@@ -2,7 +2,7 @@ scriptencoding utf-8
 
 fun! mymisc#config#lsp#setup() abort
   let g:lsp_log_verbose = 1
-  let g:lsp_log_file = $HOME . "/.vim/vim-lsp.log"
+  let g:lsp_log_file = $MYVIMRUNTIME . "/vim-lsp.log"
   aug vimrc_vimlsp
     au!
   aug END
@@ -30,7 +30,7 @@ fun! mymisc#config#lsp#setup() abort
   "   let g:lsp_settings = {
   "         \ 'eclipse-jdt-ls': {
   "         \   'args': [
-  "         \     '-classpath ~/.vim/plugged/vimspector/gadgets/windows/download/vscode-java-debug/0.26.0/root/extension/server/com.microsoft.java.debug.plugin-0.26.0.jar;'
+  "         \     '-classpath ' . $MYVIMRUNTIME . '/plugged/vimspector/gadgets/windows/download/vscode-java-debug/0.26.0/root/extension/server/com.microsoft.java.debug.plugin-0.26.0.jar;'
   "         \   ]
   "         \ }}
 
@@ -68,8 +68,8 @@ fun! mymisc#config#lsp#setup() abort
   "       \   {
   "       \     'name': 'clangd',
   "       \     'filetype': ['cpp', 'c', 'hpp', 'h'],
-  "       \     'is_executable': executable($HOME.'/.vim/clangd'),
-  "       \     'cmd': [$HOME.'/.vim/clangd'],
+  "       \     'is_executable': executable($MYVIMRUNTIME.'/clangd'),
+  "       \     'cmd': [$MYVIMRUNTIME.'/clangd'],
   "       \   }
   " let g:myvimrc_lsp_general_config['python'] =
   "       \   {

@@ -73,7 +73,7 @@ fun! mymisc#config#asyncomplete#setup() abort
     call asyncomplete#preprocess_complete(a:options, sort(l:items, {a, b -> b['priority'] - a['priority']}))
   endf
 
-  " let g:asyncomplete_log_file = $HOME."/.vim/asyncomplete.log"
+  " let g:asyncomplete_log_file = $MYVIMRUNTIME."/asyncomplete.log"
   let g:asyncomplete_preprocessor = [function('s:preprocessor')]
   let g:asyncomplete_popup_delay = 200
   let g:asyncomplete_auto_completeopt = 0

@@ -16,8 +16,8 @@ fun! mymisc#config#ctrlp#setup() abort
   if mymisc#startup#plug_tap('ctrlp-matchfuzzy')
     call add(s:ctrlp_match_funcs, 'ctrlp_matchfuzzy#matcher')
   elseif mymisc#startup#plug_tap('cpsm') " ========== For cpsm
-    " let s:cpsm_path = expand('$HOME') . '/.vim/dein/repos/github.com/nixprime/cpsm'
-    let s:cpsm_path = expand('$HOME') . '/.vim/plugged/cpsm'
+    " let s:cpsm_path = expand('$MYVIMRUNTIME') . '/dein/repos/github.com/nixprime/cpsm'
+    let s:cpsm_path = expand('$MYVIMRUNTIME') . '/plugged/cpsm'
 
     if !filereadable(s:cpsm_path . '/bin/cpsm_py.pyd') && !filereadable(s:cpsm_path . '/bin/cpsm_py.so')
       au VimEnter * echomsg "Cpsm has not been built yet."

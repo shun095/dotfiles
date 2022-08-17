@@ -2,8 +2,8 @@ scriptencoding utf-8
 
 fun! mymisc#config#LanguageClient#setup() abort
   " let g:LanguageClient_loggingLevel = 'DEBUG'
-  " let g:LanguageClient_loggingFile = $HOME.'/.vim/languageClient.log'
-  " let g:LanguageClient_serverStderr = $HOME.'/.vim/languageServer.log'
+  " let g:LanguageClient_loggingFile = $MYVIMRUNTIME.'/languageClient.log'
+  " let g:LanguageClient_serverStderr = $MYVIMRUNTIME.'/languageServer.log'
 
   let g:LanguageClient_serverCommands = {}
   if has('win32')
@@ -23,13 +23,13 @@ fun! mymisc#config#LanguageClient#setup() abort
   endif
 
   let g:LanguageClient_serverCommands['cpp'] =
-        \ [$HOME.'/.vim/clangd']
+        \ [$MYVIMRUNTIME.'/clangd']
   let g:LanguageClient_serverCommands['hpp'] =
-        \ [$HOME.'/.vim/clangd']
+        \ [$MYVIMRUNTIME.'/clangd']
   let g:LanguageClient_serverCommands['c'] =
-        \ [$HOME.'/.vim/clangd']
+        \ [$MYVIMRUNTIME.'/clangd']
   let g:LanguageClient_serverCommands['h'] =
-        \ [$HOME.'/.vim/clangd']
+        \ [$MYVIMRUNTIME.'/clangd']
   let g:LanguageClient_serverCommands['rust'] =
         \ ['rls']
   let g:LanguageClient_serverCommands['python'] =

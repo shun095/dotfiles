@@ -11,8 +11,8 @@ endif
 "   installing: Installing at this launch
 "   installed:  Already installed
 let g:plugin_mgr = {
-      \ 'plugin_dir': escape(substitute($HOME.'/.vim/plugged','\','/','g'),' '),
-      \ 'manager_dir': escape(substitute($HOME.'/.vim/autoload','\','/','g'),' '),
+      \ 'plugin_dir': escape(substitute($MYVIMRUNTIME . '/plugged','\','/','g'),' '),
+      \ 'manager_dir': escape(substitute($MYVIMRUNTIME . '/autoload','\','/','g'),' '),
       \ 'enabled': false,
       \ 'init_state': "none"
       \}
@@ -24,7 +24,7 @@ endf
 fun! g:plugin_mgr.install() abort
   let succeeded = g:false
 
-  cal system(printf('curl -fLo "%s/.vim/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',substitute($HOME,'\','/','g')))
+  cal system(printf('curl -fLo "%s/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',substitute($MYVIMRUNTIME,'\','/','g')))
 
   if v:shell_error == 0
     let succeeded = g:true
@@ -50,7 +50,7 @@ endf
 
 fun! g:plugin_mgr.init() abort
   " let g:plug_window = 'topleft new'
-  set runtimepath+=$HOME/.vim
+  set runtimepath+=$MYVIMRUNTIME
   cal plug#begin(self['plugin_dir'])
   source $MYDOTFILES/vim/scripts/plugin_mgr/plugin-list.vim
   cal plug#end()

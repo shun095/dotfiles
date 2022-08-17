@@ -3,7 +3,7 @@ scriptencoding utf-8
 fun! mymisc#config#deoplete#setup() abort
   " For debugging
   " call deoplete#custom#option('profile', v:true)
-  " call deoplete#enable_logging('DEBUG', $HOME.'/.vim/deoplete.log')
+  " call deoplete#enable_logging('DEBUG', $MYVIMRUNTIME.'/deoplete.log')
   " call deoplete#custom#source("_",'is_debug_enabled',1)
 
   if has('win32') && !exists('g:python3_host_prog')
