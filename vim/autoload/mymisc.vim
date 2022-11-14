@@ -17,14 +17,10 @@ fun! mymisc#ime_deactivate() abort
       call system('fcitx-remote -c')
     endif
   elseif has('mac')
-    if executable('swim')
-      call system('swim use com.google.inputmethod.Japanese.Roman')
-      if v:shell_error
-        call system('swim use com.apple.inputmethod.Kotoeri.Roman')
-      endif
-      if v:shell_error
-        call system('swim use com.apple.keylayout.ABC')
-      endif
+    if executable('im-select')
+      call system('im-select com.apple.keylayout.ABC')
+    else
+      echomsg 'Install "im-select" to enable auto IME deactivation.'
     endif
   else
   endif
