@@ -7,6 +7,8 @@ fun! mymisc#config#fern#setup() abort
   nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p<CR>
   nno <silent> <Leader>n :Fern<space>
 
+  let g:fern#drawer_width = 40
+
   fun! s:init_fern() abort
     " Write custom code here
 

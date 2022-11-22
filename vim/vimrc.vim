@@ -993,6 +993,12 @@ catch
   cal add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
   if g:is_test
     cal writefile(g:msgs_on_startup, $VADER_OUTPUT_FILE)
+    for s:msg in g:msgs_on_startup
+      " mymisc#utilが読み込まれないこともあるためここで定義
+      exe "echohl ErrorMsg"
+      exe "echomsg " . string(s:msg)
+      exe "echohl none"
+    endfo
     cq!
   en
 fina
