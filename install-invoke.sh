@@ -76,7 +76,7 @@ LOCALRCS=(
 )
 TRASH="$HOME/.trash"
 
-if command -v gsed > /dev/null 2>&1; then
+if type gsed > /dev/null 2>&1; then
     alias sed="gsed"
 fi
 

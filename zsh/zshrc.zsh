@@ -48,11 +48,11 @@ if [ ! -d $MYDOTFILES/zsh/completions ]; then
 fi
 
 # gitlab cli completion
-if command -v lab > /dev/null 2>&1 && [ ! -f $MYDOTFILES/zsh/completions/_lab ]; then
+if type lab > /dev/null 2>&1 && [ ! -f $MYDOTFILES/zsh/completions/_lab ]; then
     lab completion zsh > $MYDOTFILES/zsh/completions/_lab
 fi
 # github cli completion
-if command -v hub > /dev/null 2>&1 && [ ! -f $MYDOTFILES/zsh/completions/_hub ]; then
+if type hub > /dev/null 2>&1 && [ ! -f $MYDOTFILES/zsh/completions/_hub ]; then
     curl -L https://raw.githubusercontent.com/github/hub/master/etc/hub.zsh_completion -o $MYDOTFILES/zsh/completions/_hub
 fi
 
@@ -65,11 +65,11 @@ export KUBE_PS1_PREFIX='['
 export KUBE_PS1_SUFFIX=']'
 
 _zshrc_get_fzf_default_opts() {
-    if command -v highlight > /dev/null 2>&1; then
+    if type highlight > /dev/null 2>&1; then
         HIGHLIGHT_SIZE_MAX=262143  # 256KiB
         local hloptions="--replace-tabs=8 --style=molokai ${HIGHLIGHT_OPTIONS:-}"
         local previewcmd="highlight --out-format="xterm256" --force "${hloptions}" {} "
-    elif command -v pygmentize > /dev/null 2>&1; then
+    elif type pygmentize > /dev/null 2>&1; then
         local previewcmd="pygmentize -O style=monokai -f console256 -g {}"
     else
         local previewcmd="cat {}"
@@ -236,16 +236,16 @@ cdproject() {
     alias cdp="cdproject"
 }
 
-if command -v xsel > /dev/null 2>&1; then
+if type xsel > /dev/null 2>&1; then
     alias pbcopy="xsel -ib"
     alias pbpaste="xsel -ob"
 fi
 
-if command -v pbcopy > /dev/null 2>&1; then
+if type pbcopy > /dev/null 2>&1; then
     alias pwdcopy="pwd | pbcopy"
 fi
 
-if command -v pbpaste > /dev/null 2>&1; then
+if type pbpaste > /dev/null 2>&1; then
     cdpaste() {
         if [ -d "$(pbpaste)" ]; then
             cd "$(pbpaste)"
@@ -274,10 +274,10 @@ header_appjson() {
 
 ##### Aliases ##### {{{
 # GNU Tools on Mac
-if command -v gsed > /dev/null 2>&1; then
+if type gsed > /dev/null 2>&1; then
     alias sed="gsed"
 fi
-if command -v gls > /dev/null 2>&1; then
+if type gls > /dev/null 2>&1; then
     alias ls="gls --color"
 
     alias l="gls --color -lah"
@@ -285,39 +285,39 @@ if command -v gls > /dev/null 2>&1; then
     alias ll="gls --color -l"
     alias lsa="gls --color -lah"
 fi
-if command -v ggrep > /dev/null 2>&1; then
+if type ggrep > /dev/null 2>&1; then
     alias grep="ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
 fi
 
 # Excel diff
-if command -v git-xlsx-textconv > /dev/null 2>&1; then
+if type git-xlsx-textconv > /dev/null 2>&1; then
     alias xlsxtxt="git-xlsx-textconv"
 fi
 
 # Trash
-if command -v trash-put > /dev/null 2>&1; then
+if type trash-put > /dev/null 2>&1; then
     alias trm="trash-put"
 fi
 
-if command -v colordiff > /dev/null 2>&1; then
+if type colordiff > /dev/null 2>&1; then
     alias diff="colordiff -u"
 else
     alias diff="diff -u"
 fi
 
-if command -v $MYDOTFILES/build/vim/bin/vim > /dev/null 2>&1; then
+if type $MYDOTFILES/build/vim/bin/vim > /dev/null 2>&1; then
     alias vim=$MYDOTFILES/build/vim/bin/vim
-elif command -v $HOME/build/vim/bin/vim > /dev/null 2>&1; then
+elif type $HOME/build/vim/bin/vim > /dev/null 2>&1; then
     alias vim=$HOME/build/vim/bin/vim
-elif command -v /usr/local/bin/vim > /dev/null 2>&1;then
+elif type /usr/local/bin/vim > /dev/null 2>&1;then
     alias vim=/usr/local/bin/vim
 fi
 
-if command -v $MYDOTFILES/build/vim/bin/gvim > /dev/null 2>&1; then
+if type $MYDOTFILES/build/vim/bin/gvim > /dev/null 2>&1; then
     alias vim=$MYDOTFILES/build/vim/bin/gvim
-elif command -v $HOME/build/vim/bin/gvim > /dev/null 2>&1; then
+elif type $HOME/build/vim/bin/gvim > /dev/null 2>&1; then
     alias vim=$HOME/build/vim/bin/gvim
-elif command -v /usr/local/bin/gvim > /dev/null 2>&1;then
+elif type /usr/local/bin/gvim > /dev/null 2>&1;then
     alias gvim=/usr/local/bin/gvim
 fi
 
@@ -328,17 +328,17 @@ alias svim="vim --cmd \"let g:use_plugins=0\""
 alias gnvim="nvim-qt"
 alias memo="vim -c \"MemoNew\""
 
-if command -v /usr/local/bin/emacs > /dev/null 2>&1;then
+if type /usr/local/bin/emacs > /dev/null 2>&1;then
     alias emacs=/usr/local/bin/emacs
 fi
 
 alias dir="dir --group-directories-first --color=auto"
-if command -v pygmentize > /dev/null 2>&1; then
+if type pygmentize > /dev/null 2>&1; then
     alias pyg="pygmentize -O style=monokai -f 256 -g"
     alias ccat="pyg"
 fi
 
-if command -v highlight > /dev/null 2>&1; then
+if type highlight > /dev/null 2>&1; then
     alias hlt="highlight -O ansi"
 fi
 
@@ -352,7 +352,7 @@ alias http-srv='python3 -m http.server 3000'
 alias dock='docker'
 alias doco='docker-compose'
 
-if command -v kubectl >/dev/null 2>&1; then
+if type kubectl >/dev/null 2>&1; then
   kubectl () {
     unset -f kubectl
     # lazy load
