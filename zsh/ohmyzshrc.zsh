@@ -1,129 +1,80 @@
 # vim:ft=zsh
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
-  export ZSH=$HOME/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="ishitaku"
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-adb
-# aws
-# brew # unnecessary for newest brew
-rust
-cloudfoundry
-docker
-docker-compose
-# emacs
-fzf
-flutter
-gcloud
-git
-git-auto-fetch
-git-escape-magic
-gnu-utils
-# go
-golang
-gradle
-minikube
-mvn
-node
-npm
-# npx
-pip
-postgres
-pyenv
-python
-ripgrep
-# sudo
-# ssh-agent
-tig
-# tmux # this overwrites tmux command
-vscode
-yarn
-kube-ps1
-# kubectl
-# command-not-found
-history-substring-search
-vagrant
-zsh-completions
-zsh-syntax-highlighting
-zsh-autosuggestions
+# 
+# Plugins must be loaded if necessary.
+# <plugin name>:<check command>
+plugins_with_command=(
+    adb
+    aws
+    cloudfoundry:cf
+    dnf
+    docker
+    docker-compose
+    emacs
+    flutter
+    fzf
+    gcloud
+    git
+    golang:go
+    gradle
+    helm
+    kube-ps1:kubectl
+    kubectl
+    minikube
+    mvn
+    node
+    npm
+    pip:pip
+    pip:pip3
+    postgres:psql
+    pyenv:pyenv
+    python:python
+    python:python3
+    ripgrep:rg
+    rust:cargo
+    ssh-agent
+    sudo
+    systemd:systemctl
+    tig
+    vagrant
+    vscode:code
+    yarn
+    yum
 )
 
-source $ZSH/oh-my-zsh.sh
+# Plugins must be loaded always.
+plugins=(
+    git-auto-fetch
+    git-escape-magic
+    gnu-utils
+    history-substring-search
+    zsh-completions
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+)
 
-# User configuration
+for plugin_cmd in $plugins_with_command
+do
+    plugin=$(echo $plugin_cmd | cut -d: -f 1)
+    cmd=$(echo $plugin_cmd | cut -d: -f 2)
 
-# export MANPATH="/usr/local/man:$MANPATH"
+    if type $cmd >/dev/null 2>&1; then
+        plugins+=($plugin)
+    fi
+done
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+. $ZSH/oh-my-zsh.sh
