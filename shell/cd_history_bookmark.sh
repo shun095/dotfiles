@@ -30,7 +30,7 @@ else
     _cd_history_bookmark_sedi='\sed -i .bak -e'
 fi
 
-if command -v tac > /dev/null 2>&1; then
+if type tac > /dev/null 2>&1; then
     tac="tac"
 else
     tac="tail -r"
