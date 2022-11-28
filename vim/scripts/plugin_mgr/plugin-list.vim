@@ -66,7 +66,7 @@ endif
 " Disabled because when I insert '//' on Windows, vim freezes.
 " Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
-Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-match'}
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'thomasfaingnaert/vim-lsp-ultisnips'

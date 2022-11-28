@@ -77,6 +77,7 @@ fun! mymisc#config#asyncomplete#setup() abort
   let g:asyncomplete_preprocessor = [function('s:preprocessor')]
   let g:asyncomplete_popup_delay = 200
   let g:asyncomplete_auto_completeopt = 0
+  " let g:asyncomplete_min_chars = 3
 
   aug vimrc_asyncomplete
     au!
