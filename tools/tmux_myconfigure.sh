@@ -8,7 +8,7 @@ set -eu
 
 ## CONFIG
 SOFTWARE_NAME="tmux"
-BRANCH_NAME="3.2a"
+BRANCH_NAME="3.4"
 NEEDS_PULL=true
 
 ## COMMON
@@ -22,5 +22,6 @@ update_repository "${_REPO_DIR}" "${BRANCH_NAME}" "${NEEDS_PULL}"
 ## BUILD
 cd $_REPO_DIR
 ./autogen.sh
-./configure --prefix=$_PREFIX
+./configure --prefix=$_PREFIX \
+	--enable-utf8proc
 make -j${_NUM_PARALLEL} install
