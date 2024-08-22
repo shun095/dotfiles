@@ -647,7 +647,7 @@ elif [[ $(lsb_release -rs) == "20.04" ]]; then
         fi
     done
 elif [[ $(lsb_release -rs) == "22.04" ]]; then
-    tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
+    tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2 libutf8proc-dev'
     for package in ${tmp_deps}; do
         if ! dpkg -s ${package} > /dev/null 2>&1; then
             deps="${deps} ${package}"
