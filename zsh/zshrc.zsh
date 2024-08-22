@@ -161,13 +161,13 @@ remove_dups_in_path() {
 remove_dups_in_path
 
 # 'cdhi' command
-source $MYDOTFILES/shell/cd_history_bookmark.sh
+# source $MYDOTFILES/shell/cd_history_bookmark.sh
 
 ##### Functions ##### {{{
 # Built in
-chpwd() {
-    _cd_history_bookmark_save_cd_history
-}
+# chpwd() {
+#     _cd_history_bookmark_save_cd_history
+# }
 
 # Custom
 # maila(){
