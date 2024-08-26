@@ -62,7 +62,7 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 if s:has_python3 || s:has_python
-  " Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
 " Disabled because when I insert '//' on Windows, vim freezes.
 " Plug 'prabirshrestha/asyncomplete-file.vim'
@@ -70,7 +70,9 @@ Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
 Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-match'}
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-" Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+if s:has_python3 || s:has_python
+  Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+endif
 " Plug 'puremourning/vimspector'
 
 " Plug 'prabirshrestha/asyncomplete-necovim.vim'
@@ -111,7 +113,7 @@ Plug 'freitass/todo.txt-vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 if s:has_python3 || s:has_python
-  " Plug 'SirVer/ultisnips'
+  Plug 'SirVer/ultisnips'
 endif
 Plug 'honza/vim-snippets'
 
