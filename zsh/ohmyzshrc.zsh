@@ -28,7 +28,7 @@ plugins_with_command=(
     flutter
     fzf
     gcloud
-    git
+    git:git
     golang:go
     gradle
     helm

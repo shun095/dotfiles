@@ -4,18 +4,18 @@ local MARK="%(?,%{$fg_bold[blue]%}>,%{$fg_bold[red]%}[%?]"$'\n'">)"
 if [[ "$USER" == "root" ]]; then USERCOLOR="red"; else USERCOLOR="green"; fi
 local SHELL_MARK=""
 
-# Git sometimes goes into a detached head state. git_prompt_info doesn't
+# Git sometimes goes into a detached head state. _omz_git_prompt_info doesn't
 # return anything in this case. So wrap it in another function and check
 # for an empty string.
 function check_git_prompt_info() {
     if git rev-parse --git-dir > /dev/null 2>&1; then
         echo -n " "
-        if [[ -z $(git_prompt_info) ]]; then
-            echo -n "%{$fg_bold[blue]%}detached-head%{$reset_color%})"
+        if [[ -z $(_omz_git_prompt_info) ]]; then
+            echo -n "(%{$fg_bold[blue]%}detached-head%{$reset_color%})"
         else
-            echo -n "$(git_prompt_info) "
+            echo -n "$(_omz_git_prompt_info) "
         fi
-        echo -n "$(git_prompt_status)"
+        echo -n "$(_omz_git_prompt_status)"
         # echo -n " $(git_prompt_short_sha)"
     fi
     echo -n "%{$reset_color%}"
