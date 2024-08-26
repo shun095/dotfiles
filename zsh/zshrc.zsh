@@ -311,11 +311,14 @@ else
 fi
 
 if type $MYDOTFILES/build/vim/bin/vim > /dev/null 2>&1; then
-    alias vim=$MYDOTFILES/build/vim/bin/vim
+    # alias vim=$MYDOTFILES/build/vim/bin/vim
+    export PATH=$MYDOTFILES/build/vim/bin:$PATH
 elif type $HOME/build/vim/bin/vim > /dev/null 2>&1; then
-    alias vim=$HOME/build/vim/bin/vim
+    # alias vim=$HOME/build/vim/bin/vim
+    export PATH=$HOME/build/vim/bin:$PATH
 elif type /usr/local/bin/vim > /dev/null 2>&1;then
-    alias vim=/usr/local/bin/vim
+    # alias vim=/usr/local/bin/vim
+    export PATH=/usr/local/bin:$PATH
 fi
 
 if type $MYDOTFILES/build/vim/bin/gvim > /dev/null 2>&1; then

@@ -33,7 +33,7 @@ if [ "$(uname)" = 'Darwin'  ]; then
 		--enable-python3interp=yes \
 		--with-python3-command=python3 \
 		--enable-autoservername \
-		--enable-rubyinterp=dynamic \
+		--enable-rubyinterp=no \
 		--enable-terminal
 else
 	./configure --prefix=${_PREFIX} \
@@ -47,7 +47,7 @@ else
 		--enable-python3interp=dynamic \
 		--with-python3-command=python3 \
 		--enable-autoservername \
-		--enable-rubyinterp=dynamic \
+		--enable-rubyinterp=no \
 		--enable-terminal
 fi
 
