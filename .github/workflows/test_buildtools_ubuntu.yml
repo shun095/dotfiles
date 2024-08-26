@@ -1,4 +1,4 @@
-name: Test buildtools on Ubuntu 18.04
+name: Test buildtools on Ubuntu
 
 on:
   push:
