@@ -57,6 +57,7 @@ if type hub > /dev/null 2>&1 && [ ! -f $MYDOTFILES/zsh/completions/_hub ]; then
 fi
 
 # ZSH PLUGIN CONFIG
+export ZSH_COMPDUMP=$HOME/.zcompdump
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
 export ZSH_HIGHLIGHT_MAXLENGTH=300
 # export ZSH_TMUX_AUTOSTART=true
@@ -409,7 +410,6 @@ bindkey "^ " my-open-alias
 [[ $- == *i* ]] && stty -ixon
 bindkey \^U backward-kill-line
 
-export ZSH_COMPDUMP=$HOME/.zcompdump
 export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=999999
 export SAVEHIST=$HISTSIZE
