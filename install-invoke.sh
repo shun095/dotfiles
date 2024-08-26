@@ -632,16 +632,9 @@ build_vim_install_deps() {
 local deps=""
 local tmp_deps=""
 if [[ $OSTYPE == 'darwin'* ]]; then
-    deps='lua automake python3 pkg-config'
-elif [[ $(lsb_release -rs) == "18.04" ]]; then
-    tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
-    for package in ${tmp_deps}; do
-        if ! dpkg -s ${package} > /dev/null 2>&1; then
-            deps="${deps} ${package}"
-        fi
-    done
+    deps='lua automake python3 pkg-config utf8proc'
 elif [[ $(lsb_release -rs) == "20.04" ]]; then
-    tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2'
+    tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2 libutf8proc-dev'
     for package in ${tmp_deps}; do
         if ! dpkg -s ${package} > /dev/null 2>&1; then
             deps="${deps} ${package}"
@@ -654,10 +647,17 @@ elif [[ $(lsb_release -rs) == "22.04" ]]; then
             deps="${deps} ${package}"
         fi
     done
+elif [[ $(lsb_release -rs) == "24.04" ]]; then
+    tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2 libutf8proc-dev'
+    for package in ${tmp_deps}; do
+        if ! dpkg -s ${package} > /dev/null 2>&1; then
+            deps="${deps} ${package}"
+        fi
+    done
 elif type dnf > /dev/null 2>&1; then
-    deps='git gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
+    deps='git gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel utf8proc'
 elif type yum > /dev/null 2>&1; then
-    deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel'
+    deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel utf8proc'
 fi
 install_deps "vim build" "${deps}"
 }
