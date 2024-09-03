@@ -13,6 +13,7 @@ fun! mymisc#config#memolist#setup() abort
   " endif
 
   let g:memolist_memo_suffix = "md"
+  let g:memolist_template_dir_path = $MYDOTFILES . "/vim/memolist/template"
 
   nmap <Leader>mn :<C-u>MemoNew<cr>
   " if mymisc#startup#plug_tap('denite.nvim')
@@ -26,6 +27,7 @@ fun! mymisc#config#memolist#setup() abort
   endif
   if mymisc#startup#plug_tap('fzf.vim')
     let g:memolist_path = get(g:,'memolist_path',$HOME . '/memo')
+
     nno <Leader>mf :<C-u>execute ":FZF " . expand(g:memolist_path)<CR>
   endif
 endf
