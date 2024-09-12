@@ -233,6 +233,7 @@ try
   let &statusline.='%m%r%h%w%q'
   let &statusline.=' %f %<%='
   let &statusline.='%{Myvimrc_statusline_tagbar()}'
+  let &statusline.="\uE0B2"
   let &statusline.='%2*'
   let &statusline.=' %{Myvimrc_statusline_git()}'
   let &statusline.='%4*'
@@ -950,7 +951,7 @@ try
     try
       se background=dark
       if has('gui_running') || exists('&t_Co') && &t_Co >= 256
-        colorscheme PaperColor
+        colorscheme iceberg
       else
         colorscheme default
         if !has('gui_running')

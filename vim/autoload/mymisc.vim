@@ -313,16 +313,16 @@ fun! mymisc#tabname(n) abort
   let winnr = tabpagewinnr(a:n)
   let name = expand('#'.buflist[winnr - 1].':p')
   let fmod = ':~:.'
-  let _ = ''
+  let tabname = ''
 
   if empty(name)
-    let _ .= '[No Name]'
+    let tabname .= '[No Name]'
   else
-    let _ .= substitute(fnamemodify(name, fmod), '\v\w\zs.{-}\ze(\\|/)', '', 'g')
+    let tabname .= substitute(fnamemodify(name, fmod), '\v\w\zs.{-}\ze(\\|/)', '', 'g')
   endif
 
-  let _ = substitute(_, '\\', '/', 'g')
-  return _
+  let tabname = substitute(tabname, '\\', '/', 'g')
+  return tabname
 endf
 
 
@@ -342,10 +342,10 @@ fun! mymisc#set_statusline_vars() abort
     let w:mymisc_status_tagbar .= tagbar#currenttag('[%s] ','')
   endif
 
-  if exists('*fugitive#head()') 
+  if exists('*fugitive#Head()') 
     let w:mymisc_status_git = ''
-    if fugitive#head() !=# ''
-      let w:mymisc_status_git .= fugitive#head() . ' '
+    if fugitive#Head() !=# ''
+      let w:mymisc_status_git .= fugitive#Head() . ' '
     endif
   endif
 
