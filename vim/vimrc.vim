@@ -233,7 +233,7 @@ try
   let &statusline.='%m%r%h%w%q'
   let &statusline.=' %f %<%='
   let &statusline.='%{Myvimrc_statusline_tagbar()}'
-  let &statusline.="\uE0B2"
+  let &statusline.="\uE0BA "
   let &statusline.='%2*'
   let &statusline.=' %{Myvimrc_statusline_git()}'
   let &statusline.='%4*'
