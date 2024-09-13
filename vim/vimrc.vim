@@ -230,8 +230,12 @@ try
 
   " Statusline settings {{{
   let &statusline=''
-  let &statusline.='%m%r%h%w%q'
-  let &statusline.=' %f %<%='
+  let &statusline.='%1*%m%r%h%w%q'
+  let &statusline.=' %f '
+  let &statusline.='%<'
+  let &statusline.='%0*'
+  let &statusline.="\uE0B8 "
+  let &statusline.='%='
   let &statusline.='%{Myvimrc_statusline_tagbar()}'
   let &statusline.="\uE0BA "
   let &statusline.='%2*'
