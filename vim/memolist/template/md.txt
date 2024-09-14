@@ -2,3 +2,5 @@ date: {{_date_}}
 
 # {{_title_}}
 
+<!-- vim-markdown-toc GFM -->
+<!-- vim-markdown-toc -->
