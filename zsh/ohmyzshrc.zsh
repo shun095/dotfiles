@@ -89,18 +89,19 @@ done < <(for line in $plugins_with_command; do echo $line;done)
 IFS=$_IFS
 
 function compinit(){
+    unfunction compinit
     . $ZSH/custom/plugins/zsh-defer/zsh-defer.plugin.zsh
-    autoload -Uz compinit && zsh-defer -12dmszpr -t0.1 compinit $@
+    autoload -Uz compinit && zsh-defer -12dmszpr -t0.001 compinit $@
 }
 
 function compdef(){
-    autoload -Uz compinit && zsh-defer -12dmszpr -t0.1 compdef $@
+    autoload -Uz compinit && zsh-defer -12dmszpr -t0.001 compdef $@
 }
 
 . $ZSH/oh-my-zsh.sh
 
 if [ -f ~/.fzf.zsh ]; then
-    zsh-defer -12dmszpr -t0.1 source $HOME/.fzf.zsh
+    zsh-defer -12dmszpr -t0.001 source $HOME/.fzf.zsh
 fi
 
 _IFS=$IFS
@@ -111,7 +112,8 @@ do
         cmd=true
     fi
 
-    zsh-defer -12dmszpr -t0.1 -c "if type $cmd >/dev/null 2>&1; then _omz_source \"plugins/$plugin/$plugin.plugin.zsh\"; fi"
+    zsh-defer -12dmsz -t0.001 -c "if type $cmd >/dev/null 2>&1; then _omz_source \"plugins/$plugin/$plugin.plugin.zsh\"; RPROMPT=\"Loading plugin: $plugin\"; fi"
 done < <(for line in $lazy_plugins; do echo $line; done)
 IFS=$_IFS
 
+zsh-defer -12dmsz -t0.001 -c "RPROMPT="

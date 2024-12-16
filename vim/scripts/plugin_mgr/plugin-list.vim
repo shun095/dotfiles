@@ -229,7 +229,7 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'deton/jasegment.vim'
 
 " Applications
-Plug 'glidenote/memolist.vim', {'on': ['MemoNew', 'MemoList']}
+Plug 'glidenote/memolist.vim' ", {'on': ['MemoNew', 'MemoList']}
 Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 
 " Tools
