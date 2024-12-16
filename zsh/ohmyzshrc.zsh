@@ -18,63 +18,100 @@ COMPLETION_WAITING_DOTS="true"
 # Plugins must be loaded if necessary.
 # <plugin name>:<check command>
 plugins_with_command=(
-    adb
-    aws
-    cloudfoundry:cf
-    dnf
-    docker
-    docker-compose
-    emacs
-    flutter
-    fzf
-    gcloud
-    git:git
-    golang:go
-    gradle
-    helm
-    kube-ps1:kubectl
-    kubectl
-    minikube
-    mvn
-    node
-    npm
-    pip:pip
-    pip:pip3
-    postgres:psql
-    pyenv:pyenv
-    python:python
-    python:python3
-    ripgrep:rg
-    rust:cargo
-    ssh-agent
-    sudo
-    systemd:systemctl
-    tig
-    vagrant
-    vscode:code
-    yarn
-    yum
+    adb::lazy
+    aws::lazy
+    cloudfoundry:cf:lazy
+    dnf::lazy
+    docker::lazy
+    docker-compose::lazy
+    emacs::lazy
+    flutter::lazy
+    fzf::lazy
+    gcloud::lazy
+    git:git:lazy
+    golang:go:lazy
+    gradle::lazy
+    helm::lazy
+    kube-ps1:kubectl:lazy
+    kubectl::lazy
+    minikube::lazy
+    mvn::lazy
+    node::lazy
+    npm::lazy
+    pip:pip:lazy
+    pip:pip3:lazy
+    postgres:psql:lazy
+    pyenv:pyenv:lazy
+    python:python:lazy
+    python:python3:lazy
+    ripgrep:rg:lazy
+    rust:cargo:lazy
+    ssh-agent::lazy
+    sudo::lazy
+    systemd:systemctl:lazy
+    tig::lazy
+    vagrant::lazy
+    vscode:code:lazy
+    yarn::lazy
+    yum::lazy
 )
 
 # Plugins must be loaded always.
 plugins=(
-    git-auto-fetch
-    git-escape-magic
-    gnu-utils
-    history-substring-search
-    zsh-completions
-    zsh-syntax-highlighting
-    zsh-autosuggestions
+    zsh-defer
 )
 
-for plugin_cmd in $plugins_with_command
-do
-    plugin=$(echo $plugin_cmd | cut -d: -f 1)
-    cmd=$(echo $plugin_cmd | cut -d: -f 2)
+lazy_plugins=(
+    git-auto-fetch
+    gnu-utils
+    history-substring-search
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+    zsh-completions
+)
 
-    if type $cmd >/dev/null 2>&1; then
-        plugins+=($plugin)
+_IFS=$IFS
+IFS=:
+while read plugin cmd lazy
+do
+    if [[ $cmd = "" || $cmd = $plugin ]]; then;
+        cmd=true
     fi
-done
+
+    if [[ "$lazy" = "lazy" ]]; then
+        lazy_plugins+=("$plugin:$cmd")
+    else
+        if type $cmd >/dev/null 2>&1; then
+            plugins+=($plugin)
+        fi
+    fi
+done < <(for line in $plugins_with_command; do echo $line;done)
+IFS=$_IFS
+
+function compinit(){
+    . $ZSH/custom/plugins/zsh-defer/zsh-defer.plugin.zsh
+    autoload -Uz compinit && zsh-defer -12dmszpr -t0.1 compinit $@
+}
+
+function compdef(){
+    autoload -Uz compinit && zsh-defer -12dmszpr -t0.1 compdef $@
+}
 
 . $ZSH/oh-my-zsh.sh
+
+if [ -f ~/.fzf.zsh ]; then
+    zsh-defer -12dmszpr -t0.1 source $HOME/.fzf.zsh
+fi
+
+_IFS=$IFS
+IFS=:
+while read plugin cmd
+do
+    if [[ $cmd = "" || $cmd = $plugin ]]; then;
+        cmd=true
+    fi
+
+    zsh-defer -12dmszpr -t0.1 -c "if type $cmd >/dev/null 2>&1; then _omz_source \"plugins/$plugin/$plugin.plugin.zsh\"; fi"
+done < <(for line in $lazy_plugins; do echo $line; done)
+IFS=$_IFS
+

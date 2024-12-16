@@ -161,17 +161,26 @@ update_repositories() {
     fi
 
     echo "Upgrading oh-my-zsh plugins"
+    echo "  Upgrading zsh-syntax-highlighting"
     git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-syntax-highlighting/.git \
         --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-syntax-highlighting/ \
         pull
 
+    echo "  Upgrading zsh-autosuggestions"
     git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-autosuggestions/.git \
         --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-autosuggestions/ \
         pull
 
+    echo "  Upgrading zsh-completions"
     git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-completions/.git \
         --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-completions/ \
         pull
+
+    echo "  Upgrading zsh-defer"
+    git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-defer/.git \
+        --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-defer/ \
+        pull
+
 
 
     echo "Upgrading tmux tpm repository"
@@ -235,13 +244,14 @@ remove_rcfiles() {
 }
 
 uninstall_plugins() {
-    echo "Removing fzf and zprezto directory"
-    if [[ -e $HOME/.fzf/uninstall ]]; then
-        $HOME/.fzf/uninstall
+    echo "Removing plugin directories"
+    if [[ -e $FZFDIR/uninstall ]]; then
+        $FZFDIR/uninstall
     fi
     \rm -rf $ZPREZTODIR
     \rm -rf $FZFDIR
     \rm -rf $OHMYZSHDIR
+    \rm -rf $TMUXTPMDIR
 }
 
 git_configulation() {
@@ -260,31 +270,42 @@ download_plugin_repositories(){
     # Install fzf
     if [[ ! -e ${FZFDIR} ]]; then
         echo_section "Downloading fzf"
-        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf &
+        git clone --depth 1 https://github.com/junegunn/fzf.git $FZFDIR &
     fi
 
     # Install oh-my-zsh
     if [[ ! -e ${OHMYZSHDIR} ]]; then
         echo_section "Downloading oh my zsh"
-        git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+        git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git $OHMYZSHDIR
 
-        cd ~/.oh-my-zsh/custom/plugins
-        git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git &
+    fi
+
+    cd $OHMYZSHDIR/custom/plugins
+
+    if [[ ! -e ${OHMYZSHDIR}/custom/plugins/zsh-syntax-highlighting ]]; then
+        git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting &
+    fi
+    if [[ ! -e ${OHMYZSHDIR}/custom/plugins/zsh-autosuggestions ]]; then
         git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions &
+    fi
+    if [[ ! -e ${OHMYZSHDIR}/custom/plugins/zsh-completions ]]; then
         git clone --depth 1 https://github.com/zsh-users/zsh-completions &
+    fi
+    if [[ ! -e ${OHMYZSHDIR}/custom/plugins/zsh-defer ]]; then
+        git clone --depth 1 https://github.com/romkatv/zsh-defer &
+    fi
 
-        wait
+    wait
 
-        cd ${old_cwd}
+    cd ${old_cwd}
 
-        if [[ ! -e ${OHMYZSHDIR}/custom/themes ]]; then
-            mkdir -p ${OHMYZSHDIR}/custom/themes
-        fi
+    if [[ ! -e ${OHMYZSHDIR}/custom/themes ]]; then
+        mkdir -p ${OHMYZSHDIR}/custom/themes
     fi
 
     # Install tmux tpm
     if [[ ! -e ${TMUXTPMDIR} ]]; then
-        git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+        git clone --depth 1 https://github.com/tmux-plugins/tpm $TMUXTPMDIR
     fi
 }
 
@@ -444,7 +465,7 @@ deploy_selfmade_rcfiles() {
 
 deploy_fzf() {
     echo_section "Installing fzf"
-    ~/.fzf/install --completion --key-bindings --update-rc
+    $FZFDIR/install --completion --key-bindings --no-update-rc
 }
 
 ##############################################

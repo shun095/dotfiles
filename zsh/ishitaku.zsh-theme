@@ -8,7 +8,7 @@ local SHELL_MARK=""
 # return anything in this case. So wrap it in another function and check
 # for an empty string.
 function check_git_prompt_info() {
-    if git rev-parse --git-dir > /dev/null 2>&1; then
+    # if git rev-parse --git-dir > /dev/null 2>&1; then
         echo -n " "
         if [[ -z $(_omz_git_prompt_info) ]]; then
             echo -n "(%{$fg_bold[blue]%}detached-head%{$reset_color%})"
@@ -17,14 +17,12 @@ function check_git_prompt_info() {
         fi
         echo -n "$(_omz_git_prompt_status)"
         # echo -n " $(git_prompt_short_sha)"
-    fi
+    # fi
     echo -n "%{$reset_color%}"
 }
 
 function get_datetime() {
-    echo -n " "
     echo -n "%{$reset_color%}"
-    # echo -n "%{$fg_no_bold[cyan]%}%D{%Y-%m-%d %H:%M:%S}"
     echo -n "%D{%Y/%m/%d %H:%M:%S}"
     echo -n "%{$reset_color%}"
 }
@@ -50,11 +48,26 @@ get_kube_ps1_prompt(){
 
 zle -N accept-line re-prompt
 
-PROMPT=$MARK'$(get_datetime)$(get_kube_ps1_prompt)%{$reset_color%}$(get_pyenv_prompt)$(check_git_prompt_info)
+_omz_register_handler get_pyenv_prompt
+_omz_register_handler get_kube_ps1_prompt
+
+function async_get_pyenv_prompt() {
+    if [[ -n "${_OMZ_ASYNC_OUTPUT[get_pyenv_prompt]}" ]]
+    then
+        echo -n "${_OMZ_ASYNC_OUTPUT[get_pyenv_prompt]}"
+    fi
+}
+
+function async_get_kube_ps1_prompt() {
+    if [[ -n "${_OMZ_ASYNC_OUTPUT[get_kube_ps1_prompt]}" ]]
+    then
+        echo -n "${_OMZ_ASYNC_OUTPUT[get_kube_ps1_prompt]}"
+    fi
+}
+
+PROMPT=$MARK' $(get_datetime)$(async_get_kube_ps1_prompt)%{$reset_color%}$(async_get_pyenv_prompt) $(git_prompt_info) $(git_prompt_status)
 %{$fg_bold[$USERCOLOR]%}%n%{$reset_color%}@%{$fg_bold[blue]%}%m %{$reset_color%}%5~
 %{$fg_bold[cyan]%}$ %{$reset_color%}'
-
-# RPROMPT='$(get_datetime)'
 
 
 # Format for git_prompt_info()

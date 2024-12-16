@@ -47,15 +47,6 @@ if [ ! -d $MYDOTFILES/zsh/completions ]; then
     mkdir -p $MYDOTFILES/zsh/completions/
 fi
 
-# gitlab cli completion
-if type lab > /dev/null 2>&1 && [ ! -f $MYDOTFILES/zsh/completions/_lab ]; then
-    lab completion zsh > $MYDOTFILES/zsh/completions/_lab
-fi
-# github cli completion
-if type hub > /dev/null 2>&1 && [ ! -f $MYDOTFILES/zsh/completions/_hub ]; then
-    curl -L https://raw.githubusercontent.com/github/hub/master/etc/hub.zsh_completion -o $MYDOTFILES/zsh/completions/_hub
-fi
-
 # ZSH PLUGIN CONFIG
 export ZSH_COMPDUMP=$HOME/.zcompdump
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
@@ -138,7 +129,7 @@ fi
 if [ -d "$HOME/.pyenv" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init --path)"
+    eval "$(pyenv init - --no-rehash zsh)"
 fi
 
 # source oh-my-zsh config
