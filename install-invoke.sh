@@ -294,6 +294,9 @@ download_plugin_repositories(){
     if [[ ! -e ${OHMYZSHDIR}/custom/plugins/zsh-defer ]]; then
         git clone --depth 1 https://github.com/romkatv/zsh-defer &
     fi
+    if [[ ! -e ${OHMYZSHDIR}/custom/plugins/pyenv-lazy ]]; then
+        git clone --depth 1 https://github.com/davidparsson/zsh-pyenv-lazy pyenv-lazy &
+    fi
 
     wait
 
@@ -828,7 +831,6 @@ update() {
 install() {
     install_essential_dependencies
     download_plugin_repositories
-    undeploy
     deploy
 }
 

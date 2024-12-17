@@ -18,6 +18,7 @@ COMPLETION_WAITING_DOTS="true"
 # Plugins must be loaded if necessary.
 # <plugin name>:<check command>
 plugins_with_command=(
+    pyenv-lazy:pyenv
 )
 
 # Plugins must be loaded always.
@@ -124,12 +125,12 @@ done < <(for line in $plugins_with_command; do echo $line;done)
 
 function compinit(){ unfunction compinit
     . $ZSH/custom/plugins/zsh-defer/zsh-defer.plugin.zsh
-    zsh-defer -12dmszr +p -t0.001 -c "RPROMPT=\"Executing compinit...\";"
+    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compinit...\";"
     autoload -Uz compinit && zsh-defer -12dmszpr -t0.001 compinit $@
 }
 
 function compdef(){
-    zsh-defer -12dmszr +p -t0.001 -c "RPROMPT=\"Executing compdef...\";"
+    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compdef...\";"
     autoload -Uz compinit && zsh-defer -12dmszpr -t0.001 compdef $@
 }
 
@@ -145,7 +146,7 @@ function compdef(){
 source $ZSH/oh-my-zsh.sh
 
 if [ -f ~/.fzf.zsh ]; then
-    zsh-defer -12dmszr +p -t0.001 -c "
+    zsh-defer +12 -dmszr +p -t0.001 -c "
         RPROMPT=\"Loading $plugin...\"; 
         source $HOME/.fzf.zsh"
 fi
@@ -172,12 +173,12 @@ do
         echo "[oh-my-zsh] plugin '$plugin' not found"
     fi
 
-    zsh-defer -12dmszr +p -t0.001 -c "
+    zsh-defer +12 -dmszr +p -t0.001 -c "
         if type $cmd >/dev/null 2>&1; then
             RPROMPT=\"Loading $plugin...\";
             _omz_source \"plugins/$plugin/$plugin.plugin.zsh\"; 
         fi"
 done < <(for line in $lazy_plugins_with_command; do echo $line; done)
 
-zsh-defer -12 +dmszpr -t0.001 -c "RPROMPT=Completed!"
-zsh-defer -12dmszr +p -t1 -c "RPROMPT="
+zsh-defer +12dmszpr -t0.001 -c "RPROMPT=Completed!"
+zsh-defer +12 -dmszr +p -t1 -c "RPROMPT="
