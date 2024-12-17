@@ -11,6 +11,7 @@ if [[ "${EDITOR}" = "" ]]; then
 fi
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
+export MYDOTFILES=$HOME/dotfiles
 
 # golang
 export GOPATH=$HOME/.gopath
@@ -26,9 +27,6 @@ export PATH="$HOME/.nodebrew/current/bin:$PATH"
 
 export USE_CCACHE=1
 
-# GENERAL
-export MYDOTFILES=$HOME/dotfiles
-
 # tools
 export PATH="$HOME/Applications/MacVim.app/Contents/bin/:$PATH"
 export PATH="$MYDOTFILES/build/emacs/bin:$PATH"
@@ -39,13 +37,12 @@ export PATH="$MYDOTFILES/build/nvim-qt/bin:$PATH"
 export PATH="$MYDOTFILES/build/nvim/bin:$PATH"
 export PATH="$MYDOTFILES/build/vim/bin:$PATH"
 
-export FPATH="$MYDOTFILES/zsh/completions:$FPATH"
-
 # Custom Completions
 # Completion should be before compinit
 if [ ! -d $MYDOTFILES/zsh/completions ]; then
     mkdir -p $MYDOTFILES/zsh/completions/
 fi
+export FPATH="$MYDOTFILES/zsh/completions:$FPATH"
 
 # ZSH PLUGIN CONFIG
 export ZSH_COMPDUMP=$HOME/.zcompdump
@@ -55,6 +52,9 @@ export ZSH_HIGHLIGHT_MAXLENGTH=300
 export KUBE_PS1_SYMBOL_DEFAULT='K8s'
 export KUBE_PS1_PREFIX='['
 export KUBE_PS1_SUFFIX=']'
+export ZSH_PYENV_QUIET=true
+export TIMER_PRECISION=3
+export TIMER_FORMAT='[%d]'
 
 _zshrc_get_fzf_default_opts() {
     if type highlight > /dev/null 2>&1; then
@@ -108,6 +108,7 @@ _zshrc_custom_tmux(){
         \tmux $*
     fi
 }
+
 if [[ ! $TERM = "linux" ]]; then
     if [[ $TERM = "xterm" || $TERM = "xterm-kitty" ]]; then
         export TERM=xterm-256color
@@ -121,20 +122,12 @@ if [[ ! $TERM = "linux" ]]; then
     alias tmux=_zshrc_custom_tmux
 fi
 
-
 if [ $(uname) = "Darwin" ]; then
     alias excel='open -n /Applications/Microsoft\ Excel.app'
 fi
 
 # source oh-my-zsh config
 source $MYDOTFILES/zsh/ohmyzshrc.zsh
-
-if [ -d "$HOME/.pyenv" ]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init - --no-rehash zsh)"
-fi
-
 
 # Removing duplicates in $PATH
 remove_dups_in_path() {
