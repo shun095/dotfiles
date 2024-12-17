@@ -23,6 +23,7 @@ plugins_with_command=(
 
 # Plugins must be loaded always.
 plugins=(
+    zsh-defer
 )
 
 lazy_plugins=(
@@ -123,18 +124,21 @@ do
     fi
 done < <(for line in $plugins_with_command; do echo $line;done)
 
-function compinit(){ unfunction compinit
+compinit(){ 
+    unfunction compinit
+    args=$@
     . $ZSH/custom/plugins/zsh-defer/zsh-defer.plugin.zsh
     zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compinit...\";"
-    autoload -Uz compinit && zsh-defer -12dmszpr -t0.001 compinit $@
+    zsh-defer -12dmszpr -t0.001 -c "autoload -Uz compinit && compinit $args"
 }
 
-function compdef(){
+compdef(){
+    args=$@
     zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compdef...\";"
-    autoload -Uz compinit && zsh-defer -12dmszpr -t0.001 compdef $@
+    zsh-defer -12dmszpr -t0.001 -c "autoload -Uz compinit && compdef $args"
 }
 
-# function source(){
+# source(){
 
 #     echo "start `date +%s.%3N`"
 #     echo "Source: " $@
@@ -146,9 +150,8 @@ function compdef(){
 source $ZSH/oh-my-zsh.sh
 
 if [ -f ~/.fzf.zsh ]; then
-    zsh-defer +12 -dmszr +p -t0.001 -c "
-        RPROMPT=\"Loading $plugin...\"; 
-        source $HOME/.fzf.zsh"
+    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Loading $plugin...\";"
+    zsh-defer +12 -dmszrp -t0.001 -c "source $HOME/.fzf.zsh"
 fi
 
 while IFS= read plugin
@@ -173,12 +176,11 @@ do
         echo "[oh-my-zsh] plugin '$plugin' not found"
     fi
 
-    zsh-defer +12 -dmszr +p -t0.001 -c "
+    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Loading $plugin...\";"
+    zsh-defer +12 -dmszrp -t0.001 -c "
         if type $cmd >/dev/null 2>&1; then
-            RPROMPT=\"Loading $plugin...\";
             _omz_source \"plugins/$plugin/$plugin.plugin.zsh\"; 
         fi"
 done < <(for line in $lazy_plugins_with_command; do echo $line; done)
 
-zsh-defer +12dmszpr -t0.001 -c "RPROMPT=Completed!"
-zsh-defer +12 -dmszr +p -t1 -c "RPROMPT="
+zsh-defer +12dmszpr -t0.001 -c "RPROMPT="

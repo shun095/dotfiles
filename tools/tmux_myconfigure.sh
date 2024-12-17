@@ -8,7 +8,7 @@ set -eu
 
 ## CONFIG
 SOFTWARE_NAME="tmux"
-BRANCH_NAME="3.4"
+BRANCH_NAME="3.5"
 NEEDS_PULL=true
 
 ## COMMON

@@ -164,24 +164,29 @@ update_repositories() {
     echo "  Upgrading zsh-syntax-highlighting"
     git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-syntax-highlighting/.git \
         --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-syntax-highlighting/ \
-        pull
+        pull &
 
     echo "  Upgrading zsh-autosuggestions"
     git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-autosuggestions/.git \
         --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-autosuggestions/ \
-        pull
+        pull &
 
     echo "  Upgrading zsh-completions"
     git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-completions/.git \
         --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-completions/ \
-        pull
+        pull &
 
     echo "  Upgrading zsh-defer"
     git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-defer/.git \
         --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-defer/ \
-        pull
+        pull &
 
+    echo "  Upgrading pyenv-lazy"
+    git --git-dir=${OHMYZSHDIR}/custom/plugins/pyenv-lazy/.git \
+        --work-tree=${OHMYZSHDIR}/custom/plugins/pyenv-lazy/ \
+        pull &
 
+    wait
 
     echo "Upgrading tmux tpm repository"
     git --git-dir=${TMUXTPMDIR}/.git --work-tree=${TMUXTPMDIR} pull
@@ -228,8 +233,10 @@ remove_rcfiles_symlink() {
 
 remove_rcfiles() {
     echo_section "Removeing existing RC files"
-
     delete_line 1 "source $MYDOTFILES/zsh/zshrc.zsh" "$HOME/.zshrc"
+    delete_line 1 "if (which zprof > /dev/null) ;then zprof; fi" "$HOME/.zshrc"
+    delete_line 1 "# zmodload zsh\/zprof \&\& zprof" "$HOME/.zshrc" "zmodload zsh/zprof"
+    delete_line 1 "# zmodload zsh\/zprof \&\& zprof" "$HOME/.zshenv" "zmodload zsh/zprof"
     delete_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
 
     vimrc_path=$MYDOTFILES/vim/vimrc.vim
@@ -334,7 +341,6 @@ append_line() {
         echo "    - Already exists: line #$lno"
     else
         if [ $update -eq 1 ]; then
-            echo >> "$file"
             echo "$line" >> "$file"
             echo "    + Added"
         else
@@ -358,11 +364,18 @@ delete_line() {
     if [ $# -lt 4 ]; then
         lno=$(\grep -nF "$line" "$file" | sed 's/:.*//' | tr '\n' ' ')
     else
+        echo "  - pattern: $pat"
         lno=$(\grep -nF "$pat" "$file" | sed 's/:.*//' | tr '\n' ' ')
     fi
     if [ -n "$lno" ]; then
         echo "    - Already exists: line #$lno"
-        sed -i --follow-symlinks "${lno}d" $file
+        if sed --version >/dev/null 2>&1 ; then
+            # GNU sed
+            sed -i --follow-symlinks "${lno}d" $file
+        else
+            # BSD sed
+            sed -i '' -E "${lno}d" $file
+        fi
         echo "    - Deleted."
     else
         echo "    ~ Line is not exists. Skipped."
@@ -384,6 +397,7 @@ insert_line() {
     if [ $# -lt 4 ]; then
         lno=$(\grep -nF "$line" "$file" | sed 's/:.*//' | tr '\n' ' ')
     else
+        echo "  - pattern: $pat"
         lno=$(\grep -nF "$pat" "$file" | sed 's/:.*//' | tr '\n' ' ')
     fi
     if [ -n "$lno" ]; then
@@ -391,7 +405,13 @@ insert_line() {
     else
         if [ $update -eq 1 ]; then
             if [ -s "$file" ]; then
-                sed -i --follow-symlinks "1s/^/$line\n/" $file
+                if sed --version >/dev/null 2>&1 ; then
+                    # GNU sed
+                    sed -i --follow-symlinks "1s/^/$line\n/" $file
+                else
+                    # BSD sed
+                    sed -i '' -E "1s/^/$line\n/" $file
+                fi
             else
                 echo $line > $file
             fi
@@ -411,7 +431,9 @@ deploy_ohmyzsh_files() {
 
     # append line if zshrc doesn't has below line
     append_line 1 "source $MYDOTFILES/zsh/zshrc.zsh" "$HOME/.zshrc"
+    append_line 1 "if (which zprof > /dev/null) ;then zprof; fi" "$HOME/.zshrc"
     insert_line 1 "skip_global_compinit=1" "$HOME/.zshenv"
+    insert_line 1 "# zmodload zsh\/zprof \&\& zprof" "$HOME/.zshrc" "zmodload zsh/zprof"
 }
 
 deploy_selfmade_rcfiles() {
@@ -749,11 +771,6 @@ build_tig_make_install() {
     make_install "tig_myconfigure.sh" "https://github.com/jonas/tig"
 }
 
-build_ranger_make_install() {
-    echo_section "Installing ranger"
-    make_install "ranger_myconfigure.sh" "https://github.com/ranger/ranger"
-}
-
 build_vim(){
     build_vim_install_deps
     build_vim_make_install
@@ -779,7 +796,6 @@ buildtools(){
     build_vim
     build_tmux
     build_tig_make_install
-    build_ranger_make_install
 }
 
 deploy() {
@@ -820,11 +836,7 @@ redeploy() {
 
 update() {
     update_repositories
-    # build_vim_make_install
-    # build_tmux_make_install
-    # build_tig_make_install
-    # build_ranger_make_install
-    redeploy
+    deploy
     update_vim_plugins
 }
 

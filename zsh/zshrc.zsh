@@ -126,7 +126,7 @@ if [ $(uname) = "Darwin" ]; then
 fi
 
 # source oh-my-zsh config
-source $MYDOTFILES/zsh/ohmyzshrc.zsh
+source $MYDOTFILES/zsh/oh-my-zshrc.zsh
 
 # Removing duplicates in $PATH
 remove_dups_in_path() {
