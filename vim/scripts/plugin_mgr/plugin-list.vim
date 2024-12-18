@@ -177,7 +177,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 "/ ,{'on':['CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark','CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark']}
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
-" Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim'
 
 if exists('*matchfuzzy')
   Plug 'mattn/ctrlp-matchfuzzy'

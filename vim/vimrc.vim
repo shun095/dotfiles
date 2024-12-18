@@ -800,7 +800,6 @@ try
           \   'css',
           \   'go',
           \   'html',
-          \   'java',
           \   'javascript',
           \   'python',
           \   'sh',
@@ -809,6 +808,8 @@ try
           \   'yaml',
           \   'json'
           \ ]
+          " javaのsyntaxはmarkdownのsyntaxを参照しているので有効にすると再帰ループしてしまう
+          " \   'java',
     let g:markdown_syntax_conceal = 0
     au FileType markdown setl expandtab softtabstop=2 shiftwidth=2
 

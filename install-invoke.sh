@@ -26,7 +26,6 @@ fi
 
 # directories
 FZFDIR="$HOME/.fzf"
-ZPREZTODIR="${ZDOTDIR:-$HOME}/.zprezto"
 OHMYZSHDIR="$HOME/.oh-my-zsh"
 TMUXPLUGINSDIR="$HOME/.tmux/plugins"
 TMUXTPMDIR="$TMUXPLUGINSDIR/tpm"
@@ -255,7 +254,6 @@ uninstall_plugins() {
     if [[ -e $FZFDIR/uninstall ]]; then
         $FZFDIR/uninstall
     fi
-    \rm -rf $ZPREZTODIR
     \rm -rf $FZFDIR
     \rm -rf $OHMYZSHDIR
     \rm -rf $TMUXTPMDIR
@@ -592,6 +590,15 @@ install_vim_plugins() {
     echo "Installed."
 }
 
+install_tmux_plugins() {
+    echo_section "Installing tmux plugins"
+
+    tmux new-session -d -s tpm_control
+    tmux send-keys -t tpm_control tmux\ source-file\ ~/.tmux.conf C-m
+    tmux send-keys -t tpm_control tmux\ run-shell\ '~/.tmux/plugins/tpm/bin/install_plugins' C-m C-d
+}
+
+
 update_vim_plugins() {
     echo_section "Updating vim plugins"
 
@@ -611,6 +618,13 @@ update_vim_plugins() {
         fi
     fi
     echo "Updated."
+}
+
+update_tmux_plugins() {
+    echo_section "Updating tmux plugins"
+    tmux new-session -d -s tpm_control
+    tmux send-keys -t tpm_control tmux\ source-file\ ~/.tmux.conf C-m
+    tmux send-keys -t tpm_control tmux\ run-shell\ '~/.tmux/plugins/tpm/bin/update_plugins\ all' C-m C-d
 }
 
 install_deps() {
@@ -804,6 +818,7 @@ deploy() {
     deploy_fzf
     compile_zshfiles
     install_vim_plugins
+    install_tmux_plugins
 
     git_configulation
 
@@ -838,6 +853,7 @@ update() {
     update_repositories
     deploy
     update_vim_plugins
+    update_tmux_plugins
 }
 
 install() {

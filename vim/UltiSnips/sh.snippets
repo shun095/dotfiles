@@ -1,8 +1,25 @@
+snippet binbash "#!/bin/bash"
+#!/bin/bash
+endsnippet
+
+snippet binbashenv "#!/usr/bin/env bash"
+#!/usr/bin/env ${1:bash}
+endsnippet
+
 snippet whileread "while read ..."
 while read line${2: > /dev/null}
 do
 	${3:echo $line}
-done < ${1:input.txt}
+    ${0}
+done < ${1:<(echo "a"; echo "b")}
+endsnippet
+
+snippet whilereadifs "while IFS=, read ..."
+while IFS=${2:,} read ${3:foo bar} > ${4:/dev/null}
+do
+	${5:echo $foo $bar}
+    ${0}
+done < ${1:<(echo "a,b"; echo "c,d")}
 endsnippet
 
 snippet script_dir "SCRIPT_DIR = ..."

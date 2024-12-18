@@ -15,14 +15,13 @@ export MYDOTFILES=$HOME/dotfiles
 
 # golang
 export GOPATH=$HOME/.gopath
-export PATH="$HOME/build/go/bin:/usr/local/go/bin:$PATH"
+export PATH="/usr/local/go/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 
 # ruby
 export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
 
 # node js
-export PATH="$HOME/build/node/bin:$PATH"
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 
 export USE_CCACHE=1
@@ -112,14 +111,21 @@ if [[ ! $TERM = "linux" ]]; then
     if [[ $TERM = "xterm" || $TERM = "xterm-kitty" ]]; then
         export TERM=xterm-256color
     fi
-    if [[ $VIM_TERMINAL = "" && $TMUX = "" && $TERM_PROGRAM != "vscode" && "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]]; then
+    if [[ $VIM_TERMINAL = ""
+        && $TMUX = ""
+        && $TERM_PROGRAM != "vscode"
+        && "$TERMINAL_EMULATOR" != "JetBrains-JediTerm"
+        && "$ECLIPSE_HOME" = ""
+        && $TERM != "linux"
+        ]]; then
         _zshrc_custom_tmux
     fi
-    if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
-        source "${VIM_EDITERM_SETUP}"
-    fi
-    alias tmux=_zshrc_custom_tmux
 fi
+
+if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
+    source "${VIM_EDITERM_SETUP}"
+fi
+alias tmux=_zshrc_custom_tmux
 
 if [ $(uname) = "Darwin" ]; then
     alias excel='open -n /Applications/Microsoft\ Excel.app'

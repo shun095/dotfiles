@@ -1,20 +1,10 @@
-# vim:ft=zsh
+#!/usr/bin/env zsh
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="ishitaku"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-# 
 # Plugins must be loaded if necessary.
 # <plugin name>:<check command>
 plugins_with_command=(
@@ -45,7 +35,7 @@ lazy_plugins=(
     zsh-autosuggestions
     zsh-completions
     zsh-interactive-cd
-    zsh-navigation-tools
+    # zsh-navigation-tools
     zsh-syntax-highlighting
 )
 
@@ -149,11 +139,6 @@ compdef(){
 
 source $ZSH/oh-my-zsh.sh
 
-if [ -f ~/.fzf.zsh ]; then
-    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Loading $plugin...\";"
-    zsh-defer +12 -dmszrp -t0.001 -c "source $HOME/.fzf.zsh"
-fi
-
 while IFS= read plugin
 do
     cmd=true
@@ -182,5 +167,11 @@ do
             _omz_source \"plugins/$plugin/$plugin.plugin.zsh\"; 
         fi"
 done < <(for line in $lazy_plugins_with_command; do echo $line; done)
+
+if [ -f ~/.fzf.zsh ]; then
+    plugin=fzf
+    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Loading $plugin...\";"
+    zsh-defer +12 -dmszrp -t0.001 -c "source $HOME/.fzf.zsh"
+fi
 
 zsh-defer +12dmszpr -t0.001 -c "RPROMPT="
