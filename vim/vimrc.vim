@@ -159,6 +159,9 @@ try
   se synmaxcol=500
   se wildmenu                                                                 " Enable completion for s
   se wildmode=longest:full,full                                               " Behavior config for wildmenu
+  if has('patch-8.2.4325')
+    se wildoptions=pum                                                        " cmdline-completionの時にポップアップを表示
+  endif
   se laststatus=2                                                             " Enable status line
   se display=lastline                                                         " 一行が長い場合でも@にせずちゃんと表示
   se showcmd                                                                  " 入力中のコマンドを右下に表示
@@ -202,13 +205,20 @@ try
 
   se viminfo='500,<50,s10,h
 
+
   " se undofileでアンドゥデータをファイルを閉じても残しておく
   " 該当フォルダがなければ作成
-  if !isdirectory($MYVIMRUNTIME . '/undofiles')
-    cal mkdir($MYVIMRUNTIME . '/undofiles', 'p')
-  en
-
-  se undodir=$MYVIMRUNTIME/undofiles
+  if has('nvim')
+    if !isdirectory($MYVIMRUNTIME . '/nvim_undofiles')
+      cal mkdir($MYVIMRUNTIME . '/nvim_undofiles', 'p')
+    en
+    se undodir=$MYVIMRUNTIME/nvim_undofiles
+  else 
+    if !isdirectory($MYVIMRUNTIME . '/undofiles')
+      cal mkdir($MYVIMRUNTIME . '/undofiles', 'p')
+    en
+    se undodir=$MYVIMRUNTIME/undofiles
+  endif
   se undofile
 
   " se backupでバックアップファイルを保存する
@@ -219,6 +229,7 @@ try
 
   se backupdir=$MYVIMRUNTIME/backupfiles
   se backup
+
 
   " change swap file directory
   if !isdirectory($HOME . '/tmp')

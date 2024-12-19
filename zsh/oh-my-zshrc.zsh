@@ -115,17 +115,16 @@ do
 done < <(for line in $plugins_with_command; do echo $line;done)
 
 compinit(){ 
-    unfunction compinit
     args=$@
     . $ZSH/custom/plugins/zsh-defer/zsh-defer.plugin.zsh
     zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compinit...\";"
-    zsh-defer -12dmszpr -t0.001 -c "autoload -Uz compinit && compinit $args"
+    zsh-defer +12 -dmszpr -t0.001 -c "unfunction compinit; unfunction compdef; autoload -Uz compinit && compinit $args"
 }
 
 compdef(){
     args=$@
     zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compdef...\";"
-    zsh-defer -12dmszpr -t0.001 -c "autoload -Uz compinit && compdef $args"
+    zsh-defer +12 -dmszpr -t0.001 -c "compdef $args"
 }
 
 # source(){
@@ -138,6 +137,12 @@ compdef(){
 # }
 
 source $ZSH/oh-my-zsh.sh
+
+if [ -f ~/.fzf.zsh ]; then
+    plugin=fzf
+    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Loading $plugin...\";"
+    zsh-defer +12 -dmszrp -t0.001 -c "source $HOME/.fzf.zsh"
+fi
 
 while IFS= read plugin
 do
@@ -167,11 +172,5 @@ do
             _omz_source \"plugins/$plugin/$plugin.plugin.zsh\"; 
         fi"
 done < <(for line in $lazy_plugins_with_command; do echo $line; done)
-
-if [ -f ~/.fzf.zsh ]; then
-    plugin=fzf
-    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Loading $plugin...\";"
-    zsh-defer +12 -dmszrp -t0.001 -c "source $HOME/.fzf.zsh"
-fi
 
 zsh-defer +12dmszpr -t0.001 -c "RPROMPT="

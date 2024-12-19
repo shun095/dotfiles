@@ -850,10 +850,19 @@ redeploy() {
 }
 
 update() {
-    update_repositories
-    deploy
-    update_vim_plugins
-    update_tmux_plugins
+    if [ -z "${DOTFILES_UPDATED:-}" ]; then
+        echo "Updating dotfiles"
+        pushd $MYDOTFILES
+            git pull
+        popd
+        export DOTFILES_UPDATED=true
+        $0
+    else
+        update_repositories
+        deploy
+        update_vim_plugins
+        update_tmux_plugins
+    fi
 }
 
 install() {

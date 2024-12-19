@@ -54,20 +54,19 @@ export KUBE_PS1_SUFFIX=']'
 export TIMER_PRECISION=3
 export TIMER_FORMAT='[%d]'
 
-_zshrc_get_fzf_default_opts() {
-    if type highlight > /dev/null 2>&1; then
-        HIGHLIGHT_SIZE_MAX=262143  # 256KiB
-        local hloptions="--replace-tabs=8 --style=molokai ${HIGHLIGHT_OPTIONS:-}"
-        local previewcmd="highlight --out-format="xterm256" --force "${hloptions}" {} "
-    elif type pygmentize > /dev/null 2>&1; then
-        local previewcmd="pygmentize -O style=monokai -f console256 -g {}"
+_zshrc_get_fzf_preview_cmd() {
+    if type pygmentize > /dev/null 2>&1; then
+        local previewcmd='pygmentize -O style=one-dark -f console256 -g "$(vim -u NONE -es +"call setline(1, fnamemodify({},\":p\"))" +%p +qa! /dev/stdin)"'
     else
-        local previewcmd="cat {}"
+        local previewcmd='cat "$(vim -u NONE -es +"call setline(1, fnamemodify({},\":p\"))" +%p +qa! /dev/stdin)"'
     fi
     # local fzf_color="--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5"
-    echo "--height 50% --reverse --preview \""$previewcmd"\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
+    echo $previewcmd
 }
-export FZF_DEFAULT_OPTS=$(_zshrc_get_fzf_default_opts)
+export FZF_DEFAULT_OPTS="--height 50% "
+export FZF_CTRL_R_OPTS="--reverse"
+export FZF_CTRL_T_OPTS="--preview '$(_zshrc_get_fzf_preview_cmd)' --preview-window=right:50% --bind=?:toggle-preview"
+export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target --preview 'tree -C {}' --preview-window=right:50% --bind=?:toggle-preview"
 
 # Should be called before source ohmyzshrc for faster boot
 _zshrc_custom_tmux(){
@@ -407,36 +406,34 @@ export SAVEHIST=$HISTSIZE
 setopt auto_param_slash      # ディレクトリ名の補完で末尾の / を自動的に付加し、次の補完に備える
 setopt mark_dirs             # ファイル名の展開でディレクトリにマッチした場合 末尾に / を付加
 setopt list_types            # 補完候補一覧でファイルの種別を識別マーク表示 (訳注:ls -F の記号)
-setopt auto_menu             # 補完キー連打で順に補完候補を自動で補完
+# setopt auto_menu             # 補完キー連打で順に補完候補を自動で補完
 setopt auto_param_keys       # カッコの対応などを自動的に補完
 setopt interactive_comments  # コマンドラインでも
 setopt magic_equal_subst     # コマンドラインの引数で --prefix=/usr などの = 以降でも補完できる
-setopt complete_in_word      # 語の途中でもカーソル位置で補完
+# setopt complete_in_word      # 語の途中でもカーソル位置で補完
 setopt always_last_prompt    # カーソル位置は保持したままファイル名一覧を順次その場で表示
 setopt print_eight_bit       # 日本語ファイル名等8ビットを通す
 setopt extended_glob         # 拡張グロブで補完(~とか^とか。例えばless *.txt~memo.txt ならmemo.txt 以外の *.txt にマッチ)
 setopt globdots              # 明確なドットの指定なしで.から始まるファイルをマッチ
-setopt auto_cd               # "./dir"で"cd ./dir"になる
-
+# setopt auto_cd               # "./dir"で"cd ./dir"になる
 
 zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# zstyle ':completion:*' use-cache true
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*:approximate:*' max-errors 3 numeric
-zstyle ':completion:*:default' menu select=2
-zstyle ':completion:*:options' description 'yes'
 zstyle ':completion:*:corrections' format '%F{yellow}%B-- %d -- %F{red}(errors: %e)%b%f'
+zstyle ':completion:*:default' menu select=2
 zstyle ':completion:*:descriptions' format '%F{yellow}%B-- %d --%b%f'
 zstyle ':completion:*:messages' format '%F{yellow}-- %d%f'
-zstyle ':completion:*:warnings' format '%F{red}No matches for:%F{yellow} %d%f'
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' use-cache true
+zstyle ':completion:*:options' description 'yes'
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+zstyle ':completion:*:warnings' format '%F{red}No matches for:%F{yellow} %d%f'
 ##### Configurations END ##### }}}
 #
 # Override by local configurations
 if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
     source "$HOME/localrcs/zsh-local.zsh"
 fi
-

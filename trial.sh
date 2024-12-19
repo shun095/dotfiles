@@ -12,7 +12,7 @@ cd shun095_dotfiles
 
 tmpfile=$(mktemp)
 curl -sS -L -o ${tmpfile} https://raw.githubusercontent.com/shun095/dotfiles/master/Dockerfile
-echo "Dockerfile:"
+echo "Dockerfile: ${tmpfile}"
 cat ${tmpfile}
 echo
 

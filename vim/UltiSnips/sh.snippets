@@ -33,3 +33,12 @@ endsnippet
 snippet curlget "curl GET"
 curl -X GET
 endsnippet
+
+snippet vimpipe "vim pipe"
+# -e means ex mode (non interactive mode)
+# -s menas silent
+# +xxx means run xxx command 
+# +setline means write result into buffer
+# +%p means print buffer to stdout
+vim -u NONE -es +"call setline(1, fnamemodify(\"~\",\":p\"))" +%p +qa! /dev/stdin
+endsnippet

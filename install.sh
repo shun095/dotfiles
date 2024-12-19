@@ -1,17 +1,14 @@
 #!/usr/bin/env bash
+# vim: sw=4 sts=4 et :
 
 set -eu
 
 MYDOTFILES=$HOME/dotfiles
 
 if [ -d "${MYDOTFILES}/.git" ];then
-	pushd ${MYDOTFILES}
-		echo "Updating dotfiles"
-		git pull
-	popd
-	${MYDOTFILES}/install-invoke.sh $@
+    ${MYDOTFILES}/install-invoke.sh $@
 else
-	git clone https://github.com/shun095/dotfiles.git ${MYDOTFILES}
-	${MYDOTFILES}/install.sh
+    git clone https://github.com/shun095/dotfiles.git ${MYDOTFILES}
+    ${MYDOTFILES}/install.sh
 fi
 

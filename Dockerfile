@@ -9,9 +9,9 @@ RUN apt-get update \
     && locale-gen ja_JP.UTF-8 \
     && export LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8 \
     && apt-get install -y curl lsb-release git \
-    && if [ -f $HOME/dotfiles/install.sh ]; then \
+    && if [ -f $HOME/dotfiles/install-invoke.sh ]; then \
         echo "dotfiles installer is found. Using existing installer: $HOME/dotfiles/install.sh"; \
-        $HOME/dotfiles/install.sh; \
+        $HOME/dotfiles/install-invoke.sh; \
     else \
         echo "dotfiles installer is not found. Fetching from the repo."; \
         bash -c "$(curl -fsSL https://raw.githubusercontent.com/shun095/dotfiles/master/install.sh)"; \

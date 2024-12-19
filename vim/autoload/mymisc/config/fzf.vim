@@ -7,24 +7,8 @@ fun! mymisc#config#fzf#setup() abort
 
   " for GVIM
   if !exists('$FZF_DEFAULT_OPTS')
-    if !has('win32')
-      let $FZF_DEFAULT_OPTS="--reverse --preview \"cat {}\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
-    else
-      let $FZF_DEFAULT_OPTS="--reverse --preview \"cat {}\" --preview-window=right:50%:hidden --bind=?:toggle-preview"
-    endif
+    let $FZF_DEFAULT_OPTS="--reverse --preview \"cat {}\" --preview-window=right:50% --bind=?:toggle-preview"
   endif
-
-  fun! s:history(arg, options, bang)
-  let bang = a:bang || a:arg[len(a:arg)-1] == '!'
-    let options = a:options
-    if a:arg[0] == ':'
-      call fzf#vim#command_history(options, bang)
-    elseif a:arg[0] == '/'
-      call fzf#vim#search_history(options, bang)
-    else
-      call fzf#vim#history(options, bang)
-    endif
-  endf
 
   com! -bang -nargs=* Grep
         \ call fzf#vim#grep(
@@ -39,8 +23,6 @@ fun! mymisc#config#fzf#setup() abort
         \   <bang>0 ? fzf#vim#with_preview('up:60%')
         \           : fzf#vim#with_preview('right:50%:hidden', '?'),
         \   <bang>0)
-
-  com! -bang -nargs=* History call s:history(<q-args>, {'options': '--no-sort'}, <bang>0)
 
   nno <Leader><Leader> :<C-u>execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
   nno <Leader>T        :<C-u>Tags<CR>
@@ -63,8 +45,8 @@ fun! mymisc#config#fzf#setup() abort
         \   <bang>0)
 
   exe "com! Dotfiles :FZF " . $MYDOTFILES
-
-  let g:fzf_layout = { 'window': 'botright 20new' }
+  let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.9 }}
+  " let g:fzf_layout = { 'window': 'botright 20new' }
   " aug vimrc_fzf
   "   au!
   "   au  FileType fzf set laststatus=0 noshowmode noruler
