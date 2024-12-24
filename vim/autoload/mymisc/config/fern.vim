@@ -80,10 +80,10 @@ fun! mymisc#config#fern#setup() abort
 
   function! s:render_node(v, nodes) abort
     let l:copy = copy(a:v)
-    cal map(l:copy, {val -> strdisplaywidth(val)})
+    cal map(l:copy, 'strdisplaywidth(v:val)')
 
     let l:copy_byte = copy(a:nodes)
-    cal map(l:copy_byte, {val -> len(string(getfsize(val['_path'])))})
+    cal map(l:copy_byte, 'len(string(getfsize(v:val["_path"])))')
 
     let l:results = []
     let l:max = max([max(l:copy), g:fern#drawer_width])
