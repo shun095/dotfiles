@@ -87,6 +87,7 @@ endif
 
 " Plug 'ryanoasis/vim-devicons'
 " Plug 'justinmk/vim-dirvish'
+
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -94,6 +95,7 @@ Plug 'lambdalisue/fern-ssh'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'yuki-yano/fern-preview.vim'
+
 " Plug 'francoiscabrol/ranger.vim'
 
 " Plug 'kristijanhusak/defx-git'
@@ -184,6 +186,28 @@ if exists('*matchfuzzy')
 else
   Plug 'FelikZ/ctrlp-py-matcher'
 endif
+
+" Plug 'vim-denops/denops.vim'
+" Plug 'Shougo/ddu.vim'
+" Plug 'Shougo/ddu-ui-ff'
+" Plug 'Shougo/ddu-ui-filer'
+" Plug 'Shougo/ddu-source-file'
+" " Plug 'Shougo/ddu-source-file_rec'
+" " Plug 'shun/ddu-source-rg'
+" " Plug 'shun/ddu-source-buffer'
+" " Plug 'Shougo/ddu-source-line'
+" " Plug 'Shougo/ddu-source-register'
+" Plug 'yuki-yano/ddu-filter-fzf'
+" Plug 'Shougo/ddu-kind-file'
+" " Plug 'Shougo/ddu-kind-word'
+" " Plug 'Shougo/ddu-column-filename'
+" " Plug 'ryota2357/ddu-column-icon_filename'
+" Plug 'xecua/ddu-filter-sorter_treefirst'
+" Plug 'tamago3keran/ddu-column-devicon_filename'
+" Plug 'kamecha/ddu-column-custom'
+" A
+" Plug 'Shougo/ddu-commands.vim'
+
 
 " Plug 'Shougo/denite.nvim'
 

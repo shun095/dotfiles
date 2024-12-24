@@ -5,16 +5,17 @@ fun! mymisc#config#fern#setup() abort
   nno <silent> <Leader>e :FernDo :<CR>
   nno <silent> <Leader>E :Fern %:h -drawer -reveal=%:p<CR>
   nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p<CR>
-  nno <silent> <Leader>n :Fern<space>
+  nno <Leader>n :Fern<space>
 
-  let g:fern#drawer_width = 40
+  " let g:fern#drawer_width = 40
 
   fun! s:init_fern() abort
     " Write custom code here
 
     IndentLinesDisable
-    nno  <silent> <buffer>  q              :<C-u>close<CR>
-    nno  <buffer> <Leader>e :<C-u>Fern<Space>
+    setl nonumber
+    nno           <buffer>  <Leader>e      <Cmd>Fern<Space>
+    nno  <silent> <buffer>  q              <Cmd>close<CR>
     nmap <silent> <buffer>  <CR>           <Plug>(fern-action-open-or-enter)
     nmap <silent> <buffer>  <2-LeftMouse>  <Plug>(fern-action-open-or-expand)
     nmap <silent> <buffer>  <2-RightMouse> <Plug>(fern-action-collapse)
@@ -60,5 +61,59 @@ fun! mymisc#config#fern#setup() abort
     aug END
   endif
 
-  let g:fern#renderer = 'nerdfont'
+  let s:inherited_renderer = fern#renderer#nerdfont#new()
+  " let s:inherited_renderer = fern#renderer#default#new()
+
+  fun! s:renderer_new() abort
+    return extend(copy(s:inherited_renderer), {
+          \ 'render': funcref('s:render'),
+          \})
+  endf
+
+  function! s:render(nodes) abort
+    let l:list = []
+    return s:inherited_renderer.render(a:nodes)
+          \.then({
+          \  v -> s:render_node(v, a:nodes)
+          \})
+  endfunction
+
+  function! s:render_node(v, nodes) abort
+    let l:copy = copy(a:v)
+    cal map(l:copy, {val -> strdisplaywidth(val)})
+
+    let l:copy_byte = copy(a:nodes)
+    cal map(l:copy_byte, {val -> len(string(getfsize(val['_path'])))})
+
+    let l:results = []
+    let l:max = max([max(l:copy), g:fern#drawer_width])
+    let l:byte_max = max(l:copy_byte)
+
+    for i in range(len(a:v))
+      let l:result_string = ""
+      let l:result_string .= a:v[i]
+
+      for cnt in range(l:max - strdisplaywidth(a:v[i]))
+        let l:result_string .= " "
+      endfor
+
+      let l:result_string .= getfperm(a:nodes[i]['_path'])
+      let l:result_string .= " "
+      let l:result_string .= printf("%". l:byte_max . "d byte" , getfsize(a:nodes[i]['_path']))
+      let l:result_string .= " "
+      let l:result_string .= strftime('%Y/%m/%d %H:%M:%S',getftime(a:nodes[i]['_path']))
+
+      cal add(l:results, l:result_string)
+    endfor
+
+    return l:results
+  endfunction
+
+  let g:fern#renderer = 'my_renderer'
+  call extend(g:fern#renderers, {
+        \ 'my_renderer': funcref('s:renderer_new')
+        \})
+
 endf
+
+

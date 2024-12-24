@@ -504,58 +504,58 @@ try
   nno <leader>nyy yy:call system("nc localhost 8377", @0)<cr>
   nno <leader>tp :let @0 = system("tmux save-buffer -")<cr>"0p
 
-  fun! s:lexplore(arg) abort
-    let tail = expand('%:t')
-    let full = substitute(expand('%:p'),'\','/','g')
+  " fun! s:lexplore(arg) abort
+  "   let tail = expand('%:t')
+  "   let full = substitute(expand('%:p'),'\','/','g')
 
-    exe "Lexplore ".a:arg
-    normal 99h
+  "   exe "Lexplore ".a:arg
+  "   normal 99h
 
-    try
-      let netrw_top = substitute(w:netrw_treetop,'\','/','g')
-      let tree_nodes = split(substitute(full, netrw_top, '', 'g'),'/')
+  "   try
+  "     let netrw_top = substitute(w:netrw_treetop,'\','/','g')
+  "     let tree_nodes = split(substitute(full, netrw_top, '', 'g'),'/')
 
-      for node in tree_nodes
-        cal search('\(^\|\s\)\zs'.node.'\(/\|\)$')
-      endfo
-    catch
-      " pass
-    endt
+  "     for node in tree_nodes
+  "       cal search('\(^\|\s\)\zs'.node.'\(/\|\)$')
+  "     endfo
+  "   catch
+  "     " pass
+  "   endt
 
-    if !exists("w:mynetrw_wide")
-      let w:mynetrw_wide = 0
-    en
-  endf
+  "   if !exists("w:mynetrw_wide")
+  "     let w:mynetrw_wide = 0
+  "   en
+  " endf
 
-  fun! s:lex_apply_toggle() abort
-    if w:mynetrw_wide
-      normal! |
-    else
-      exe "normal! ".abs(g:netrw_winsize)."|"
-    en
-  endf
+  " fun! s:lex_apply_toggle() abort
+  "   if w:mynetrw_wide
+  "     normal! |
+  "   else
+  "     exe "normal! ".abs(g:netrw_winsize)."|"
+  "   en
+  " endf
 
-  fun! s:lex_toggle_width() abort
-    let w:mynetrw_wide = !w:mynetrw_wide
-    cal s:lex_apply_toggle()
-  endf
+  " fun! s:lex_toggle_width() abort
+  "   let w:mynetrw_wide = !w:mynetrw_wide
+  "   cal s:lex_apply_toggle()
+  " endf
 
-  nn <Leader>E :<C-u>cal <SID>lexplore('%:h')<CR>
-  nn <Leader>e :<C-u>cal <SID>lexplore('')<CR>
-  nn <Leader><C-e> :<C-u>cal <SID>lexplore('.')<CR>
-  let g:netrw_banner = 0
-  let g:netrw_altfile = 1
-  let g:netrw_liststyle = 3
-  let g:netrw_sizestyle = 'H'
-  let g:netrw_usetab = 1
-  let g:netrw_hide = 1
-  let g:netrw_winsize = -35
-  let g:netrw_list_hide= '\(^\|\s\s\)\zs\.\S\+'
-  " let g:netrw_winsize = 20
-  au VIMRC FileType netrw setl bufhidden=delete
-  au VIMRC FileType netrw nn <buffer> q :<C-u>bw<CR>
-  au VIMRC FileType netrw nn <buffer> qq :<C-u>bw<CR>
-  au VIMRC FileType netrw nn <buffer> A :<C-u>cal <SID>lex_toggle_width()<CR>
+  " nn <Leader>E :<C-u>cal <SID>lexplore('%:h')<CR>
+  " nn <Leader>e :<C-u>cal <SID>lexplore('')<CR>
+  " nn <Leader><C-e> :<C-u>cal <SID>lexplore('.')<CR>
+  " let g:netrw_banner = 1
+  " let g:netrw_altfile = 1
+  " let g:netrw_liststyle = 3
+  " let g:netrw_sizestyle = 'H'
+  " let g:netrw_usetab = 1
+  " let g:netrw_hide = 1
+  " let g:netrw_winsize = -35
+  " let g:netrw_list_hide= '\(^\|\s\s\)\zs\.\S\+'
+  " " let g:netrw_winsize = 20
+  " au VIMRC FileType netrw setl bufhidden=delete
+  " au VIMRC FileType netrw nn <buffer> q :<C-u>bw<CR>
+  " au VIMRC FileType netrw nn <buffer> qq :<C-u>bw<CR>
+  " au VIMRC FileType netrw nn <buffer> A :<C-u>cal <SID>lex_toggle_width()<CR>
   " }}} MAPPING END
 
   " S {{{
