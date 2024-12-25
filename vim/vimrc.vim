@@ -171,6 +171,7 @@ try
   se nostartofline                                                            " オンの場合Gなどのときに行頭に移動する
   se sidescroll=1                                                             " 横スクロール刻み幅
   se sidescrolloff=1                                                          " 横スクロール刻み幅
+  se smoothscroll                                                             " スムーススクロール
   se number                                                                   " 行番号表示
   se norelativenumber
   se hlsearch                                                                 " 文字列検索時にハイライトする
@@ -811,6 +812,7 @@ try
           \   'css',
           \   'go',
           \   'html',
+          \   'java',
           \   'javascript',
           \   'python',
           \   'sh',
@@ -819,11 +821,13 @@ try
           \   'yaml',
           \   'json'
           \ ]
-          " javaのsyntaxはmarkdownのsyntaxを参照しているので有効にすると再帰ループしてしまう
-          " \   'java',
-    let g:markdown_syntax_conceal = 0
+
+    " javaのsyntaxはmarkdownのsyntaxを参照しているので有効にすると再帰ループしてしまう
+    let g:java_ignore_markdown = 1
+
     au FileType markdown setl expandtab softtabstop=2 shiftwidth=2
 
+    let g:markdown_syntax_conceal = 0
     " Json
     let g:vim_json_syntax_conceal = 0
 

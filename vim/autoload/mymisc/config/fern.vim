@@ -7,15 +7,17 @@ fun! mymisc#config#fern#setup() abort
   nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p<CR>
   nno <Leader>n :Fern<space>
 
-  " let g:fern#drawer_width = 40
+  let g:fern#drawer_width = 40
+  let g:fern#drawer_keep = g:true
 
   fun! s:init_fern() abort
     " Write custom code here
 
     IndentLinesDisable
-    setl nonumber
-    nno           <buffer>  <Leader>e      <Cmd>Fern<Space>
+    nno           <buffer>  <Leader>e      :<C-u>Fern<Space>
+    nno  <silent> <buffer>  ~              <Cmd>Fern ~<CR>
     nno  <silent> <buffer>  q              <Cmd>close<CR>
+    nmap <silent> <buffer>  cd             <Plug>(fern-action-cd)
     nmap <silent> <buffer>  <CR>           <Plug>(fern-action-open-or-enter)
     nmap <silent> <buffer>  <2-LeftMouse>  <Plug>(fern-action-open-or-expand)
     nmap <silent> <buffer>  <2-RightMouse> <Plug>(fern-action-collapse)
@@ -45,13 +47,22 @@ fun! mymisc#config#fern#setup() abort
   aug END
 
   if mymisc#startup#plug_tap('fern-preview.vim')
+
+    fun! s:fern_close_preview()
+      cal fern_preview#disable_auto_preview()
+      cal fern_preview#close()
+    endf
+
     fun! s:fern_settings() abort
       nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
       nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
       "Preview通常のFernウィンドウでエラーが発生してしまうため一旦コメントアウト
       "nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
       "nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
-      nmap <silent> <buffer> <expr> <Plug>(fern-quit-or-close-preview) fern_preview#smart_preview("\<Plug>(fern-action-preview:close)", ":q\<CR>")
+      nmap <silent> <buffer> <expr> <Plug>(fern-quit-or-close-preview) 
+            \fern_preview#smart_preview(
+            \    "\<Cmd>cal \<SID>fern_close_preview()\<CR>", 
+            \    "\<Cmd>close\<CR>")
       nmap <silent> <buffer> q <Plug>(fern-quit-or-close-preview)
     endf
 
@@ -86,7 +97,7 @@ fun! mymisc#config#fern#setup() abort
     cal map(l:copy_byte, 'len(string(getfsize(v:val["_path"])))')
 
     let l:results = []
-    let l:max = max([max(l:copy), g:fern#drawer_width])
+    let l:max = max([max(l:copy) + 1, g:fern#drawer_width])
     let l:byte_max = max(l:copy_byte)
 
     for i in range(len(a:v))

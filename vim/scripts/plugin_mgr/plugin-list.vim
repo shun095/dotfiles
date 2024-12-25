@@ -73,6 +73,9 @@ Plug 'mattn/vim-lsp-settings'
 if s:has_python3 || s:has_python
   Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 endif
+if !has('nvim')
+    Plug 'rhysd/vim-healthcheck'
+endif
 " Plug 'puremourning/vimspector'
 
 " Plug 'prabirshrestha/asyncomplete-necovim.vim'
@@ -94,6 +97,7 @@ Plug 'lambdalisue/fern-git-status.vim'
 Plug 'lambdalisue/fern-ssh'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/vim-fern-comparator-lexical'
 Plug 'yuki-yano/fern-preview.vim'
 
 " Plug 'francoiscabrol/ranger.vim'
@@ -124,7 +128,7 @@ Plug 'mattn/sonictemplate-vim'
 
 " General purpose completions, linters
 Plug 'scrooloose/nerdcommenter'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 " Color preview
 " Plug 'gorodinskiy/vim-coloresque'
 

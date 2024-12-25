@@ -29,7 +29,9 @@ if [ "$(uname)" = 'Darwin'  ]; then
 		--enable-fontset \
 		--enable-multibyte \
 		--enable-gui=auto \
-		--enable-luainterp=no \
+		--enable-luainterp=dynamic \
+		--with-lua-prefix=/opt/homebrew \
+		--with-luajit \
 		--enable-python3interp=yes \
 		--with-python3-command=python3 \
 		--enable-autoservername \

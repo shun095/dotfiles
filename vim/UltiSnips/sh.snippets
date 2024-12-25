@@ -9,7 +9,7 @@ endsnippet
 snippet whileread "while read ..."
 while read line${2: > /dev/null}
 do
-	${3:echo $line}
+    ${3:echo $line}
     ${0}
 done < ${1:<(echo "a"; echo "b")}
 endsnippet
@@ -17,7 +17,7 @@ endsnippet
 snippet whilereadifs "while IFS=, read ..."
 while IFS=${2:,} read ${3:foo bar} > ${4:/dev/null}
 do
-	${5:echo $foo $bar}
+    ${5:echo $foo $bar}
     ${0}
 done < ${1:<(echo "a,b"; echo "c,d")}
 endsnippet

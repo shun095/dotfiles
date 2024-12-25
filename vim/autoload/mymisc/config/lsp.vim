@@ -1,26 +1,44 @@
 scriptencoding utf-8
 
 fun! mymisc#config#lsp#setup() abort
-  let g:lsp_log_verbose = 1
-  let g:lsp_log_file = $MYVIMRUNTIME . "/vim-lsp.log"
+  " let g:lsp_log_verbose = 1
+  " let g:lsp_log_file = $MYVIMRUNTIME . "/vim-lsp.log"
   aug vimrc_vimlsp
     au!
   aug END
 
-  let g:lsp_signs_enabled           = 1
-  let g:lsp_signs_error             = {'text': 'E'}
-  let g:lsp_signs_warning           = {'text': 'W'}
-  let g:lsp_signs_information       = {'text': 'I'}
-  let g:lsp_signs_hint              = {'text': 'H'}
+  let g:lsp_work_done_progress_enabled       = 1
+  let g:lsp_diagnostics_virtual_text_enabled = 0
+  let g:lsp_diagnostics_float_cursor         = 1
+  let g:lsp_signs_enabled                    = 1
 
-  let g:lsp_diagnostics_echo_cursor = 1
-  let g:lsp_diagnostics_echo_delay  = 1
-  let g:lsp_textprop_enabled = 0
+  " NOTE: A>はLspCodeAction
+  let g:lsp_signs_error                      = {'text': 'E'}
+  let g:lsp_signs_warning                    = {'text': 'W'}
+  let g:lsp_signs_information                = {'text': 'I'}
+  let g:lsp_signs_hint                       = {'text': 'H'}
+
+  let g:lsp_diagnostics_echo_cursor          = 1
+  let g:lsp_diagnostics_echo_delay           = 0
+  let g:lsp_textprop_enabled                 = 0
 
   hi link LspErrorText ALEErrorSign
   hi link LspWarningText ALEWarningSign
   hi link LspInformationText ALEInfoSign
   hi link LspHintText ALEInfoSign
+
+  " root_urlの検出がおかしい場合は:LspSettingsGlobalEditして下記のような設定を
+  " すれば良い。
+  " {
+  "    "eclipse-jdt-ls": {
+  "        "root_uri_patterns": [
+  "            ".git"
+  "        ]
+  "    }
+  " }
+
+
+  " OLD Settings {{{
 
   " fun! Myvimrc_test_execute_command() abort
   "   let l:servers = lsp#get_allowed_servers()
@@ -190,6 +208,8 @@ fun! mymisc#config#lsp#setup() abort
   "       exe "au FileType " . s:lsp_filetype . " setl omnifunc=lsp#complete"
   "     endfo
   "   aug END
+  " }}} OLD Settings END
+
   au FileType * nno <leader><c-]> :<C-u>LspDefinition<CR>
   au FileType * nno <leader>K :<C-u>call mymisc#toggle_preview_window()<CR>
   au FileType * nno <leader><C-k> :<C-u>call mymisc#toggle_preview_window()<CR>
@@ -202,3 +222,5 @@ fun! mymisc#config#lsp#setup() abort
 
   " call custom#myvimrc_vimlsp_setup()
 endf
+
+" vim: foldmethod=marker

@@ -10,6 +10,19 @@ fun! mymisc#config#fzf#setup() abort
     let $FZF_DEFAULT_OPTS="--reverse --preview \"cat {}\" --preview-window=right:50% --bind=?:toggle-preview"
   endif
 
+  nno <Leader><Leader> :<C-u>execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
+  nno <Leader>T        :<C-u>Tags<CR>
+  nno <Leader>al       :<C-u>Lines<CR>
+  nno <Leader>b        :<C-u>Buffers<CR>
+  nno <Leader>c        :<C-u>Files<CR>
+  nno <Leader>f        :<C-u>execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
+  nno <Leader>gr       :<C-u>Grep<Space>
+  nno <Leader>l        :<C-u>BLines<CR>
+  nno <Leader>o        :<C-u>BTags<CR>
+  " r
+  nno <Leader>u        :<C-u>History<CR>
+  nno <Leader>`        :<C-u>Marks<CR>
+
   com! -bang -nargs=* Grep
         \ call fzf#vim#grep(
         \   substitute(&grepprg, '\$\*', '', 'g' ).' --color=always '.shellescape(<q-args>).' .', 0,
@@ -24,29 +37,20 @@ fun! mymisc#config#fzf#setup() abort
         \           : fzf#vim#with_preview('right:50%:hidden', '?'),
         \   <bang>0)
 
-  nno <Leader><Leader> :<C-u>execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
-  nno <Leader>T        :<C-u>Tags<CR>
-  nno <Leader>al       :<C-u>Lines<CR>
-  nno <Leader>b        :<C-u>Buffers<CR>
-  nno <Leader>c        :<C-u>Files<CR>
-  nno <Leader>f        :<C-u>execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
-  " gr
-  nno <Leader>l        :<C-u>BLines<CR>
-  nno <Leader>o        :<C-u>BTags<CR>
-  " r
-  nno <Leader>u        :<C-u>History<CR>
-  nno <Leader>`        :<C-u>Marks<CR>
-
   com! -bang -nargs=* GGrep
         \ call fzf#vim#grep(
         \   'git grep --line-number '.shellescape(<q-args>), 0,
         \   extend({ 'dir': systemlist('git rev-parse --show-toplevel')[0] },
-        \          <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?')),
+        \          <bang>0 ? fzf#vim#with_preview('up:60%') 
+        \                  : fzf#vim#with_preview('right:50%:hidden', '?')),
         \   <bang>0)
 
   exe "com! Dotfiles :FZF " . $MYDOTFILES
-  let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.9 }}
-  " let g:fzf_layout = { 'window': 'botright 20new' }
+  " popup windowは行番号が消えたり、GGrepに失敗(Gitリポジトリ外で実行するなど)
+  " した場合に表示が壊れたり不安定
+  " let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.9 }}
+  let g:fzf_layout = { 'window': 'botright 20new' }
+
   " aug vimrc_fzf
   "   au!
   "   au  FileType fzf set laststatus=0 noshowmode noruler

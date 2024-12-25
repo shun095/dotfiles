@@ -9,8 +9,9 @@ Expect sh (expand UltiSnips snippet):
   #!/bin/bash
   while read line > /dev/null
   do
-  	echo $line
-  done < input.txt
+      echo $line
+      
+  done < <(echo "a"; echo "b")
 
 
 # Test case
