@@ -1,4 +1,5 @@
 import type { Entrypoint } from "jsr:@denops/std@^7.0.0";
+import * as fn from "jsr:@denops/std@^7.0.0/function";
 import { assert, is } from "jsr:@core/unknownutil@3.18.1";
 import * as fs from "node:fs";
 import { platform } from "node:os";
@@ -95,17 +96,21 @@ async function getPropertyString(filePath: string) {
     assert(filePath, is.String);
     try {
         const stats = fs.statSync(filePath);
-        const permissionString = getPermissionString(stats.mode);
-        const fileType = getFileType(stats.mode);
 
+        const permissionStringPromise = getPermissionString(stats.mode);
+        const fileTypePromise = getFileType(stats.mode);
         // UID と GID をユーザー名とグループ名に変換
         const ownerPromise = getUserName(stats.uid);
         const groupPromise = getGroupName(stats.gid);
-        const [owner, group] = await Promise.all([ownerPromise, groupPromise]);
+        const [permissionString, fileType, owner, group] = await Promise.all([
+            permissionStringPromise,
+            fileTypePromise,
+            ownerPromise,
+            groupPromise,
+        ]);
 
         const size = stats.size; // ファイルサイズ（バイト）
         const sizeFormatted = String(size).padStart(10, " "); // 10桁で右寄せ（スペースで埋める）
-
         const nlinkFormatted = String(stats.nlink).padStart(4, " ");
 
         // 更新日時の取得（Locale形式に変換）
@@ -127,34 +132,40 @@ async function getPropertyString(filePath: string) {
         return `${fileType}${permissionString} ${nlinkFormatted} ${owner}:${group} ${formattedDate} ${sizeFormatted} byte`;
     } catch (err) {
         assert(err, is.Any);
-        console.error(`Error retrieving stats. path: ${filePath} message: ${err}`);
+        console.error(
+            `Error retrieving stats. path: ${filePath} message: ${err}`,
+        );
         return "プロパティの取得に失敗";
     }
 }
 
 // パーミッションをrwx形式で表示する関数
 function getPermissionString(mode: number) {
-    const permissions = [
-        (mode & fs.constants.S_IRUSR) ? "r" : "-",
-        (mode & fs.constants.S_IWUSR) ? "w" : "-",
-        (mode & fs.constants.S_IXUSR) ? "x" : "-",
-        (mode & fs.constants.S_IRGRP) ? "r" : "-",
-        (mode & fs.constants.S_IWGRP) ? "w" : "-",
-        (mode & fs.constants.S_IXGRP) ? "x" : "-",
-        (mode & fs.constants.S_IROTH) ? "r" : "-",
-        (mode & fs.constants.S_IWOTH) ? "w" : "-",
-        (mode & fs.constants.S_IXOTH) ? "x" : "-",
-    ];
+    return new Promise((resolve, _) => {
+        const permissions = [
+            (mode & fs.constants.S_IRUSR) ? "r" : "-",
+            (mode & fs.constants.S_IWUSR) ? "w" : "-",
+            (mode & fs.constants.S_IXUSR) ? "x" : "-",
+            (mode & fs.constants.S_IRGRP) ? "r" : "-",
+            (mode & fs.constants.S_IWGRP) ? "w" : "-",
+            (mode & fs.constants.S_IXGRP) ? "x" : "-",
+            (mode & fs.constants.S_IROTH) ? "r" : "-",
+            (mode & fs.constants.S_IWOTH) ? "w" : "-",
+            (mode & fs.constants.S_IXOTH) ? "x" : "-",
+        ];
 
-    return permissions.join("");
+        resolve(permissions.join(""));
+    });
 }
 
 // ファイルタイプを判定する関数
 function getFileType(mode: number) {
-    if (mode & fs.constants.S_IFDIR) return "d"; // ディレクトリ
-    if (mode & fs.constants.S_IFLNK) return "l"; // シンボリックリンク
-    if (mode & fs.constants.S_IFREG) return "-"; // 通常ファイル
-    return "?"; // その他のタイプ
+    return new Promise((resolve, _) => {
+        if (mode & fs.constants.S_IFDIR) resolve("d"); // ディレクトリ
+        if (mode & fs.constants.S_IFLNK) resolve("l"); // シンボリックリンク
+        if (mode & fs.constants.S_IFREG) resolve("-"); // 通常ファイル
+        resolve("?"); // その他のタイプ
+    });
 }
 
 // 非同期関数を使って、コマンド実行結果を返すPromiseを作成します

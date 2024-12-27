@@ -14,6 +14,7 @@ fun! mymisc#config#fern#setup() abort
 
   let g:fern#drawer_width = 40
   let g:fern#drawer_keep = g:true
+  let g:fern#disable_drawer_hover_popup = g:true
 
   fun! s:init_fern() abort
     " Write custom code here
@@ -80,54 +81,78 @@ fun! mymisc#config#fern#setup() abort
   let s:inherited_renderer = fern#renderer#nerdfont#new()
   " let s:inherited_renderer = fern#renderer#default#new()
 
-  fun! s:renderer_new() abort
+  fun! s:renderer_new()
     return extend(copy(s:inherited_renderer), {
           \ 'render': funcref('s:render'),
           \})
   endf
 
-  function! s:render(nodes) abort
-    " echom "s:render start"
+  function! s:render(nodes)
+    " echom "s:render start
     let l:list = []
     return s:inherited_renderer.render(a:nodes)
           \.then({
           \  prev_text_list -> s:render_nodes(prev_text_list, a:nodes)
           \})
-    " echom "s:render end"
+          \.catch({
+          \  e -> s:reject_render(e)
+          \})
+    " echom "s:render end
   endfunction
 
-  function! s:render_nodes(prev_text_list, nodes) abort
-    " echom "s:render_nodes start"
-    let l:prev_text_lengths = copy(a:prev_text_list)
-    cal map(l:prev_text_lengths, 'strdisplaywidth(v:val)')
+  function! s:fallback_render(prev)
+    " echom "s:fallback start
+    " echom "s:fallback end
+    return a:prev
+  endfunction
 
+  let s:show_error_once = 0
+  function! s:reject_render(err)
+    " echom "s:reject_render start
+    if !s:show_error_once
+      echom "fern error: " . string(a:err[1]) . " -- Falling back to normal rendering."
+      let s:show_error_once = 1
+    endif
+    " echom "s:reject_render end
+    return a:err[0]
+  endfunction
+
+  function! s:render_nodes(prev_text_list, nodes)
+    " echom "s:render_nodes start
+    let l:prev_text_lengths = map(copy(a:prev_text_list) , { key, val -> strdisplaywidth(val)})
     let l:max_prev_text_length = max([max(l:prev_text_lengths) + 1, g:fern#drawer_width])
 
-    let l:promise = s:Promise.new(funcref('s:render_each_nodes', [a:prev_text_list, l:max_prev_text_length, a:nodes]))
-    " echom "s:render_nodes end"
+    let l:promise = s:Promise.new(funcref('s:render_nodes_denops', [a:prev_text_list, l:max_prev_text_length, a:nodes]))
+    " echom "s:render_nodes end
     return l:promise
   endfunction
 
-  function! s:render_each_nodes(prev_text_list, max_prev_text_length, nodes, resolve, reject) abort
-    " echom "s:render_each_nodes start"
-    cal denops#request_async('denops-mymisc', 'getRenderStrings', [a:prev_text_list, a:max_prev_text_length, a:nodes],
-          \ { v -> s:success(a:resolve, v)},
-          \ { e -> s:failure(a:reject,  e)},
-          \)
-    " echom "s:render_each_nodes end"
+  function! s:render_nodes_denops(prev_text_list, max_prev_text_length, nodes, resolve, reject)
+    " echom "s:render_nodes_denops start
+    try 
+      cal denops#request_async('denops-mymisc', 'getRenderStrings', [a:prev_text_list, a:max_prev_text_length, a:nodes],
+            \ { v -> s:success(a:resolve, v)},
+            \ { e -> s:failure(a:reject, a:prev_text_list, e)}
+            \)
+      " echom "s:render_nodes_denops end
+    catch
+      " echom "s:render_nodes_denops catch start"
+      cal a:reject([a:prev_text_list, v:exception])
+      " echom "s:render_nodes_denops catch end
+    endtry
   endfunction
 
-  function! s:success(resolve, v) abort
-    " echom "s:success start"
+  function! s:success(resolve, v)
+    " echom "s:success start
     cal a:resolve(json_decode(a:v))
-    " echom "s:success end"
+    " echom "s:success end
   endfunction
 
-  function! s:failure(reject, e) abort
-    " echom "s:failure start"
-    echoe string(a:e)
-    cal a:reject(json_decode(a:e))
-    " echom "s:failure end"
+  function! s:failure(reject, prev_text_list, e)
+    " echom "s:failure start
+    echom "fern error: " . string(a:e)
+    cal a:reject([json_decode(a:e), e])
+    " echom "s:failure end
   endfunction
 
   let g:fern#renderer = 'my_renderer'
