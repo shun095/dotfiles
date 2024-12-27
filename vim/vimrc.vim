@@ -912,8 +912,8 @@ try
   " PLUGIN MANAGER SETUP {{{
 
   " so $MYDOTFILES/vim/scripts/plugin_mgr/dein.vim
-  " so $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
-  so $MYDOTFILES/vim/scripts/plugin_mgr/vim-jetpack.vim
+  so $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim
+  " so $MYDOTFILES/vim/scripts/plugin_mgr/vim-jetpack.vim
 
   let g:plugin_mgr['enabled'] = g:use_plugins
 

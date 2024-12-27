@@ -2,6 +2,11 @@ scriptencoding utf-8
 
 fun! mymisc#config#fern#setup() abort
 
+  let s:Promise = vital#mymisc#import('Async.Promise')
+  let s:L = vital#mymisc#import('Data.List')
+  let s:Lambda = vital#mymisc#import('Lambda')
+  let s:AsyncLambda = vital#mymisc#import('Async.Lambda')
+
   nno <silent> <Leader>e :FernDo :<CR>
   nno <silent> <Leader>E :Fern %:h -drawer -reveal=%:p<CR>
   nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p<CR>
@@ -59,10 +64,10 @@ fun! mymisc#config#fern#setup() abort
       "Preview通常のFernウィンドウでエラーが発生してしまうため一旦コメントアウト
       "nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
       "nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
-      nmap <silent> <buffer> <expr> <Plug>(fern-quit-or-close-preview) 
-            \fern_preview#smart_preview(
-            \    "\<Cmd>cal \<SID>fern_close_preview()\<CR>", 
-            \    "\<Cmd>close\<CR>")
+      nmap <silent> <buffer> <expr> <Plug>(fern-quit-or-close-preview)
+            \ fern_preview#smart_preview(
+            \     "\<Cmd>cal \<SID>fern_close_preview()\<CR>",
+            \     "\<Cmd>close\<CR>")
       nmap <silent> <buffer> q <Plug>(fern-quit-or-close-preview)
     endf
 
@@ -82,42 +87,47 @@ fun! mymisc#config#fern#setup() abort
   endf
 
   function! s:render(nodes) abort
+    " echom "s:render start"
     let l:list = []
     return s:inherited_renderer.render(a:nodes)
           \.then({
-          \  v -> s:render_node(v, a:nodes)
+          \  prev_text_list -> s:render_nodes(prev_text_list, a:nodes)
           \})
+    " echom "s:render end"
   endfunction
 
-  function! s:render_node(v, nodes) abort
-    let l:copy = copy(a:v)
-    cal map(l:copy, 'strdisplaywidth(v:val)')
+  function! s:render_nodes(prev_text_list, nodes) abort
+    " echom "s:render_nodes start"
+    let l:prev_text_lengths = copy(a:prev_text_list)
+    cal map(l:prev_text_lengths, 'strdisplaywidth(v:val)')
 
-    let l:copy_byte = copy(a:nodes)
-    cal map(l:copy_byte, 'len(string(getfsize(v:val["_path"])))')
+    let l:max_prev_text_length = max([max(l:prev_text_lengths) + 1, g:fern#drawer_width])
 
-    let l:results = []
-    let l:max = max([max(l:copy) + 1, g:fern#drawer_width])
-    let l:byte_max = max(l:copy_byte)
+    let l:promise = s:Promise.new(funcref('s:render_each_nodes', [a:prev_text_list, l:max_prev_text_length, a:nodes]))
+    " echom "s:render_nodes end"
+    return l:promise
+  endfunction
 
-    for i in range(len(a:v))
-      let l:result_string = ""
-      let l:result_string .= a:v[i]
+  function! s:render_each_nodes(prev_text_list, max_prev_text_length, nodes, resolve, reject) abort
+    " echom "s:render_each_nodes start"
+    cal denops#request_async('denops-mymisc', 'getRenderStrings', [a:prev_text_list, a:max_prev_text_length, a:nodes],
+          \ { v -> s:success(a:resolve, v)},
+          \ { e -> s:failure(a:reject,  e)},
+          \)
+    " echom "s:render_each_nodes end"
+  endfunction
 
-      for cnt in range(l:max - strdisplaywidth(a:v[i]))
-        let l:result_string .= " "
-      endfor
+  function! s:success(resolve, v) abort
+    " echom "s:success start"
+    cal a:resolve(json_decode(a:v))
+    " echom "s:success end"
+  endfunction
 
-      let l:result_string .= getfperm(a:nodes[i]['_path'])
-      let l:result_string .= " "
-      let l:result_string .= printf("%". l:byte_max . "d byte" , getfsize(a:nodes[i]['_path']))
-      let l:result_string .= " "
-      let l:result_string .= strftime('%Y/%m/%d %H:%M:%S',getftime(a:nodes[i]['_path']))
-
-      cal add(l:results, l:result_string)
-    endfor
-
-    return l:results
+  function! s:failure(reject, e) abort
+    " echom "s:failure start"
+    echoe string(a:e)
+    cal a:reject(json_decode(a:e))
+    " echom "s:failure end"
   endfunction
 
   let g:fern#renderer = 'my_renderer'

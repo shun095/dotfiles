@@ -191,7 +191,8 @@ else
   Plug 'FelikZ/ctrlp-py-matcher'
 endif
 
-" Plug 'vim-denops/denops.vim'
+Plug 'vim-denops/denops.vim'
+Plug 'vim-denops/denops-helloworld.vim'
 " Plug 'Shougo/ddu.vim'
 " Plug 'Shougo/ddu-ui-ff'
 " Plug 'Shougo/ddu-ui-filer'
@@ -243,7 +244,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/gv.vim'
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 " Plug 'iberianpig/tig-explorer.vim'
 
 " General purpose motions
@@ -284,6 +285,10 @@ Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 " Plug 'haya14busa/vim-migemo'
 Plug 'junegunn/vader.vim'
+
+" To update Vital, run :Vitalize $MYDOTFILES/vim
+Plug 'vim-jp/vital.vim'
+Plug 'lambdalisue/vital-Whisky'
 
 Plug 'dstein64/vim-startuptime'
 
