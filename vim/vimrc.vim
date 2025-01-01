@@ -505,6 +505,13 @@ try
   nno <leader>nyy yy:call system("nc localhost 8377", @0)<cr>
   nno <leader>tp :let @0 = system("tmux save-buffer -")<cr>"0p
 
+  nno ,c viw:s/\%V\(_\\|-\)\(.\)/\u\2/g<CR>
+  nno ,_ viw:s/\%V\([A-Z]\)/_\l\1/g<CR>
+  nno ,- viw:s/\%V\([A-Z]\)/-\l\1/g<CR>
+  xno ,c :s/\%V\(_\\|-\)\(.\)/\u\2/g<CR>
+  xno ,_ :s/\%V\([A-Z]\)/_\l\1/g<CR>
+  xno ,- :s/\%V\([A-Z]\)/-\l\1/g<CR>
+
   " fun! s:lexplore(arg) abort
   "   let tail = expand('%:t')
   "   let full = substitute(expand('%:p'),'\','/','g')

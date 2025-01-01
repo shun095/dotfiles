@@ -225,6 +225,10 @@ if mymisc#startup#plug_tap('ddu.vim')
   cal mymisc#config#ddu#setup()
 en
 
+if mymisc#startup#plug_tap('ddc.vim')
+  cal mymisc#config#ddc#setup()
+en
+
 if mymisc#startup#plug_tap('ctrlp.vim')
   cal mymisc#config#ctrlp#setup()
 en

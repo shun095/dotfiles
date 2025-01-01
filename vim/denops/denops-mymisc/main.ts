@@ -1,171 +1,194 @@
 import type { Entrypoint } from "jsr:@denops/std@^7.0.0";
-import * as fn from "jsr:@denops/std@^7.0.0/function";
 import { assert, is } from "jsr:@core/unknownutil@3.18.1";
 import * as fs from "node:fs";
 import { platform } from "node:os";
 import { exec } from "node:child_process";
 
-interface GroupCache {
-    [gid: number]: string;
+interface Cache {
+  [key: number]: string;
 }
 
-interface UserCache {
-    [uid: number]: string;
-}
+const userCache: Cache = {};
+const groupCache: Cache = {};
 
-const userCache: UserCache = {};
-const groupCache: GroupCache = {};
-
-// This exported `main` function is automatically called by denops.vim.
-//
-// Note that this function is called on Vim startup, so it should execute as quickly as possible.
-// Try to avoid initialization code in this function; instead, define an `init` API and call it from Vim script.
 export const main: Entrypoint = (denops) => {
-    // Overwrite `dispatcher` to define APIs.
-    //
-    // APIs are invokable from Vim script through `denops#request()` or `denops#notify()`.
-    // Refer to `:help denops#request()` or `:help denops#notify()` for more details.
-    // console.log("Hello, Denops from TypeScript!");
-    denops.dispatcher = {
-        async init() {
-            const { name } = denops;
-            await denops.cmd(
-                `command! -nargs=? DenopsMymisc echomsg denops#request('${name}', 'hello', [<q-args>])`,
-            );
-        },
+  denops.dispatcher = {
+    async init() {
+      const { name } = denops;
+      await denops.cmd(
+        `command! -nargs=? DenopsMymisc echomsg denops#request('${name}', 'hello', [<q-args>])`,
+      );
+    },
 
-        hello(name) {
-            assert(name, is.String);
-            return `Hello Mymisc, ${name || "Denops"}!`;
-        },
+    hello(name) {
+      assert(name, is.String);
+      return `Hello Mymisc, ${name || "Denops"}!`;
+    },
 
-        async getRenderStrings(
-            prev_text_list,
-            max_prev_text_length,
-            node_list,
-        ) {
-            assert(node_list, is.ArrayOf(is.Any));
-            assert(prev_text_list, is.ArrayOf(is.String));
-            assert(max_prev_text_length, is.Number);
+    async getRenderStrings(
+      prevTextList,
+      maxPrevTextLength,
+      nodeList,
+    ) {
+      assert(nodeList, is.ArrayOf(is.Any));
+      assert(prevTextList, is.ArrayOf(is.String));
+      assert(maxPrevTextLength, is.Number);
 
-            // const path_list = node_list.map((node) => node["_path"]);
-            // console.log(path_list);
+      // Python's zip
+      const zipped = prevTextList.map((
+        val,
+        idx,
+      ) => [val, nodeList[idx]]);
 
-            // Python's zip
-            const zipped = prev_text_list.map((
-                val,
-                idx,
-            ) => [val, node_list[idx]]);
+      const promises = zipped.map(async (elem) =>
+        await this.getRenderStringsForEachNode(
+          maxPrevTextLength,
+          elem,
+        )
+      );
 
-            const promises = zipped.map(async (elem) =>
-                await this.getRenderStringsForEachNode(
-                    max_prev_text_length,
-                    elem,
-                )
-            );
+      const resultList = await Promise.all(promises);
 
-            const result_list = await Promise.all(promises);
+      return JSON.stringify(resultList);
+    },
 
-            // const result_list = prev_text_list.map((e) => e + " aaaa");
-            return JSON.stringify(result_list);
-        },
+    async getRenderStringsForEachNode(maxPrevTextLength, elem) {
+      assert(elem, is.ArrayOf(is.Any));
+      assert(maxPrevTextLength, is.Number);
+      const prevText = elem[0];
+      const path = elem[1]["_path"];
 
-        async getRenderStringsForEachNode(max_prev_text_length, elem) {
-            assert(elem, is.ArrayOf(is.Any));
-            assert(max_prev_text_length, is.Number);
-            const prev_text = elem[0];
-            const path = elem[1]["_path"];
+      const propertyString = await getPropertyString(path);
 
-            const propertyString = await getPropertyString(path);
+      const prevTextLength = await denops.call(
+        "strdisplaywidth",
+        prevText,
+      );
+      assert(prevTextLength, is.Number);
 
-            const prev_text_length = await denops.call(
-                "strdisplaywidth",
-                prev_text,
-            );
-            assert(prev_text_length, is.Number);
-
-            return prev_text +
-                " ".repeat(max_prev_text_length - prev_text_length) +
-                propertyString;
-        },
-    };
+      return prevText +
+        " ".repeat(maxPrevTextLength - prevTextLength) +
+        propertyString;
+    },
+  };
 };
 
 // ファイルの詳細情報を表示する関数
 async function getPropertyString(filePath: string) {
-    assert(filePath, is.String);
-    try {
-        const stats = fs.statSync(filePath);
+  assert(filePath, is.String);
+  try {
+    const stats = fs.lstatSync(filePath);
 
-        const permissionStringPromise = getPermissionString(stats.mode);
-        const fileTypePromise = getFileType(stats.mode);
-        // UID と GID をユーザー名とグループ名に変換
-        const ownerPromise = getUserName(stats.uid);
-        const groupPromise = getGroupName(stats.gid);
-        const [permissionString, fileType, owner, group] = await Promise.all([
-            permissionStringPromise,
-            fileTypePromise,
-            ownerPromise,
-            groupPromise,
-        ]);
+    const permissionStringPromise = getPermissionString(stats.mode);
+    const fileTypePromise = getFileType(stats.mode);
+    // UID と GID をユーザー名とグループ名に変換
+    const ownerPromise = getUserName(stats.uid);
+    const groupPromise = getGroupName(stats.gid);
+    const [permissionString, fileType, owner, group] = await Promise.all([
+      permissionStringPromise,
+      fileTypePromise,
+      ownerPromise,
+      groupPromise,
+    ]);
 
-        const size = stats.size; // ファイルサイズ（バイト）
-        const sizeFormatted = String(size).padStart(10, " "); // 10桁で右寄せ（スペースで埋める）
-        const nlinkFormatted = String(stats.nlink).padStart(4, " ");
+    const size = stats.size; // ファイルサイズ（バイト）
+    const sizeFormatted = String(size).padStart(10, " "); // 10桁で右寄せ（スペースで埋める）
+    const nlinkFormatted = String(stats.nlink).padStart(4, " ");
 
-        // 更新日時の取得（Locale形式に変換）
-        const updatedAt = stats.mtime;
+    // 更新日時の取得（Locale形式に変換）
+    const updatedAt = stats.mtime;
 
-        // 日付の各部分を取得
-        const year = updatedAt.getFullYear();
-        const month = String(updatedAt.getMonth() + 1).padStart(2, "0"); // 月は0から始まるので1足す
-        const day = String(updatedAt.getDate()).padStart(2, "0");
-        const hours = String(updatedAt.getHours()).padStart(2, "0");
-        const minutes = String(updatedAt.getMinutes()).padStart(2, "0");
-        const seconds = String(updatedAt.getSeconds()).padStart(2, "0");
+    // 日付の各部分を取得
+    const year = updatedAt.getFullYear();
+    const month = String(updatedAt.getMonth() + 1).padStart(2, "0"); // 月は0から始まるので1足す
+    const day = String(updatedAt.getDate()).padStart(2, "0");
+    const hours = String(updatedAt.getHours()).padStart(2, "0");
+    const minutes = String(updatedAt.getMinutes()).padStart(2, "0");
+    const seconds = String(updatedAt.getSeconds()).padStart(2, "0");
 
-        // フォーマット化して返す
-        const formattedDate =
-            `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+    // フォーマット化して返す
+    const formattedDate =
+      `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 
-        // 結果を表示
-        return `${fileType}${permissionString} ${nlinkFormatted} ${owner}:${group} ${formattedDate} ${sizeFormatted} byte`;
-    } catch (err) {
-        assert(err, is.Any);
-        console.error(
-            `Error retrieving stats. path: ${filePath} message: ${err}`,
-        );
-        return "プロパティの取得に失敗";
-    }
+    // 結果を表示
+    return `${fileType}${permissionString} ${nlinkFormatted} ${owner}:${group} ${formattedDate} ${sizeFormatted} byte`;
+  } catch (err) {
+    assert(err, is.Any);
+    console.error(
+      `Error retrieving stats. Path=${filePath} Message=${err}\nStackTrace:\n${err.stack}`,
+    );
+    return "Error retrieving stats.";
+  }
 }
 
 // パーミッションをrwx形式で表示する関数
-function getPermissionString(mode: number) {
-    return new Promise((resolve, _) => {
-        const permissions = [
-            (mode & fs.constants.S_IRUSR) ? "r" : "-",
-            (mode & fs.constants.S_IWUSR) ? "w" : "-",
-            (mode & fs.constants.S_IXUSR) ? "x" : "-",
-            (mode & fs.constants.S_IRGRP) ? "r" : "-",
-            (mode & fs.constants.S_IWGRP) ? "w" : "-",
-            (mode & fs.constants.S_IXGRP) ? "x" : "-",
-            (mode & fs.constants.S_IROTH) ? "r" : "-",
-            (mode & fs.constants.S_IWOTH) ? "w" : "-",
-            (mode & fs.constants.S_IXOTH) ? "x" : "-",
-        ];
+function getPermissionString(mode: number): string {
+  // Unixファイルモードのビットマスク
+  const S_ISUID = 0o4000; // set-user-ID
+  const S_ISGID = 0o2000; // set-group-ID
+  const S_ISVTX = 0o1000; // sticky bit
+  const S_IRUSR = 0o0400; // user read
+  const S_IWUSR = 0o0200; // user write
+  const S_IXUSR = 0o0100; // user execute
+  const S_IRGRP = 0o0040; // group read
+  const S_IWGRP = 0o0020; // group write
+  const S_IXGRP = 0o0010; // group execute
+  const S_IROTH = 0o0004; // other read
+  const S_IWOTH = 0o0002; // other write
+  const S_IXOTH = 0o0001; // other execute
 
-        resolve(permissions.join(""));
-    });
+  const checkBit = (flag: number, mask: number): boolean => (flag & mask) !== 0;
+
+  // ユーザー、グループ、その他の権限を処理
+  const userPermissions = [
+    checkBit(mode, S_IRUSR) ? "r" : "-",
+    checkBit(mode, S_IWUSR) ? "w" : "-",
+    checkBit(mode, S_IXUSR)
+      ? (checkBit(mode, S_ISUID) ? "s" : "x")
+      : (checkBit(mode, S_ISUID) ? "S" : "-"),
+  ].join("");
+
+  const groupPermissions = [
+    checkBit(mode, S_IRGRP) ? "r" : "-",
+    checkBit(mode, S_IWGRP) ? "w" : "-",
+    checkBit(mode, S_IXGRP)
+      ? (checkBit(mode, S_ISGID) ? "s" : "x")
+      : (checkBit(mode, S_ISGID) ? "S" : "-"),
+  ].join("");
+
+  const otherPermissions = [
+    checkBit(mode, S_IROTH) ? "r" : "-",
+    checkBit(mode, S_IWOTH) ? "w" : "-",
+    checkBit(mode, S_IXOTH)
+      ? (checkBit(mode, S_ISVTX) ? "t" : "x")
+      : (checkBit(mode, S_ISVTX) ? "T" : "-"),
+  ].join("");
+
+  return userPermissions + groupPermissions + otherPermissions + " ";
 }
 
 // ファイルタイプを判定する関数
 function getFileType(mode: number) {
-    return new Promise((resolve, _) => {
-        if (mode & fs.constants.S_IFDIR) resolve("d"); // ディレクトリ
-        if (mode & fs.constants.S_IFLNK) resolve("l"); // シンボリックリンク
-        if (mode & fs.constants.S_IFREG) resolve("-"); // 通常ファイル
-        resolve("?"); // その他のタイプ
-    });
+  const fileType = mode & fs.constants.S_IFMT;
+
+  switch (fileType) {
+    case fs.constants.S_IFREG: // Regular file
+      return "-";
+    case fs.constants.S_IFBLK: // Block special file
+      return "b";
+    case fs.constants.S_IFCHR: // Character special file
+      return "c";
+    case fs.constants.S_IFDIR: // Directory
+      return "d";
+    case fs.constants.S_IFLNK: // Symbolic link
+      return "l";
+    case fs.constants.S_IFIFO: // FIFO (named pipe)
+      return "p";
+    case fs.constants.S_IFSOCK: // Socket
+      return "s";
+    default:
+      return "?";
+  }
 }
 
 // 非同期関数を使って、コマンド実行結果を返すPromiseを作成します
@@ -175,47 +198,47 @@ function getFileType(mode: number) {
  * @returns {Promise<string>} ユーザー名
  */
 function getUserName(uid: number): Promise<string> {
-    return new Promise((resolve, reject) => {
-        // もしキャッシュにUID/GIDの情報がある場合は、それを返す
-        if (userCache[uid]) {
-            resolve(userCache[uid]);
-            return;
-        }
-        if (groupCache[uid]) {
-            resolve(groupCache[uid]);
-            return;
-        }
+  return new Promise((resolve, reject) => {
+    // もしキャッシュにUID/GIDの情報がある場合は、それを返す
+    if (userCache[uid]) {
+      resolve(userCache[uid]);
+      return;
+    }
+    if (groupCache[uid]) {
+      resolve(groupCache[uid]);
+      return;
+    }
 
-        const currentPlatform = platform();
+    const currentPlatform = platform();
 
-        if (currentPlatform === "win32") {
-            // Windowsの場合、"whoami"コマンドでユーザー名を取得
-            exec("whoami", (err, stdout, stderr) => {
-                if (err || stderr) {
-                    reject("ユーザー名の取得に失敗しました");
-                } else {
-                    const userName = stdout.trim();
-                    userCache[uid] = userName;
-                    resolve(userName);
-                }
-            });
-        } else if (
-            currentPlatform === "darwin" || currentPlatform === "linux"
-        ) {
-            // Unix系（Mac, Linux）では、`id -nu`コマンドを使用
-            exec(`id -nu ${uid}`, (err, stdout, stderr) => {
-                if (err || stderr) {
-                    reject("ユーザー名の取得に失敗しました");
-                } else {
-                    const userName = stdout.trim();
-                    userCache[uid] = userName;
-                    resolve(userName);
-                }
-            });
+    if (currentPlatform === "win32") {
+      // Windowsの場合、"whoami"コマンドでユーザー名を取得
+      exec("whoami", (err, stdout, stderr) => {
+        if (err || stderr) {
+          reject("ユーザー名の取得に失敗しました");
         } else {
-            reject("対応していないプラットフォームです");
+          const userName = stdout.trim();
+          userCache[uid] = userName;
+          resolve(userName);
         }
-    });
+      });
+    } else if (
+      currentPlatform === "darwin" || currentPlatform === "linux"
+    ) {
+      // Unix系（Mac, Linux）では、`id -nu`コマンドを使用
+      exec(`id -nu ${uid}`, (err, stdout, stderr) => {
+        if (err || stderr) {
+          reject("ユーザー名の取得に失敗しました");
+        } else {
+          const userName = stdout.trim();
+          userCache[uid] = userName;
+          resolve(userName);
+        }
+      });
+    } else {
+      reject("対応していないプラットフォームです");
+    }
+  });
 }
 
 /**
@@ -224,51 +247,52 @@ function getUserName(uid: number): Promise<string> {
  * @returns {Promise<string>} グループ名
  */
 function getGroupName(gid: number): Promise<string> {
-    return new Promise((resolve, reject) => {
-        // もしキャッシュにUID/GIDの情報がある場合は、それを返す
-        if (groupCache[gid]) {
-            resolve(groupCache[gid]);
-            return;
-        }
-        if (userCache[gid]) {
-            resolve(userCache[gid]);
-            return;
-        }
+  return new Promise((resolve, reject) => {
+    // もしキャッシュにUID/GIDの情報がある場合は、それを返す
+    if (groupCache[gid]) {
+      resolve(groupCache[gid]);
+      return;
+    }
+    if (userCache[gid]) {
+      resolve(userCache[gid]);
+      return;
+    }
 
-        const currentPlatform = platform();
+    const currentPlatform = platform();
 
-        if (currentPlatform === "win32") {
-            // Windowsではグループ名の取得は未対応
-            reject("Windowsでのグループ名の取得は未対応");
-        } else if (currentPlatform === "darwin") {
-            // macOSでは`dscl`コマンドを使用してGIDからグループ名を取得
-            exec(
-                `dscl . -search /Groups PrimaryGroupID ${gid}`,
-                (err, stdout, stderr) => {
-                    if (err || stderr) {
-                        reject("グループ名の取得に失敗しました");
-                    } else {
-                        const groupName =
-                            stdout.split("\n")[0].split(" ")[0].split("\t")[0]; // 最初の行の最初のフィールドがグループ名
-                        groupCache[gid] = groupName; // キャッシュに保存
-                        resolve(groupName);
-                    }
-                },
-            );
-        } else if (currentPlatform === "linux") {
-            // Linuxでは`getent group`を使用
-            exec(`getent group ${gid}`, (err, stdout, stderr) => {
-                if (err || stderr) {
-                    reject("グループ名の取得に失敗しました");
-                } else {
-                    // getent groupの出力は `group_name:x:GID:users` の形式
-                    const groupName = stdout.split(":")[0];
-                    groupCache[gid] = groupName; // キャッシュに保存
-                    resolve(groupName);
-                }
-            });
+    if (currentPlatform === "win32") {
+      // Windowsではグループ名の取得は未対応
+      reject("Windowsでのグループ名の取得は未対応");
+    } else if (currentPlatform === "darwin") {
+      // macOSでは`dscl`コマンドを使用してGIDからグループ名を取得
+      exec(
+        `dscl . -search /Groups PrimaryGroupID ${gid}`,
+        (err, stdout, stderr) => {
+          if (err || stderr) {
+            reject("グループ名の取得に失敗しました");
+          } else {
+            const groupName =
+              stdout.split("\n")[0].split(" ")[0].split("\t")[0]; // 最初の行の最初のフィールドがグループ名
+            groupCache[gid] = groupName; // キャッシュに保存
+            resolve(groupName);
+          }
+        },
+      );
+    } else if (currentPlatform === "linux") {
+      // Linuxでは`getent group`を使用
+      exec(`getent group ${gid}`, (err, stdout, stderr) => {
+        if (err || stderr) {
+          reject("グループ名の取得に失敗しました");
         } else {
-            reject("対応していないプラットフォームです");
+          // getent groupの出力は `group_name:x:GID:users` の形式
+          const groupName = stdout.split(":")[0];
+          groupCache[gid] = groupName; // キャッシュに保存
+          resolve(groupName);
         }
-    });
+      });
+    } else {
+      reject("対応していないプラットフォームです");
+    }
+  });
 }
+// vim: sw=2 sts=2:

@@ -129,7 +129,7 @@ fun! mymisc#config#fern#setup() abort
 
   function! s:render_nodes_denops(prev_text_list, max_prev_text_length, nodes, resolve, reject)
     " echom "s:render_nodes_denops start
-    try 
+    try
       cal denops#request_async('denops-mymisc', 'getRenderStrings', [a:prev_text_list, a:max_prev_text_length, a:nodes],
             \ { v -> s:success(a:resolve, v)},
             \ { e -> s:failure(a:reject, a:prev_text_list, e)}

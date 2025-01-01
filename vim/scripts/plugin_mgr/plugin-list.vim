@@ -59,15 +59,34 @@ Plug 'cocopon/iceberg.vim'
 "   Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 " endif
 
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-if s:has_python3 || s:has_python
-  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-endif
-" Disabled because when I insert '//' on Windows, vim freezes.
-" Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
-Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-match'}
+" asyncomplete
+" Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" if s:has_python3 || s:has_python
+"   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+" endif
+" " Disabled because when I insert '//' on Windows, vim freezes.
+" " Plug 'prabirshrestha/asyncomplete-file.vim'
+" Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
+" Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-match'}
+
+" ddc
+" しまうためdisable
+Plug 'Shougo/ddc.vim'
+Plug 'Shougo/ddc-ui-native'
+
+Plug 'LumaKernel/ddc-source-file'
+Plug 'shun095/ddc-source-vim-lsp', {'branch': 'fix/fix-completion-offset'}
+Plug 'Shougo/ddc-source-around'
+Plug 'matsui54/ddc-ultisnips'
+" Plug 'tani/ddc-fuzzy'
+Plug 'Shougo/ddc-matcher_head'
+Plug 'Shougo/ddc-sorter_rank'
+Plug 'uga-rosa/ddc-source-vsnip'
+
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 if s:has_python3 || s:has_python
@@ -76,6 +95,7 @@ endif
 if !has('nvim')
     Plug 'rhysd/vim-healthcheck'
 endif
+
 " Plug 'puremourning/vimspector'
 
 " Plug 'prabirshrestha/asyncomplete-necovim.vim'

@@ -100,6 +100,8 @@ function! s:my_tab_noulti() abort
       return ""
     elseif mymisc#startup#plug_tap('asyncomplete.vim')
       return "\<C-r>=asyncomplete#force_refresh()\<CR>"
+    elseif mymisc#startup#plug_tap('ddc.vim')
+      return "\<C-r>=ddc#map#manual_complete()\<CR>"
     else
       return "\<C-n>"
     endif
