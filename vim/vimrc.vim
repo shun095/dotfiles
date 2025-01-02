@@ -171,7 +171,9 @@ try
   se nostartofline                                                            " オンの場合Gなどのときに行頭に移動する
   se sidescroll=1                                                             " 横スクロール刻み幅
   se sidescrolloff=1                                                          " 横スクロール刻み幅
-  se smoothscroll                                                             " スムーススクロール
+  if has('patch-9.0.0640')
+    se smoothscroll                                                           " スムーススクロール(wrapの時にスキップしない)
+  endif
   se number                                                                   " 行番号表示
   se norelativenumber
   se hlsearch                                                                 " 文字列検索時にハイライトする
@@ -214,7 +216,7 @@ try
       cal mkdir($MYVIMRUNTIME . '/nvim_undofiles', 'p')
     en
     se undodir=$MYVIMRUNTIME/nvim_undofiles
-  else 
+  else
     if !isdirectory($MYVIMRUNTIME . '/undofiles')
       cal mkdir($MYVIMRUNTIME . '/undofiles', 'p')
     en
@@ -566,7 +568,7 @@ try
   " au VIMRC FileType netrw nn <buffer> A :<C-u>cal <SID>lex_toggle_width()<CR>
   " }}} MAPPING END
 
-  " S {{{
+  " COMMAND {{{
   " Sudoで強制保存
   if has('unix')
     if has('nvim')
@@ -799,9 +801,9 @@ try
   endf
 
   com! -nargs=? -complete=dir OpenExplorer cal s:open_file_explorer('<args>')
-  " }}} S END
+  " }}} COMMAND END
 
-  " auS {{{
+  " AUTOCMD {{{
   aug VIMRC
     " HTML,XML,CSS,JavaScript
     au Filetype html,xml setl expandtab softtabstop=2 shiftwidth=2 foldmethod=indent
@@ -898,7 +900,7 @@ try
       au TerminalOpen * nn <buffer>q :bw<CR>
     en
   aug END
-  "}}} auS END
+  "}}} AUTOCMD END
 
   " BUILT-IN PLUGINS {{{
   if v:version >= 800
