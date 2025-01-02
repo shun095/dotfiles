@@ -545,4 +545,19 @@ if mymisc#startup#plug_tap('jasegment.vim')
   cal mymisc#config#jasegment#setup()
 en
 
+if mymisc#startup#plug_tap('skkeleton')
+  if !filereadable($HOME . '/.skk/SKK-JISYO.L')
+    echom "Downloading SKK Dictionary"
+    cal system(printf('curl -fLo "%s/.skk/SKK-JISYO.L.gz" --create-dirs https://skk-dev.github.io/dict/SKK-JISYO.L.gz',substitute($HOME,'\','/','g')))
+    cal system(printf('gzip -d "%s/.skk/SKK-JISYO.L.gz"',substitute($HOME,'\','/','g')))
+  endif
+  call skkeleton#config({
+        \  'globalDictionaries': [["~/.skk/SKK-JISYO.L", "euc-jp"]],
+        \  'eggLikeNewline': v:true,
+        \  'sources': ['skk_dictionary', 'google_japanese_input'],
+        \})
+  imap <C-j> <Plug>(skkeleton-enable)
+  cmap <C-j> <Plug>(skkeleton-enable)
+endif
+
 source $MYDOTFILES/vim/scripts/custom_global.vim

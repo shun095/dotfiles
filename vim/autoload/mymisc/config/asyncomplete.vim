@@ -13,7 +13,7 @@ fun! mymisc#config#asyncomplete#setup() abort
     au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
           \ 'name': 'neosnippet',
           \ 'whitelist': ['*'],
-          \ 'priority': -30,
+          \ 'priority': 20,
           \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
           \ }))
   endif
@@ -22,7 +22,7 @@ fun! mymisc#config#asyncomplete#setup() abort
       au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
             \ 'name': 'ultisnips',
             \ 'whitelist': ['*'],
-            \ 'priority': -40,
+            \ 'priority': 10,
             \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
             \ }))
     endif

@@ -1,4 +1,4 @@
-
+" vim: fdm=marker:
 let s:save_cpo = &cpo
 set cpo&vim
 
@@ -25,10 +25,11 @@ let g:terminal_ansi_colors = [
 " Plug 'roxma/nvim-yarp'
 " Plug 'roxma/vim-hug-neovim-rpc'
 " Plug 'Shougo/defx.nvim'
-" Color schemes
+
+" === Color schemes === {{{
 " Plug 'rakr/vim-one'
 " Plug 'morhetz/gruvbox'
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
 " Plug 'arcticicestudio/nord-vim'
 " Plug 'NLKNguyen/papercolor-theme'
 " Plug 'ajh17/spacegray.vim'
@@ -41,17 +42,36 @@ Plug 'cocopon/iceberg.vim'
 " Plug 'reedes/vim-colors-pencil'
 " Plug 'tomasr/molokai'
 " Plug 'altercation/vim-colors-solarized'
+" }}}
 
+" === Snippets, templates === {{{
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
+if s:has_python3 || s:has_python
+  Plug 'SirVer/ultisnips'
+endif
+Plug 'honza/vim-snippets'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+
+Plug 'mattn/sonictemplate-vim'
+" Plug 'aperezdc/vim-template'
+" }}}
+
+" === Completion === {{{
+" --- deoplete ---
 " Plug 'Shougo/deoplete.nvim'
 " Plug 'Shougo/deoplete-lsp'
 " call lsp#server#add('python', ['python', '-m', 'pyls'])
 " Plug 'Shougo/context_filetype.vim'
 " Plug 'Shougo/neomru.vim'
 
+" --- YCM ---
 " Plug 'Valloric/YouCompleteMe', {'do':'./install.py --clang-completer'}
 " Plug 'rdnetto/YCM-Generator', {'on':'YcmGenerateConfig', 'branch':'stable'}
 " Plug 'ervandew/supertab'
 
+" --- TabNine ---
 " Plug 'zxqfl/tabnine-vim'
 " if has('win32')
 "   Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
@@ -59,50 +79,55 @@ Plug 'cocopon/iceberg.vim'
 "   Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 " endif
 
-" asyncomplete
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" if s:has_python3 || s:has_python
-"   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-" endif
-" " Disabled because when I insert '//' on Windows, vim freezes.
-" " Plug 'prabirshrestha/asyncomplete-file.vim'
-" Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
-" Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-match'}
+" --- asyncomplete ---
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+if s:has_python3 || s:has_python
+  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+endif
+" Disabled because when I insert '//' on Windows, vim freezes.
+" Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
+Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-match'}
+" Plug 'prabirshrestha/asyncomplete-necovim.vim'
+" Plug 'shun095/asyncomplete-omni.vim'
+" Plug 'shun095/asyncomplete-tsuquyomi.vim'
 
-" ddc
-" しまうためdisable
-Plug 'Shougo/ddc.vim'
-Plug 'Shougo/ddc-ui-native'
+" --- ddc ---
+" Plug 'Shougo/ddc.vim'
+" Plug 'Shougo/ddc-ui-native'
 
-Plug 'LumaKernel/ddc-source-file'
-Plug 'shun095/ddc-source-vim-lsp', {'branch': 'fix/fix-completion-offset'}
-Plug 'Shougo/ddc-source-around'
-Plug 'matsui54/ddc-ultisnips'
-" Plug 'tani/ddc-fuzzy'
-Plug 'Shougo/ddc-matcher_head'
-Plug 'Shougo/ddc-sorter_rank'
-Plug 'uga-rosa/ddc-source-vsnip'
+" Plug 'LumaKernel/ddc-source-file'
+" Plug 'shun095/ddc-source-vim-lsp', {'branch': 'fix/fix-completion-offset'}
+" Plug 'Shougo/ddc-source-around'
+" Plug 'matsui54/ddc-ultisnips'
+" " Plug 'tani/ddc-fuzzy'
+" Plug 'Shougo/ddc-matcher_head'
+" Plug 'Shougo/ddc-sorter_rank'
+" Plug 'uga-rosa/ddc-source-vsnip'
 
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
-
+" --- vim-lsp ---
 Plug 'prabirshrestha/vim-lsp'
+" Plug 'shun095/vim-lsp', {'branch': 'javaApplyWorkspace'}
 Plug 'mattn/vim-lsp-settings'
 if s:has_python3 || s:has_python
+  Plug 'thomasfaingnaert/vim-lsp-snippets'
   Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 endif
 if !has('nvim')
     Plug 'rhysd/vim-healthcheck'
 endif
 
-" Plug 'puremourning/vimspector'
+" --- coc.nvim ---
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Plug 'prabirshrestha/asyncomplete-necovim.vim'
-" Plug 'shun095/asyncomplete-omni.vim'
-" Plug 'shun095/asyncomplete-tsuquyomi.vim'
-" Plug 'shun095/vim-lsp', {'branch': 'javaApplyWorkspace'}
+" }}}
 
+" === Debug Adapter Protocl === {{{
+Plug 'puremourning/vimspector'
+" }}}
+
+" === Filer === {{{
 " Plug 'scrooloose/nerdtree'
 " Plug 'jistr/vim-nerdtree-tabs'
 " Plug 'shun095/nerdtree-git-plugin'
@@ -123,40 +148,34 @@ Plug 'yuki-yano/fern-preview.vim'
 " Plug 'francoiscabrol/ranger.vim'
 
 " Plug 'kristijanhusak/defx-git'
+" }}}
 
-" Language specific completions
+" === Language specific completions === {{{
 Plug 'OmniSharp/omnisharp-vim', {'for': ['cs']}
 " Plug 'Quramy/tsuquyomi', {'for': ['javascript', 'typescript']}
 Plug 'vim-scripts/dbext.vim', {'for': ['sql']}
 Plug 'tpope/vim-dadbod', {'for': ['sql']}
 Plug 'othree/csscomplete.vim', {'for': ['css']}
-
 " for vimscript
-Plug 'Shougo/neco-vim'
-Plug 'freitass/todo.txt-vim'
+" Plug 'Shougo/neco-vim'
+" }}}
 
-" Snippets, templates
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-if s:has_python3 || s:has_python
-  Plug 'SirVer/ultisnips'
-endif
-Plug 'honza/vim-snippets'
 
-Plug 'mattn/sonictemplate-vim'
-" Plug 'aperezdc/vim-template'
-
-" General purpose completions, linters
+" === General purpose completions, linters === {{{
 Plug 'scrooloose/nerdcommenter'
 " Plug 'w0rp/ale'
 " Color preview
 " Plug 'gorodinskiy/vim-coloresque'
+" }}}
 
+" === Auto pair brackets === {{{
 " Plug 'jiangmiao/auto-pairs'
 " Plug 'Raimondi/delimitMate'
 " Plug 'cohama/lexima.vim'
+" Plug 'higashi000/dps-kakkonan'
+" }}}
 
-" Language/environment specific plugins
+" === Language/environment specific plugins === {{{
 Plug 'shun095/rosmake.vim', {'on': ['Catkinmake', 'Rosmake']}
 Plug 'mopp/next-alter.vim', {'for': ['c', 'cpp', 'vim']}
 Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
@@ -165,7 +184,6 @@ Plug 'chrisbra/csv.vim', {'for': ['csv']}
 Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml', 'phtml']}
 Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
 Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
-" Plug 'iamcco/markdown-preview.vim', {'for': ['markdown']}
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
 Plug 'dhruvasagar/vim-table-mode', {'for': ['markdown']}
 Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
@@ -174,8 +192,9 @@ Plug 'jceb/vim-orgmode', {'for': ['org']}
 Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
 Plug 'lambdalisue/vim-pyenv', {'for': ['python']}
 "Plug 'lervag/vimtex', {'for': ['tex']}
+" }}}
 
-" Syntax highlights
+" === Syntax highlights === {{{
 " Plug 'vim-scripts/bash-support.vim', {'for': ['bash']}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
 Plug 'pboettch/vim-cmake-syntax', {'for': ['cmake']}
@@ -196,9 +215,9 @@ Plug 'cespare/vim-toml', {'for': ['toml']}
 Plug 'leafgarland/typescript-vim', {'for': ['typescript']}
 Plug 'vim-jp/syntax-vim-ex', {'for': ['vim']}
 Plug 'posva/vim-vue', {'for': ['vue']}
+" }}}
 
-" General purpose viewers/indicators
-"
+" === General purpose viewers/indicators {{{
 Plug 'ctrlpvim/ctrlp.vim'
 "/ ,{'on':['CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark','CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark']}
 Plug 'mattn/ctrlp-register'
@@ -210,9 +229,8 @@ if exists('*matchfuzzy')
 else
   Plug 'FelikZ/ctrlp-py-matcher'
 endif
+" }}}
 
-Plug 'vim-denops/denops.vim'
-Plug 'vim-denops/denops-helloworld.vim'
 " Plug 'Shougo/ddu.vim'
 " Plug 'Shougo/ddu-ui-ff'
 " Plug 'Shougo/ddu-ui-filer'
@@ -280,16 +298,17 @@ Plug 'deton/jasegment.vim'
 " Applications
 Plug 'glidenote/memolist.vim' ", {'on': ['MemoNew', 'MemoList']}
 Plug 'itchyny/calendar.vim', {'on':'Calendar'}
+Plug 'freitass/todo.txt-vim'
 
 " Tools
 if has('vimscript-3')
   Plug 'kyoh86/vim-editerm'
 endif
+" Non lazy load for QuickRun with pandoc
 Plug 'thinca/vim-quickrun'
 " Plug 'lambdalisue/suda.vim'
 Plug 'editorconfig/editorconfig-vim'
 
-" Non lazy load for QuickRun with pandoc
 Plug 'tyru/open-browser.vim'
 Plug 'haya14busa/vim-open-googletranslate', {'on':'OpenGoogleTranslate'}
 Plug 'tyru/capture.vim', {'on':'Capture'}
@@ -301,6 +320,9 @@ if has('nvim') && has('win32')
 endif
 
 " Libraries
+Plug 'vim-denops/denops.vim'
+Plug 'vim-denops/denops-helloworld.vim'
+
 Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 " Plug 'haya14busa/vim-migemo'
@@ -311,6 +333,7 @@ Plug 'vim-jp/vital.vim'
 Plug 'lambdalisue/vital-Whisky'
 
 Plug 'dstein64/vim-startuptime'
+Plug 'vim-skk/skkeleton'
 
 Plug 'shun095/revimses'
 

@@ -7,25 +7,31 @@ fun! mymisc#config#lsp#setup() abort
     au!
   aug END
 
-  let g:lsp_work_done_progress_enabled       = 1
-  let g:lsp_diagnostics_virtual_text_enabled = 0
-  let g:lsp_diagnostics_float_cursor         = 1
-  let g:lsp_signs_enabled                    = 1
+  let g:lsp_diagnostics_echo_cursor                      = 1
+  let g:lsp_diagnostics_float_cursor                     = 0
+  let g:lsp_diagnostics_virtual_text_align               = 'after'
+  let g:lsp_diagnostics_virtual_text_enabled             = 1
+  let g:lsp_diagnostics_virtual_text_insert_mode_enabled = 1
+  let g:lsp_diagnostics_virtual_text_prefix              = " ‣‣‣ "
+
+  let g:lsp_inlay_hints_enabled                          = 1
+
+  let g:lsp_semantic_enabled                             = 1
+
+  let g:lsp_show_workspace_edits                         = 1
+
+  let g:lsp_work_done_progress_enabled                   = 1
 
   " NOTE: A>はLspCodeAction
-  let g:lsp_signs_error                      = {'text': 'E'}
-  let g:lsp_signs_warning                    = {'text': 'W'}
-  let g:lsp_signs_information                = {'text': 'I'}
-  let g:lsp_signs_hint                       = {'text': 'H'}
+  " let g:lsp_diagnostics_signs_error       = {'text': 'E'}
+  " let g:lsp_diagnostics_signs_warning     = {'text': 'W'}
+  " let g:lsp_diagnostics_signs_information = {'text': 'I'}
+  " let g:lsp_diagnostics_signs_hint        = {'text': 'H'}
 
-  let g:lsp_diagnostics_echo_cursor          = 1
-  let g:lsp_diagnostics_echo_delay           = 0
-  let g:lsp_textprop_enabled                 = 0
-
-  hi link LspErrorText ALEErrorSign
-  hi link LspWarningText ALEWarningSign
-  hi link LspInformationText ALEInfoSign
-  hi link LspHintText ALEInfoSign
+  " hi link LspErrorText ALEErrorSign
+  " hi link LspWarningText ALEWarningSign
+  " hi link LspInformationText ALEInfoSign
+  " hi link LspHintText ALEInfoSign
 
   " root_urlの検出がおかしい場合は:LspSettingsGlobalEditして下記のような設定を
   " すれば良い。

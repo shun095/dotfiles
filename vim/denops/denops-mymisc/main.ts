@@ -1,8 +1,8 @@
-import type { Entrypoint } from "jsr:@denops/std@^7.0.0";
+import type { Denops, Entrypoint } from "jsr:@denops/std@^7.0.0";
 import { assert, is } from "jsr:@core/unknownutil@3.18.1";
 import * as fs from "node:fs";
 import { platform } from "node:os";
-import { exec } from "node:child_process";
+import { execSync } from "node:child_process";
 
 interface Cache {
   [key: number]: string;
@@ -11,7 +11,7 @@ interface Cache {
 const userCache: Cache = {};
 const groupCache: Cache = {};
 
-export const main: Entrypoint = (denops) => {
+export const main: Entrypoint = (denops: Denops) => {
   denops.dispatcher = {
     async init() {
       const { name } = denops;
@@ -40,13 +40,12 @@ export const main: Entrypoint = (denops) => {
         idx,
       ) => [val, nodeList[idx]]);
 
-      const promises = zipped.map(async (elem) =>
-        await this.getRenderStringsForEachNode(
+      const promises = zipped.map((elem) =>
+        this.getRenderStringsForEachNode(
           maxPrevTextLength,
           elem,
         )
       );
-
       const resultList = await Promise.all(promises);
 
       return JSON.stringify(resultList);
@@ -74,7 +73,7 @@ export const main: Entrypoint = (denops) => {
 };
 
 // ファイルの詳細情報を表示する関数
-async function getPropertyString(filePath: string) {
+async function getPropertyString(filePath: string): Promise<string> {
   assert(filePath, is.String);
   try {
     const stats = fs.lstatSync(filePath);
@@ -168,7 +167,7 @@ function getPermissionString(mode: number): string {
 }
 
 // ファイルタイプを判定する関数
-function getFileType(mode: number) {
+function getFileType(mode: number): string {
   const fileType = mode & fs.constants.S_IFMT;
 
   switch (fileType) {
@@ -213,28 +212,26 @@ function getUserName(uid: number): Promise<string> {
 
     if (currentPlatform === "win32") {
       // Windowsの場合、"whoami"コマンドでユーザー名を取得
-      exec("whoami", (err, stdout, stderr) => {
-        if (err || stderr) {
-          reject("ユーザー名の取得に失敗しました");
-        } else {
-          const userName = stdout.trim();
-          userCache[uid] = userName;
-          resolve(userName);
-        }
-      });
+      try {
+        const stdout = execSync("whoami").toString();
+        const userName = stdout.trim();
+        userCache[uid] = userName;
+        resolve(userName);
+      } catch (_err) {
+        reject("ユーザー名の取得に失敗しました");
+      }
     } else if (
       currentPlatform === "darwin" || currentPlatform === "linux"
     ) {
       // Unix系（Mac, Linux）では、`id -nu`コマンドを使用
-      exec(`id -nu ${uid}`, (err, stdout, stderr) => {
-        if (err || stderr) {
-          reject("ユーザー名の取得に失敗しました");
-        } else {
-          const userName = stdout.trim();
-          userCache[uid] = userName;
-          resolve(userName);
-        }
-      });
+      try {
+        const stdout = execSync(`id -nu ${uid}`).toString();
+        const userName = stdout.trim();
+        userCache[uid] = userName;
+        resolve(userName);
+      } catch (_err) {
+        reject("ユーザー名の取得に失敗しました");
+      }
     } else {
       reject("対応していないプラットフォームです");
     }
@@ -265,31 +262,26 @@ function getGroupName(gid: number): Promise<string> {
       reject("Windowsでのグループ名の取得は未対応");
     } else if (currentPlatform === "darwin") {
       // macOSでは`dscl`コマンドを使用してGIDからグループ名を取得
-      exec(
-        `dscl . -search /Groups PrimaryGroupID ${gid}`,
-        (err, stdout, stderr) => {
-          if (err || stderr) {
-            reject("グループ名の取得に失敗しました");
-          } else {
-            const groupName =
-              stdout.split("\n")[0].split(" ")[0].split("\t")[0]; // 最初の行の最初のフィールドがグループ名
-            groupCache[gid] = groupName; // キャッシュに保存
-            resolve(groupName);
-          }
-        },
-      );
+      try {
+        const stdout = execSync(`dscl . -search /Groups PrimaryGroupID ${gid}`)
+          .toString();
+        const groupName = stdout.split("\n")[0].split(" ")[0].split("\t")[0]; // 最初の行の最初のフィールドがグループ名
+        groupCache[gid] = groupName; // キャッシュに保存
+        resolve(groupName);
+      } catch (_err) {
+        reject("グループ名の取得に失敗しました");
+      }
     } else if (currentPlatform === "linux") {
       // Linuxでは`getent group`を使用
-      exec(`getent group ${gid}`, (err, stdout, stderr) => {
-        if (err || stderr) {
-          reject("グループ名の取得に失敗しました");
-        } else {
-          // getent groupの出力は `group_name:x:GID:users` の形式
-          const groupName = stdout.split(":")[0];
-          groupCache[gid] = groupName; // キャッシュに保存
-          resolve(groupName);
-        }
-      });
+      try {
+        const stdout = execSync(`getent group ${gid}`).toString();
+        // getent groupの出力は `group_name:x:GID:users` の形式
+        const groupName = stdout.split(":")[0];
+        groupCache[gid] = groupName; // キャッシュに保存
+        resolve(groupName);
+      } catch (_err) {
+        reject("グループ名の取得に失敗しました");
+      }
     } else {
       reject("対応していないプラットフォームです");
     }
