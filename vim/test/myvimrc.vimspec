@@ -1,0 +1,85 @@
+" vim: ft=vimspec:
+Describe vimrc test
+  Before all
+    so ~/.vimrc
+  End
+
+  Before
+    %bwipeout!
+  End
+
+  It is a test for FZF enabled
+    sleep 1
+
+    let prevbuf = bufnr("%")
+    set termwinsize=24x80
+    terminal
+    let termbuf = bufnr("%")
+
+    cal term_sendkeys(termbuf, "cd " . $MYDOTFILES . "; command vim\<CR>")
+
+    sleep 500m
+
+    cal term_sendkeys(termbuf, "\<Space>\<Space>")
+
+    sleep 200m
+
+    cal term_sendkeys(termbuf, "fuzzytesttxt")
+
+    sleep 1
+
+    cal term_sendkeys(termbuf, "\<CR>")
+
+    sleep 1
+
+    let actual = getline(1, '$')[1]
+    let expect = '  1 This is fuzzyfinder test!⏎                                                  '
+  
+    Assert Equals(actual, expect)
+  End
+
+  It is a test for CtrlP enabled
+    execute "normal \<C-p>fuzzytesttxt\<CR>"
+
+    let actual = getline(1, '$')
+    let expect = ['This is fuzzyfinder test!']
+    Assert Equals(actual, expect)
+  End
+
+  It is a test for UltiSnips enabled
+    cal setline(1, "#!/bin/bash")
+    set ft=sh
+
+    execute "normal GA\<Enter>whileread\<TAB>\<Esc>"
+
+    let actual = getline(1, '$')
+    let expect = [
+          \    '#!/bin/bash',
+          \    'while read line > /dev/null',
+          \    'do',
+          \    '    echo $line',
+          \    '    ',
+          \    'done < <(echo "a"; echo "b")'
+          \]
+    Assert Equals(actual, expect)
+  End
+
+  It is a test for neosnippet enabled
+    cal setline(1, "#!/bin/bash")
+    set ft=sh
+
+    execute "normal GA\<Enter>only_for_test_snippet\<TAB>\<ESC>"
+
+    let actual = getline(1, '$')
+    let expect = [
+          \    '#!/bin/bash',
+          \    'only_for_test_snippet_expanded',
+          \]
+    Assert Equals(actual, expect)
+  End
+
+  After all
+    cal feedkeys("\<CR>")
+  End
+End
+

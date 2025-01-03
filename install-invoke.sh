@@ -884,21 +884,16 @@ reinstall() {
 
 runtest() {
     set +e
-    echo "STARTING VADER TEST"
+    echo "STARTING TEST"
 
     if [[ -d $MYDOTFILES/build/vim ]]; then
         export PATH=$MYDOTFILES/build/vim/bin/:$PATH
     fi
 
-    vim --not-a-term \
-        --cmd 'let g:is_test = 1' \
-        --cmd 'set shortmess=a cmdheight=10' \
-        --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
-        -c 'Vader! '${MYDOTFILES}'/vim/test/myvimrc.vader'
+    pushd $MYDOTFILES/vim
+    $MYVIMRUNTIME/plugged/vim-themis/bin/themis
     return_code=$?
-
-    echo "VADER TEST RESULT"
-    cat ${VADER_OUTPUT_FILE}
+    popd
 
     set -e
     return $return_code
