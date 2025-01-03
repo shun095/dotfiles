@@ -818,7 +818,7 @@ deploy() {
     deploy_fzf
     compile_zshfiles
     install_vim_plugins
-    install_tmux_plugins
+    # install_tmux_plugins
 
     git_configulation
 
@@ -861,7 +861,7 @@ update() {
         update_repositories
         deploy
         update_vim_plugins
-        update_tmux_plugins
+        # update_tmux_plugins
     fi
 }
 
