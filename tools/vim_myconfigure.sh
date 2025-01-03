@@ -8,7 +8,7 @@ set -eu
 
 ## CONFIG
 SOFTWARE_NAME="vim"
-BRANCH_NAME="v9.1.0851"
+BRANCH_NAME="v9.1.0988"
 NEEDS_PULL=true
 
 ## COMMON

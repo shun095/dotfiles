@@ -2,35 +2,85 @@
 Describe vimrc test
   Before all
     so ~/.vimrc
+    " set messagesopt=wait:100,history:500
+    " redir! > $MYDOTFILES/vim/test_result.log
   End
 
   Before
+    " redir >> $MYDOTFILES/vim/test_result.log
     %bwipeout!
   End
 
-  It is a test for FZF enabled
-    sleep 1
+  After all
+    cal feedkeys("\<CR>")
+    " redir END
+  End
 
+  After
+    " redir END
+  End
+
+  " It is a test for neosnippet enabled (completion)
+  "   let prevbuf = bufnr("%")
+  "   set termwinsize=24x80
+  "   terminal
+  "   let termbuf = bufnr("%")
+
+  "   cal term_sendkeys(termbuf, "export TERM=xterm-256\<CR>")
+  "   cal term_sendkeys(termbuf, "cd " . $MYDOTFILES . "\<CR>")
+  "   cal term_sendkeys(termbuf, "$MYDOTFILES/build/vim/bin/vim\<CR>")
+  "   redraw!
+  "   sleep 3
+  "   redraw!
+  "   cal term_sendkeys(termbuf, "Aonly_for_test_snipp")
+  "   redraw!
+  "   sleep 200m
+  "   redraw!
+  "   cal term_sendkeys(termbuf, "e")
+  "   redraw!
+  "   sleep 200m
+  "   redraw!
+  "   cal term_sendkeys(termbuf, "t")
+  "   redraw!
+  "   sleep 4
+  "   redraw!
+  "   cal term_sendkeys(termbuf, "\<C-n>")
+  "   redraw!
+  "   sleep 1
+  "   redraw!
+  "   cal term_sendkeys(termbuf, "\<CR>")
+  "   redraw!
+  "   sleep 1
+  "   redraw!
+  "   cal term_sendkeys(termbuf, "\<ESC>")
+  "   redraw!
+  "   sleep 1
+  "   redraw!
+
+  "   let actual = getline(1, '$')[1]
+  "   let expect = '  1 only_for_test_snippet_expanded⏎                                                  '
+  "   Assert Equals(actual, expect)
+  " End
+
+
+  It is a test for FZF enabled
     let prevbuf = bufnr("%")
     set termwinsize=24x80
     terminal
     let termbuf = bufnr("%")
 
-    cal term_sendkeys(termbuf, "cd " . $MYDOTFILES . "; command vim\<CR>")
-
+    cal term_sendkeys(termbuf, "cd " . $MYDOTFILES . "\<CR>")
+    cal term_sendkeys(termbuf, "command vim\<CR>")
+    cal term_sendkeys(termbuf, "\<CR>")
+    sleep 1
+    cal term_sendkeys(termbuf, "\<Space>\<Space>")
+    sleep 100m
+    cal term_sendkeys(termbuf, "fuzzytesttxt")
+    sleep 400m
+    cal term_sendkeys(termbuf, "\<CR>")
     sleep 500m
 
-    cal term_sendkeys(termbuf, "\<Space>\<Space>")
-
-    sleep 200m
-
-    cal term_sendkeys(termbuf, "fuzzytesttxt")
-
-    sleep 1
-
-    cal term_sendkeys(termbuf, "\<CR>")
-
-    sleep 1
+    redraw!
 
     let actual = getline(1, '$')[1]
     let expect = '  1 This is fuzzyfinder test!⏎                                                  '
@@ -78,8 +128,5 @@ Describe vimrc test
     Assert Equals(actual, expect)
   End
 
-  After all
-    cal feedkeys("\<CR>")
-  End
 End
 

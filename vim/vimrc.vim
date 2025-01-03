@@ -169,6 +169,7 @@ try
   se display=lastline                                                         " 一行が長い場合でも@にせずちゃんと表示
   se showcmd                                                                  " 入力中のコマンドを右下に表示
   se cmdheight=2                                                              " コマンドラインの高さ
+  " se messagesopt=wait:1000,history:500
   se showtabline=2                                                            " タブバーを常に表示
   se shortmess-=Tt
   se nostartofline                                                            " オンの場合Gなどのときに行頭に移動する
