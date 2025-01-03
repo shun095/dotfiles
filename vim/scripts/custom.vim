@@ -79,9 +79,9 @@ if mymisc#startup#plug_tap('previm')
   let g:previm_disable_default_css = 1
   let g:previm_custom_css_path = $MYDOTFILES . "/third-party/github-markdown.css"
   let g:previm_show_header = 0
-  function! s:setup_setting()
+  fun! s:setup_setting()
     command! -buffer -nargs=? -complete=dir PrevimSaveHTML cal mymisc#previm_save_html('<args>')
-  endfunction
+  endf
 
   aug vimrc_previm
     au!
@@ -316,9 +316,9 @@ if mymisc#startup#plug_tap('jedi-vim')
   let g:jedi#auto_initialization = 0
   aug vimrc_jedi
     au!
-    au FileType python nno <buffer> <F2> :call jedi#rename()<CR>
-    au FileType python nno <buffer> K :call jedi#show_documentation()<CR>
-    au FileType python nno <buffer> <C-]> :call jedi#goto()<CR>
+    au FileType python nno <buffer> <F2> :cal jedi#rename()<CR>
+    au FileType python nno <buffer> K :cal jedi#show_documentation()<CR>
+    au FileType python nno <buffer> <C-]> :cal jedi#goto()<CR>
     au FileType python setlocal omnifunc=jedi#completions
   aug END
 en
@@ -550,14 +550,14 @@ if mymisc#startup#plug_tap('skkeleton')
     echom "Downloading SKK Dictionary"
     cal system(printf('curl -fLo "%s/.skk/SKK-JISYO.L.gz" --create-dirs https://skk-dev.github.io/dict/SKK-JISYO.L.gz',substitute($HOME,'\','/','g')))
     cal system(printf('gzip -d "%s/.skk/SKK-JISYO.L.gz"',substitute($HOME,'\','/','g')))
-  endif
-  call skkeleton#config({
+  en
+  cal skkeleton#config({
         \  'globalDictionaries': [["~/.skk/SKK-JISYO.L", "euc-jp"]],
         \  'eggLikeNewline': v:true,
         \  'sources': ['skk_dictionary', 'google_japanese_input'],
         \})
   imap <C-j> <Plug>(skkeleton-enable)
   cmap <C-j> <Plug>(skkeleton-enable)
-endif
+en
 
-source $MYDOTFILES/vim/scripts/custom_global.vim
+so $MYDOTFILES/vim/scripts/custom_global.vim

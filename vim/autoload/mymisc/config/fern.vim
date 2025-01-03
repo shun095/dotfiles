@@ -1,11 +1,7 @@
 scriptencoding utf-8
 
 fun! mymisc#config#fern#setup() abort
-
   let s:Promise = vital#mymisc#import('Async.Promise')
-  let s:L = vital#mymisc#import('Data.List')
-  let s:Lambda = vital#mymisc#import('Lambda')
-  let s:AsyncLambda = vital#mymisc#import('Async.Lambda')
 
   nno <silent> <Leader>e :FernDo :<CR>
   nno <silent> <Leader>E :Fern %:h -drawer -reveal=%:p<CR>
@@ -49,7 +45,7 @@ fun! mymisc#config#fern#setup() abort
 
   aug vimrc_fern
     au! *
-    au FileType fern call s:init_fern()
+    au FileType fern cal s:init_fern()
   aug END
 
   if mymisc#startup#plug_tap('fern-preview.vim')
@@ -74,7 +70,7 @@ fun! mymisc#config#fern#setup() abort
 
     aug fern-settings
       au!
-      au FileType fern call s:fern_settings()
+      au FileType fern cal s:fern_settings()
     aug END
   endif
 
@@ -82,15 +78,15 @@ fun! mymisc#config#fern#setup() abort
   " let s:inherited_renderer = fern#renderer#default#new()
 
   fun! s:renderer_new()
-    return extend(copy(s:inherited_renderer), {
+    retu extend(copy(s:inherited_renderer), {
           \ 'render': funcref('s:render'),
           \})
   endf
 
-  function! s:render(nodes)
+  fun! s:render(nodes)
     " echom "s:render start
     let l:list = []
-    return s:inherited_renderer.render(a:nodes)
+    retu s:inherited_renderer.render(a:nodes)
           \.then({
           \  prev_text_list -> s:render_nodes(prev_text_list, a:nodes)
           \})
@@ -98,39 +94,30 @@ fun! mymisc#config#fern#setup() abort
           \  e -> s:reject_render(e)
           \})
     " echom "s:render end
-  endfunction
-
-  function! s:fallback_render(prev)
-    " echom "s:fallback start
-    " echom "s:fallback end
-    return a:prev
-  endfunction
+  endf
 
   let s:show_error_once = 0
-  function! s:reject_render(err)
+  fun! s:reject_render(err)
     " echom "s:reject_render start
     if !s:show_error_once
       echom "fern error: " . string(a:err[1]) . " -- Falling back to normal rendering."
       let s:show_error_once = 1
     endif
     " echom "s:reject_render end
-    return a:err[0]
-  endfunction
+    retu a:err[0]
+  endf
 
-  function! s:render_nodes(prev_text_list, nodes)
+  fun! s:render_nodes(prev_text_list, nodes)
     " echom "s:render_nodes start
-    let l:prev_text_lengths = map(copy(a:prev_text_list) , { key, val -> strdisplaywidth(val)})
-    let l:max_prev_text_length = max([max(l:prev_text_lengths) + 1, g:fern#drawer_width])
-
-    let l:promise = s:Promise.new(funcref('s:render_nodes_denops', [a:prev_text_list, l:max_prev_text_length, a:nodes]))
+    let l:promise = s:Promise.new(funcref('s:render_nodes_denops', [a:prev_text_list, a:nodes]))
     " echom "s:render_nodes end
-    return l:promise
-  endfunction
+    retu l:promise
+  endf
 
-  function! s:render_nodes_denops(prev_text_list, max_prev_text_length, nodes, resolve, reject)
+  fun! s:render_nodes_denops(prev_text_list, nodes, resolve, reject)
     " echom "s:render_nodes_denops start
     try
-      cal denops#request_async('denops-mymisc', 'getRenderStrings', [a:prev_text_list, a:max_prev_text_length, a:nodes],
+      cal denops#request_async('denops-mymisc', 'getRenderStrings', [a:prev_text_list, a:nodes],
             \ { v -> s:success(a:resolve, v)},
             \ { e -> s:failure(a:reject, a:prev_text_list, e)}
             \)
@@ -140,23 +127,23 @@ fun! mymisc#config#fern#setup() abort
       cal a:reject([a:prev_text_list, v:exception])
       " echom "s:render_nodes_denops catch end
     endtry
-  endfunction
+  endf
 
-  function! s:success(resolve, v)
+  fun! s:success(resolve, v)
     " echom "s:success start
     cal a:resolve(json_decode(a:v))
     " echom "s:success end
-  endfunction
+  endf
 
-  function! s:failure(reject, prev_text_list, e)
+  fun! s:failure(reject, prev_text_list, e)
     " echom "s:failure start
     echom "fern error: " . string(a:e)
-    cal a:reject([json_decode(a:e), e])
+    cal a:reject([a:prev_text_list, a:e])
     " echom "s:failure end
-  endfunction
+  endf
 
   let g:fern#renderer = 'my_renderer'
-  call extend(g:fern#renderers, {
+  cal extend(g:fern#renderers, {
         \ 'my_renderer': funcref('s:renderer_new')
         \})
 

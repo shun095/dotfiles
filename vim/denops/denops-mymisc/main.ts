@@ -1,5 +1,7 @@
 import type { Denops, Entrypoint } from "jsr:@denops/std@^7.0.0";
 import { assert, is } from "jsr:@core/unknownutil@3.18.1";
+import * as fn from "jsr:@denops/std/function";
+import * as vars from "jsr:@denops/std/variable";
 import * as fs from "node:fs";
 import { platform } from "node:os";
 import { execSync } from "node:child_process";
@@ -27,27 +29,30 @@ export const main: Entrypoint = (denops: Denops) => {
 
     async getRenderStrings(
       prevTextList,
-      maxPrevTextLength,
       nodeList,
     ) {
       assert(nodeList, is.ArrayOf(is.Any));
       assert(prevTextList, is.ArrayOf(is.String));
-      assert(maxPrevTextLength, is.Number);
 
-      // Python's zip
-      const zipped = prevTextList.map((
-        val,
-        idx,
-      ) => [val, nodeList[idx]]);
-
-      const promises = zipped.map((elem) =>
-        this.getRenderStringsForEachNode(
-          maxPrevTextLength,
-          elem,
-        )
+      const prevTextLengthList = await Promise.all(
+        prevTextList.map((prevText) => fn.strdisplaywidth(denops, prevText)),
       );
-      const resultList = await Promise.all(promises);
+      const maxPrevTextLength = Math.max(
+        Math.max(...prevTextLengthList) + 1,
+        await vars.g.get(denops, "fern#drawer_width"),
+      );
 
+      const promises = prevTextList.map((
+        prevText,
+        idx,
+      ) =>
+        this.getRenderStringsForEachNode(maxPrevTextLength, [
+          prevText,
+          nodeList[idx],
+        ])
+      );
+
+      const resultList = await Promise.all(promises);
       return JSON.stringify(resultList);
     },
 
@@ -59,10 +64,7 @@ export const main: Entrypoint = (denops: Denops) => {
 
       const propertyString = await getPropertyString(path);
 
-      const prevTextLength = await denops.call(
-        "strdisplaywidth",
-        prevText,
-      );
+      const prevTextLength = await fn.strdisplaywidth(denops, prevText)
       assert(prevTextLength, is.Number);
 
       return prevText +

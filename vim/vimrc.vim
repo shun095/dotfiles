@@ -45,7 +45,10 @@ try
   " Force to use python3
   if has("python3")
     let g:myvimrc_has_python3 = g:true
-    py3 pass
+    if has("python2")
+      " python2よりもpython3を優先して読み込むhack
+      py3 pass
+    en
   else
     let g:myvimrc_has_python3 = g:false
   en

@@ -4,15 +4,8 @@ set cpo&vim
 
 if g:myvimrc_has_python3
   let s:has_python3 = g:true
-  py3 pass
 else
   let s:has_python3 = g:false
-endif
-
-if has('python')
-  let s:has_python = g:true
-else
-  let s:has_python = g:false
 endif
 
 let g:terminal_ansi_colors = [
@@ -47,7 +40,7 @@ Plug 'cocopon/iceberg.vim'
 " === Snippets, templates === {{{
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-if s:has_python3 || s:has_python
+if s:has_python3
   Plug 'SirVer/ultisnips'
 endif
 Plug 'honza/vim-snippets'
@@ -82,7 +75,7 @@ Plug 'mattn/sonictemplate-vim'
 " --- asyncomplete ---
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-if s:has_python3 || s:has_python
+if s:has_python3
   Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 endif
 " Disabled because when I insert '//' on Windows, vim freezes.
@@ -110,7 +103,7 @@ Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-mat
 Plug 'prabirshrestha/vim-lsp'
 " Plug 'shun095/vim-lsp', {'branch': 'javaApplyWorkspace'}
 Plug 'mattn/vim-lsp-settings'
-if s:has_python3 || s:has_python
+if s:has_python3
   Plug 'thomasfaingnaert/vim-lsp-snippets'
   Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 endif
@@ -327,6 +320,7 @@ Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
 " Plug 'haya14busa/vim-migemo'
 Plug 'junegunn/vader.vim'
+Plug 'thinca/vim-themis'
 
 " To update Vital, run :Vitalize $MYDOTFILES/vim
 Plug 'vim-jp/vital.vim'
