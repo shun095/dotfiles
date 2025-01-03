@@ -5,6 +5,31 @@ endif
 
 let s:V = vital#mymisc#new()
 let s:File = s:V.import('System.File')
+let s:Promise = s:V.import('Async.Promise')
+
+fun! mymisc#wait(ms)
+  retu s:Promise.new({resolve -> timer_start(a:ms, resolve)})
+endf
+
+fun! mymisc#wait_curhold(ms, callback)
+  let s:old_updatetime = &updatetime
+  let &updatetime = a:ms
+  let s:callback = a:callback
+  function! g:Mymisc_tmp_function() abort
+    cal s:callback()
+    augroup mymisc_wait
+      au!
+    augroup END
+    let &updatetime = s:old_updatetime
+    unlet s:callback
+    unlet s:old_updatetime
+  endfunction
+
+  augroup mymisc_wait
+    au!
+    cal execute("au CursorHold * call Mymisc_tmp_function() | delfunction Mymisc_tmp_function")
+  augroup END
+endf
 
 fun! mymisc#ime_deactivate() abort
   if !has('mac') && !g:mymisc_fcitx_is_available
