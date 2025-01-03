@@ -563,7 +563,7 @@ install_essential_dependencies() {
     #     fi
     # fi
 
-    install_deps "essential softwares" "${deps}"
+    install_deps "essential softwares" "${deps}" ""
 
     clone_dotfiles_repository
 }
@@ -630,6 +630,7 @@ update_tmux_plugins() {
 install_deps() {
 local msg=$1
 local deps=$2
+local curl_deps=$3
 echo_section "Installing dependencies for: ${msg}"
 local sudo=""
 
@@ -686,13 +687,18 @@ elif type yum > /dev/null 2>&1; then
     fi
     ${sudo} yum install -y ${deps} || true
 fi
+
+for url in $curl_deps; do
+    curl -fsSL $url | sh
+done
 }
 
 build_vim_install_deps() {
 local deps=""
+local curl_deps=""
 local tmp_deps=""
 if [[ $OSTYPE == 'darwin'* ]]; then
-    deps='lua luajit automake python3 pkg-config utf8proc'
+    deps='lua luajit automake python3 deno pkg-config utf8proc'
 elif [[ $(lsb_release -rs) == "20.04" ]]; then
     tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2 libutf8proc-dev'
     for package in ${tmp_deps}; do
@@ -700,6 +706,7 @@ elif [[ $(lsb_release -rs) == "20.04" ]]; then
             deps="${deps} ${package}"
         fi
     done
+    curl_deps='https://deno.land/install.sh'
 elif [[ $(lsb_release -rs) == "22.04" ]]; then
     tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2 libutf8proc-dev'
     for package in ${tmp_deps}; do
@@ -707,6 +714,7 @@ elif [[ $(lsb_release -rs) == "22.04" ]]; then
             deps="${deps} ${package}"
         fi
     done
+    curl_deps='https://deno.land/install.sh'
 elif [[ $(lsb_release -rs) == "24.04" ]]; then
     tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2 libutf8proc-dev'
     for package in ${tmp_deps}; do
@@ -714,12 +722,15 @@ elif [[ $(lsb_release -rs) == "24.04" ]]; then
             deps="${deps} ${package}"
         fi
     done
+    curl_deps='https://deno.land/install.sh'
 elif type dnf > /dev/null 2>&1; then
     deps='git gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel utf8proc'
+    curl_deps='https://deno.land/install.sh'
 elif type yum > /dev/null 2>&1; then
     deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel utf8proc'
+    curl_deps='https://deno.land/install.sh'
 fi
-install_deps "vim build" "${deps}"
+install_deps "vim build" "${deps}" "${curl_deps}"
 }
 
 build_tmux_install_deps() {
@@ -738,7 +749,7 @@ elif type dnf > /dev/null 2>&1; then
 elif type yum > /dev/null 2>&1; then
     deps='git2u automake libevent-devel ncurses-devel make gcc byacc'
     fi
-    install_deps "tmux build" "${deps}"
+    install_deps "tmux build" "${deps}" ""
 }
 
 make_install() {
