@@ -89,7 +89,6 @@ Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-mat
 " --- ddc ---
 " Plug 'Shougo/ddc.vim'
 " Plug 'Shougo/ddc-ui-native'
-
 " Plug 'LumaKernel/ddc-source-file'
 " Plug 'shun095/ddc-source-vim-lsp', {'branch': 'fix/fix-completion-offset'}
 " Plug 'Shougo/ddc-source-around'

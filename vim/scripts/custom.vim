@@ -297,6 +297,10 @@ if mymisc#startup#plug_tap('LanguageClient-neovim')
   cal mymisc#config#LanguageClient#setup()
 en
 
+if mymisc#startup#plug_tap('coc.nvim')
+  cal mymisc#config#coc#setup()
+endif
+
 if mymisc#startup#plug_tap('vim-lsp')
   cal mymisc#config#lsp#setup()
 en
@@ -554,8 +558,8 @@ if mymisc#startup#plug_tap('skkeleton')
   cal skkeleton#config({
         \  'globalDictionaries': [["~/.skk/SKK-JISYO.L", "euc-jp"]],
         \  'eggLikeNewline': v:true,
-        \  'sources': ['skk_dictionary', 'google_japanese_input'],
         \})
+        " \  'sources': ['skk_dictionary', 'google_japanese_input'],
   imap <C-j> <Plug>(skkeleton-enable)
   cmap <C-j> <Plug>(skkeleton-enable)
 en

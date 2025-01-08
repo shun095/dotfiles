@@ -41,7 +41,7 @@ fun! mymisc#config#asyncomplete#setup() abort
   imap <C-x><Space> <Plug>(asyncomplete_force_refresh)
 
   fun! s:preprocessor(options, matches) abort
-    call timer_start(1, function('s:sort_by_priority_preprocessor', [a:options, a:matches]))
+    call timer_start(0, function('s:sort_by_priority_preprocessor', [a:options, a:matches]))
   endf
 
   fun! s:sort_by_priority_preprocessor(options, matches, timer) abort

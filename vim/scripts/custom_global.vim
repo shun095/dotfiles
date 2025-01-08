@@ -9,10 +9,13 @@ aug vimrc_custom_global
   if mymisc#startup#plug_tap('lexima.vim')
     au VimEnter * call lexima#init()
   en
-  au InsertEnter * imap <silent><expr> <CR> <SID>my_cr_main()
-  au InsertEnter * imap <silent><expr> <TAB> <SID>my_tab_main()
-  au InsertEnter * imap <silent><expr> <C-e> <SID>my_ctrle_main()
-  au InsertEnter * au! vimrc_custom_global InsertEnter
+
+  if !mymisc#startup#plug_tap('coc.nvim')
+    au InsertEnter * imap <silent><expr> <CR> <SID>my_cr_main()
+    au InsertEnter * imap <silent><expr> <TAB> <SID>my_tab_main()
+    au InsertEnter * imap <silent><expr> <C-e> <SID>my_ctrle_main()
+    au InsertEnter * au! vimrc_custom_global InsertEnter
+  endif
 aug END
 
 if mymisc#startup#plug_tap('neosnippet.vim')

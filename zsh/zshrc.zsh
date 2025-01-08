@@ -124,7 +124,7 @@ fi
 if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
     source "${VIM_EDITERM_SETUP}"
 fi
-alias tmux=_zshrc_custom_tmux
+# alias tmux=_zshrc_custom_tmux
 
 if [ $(uname) = "Darwin" ]; then
     alias excel='open -n /Applications/Microsoft\ Excel.app'

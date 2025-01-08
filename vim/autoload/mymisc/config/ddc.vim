@@ -3,7 +3,7 @@ scriptencoding utf-8
 fun! mymisc#config#ddc#setup() abort
   cal ddc#custom#patch_global('ui', 'native')
   cal ddc#custom#patch_global('autoCompleteDelay', 200)
-  cal ddc#custom#patch_global('backspaceCompletion', g:true)
+  cal ddc#custom#patch_global('backspaceCompletion', v:true)
   cal ddc#custom#patch_global('sources', [
         \ 'neosnippet',
         \ 'ultisnips',
@@ -45,6 +45,9 @@ fun! mymisc#config#ddc#setup() abort
         \     'maxItems': 3,
         \   }
         \ })
+
+
+  inoremap <expr> <C-x><Space> ddc#map#manual_complete()
 
   cal ddc#enable()
 endf
