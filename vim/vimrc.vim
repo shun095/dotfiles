@@ -983,6 +983,7 @@ try
       " Load settings of plugins
       so $MYVIMHOME/scripts/lazy_hooks.vim
       so $MYVIMHOME/scripts/custom.vim
+      so $MYVIMHOME/scripts/custom_global.vim
 
       " Local after settings
       if filereadable($HOME . '/localrcs/vim-localafter.vim')

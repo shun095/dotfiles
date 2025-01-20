@@ -78,6 +78,7 @@ fun! mymisc#config#fern#setup() abort
   " let s:inherited_renderer = fern#renderer#default#new()
 
   fun! s:renderer_new()
+    cal denops#server#wait({"timeout": 5000})
     retu extend(copy(s:inherited_renderer), {
           \ 'render': funcref('s:render'),
           \})

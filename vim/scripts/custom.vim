@@ -564,4 +564,6 @@ if mymisc#startup#plug_tap('skkeleton')
   cmap <C-j> <Plug>(skkeleton-enable)
 en
 
-so $MYDOTFILES/vim/scripts/custom_global.vim
+if mymisc#startup#plug_tap('denops.vim')
+  cal mymisc#config#denops#setup()
+endif
