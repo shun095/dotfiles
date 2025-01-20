@@ -331,7 +331,7 @@ for _, cmd_type in ipairs({ '/', '?' }) do
         },
         window = {
             completion = {
-                col_offset = 1,
+                col_offset = 0,
             },
         }
     })
@@ -364,7 +364,7 @@ cmp.setup.cmdline(':', {
     }),
     window = {
         completion = {
-            col_offset = 1,
+            col_offset = 0,
         },
     }
 })
@@ -395,7 +395,7 @@ cmp.setup.cmdline('@', {
     }),
     window = {
         completion = {
-            col_offset = 8,
+            col_offset = 0,
         },
     }
 })
@@ -557,6 +557,9 @@ require("noice").setup({
       ["vim.lsp.util.stylize_markdown"] = true,
       ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
     },
+    signature = {
+        enabled = false,
+    }
   },
   -- you can enable a preset for easier configuration
   presets = {
