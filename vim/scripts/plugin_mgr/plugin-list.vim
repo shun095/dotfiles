@@ -147,7 +147,9 @@ else
 
   " Plug 'karb94/neoscroll.nvim'
   " Plug 'folke/trouble.nvim'
-  " Plug 'folke/noice.nvim'
+  Plug 'MunifTanjim/nui.nvim'
+  Plug 'rcarriga/nvim-notify'
+  Plug 'folke/noice.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
   if executable('cmake')
@@ -338,7 +340,11 @@ Plug 'lambdalisue/gina.vim'
 " Plug 'tpope/vim-fugitive'
 " Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/gv.vim'
-Plug 'airblade/vim-gitgutter'
+if has('nvim')
+  Plug 'lewis6991/gitsigns.nvim'
+else
+  Plug 'airblade/vim-gitgutter'
+endif
 " Plug 'iberianpig/tig-explorer.vim'
 
 " General purpose motions
