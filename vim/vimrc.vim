@@ -201,7 +201,7 @@ try
   se mouse=a                                                                  " マウスを有効化
   se mousehide                                                                " 入力中にポインタを消すかどうか
   se mousemodel=                                                              " Behavior of right-click
-  se lazyredraw                                                               " スクロールが間に合わない時などに描画を省略する
+  se nolazyredraw                                                               " スクロールが間に合わない時などに描画を省略する
   se updatetime=1000                                                          " Wait time until swap file will be written
   se timeout
   se ttimeout

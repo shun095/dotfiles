@@ -147,44 +147,38 @@ vim.cmd('highlight! link WinBarNC Normal')
 vim.cmd('highlight! link LspCodeLens Comment')
 vim.cmd('highlight! link LspCodeLensSeparator Comment')
 
-vim.cmd("command! LSPCodeAction              lua      vim.lsp.buf.code_action()")
--- vim.cmd("command! LSPCodeAction              Lspsaga code_action")
-vim.cmd("command! LSPDeclaration             lua      vim.lsp.buf.declaration()")
--- vim.cmd("command! LSPDefinition              lua      vim.lsp.buf.definition()")
-vim.cmd("command! LSPDefinition              lua      require('telescope.builtin').lsp_definitions({fname_width=1000})")
--- vim.cmd("command! LSPDocumentSymbol          lua      vim.lsp.buf.document_symbol()")
-vim.cmd(
-    "command! LSPDocumentSymbol          lua      require('telescope.builtin').lsp_document_symbols({fname_width=1000})")
-vim.cmd("command! LSPFormat                  lua      vim.lsp.buf.format()")
-vim.cmd("command! LSPHover                   lua      vim.lsp.buf.hover()")
--- vim.cmd("command! LSPImplementation          lua      vim.lsp.buf.implementation()")
-vim.cmd(
-    "command! LSPImplementation          lua      require('telescope.builtin').lsp_implementations({fname_width=1000})")
--- vim.cmd("command! LSPIncommingCalls          lua      vim.lsp.buf.incoming_calls()")
-vim.cmd(
-    "command! LSPIncommingCalls          lua      require('telescope.builtin').lsp_incoming_calls({fname_width=1000})")
-vim.cmd("command! LSPListWorkspaceFolders    lua      vim.print(vim.lsp.buf.list_workspace_folders())")
--- vim.cmd("command! LSPOutgoingCalls           lua      vim.lsp.buf.outgoing_calls()")
-vim.cmd(
-    "command! LSPOutgoingCalls           lua      require('telescope.builtin').lsp_outgoing_calls({fname_width=1000})")
--- vim.cmd("command! LSPReferences              lua      vim.lsp.buf.references()")
-vim.cmd("command! LSPReferences              lua      require('telescope.builtin').lsp_references({fname_width=1000})")
-vim.cmd("command! LSPRemoveWorkspaceFolder   lua      vim.print(vim.lsp.buf.remove_workspace_folder())")
-vim.cmd("command! LSPRename                  lua      vim.lsp.buf.rename()")
-vim.cmd("command! LSPSignatureHelp           lua      vim.lsp.buf.signature_help()")
--- vim.cmd("command! LSPTypeDefinition          lua      vim.lsp.buf.type_definition()")
-vim.cmd(
-    "command! LSPTypeDefinition          lua      require('telescope.builtin').lsp_type_definitions({fname_width=1000})")
-vim.cmd("command! LSPTypehierarchySubtypes   lua      vim.lsp.buf.typehierarchy('subtypes')")
-vim.cmd("command! LSPTypehierarchySupertypes lua      vim.lsp.buf.typehierarchy('supertypes')")
--- vim.cmd("command! LSPWorkspaceSymbol         lua      vim.lsp.buf.workspace_symbol()")
-vim.cmd(
-    "command! LSPWorkspaceSymbol         lua      require('telescope.builtin').lsp_dynamic_workspace_symbols({fname_width=1000})")
+vim.cmd("com! LSPCodeAction lua vim.lsp.buf.code_action()")
+-- vim.cmd("com! LSPCodeAction Lspsaga code_action")
+vim.cmd("com! LSPDeclaration lua vim.lsp.buf.declaration()")
+-- vim.cmd("com! LSPDefinition lua vim.lsp.buf.definition()")
+vim.cmd("com! LSPDefinition lua require('telescope.builtin').lsp_definitions({fname_width=1000})")
+-- vim.cmd("com! LSPDocumentSymbol lua vim.lsp.buf.document_symbol()")
+vim.cmd("com! LSPDocumentSymbol lua require('telescope.builtin').lsp_document_symbols({fname_width=1000})")
+vim.cmd("com! LSPFormat lua vim.lsp.buf.format()")
+vim.cmd("com! LSPHover lua vim.lsp.buf.hover()")
+-- vim.cmd("com! LSPImplementation lua vim.lsp.buf.implementation()")
+vim.cmd("com! LSPImplementation lua require('telescope.builtin').lsp_implementations({fname_width=1000})")
+-- vim.cmd("com! LSPIncommingCalls lua vim.lsp.buf.incoming_calls()")
+vim.cmd("com! LSPIncommingCalls lua require('telescope.builtin').lsp_incoming_calls({fname_width=1000})")
+vim.cmd("com! LSPListWorkspaceFolders lua vim.print(vim.lsp.buf.list_workspace_folders())")
+-- vim.cmd("com! LSPOutgoingCalls lua vim.lsp.buf.outgoing_calls()")
+vim.cmd("com! LSPOutgoingCalls lua require('telescope.builtin').lsp_outgoing_calls({fname_width=1000})")
+-- vim.cmd("com! LSPReferences lua vim.lsp.buf.references()")
+vim.cmd("com! LSPReferences lua require('telescope.builtin').lsp_references({fname_width=1000})")
+vim.cmd("com! LSPRemoveWorkspaceFolder lua vim.print(vim.lsp.buf.remove_workspace_folder())")
+vim.cmd("com! LSPRename lua vim.lsp.buf.rename()")
+vim.cmd("com! LSPSignatureHelp lua vim.lsp.buf.signature_help()")
+-- vim.cmd("com! LSPTypeDefinition lua vim.lsp.buf.type_definition()")
+vim.cmd("com! LSPTypeDefinition lua require('telescope.builtin').lsp_type_definitions({fname_width=1000})")
+vim.cmd("com! LSPTypehierarchySubtypes lua vim.lsp.buf.typehierarchy('subtypes')")
+vim.cmd("com! LSPTypehierarchySupertypes lua vim.lsp.buf.typehierarchy('supertypes')")
+-- vim.cmd("com! LSPWorkspaceSymbol lua vim.lsp.buf.workspace_symbol()")
+vim.cmd("com! LSPWorkspaceSymbol lua require('telescope.builtin').lsp_dynamic_workspace_symbols({fname_width=1000})")
 
-vim.cmd("command! LSPDiagnostic              lua      require('telescope.builtin').diagnostics()")
+vim.cmd("com! LSPDiagnostic lua require('telescope.builtin').diagnostics()")
 
-vim.cmd("command! LSPOutline                 Lspsaga outline")
-vim.cmd("command! LSPFinder                  Lspsaga finder")
+vim.cmd("com! LSPOutline Lspsaga outline")
+vim.cmd("com! LSPFinder Lspsaga finder")
 vim.cmd("nno <silent> <Leader>ta :<C-u>Lspsaga outline<CR>")
 
 
@@ -496,13 +490,14 @@ require('telescope').setup {
         layout_config = {
             height = 0.95,
             preview_cutoff = 20,
-            -- prompt_position = "top",
+            prompt_position = "top",
             width = 0.95,
-            -- mirror = true,
+            mirror = true,
         },
         wrap_results = true,
         -- winblend = 20,
         dynamic_preview_title = true,
+        sorting_strategy = "ascending",
     },
     extensions = {
         ["fzf"] = {
@@ -551,25 +546,25 @@ require("flatten").setup({
 require("ibl").setup()
 
 require("noice").setup({
-  lsp = {
-    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-    override = {
-      ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-      ["vim.lsp.util.stylize_markdown"] = true,
-      ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+    lsp = {
+        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+        },
+        signature = {
+            enabled = false,
+        }
     },
-    signature = {
-        enabled = false,
-    }
-  },
-  -- you can enable a preset for easier configuration
-  presets = {
-    -- bottom_search = true, -- use a classic bottom cmdline for search
-    command_palette = false, -- position the cmdline and popupmenu together
-    long_message_to_split = true, -- long messages will be sent to a split
-    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-    lsp_doc_border = true, -- add a border to hover docs and signature help
-  },
+    -- you can enable a preset for easier configuration
+    presets = {
+        -- bottom_search = true, -- use a classic bottom cmdline for search
+        command_palette = true,       -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = true,        -- add a border to hover docs and signature help
+    },
 })
 
 require('gitsigns').setup()
