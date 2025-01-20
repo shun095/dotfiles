@@ -233,6 +233,7 @@ Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml', 'phtml']}
 Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
 Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
+Plug 'MeanderingProgrammer/render-markdown.nvim'
 Plug 'dhruvasagar/vim-table-mode', {'for': ['markdown']}
 Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
 Plug 'shinespark/vim-list2tree', {'for': ['markdown']}
@@ -323,6 +324,7 @@ Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpen']}
 Plug 'AndrewRadev/linediff.vim', {'on': ['Linediff']}
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
+" Plug 'nvim-lualine/lualine.nvim'
 Plug 'vim-airline/vim-airline'
 " Plug 'edkolev/tmuxline.vim'
 Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}

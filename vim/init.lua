@@ -587,3 +587,6 @@ ccc.setup({
         lsp = true,
     },
 })
+
+-- require('lualine').setup()
+require('render-markdown').setup({})
