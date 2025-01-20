@@ -411,4 +411,10 @@ vim.cmd('nno <Leader>`        :<C-u>Telescope marks<CR>')
 
 -- require("hlchunk").setup({})
 
-require("flatten").setup()
+---@diagnostic disable-next-line: missing-fields
+require("flatten").setup({
+    window = {
+        open ="smart",
+    }
+})
+
