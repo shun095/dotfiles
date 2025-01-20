@@ -37,9 +37,13 @@ export const main: Entrypoint = (denops: Denops) => {
       const prevTextLengthList = await Promise.all(
         prevTextList.map((prevText) => fn.strdisplaywidth(denops, prevText)),
       );
+
+      const drawer_width = await vars.g.get(denops, "fern#drawer_width");
+      assert(drawer_width, is.Number);
+
       const maxPrevTextLength = Math.max(
         Math.max(...prevTextLengthList) + 1,
-        await vars.g.get(denops, "fern#drawer_width"),
+        drawer_width + 2,
       );
 
       const promises = prevTextList.map((

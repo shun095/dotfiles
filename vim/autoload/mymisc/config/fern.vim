@@ -8,7 +8,7 @@ fun! mymisc#config#fern#setup() abort
   nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p<CR>
   nno <Leader>n :Fern<space>
 
-  let g:fern#drawer_width = 40
+  " let g:fern#drawer_width = 40
   let g:fern#drawer_keep = v:true
   let g:fern#disable_drawer_hover_popup = v:true
 
@@ -43,6 +43,9 @@ fun! mymisc#config#fern#setup() abort
     unmap <silent> <buffer> N
     nmap  <silent> <buffer> n n
     unmap <silent> <buffer> n
+
+    setlocal nonumber
+    setlocal signcolumn=no
   endf
 
   aug vimrc_fern
