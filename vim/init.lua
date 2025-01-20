@@ -369,6 +369,7 @@ require 'treesitter-context'.setup {
 
 vim.cmd('hi TreesitterContextBottom gui=underline term=underline cterm=underline')
 vim.cmd('hi TreesitterContextLineNumberBottom gui=underline term=underline cterm=underline')
+vim.cmd('set scrolloff=10')
 
 
 require("nvim-autopairs").setup {}
@@ -388,12 +389,14 @@ require('telescope').setup {
                 ["<C-b>"] = actions.preview_scrolling_up,
                 ["<C-c>"] = { "<esc>", type = "command" },
                 ["<esc>"] = actions.close,
+                ["<C-g>"] = actions.close,
             },
             n = {
                 ["<C-d>"] = actions.preview_scrolling_down,
                 ["<C-f>"] = actions.preview_scrolling_down,
                 ["<C-b>"] = actions.preview_scrolling_up,
                 ["<C-u>"] = actions.preview_scrolling_up,
+                ["<C-g>"] = actions.close,
             }
         },
         layout_strategy = 'vertical',

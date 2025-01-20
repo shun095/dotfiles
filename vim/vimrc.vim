@@ -301,7 +301,7 @@ try
   " }}}
 
   let g:mymisc_files_is_available = v:false " (executable('files') ? v:true : v:false)
-  let g:mymisc_rg_is_available = v:false " (executable('rg') ? v:true : v:false)
+  let g:mymisc_rg_is_available = (executable('rg') ? v:true : v:false)
   let g:mymisc_pt_is_available = v:false " (executable('pt') ? v:true : v:false)
   let g:mymisc_ag_is_available = v:false " (executable('ag') ? v:true : v:false)
   let g:mymisc_fcitx_is_available = (executable('fcitx-remote') ? v:true : v:false)
@@ -498,7 +498,7 @@ try
   no! <C-f> <Right>
   no! <C-b> <Left>
 
-  no! <C-g><C-g> <ESC>
+  " no! <C-g><C-g> <ESC>
 
   cno <C-o> <C-a>
   cno <C-p> <up>
