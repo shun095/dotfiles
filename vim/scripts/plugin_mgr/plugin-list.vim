@@ -348,6 +348,9 @@ Plug 'freitass/todo.txt-vim'
 if has('vimscript-3')
   Plug 'kyoh86/vim-editerm'
 endif
+if has('nvim')
+  Plug 'willothy/flatten.nvim'
+endif
 " Non lazy load for QuickRun with pandoc
 Plug 'thinca/vim-quickrun'
 " Plug 'lambdalisue/suda.vim'

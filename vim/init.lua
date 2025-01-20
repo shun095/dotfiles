@@ -410,3 +410,5 @@ vim.cmd('nno <Leader>u        :<C-u>Telescope oldfiles<CR>')
 vim.cmd('nno <Leader>`        :<C-u>Telescope marks<CR>')
 
 -- require("hlchunk").setup({})
+
+require("flatten").setup()
