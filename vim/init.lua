@@ -129,7 +129,6 @@ vim.cmd("command! LSPDeclaration             lua      vim.lsp.buf.declaration()"
 vim.cmd("command! LSPDefinition              lua      require('telescope.builtin').lsp_definitions()")
 -- vim.cmd("command! LSPDocumentSymbol          lua      vim.lsp.buf.document_symbol()")
 vim.cmd("command! LSPDocumentSymbol          lua      require('telescope.builtin').lsp_document_symbols()")
-vim.cmd("command! LSPDynamicWorkspaceSymbol  lua      require('telescope.builtin').lsp_dynamic_workspace_symbols()")
 vim.cmd("command! LSPFormat                  lua      vim.lsp.buf.format()")
 vim.cmd("command! LSPHover                   lua      vim.lsp.buf.hover()")
 -- vim.cmd("command! LSPImplementation          lua      vim.lsp.buf.implementation()")
@@ -149,7 +148,7 @@ vim.cmd("command! LSPTypeDefinition          lua      require('telescope.builtin
 vim.cmd("command! LSPTypehierarchySubtypes   lua      vim.lsp.buf.typehierarchy('subtypes')")
 vim.cmd("command! LSPTypehierarchySupertypes lua      vim.lsp.buf.typehierarchy('supertypes')")
 -- vim.cmd("command! LSPWorkspaceSymbol         lua      vim.lsp.buf.workspace_symbol()")
-vim.cmd("command! LSPWorkspaceSymbol         lua      require('telescope.builtin').lsp_workspace_symbols()")
+vim.cmd("command! LSPWorkspaceSymbol         lua      require('telescope.builtin').lsp_dynamic_workspace_symbols()")
 
 vim.cmd("augroup init_lua")
 vim.cmd("autocmd!")
