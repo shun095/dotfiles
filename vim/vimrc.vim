@@ -1,17 +1,12 @@
 ﻿" vim:set foldmethod=marker:
-" INITIALIZE {{{
-
 if !1 | finish | en
 
 scriptencoding utf-8
 
-let g:true = 1
-let g:false = 0
-
 let g:msgs_on_startup = []
 
 try
-
+  " INITIALIZE {{{
   se encoding=utf-8
   se spelllang=en_us
 
@@ -20,10 +15,10 @@ try
   en
 
   if !exists('g:use_plugins')
-    let g:use_plugins = g:true
+    let g:use_plugins = v:true
   en
   if !exists('g:is_test')
-    let g:is_test = g:false
+    let g:is_test = v:false
   en
 
   let $MYVIMHOME = $MYDOTFILES . '/vim'
@@ -42,15 +37,20 @@ try
     endif
   endif
 
+  if has('nvim')
+    " neovimはneovimのpyenvを作ってそれを使う想定。
+    let g:python3_host_prog = system('(type pyenv &>/dev/null && echo -n "$(pyenv root)/versions/neovim/bin/python") || echo -n $(which python3)')
+  endif
+
   " Force to use python3
   if has("python3")
-    let g:myvimrc_has_python3 = g:true
+    let g:myvimrc_has_python3 = v:true
     if has("python2")
       " python2よりもpython3を優先して読み込むhack
       py3 pass
     en
   else
-    let g:myvimrc_has_python3 = g:false
+    let g:myvimrc_has_python3 = v:false
   en
 
   if has("pythonx")
@@ -100,6 +100,10 @@ try
       en
       let &t_SI = '[5 q'
       let &t_EI = '[2 q'
+      let &t_fe = "\<Esc>[?1004h"
+      let &t_fd = "\<Esc>[?1004l"
+      execute "set <FocusGained>=\<Esc>[I"
+      execute "set <FocusLost>=\<Esc>[O"
     else
       if has('win32')
         if has('vcon')
@@ -157,7 +161,7 @@ try
   se expandtab                                                                " Expand tabs to spaces
   se autoindent                                                               " Enable auto indenting
   se list                                                                     " Show invisible characters
-  se listchars=tab:>\ ,trail:-,eol:⏎,extends:>,precedes:<                     " How invisible characters will be shown
+  se listchars=tab:→\ ,space:･,eol:↵,extends:>,precedes:<                     " How invisible characters will be shown
   se nofixendofline
   se synmaxcol=500
   se wildmenu                                                                 " Enable completion for s
@@ -165,7 +169,11 @@ try
   if has('patch-8.2.4325')
     se wildoptions=pum                                                        " cmdline-completionの時にポップアップを表示
   endif
-  se laststatus=2                                                             " Enable status line
+  if has('nvim')
+    se laststatus=3
+  else
+    se laststatus=2                                                             " Enable status line
+  endif
   se display=lastline                                                         " 一行が長い場合でも@にせずちゃんと表示
   se showcmd                                                                  " 入力中のコマンドを右下に表示
   se cmdheight=2                                                              " コマンドラインの高さ
@@ -180,6 +188,7 @@ try
   endif
   se number                                                                   " 行番号表示
   se norelativenumber
+  se signcolumn=yes                                                           " Gutter行を常に表示
   se hlsearch                                                                 " 文字列検索時にハイライトする
   se incsearch                                                                " 文字入力中に検索を開始
   se ruler                                                                    " Show line number of right bottom
@@ -255,7 +264,7 @@ try
   let &statusline.="\uE0B8 "
   let &statusline.='%='
   let &statusline.='%{Myvimrc_statusline_tagbar()}'
-  let &statusline.="\uE0BA "
+  let &statusline.="\uE0BA"
   let &statusline.='%2*'
   let &statusline.=' %{Myvimrc_statusline_git()}'
   let &statusline.='%4*'
@@ -291,11 +300,11 @@ try
   endf
   " }}}
 
-  let g:mymisc_files_is_available = g:false " (executable('files') ? g:true : g:false)
-  let g:mymisc_rg_is_available = g:false " (executable('rg') ? g:true : g:false)
-  let g:mymisc_pt_is_available = g:false " (executable('pt') ? g:true : g:false)
-  let g:mymisc_ag_is_available = g:false " (executable('ag') ? g:true : g:false)
-  let g:mymisc_fcitx_is_available = (executable('fcitx-remote') ? g:true : g:false)
+  let g:mymisc_files_is_available = v:false " (executable('files') ? v:true : v:false)
+  let g:mymisc_rg_is_available = v:false " (executable('rg') ? v:true : v:false)
+  let g:mymisc_pt_is_available = v:false " (executable('pt') ? v:true : v:false)
+  let g:mymisc_ag_is_available = v:false " (executable('ag') ? v:true : v:false)
+  let g:mymisc_fcitx_is_available = (executable('fcitx-remote') ? v:true : v:false)
 
   let s:exclude_dirs = '{.bzr,CVS,.git,.hg,.svn}'
   let s:excludes = '{tags,}'
@@ -353,9 +362,10 @@ try
   nn <C-Tab> gt
   nn <C-S-Tab> gT
 
-  " Clear highlighting on escape in normal mode
-  nn <ESC><ESC> :noh<CR><ESC>
-  nn <ESC>^[ <ESC>^[
+  " " Clear highlighting on escape in normal mode
+  " " disable because it conflicts telescope normal <ESC> mapping
+  " nn <ESC><ESC> :noh<CR><ESC>
+  " nn <ESC>^[ <ESC>^[
 
   " nn Y v$hy
 
@@ -436,7 +446,7 @@ try
       "   " 無事認識後元の状態に戻すことでfast_esc()のバインドの反応も早くする
       "   iu <ESC>
       "   let s:old_tlen = &timeoutlen
-      "   se timeoutlen=50
+      "   se timeoutlen=10
 
       "   cno <ESC>n <Down>
       "   cno <ESC>p <Up>
@@ -451,7 +461,7 @@ try
       "   ino <ESC> <C-w>
 
       "   cal feedkeys("\<ESC>", 'i')
-      "   cal timer_start(100, 'Myvimrc_fast_esc_unmap', {'repeat':1})
+      "   cal timer_start(20, 'Myvimrc_fast_esc_unmap', {'repeat':1})
       "   retu ''
       " endf
 
@@ -597,9 +607,15 @@ try
   com! Ghq cal mymisc#fzf('ghq list -p', 'cd')
   com! Fhq cal mymisc#fzf('ghq list -p', 'cd')
   if executable('tig')
-    com! Tig cal mymisc#command_at_destdir(
-          \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
-          \ [":tabe | :terminal ++curwin ++close tig"])
+    if has('nvim')
+      com! Tig cal mymisc#command_at_destdir(
+            \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
+            \ [":tabe | call feedkeys('i') | :terminal tig"])
+    el
+      com! Tig cal mymisc#command_at_destdir(
+            \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
+            \ [":tabe | :terminal ++curwin ++close tig"])
+    en
   en
   com! Todo exe 'drop ' . get(g:,'memolist_path',$HOME . '/memo') . '/todo.txt'
 
@@ -884,6 +900,7 @@ try
     au FileType help let &l:iskeyword = '!-~,^*,^|,^",' . &iskeyword
 
     au InsertLeave * cal mymisc#ime_deactivate()
+    au FocusGained * cal mymisc#ime_deactivate()
     " au VimEnter * cal mymisc#git_auto_updating()
     " au VimEnter * cal s:transparent()
 
@@ -934,9 +951,8 @@ try
   cal g:plugin_mgr['load']()
 
   " }}} PLUGIN MANAGER SETUP END
-  "
-  if g:plugin_mgr['enabled'] == g:true
 
+  if g:plugin_mgr['enabled'] == v:true
     " WHEN PLUGINS ARE ENABLED {{{
 
     " Local settings
@@ -976,6 +992,9 @@ try
       se background=dark
       if has('gui_running') || exists('&t_Co') && &t_Co >= 256
         colorscheme iceberg
+        if has('nvim')
+          highlight! link WinSeparator VertSplit
+        endif
       else
         colorscheme default
         if !has('gui_running')
@@ -997,9 +1016,7 @@ try
 
     " hi! Terminal ctermbg=black guibg=black
     " }}} WHEN PLUGINS ARE ENABLED END
-
   else
-
     " WHEN PLUGINS ARE DISABLED {{{
     filetype plugin indent on
     syntax enable
@@ -1009,7 +1026,6 @@ try
       se background=dark
     en
     " }}} WHEN PLUGINS ARE DISABLED END
-
   en
 
   " Let default pwd to $HOME on Windows
@@ -1017,6 +1033,7 @@ try
     cd $HOME
   en
 catch
+  " HANDLE ERROR {{{
   cal add(g:msgs_on_startup, 'Error in vimrc!')
   cal add(g:msgs_on_startup, 'Caught "' . v:exception . '" in ' . v:throwpoint)
   if g:is_test
@@ -1029,7 +1046,9 @@ catch
     endfo
     cq!
   en
+  " }}}
 fina
+  " HANDLE ERROR {{{
   aug VIMRC
     for s:msg in g:msgs_on_startup
       " mymisc#utilが読み込まれないこともあるためここで定義
@@ -1038,4 +1057,5 @@ fina
       exe "au VimEnter * echohl none"
     endfo
   aug END
+  " }}}
 endt

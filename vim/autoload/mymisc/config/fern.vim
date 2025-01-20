@@ -9,8 +9,8 @@ fun! mymisc#config#fern#setup() abort
   nno <Leader>n :Fern<space>
 
   let g:fern#drawer_width = 40
-  let g:fern#drawer_keep = g:true
-  let g:fern#disable_drawer_hover_popup = g:true
+  let g:fern#drawer_keep = v:true
+  let g:fern#disable_drawer_hover_popup = v:true
 
   fun! s:init_fern() abort
     " Write custom code here
@@ -117,7 +117,7 @@ fun! mymisc#config#fern#setup() abort
   fun! s:render_nodes_denops(prev_text_list, nodes, resolve, reject)
     " echom "s:render_nodes_denops start
     try
-      cal denops#request_async('denops-mymisc', 'getRenderStrings', [a:prev_text_list, a:nodes],
+      cal denops#request_async('fern-custom-renderer', 'getRenderStrings', [a:prev_text_list, a:nodes],
             \ { v -> s:success(a:resolve, v)},
             \ { e -> s:failure(a:reject, a:prev_text_list, e)}
             \)

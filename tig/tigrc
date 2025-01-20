@@ -18,8 +18,8 @@ set diff-view   = line-number:yes,interval=1 text:yes,commit-title-overflow=no
 # set vertical-split = no
 
 # utf-8 文字で画面描画する (~でトグル)
-# set line-graphics = utf-8
-set line-graphics = ascii
+set line-graphics = utf-8
+# set line-graphics = ascii
 
 # タブサイズ
 set tab-size = 4
@@ -40,13 +40,9 @@ set editor-line-number = yes
 set refresh-mode = auto
 
 # カラー設定
-# diff-view で境界が見やすくなるように変更
-color diff-header black white
-color diff-chunk  black white
-
-color cursor      black yellow
-color title-blur  black white
-color title-focus black green
+color cursor      black green
+color title-blur  black blue bold
+color title-focus black blue bold
 
 
 ##### Mappings #####

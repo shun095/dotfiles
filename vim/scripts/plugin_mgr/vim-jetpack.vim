@@ -31,7 +31,7 @@ fun! g:plugin_mgr.install_plugins() abort
 endf
 
 fun! g:plugin_mgr.install() abort
-  let succeeded = g:false
+  let succeeded = v:false
 
   if has('nvim')
     call system(printf('curl -fLo %s/.local/share/nvim/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim', substitute($HOME,'\','/','g')))
@@ -40,7 +40,7 @@ fun! g:plugin_mgr.install() abort
   endif
 
   if v:shell_error == 0
-    let succeeded = g:true
+    let succeeded = v:true
     echomsg "vim-jetpack installed."
   else
     echoerr "vim-jetpack couldn't be installed correctly."
@@ -53,10 +53,10 @@ fun! g:plugin_mgr.load() abort
 
   if !filereadable(self['manager_dir'] . '/jetpack.vim')
     echomsg string(self['manager_dir'] . '/jetpack.vim')
-    let self['enabled'] = g:false
+    let self['enabled'] = v:false
     if self['install']()
       exe 'source ' . self['manager_dir'] . '/jetpack.vim'
-      let self['enabled'] = g:true
+      let self['enabled'] = v:true
       let self['init_state'] = "installing"
     endif
   else

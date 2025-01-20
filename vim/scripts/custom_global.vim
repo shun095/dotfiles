@@ -10,7 +10,7 @@ aug vimrc_custom_global
     au VimEnter * call lexima#init()
   en
 
-  if !mymisc#startup#plug_tap('coc.nvim')
+  if !(mymisc#startup#plug_tap('coc.nvim') || mymisc#startup#plug_tap('nvim-cmp'))
     au InsertEnter * imap <silent><expr> <CR> <SID>my_cr_main()
     au InsertEnter * imap <silent><expr> <TAB> <SID>my_tab_main()
     au InsertEnter * imap <silent><expr> <C-e> <SID>my_ctrle_main()

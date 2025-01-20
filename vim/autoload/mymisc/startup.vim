@@ -11,6 +11,6 @@ fun! mymisc#startup#plug_tap(name) abort
   elseif exists(':Plug')
     return has_key(g:plugs,a:name)
   else
-    return g:false
+    return v:false
   endif
 endf

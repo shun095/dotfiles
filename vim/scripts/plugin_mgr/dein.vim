@@ -15,7 +15,7 @@ let g:plugin_mgr = {
       \}
 
 function! g:plugin_mgr.install() abort
-  let succeeded = g:false
+  let succeeded = v:false
 
   let diag_message = 'Dein is not installed yet.Install now?'
   let install_confirm = confirm(diag_message,"&yes\n&no",2)
@@ -25,7 +25,7 @@ function! g:plugin_mgr.install() abort
     exe printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', '"' . self.manager_dir . '"')
     " インストールが完了したらフラグを立てる
     if v:shell_error == 0
-      let succeeded = g:true
+      let succeeded = v:true
     else
       echoerr "Dein couldn't be installed correctly."
     endif
@@ -36,11 +36,11 @@ endfun
 
 function! g:plugin_mgr.load() abort
   " Confirm whether or not install dein if not exists
-  if !isdirectory(self.manager_dir) && self.enabled == g:true
+  if !isdirectory(self.manager_dir) && self.enabled == v:true
     " deinがインストールされてない場合そのままではプラグインは使わない
-    let self.enabled = g:false
+    let self.enabled = v:false
     if self.install()
-      let self.enabled = g:true
+      let self.enabled = v:true
     endif
   endif
 endf

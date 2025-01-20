@@ -41,19 +41,24 @@ fun! mymisc#config#fzf#setup() abort
         \ call fzf#vim#grep(
         \   'git grep --line-number '.shellescape(<q-args>), 0,
         \   extend({ 'dir': systemlist('git rev-parse --show-toplevel')[0] },
-        \          <bang>0 ? fzf#vim#with_preview('up:60%') 
+        \          <bang>0 ? fzf#vim#with_preview('up:60%')
         \                  : fzf#vim#with_preview('right:50%:hidden', '?')),
         \   <bang>0)
 
   exe "com! Dotfiles :FZF " . $MYDOTFILES
-  " popup windowは行番号が消えたり、GGrepに失敗(Gitリポジトリ外で実行するなど)
+  " vimのpopup windowは行番号が消えたり、GGrepに失敗(Gitリポジトリ外で実行するなど)
   " した場合に表示が壊れたり不安定
   " let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.9 }}
-  let g:fzf_layout = { 'window': 'botright 20new' }
+  if exists('$TMUX')
+    let g:fzf_layout = { 'tmux': 'bottom,50%' }
+  else
+    let g:fzf_layout = { 'window': 'botright 20new' }
+  endif
 
-  " aug vimrc_fzf
-  "   au!
-  "   au  FileType fzf set laststatus=0 noshowmode noruler
-  "         \| au BufLeave <buffer> set laststatus=2 showmode ruler
-  " aug END
+  if has('nvim')
+    aug vimrc_fzf
+      au!
+      au FileType fzf IndentLinesDisable
+    aug END
+  endif
 endf

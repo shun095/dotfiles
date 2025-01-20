@@ -18,13 +18,13 @@ export const main: Entrypoint = (denops: Denops) => {
     async init() {
       const { name } = denops;
       await denops.cmd(
-        `command! -nargs=? DenopsMymisc echomsg denops#request('${name}', 'hello', [<q-args>])`,
+        `command! -nargs=? FernCustomRenderer echomsg denops#request('${name}', 'hello', [<q-args>])`,
       );
-    },
+   },
 
     hello(name) {
       assert(name, is.String);
-      return `Hello Mymisc, ${name || "Denops"}!`;
+      return `Fern Custom Renderer Enabled!: ${name || "Denops"}`;
     },
 
     async getRenderStrings(

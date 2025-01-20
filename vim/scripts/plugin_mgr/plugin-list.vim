@@ -3,9 +3,9 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 if g:myvimrc_has_python3
-  let s:has_python3 = g:true
+  let s:has_python3 = v:true
 else
-  let s:has_python3 = g:false
+  let s:has_python3 = v:false
 endif
 
 let g:terminal_ansi_colors = [
@@ -38,14 +38,17 @@ Plug 'cocopon/iceberg.vim'
 " }}}
 
 " === Snippets, templates === {{{
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
+if !has('nvim')
+  Plug 'Shougo/neosnippet.vim'
+  Plug 'Shougo/neosnippet-snippets'
+endif
+
 if s:has_python3
   Plug 'SirVer/ultisnips'
 endif
 Plug 'honza/vim-snippets'
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
+" Plug 'hrsh7th/vim-vsnip'
+" Plug 'hrsh7th/vim-vsnip-integ'
 
 Plug 'mattn/sonictemplate-vim'
 " Plug 'aperezdc/vim-template'
@@ -72,42 +75,82 @@ Plug 'mattn/sonictemplate-vim'
 "   Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 " endif
 
-" --- asyncomplete ---
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-if s:has_python3
-  Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-endif
-" Disabled because when I insert '//' on Windows, vim freezes.
-" Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
-Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-match'}
-" Plug 'prabirshrestha/asyncomplete-necovim.vim'
-" Plug 'shun095/asyncomplete-omni.vim'
-" Plug 'shun095/asyncomplete-tsuquyomi.vim'
-
-" --- ddc ---
-" Plug 'Shougo/ddc.vim'
-" Plug 'Shougo/ddc-ui-native'
-" Plug 'LumaKernel/ddc-source-file'
-" Plug 'shun095/ddc-source-vim-lsp', {'branch': 'fix/fix-completion-offset'}
-" Plug 'Shougo/ddc-source-around'
-" Plug 'matsui54/ddc-ultisnips'
-" " Plug 'tani/ddc-fuzzy'
-" Plug 'Shougo/ddc-matcher_head'
-" Plug 'Shougo/ddc-sorter_rank'
-" Plug 'uga-rosa/ddc-source-vsnip'
-
-" --- vim-lsp ---
-Plug 'prabirshrestha/vim-lsp'
-" Plug 'shun095/vim-lsp', {'branch': 'javaApplyWorkspace'}
-Plug 'mattn/vim-lsp-settings'
-if s:has_python3
-  Plug 'thomasfaingnaert/vim-lsp-snippets'
-  Plug 'thomasfaingnaert/vim-lsp-ultisnips'
-endif
 if !has('nvim')
-    Plug 'rhysd/vim-healthcheck'
+  " --- asyncomplete ---
+  Plug 'prabirshrestha/asyncomplete.vim'
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  if s:has_python3
+    Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+  endif
+  " Disabled because when I insert '//' on Windows, vim freezes.
+  " Plug 'prabirshrestha/asyncomplete-file.vim'
+  Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
+  Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-match'}
+  " Plug 'prabirshrestha/asyncomplete-necovim.vim'
+  " Plug 'shun095/asyncomplete-omni.vim'
+  " Plug 'shun095/asyncomplete-tsuquyomi.vim'
+
+  " --- ddc ---
+  " Plug 'Shougo/ddc.vim'
+  " Plug 'Shougo/ddc-ui-native'
+  " Plug 'LumaKernel/ddc-source-file'
+  " Plug 'shun095/ddc-source-vim-lsp', {'branch': 'fix/fix-completion-offset'}
+  " Plug 'Shougo/ddc-source-around'
+  " Plug 'matsui54/ddc-ultisnips'
+  " " Plug 'tani/ddc-fuzzy'
+  " Plug 'Shougo/ddc-matcher_head'
+  " Plug 'Shougo/ddc-sorter_rank'
+  " Plug 'uga-rosa/ddc-source-vsnip'
+
+  " --- vim-lsp ---
+  Plug 'prabirshrestha/vim-lsp'
+  " Plug 'shun095/vim-lsp', {'branch': 'javaApplyWorkspace'}
+  Plug 'mattn/vim-lsp-settings'
+  if s:has_python3
+    Plug 'thomasfaingnaert/vim-lsp-snippets'
+    Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+  endif
+  Plug 'rhysd/vim-healthcheck'
+else
+  " -- nvim native lsp ---
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'jay-babu/mason-null-ls.nvim'
+  Plug 'nvimtools/none-ls.nvim'
+  Plug 'MysticalDevil/inlay-hints.nvim'
+  Plug 'folke/neoconf.nvim'
+
+  Plug 'nvimdev/lspsaga.nvim'
+  " Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
+  " Plug 'ray-x/navigator.lua'
+
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'dmitmel/cmp-cmdline-history'
+  " Plug 'hrsh7th/cmp-vsnip'
+  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+  Plug 'onsails/lspkind.nvim'
+
+  " Plug 'L3Mon4D3/LuaSnip'
+  " Plug 'rafamadriz/friendly-snippets'
+  " Plug 'saadparwaiz1/cmp_luasnip'
+
+  " Plug 'karb94/neoscroll.nvim'
+  " Plug 'folke/trouble.nvim'
+  " Plug 'folke/noice.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+  " if executable('cmake')
+  "   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
+  " elseif executable('make')
+  "   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+  " endif
+  Plug 'nvim-tree/nvim-web-devicons'
+  " Plug 'vim-fall/fall.vim'
 endif
 
 " --- coc.nvim ---
@@ -165,6 +208,9 @@ Plug 'scrooloose/nerdcommenter'
 " Plug 'Raimondi/delimitMate'
 " Plug 'cohama/lexima.vim'
 " Plug 'higashi000/dps-kakkonan'
+if has('nvim')
+  Plug 'windwp/nvim-autopairs'
+endif
 " }}}
 
 " === Language/environment specific plugins === {{{
@@ -179,6 +225,7 @@ Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
 Plug 'dhruvasagar/vim-table-mode', {'for': ['markdown']}
 Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
+Plug 'shinespark/vim-list2tree', {'for': ['markdown']}
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'jceb/vim-orgmode', {'for': ['org']}
 Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
@@ -207,6 +254,9 @@ Plug 'cespare/vim-toml', {'for': ['toml']}
 Plug 'leafgarland/typescript-vim', {'for': ['typescript']}
 Plug 'vim-jp/syntax-vim-ex', {'for': ['vim']}
 Plug 'posva/vim-vue', {'for': ['vue']}
+if has('nvim')
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+endif
 " }}}
 
 " === General purpose viewers/indicators {{{
@@ -214,7 +264,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 "/ ,{'on':['CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark','CtrlP','CtrlPTag','CtrlPLine','CtrlPBuffer','CtrlPCurWD','CtrlP','CtrlPLine','CtrlPBufTag','CtrlPRegister','CtrlPOldFiles','CtrlPMark']}
 Plug 'mattn/ctrlp-register'
 Plug 'mattn/ctrlp-mark'
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf' }
 
 if exists('*matchfuzzy')
@@ -263,6 +313,7 @@ Plug 'AndrewRadev/linediff.vim', {'on': ['Linediff']}
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 Plug 'vim-airline/vim-airline'
+" Plug 'edkolev/tmuxline.vim'
 Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
 " Plug 'junegunn/rainbow_parentheses.vim'
 " Plug 'kien/rainbow_parentheses.vim'
@@ -327,7 +378,7 @@ Plug 'vim-jp/vital.vim'
 Plug 'lambdalisue/vital-Whisky'
 
 Plug 'dstein64/vim-startuptime'
-Plug 'vim-skk/skkeleton'
+" Plug 'vim-skk/skkeleton'
 
 Plug 'shun095/revimses'
 

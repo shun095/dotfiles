@@ -56,7 +56,7 @@ fun! mymisc#git_auto_updating() abort
   if !exists('g:called_mygit_func')
     let s:save_cd = getcwd()
     exe 'cd ' . $MYDOTFILES
-    let s:git_newer_exists = g:true
+    let s:git_newer_exists = v:true
     let s:git_qflist = []
 
     echo 'Checking dotfiles repository...'
@@ -96,14 +96,14 @@ fun! mymisc#git_callback(ch, msg) abort
   call add(s:git_qflist, {'text':a:msg})
 
   if match(a:msg,'Already up') == 0
-    let s:git_newer_exists = g:false
+    let s:git_newer_exists = v:false
     echo 'dotfiles are up-to-date.'
     return
   endif
 
   if match(a:msg,'fatal: unable to access') == 0 ||
         \ match(a:msg, 'fatal: Could not read from remote repository.') == 0
-    let s:git_newer_exists = g:false
+    let s:git_newer_exists = v:false
     call mymisc#util#log_warn('Couldn''t connect to github.')
     return
   endif
@@ -116,7 +116,7 @@ fun! mymisc#git_end_callback(ch, msg) abort
   endif
 
   call setqflist(s:git_qflist)
-  if s:git_newer_exists == g:true
+  if s:git_newer_exists == v:true
     call mymisc#util#log_warn('New vimrc was downloaded. Please restart to use it!!')
     cope
     if has('gui_running') && exists(":Restart")

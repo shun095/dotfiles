@@ -75,7 +75,6 @@ en
 
 if mymisc#startup#plug_tap('previm')
   let g:previm_enable_realtime = 1
-  " let g:previm_custom_css_path =
   let g:previm_disable_default_css = 1
   let g:previm_custom_css_path = $MYDOTFILES . "/third-party/github-markdown.css"
   let g:previm_show_header = 0
@@ -198,7 +197,7 @@ if mymisc#startup#plug_tap('calendar.vim')
 en
 
 if mymisc#startup#plug_tap('autofmt')
-  set formatexpr=autofmt#japanese#formatexpr()
+  " set formatexpr=autofmt#japanese#formatexpr()
 en
 
 if mymisc#startup#plug_tap('vimfiler.vim')
@@ -406,6 +405,7 @@ en
 
 if mymisc#startup#plug_tap('indentLine')
   " let g:indentLine_showFirstIndentLevel=1
+  let g:indentLine_char = '│'
 en
 
 if mymisc#startup#plug_tap('vim-autoformat')

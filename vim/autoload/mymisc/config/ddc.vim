@@ -18,7 +18,7 @@ fun! mymisc#config#ddc#setup() abort
         \     'matchers': ['matcher_head'],
         \     'sorters': ['sorter_rank'],
         \     'minAutoCompleteLength': 1,
-        \     'dup': g:true
+        \     'dup': v:true
         \   },
         \   'around': {
         \     'mark': 'around',

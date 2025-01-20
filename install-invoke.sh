@@ -41,10 +41,10 @@ VINTRC="$HOME/.vintrc.yml"
 EMACSINIT="$HOME/.spacemacs"
 TIGRC="$HOME/.tigrc"
 if [[ $OSTYPE == 'msys' ]]; then
-    NVIMRC="$USERPROFILE/AppData/Local/nvim/init.vim"
+    NVIMRC="$USERPROFILE/AppData/Local/nvim/init.lua"
     GNVIMRC="$USERPROFILE/AppData/Local/nvim/ginit.vim"
 else
-    NVIMRC="$HOME/.config/nvim/init.vim"
+    NVIMRC="$HOME/.config/nvim/init.lua"
     GNVIMRC="$HOME/.config/nvim/ginit.vim"
 fi
 
@@ -61,7 +61,7 @@ SYMTARGET=(
     "${MYDOTFILES}/python/lint/flake8"
     "${MYDOTFILES}/python/lint/vintrc.yml"
     "${MYDOTFILES}/emacs/spacemacs"
-    "${MYDOTFILES}/vim/vimrc.vim"
+    "${MYDOTFILES}/vim/init.lua"
     "${MYDOTFILES}/vim/ginit.vim"
     "${MYDOTFILES}/tig/tigrc"
 )

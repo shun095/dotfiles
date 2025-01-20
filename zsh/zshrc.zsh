@@ -63,10 +63,14 @@ _zshrc_get_fzf_preview_cmd() {
     # local fzf_color="--color fg:-1,bg:-1,hl:1,fg+:-1,bg+:-1,hl+:1,info:3,prompt:2,spinner:5,pointer:4,marker:5"
     echo $previewcmd
 }
-export FZF_DEFAULT_OPTS="--height 80% "
+if [[ $TMUX = "" ]]; then
+    export FZF_DEFAULT_OPTS="--height 80%"
+else
+    export FZF_DEFAULT_OPTS="--tmux bottom,50%"
+fi
 export FZF_CTRL_R_OPTS="--reverse"
-export FZF_CTRL_T_OPTS="--preview '$(_zshrc_get_fzf_preview_cmd)' --preview-window=right:50% --bind=?:toggle-preview"
-export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target --preview 'tree -C {}' --preview-window=right:50% --bind=?:toggle-preview"
+export FZF_CTRL_T_OPTS="--preview '$(_zshrc_get_fzf_preview_cmd)' --preview-window=right:50%"
+export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target --preview 'tree -C {}' --preview-window=right:50%"
 
 # Should be called before source ohmyzshrc for faster boot
 _zshrc_custom_tmux(){

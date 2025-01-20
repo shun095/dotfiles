@@ -13,7 +13,7 @@ endif
 let g:plugin_mgr = {
       \ 'plugin_dir': escape(substitute($MYVIMRUNTIME . '/plugged','\','/','g'),' '),
       \ 'manager_dir': escape(substitute($MYVIMRUNTIME . '/autoload','\','/','g'),' '),
-      \ 'enabled': false,
+      \ 'enabled': v:false,
       \ 'init_state': "none"
       \}
 
@@ -22,12 +22,12 @@ fun! g:plugin_mgr.install_plugins() abort
 endf
 
 fun! g:plugin_mgr.install() abort
-  let succeeded = g:false
+  let succeeded = v:false
 
   cal system(printf('curl -fLo "%s/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim',substitute($MYVIMRUNTIME,'\','/','g')))
 
   if v:shell_error == 0
-    let succeeded = g:true
+    let succeeded = v:true
   else
     echoerr "vim-plug couldn't be installed correctly."
   endif
@@ -37,10 +37,10 @@ endf
 
 fun! g:plugin_mgr.load() abort
   if !filereadable(self['manager_dir'] . '/plug.vim')
-    let self['enabled'] = g:false
+    let self['enabled'] = v:false
     if self['install']()
       exe 'source ' . self['manager_dir'] . '/plug.vim'
-      let self['enabled'] = g:true
+      let self['enabled'] = v:true
       let self['init_state'] = "installing"
     endif
   else

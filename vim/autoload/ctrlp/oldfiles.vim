@@ -14,7 +14,7 @@
 
 " Init {{{1
 if ( exists('g:loaded_ctrlp_oldfiles') && g:loaded_ctrlp_oldfiles )
-	\ || !has('viminfo')
+	\ || !exists('v:oldfiles')
 	fini
 en
 let g:loaded_ctrlp_oldfiles = 1
