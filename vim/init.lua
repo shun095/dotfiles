@@ -108,6 +108,11 @@ require("lspconfig").denols.setup {
 ---@diagnostic disable-next-line: undefined-field
 require("lspconfig").jdtls.setup {
     settings = {
+        redhat = {
+            telemetry = {
+                enabled = false
+            }
+        },
         java = {
             inlayHints = {
                 parameterNames = {
