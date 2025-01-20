@@ -129,6 +129,11 @@ else
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-path'
   Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/cmp-calc'
+  Plug 'hrsh7th/cmp-emoji'
+  Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
+  Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+  Plug 'hrsh7th/cmp-omni'
   Plug 'hrsh7th/nvim-cmp'
   Plug 'dmitmel/cmp-cmdline-history'
   Plug 'teramako/cmp-cmdline-prompt.nvim'
@@ -145,11 +150,12 @@ else
   " Plug 'folke/noice.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
-  " if executable('cmake')
-  "   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
-  " elseif executable('make')
-  "   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-  " endif
+  if executable('cmake')
+    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
+  elseif executable('make')
+    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+  endif
+  Plug 'nvim-telescope/telescope-ui-select.nvim'
   Plug 'nvim-tree/nvim-web-devicons'
   " Plug 'vim-fall/fall.vim'
 endif
@@ -328,9 +334,9 @@ endif
 " Plug 'nathanaelkane/vim-indent-guides'
 
 " Git plugins
-" Plug 'lambdalisue/gina.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
+Plug 'lambdalisue/gina.vim'
+" Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
 " Plug 'iberianpig/tig-explorer.vim'

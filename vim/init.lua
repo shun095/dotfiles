@@ -148,37 +148,46 @@ vim.cmd('highlight! link LspCodeLens Comment')
 vim.cmd('highlight! link LspCodeLensSeparator Comment')
 
 vim.cmd("command! LSPCodeAction              lua      vim.lsp.buf.code_action()")
+-- vim.cmd("command! LSPCodeAction              Lspsaga code_action")
 vim.cmd("command! LSPDeclaration             lua      vim.lsp.buf.declaration()")
 -- vim.cmd("command! LSPDefinition              lua      vim.lsp.buf.definition()")
-vim.cmd("command! LSPDefinition              lua      require('telescope.builtin').lsp_definitions()")
+vim.cmd("command! LSPDefinition              lua      require('telescope.builtin').lsp_definitions({fname_width=1000})")
 -- vim.cmd("command! LSPDocumentSymbol          lua      vim.lsp.buf.document_symbol()")
-vim.cmd("command! LSPDocumentSymbol          lua      require('telescope.builtin').lsp_document_symbols()")
+vim.cmd(
+    "command! LSPDocumentSymbol          lua      require('telescope.builtin').lsp_document_symbols({fname_width=1000})")
 vim.cmd("command! LSPFormat                  lua      vim.lsp.buf.format()")
 vim.cmd("command! LSPHover                   lua      vim.lsp.buf.hover()")
 -- vim.cmd("command! LSPImplementation          lua      vim.lsp.buf.implementation()")
-vim.cmd("command! LSPImplementation          lua      require('telescope.builtin').lsp_implementations()")
+vim.cmd(
+    "command! LSPImplementation          lua      require('telescope.builtin').lsp_implementations({fname_width=1000})")
 -- vim.cmd("command! LSPIncommingCalls          lua      vim.lsp.buf.incoming_calls()")
-vim.cmd("command! LSPIncommingCalls          lua      require('telescope.builtin').lsp_incoming_calls()")
+vim.cmd(
+    "command! LSPIncommingCalls          lua      require('telescope.builtin').lsp_incoming_calls({fname_width=1000})")
 vim.cmd("command! LSPListWorkspaceFolders    lua      vim.print(vim.lsp.buf.list_workspace_folders())")
 -- vim.cmd("command! LSPOutgoingCalls           lua      vim.lsp.buf.outgoing_calls()")
-vim.cmd("command! LSPOutgoingCalls           lua      require('telescope.builtin').lsp_outgoing_calls()")
+vim.cmd(
+    "command! LSPOutgoingCalls           lua      require('telescope.builtin').lsp_outgoing_calls({fname_width=1000})")
 -- vim.cmd("command! LSPReferences              lua      vim.lsp.buf.references()")
 vim.cmd("command! LSPReferences              lua      require('telescope.builtin').lsp_references()")
 vim.cmd("command! LSPRemoveWorkspaceFolder   lua      vim.print(vim.lsp.buf.remove_workspace_folder())")
 vim.cmd("command! LSPRename                  lua      vim.lsp.buf.rename()")
 vim.cmd("command! LSPSignatureHelp           lua      vim.lsp.buf.signature_help()")
 -- vim.cmd("command! LSPTypeDefinition          lua      vim.lsp.buf.type_definition()")
-vim.cmd("command! LSPTypeDefinition          lua      require('telescope.builtin').lsp_type_definitions()")
+vim.cmd(
+    "command! LSPTypeDefinition          lua      require('telescope.builtin').lsp_type_definitions({fname_width=1000})")
 vim.cmd("command! LSPTypehierarchySubtypes   lua      vim.lsp.buf.typehierarchy('subtypes')")
 vim.cmd("command! LSPTypehierarchySupertypes lua      vim.lsp.buf.typehierarchy('supertypes')")
 -- vim.cmd("command! LSPWorkspaceSymbol         lua      vim.lsp.buf.workspace_symbol()")
-vim.cmd("command! LSPWorkspaceSymbol         lua      require('telescope.builtin').lsp_dynamic_workspace_symbols()")
+vim.cmd(
+    "command! LSPWorkspaceSymbol         lua      require('telescope.builtin').lsp_dynamic_workspace_symbols({fname_width=1000})")
 
 vim.cmd("command! LSPDiagnostic              lua      require('telescope.builtin').diagnostics()")
 
 vim.cmd("command! LSPOutline                 Lspsaga outline")
 vim.cmd("command! LSPFinder                  Lspsaga finder")
 vim.cmd("nno <silent> <Leader>ta :<C-u>Lspsaga outline<CR>")
+
+
 
 vim.cmd("augroup init_lua")
 vim.cmd("autocmd!")
@@ -219,13 +228,18 @@ cmp.setup({
             menu = ({
                 -- ["luasnip"]         = "[LuaSnip]",
                 -- ["vsnip"]           = "[vsnip]",
-                ["cmdline-prompt"]  = "[Prompt]",
-                ["buffer"]          = "[Buffer]",
-                ["cmdline"]         = "[Command]",
-                ["cmdline_history"] = "[History]",
-                ["nvim_lsp"]        = "[LSP]",
-                ["path"]            = "[Path]",
-                ["ultisnips"]       = "[UltiSnips]",
+                ["cmdline-prompt"]           = "[Prompt]",
+                ["buffer"]                   = "[Buffer]",
+                ["cmdline"]                  = "[Command]",
+                ["cmdline_history"]          = "[History]",
+                ["nvim_lsp"]                 = "[LSP]",
+                ["path"]                     = "[Path]",
+                ["ultisnips"]                = "[UltiSnips]",
+                ["calc"]                     = "[Calc]",
+                ["emoji"]                    = "[Emoji]",
+                ["nvim_lsp_signature_help"]  = "[LSPSignatureHelp]",
+                ["omni"]                     = "[Omni]",
+                ["nvim_lsp_document_symbol"] = "[LSPDocumentSymbol]",
             })
         }),
     },
@@ -274,6 +288,17 @@ cmp.setup({
         { name = 'ultisnips' }, -- For ultisnips users.
         { name = 'buffer' },
         { name = 'path' },
+        { name = 'calc' },
+        { name = 'emoji' },
+        { name = 'nvim_lsp_signature_help' },
+        {
+            name = 'omni',
+            option = {
+                disable_omnifuncs = {
+                    'v:lua.vim.lsp.omnifunc'
+                }
+            }
+        }
     }),
 })
 
@@ -300,6 +325,7 @@ for _, cmd_type in ipairs({ '/', '?' }) do
             },
         }),
         sources = {
+            { name = 'nvim_lsp_document_symbol' },
             { name = 'buffer' },
             -- { name = 'cmdline_history' },
         },
@@ -419,17 +445,17 @@ require("nvim-treesitter.configs").setup {
     },
 }
 require 'treesitter-context'.setup {
-    enable = true,            -- Enable this plugin (Can be enabled/disabled later via commands)
+    enable = true,           -- Enable this plugin (Can be enabled/disabled later via commands)
     multiwindow = true,      -- Enable multiwindow support.
-    max_lines = 0,            -- How many lines the window should span. Values <= 0 mean no limit.
-    min_window_height = 0,    -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+    max_lines = 0,           -- How many lines the window should span. Values <= 0 mean no limit.
+    min_window_height = 0,   -- Minimum editor window height to enable context. Values <= 0 mean no limit.
     line_numbers = true,
     multiline_threshold = 8, -- Maximum number of lines to show for a single context
-    trim_scope = 'inner',     -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-    mode = 'topline',          -- Line used to calculate context. Choices: 'cursor', 'topline'
+    trim_scope = 'inner',    -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+    mode = 'topline',        -- Line used to calculate context. Choices: 'cursor', 'topline'
     separator = nil,
-    zindex = 20,     -- The Z-index of the context window
-    on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+    zindex = 20,             -- The Z-index of the context window
+    on_attach = nil,         -- (fun(buf: integer): boolean) return false to disable attaching
 }
 
 vim.cmd('hi TreesitterContextBottom gui=underline term=underline cterm=underline')
@@ -466,28 +492,36 @@ require('telescope').setup {
                 ["<C-g>"] = actions.close,
             }
         },
-        -- layout_strategy = 'vertical',
-        -- layout_config = {
-        --     height = 0.9,
-        --     preview_cutoff = 20,
-        --     prompt_position = "bottom",
-        --     width = 0.9
-        -- },
+        layout_strategy = 'vertical',
+        layout_config = {
+            height = 0.95,
+            preview_cutoff = 20,
+            -- prompt_position = "bottom",
+            width = 0.95
+        },
         wrap_results = true,
+        -- winblend = 20,
+        dynamic_preview_title = true,
     },
-    -- extensions = {
-    --     fzf = {
-    --         fuzzy = true,                   -- false will only do exact matching
-    --         override_generic_sorter = true, -- override the generic sorter
-    --         override_file_sorter = true,    -- override the file sorter
-    --         case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
-    --         -- the default case_mode is "smart_case"
-    --     }
-    -- },
+    extensions = {
+        ["fzf"] = {
+            fuzzy = true,                   -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true,    -- override the file sorter
+            case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
+        },
+        ["ui-select"] = {
+            require("telescope.themes").get_dropdown {
+                -- even more opts
+            }
+        }
+    },
 }
 -- To get fzf loaded and working with telescope, you need to call
 -- load_extension, somewhere after setup function:
 -- require('telescope').load_extension('fzf')
+require("telescope").load_extension("ui-select")
 
 -- vim.cmd('nno <Leader><Leader> :<C-u>Telescope git_files<CR>')
 vim.cmd('nno <Leader><Leader> :<C-u>Telescope git_files<CR>')
