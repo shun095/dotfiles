@@ -150,6 +150,8 @@ vim.cmd("command! LSPTypehierarchySupertypes lua      vim.lsp.buf.typehierarchy(
 -- vim.cmd("command! LSPWorkspaceSymbol         lua      vim.lsp.buf.workspace_symbol()")
 vim.cmd("command! LSPWorkspaceSymbol         lua      require('telescope.builtin').lsp_dynamic_workspace_symbols()")
 
+vim.cmd("command! LSPDiagnostic              lua      require('telescope.builtin').diagnostics()")
+
 vim.cmd("augroup init_lua")
 vim.cmd("autocmd!")
 -- vim.cmd("autocmd CursorHold  * lua vim.lsp.buf.document_highlight()")
