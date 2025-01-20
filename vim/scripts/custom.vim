@@ -187,7 +187,9 @@ if mymisc#startup#plug_tap('calendar.vim')
   en
 
   if mymisc#startup#plug_tap('indentLine')
-    au vimrc_calendar FileType calendar IndentLinesDisable
+    if exists(':IndentLinesDisable')
+      au vimrc_calendar FileType calendar IndentLinesDisable
+    endif
   en
 
   let g:calendar_google_calendar = 1

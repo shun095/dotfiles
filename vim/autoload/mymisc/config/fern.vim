@@ -15,7 +15,9 @@ fun! mymisc#config#fern#setup() abort
   fun! s:init_fern() abort
     " Write custom code here
 
-    IndentLinesDisable
+    if exists(':IndentLinesDisable')
+      IndentLinesDisable
+    endif
     nno           <buffer>  <Leader>e      :<C-u>Fern<Space>
     nno  <silent> <buffer>  ~              <Cmd>Fern ~<CR>
     nno  <silent> <buffer>  q              <Cmd>close<CR>

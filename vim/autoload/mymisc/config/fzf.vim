@@ -58,7 +58,9 @@ fun! mymisc#config#fzf#setup() abort
   if has('nvim')
     aug vimrc_fzf
       au!
-      au FileType fzf IndentLinesDisable
+      if exists(':IndentLinesDisable')
+        au FileType fzf IndentLinesDisable
+      endif
     aug END
   endif
 endf
