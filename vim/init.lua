@@ -414,7 +414,8 @@ vim.cmd('nno <Leader>`        :<C-u>Telescope marks<CR>')
 ---@diagnostic disable-next-line: missing-fields
 require("flatten").setup({
     window = {
-        open ="smart",
+        open = "smart",
     }
 })
 
+require("ibl").setup()

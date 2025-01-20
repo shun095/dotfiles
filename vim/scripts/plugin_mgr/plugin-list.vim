@@ -318,7 +318,11 @@ Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'Rainbo
 " Plug 'junegunn/rainbow_parentheses.vim'
 " Plug 'kien/rainbow_parentheses.vim'
 Plug 'google/vim-searchindex'
-Plug 'Yggdroot/indentLine'
+if has('nvim')
+  Plug 'lukas-reineke/indent-blankline.nvim'
+else
+  Plug 'Yggdroot/indentLine'
+endif
 " Plug 'nathanaelkane/vim-indent-guides'
 
 " Git plugins

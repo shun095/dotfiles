@@ -20,7 +20,7 @@ export const main: Entrypoint = (denops: Denops) => {
       await denops.cmd(
         `command! -nargs=? FernCustomRenderer echomsg denops#request('${name}', 'hello', [<q-args>])`,
       );
-   },
+    },
 
     hello(name) {
       assert(name, is.String);
@@ -64,7 +64,7 @@ export const main: Entrypoint = (denops: Denops) => {
 
       const propertyString = await getPropertyString(path);
 
-      const prevTextLength = await fn.strdisplaywidth(denops, prevText)
+      const prevTextLength = await fn.strdisplaywidth(denops, prevText);
       assert(prevTextLength, is.Number);
 
       return prevText +
@@ -265,7 +265,9 @@ function getGroupName(gid: number): Promise<string> {
     } else if (currentPlatform === "darwin") {
       // macOSでは`dscl`コマンドを使用してGIDからグループ名を取得
       try {
-        const stdout = execSync(`dscl . -search /Groups PrimaryGroupID ${gid}`)
+        const stdout = execSync(
+          `dscl . -search /Groups PrimaryGroupID ${gid}`,
+        )
           .toString();
         const groupName = stdout.split("\n")[0].split(" ")[0].split("\t")[0]; // 最初の行の最初のフィールドがグループ名
         groupCache[gid] = groupName; // キャッシュに保存
