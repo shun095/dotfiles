@@ -152,6 +152,10 @@ vim.cmd("command! LSPWorkspaceSymbol         lua      require('telescope.builtin
 
 vim.cmd("command! LSPDiagnostic              lua      require('telescope.builtin').diagnostics()")
 
+vim.cmd("command! LSPOutline                 Lspsaga outline")
+vim.cmd("command! LSPFinder                  Lspsaga finder")
+vim.cmd("nno <silent> <Leader>ta :<C-u>Lspsaga outline<CR>")
+
 vim.cmd("augroup init_lua")
 vim.cmd("autocmd!")
 -- vim.cmd("autocmd CursorHold  * lua vim.lsp.buf.document_highlight()")
