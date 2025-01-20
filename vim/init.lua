@@ -239,6 +239,7 @@ cmp.setup({
                 ["nvim_lsp_signature_help"]  = "[LSPSignatureHelp]",
                 ["omni"]                     = "[Omni]",
                 ["nvim_lsp_document_symbol"] = "[LSPDocumentSymbol]",
+                ["skkeleton"]                = "[SKK]",
             })
         }),
     },
@@ -296,8 +297,9 @@ cmp.setup({
                 disable_omnifuncs = {
                     'v:lua.vim.lsp.omnifunc'
                 }
-            }
-        }
+            },
+        },
+        { name = "skkeleton" },
     }),
 })
 
@@ -573,3 +575,15 @@ require("noice").setup({
 })
 
 require('gitsigns').setup()
+require('numb').setup()
+
+local ccc = require("ccc")
+
+ccc.setup({
+    -- Your preferred settings
+    -- Example: enable highlighter
+    highlighter = {
+        auto_enable = true,
+        lsp = true,
+    },
+})

@@ -137,6 +137,7 @@ else
   Plug 'hrsh7th/nvim-cmp'
   Plug 'dmitmel/cmp-cmdline-history'
   Plug 'teramako/cmp-cmdline-prompt.nvim'
+  Plug 'uga-rosa/cmp-skkeleton'
   " Plug 'hrsh7th/cmp-vsnip'
   Plug 'quangnguyen30192/cmp-nvim-ultisnips'
   Plug 'onsails/lspkind.nvim'
@@ -342,6 +343,8 @@ Plug 'lambdalisue/gina.vim'
 Plug 'junegunn/gv.vim'
 if has('nvim')
   Plug 'lewis6991/gitsigns.nvim'
+  Plug 'nacro90/numb.nvim'
+  Plug 'uga-rosa/ccc.nvim'
 else
   Plug 'airblade/vim-gitgutter'
 endif
@@ -399,7 +402,7 @@ Plug 'vim-jp/vital.vim'
 Plug 'lambdalisue/vital-Whisky'
 
 Plug 'dstein64/vim-startuptime'
-" Plug 'vim-skk/skkeleton'
+Plug 'vim-skk/skkeleton'
 
 Plug 'shun095/revimses'
 
