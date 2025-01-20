@@ -18,7 +18,18 @@ require('lspsaga').setup({
 -- require('navigator').setup()
 
 -- Setup lspconfig.
-require("mason-lspconfig").setup()
+require("mason-lspconfig").setup({
+    -- ensure_installed = {
+    --     "bashls",
+    --     "denols",
+    --     "jdtls",
+    --     "jsonls",
+    --     "lua_ls",
+    --     "marksman",
+    --     "pylsp",
+    --     "vimls",
+    -- }
+})
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -55,6 +66,16 @@ require("lspconfig").lua_ls.setup {
                 enable = false,
             },
             capabilities = capabilities,
+            hint = {
+                arrayIndex     = "Enable",
+                await          = true,
+                awaitPropagate = true,
+                enable         = true,
+                paramName      = "All",
+                paramType      = true,
+                semicolon      = "SameLine",
+                setType        = true,
+            }
         },
     },
 }
@@ -102,6 +123,9 @@ require("lspconfig").jdtls.setup {
 }
 
 require("inlay-hints").setup()
+
+vim.cmd('cal mymisc#patch_highlight_attributes("DiagnosticHint","LspInlayHint",{"italic": v:true})')
+
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
     vim.lsp.handlers.hover, {
@@ -193,14 +217,15 @@ cmp.setup({
         format = lspkind.cmp_format({
             mode = "symbol_text",
             menu = ({
-                buffer = "[Buffer]",
-                nvim_lsp = "[LSP]",
-                -- luasnip = "[LuaSnip]",
-                ultisnips = "[UltiSnips]",
-                -- vsnip = "[vsnip]",
-                path = "[Path]",
-                cmdline = "[Command]",
-                cmdline_history = "[History]"
+                -- ["luasnip"]         = "[LuaSnip]",
+                -- ["vsnip"]           = "[vsnip]",
+                ["cmdline-prompt"]  = "[Prompt]",
+                ["buffer"]          = "[Buffer]",
+                ["cmdline"]         = "[Command]",
+                ["cmdline_history"] = "[History]",
+                ["nvim_lsp"]        = "[LSP]",
+                ["path"]            = "[Path]",
+                ["ultisnips"]       = "[UltiSnips]",
             })
         }),
     },
@@ -277,6 +302,11 @@ for _, cmd_type in ipairs({ '/', '?' }) do
         sources = {
             { name = 'buffer' },
             -- { name = 'cmdline_history' },
+        },
+        window = {
+            completion = {
+                col_offset = 1,
+            },
         }
     })
 end
@@ -306,7 +336,44 @@ cmp.setup.cmdline(':', {
         { name = 'path' },
         -- { name = 'cmdline_history' },
     }),
+    window = {
+        completion = {
+            col_offset = 1,
+        },
+    }
 })
+
+
+-- for cmdline `input()` prompt
+---@diagnostic disable-next-line: undefined-field
+cmp.setup.cmdline('@', {
+    mapping = cmp.mapping.preset.cmdline({
+        ['<C-n>'] = {
+            c = function(fallback)
+                fallback()
+            end,
+        },
+        ['<C-p>'] = {
+            c = function(fallback)
+                fallback()
+            end,
+        },
+        ['<C-e>'] = {
+            c = function(fallback)
+                fallback()
+            end,
+        },
+    }),
+    sources = cmp.config.sources({
+        { name = 'cmdline-prompt' },
+    }),
+    window = {
+        completion = {
+            col_offset = 8,
+        },
+    }
+})
+
 
 ---@diagnostic disable-next-line: missing-fields
 require("nvim-treesitter.configs").setup {
@@ -352,18 +419,18 @@ require("nvim-treesitter.configs").setup {
     },
 }
 require 'treesitter-context'.setup {
-    enable = true,          -- Enable this plugin (Can be enabled/disabled later via commands)
-    multiwindow = false,    -- Enable multiwindow support.
-    max_lines = 0,          -- How many lines the window should span. Values <= 0 mean no limit.
-    min_window_height = 0,  -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+    enable = true,            -- Enable this plugin (Can be enabled/disabled later via commands)
+    multiwindow = false,      -- Enable multiwindow support.
+    max_lines = 0,            -- How many lines the window should span. Values <= 0 mean no limit.
+    min_window_height = 0,    -- Minimum editor window height to enable context. Values <= 0 mean no limit.
     line_numbers = true,
     multiline_threshold = 20, -- Maximum number of lines to show for a single context
-    trim_scope = 'outer',   -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-    mode = 'cursor',        -- Line used to calculate context. Choices: 'cursor', 'topline'
+    trim_scope = 'outer',     -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+    mode = 'cursor',          -- Line used to calculate context. Choices: 'cursor', 'topline'
     -- Separator between context and content. Should be a single character string, like '-'.
     -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
     separator = nil,
-    zindex = 20,   -- The Z-index of the context window
+    zindex = 20,     -- The Z-index of the context window
     on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
 }
 
@@ -390,6 +457,8 @@ require('telescope').setup {
                 ["<C-c>"] = { "<esc>", type = "command" },
                 ["<esc>"] = actions.close,
                 ["<C-g>"] = actions.close,
+                ["<C-n>"] = actions.cycle_history_next,
+                ["<C-p>"] = actions.cycle_history_prev,
             },
             n = {
                 ["<C-d>"] = actions.preview_scrolling_down,
@@ -399,13 +468,14 @@ require('telescope').setup {
                 ["<C-g>"] = actions.close,
             }
         },
-        layout_strategy = 'vertical',
-        layout_config = {
-            height = 0.9,
-            preview_cutoff = 20,
-            prompt_position = "bottom",
-            width = 0.9
-        }
+        -- layout_strategy = 'vertical',
+        -- layout_config = {
+        --     height = 0.9,
+        --     preview_cutoff = 20,
+        --     prompt_position = "bottom",
+        --     width = 0.9
+        -- },
+        wrap_results = true,
     },
     -- extensions = {
     --     fzf = {
@@ -424,7 +494,7 @@ require('telescope').setup {
 -- vim.cmd('nno <Leader><Leader> :<C-u>Telescope git_files<CR>')
 vim.cmd('nno <Leader><Leader> :<C-u>Telescope git_files<CR>')
 vim.cmd('nno <Leader>T        :<C-u>Telescope tags<CR>')
-vim.cmd('" al')
+vim.cmd('nno <Leader>al       :<C-u>Telescope grep_string search=<CR>')
 vim.cmd('nno <Leader>b        :<C-u>Telescope buffers<CR>')
 vim.cmd('nno <Leader>c        :<C-u>Telescope find_files<CR>')
 vim.cmd('nno <Leader>f        :<C-u>Telescope git_files<CR>')

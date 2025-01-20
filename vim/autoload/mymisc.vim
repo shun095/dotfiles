@@ -445,3 +445,27 @@ fun! mymisc#toggle_preview_window()
   endif
 endf
 
+
+function! mymisc#patch_highlight_attributes(source_group_name, target_group_name, patch) abort
+  if has('patch-8.2.3578')
+    let l:hl = hlget(a:source_group_name, v:true)
+    let l:hl[0]["name"] = a:target_group_name
+
+    let l:hl[0]["term"] = get(l:hl[0], "term", {})
+    let l:hl[0]["cterm"] = get(l:hl[0], "cterm", {})
+    let l:hl[0]["gui"] = get(l:hl[0], "gui", {})
+
+    cal extend(l:hl[0]["term"], a:patch)
+    cal extend(l:hl[0]["cterm"], a:patch)
+    cal extend(l:hl[0]["gui"], a:patch)
+    cal hlset(l:hl)
+  elseif has('nvim')
+    let l:hl = nvim_get_hl(0, {'name': a:source_group_name, 'link': v:false})
+
+    let l:hl["cterm"] = get(l:hl, "cterm", {})
+
+    cal extend(l:hl, a:patch)
+    cal extend(l:hl["cterm"], a:patch)
+    cal nvim_set_hl(0, a:target_group_name, l:hl)
+  endif
+endfunction

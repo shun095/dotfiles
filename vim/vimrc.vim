@@ -675,7 +675,7 @@ try
 
   fun! s:get_termrun_cmd(cmd) abort
     if has('nvim')
-      let l:terminal_cmd = ':split term://'
+      let l:terminal_cmd = ':bel 10split term://'
     else
       " let l:terminal_cmd = ':bel terminal '
       let l:terminal_cmd = ':terminal '

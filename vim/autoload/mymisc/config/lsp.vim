@@ -53,49 +53,25 @@ fun! mymisc#config#lsp#setup() abort
   " }
 
 
-  function! s:patch_highlight_attributes(source_group_name, target_group_name, patch) abort
-    if has('patch-8.2.3578')
-      let l:hl = hlget(a:source_group_name, v:true)
-      let l:hl[0]["name"] = a:target_group_name
-
-      let l:hl[0]["term"] = get(l:hl[0], "term", {})
-      let l:hl[0]["cterm"] = get(l:hl[0], "cterm", {})
-      let l:hl[0]["gui"] = get(l:hl[0], "gui", {})
-
-      cal extend(l:hl[0]["term"], a:patch)
-      cal extend(l:hl[0]["cterm"], a:patch)
-      cal extend(l:hl[0]["gui"], a:patch)
-      cal hlset(l:hl)
-    elseif has('nvim')
-      let l:hl = nvim_get_hl(0, {'name': a:source_group_name, 'link': v:false})
-
-      let l:hl["cterm"] = get(l:hl, "cterm", {})
-
-      cal extend(l:hl, a:patch)
-      cal extend(l:hl["cterm"], a:patch)
-      cal nvim_set_hl(0, a:target_group_name, l:hl)
-    endif
-  endfunction
-
   aug vimrc_vimlsp
     au!
-    au ColorScheme * cal s:patch_highlight_attributes("DiagnosticHint",  "lspInlayHintsParameter",    {"italic":    v:true})
-    au ColorScheme * cal s:patch_highlight_attributes("DiagnosticHint",  "lspInlayHintsType",         {"italic":    v:true})
+    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticHint",  "lspInlayHintsParameter",    {"italic":    v:true})
+    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticHint",  "lspInlayHintsType",         {"italic":    v:true})
 
     au ColorScheme * highlight! LspErrorHighlight       term=underline cterm=underline gui=underline
     au ColorScheme * highlight! LspWarningHighlight     term=underline cterm=underline gui=underline
     au ColorScheme * highlight! LspInformationHighlight term=underline cterm=underline gui=underline
     au ColorScheme * highlight! LspHintHighlight        term=underline cterm=underline gui=underline
 
-    au ColorScheme * cal s:patch_highlight_attributes("DiagnosticError", "LspErrorText",       {})
-    au ColorScheme * cal s:patch_highlight_attributes("DiagnosticWarn",  "LspWarningText",     {})
-    au ColorScheme * cal s:patch_highlight_attributes("DiagnosticInfo",  "LspInformationText", {})
-    au ColorScheme * cal s:patch_highlight_attributes("DiagnosticHint",  "LspHintText",        {})
+    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticError", "LspErrorText",       {})
+    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticWarn",  "LspWarningText",     {})
+    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticInfo",  "LspInformationText", {})
+    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticHint",  "LspHintText",        {})
 
-    au ColorScheme * cal s:patch_highlight_attributes("DiagnosticError", "LspErrorVirtualText",       {})
-    au ColorScheme * cal s:patch_highlight_attributes("DiagnosticWarn",  "LspWarningVirtualText",     {})
-    au ColorScheme * cal s:patch_highlight_attributes("DiagnosticInfo",  "LspInformationVirtualText", {})
-    au ColorScheme * cal s:patch_highlight_attributes("DiagnosticHint",  "LspHintVirtualText",        {})
+    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticError", "LspErrorVirtualText",       {})
+    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticWarn",  "LspWarningVirtualText",     {})
+    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticInfo",  "LspInformationVirtualText", {})
+    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticHint",  "LspHintVirtualText",        {})
     au FileType * nno <leader><c-]> :<C-u>LspDefinition<CR>
     au FileType * nno <leader>K :<C-u>call mymisc#toggle_preview_window()<CR>
     au FileType * nno <leader><C-k> :<C-u>call mymisc#toggle_preview_window()<CR>

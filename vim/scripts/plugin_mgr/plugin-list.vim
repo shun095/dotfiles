@@ -131,6 +131,7 @@ else
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'hrsh7th/nvim-cmp'
   Plug 'dmitmel/cmp-cmdline-history'
+  Plug 'teramako/cmp-cmdline-prompt.nvim'
   " Plug 'hrsh7th/cmp-vsnip'
   Plug 'quangnguyen30192/cmp-nvim-ultisnips'
   Plug 'onsails/lspkind.nvim'
