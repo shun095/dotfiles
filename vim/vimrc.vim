@@ -688,10 +688,16 @@ try
     let l:target_dir = expand('%:p:h')
     let l:cmd = s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
     cal mymisc#command_at_destdir(l:target_dir, [l:cmd])
+    if has('nvim')
+      call feedkeys('i')
+    endif
   endf
 
   fun! s:open_terminal_current() abort
     exe s:get_termrun_cmd(match(&shell, 'zsh') > 0 ? &shell . ' --login' : &shell)
+    if has('nvim')
+      call feedkeys('i')
+    endif
   endf
 
   let g:myvimrc_term_winheight=15
