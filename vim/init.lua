@@ -496,8 +496,9 @@ require('telescope').setup {
         layout_config = {
             height = 0.95,
             preview_cutoff = 20,
-            -- prompt_position = "bottom",
-            width = 0.95
+            -- prompt_position = "top",
+            width = 0.95,
+            -- mirror = true,
         },
         wrap_results = true,
         -- winblend = 20,
@@ -564,7 +565,7 @@ require("noice").setup({
   -- you can enable a preset for easier configuration
   presets = {
     -- bottom_search = true, -- use a classic bottom cmdline for search
-    command_palette = true, -- position the cmdline and popupmenu together
+    command_palette = false, -- position the cmdline and popupmenu together
     long_message_to_split = true, -- long messages will be sent to a split
     inc_rename = false, -- enables an input dialog for inc-rename.nvim
     lsp_doc_border = true, -- add a border to hover docs and signature help
