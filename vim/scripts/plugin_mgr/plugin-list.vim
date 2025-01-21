@@ -115,13 +115,19 @@ else
   " -- nvim native lsp ---
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'mfussenegger/nvim-dap'
+  " Plug 'mfussenegger/nvim-jdtls'
+  Plug 'jay-babu/mason-nvim-dap.nvim'
+  Plug 'nvim-neotest/nvim-nio'
+  Plug 'rcarriga/nvim-dap-ui'
   Plug 'neovim/nvim-lspconfig'
   Plug 'jay-babu/mason-null-ls.nvim'
   Plug 'nvimtools/none-ls.nvim'
   Plug 'MysticalDevil/inlay-hints.nvim'
   Plug 'folke/neoconf.nvim'
 
-  Plug 'nvimdev/lspsaga.nvim'
+  " Plug 'nvimdev/lspsaga.nvim'
+  Plug 'kosayoda/nvim-lightbulb'
   " Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
   " Plug 'ray-x/navigator.lua'
 
@@ -151,6 +157,7 @@ else
   Plug 'MunifTanjim/nui.nvim'
   Plug 'rcarriga/nvim-notify'
   Plug 'folke/noice.nvim'
+  " Plug 'j-hui/fidget.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
   if executable('cmake')

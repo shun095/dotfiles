@@ -6,14 +6,23 @@ require("mason").setup({
         border = "rounded"
     }
 })
-require('lspsaga').setup({
-    lightbulb = {
-        virtual_text = false,
+-- require('lspsaga').setup({
+--     lightbulb = {
+--         enable = false,
+--         virtual_text = false,
+--     },
+--     ui = {
+--         code_action = ''
+--     }
+-- })
+
+require("nvim-lightbulb").setup({
+    autocmd = {
+        enabled = true,
+        updatetime = -1,
     },
-    ui = {
-        code_action = ''
-    }
 })
+
 
 -- require('navigator').setup()
 
@@ -40,6 +49,46 @@ require("mason-lspconfig").setup_handlers {
         }
     end,
 }
+
+
+require("mason-nvim-dap").setup({
+    handlers = {
+        function(config)
+            require('mason-nvim-dap').default_setup(config)
+        end,
+    },
+})
+
+-- local dap = require('dap')
+-- dap.adapters.java = function(callback)
+--   -- FIXME:
+--   -- Here a function needs to trigger the `vscode.java.startDebugSession` LSP command
+--   -- The response to the command must be the `port` used below
+--   callback({
+--     type = 'server';
+--     host = '127.0.0.1';
+--     port = 5005;
+--   })
+-- end
+
+-- local dap = require('dap')
+-- dap.configurations.java = {
+--   {
+--     type = 'java';
+--     request = 'attach';
+--     name = "Debug (Attach) - Remote";
+--     hostName = "127.0.0.1";
+--     port = 5005;
+--   },
+-- }
+
+
+require("dapui").setup()
+
+local dap, dapui = require("dap"), require("dapui")
+
+vim.cmd('com! DapUiOpen lua require("dapui").open()')
+vim.cmd('com! DapUiClose lua require("dapui").close()')
 
 ---@diagnostic disable-next-line: undefined-field
 require("lspconfig").lua_ls.setup {
@@ -155,36 +204,42 @@ vim.cmd('highlight! link LspCodeLensSeparator Comment')
 vim.cmd("com! LSPCodeAction lua vim.lsp.buf.code_action()")
 -- vim.cmd("com! LSPCodeAction Lspsaga code_action")
 vim.cmd("com! LSPDeclaration lua vim.lsp.buf.declaration()")
--- vim.cmd("com! LSPDefinition lua vim.lsp.buf.definition()")
+vim.cmd("com! LSPDefinitionQf lua vim.lsp.buf.definition()")
 vim.cmd("com! LSPDefinition lua require('telescope.builtin').lsp_definitions({fname_width=1000})")
--- vim.cmd("com! LSPDocumentSymbol lua vim.lsp.buf.document_symbol()")
+vim.cmd("com! LSPDocumentSymbolQf lua vim.lsp.buf.document_symbol()")
 vim.cmd("com! LSPDocumentSymbol lua require('telescope.builtin').lsp_document_symbols({fname_width=1000})")
 vim.cmd("com! LSPFormat lua vim.lsp.buf.format()")
 vim.cmd("com! LSPHover lua vim.lsp.buf.hover()")
--- vim.cmd("com! LSPImplementation lua vim.lsp.buf.implementation()")
+vim.cmd("com! LSPImplementationQf lua vim.lsp.buf.implementation()")
 vim.cmd("com! LSPImplementation lua require('telescope.builtin').lsp_implementations({fname_width=1000})")
--- vim.cmd("com! LSPIncommingCalls lua vim.lsp.buf.incoming_calls()")
+vim.cmd("com! LSPIncommingCallsQf lua vim.lsp.buf.incoming_calls()")
 vim.cmd("com! LSPIncommingCalls lua require('telescope.builtin').lsp_incoming_calls({fname_width=1000})")
 vim.cmd("com! LSPListWorkspaceFolders lua vim.print(vim.lsp.buf.list_workspace_folders())")
--- vim.cmd("com! LSPOutgoingCalls lua vim.lsp.buf.outgoing_calls()")
+vim.cmd("com! LSPOutgoingCallsQf lua vim.lsp.buf.outgoing_calls()")
 vim.cmd("com! LSPOutgoingCalls lua require('telescope.builtin').lsp_outgoing_calls({fname_width=1000})")
--- vim.cmd("com! LSPReferences lua vim.lsp.buf.references()")
+vim.cmd("com! LSPReferencesQf lua vim.lsp.buf.references()")
 vim.cmd("com! LSPReferences lua require('telescope.builtin').lsp_references({fname_width=1000})")
 vim.cmd("com! LSPRemoveWorkspaceFolder lua vim.print(vim.lsp.buf.remove_workspace_folder())")
 vim.cmd("com! LSPRename lua vim.lsp.buf.rename()")
 vim.cmd("com! LSPSignatureHelp lua vim.lsp.buf.signature_help()")
--- vim.cmd("com! LSPTypeDefinition lua vim.lsp.buf.type_definition()")
+vim.cmd("com! LSPTypeDefinitionQf lua vim.lsp.buf.type_definition()")
 vim.cmd("com! LSPTypeDefinition lua require('telescope.builtin').lsp_type_definitions({fname_width=1000})")
-vim.cmd("com! LSPTypehierarchySubtypes lua vim.lsp.buf.typehierarchy('subtypes')")
-vim.cmd("com! LSPTypehierarchySupertypes lua vim.lsp.buf.typehierarchy('supertypes')")
--- vim.cmd("com! LSPWorkspaceSymbol lua vim.lsp.buf.workspace_symbol()")
+vim.cmd("com! LSPTypehierarchySubtypesQf lua vim.lsp.buf.typehierarchy('subtypes')")
+-- vim.cmd("com! LSPTypehierarchySubtypes Lspsaga subtypes")
+vim.cmd("com! LSPTypehierarchySupertypesQf lua vim.lsp.buf.typehierarchy('supertypes')")
+-- vim.cmd("com! LSPTypehierarchySupertypes Lspsaga supertypes")
+vim.cmd("com! LSPWorkspaceSymbolQf lua vim.lsp.buf.workspace_symbol()")
 vim.cmd("com! LSPWorkspaceSymbol lua require('telescope.builtin').lsp_dynamic_workspace_symbols({fname_width=1000})")
 
 vim.cmd("com! LSPDiagnostic lua require('telescope.builtin').diagnostics()")
+vim.cmd("com! LSPDiagnosticQf lua vim.fn.setqflist(vim.diagnostic.toqflist(vim.diagnostic.get(nil))); vim.cmd('cope')")
+vim.cmd("com! LSPDiagnosticBufQf lua vim.fn.setqflist(vim.diagnostic.toqflist(vim.diagnostic.get(0))); vim.cmd('cope')")
 
-vim.cmd("com! LSPOutline Lspsaga outline")
-vim.cmd("com! LSPFinder Lspsaga finder")
-vim.cmd("nno <silent> <Leader>ta :<C-u>Lspsaga outline<CR>")
+vim.cmd("com! LSPCodeLensRefresh lua vim.lsp.codelens.refresh()")
+
+-- vim.cmd("com! LSPOutline Lspsaga outline")
+-- vim.cmd("com! LSPFinder Lspsaga finder")
+-- vim.cmd("nno <silent> <Leader>ta :<C-u>Lspsaga outline<CR>")
 
 
 
@@ -324,6 +379,7 @@ for _, cmd_type in ipairs({ '/', '?' }) do
                     fallback()
                 end,
             },
+            ['<C-Space>'] = cmp.mapping.complete(),
         }),
         sources = {
             { name = 'nvim_lsp_document_symbol' },
@@ -357,6 +413,7 @@ cmp.setup.cmdline(':', {
                 fallback()
             end,
         },
+        ['<C-Space>'] = cmp.mapping.complete(),
     }),
     sources = cmp.config.sources({
         { name = 'cmdline' },
@@ -390,6 +447,7 @@ cmp.setup.cmdline('@', {
                 fallback()
             end,
         },
+        ['<C-Space>'] = cmp.mapping.complete(),
     }),
     sources = cmp.config.sources({
         { name = 'cmdline-prompt' },
@@ -459,7 +517,7 @@ require 'treesitter-context'.setup {
     on_attach = nil,         -- (fun(buf: integer): boolean) return false to disable attaching
 }
 
-vim.cmd('hi TreesitterContextBottom gui=underline term=underline cterm=underline')
+vim.cmd('hi TreesitterContextBottom gui=underline guisp=NvimDarkGray3 term=underline cterm=underline')
 vim.cmd('hi TreesitterContextLineNumberBottom gui=underline term=underline cterm=underline')
 vim.cmd('set scrolloff=8')
 
@@ -552,13 +610,24 @@ require("flatten").setup({
 
 require("ibl").setup()
 
+---@diagnostic disable-next-line: undefined-field
+require("notify").setup({
+    minimum_width = 40,
+    max_width = 40,
+    render = "wrapped-compact",
+    timeout = 3000,
+})
+
 require("noice").setup({
     lsp = {
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
         override = {
             ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
             ["vim.lsp.util.stylize_markdown"] = true,
-            ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+            ["cmp.entry.get_documentation"] = false, -- requires hrsh7th/nvim-cmp
+        },
+        progress = {
+            enabled = true,
         },
         signature = {
             enabled = false,
@@ -574,8 +643,22 @@ require("noice").setup({
     },
 })
 
+
+-- require("fidget").setup {
+--     notification = {
+--         window = {
+--             winblend = 0
+--         }
+--     }
+-- }
+
+
 require('gitsigns').setup()
 require('numb').setup()
+
+
+-- require('lualine').setup()
+require('render-markdown').setup({})
 
 require("ccc").setup({
     -- Your preferred settings
@@ -585,6 +668,3 @@ require("ccc").setup({
         lsp = true,
     },
 })
-
--- require('lualine').setup()
-require('render-markdown').setup({})
