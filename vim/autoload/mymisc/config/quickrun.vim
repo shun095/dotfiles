@@ -51,8 +51,7 @@ fun! mymisc#config#quickrun#setup() abort
     let g:quickrun_config['_']['runner']                    = 'job'
     let g:quickrun_config['_']['runner/job/interval']       = 100
   else
-    let g:quickrun_config['_']['runner']                    = 'vimproc'
-    let g:quickrun_config['_']['runner/vimproc/updatetime'] = 100
+    let g:quickrun_config['_']['runner']                    = 'system'
     let g:quickrun_config['python'] = {
           \ 'command' : 'python',
           \ 'cmdopt' : '-u',

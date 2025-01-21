@@ -577,9 +577,7 @@ require("noice").setup({
 require('gitsigns').setup()
 require('numb').setup()
 
-local ccc = require("ccc")
-
-ccc.setup({
+require("ccc").setup({
     -- Your preferred settings
     -- Example: enable highlighter
     highlighter = {
