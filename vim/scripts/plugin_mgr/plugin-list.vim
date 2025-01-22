@@ -125,6 +125,7 @@ else
   Plug 'nvimtools/none-ls.nvim'
   Plug 'MysticalDevil/inlay-hints.nvim'
   Plug 'folke/neoconf.nvim'
+  Plug 'folke/neodev.nvim'
 
   " Plug 'nvimdev/lspsaga.nvim'
   Plug 'kosayoda/nvim-lightbulb'

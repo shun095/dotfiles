@@ -25,6 +25,11 @@ require("nvim-lightbulb").setup({
 })
 
 
+-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+require("neodev").setup({
+    -- add any options here, or leave empty to use the default settings
+})
+
 -- require('navigator').setup()
 
 -- Setup lspconfig.
@@ -117,6 +122,9 @@ require("lspconfig").lua_ls.setup {
                 paramType      = true,
                 semicolon      = "SameLine",
                 setType        = true,
+            },
+            completion = {
+                callSnippet = "Replace"
             }
         },
     },
