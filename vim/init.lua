@@ -1,5 +1,6 @@
 vim.cmd('source ~/.vimrc')
 
+
 ---@diagnostic disable-next-line: missing-fields
 require("mason").setup({
     ui = {
@@ -27,18 +28,7 @@ require("nvim-lightbulb").setup({
 -- require('navigator').setup()
 
 -- Setup lspconfig.
-require("mason-lspconfig").setup({
-    -- ensure_installed = {
-    --     "bashls",
-    --     "denols",
-    --     "jdtls",
-    --     "jsonls",
-    --     "lua_ls",
-    --     "marksman",
-    --     "pylsp",
-    --     "vimls",
-    -- }
-})
+require("mason-lspconfig").setup()
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -48,6 +38,9 @@ require("mason-lspconfig").setup_handlers {
             capabilities = capabilities
         }
     end,
+    jdtls = function()
+        -- nothing to do
+    end
 }
 
 
@@ -149,28 +142,6 @@ require("lspconfig").denols.setup {
                     enabled                     = true,
                     suppressWhenTypeMatchesName = false
                 }
-            }
-        }
-    }
-}
-
----@diagnostic disable-next-line: undefined-field
-require("lspconfig").jdtls.setup {
-    settings = {
-        redhat = {
-            telemetry = {
-                enabled = false
-            }
-        },
-        java = {
-            inlayHints = {
-                parameterNames = {
-                    enabled = "all"
-                }
-            },
-            implementationCodeLens = "all",
-            referencesCodeLens = {
-                enabled = true
             }
         }
     }
@@ -379,7 +350,11 @@ for _, cmd_type in ipairs({ '/', '?' }) do
                     fallback()
                 end,
             },
-            ['<C-Space>'] = cmp.mapping.complete(),
+            ['<C-Space>'] = {
+                c = function(fallback)
+                    cmp.mapping.complete()
+                end
+            }
         }),
         sources = {
             { name = 'nvim_lsp_document_symbol' },
@@ -413,7 +388,11 @@ cmp.setup.cmdline(':', {
                 fallback()
             end,
         },
-        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-Space>'] = {
+            c = function(fallback)
+                cmp.mapping.complete()
+            end
+        }
     }),
     sources = cmp.config.sources({
         { name = 'cmdline' },
@@ -447,7 +426,11 @@ cmp.setup.cmdline('@', {
                 fallback()
             end,
         },
-        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-Space>'] = {
+            c = function(fallback)
+                cmp.mapping.complete()
+            end
+        }
     }),
     sources = cmp.config.sources({
         { name = 'cmdline-prompt' },

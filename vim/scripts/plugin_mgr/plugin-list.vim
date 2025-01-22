@@ -116,7 +116,7 @@ else
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'mfussenegger/nvim-dap'
-  " Plug 'mfussenegger/nvim-jdtls'
+  Plug 'mfussenegger/nvim-jdtls'
   Plug 'jay-babu/mason-nvim-dap.nvim'
   Plug 'nvim-neotest/nvim-nio'
   Plug 'rcarriga/nvim-dap-ui'
