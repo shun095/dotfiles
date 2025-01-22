@@ -189,14 +189,18 @@ Plug 'puremourning/vimspector'
 " Plug 'ryanoasis/vim-devicons'
 " Plug 'justinmk/vim-dirvish'
 
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-hijack.vim'
-Plug 'lambdalisue/fern-git-status.vim'
-Plug 'lambdalisue/fern-ssh'
-Plug 'lambdalisue/nerdfont.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'lambdalisue/vim-fern-comparator-lexical'
-Plug 'yuki-yano/fern-preview.vim'
+if has('nvim')
+  Plug 'nvim-neo-tree/neo-tree.nvim'
+else
+  Plug 'lambdalisue/fern.vim'
+  Plug 'lambdalisue/fern-hijack.vim'
+  Plug 'lambdalisue/fern-git-status.vim'
+  Plug 'lambdalisue/fern-ssh'
+  Plug 'lambdalisue/nerdfont.vim'
+  Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+  Plug 'lambdalisue/vim-fern-comparator-lexical'
+  Plug 'yuki-yano/fern-preview.vim'
+endif
 
 " Plug 'francoiscabrol/ranger.vim'
 
@@ -332,8 +336,12 @@ Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpen']}
 Plug 'AndrewRadev/linediff.vim', {'on': ['Linediff']}
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
-" Plug 'nvim-lualine/lualine.nvim'
-Plug 'vim-airline/vim-airline'
+if has('nvim')
+  Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
+  Plug 'nvim-lualine/lualine.nvim'
+else
+  Plug 'vim-airline/vim-airline'
+endif
 " Plug 'edkolev/tmuxline.vim'
 Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
 " Plug 'junegunn/rainbow_parentheses.vim'
@@ -412,6 +420,9 @@ Plug 'vim-jp/vital.vim'
 Plug 'lambdalisue/vital-Whisky'
 
 Plug 'dstein64/vim-startuptime'
+if has('nvim')
+  " Plug 'stevearc/profile.nvim'
+endif
 Plug 'vim-skk/skkeleton'
 
 Plug 'shun095/revimses'

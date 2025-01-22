@@ -187,7 +187,7 @@ try
     se smoothscroll                                                           " スムーススクロール(wrapの時にスキップしない)
   endif
   se number                                                                   " 行番号表示
-  se norelativenumber
+  se relativenumber
   se signcolumn=yes                                                           " Gutter行を常に表示
   se hlsearch                                                                 " 文字列検索時にハイライトする
   se incsearch                                                                " 文字入力中に検索を開始
@@ -610,11 +610,11 @@ try
     if has('nvim')
       com! Tig cal mymisc#command_at_destdir(
             \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
-            \ [":tabe | call feedkeys('i') | :terminal tig"])
+            \ [":bel split | call feedkeys('i') | :terminal tig"])
     el
       com! Tig cal mymisc#command_at_destdir(
             \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
-            \ [":tabe | :terminal ++curwin ++close tig"])
+            \ [":bel split | :terminal ++curwin ++close tig"])
     en
   en
   com! Todo exe 'drop ' . get(g:,'memolist_path',$HOME . '/memo') . '/todo.txt'
@@ -854,7 +854,8 @@ try
           \   'vim',
           \   'sql',
           \   'yaml',
-          \   'json'
+          \   'json',
+          \   'plantuml'
           \ ]
 
     " javaのsyntaxはmarkdownのsyntaxを参照しているので有効にすると再帰ループしてしまう

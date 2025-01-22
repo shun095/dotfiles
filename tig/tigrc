@@ -57,6 +57,7 @@ bind generic s      view-status
 bind generic S      view-stage
 bind main    C      ?git checkout %(commit)
 bind main    c      ?git cherry-pick %(commit)
+bind main    R      ?git reset --soft %(commit)
 
 # Alt-g で :toggle commit-title-graph
 bind main    <Ctrl-g> :toggle commit-title-graph

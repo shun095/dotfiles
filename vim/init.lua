@@ -1,4 +1,3 @@
-
 vim.cmd('source ~/.vimrc')
 
 
@@ -274,7 +273,7 @@ vim.cmd("autocmd!")
 -- vim.cmd("autocmd CursorHoldI * lua vim.lsp.buf.document_highlight()")
 -- vim.cmd("autocmd CursorMoved * lua vim.lsp.buf.clear_references()")
 vim.cmd("autocmd BufEnter    * lua vim.lsp.inlay_hint.enable()")
-vim.cmd("autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh({ bufnr = 0 })")
+-- vim.cmd("autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh({ bufnr = 0 })")
 vim.cmd("augroup END")
 
 local cmp = require('cmp')
@@ -642,7 +641,7 @@ vim.cmd('nno <Leader>`        :<C-u>Telescope marks<CR>')
 ---@diagnostic disable-next-line: missing-fields
 require("flatten").setup({
     window = {
-        open = "smart",
+        open = "split",
     }
 })
 
@@ -660,9 +659,9 @@ require("noice").setup({
     lsp = {
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
         override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-            ["vim.lsp.util.stylize_markdown"] = true,
-            ["cmp.entry.get_documentation"] = false, -- requires hrsh7th/nvim-cmp
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = false,
+            ["vim.lsp.util.stylize_markdown"] = false,
+            ["cmp.entry.get_documentation"] = false
         },
         progress = {
             enabled = true,
@@ -685,7 +684,7 @@ require("noice").setup({
 -- require("fidget").setup {
 --     notification = {
 --         window = {
---             winblend = 0
+--             winblend = 50
 --         }
 --     }
 -- }
@@ -695,7 +694,37 @@ require('gitsigns').setup()
 require('numb').setup()
 
 
--- require('lualine').setup()
+require("bufferline").setup {
+    options = {
+        mode = "tabs", -- set to "tabs" to only show tabpages instead
+        separator_style = "slope",
+        indicator = {
+            style = 'none'
+        },
+        -- diagnostics = "nvim_lsp",
+        hover = {
+            enabled = true,
+            delay = 0,
+            reveal = { 'close' }
+        },
+        offsets = {
+            {
+                filetype = "neo-tree",
+                text = "File Explorer",
+                highlight = "Directory",
+                separator = true -- use a "true" to enable the default, or set your own character
+            }
+        }
+    }
+}
+require('lualine').setup {
+    options = {
+        theme = "auto",
+        component_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
+    }
+}
+
 require('render-markdown').setup({
     heading = {
         -- width = 'block'
@@ -709,13 +738,16 @@ require('render-markdown').setup({
 -- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH5Bg",{})')
 -- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH6Bg",{})')
 
+require("neo-tree").setup({
+    window = {
+        width = 35,
+        mappings = {
+            -- disable fuzzy finder
+            ["/"] = "noop"
+        }
+    }
+}
+)
 
-
-require("ccc").setup({
-    -- Your preferred settings
-    -- Example: enable highlighter
-    highlighter = {
-        auto_enable = true,
-        lsp = true,
-    },
-})
+vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
+vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')

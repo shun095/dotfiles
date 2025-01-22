@@ -47,6 +47,7 @@ fun! mymisc#config#fern#setup() abort
 
     setlocal nonumber
     setlocal signcolumn=no
+    setlocal norelativenumber
   endf
 
   aug vimrc_fern
