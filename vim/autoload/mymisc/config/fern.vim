@@ -8,7 +8,7 @@ fun! mymisc#config#fern#setup() abort
   nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p<CR>
   nno <Leader>n :Fern<space>
 
-  " let g:fern#drawer_width = 40
+  let g:fern#drawer_width = 35
   let g:fern#drawer_keep = v:true
   let g:fern#disable_drawer_hover_popup = v:true
 
@@ -22,7 +22,8 @@ fun! mymisc#config#fern#setup() abort
     nno  <silent> <buffer>  ~              <Cmd>Fern ~<CR>
     nno  <silent> <buffer>  q              <Cmd>close<CR>
     nmap <silent> <buffer>  cd             <Plug>(fern-action-cd)
-    nmap <silent> <buffer>  <CR>           <Plug>(fern-action-open-or-enter)
+    nmap <silent> <buffer>  <S-CR>         <Plug>(fern-action-open-or-enter)
+    nmap <silent> <buffer>  <CR>           <Plug>(fern-action-open-or-expand)
     nmap <silent> <buffer>  <2-LeftMouse>  <Plug>(fern-action-open-or-expand)
     nmap <silent> <buffer>  <2-RightMouse> <Plug>(fern-action-collapse)
     nmap <silent> <buffer>  <X2Mouse>      <Plug>(fern-action-open-or-enter)

@@ -1,3 +1,4 @@
+
 vim.cmd('source ~/.vimrc')
 
 
@@ -7,15 +8,6 @@ require("mason").setup({
         border = "rounded"
     }
 })
--- require('lspsaga').setup({
---     lightbulb = {
---         enable = false,
---         virtual_text = false,
---     },
---     ui = {
---         code_action = ''
---     }
--- })
 
 require("nvim-lightbulb").setup({
     autocmd = {
@@ -180,45 +172,99 @@ vim.cmd('highlight! link WinBarNC Normal')
 vim.cmd('highlight! link LspCodeLens Comment')
 vim.cmd('highlight! link LspCodeLensSeparator Comment')
 
-vim.cmd("com! LSPCodeAction lua vim.lsp.buf.code_action()")
--- vim.cmd("com! LSPCodeAction Lspsaga code_action")
-vim.cmd("com! LSPDeclaration lua vim.lsp.buf.declaration()")
-vim.cmd("com! LSPDefinitionQf lua vim.lsp.buf.definition()")
-vim.cmd("com! LSPDefinition lua require('telescope.builtin').lsp_definitions({fname_width=1000})")
-vim.cmd("com! LSPDocumentSymbolQf lua vim.lsp.buf.document_symbol()")
-vim.cmd("com! LSPDocumentSymbol lua require('telescope.builtin').lsp_document_symbols({fname_width=1000})")
-vim.cmd("com! LSPFormat lua vim.lsp.buf.format()")
-vim.cmd("com! LSPHover lua vim.lsp.buf.hover()")
-vim.cmd("com! LSPImplementationQf lua vim.lsp.buf.implementation()")
-vim.cmd("com! LSPImplementation lua require('telescope.builtin').lsp_implementations({fname_width=1000})")
-vim.cmd("com! LSPIncommingCallsQf lua vim.lsp.buf.incoming_calls()")
-vim.cmd("com! LSPIncommingCalls lua require('telescope.builtin').lsp_incoming_calls({fname_width=1000})")
-vim.cmd("com! LSPListWorkspaceFolders lua vim.print(vim.lsp.buf.list_workspace_folders())")
-vim.cmd("com! LSPOutgoingCallsQf lua vim.lsp.buf.outgoing_calls()")
-vim.cmd("com! LSPOutgoingCalls lua require('telescope.builtin').lsp_outgoing_calls({fname_width=1000})")
-vim.cmd("com! LSPReferencesQf lua vim.lsp.buf.references()")
-vim.cmd("com! LSPReferences lua require('telescope.builtin').lsp_references({fname_width=1000})")
-vim.cmd("com! LSPRemoveWorkspaceFolder lua vim.print(vim.lsp.buf.remove_workspace_folder())")
-vim.cmd("com! LSPRename lua vim.lsp.buf.rename()")
-vim.cmd("com! LSPSignatureHelp lua vim.lsp.buf.signature_help()")
-vim.cmd("com! LSPTypeDefinitionQf lua vim.lsp.buf.type_definition()")
-vim.cmd("com! LSPTypeDefinition lua require('telescope.builtin').lsp_type_definitions({fname_width=1000})")
-vim.cmd("com! LSPTypehierarchySubtypesQf lua vim.lsp.buf.typehierarchy('subtypes')")
--- vim.cmd("com! LSPTypehierarchySubtypes Lspsaga subtypes")
-vim.cmd("com! LSPTypehierarchySupertypesQf lua vim.lsp.buf.typehierarchy('supertypes')")
--- vim.cmd("com! LSPTypehierarchySupertypes Lspsaga supertypes")
-vim.cmd("com! LSPWorkspaceSymbolQf lua vim.lsp.buf.workspace_symbol()")
-vim.cmd("com! LSPWorkspaceSymbol lua require('telescope.builtin').lsp_dynamic_workspace_symbols({fname_width=1000})")
+vim.api.nvim_create_user_command("LSPCodeAction",
+    "lua vim.lsp.buf.code_action()",
+    {})
+vim.api.nvim_create_user_command("LSPDeclaration",
+    "lua vim.lsp.buf.declaration()",
+    {})
+vim.api.nvim_create_user_command("LSPDefinitionQf",
+    "lua vim.lsp.buf.definition()",
+    {})
+vim.api.nvim_create_user_command("LSPDefinition",
+    "lua require('telescope.builtin').lsp_definitions({fname_width=1000})",
+    {})
+vim.api.nvim_create_user_command("LSPDocumentSymbolQf",
+    "lua vim.lsp.buf.document_symbol()",
+    {})
+vim.api.nvim_create_user_command("LSPDocumentSymbol",
+    "lua require('telescope.builtin').lsp_document_symbols({fname_width=1000})",
+    {})
+vim.api.nvim_create_user_command("LSPFormat",
+    "lua vim.lsp.buf.format()",
+    {})
+vim.api.nvim_create_user_command("LSPHover",
+    "lua vim.lsp.buf.hover()",
+    {})
+vim.api.nvim_create_user_command("LSPImplementationQf",
+    "lua vim.lsp.buf.implementation()",
+    {})
+vim.api.nvim_create_user_command("LSPImplementation",
+    "lua require('telescope.builtin').lsp_implementations({fname_width=1000})",
+    {})
+vim.api.nvim_create_user_command("LSPIncommingCallsQf",
+    "lua vim.lsp.buf.incoming_calls()",
+    {})
+vim.api.nvim_create_user_command("LSPIncommingCalls",
+    "lua require('telescope.builtin').lsp_incoming_calls({fname_width=1000})",
+    {})
+vim.api.nvim_create_user_command("LSPListWorkspaceFolders",
+    "lua vim.print(vim.lsp.buf.list_workspace_folders())",
+    {})
+vim.api.nvim_create_user_command("LSPOutgoingCallsQf",
+    "lua vim.lsp.buf.outgoing_calls()",
+    {})
+vim.api.nvim_create_user_command("LSPOutgoingCalls",
+    "lua require('telescope.builtin').lsp_outgoing_calls({fname_width=1000})",
+    {})
+vim.api.nvim_create_user_command("LSPReferencesQf",
+    "lua vim.lsp.buf.references()",
+    {})
+vim.api.nvim_create_user_command("LSPReferences",
+    "lua require('telescope.builtin').lsp_references({fname_width=1000})",
+    {})
+vim.api.nvim_create_user_command("LSPRemoveWorkspaceFolder",
+    "lua vim.print(vim.lsp.buf.remove_workspace_folder())",
+    {})
+vim.api.nvim_create_user_command("LSPRename",
+    "lua vim.lsp.buf.rename()",
+    {})
+vim.api.nvim_create_user_command("LSPSignatureHelp",
+    "lua vim.lsp.buf.signature_help()",
+    {})
+vim.api.nvim_create_user_command("LSPTypeDefinitionQf",
+    "lua vim.lsp.buf.type_definition()",
+    {})
+vim.api.nvim_create_user_command("LSPTypeDefinition",
+    "lua require('telescope.builtin').lsp_type_definitions({fname_width=1000})",
+    {})
+vim.api.nvim_create_user_command("LSPTypehierarchySubtypesQf",
+    "lua vim.lsp.buf.typehierarchy('subtypes')",
+    {})
+vim.api.nvim_create_user_command("LSPTypehierarchySupertypesQf",
+    "lua vim.lsp.buf.typehierarchy('supertypes')",
+    {})
+vim.api.nvim_create_user_command("LSPWorkspaceSymbolQf",
+    "lua vim.lsp.buf.workspace_symbol()",
+    {})
+vim.api.nvim_create_user_command("LSPWorkspaceSymbol",
+    "lua require('telescope.builtin').lsp_dynamic_workspace_symbols({fname_width=1000})",
+    {})
 
-vim.cmd("com! LSPDiagnostic lua require('telescope.builtin').diagnostics()")
-vim.cmd("com! LSPDiagnosticQf lua vim.fn.setqflist(vim.diagnostic.toqflist(vim.diagnostic.get(nil))); vim.cmd('cope')")
-vim.cmd("com! LSPDiagnosticBufQf lua vim.fn.setqflist(vim.diagnostic.toqflist(vim.diagnostic.get(0))); vim.cmd('cope')")
+vim.api.nvim_create_user_command("LSPDiagnostic",
+    "lua require('telescope.builtin').diagnostics()",
+    {})
+vim.api.nvim_create_user_command("LSPDiagnosticQf",
+    "lua vim.fn.setqflist(vim.diagnostic.toqflist(vim.diagnostic.get(nil))); vim.cmd('cope')",
+    {})
+vim.api.nvim_create_user_command("LSPDiagnosticBufQf",
+    "lua vim.fn.setqflist(vim.diagnostic.toqflist(vim.diagnostic.get(0))); vim.cmd('cope')",
+    {})
 
-vim.cmd("com! LSPCodeLensRefresh lua vim.lsp.codelens.refresh()")
+vim.api.nvim_create_user_command("LSPCodeLensRefresh",
+    "lua vim.lsp.codelens.refresh()",
+    {})
 
--- vim.cmd("com! LSPOutline Lspsaga outline")
--- vim.cmd("com! LSPFinder Lspsaga finder")
--- vim.cmd("nno <silent> <Leader>ta :<C-u>Lspsaga outline<CR>")
 
 
 
@@ -228,6 +274,7 @@ vim.cmd("autocmd!")
 -- vim.cmd("autocmd CursorHoldI * lua vim.lsp.buf.document_highlight()")
 -- vim.cmd("autocmd CursorMoved * lua vim.lsp.buf.clear_references()")
 vim.cmd("autocmd BufEnter    * lua vim.lsp.inlay_hint.enable()")
+vim.cmd("autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh({ bufnr = 0 })")
 vim.cmd("augroup END")
 
 local cmp = require('cmp')
@@ -649,7 +696,20 @@ require('numb').setup()
 
 
 -- require('lualine').setup()
-require('render-markdown').setup({})
+require('render-markdown').setup({
+    heading = {
+        -- width = 'block'
+    }
+})
+
+-- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
+-- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
+-- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH3Bg",{"bold": v:true})')
+-- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH4Bg",{})')
+-- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH5Bg",{})')
+-- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH6Bg",{})')
+
+
 
 require("ccc").setup({
     -- Your preferred settings

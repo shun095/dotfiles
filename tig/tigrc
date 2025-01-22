@@ -91,3 +91,6 @@ bind generic U      ?git pull %(remote)
 
 # P で remote への push
 bind generic P      ?git push -u %(remote) %(repo:head)
+
+# S で stash
+bind stash   S      ?git stash
