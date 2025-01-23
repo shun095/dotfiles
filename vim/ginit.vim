@@ -3,7 +3,7 @@ GuiFont! BlexMono Nerd Font
 GuiAdaptiveColor 1
 GuiAdaptiveFont 0
 GuiScrollBar 1
-GuiTabline 1
+GuiTabline 0
 GuiPopupmenu 0
 set title
 nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>

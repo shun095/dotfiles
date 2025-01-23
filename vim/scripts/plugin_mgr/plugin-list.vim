@@ -126,6 +126,8 @@ else
   Plug 'MysticalDevil/inlay-hints.nvim'
   Plug 'folke/neoconf.nvim'
   Plug 'folke/neodev.nvim'
+  Plug 'folke/trouble.nvim'
+  Plug 'm-demare/hlargs.nvim'
 
   " Plug 'nvimdev/lspsaga.nvim'
   Plug 'kosayoda/nvim-lightbulb'
@@ -158,7 +160,7 @@ else
   Plug 'MunifTanjim/nui.nvim'
   Plug 'rcarriga/nvim-notify'
   Plug 'folke/noice.nvim'
-  " Plug 'j-hui/fidget.nvim'
+  Plug 'j-hui/fidget.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
   Plug 'LukasPietzschmann/telescope-tabs'
@@ -170,6 +172,8 @@ else
   Plug 'nvim-telescope/telescope-ui-select.nvim'
   Plug 'nvim-tree/nvim-web-devicons'
   " Plug 'vim-fall/fall.vim'
+  Plug 'petertriho/nvim-scrollbar'
+  Plug 'kevinhwang91/nvim-hlslens'
 endif
 
 " --- coc.nvim ---
@@ -353,7 +357,7 @@ endif
 Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'RainbowToggleOn']}
 " Plug 'junegunn/rainbow_parentheses.vim'
 " Plug 'kien/rainbow_parentheses.vim'
-Plug 'google/vim-searchindex'
+" Plug 'google/vim-searchindex'
 if has('nvim')
   Plug 'lukas-reineke/indent-blankline.nvim'
 else
@@ -369,7 +373,8 @@ Plug 'junegunn/gv.vim'
 if has('nvim')
   Plug 'lewis6991/gitsigns.nvim'
   Plug 'nacro90/numb.nvim'
-  Plug 'uga-rosa/ccc.nvim'
+  " Plug 'uga-rosa/ccc.nvim'
+  Plug 'norcalli/nvim-colorizer.lua'
 else
   Plug 'airblade/vim-gitgutter'
 endif

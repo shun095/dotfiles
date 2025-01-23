@@ -679,7 +679,7 @@ require("noice").setup({
             ["cmp.entry.get_documentation"] = false
         },
         progress = {
-            enabled = true,
+            enabled = false,
         },
         signature = {
             enabled = false,
@@ -693,20 +693,20 @@ require("noice").setup({
         inc_rename = false,           -- enables an input dialog for inc-rename.nvim
         lsp_doc_border = true,        -- add a border to hover docs and signature help
     },
+    messages = {
+        view_search = false
+    }
 })
 
 
--- require("fidget").setup {
---     notification = {
---         window = {
---             winblend = 50
---         }
---     }
--- }
+require("fidget").setup {
+    notification = {
+        window = {
+            winblend = 50
+        }
+    }
+}
 
-
-require('gitsigns').setup()
-require('numb').setup()
 
 
 require("bufferline").setup {
@@ -730,12 +730,8 @@ require("bufferline").setup {
                 separator = true -- use a "true" to enable the default, or set your own character
             }
         },
-        -- highlights = {
-        --     fill = {
-        --         link = "StatusLineNC"
-        --     }
-        -- },
-    }
+        style_preset = require("bufferline").style_preset.no_italic,
+    },
 }
 require('lualine').setup {
     options = {
@@ -750,6 +746,33 @@ require('render-markdown').setup({
         -- width = 'block'
     }
 })
+
+require('gitsigns').setup()
+require('numb').setup()
+require("scrollbar").setup()
+require("scrollbar.handlers.search").setup({
+require("scrollbar.handlers.gitsigns").setup()
+    -- hlslens config overrides
+})
+require('colorizer').setup()
+require('hlargs').setup()
+
+local kopts = { noremap = true, silent = true }
+
+vim.api.nvim_set_keymap('n', 'n',
+    [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+    kopts)
+vim.api.nvim_set_keymap('n', 'N',
+    [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+    kopts)
+vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>noh<CR>', kopts)
+
+trouble = require("trouble").setup {}
 
 -- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 -- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
