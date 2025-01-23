@@ -21,7 +21,7 @@ fun! mymisc#config#fern#setup() abort
     nno           <buffer>  <Leader>e      :<C-u>Fern<Space>
     nno  <silent> <buffer>  ~              <Cmd>Fern ~<CR>
     nno  <silent> <buffer>  q              <Cmd>close<CR>
-    nmap <silent> <buffer>  cd             <Plug>(fern-action-cd)
+    nmap <silent> <buffer>  cd             <Plug>(fern-action-tcd)
     nmap <silent> <buffer>  <CR>           <Plug>(fern-action-open-or-enter)
     nmap <silent> <buffer>  <2-LeftMouse>  <Plug>(fern-action-open-or-expand)
     nmap <silent> <buffer>  <2-RightMouse> <Plug>(fern-action-collapse)

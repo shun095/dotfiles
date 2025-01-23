@@ -161,6 +161,7 @@ else
   " Plug 'j-hui/fidget.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+  Plug 'LukasPietzschmann/telescope-tabs'
   if executable('cmake')
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
   elseif executable('make')

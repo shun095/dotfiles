@@ -633,20 +633,23 @@ require('telescope').setup {
 require('telescope').load_extension('fzf')
 require("telescope").load_extension("ui-select")
 require("telescope").load_extension("noice")
+require('telescope').load_extension 'telescope-tabs'
+require('telescope-tabs').setup {}
 
 -- vim.cmd('nno <Leader><Leader> :<C-u>Telescope git_files<CR>')
-vim.cmd('nno <Leader><Leader> :<C-u>Telescope git_files<CR>')
-vim.cmd('nno <Leader>T        :<C-u>Telescope tags<CR>')
-vim.cmd('nno <Leader>al       :<C-u>Telescope grep_string search=<CR>')
-vim.cmd('nno <Leader>b        :<C-u>Telescope buffers<CR>')
-vim.cmd('nno <Leader>c        :<C-u>Telescope find_files<CR>')
-vim.cmd('nno <Leader>f        :<C-u>Telescope git_files<CR>')
+vim.cmd('nno <Leader><Leader> :<Cmd>Telescope git_files<CR>')
+vim.cmd('nno <Leader>T        :<Cmd>Telescope tags<CR>')
+vim.cmd('nno <Leader>al       :<Cmd>Telescope grep_string search=<CR>')
+vim.cmd('nno <Leader>b        :<Cmd>Telescope buffers<CR>')
+vim.cmd('nno <Leader><C-t>    :<Cmd>Telescope telescope-tabs list_tabs<CR>')
+vim.cmd('nno <Leader>c        :<Cmd>Telescope find_files<CR>')
+vim.cmd('nno <Leader>f        :<Cmd>Telescope git_files<CR>')
 vim.cmd('nno <Leader>gr       :<C-u>Telescope grep_string search=')
-vim.cmd('nno <Leader>l        :<C-u>Telescope current_buffer_fuzzy_find<CR>')
-vim.cmd('nno <Leader>o        :<C-u>Telescope current_buffer_tags<CR>')
-vim.cmd('nno <Leader>r        :<C-u>Telescope registers<CR>')
-vim.cmd('nno <Leader>u        :<C-u>Telescope oldfiles<CR>')
-vim.cmd('nno <Leader>`        :<C-u>Telescope marks<CR>')
+vim.cmd('nno <Leader>l        :<Cmd>Telescope current_buffer_fuzzy_find<CR>')
+vim.cmd('nno <Leader>o        :<Cmd>Telescope current_buffer_tags<CR>')
+vim.cmd('nno <Leader>r        :<Cmd>Telescope registers<CR>')
+vim.cmd('nno <Leader>u        :<Cmd>Telescope oldfiles<CR>')
+vim.cmd('nno <Leader>`        :<Cmd>Telescope marks<CR>')
 
 -- require("hlchunk").setup({})
 
@@ -709,7 +712,7 @@ require('numb').setup()
 require("bufferline").setup {
     options = {
         mode = "tabs", -- set to "tabs" to only show tabpages instead
-        separator_style = "slope",
+        separator_style = "slant",
         indicator = {
             style = 'none'
         },
@@ -726,7 +729,12 @@ require("bufferline").setup {
                 highlight = "Directory",
                 separator = true -- use a "true" to enable the default, or set your own character
             }
-        }
+        },
+        -- highlights = {
+        --     fill = {
+        --         link = "StatusLineNC"
+        --     }
+        -- },
     }
 }
 require('lualine').setup {

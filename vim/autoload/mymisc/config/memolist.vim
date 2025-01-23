@@ -21,7 +21,8 @@ fun! mymisc#config#memolist#setup() abort
   if mymisc#startup#plug_tap('defx.nvim')
     nno <Leader>ml :<C-u>execute "Defx " . expand(g:memolist_path)<CR>
   elseif mymisc#startup#plug_tap('fern.vim')
-    nno <Leader>ml :<C-u>execute "Fern ~/" . " -drawer -reveal=" . expand(g:memolist_path) . "/todo.txt"<CR>
+    execute "tcd " . expand(g:memolist_path)
+    nno <Leader>ml :<C-u>execute "Fern " . expand(g:memolist_path) . " -drawer -reveal=" . expand(g:memolist_path) . "/todo.txt"<CR>
   else
     nno <Leader>ml :<C-u>MemoList<CR>
   endif
