@@ -189,9 +189,9 @@ Plug 'puremourning/vimspector'
 " Plug 'ryanoasis/vim-devicons'
 " Plug 'justinmk/vim-dirvish'
 
-if has('nvim')
-  Plug 'nvim-neo-tree/neo-tree.nvim'
-else
+" if has('nvim')
+"   Plug 'nvim-neo-tree/neo-tree.nvim'
+" else
   Plug 'lambdalisue/fern.vim'
   Plug 'lambdalisue/fern-hijack.vim'
   Plug 'lambdalisue/fern-git-status.vim'
@@ -200,7 +200,7 @@ else
   Plug 'lambdalisue/fern-renderer-nerdfont.vim'
   Plug 'lambdalisue/vim-fern-comparator-lexical'
   Plug 'yuki-yano/fern-preview.vim'
-endif
+" endif
 
 " Plug 'francoiscabrol/ranger.vim'
 

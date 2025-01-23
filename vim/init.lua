@@ -709,7 +709,7 @@ require("bufferline").setup {
         },
         offsets = {
             {
-                filetype = "neo-tree",
+                filetype = "fern",
                 text = "File Explorer",
                 highlight = "Directory",
                 separator = true -- use a "true" to enable the default, or set your own character
@@ -738,16 +738,16 @@ require('render-markdown').setup({
 -- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH5Bg",{})')
 -- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH6Bg",{})')
 
-require("neo-tree").setup({
-    window = {
-        width = 35,
-        mappings = {
-            -- disable fuzzy finder
-            ["/"] = "noop"
-        }
-    }
-}
-)
+-- require("neo-tree").setup({
+--     window = {
+--         width = 35,
+--         mappings = {
+--             -- disable fuzzy finder
+--             ["/"] = "noop"
+--         }
+--     }
+-- }
+-- )
 
-vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
-vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
+-- vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
+-- vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
