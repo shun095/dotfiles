@@ -145,6 +145,7 @@ try
     se pumwidth=0                                                             " 補完ウィンドウの最小幅
   en
   se pumheight=20                                                             " 補完ウィンドウ最大高さ
+  se title
 
   se visualbell t_vb=                                                         " Disable beep sounds
   se cursorline                                                               " Highlight of cursor line/column

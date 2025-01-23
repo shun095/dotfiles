@@ -37,6 +37,8 @@ fun! mymisc#config#fern#setup() abort
     nmap <silent> <buffer>  F              <Plug>(fern-action-new-file)
     nmap <silent> <buffer>  u              <Plug>(fern-action-leave)
     nmap <silent> <buffer>  A              <Plug>(fern-action-zoom:full)
+    nno  <silent> <buffer>  }              j:cal search("\/")<CR>0:noh<CR>
+    nno  <silent> <buffer>  {              :cal search("\/","b")<CR>0:noh<CR>
 
     " Prevent from default mapping
     nmap  <silent> <buffer> N N

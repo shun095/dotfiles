@@ -539,8 +539,20 @@ require("nvim-treesitter.configs").setup {
         -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
     },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = "gnn",
+            node_incremental = "grn",
+            scope_incremental = "grc",
+            node_decremental = "grm",
+        },
+    },
+    indent = {
+        enable = true
+    },
 }
-require 'treesitter-context'.setup {
+require('treesitter-context').setup {
     enable = true,           -- Enable this plugin (Can be enabled/disabled later via commands)
     multiwindow = true,      -- Enable multiwindow support.
     max_lines = 0,           -- How many lines the window should span. Values <= 0 mean no limit.

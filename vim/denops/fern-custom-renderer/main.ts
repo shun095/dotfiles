@@ -116,7 +116,7 @@ async function getPropertyString(filePath: string): Promise<string> {
       `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 
     // 結果を表示
-    return `${fileType}${permissionString} ${nlinkFormatted} ${owner}:${group} ${formattedDate} ${sizeFormatted} byte`;
+    return `${fileType}${permissionString} ${nlinkFormatted} ${owner} ${group} ${sizeFormatted} ${formattedDate}`;
   } catch (err) {
     assert(err, is.Any);
     console.error(
