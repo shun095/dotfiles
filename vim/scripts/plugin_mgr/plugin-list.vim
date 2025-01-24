@@ -117,9 +117,11 @@ else
   Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'mfussenegger/nvim-dap'
   Plug 'mfussenegger/nvim-jdtls'
+  Plug 'mfussenegger/nvim-dap-python'
   Plug 'jay-babu/mason-nvim-dap.nvim'
   Plug 'nvim-neotest/nvim-nio'
   Plug 'rcarriga/nvim-dap-ui'
+  Plug 'theHamsta/nvim-dap-virtual-text'
   Plug 'neovim/nvim-lspconfig'
   Plug 'jay-babu/mason-null-ls.nvim'
   Plug 'nvimtools/none-ls.nvim'
@@ -174,6 +176,7 @@ else
   " Plug 'vim-fall/fall.vim'
   Plug 'petertriho/nvim-scrollbar'
   Plug 'kevinhwang91/nvim-hlslens'
+  Plug 'andersevenrud/nvim_context_vt'
 endif
 
 " --- coc.nvim ---
@@ -401,6 +404,7 @@ if has('vimscript-3')
 endif
 if has('nvim')
   Plug 'willothy/flatten.nvim'
+  Plug 'akinsho/toggleterm.nvim'
 endif
 " Non lazy load for QuickRun with pandoc
 Plug 'thinca/vim-quickrun'

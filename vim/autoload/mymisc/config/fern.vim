@@ -4,8 +4,8 @@ fun! mymisc#config#fern#setup() abort
   let s:Promise = vital#mymisc#import('Async.Promise')
 
   nno <silent> <Leader>e :FernDo :<CR>
-  nno <silent> <Leader>E :Fern %:h -drawer -reveal=%:p<CR>
-  nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p<CR>
+  nno <silent> <Leader>E :Fern %:h -drawer -reveal=%:p -stay -keep<CR>
+  nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p -stay -keep<CR>
   nno <Leader>n :Fern<space>
 
   let g:fern#drawer_width = 35

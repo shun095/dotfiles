@@ -3,9 +3,16 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- If you started neovim within `~/dev/xy/project-1` this would resolve to `project-1`
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 
-local jdtls_path = require('mason-registry')
-    .get_package('jdtls')
-    :get_install_path()
+local jdtls_path = require('mason-registry').get_package('jdtls'):get_install_path()
+local java_debug_adapter_path = require('mason-registry').get_package('java-debug-adapter'):get_install_path()
+local java_test_path = require('mason-registry').get_package('java-test'):get_install_path()
+
+local bundles = {
+    vim.fn.glob(java_debug_adapter_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
+        true)
+}
+
+vim.list_extend(bundles, vim.split(vim.fn.glob(java_test_path .. "/extension/server/*.jar", true), "\n"))
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
@@ -18,7 +25,7 @@ local config = {
         '-Declipse.product=org.eclipse.jdt.ls.core.product',
         '-Dlog.protocol=true',
         '-Dlog.level=ALL',
-        '-javaagent:' .. vim.env.HOME .. '/eclipse/jee-2024-09/Eclipse.app/Contents/Eclipse/lombok.jar',
+        '-javaagent:' .. jdtls_path .. '/lombok.jar',
         '-XX:+UseG1GC',
         '-XX:+UseStringDeduplication',
         '-Xms256m',
@@ -26,7 +33,7 @@ local config = {
         '--add-modules=ALL-SYSTEM',
         '--add-opens', 'java.base/java.util=ALL-UNNAMED',
         '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-        '-jar', jdtls_path .. '/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
+        '-jar', vim.fn.glob(jdtls_path .. '/plugins/org.eclipse.equinox.launcher_*.jar',true),
         '-configuration', jdtls_path .. '/config_mac_arm',
         '-data', vim.env.HOME .. '/.cache/jdtls/workspace/' .. project_name
     },
@@ -59,16 +66,17 @@ local config = {
     -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
     --
     -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
+
     init_options = {
-        bundles = {
-            vim.fn.glob(
-                vim.env.HOME ..
-                "/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-0.53.1.jar",
-                true)
-        },
+        bundles = bundles
     },
 }
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 require("inlay-hints").setup()
 require('jdtls').start_or_attach(config)
+
+vim.cmd('com! -buffer JdtTestMethod lua require("jdtls").test_class()')
+vim.cmd('com! -buffer JdtTestClass  lua require("jdtls").test_nearest_method()')
+vim.cmd('com! -buffer JdtTestGotoSubjects lua require("jdtls.tests").goto_subjects()')
+vim.cmd('com! -buffer JdtTestGenerate lua require("jdtls").generate()')

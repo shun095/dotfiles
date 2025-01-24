@@ -862,7 +862,7 @@ try
     " javaのsyntaxはmarkdownのsyntaxを参照しているので有効にすると再帰ループしてしまう
     let g:java_ignore_markdown = 1
 
-    au FileType markdown setl expandtab softtabstop=2 shiftwidth=2
+    au FileType markdown setl expandtab softtabstop=4 shiftwidth=4
 
     let g:markdown_syntax_conceal = 0
     " Json

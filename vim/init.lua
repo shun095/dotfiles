@@ -45,39 +45,42 @@ require("mason-nvim-dap").setup({
         function(config)
             require('mason-nvim-dap').default_setup(config)
         end,
+        python = function(config)
+            -- nothing to do
+        end,
     },
 })
 
--- local dap = require('dap')
--- dap.adapters.java = function(callback)
---   -- FIXME:
---   -- Here a function needs to trigger the `vscode.java.startDebugSession` LSP command
---   -- The response to the command must be the `port` used below
---   callback({
---     type = 'server';
---     host = '127.0.0.1';
---     port = 5005;
---   })
--- end
 
--- local dap = require('dap')
--- dap.configurations.java = {
---   {
---     type = 'java';
---     request = 'attach';
---     name = "Debug (Attach) - Remote";
---     hostName = "127.0.0.1";
---     port = 5005;
---   },
--- }
+local dap = require("dap")
+local dapui = require("dapui")
+require("dap-python")
+    .setup(require('mason-registry')
+        .get_package('debugpy')
+        :get_install_path() .. "/venv/bin/python3")
+
 
 
 require("dapui").setup()
 
-local dap, dapui = require("dap"), require("dapui")
-
 vim.cmd('com! DapUiOpen lua require("dapui").open()')
 vim.cmd('com! DapUiClose lua require("dapui").close()')
+
+dap.listeners.before.attach.dapui_config = function()
+    dapui.open()
+end
+dap.listeners.before.launch.dapui_config = function()
+    dapui.open()
+end
+dap.listeners.before.event_terminated.dapui_config = function()
+    dapui.close()
+end
+dap.listeners.before.event_exited.dapui_config = function()
+    dapui.close()
+end
+
+require("nvim-dap-virtual-text").setup()
+
 
 ---@diagnostic disable-next-line: undefined-field
 require("lspconfig").lua_ls.setup {
@@ -186,8 +189,11 @@ vim.api.nvim_create_user_command("LSPDefinition",
 vim.api.nvim_create_user_command("LSPDocumentSymbolQf",
     "lua vim.lsp.buf.document_symbol()",
     {})
+-- vim.api.nvim_create_user_command("LSPDocumentSymbol",
+--     "lua require('telescope.builtin').lsp_document_symbols({fname_width=1000})",
+--     {})
 vim.api.nvim_create_user_command("LSPDocumentSymbol",
-    "lua require('telescope.builtin').lsp_document_symbols({fname_width=1000})",
+    "Trouble lsp_document_symbols win.position=right",
     {})
 vim.api.nvim_create_user_command("LSPFormat",
     "lua vim.lsp.buf.format()",
@@ -640,7 +646,7 @@ require('telescope-tabs').setup {}
 vim.cmd('nno <Leader><Leader> :<Cmd>Telescope git_files<CR>')
 vim.cmd('nno <Leader>T        :<Cmd>Telescope tags<CR>')
 vim.cmd('nno <Leader>al       :<Cmd>Telescope grep_string search=<CR>')
-vim.cmd('nno <Leader>b        :<Cmd>Telescope buffers<CR>')
+vim.cmd('nno <Leader>b        :<Cmd>Telescope buffers sort_lastused=true<CR>')
 vim.cmd('nno <Leader><C-t>    :<Cmd>Telescope telescope-tabs list_tabs<CR>')
 vim.cmd('nno <Leader>c        :<Cmd>Telescope find_files<CR>')
 vim.cmd('nno <Leader>f        :<Cmd>Telescope git_files<CR>')
@@ -751,7 +757,7 @@ require('gitsigns').setup()
 require('numb').setup()
 require("scrollbar").setup()
 require("scrollbar.handlers.search").setup({
-require("scrollbar.handlers.gitsigns").setup()
+    require("scrollbar.handlers.gitsigns").setup()
     -- hlslens config overrides
 })
 require('colorizer').setup()
@@ -770,9 +776,17 @@ vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], 
 vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
 vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
 
-vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>noh<CR>', kopts)
+vim.api.nvim_set_keymap('n', '<Leader>h', '<Cmd>noh<CR>', kopts)
 
-trouble = require("trouble").setup {}
+require("trouble").setup {
+    modes = {
+        lsp_base = {
+            params = {
+                include_current = true,
+            },
+        },
+    }
+}
 
 -- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 -- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
@@ -794,3 +808,7 @@ trouble = require("trouble").setup {}
 
 -- vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
 -- vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
+require('nvim_context_vt').setup({})
+require("toggleterm").setup({})
+
+vim.cmd('nnoremap <Leader>te :<C-u>ToggleTerm<CR>')
