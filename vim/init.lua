@@ -72,15 +72,31 @@ end
 dap.listeners.before.launch.dapui_config = function()
     dapui.open()
 end
-dap.listeners.before.event_terminated.dapui_config = function()
-    dapui.close()
-end
-dap.listeners.before.event_exited.dapui_config = function()
-    dapui.close()
-end
+-- dap.listeners.before.event_terminated.dapui_config = function()
+--     dapui.close()
+-- end
+-- dap.listeners.before.event_exited.dapui_config = function()
+--     dapui.close()
+-- end
 
 require("nvim-dap-virtual-text").setup()
 
+local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+vim.diagnostic.config({
+    severity_sort = true,
+    float = {
+        focusable = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+    },
+})
 
 ---@diagnostic disable-next-line: undefined-field
 require("lspconfig").lua_ls.setup {
@@ -277,6 +293,7 @@ vim.cmd("augroup init_lua")
 vim.cmd("autocmd!")
 -- vim.cmd("autocmd CursorHold  * lua vim.lsp.buf.document_highlight()")
 -- vim.cmd("autocmd CursorHoldI * lua vim.lsp.buf.document_highlight()")
+vim.cmd("autocmd CursorHold * lua vim.diagnostic.open_float()")
 -- vim.cmd("autocmd CursorMoved * lua vim.lsp.buf.clear_references()")
 vim.cmd("autocmd BufEnter    * lua vim.lsp.inlay_hint.enable()")
 -- vim.cmd("autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh({ bufnr = 0 })")
@@ -713,7 +730,7 @@ require("fidget").setup {
     }
 }
 
-
+vim.o.mousemoveevent = true
 
 require("bufferline").setup {
     options = {
