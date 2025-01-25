@@ -30,7 +30,7 @@ if [ "$(uname)" = 'Darwin'  ]; then
 		--enable-multibyte \
 		--enable-gui=auto \
 		--enable-luainterp=dynamic \
-		--with-lua-prefix=/opt/homebrew \
+		--with-lua-prefix=$(brew --prefix) \
 		--with-luajit \
 		--enable-python3interp=yes \
 		--with-python3-command=python3 \

@@ -867,7 +867,7 @@ update() {
             git pull
         popd
         export DOTFILES_UPDATED=true
-        $0
+        $0 update
     else
         update_repositories
         deploy
