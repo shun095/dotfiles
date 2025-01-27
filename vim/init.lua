@@ -53,6 +53,21 @@ require("mason-nvim-dap").setup({
 
 
 local dap = require("dap")
+dap.configurations.lua = { 
+  { 
+    type = 'nlua', 
+    request = 'attach',
+    name = "Attach to running Neovim instance",
+  }
+}
+
+dap.adapters.nlua = function(callback, config)
+  callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+end
+
+vim.cmd('com! LuaDebugLaunchServer lua require("osv").launch({host = "127.0.0.1", port = 8086})')
+
+
 local dapui = require("dapui")
 require("dap-python")
     .setup(require('mason-registry')
@@ -169,6 +184,14 @@ require("inlay-hints").setup()
 
 vim.cmd('cal mymisc#patch_highlight_attributes("DiagnosticHint","LspInlayHint",{"italic": v:true})')
 
+vim.cmd(
+'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineHint","DiagnosticUnderlineHint",{"undercurl": v:true})')
+vim.cmd(
+'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineInfo","DiagnosticUnderlineInfo",{"undercurl": v:true})')
+vim.cmd(
+'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineWarn","DiagnosticUnderlineWarn",{"undercurl": v:true})')
+vim.cmd(
+'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineError","DiagnosticUnderlineError",{"undercurl": v:true})')
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
     vim.lsp.handlers.hover, {
@@ -300,6 +323,8 @@ vim.cmd("autocmd BufEnter    * lua vim.lsp.inlay_hint.enable()")
 vim.cmd("augroup END")
 
 local cmp = require('cmp')
+-- require('cmp.utils.debug').flag = false
+
 local lspkind = require('lspkind')
 
 -- Global setup.
@@ -603,23 +628,31 @@ require('telescope').setup {
     defaults = {
         mappings = {
             i = {
-                ["<C-j>"] = actions.move_selection_next,
                 ["<C-k>"] = actions.move_selection_previous,
+                ["<C-j>"] = actions.move_selection_next,
+                ["<Up>"] = actions.move_selection_previous,
+                ["<Down>"] = actions.move_selection_next,
+                ["<Left>"] = actions.results_scrolling_left,
+                ["<Right>"] = actions.results_scrolling_right,
+                ["<PageUp>"] = actions.preview_scrolling_up,
+                ["<PageDown>"] = actions.preview_scrolling_down,
+                ["<S-Up>"] = actions.preview_scrolling_up,
+                ["<S-Down>"] = actions.preview_scrolling_down,
+                ["<S-Right>"] = actions.preview_scrolling_right,
+                ["<S-Left>"] = actions.preview_scrolling_left,
                 ["<C-u>"] = false,
-                ["<C-d>"] = actions.preview_scrolling_down,
-                ["<C-f>"] = actions.preview_scrolling_down,
-                ["<C-b>"] = actions.preview_scrolling_up,
                 ["<C-c>"] = { "<esc>", type = "command" },
                 ["<esc>"] = actions.close,
                 ["<C-g>"] = actions.close,
                 ["<C-n>"] = actions.cycle_history_next,
                 ["<C-p>"] = actions.cycle_history_prev,
+                ["<C-f>"] = false,
             },
             n = {
-                ["<C-d>"] = actions.preview_scrolling_down,
-                ["<C-f>"] = actions.preview_scrolling_down,
-                ["<C-b>"] = actions.preview_scrolling_up,
                 ["<C-u>"] = actions.preview_scrolling_up,
+                ["<C-d>"] = actions.preview_scrolling_down,
+                ["<C-b>"] = actions.preview_scrolling_up,
+                ["<C-f>"] = actions.preview_scrolling_down,
                 ["<C-g>"] = actions.close,
             }
         },
@@ -631,8 +664,8 @@ require('telescope').setup {
             width = 0.95,
             mirror = true,
         },
-        wrap_results = true,
-        -- winblend = 20,
+        -- wrap_results = false,
+        winblend = 10,
         dynamic_preview_title = true,
         sorting_strategy = "ascending",
     },
@@ -660,28 +693,30 @@ require('telescope').load_extension 'telescope-tabs'
 require('telescope-tabs').setup {}
 
 -- vim.cmd('nno <Leader><Leader> :<C-u>Telescope git_files<CR>')
-vim.cmd('nno <Leader><Leader> :<Cmd>Telescope git_files<CR>')
-vim.cmd('nno <Leader>T        :<Cmd>Telescope tags<CR>')
-vim.cmd('nno <Leader>al       :<Cmd>Telescope grep_string search=<CR>')
-vim.cmd('nno <Leader>b        :<Cmd>Telescope buffers sort_lastused=true<CR>')
-vim.cmd('nno <Leader><C-t>    :<Cmd>Telescope telescope-tabs list_tabs<CR>')
-vim.cmd('nno <Leader>c        :<Cmd>Telescope find_files<CR>')
-vim.cmd('nno <Leader>f        :<Cmd>Telescope git_files<CR>')
-vim.cmd('nno <Leader>gr       :<C-u>Telescope grep_string search=')
-vim.cmd('nno <Leader>l        :<Cmd>Telescope current_buffer_fuzzy_find<CR>')
-vim.cmd('nno <Leader>o        :<Cmd>Telescope current_buffer_tags<CR>')
-vim.cmd('nno <Leader>r        :<Cmd>Telescope registers<CR>')
-vim.cmd('nno <Leader>u        :<Cmd>Telescope oldfiles<CR>')
-vim.cmd('nno <Leader>`        :<Cmd>Telescope marks<CR>')
+vim.cmd('nno <silent> <Leader><Leader> :<Cmd>Telescope git_files<CR>')
+vim.cmd('nno <silent> <Leader>T        :<Cmd>Telescope tags<CR>')
+vim.cmd('nno <silent> <Leader>al       :<Cmd>Telescope grep_string search=<CR>')
+vim.cmd('nno <silent> <Leader>b        :<Cmd>Telescope buffers sort_lastused=true show_all_buffers=false<CR>')
+vim.cmd('nno <silent> <Leader><C-t>    :<Cmd>Telescope telescope-tabs list_tabs<CR>')
+vim.cmd('nno <silent> <Leader>c        :<Cmd>Telescope find_files<CR>')
+vim.cmd('nno <silent> <Leader>f        :<Cmd>Telescope git_files<CR>')
+vim.cmd('nno <silent> <Leader>gr       :<C-u>Telescope grep_string search=')
+vim.cmd('nno <silent> <Leader>l        :<Cmd>Telescope current_buffer_fuzzy_find<CR>')
+vim.cmd('nno <silent> <Leader>o        :<Cmd>Telescope current_buffer_tags<CR>')
+vim.cmd('nno <silent> <Leader>r        :<Cmd>Telescope registers<CR>')
+vim.cmd('nno <silent> <Leader>u        :<Cmd>Telescope oldfiles<CR>')
+vim.cmd('nno <silent> <Leader>`        :<Cmd>Telescope marks<CR>')
 
 -- require("hlchunk").setup({})
 
----@diagnostic disable-next-line: missing-fields
-require("flatten").setup({
-    window = {
-        open = "split",
-    }
-})
+-- ---@diagnostic disable-next-line: missing-fields
+-- require("flatten").setup({
+--     window = {
+--         open = "split",
+--     },
+--     nest_if_no_args = true,
+--     nest_if_cmds = true,
+-- })
 
 require("ibl").setup()
 
@@ -725,7 +760,7 @@ require("noice").setup({
 require("fidget").setup {
     notification = {
         window = {
-            winblend = 50
+            winblend = 10
         }
     }
 }
@@ -828,4 +863,4 @@ require("trouble").setup {
 require('nvim_context_vt').setup({})
 require("toggleterm").setup({})
 
-vim.cmd('nnoremap <Leader>te :<C-u>ToggleTerm<CR>')
+vim.cmd('nnoremap <Leader>te :<C-u>ToggleTerm direction=float<CR>')

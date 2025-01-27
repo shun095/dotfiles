@@ -118,6 +118,7 @@ else
   Plug 'mfussenegger/nvim-dap'
   Plug 'mfussenegger/nvim-jdtls'
   Plug 'mfussenegger/nvim-dap-python'
+  Plug 'jbyuki/one-small-step-for-vimkind'
   Plug 'jay-babu/mason-nvim-dap.nvim'
   Plug 'nvim-neotest/nvim-nio'
   Plug 'rcarriga/nvim-dap-ui'
@@ -164,7 +165,7 @@ else
   Plug 'folke/noice.nvim'
   Plug 'j-hui/fidget.nvim'
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+  Plug 'nvim-telescope/telescope.nvim'
   Plug 'LukasPietzschmann/telescope-tabs'
   if executable('cmake')
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
@@ -403,7 +404,7 @@ if has('vimscript-3')
   Plug 'kyoh86/vim-editerm'
 endif
 if has('nvim')
-  Plug 'willothy/flatten.nvim'
+  " Plug 'willothy/flatten.nvim'
   Plug 'akinsho/toggleterm.nvim'
 endif
 " Non lazy load for QuickRun with pandoc

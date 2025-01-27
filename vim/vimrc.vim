@@ -594,7 +594,7 @@ try
   en
 
   " :CdCurrent で現在のファイルのディレクトリに移動できる(Kaoriyaに入ってて便利なので実装)
-  com! CdCurrent cd\ %:h
+  com! CdCurrent tcd\ %:h
   let g:mymisc_projectdir_reference_files = [
         \ '.hg/',
         \ '.git/',
@@ -603,7 +603,7 @@ try
         \ 'tags',
         \ 'tags-'
         \ ]
-  com! CdProject exe "cd " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
+  com! CdProject exe "tcd " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)
   com! CdHistory cal mymisc#cd_history()
   com! Ghq cal mymisc#fzf('ghq list -p', 'cd')
   com! Fhq cal mymisc#fzf('ghq list -p', 'cd')

@@ -47,6 +47,10 @@ export FPATH="$MYDOTFILES/zsh/completions:$FPATH"
 export ZSH_COMPDUMP=$HOME/.zcompdump
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4"
 export ZSH_HIGHLIGHT_MAXLENGTH=300
+# Declare the variable
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[comment]='fg=magenta,dimmed'
+
 # export ZSH_TMUX_AUTOSTART=true
 export KUBE_PS1_SYMBOL_DEFAULT='K8s'
 export KUBE_PS1_PREFIX='['

@@ -58,8 +58,8 @@ attributes=(
 for attr in "${attributes[@]}"; do
   key="${attr%%:*}"   # コロンの前をキーとして取得
   value="${attr#*:}"  # コロンの後を値として取得
-  echo -e "属性 [$key] (\033[${value}mTest\033[0m) がサポートされていますか？"
+  echo -e "属性 [$key] (\033[${value}mTest\033[0m)"
 done
-
-printf "\x1b[58:2::255:0:0m\x1b[4:1msingle\x1b[4:2mdouble\x1b[4:3mcurly\x1b[4:4mdotted\x1b[4:5mdashed\x1b[0m\n"
+echo "アンダーラインの色チェック"
+printf "\x1b[58:2::255:0:0m\x1b[4:1munderline\n\x1b[4:2munderdouble\n\x1b[4:3mundercurl\n\x1b[4:4munderdotted\n\x1b[4:5munderdashed\x1b[0m\n"
 

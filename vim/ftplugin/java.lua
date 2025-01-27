@@ -57,7 +57,7 @@ local config = {
             }
         }
     },
-    capabilities = require('cmp_nvim_lsp').default_capabilities(),
+    capabilities = capabilities,
 
     -- Language server `initializationOptions`
     -- You need to extend the `bundles` with paths to jar files
