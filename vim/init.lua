@@ -63,8 +63,9 @@ dap.adapters.nlua = function(callback, config)
     callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
 end
 
-vim.cmd('com! LuaDebugLaunchServer lua require("osv").launch({host = "127.0.0.1", port = 8086})')
-
+vim.api.nvim_create_user_command("LuaDebugLaunchServer",
+    'lua require("osv").launch({port = 8086})',
+    {})
 
 local dapui = require("dapui")
 require("dap-python")
@@ -76,8 +77,15 @@ require("dap-python")
 
 require("dapui").setup()
 
-vim.cmd('com! DapUiOpen lua require("dapui").open()')
-vim.cmd('com! DapUiClose lua require("dapui").close()')
+vim.api.nvim_create_user_command("DapUiOpen",
+    'lua require("dapui").open()',
+    {})
+vim.api.nvim_create_user_command("DapUiClose",
+    'lua require("dapui").close()',
+    {})
+vim.api.nvim_create_user_command("DapUiToggle",
+    'lua require("dapui").toggle()',
+    {})
 
 dap.listeners.before.attach.dapui_config = function()
     dapui.open()
@@ -779,6 +787,17 @@ require("bufferline").setup {
         style_preset = require("bufferline").style_preset.no_italic,
     },
 }
+local symbols = require("trouble").statusline({
+    mode = "lsp_document_symbols",
+    groups = {},
+    title = false,
+    filter = { range = true },
+    format = "{kind_icon}{symbol.name:Normal}",
+    -- The following line is needed to fix the background color
+    -- Set it to the lualine section you want to use
+    hl_group = "lualine_c_normal",
+})
+
 require('lualine').setup {
     options = {
         theme = "auto",
@@ -790,13 +809,16 @@ require('lualine').setup {
             {
                 require("noice").api.status.message.get,
                 cond = require("noice").api.status.message.has,
-                color = { fg = "#84a0c6" },
+                color = { fg = "#6b7089" },
             },
             {
                 require("noice").api.status.command.get,
                 cond = require("noice").api.status.command.has,
-                color = { fg = "#b4be82" },
+                color = { fg = "#6b7089" },
             },
+            'encoding',
+            'fileformat',
+            'filetype',
             {
                 require("noice").api.status.mode.get,
                 cond = require("noice").api.status.mode.has,
