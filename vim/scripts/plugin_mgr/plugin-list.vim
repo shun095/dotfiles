@@ -254,7 +254,11 @@ endif
 Plug 'shun095/rosmake.vim', {'on': ['Catkinmake', 'Rosmake']}
 Plug 'mopp/next-alter.vim', {'for': ['c', 'cpp', 'vim']}
 Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
-Plug 'chrisbra/csv.vim', {'for': ['csv']}
+if has('nvim')
+  Plug 'hat0uma/csvview.nvim'
+else
+  Plug 'chrisbra/csv.vim', {'for': ['csv']}
+endif
 " Plug 'fatih/vim-go', {'for': ['go']}
 Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml', 'phtml']}
 Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}

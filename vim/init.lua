@@ -1,7 +1,5 @@
 vim.cmd('source ~/.vimrc')
 
-
----@diagnostic disable-next-line: missing-fields
 require("mason").setup({
     ui = {
         border = "rounded"
@@ -53,16 +51,16 @@ require("mason-nvim-dap").setup({
 
 
 local dap = require("dap")
-dap.configurations.lua = { 
-  { 
-    type = 'nlua', 
-    request = 'attach',
-    name = "Attach to running Neovim instance",
-  }
+dap.configurations.lua = {
+    {
+        type = 'nlua',
+        request = 'attach',
+        name = "Attach to running Neovim instance",
+    }
 }
 
 dap.adapters.nlua = function(callback, config)
-  callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+    callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
 end
 
 vim.cmd('com! LuaDebugLaunchServer lua require("osv").launch({host = "127.0.0.1", port = 8086})')
@@ -113,7 +111,6 @@ vim.diagnostic.config({
     },
 })
 
----@diagnostic disable-next-line: undefined-field
 require("lspconfig").lua_ls.setup {
     settings = {
         Lua = {
@@ -154,7 +151,6 @@ require("lspconfig").lua_ls.setup {
         },
     },
 }
----@diagnostic disable-next-line: undefined-field
 require("lspconfig").denols.setup {
     settings = {
         deno = {
@@ -185,13 +181,13 @@ require("inlay-hints").setup()
 vim.cmd('cal mymisc#patch_highlight_attributes("DiagnosticHint","LspInlayHint",{"italic": v:true})')
 
 vim.cmd(
-'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineHint","DiagnosticUnderlineHint",{"undercurl": v:true})')
+    'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineHint","DiagnosticUnderlineHint",{"undercurl": v:true})')
 vim.cmd(
-'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineInfo","DiagnosticUnderlineInfo",{"undercurl": v:true})')
+    'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineInfo","DiagnosticUnderlineInfo",{"undercurl": v:true})')
 vim.cmd(
-'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineWarn","DiagnosticUnderlineWarn",{"undercurl": v:true})')
+    'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineWarn","DiagnosticUnderlineWarn",{"undercurl": v:true})')
 vim.cmd(
-'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineError","DiagnosticUnderlineError",{"undercurl": v:true})')
+    'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineError","DiagnosticUnderlineError",{"undercurl": v:true})')
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
     vim.lsp.handlers.hover, {
@@ -328,7 +324,6 @@ local cmp = require('cmp')
 local lspkind = require('lspkind')
 
 -- Global setup.
----@diagnostic disable-next-line: redundant-parameter
 cmp.setup({
     window = {
         -- completion = {
@@ -434,7 +429,6 @@ cmp.setup({
 
 -- `/`, `?` cmdline setup.
 for _, cmd_type in ipairs({ '/', '?' }) do
-    ---@diagnostic disable-next-line: undefined-field
     cmp.setup.cmdline(cmd_type, {
         mapping = cmp.mapping.preset.cmdline({
             ['<C-n>'] = {
@@ -472,7 +466,6 @@ for _, cmd_type in ipairs({ '/', '?' }) do
 end
 
 -- `:` cmdline setup.
----@diagnostic disable-next-line: undefined-field
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline({
         ['<C-n>'] = {
@@ -510,7 +503,6 @@ cmp.setup.cmdline(':', {
 
 
 -- for cmdline `input()` prompt
----@diagnostic disable-next-line: undefined-field
 cmp.setup.cmdline('@', {
     mapping = cmp.mapping.preset.cmdline({
         ['<C-n>'] = {
@@ -545,7 +537,6 @@ cmp.setup.cmdline('@', {
 })
 
 
----@diagnostic disable-next-line: missing-fields
 require("nvim-treesitter.configs").setup {
     -- A list of parser names, or "all" (the listed parsers MUST always be installed)
     ensure_installed = {},
@@ -574,7 +565,6 @@ require("nvim-treesitter.configs").setup {
         -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
         disable = function(_, buf)
             local max_filesize = 100 * 1024 -- 100 KB
-            ---@diagnostic disable-next-line: undefined-field
             local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
             if ok and stats and stats.size > max_filesize then
                 return true
@@ -709,7 +699,6 @@ vim.cmd('nno <silent> <Leader>`        :<Cmd>Telescope marks<CR>')
 
 -- require("hlchunk").setup({})
 
--- ---@diagnostic disable-next-line: missing-fields
 -- require("flatten").setup({
 --     window = {
 --         open = "split",
@@ -720,7 +709,6 @@ vim.cmd('nno <silent> <Leader>`        :<Cmd>Telescope marks<CR>')
 
 require("ibl").setup()
 
----@diagnostic disable-next-line: undefined-field
 require("notify").setup({
     minimum_width = 40,
     max_width = 40,
@@ -796,7 +784,31 @@ require('lualine').setup {
         theme = "auto",
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
-    }
+    },
+    sections = {
+        lualine_x = {
+            {
+                require("noice").api.status.message.get,
+                cond = require("noice").api.status.message.has,
+                color = { fg = "#84a0c6" },
+            },
+            {
+                require("noice").api.status.command.get,
+                cond = require("noice").api.status.command.has,
+                color = { fg = "#b4be82" },
+            },
+            {
+                require("noice").api.status.mode.get,
+                cond = require("noice").api.status.mode.has,
+                color = { fg = "#e27878" },
+            },
+            {
+                require("noice").api.status.search.get,
+                cond = require("noice").api.status.search.has,
+                color = { fg = "#e2a478" },
+            },
+        },
+    },
 }
 
 require('render-markdown').setup({
@@ -864,3 +876,6 @@ require('nvim_context_vt').setup({})
 require("toggleterm").setup({})
 
 vim.cmd('nnoremap <Leader>te :<C-u>ToggleTerm direction=float<CR>')
+
+require('csvview').setup()
+require('csvview').enable()
