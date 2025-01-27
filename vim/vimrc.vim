@@ -611,7 +611,7 @@ try
     if has('nvim')
       com! Tig cal mymisc#command_at_destdir(
             \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
-            \ [":bel split | call feedkeys('i') | :terminal tig"])
+            \ [":tabe | :terminal tig"])
     el
       com! Tig cal mymisc#command_at_destdir(
             \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
@@ -927,6 +927,8 @@ try
     if !has('nvim') && v:version >= 801
       au TerminalOpen * setl nonumber nolist
       au TerminalOpen * nn <buffer>q :bw<CR>
+    else
+      autocmd TermOpen * startinsert
     en
   aug END
   "}}} AUTOCMD END
