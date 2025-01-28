@@ -34,10 +34,11 @@ export const main: Entrypoint = (denops: Denops) => {
       assert(nodeList, is.ArrayOf(is.Any));
       assert(prevTextList, is.ArrayOf(is.String));
 
-      prevTextList = await Promise.all(prevTextList.map((
-        prevText,
-        idx,
-      ) => getSymlinkString(prevText, nodeList[idx]["_path"])))
+      prevTextList = await Promise.all(
+        prevTextList.map((prevText, idx) =>
+          getSymlinkString(prevText, nodeList[idx]["_path"])
+        ),
+      );
 
       assert(prevTextList, is.ArrayOf(is.String));
 
@@ -53,11 +54,8 @@ export const main: Entrypoint = (denops: Denops) => {
         drawer_width + 2,
       );
 
-      const promises = prevTextList.map((
-        prevText,
-        idx,
-      ) =>
-        this.getRenderStringsForEachNode(maxPrevTextLength, [
+      const promises = prevTextList.map((prevText, idx) =>
+        getRenderStringsForEachNode(denops, maxPrevTextLength, [
           prevText,
           nodeList[idx],
         ])
@@ -66,36 +64,40 @@ export const main: Entrypoint = (denops: Denops) => {
       const resultList = await Promise.all(promises);
       return JSON.stringify(resultList);
     },
-
-    async getRenderStringsForEachNode(maxPrevTextLength, elem) {
-      assert(elem, is.ArrayOf(is.Any));
-      assert(maxPrevTextLength, is.Number);
-      const prevText = elem[0];
-      const path = elem[1]["_path"];
-
-      const propertyString = await getPropertyString(path);
-
-      const prevTextLength = await fn.strdisplaywidth(denops, prevText);
-      assert(prevTextLength, is.Number);
-
-      return prevText +
-        " ".repeat(maxPrevTextLength - prevTextLength) +
-        propertyString;
-    },
   };
 };
 
-async function getSymlinkString(prevText: string, filePath: string): Promise<string> {
-    try {
-        const stats = fs.lstatSync(filePath);
-        if (stats.isSymbolicLink()) {
-            return prevText + " -> " + fs.readlinkSync(filePath);
-        }
-        return prevText;
-    } catch (error: any) {
-        console.error(`Error checking path: ${error.message}`);
-        return prevText;
+// deno-lint-ignore no-explicit-any
+async function getRenderStringsForEachNode(denops: Denops, maxPrevTextLength: number, elem: any[]) {
+  const prevText = elem[0];
+  const path = elem[1]["_path"];
+
+  const propertyString = await getPropertyString(path);
+
+  const prevTextLength = await fn.strdisplaywidth(denops, prevText);
+  assert(prevTextLength, is.Number);
+
+  return prevText +
+    " ".repeat(maxPrevTextLength - prevTextLength) +
+    propertyString;
+}
+
+// deno-lint-ignore require-await
+async function getSymlinkString(
+  prevText: string,
+  filePath: string,
+): Promise<string> {
+  try {
+    const stats = fs.lstatSync(filePath);
+    if (stats.isSymbolicLink()) {
+      return prevText + " -> " + fs.readlinkSync(filePath);
     }
+    return prevText;
+  } catch (error) {
+    assert(error, is.Any);
+    console.error(`Error checking path: ${error.message}`);
+    return prevText;
+  }
 }
 
 // ファイルの詳細情報を表示する関数
