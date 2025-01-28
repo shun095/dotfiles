@@ -112,7 +112,7 @@ if !has('nvim')
   endif
   Plug 'rhysd/vim-healthcheck'
 else
-  " -- nvim native lsp ---
+  " -- nvim native lsp & dap---
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'mfussenegger/nvim-dap'
@@ -186,7 +186,9 @@ endif
 " }}}
 
 " === Debug Adapter Protocl === {{{
-Plug 'puremourning/vimspector'
+if !has('nvim')
+  Plug 'puremourning/vimspector'
+endif
 " }}}
 
 " === Filer === {{{
@@ -223,11 +225,11 @@ Plug 'puremourning/vimspector'
 " }}}
 
 " === Language specific completions === {{{
-Plug 'OmniSharp/omnisharp-vim', {'for': ['cs']}
+" Plug 'OmniSharp/omnisharp-vim', {'for': ['cs']}
 " Plug 'Quramy/tsuquyomi', {'for': ['javascript', 'typescript']}
-Plug 'vim-scripts/dbext.vim', {'for': ['sql']}
-Plug 'tpope/vim-dadbod', {'for': ['sql']}
-Plug 'othree/csscomplete.vim', {'for': ['css']}
+" Plug 'vim-scripts/dbext.vim', {'for': ['sql']}
+" Plug 'tpope/vim-dadbod', {'for': ['sql']}
+" Plug 'othree/csscomplete.vim', {'for': ['css']}
 " for vimscript
 " Plug 'Shougo/neco-vim'
 " }}}
@@ -251,9 +253,9 @@ endif
 " }}}
 
 " === Language/environment specific plugins === {{{
-Plug 'shun095/rosmake.vim', {'on': ['Catkinmake', 'Rosmake']}
-Plug 'mopp/next-alter.vim', {'for': ['c', 'cpp', 'vim']}
-Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
+" Plug 'shun095/rosmake.vim', {'on': ['Catkinmake', 'Rosmake']}
+" Plug 'mopp/next-alter.vim', {'for': ['c', 'cpp', 'vim']}
+" Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
 if has('nvim')
   Plug 'hat0uma/csvview.nvim'
 else
@@ -264,7 +266,9 @@ Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml', 'phtml']}
 Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
 Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
-Plug 'MeanderingProgrammer/render-markdown.nvim'
+if has('nvim')
+  Plug 'MeanderingProgrammer/render-markdown.nvim'
+endif
 Plug 'dhruvasagar/vim-table-mode', {'for': ['markdown']}
 Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
 Plug 'shinespark/vim-list2tree', {'for': ['markdown']}

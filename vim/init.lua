@@ -49,7 +49,6 @@ require("mason-nvim-dap").setup({
     },
 })
 
-
 local dap = require("dap")
 dap.configurations.lua = {
     {
@@ -787,16 +786,16 @@ require("bufferline").setup {
         style_preset = require("bufferline").style_preset.no_italic,
     },
 }
-local symbols = require("trouble").statusline({
-    mode = "lsp_document_symbols",
-    groups = {},
-    title = false,
-    filter = { range = true },
-    format = "{kind_icon}{symbol.name:Normal}",
-    -- The following line is needed to fix the background color
-    -- Set it to the lualine section you want to use
-    hl_group = "lualine_c_normal",
-})
+
+require("trouble").setup {
+    modes = {
+        lsp_base = {
+            params = {
+                include_current = true,
+            },
+        },
+    }
+}
 
 require('lualine').setup {
     options = {
@@ -864,15 +863,9 @@ vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]]
 
 vim.api.nvim_set_keymap('n', '<Leader>h', '<Cmd>noh<CR>', kopts)
 
-require("trouble").setup {
-    modes = {
-        lsp_base = {
-            params = {
-                include_current = true,
-            },
-        },
-    }
-}
+vim.cmd('highlight! link HlSearchNear CurSearch')
+vim.cmd('highlight! link HlSearchLens DiagnosticHint')
+vim.cmd('highlight! link HlSearchLensNear DiagnosticInfo')
 
 -- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 -- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')

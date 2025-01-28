@@ -33,7 +33,7 @@ local config = {
         '--add-modules=ALL-SYSTEM',
         '--add-opens', 'java.base/java.util=ALL-UNNAMED',
         '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-        '-jar', vim.fn.glob(jdtls_path .. '/plugins/org.eclipse.equinox.launcher_*.jar',true),
+        '-jar', vim.fn.glob(jdtls_path .. '/plugins/org.eclipse.equinox.launcher_*.jar', true),
         '-configuration', jdtls_path .. '/config_mac_arm',
         '-data', vim.env.HOME .. '/.cache/jdtls/workspace/' .. project_name
     },
@@ -48,14 +48,18 @@ local config = {
         java = {
             inlayHints = {
                 parameterNames = {
-                    enabled = "all"
-                }
+                    enabled = "all",
+                },
             },
             implementationCodeLens = "all",
             referencesCodeLens = {
-                enabled = true
-            }
-        }
+                enabled = true,
+            },
+            symbols = {
+                includeSourceMethodDeclarations = true,
+            },
+        },
+
     },
     capabilities = capabilities,
 

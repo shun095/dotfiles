@@ -439,17 +439,27 @@ if mymisc#startup#plug_tap('gina.vim')
   cal gina#custom#mapping#nmap(
         \ 'status', 'q',
         \ ':<C-u>bd<CR><C-w>p',
-        \ {'no': 1, 'silent': 0},
+        \ {'noremap': 1, 'silent': 0},
+        \)
+  cal gina#custom#mapping#nmap(
+        \ 'status', 'dd',
+        \ ':call gina#action#call(''diff:rightest'')<CR>',
+        \ {'noremap': 1, 'silent': 0},
         \)
   cal gina#custom#mapping#nmap(
         \ 'commit', 'q',
         \ ':<C-u>bd<CR><C-w>p',
-        \ {'no': 1, 'silent': 0},
+        \ {'noremap': 1, 'silent': 0},
         \)
   cal gina#custom#mapping#nmap(
         \ 'diff', 'q',
         \ ':<C-u>bd<CR><C-w>p',
-        \ {'no': 1, 'silent': 0},
+        \ {'noremap': 1, 'silent': 0},
+        \)
+  cal gina#custom#mapping#nmap(
+        \ 'diff', 'q',
+        \ ':<C-u>bd<CR><C-w>p',
+        \ {'noremap': 1, 'silent': 0},
         \)
 en
 
