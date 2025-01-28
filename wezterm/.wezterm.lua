@@ -15,7 +15,20 @@ config.window_padding = {
     bottom = 0,
 }
 config.keys = {
-    { key = "f", mods = "CTRL|CMD", action = wezterm.action.ToggleFullScreen },
+    {
+        key = "f",
+        mods = "CTRL|CMD",
+        action = wezterm.action.ToggleFullScreen
+    },
+    {
+        key = "¥",
+        action = wezterm.action.SendKey({ key = "\\" })
+    },
+    {
+        key = "¥",
+        mods = "ALT",
+        action = wezterm.action.SendKey({ key = "¥" }),
+    }
 }
 
 return config

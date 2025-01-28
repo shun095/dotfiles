@@ -34,6 +34,13 @@ export const main: Entrypoint = (denops: Denops) => {
       assert(nodeList, is.ArrayOf(is.Any));
       assert(prevTextList, is.ArrayOf(is.String));
 
+      prevTextList = await Promise.all(prevTextList.map((
+        prevText,
+        idx,
+      ) => getSymlinkString(prevText, nodeList[idx]["_path"])))
+
+      assert(prevTextList, is.ArrayOf(is.String));
+
       const prevTextLengthList = await Promise.all(
         prevTextList.map((prevText) => fn.strdisplaywidth(denops, prevText)),
       );
@@ -77,6 +84,19 @@ export const main: Entrypoint = (denops: Denops) => {
     },
   };
 };
+
+async function getSymlinkString(prevText: string, filePath: string): Promise<string> {
+    try {
+        const stats = fs.lstatSync(filePath);
+        if (stats.isSymbolicLink()) {
+            return prevText + " -> " + fs.readlinkSync(filePath);
+        }
+        return prevText;
+    } catch (error: any) {
+        console.error(`Error checking path: ${error.message}`);
+        return prevText;
+    }
+}
 
 // ファイルの詳細情報を表示する関数
 async function getPropertyString(filePath: string): Promise<string> {

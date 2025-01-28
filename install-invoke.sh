@@ -47,14 +47,18 @@ else
     NVIMRC="$HOME/.config/nvim/init.lua"
     GNVIMRC="$HOME/.config/nvim/ginit.vim"
 fi
+ALACRITTYRC=$HOME/.config/alacritty/alacritty.toml
+WEZTERMRC=$HOME/.wezterm.lua
 
 SYMLINKS=(
-    ${FLAKE8}
-    ${VINTRC}
-    ${EMACSINIT}
-    ${NVIMRC}
-    ${GNVIMRC}
-    ${TIGRC}
+    "${FLAKE8}"
+    "${VINTRC}"
+    "${EMACSINIT}"
+    "${NVIMRC}"
+    "${GNVIMRC}"
+    "${TIGRC}"
+    "${ALACRITTYRC}"
+    "${WEZTERMRC}"
 )
 
 SYMTARGET=(
@@ -64,6 +68,8 @@ SYMTARGET=(
     "${MYDOTFILES}/vim/init.lua"
     "${MYDOTFILES}/vim/ginit.vim"
     "${MYDOTFILES}/tig/tigrc"
+    "${MYDOTFILES}/alacritty/alacritty.toml"
+    "${MYDOTFILES}/wezterm/.wezterm.lua"
 )
 
 # actual files
