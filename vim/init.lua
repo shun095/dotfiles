@@ -1,4 +1,15 @@
-vim.cmd('source ~/.vimrc')
+-- vim.cmd('source ~/.vimrc')
+vim.cmd('so $MYDOTFILES/vim/scripts/basic_config.vim')
+vim.cmd('so $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim')
+vim.cmd('cal g:plugin_mgr["load"]()')
+vim.cmd('cal g:plugin_mgr["init"]()')
+vim.cmd('so $MYVIMHOME/scripts/lazy_hooks.vim')
+vim.cmd('so $MYVIMHOME/scripts/custom.vim')
+vim.cmd('so $MYVIMHOME/scripts/custom_global.vim')
+
+vim.cmd("augroup init_lua")
+vim.cmd("autocmd!")
+vim.cmd("augroup END")
 
 require("mason").setup({
     ui = {
@@ -185,16 +196,17 @@ require("lspconfig").denols.setup {
 
 require("inlay-hints").setup()
 
-vim.cmd('cal mymisc#patch_highlight_attributes("DiagnosticHint","LspInlayHint",{"italic": v:true})')
+vim.cmd(
+    'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticHint","LspInlayHint",{"italic": v:true})')
 
 vim.cmd(
-    'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineHint","DiagnosticUnderlineHint",{"undercurl": v:true})')
+    'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticUnderlineHint","DiagnosticUnderlineHint",{"undercurl": v:true})')
 vim.cmd(
-    'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineInfo","DiagnosticUnderlineInfo",{"undercurl": v:true})')
+    'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticUnderlineInfo","DiagnosticUnderlineInfo",{"undercurl": v:true})')
 vim.cmd(
-    'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineWarn","DiagnosticUnderlineWarn",{"undercurl": v:true})')
+    'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticUnderlineWarn","DiagnosticUnderlineWarn",{"undercurl": v:true})')
 vim.cmd(
-    'cal mymisc#patch_highlight_attributes("DiagnosticUnderlineError","DiagnosticUnderlineError",{"undercurl": v:true})')
+    'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticUnderlineError","DiagnosticUnderlineError",{"undercurl": v:true})')
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
     vim.lsp.handlers.hover, {
@@ -210,11 +222,11 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
     }
 )
 
-vim.cmd('highlight! link NormalFloat Normal')
-vim.cmd('highlight! link WinBar Normal')
-vim.cmd('highlight! link WinBarNC Normal')
-vim.cmd('highlight! link LspCodeLens Comment')
-vim.cmd('highlight! link LspCodeLensSeparator Comment')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link NormalFloat Normal')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link WinBar Normal')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link WinBarNC Normal')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link LspCodeLens Comment')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link LspCodeLensSeparator Comment')
 
 vim.api.nvim_create_user_command("LSPCodeAction",
     "lua vim.lsp.buf.code_action()",
@@ -315,15 +327,12 @@ vim.api.nvim_create_user_command("LSPCodeLensRefresh",
 
 
 
-vim.cmd("augroup init_lua")
-vim.cmd("autocmd!")
--- vim.cmd("autocmd CursorHold  * lua vim.lsp.buf.document_highlight()")
--- vim.cmd("autocmd CursorHoldI * lua vim.lsp.buf.document_highlight()")
-vim.cmd("autocmd CursorHold * lua vim.diagnostic.open_float()")
--- vim.cmd("autocmd CursorMoved * lua vim.lsp.buf.clear_references()")
-vim.cmd("autocmd BufEnter    * lua vim.lsp.inlay_hint.enable()")
--- vim.cmd("autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh({ bufnr = 0 })")
-vim.cmd("augroup END")
+-- vim.cmd("autocmd init_lua CursorHold  * lua vim.lsp.buf.document_highlight()")
+-- vim.cmd("autocmd init_lua CursorHoldI * lua vim.lsp.buf.document_highlight()")
+vim.cmd("autocmd init_lua CursorHold * lua vim.diagnostic.open_float()")
+-- vim.cmd("autocmd init_lua CursorMoved * lua vim.lsp.buf.clear_references()")
+vim.cmd("autocmd init_lua BufEnter    * lua vim.lsp.inlay_hint.enable()")
+-- vim.cmd("autocmd init_lua BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh({ bufnr = 0 })")
 
 local cmp = require('cmp')
 -- require('cmp.utils.debug').flag = false
@@ -611,10 +620,10 @@ require('treesitter-context').setup {
     on_attach = nil,         -- (fun(buf: integer): boolean) return false to disable attaching
 }
 
-vim.cmd('hi TreesitterContextBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
-vim.cmd('hi TreesitterContextLineNumberBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
--- vim.cmd('hi TreesitterContext guifg=#6b7089')
--- vim.cmd('hi TreesitterContextLineNumber guifg=#6b7089')
+vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContextBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
+vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContextLineNumberBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContext guifg=#6b7089')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContextLineNumber guifg=#6b7089')
 vim.cmd('set scrolloff=8')
 
 
@@ -730,31 +739,37 @@ vim.o.winblend = 0
 
 
 
--- vim.cmd('highlight! NotifyBackground links to Normal')
--- vim.cmd('highlight! NotifyERRORBody links to Normal')
--- vim.cmd('highlight! NotifyWARNBody links to Normal')
--- vim.cmd('highlight! NotifyINFOBody links to Normal')
--- vim.cmd('highlight! NotifyDEBUGBody links to Normal')
--- vim.cmd('highlight! NotifyTRACEBody links to Normal')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyBackground links to Normal')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyERRORBody links to Normal')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyWARNBody links to Normal')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyINFOBody links to Normal')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyDEBUGBody links to Normal')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyTRACEBody links to Normal')
 --
--- vim.cmd('highlight! NotifyLogTime links to Comment')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyLogTime links to Comment')
 --
--- vim.cmd('highlight! NotifyLogTitle links to Special')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyLogTitle links to Special')
 
 -- local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal', link = false })
 -- local comment_hl = vim.api.nvim_get_hl(0, { name = 'Comment', link = false })
 -- local special_hl = vim.api.nvim_get_hl(0, { name = 'Special', link = false })
 
--- vim.api.nvim_set_hl(0, 'NotifyBackground', vim.tbl_extend('force', normal_hl, { blend = 30 }))
--- vim.api.nvim_set_hl(0, 'NotifyTRACEBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
--- vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
--- vim.api.nvim_set_hl(0, 'NotifyINFOBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
--- vim.api.nvim_set_hl(0, 'NotifyWARNBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
--- vim.api.nvim_set_hl(0, 'NotifyERRORBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
--- vim.api.nvim_set_hl(0, 'NotifyLogTime', vim.tbl_extend('force', comment_hl, { blend = 30 }))
--- vim.api.nvim_set_hl(0, 'NotifyLogTitle', vim.tbl_extend('force', special_hl, { blend = 30 }))
+-- vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+--     group = "init_lua",
+--     pattern = '*',
+--     callback = function()
+--         vim.api.nvim_set_hl(0, 'NotifyBackground', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyTRACEBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyINFOBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyWARNBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyERRORBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyLogTime', vim.tbl_extend('force', comment_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyLogTitle', vim.tbl_extend('force', special_hl, { blend = 30 }))
+--     end
+-- })
 
--- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 
 require("noice").setup({
     lsp = {
@@ -787,11 +802,17 @@ require("noice").setup({
     }
 })
 
-vim.api.nvim_set_hl(0, 'NoiceCmdlineIcon', { link = 'DiagnosticInfo', force = true })
-vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupBorder', { link = 'DiagnosticInfo', force = true })
-vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupTitle', { link = 'DiagnosticInfo', force = true })
-vim.api.nvim_set_hl(0, 'NoiceCmdlineIconSearch', { link = 'DiagnosticWarn', force = true })
-vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupBorderSearch', { link = 'DiagnosticWarn', force = true })
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+    group = "init_lua",
+    pattern = '*',
+    callback = function()
+        vim.api.nvim_set_hl(0, 'NoiceCmdlineIcon', { link = 'DiagnosticInfo', force = true })
+        vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupBorder', { link = 'DiagnosticInfo', force = true })
+        vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupTitle', { link = 'DiagnosticInfo', force = true })
+        vim.api.nvim_set_hl(0, 'NoiceCmdlineIconSearch', { link = 'DiagnosticWarn', force = true })
+        vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupBorderSearch', { link = 'DiagnosticWarn', force = true })
+    end
+})
 
 -- require("fidget").setup {
 --     notification = {
@@ -904,16 +925,16 @@ vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]]
 
 vim.api.nvim_set_keymap('n', '<Leader>h', '<Cmd>noh<CR>', kopts)
 
-vim.cmd('highlight! link HlSearchNear CurSearch')
-vim.cmd('highlight! link HlSearchLens DiagnosticHint')
-vim.cmd('highlight! link HlSearchLensNear DiagnosticInfo')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchNear CurSearch')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchLens DiagnosticHint')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchLensNear DiagnosticInfo')
 
--- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
--- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
--- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH3Bg",{"bold": v:true})')
--- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH4Bg",{})')
--- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH5Bg",{})')
--- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH6Bg",{})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH3Bg",{"bold": v:true})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH4Bg",{})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH5Bg",{})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH6Bg",{})')
 
 -- require("neo-tree").setup({
 --     window = {
@@ -942,3 +963,5 @@ vim.cmd('nnoremap <Leader>te :<C-u>ToggleTerm direction=float<CR>')
 
 require('csvview').setup()
 require('csvview').enable()
+
+vim.cmd('colorscheme iceberg')

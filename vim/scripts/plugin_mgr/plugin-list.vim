@@ -15,6 +15,8 @@ let g:terminal_ansi_colors = [
       \ '#61afef', '#c678dd', '#56b6c2', '#ffffff'
       \ ]
 
+execute "Plug '" . expand('$MYVIMHOME') . "'"
+
 " Plug 'roxma/nvim-yarp'
 " Plug 'roxma/vim-hug-neovim-rpc'
 " Plug 'Shougo/defx.nvim'

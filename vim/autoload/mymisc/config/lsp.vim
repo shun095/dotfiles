@@ -55,23 +55,23 @@ fun! mymisc#config#lsp#setup() abort
 
   aug vimrc_vimlsp
     au!
-    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticHint",  "lspInlayHintsParameter",    {"italic":    v:true})
-    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticHint",  "lspInlayHintsType",         {"italic":    v:true})
+    au ColorScheme iceberg cal mymisc#patch_highlight_attributes("DiagnosticHint",  "lspInlayHintsParameter",    {"italic":    v:true})
+    au ColorScheme iceberg cal mymisc#patch_highlight_attributes("DiagnosticHint",  "lspInlayHintsType",         {"italic":    v:true})
 
-    au ColorScheme * highlight! LspErrorHighlight       term=underline cterm=underline gui=underline
-    au ColorScheme * highlight! LspWarningHighlight     term=underline cterm=underline gui=underline
-    au ColorScheme * highlight! LspInformationHighlight term=underline cterm=underline gui=underline
-    au ColorScheme * highlight! LspHintHighlight        term=underline cterm=underline gui=underline
+    au ColorScheme iceberg highlight! LspErrorHighlight       term=underline cterm=underline gui=underline
+    au ColorScheme iceberg highlight! LspWarningHighlight     term=underline cterm=underline gui=underline
+    au ColorScheme iceberg highlight! LspInformationHighlight term=underline cterm=underline gui=underline
+    au ColorScheme iceberg highlight! LspHintHighlight        term=underline cterm=underline gui=underline
 
-    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticError", "LspErrorText",       {})
-    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticWarn",  "LspWarningText",     {})
-    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticInfo",  "LspInformationText", {})
-    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticHint",  "LspHintText",        {})
+    au ColorScheme iceberg cal mymisc#patch_highlight_attributes("DiagnosticError", "LspErrorText",       {})
+    au ColorScheme iceberg cal mymisc#patch_highlight_attributes("DiagnosticWarn",  "LspWarningText",     {})
+    au ColorScheme iceberg cal mymisc#patch_highlight_attributes("DiagnosticInfo",  "LspInformationText", {})
+    au ColorScheme iceberg cal mymisc#patch_highlight_attributes("DiagnosticHint",  "LspHintText",        {})
 
-    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticError", "LspErrorVirtualText",       {})
-    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticWarn",  "LspWarningVirtualText",     {})
-    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticInfo",  "LspInformationVirtualText", {})
-    au ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticHint",  "LspHintVirtualText",        {})
+    au ColorScheme iceberg cal mymisc#patch_highlight_attributes("DiagnosticError", "LspErrorVirtualText",       {})
+    au ColorScheme iceberg cal mymisc#patch_highlight_attributes("DiagnosticWarn",  "LspWarningVirtualText",     {})
+    au ColorScheme iceberg cal mymisc#patch_highlight_attributes("DiagnosticInfo",  "LspInformationVirtualText", {})
+    au ColorScheme iceberg cal mymisc#patch_highlight_attributes("DiagnosticHint",  "LspHintVirtualText",        {})
     au FileType * nno <leader><c-]> :<C-u>LspDefinition<CR>
     au FileType * nno <leader>K :<C-u>call mymisc#toggle_preview_window()<CR>
     au FileType * nno <leader><C-k> :<C-u>call mymisc#toggle_preview_window()<CR>
