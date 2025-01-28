@@ -43,7 +43,7 @@ require("mason-nvim-dap").setup({
         function(config)
             require('mason-nvim-dap').default_setup(config)
         end,
-        python = function(config)
+        python = function()
             -- nothing to do
         end,
     },
@@ -606,13 +606,15 @@ require('treesitter-context').setup {
     multiline_threshold = 8, -- Maximum number of lines to show for a single context
     trim_scope = 'inner',    -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
     mode = 'topline',        -- Line used to calculate context. Choices: 'cursor', 'topline'
-    separator = nil,
+    -- separator = "─",
     zindex = 20,             -- The Z-index of the context window
     on_attach = nil,         -- (fun(buf: integer): boolean) return false to disable attaching
 }
 
-vim.cmd('hi TreesitterContextBottom gui=underline guisp=NvimDarkGray3 term=underline cterm=underline')
-vim.cmd('hi TreesitterContextLineNumberBottom gui=underline term=underline cterm=underline')
+vim.cmd('hi TreesitterContextBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
+vim.cmd('hi TreesitterContextLineNumberBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
+-- vim.cmd('hi TreesitterContext guifg=#6b7089')
+-- vim.cmd('hi TreesitterContextLineNumber guifg=#6b7089')
 vim.cmd('set scrolloff=8')
 
 
@@ -662,7 +664,7 @@ require('telescope').setup {
             mirror = true,
         },
         -- wrap_results = false,
-        winblend = 10,
+        winblend = 0,
         dynamic_preview_title = true,
         sorting_strategy = "ascending",
     },
@@ -719,9 +721,40 @@ require("ibl").setup()
 require("notify").setup({
     minimum_width = 40,
     max_width = 40,
-    render = "wrapped-compact",
+    render = "wrapped-default",
+    -- stages = "static",
     timeout = 3000,
 })
+
+vim.o.winblend = 0
+
+
+
+-- vim.cmd('highlight! NotifyBackground links to Normal')
+-- vim.cmd('highlight! NotifyERRORBody links to Normal')
+-- vim.cmd('highlight! NotifyWARNBody links to Normal')
+-- vim.cmd('highlight! NotifyINFOBody links to Normal')
+-- vim.cmd('highlight! NotifyDEBUGBody links to Normal')
+-- vim.cmd('highlight! NotifyTRACEBody links to Normal')
+--
+-- vim.cmd('highlight! NotifyLogTime links to Comment')
+--
+-- vim.cmd('highlight! NotifyLogTitle links to Special')
+
+-- local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal', link = false })
+-- local comment_hl = vim.api.nvim_get_hl(0, { name = 'Comment', link = false })
+-- local special_hl = vim.api.nvim_get_hl(0, { name = 'Special', link = false })
+
+-- vim.api.nvim_set_hl(0, 'NotifyBackground', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+-- vim.api.nvim_set_hl(0, 'NotifyTRACEBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+-- vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+-- vim.api.nvim_set_hl(0, 'NotifyINFOBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+-- vim.api.nvim_set_hl(0, 'NotifyWARNBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+-- vim.api.nvim_set_hl(0, 'NotifyERRORBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+-- vim.api.nvim_set_hl(0, 'NotifyLogTime', vim.tbl_extend('force', comment_hl, { blend = 30 }))
+-- vim.api.nvim_set_hl(0, 'NotifyLogTitle', vim.tbl_extend('force', special_hl, { blend = 30 }))
+
+-- vim.cmd('cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 
 require("noice").setup({
     lsp = {
@@ -732,7 +765,7 @@ require("noice").setup({
             ["cmp.entry.get_documentation"] = false
         },
         progress = {
-            enabled = false,
+            enabled = true,
         },
         signature = {
             enabled = false,
@@ -748,17 +781,25 @@ require("noice").setup({
     },
     messages = {
         view_search = false
+    },
+    popupmenu = {
+        backend = "cmp"
     }
 })
 
+vim.api.nvim_set_hl(0, 'NoiceCmdlineIcon', { link = 'DiagnosticInfo', force = true })
+vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupBorder', { link = 'DiagnosticInfo', force = true })
+vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupTitle', { link = 'DiagnosticInfo', force = true })
+vim.api.nvim_set_hl(0, 'NoiceCmdlineIconSearch', { link = 'DiagnosticWarn', force = true })
+vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupBorderSearch', { link = 'DiagnosticWarn', force = true })
 
-require("fidget").setup {
-    notification = {
-        window = {
-            winblend = 10
-        }
-    }
-}
+-- require("fidget").setup {
+--     notification = {
+--         window = {
+--             winblend = 30
+--         }
+--     }
+-- }
 
 vim.o.mousemoveevent = true
 
@@ -888,8 +929,15 @@ vim.cmd('highlight! link HlSearchLensNear DiagnosticInfo')
 -- vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
 -- vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
 require('nvim_context_vt').setup({})
-require("toggleterm").setup({})
-
+require("toggleterm").setup({
+    float_opts = {
+        border = 'curved',
+        winblend = 0,
+    },
+    winbar = {
+        enabled = true
+    }
+})
 vim.cmd('nnoremap <Leader>te :<C-u>ToggleTerm direction=float<CR>')
 
 require('csvview').setup()

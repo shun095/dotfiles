@@ -163,7 +163,7 @@ else
   Plug 'MunifTanjim/nui.nvim'
   Plug 'rcarriga/nvim-notify'
   Plug 'folke/noice.nvim'
-  Plug 'j-hui/fidget.nvim'
+  " Plug 'j-hui/fidget.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'LukasPietzschmann/telescope-tabs'

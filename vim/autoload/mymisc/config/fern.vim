@@ -83,6 +83,7 @@ fun! mymisc#config#fern#setup() abort
     aug END
   endif
 
+  let g:fern#renderer#web_devicons#indent_markers = v:true
   let s:inherited_renderer = fern#renderer#web_devicons#new()
   " let s:inherited_renderer = fern#renderer#nerdfont#new()
   " let s:inherited_renderer = fern#renderer#default#new()
