@@ -68,7 +68,11 @@ export const main: Entrypoint = (denops: Denops) => {
 };
 
 // deno-lint-ignore no-explicit-any
-async function getRenderStringsForEachNode(denops: Denops, maxPrevTextLength: number, elem: any[]) {
+async function getRenderStringsForEachNode(
+  denops: Denops,
+  maxPrevTextLength: number,
+  elem: any[],
+) {
   const prevText = elem[0];
   const path = elem[1]["_path"];
 
@@ -125,6 +129,17 @@ async function getPropertyString(filePath: string): Promise<string> {
     // 更新日時の取得（Locale形式に変換）
     const updatedAt = stats.mtime;
 
+    // タイムゾーンのオフセットを取得
+    const timeZoneOffset = -updatedAt.getTimezoneOffset(); // 分単位のオフセット
+    const offsetHours = String(Math.floor(Math.abs(timeZoneOffset) / 60))
+      .padStart(2, "0");
+    const offsetMinutes = String(Math.abs(timeZoneOffset) % 60).padStart(
+      2,
+      "0",
+    );
+    const offsetSign = timeZoneOffset >= 0 ? "+" : "-";
+    const offsetString = `${offsetSign}${offsetHours}:${offsetMinutes}`;
+
     // 日付の各部分を取得
     const year = updatedAt.getFullYear();
     const month = String(updatedAt.getMonth() + 1).padStart(2, "0"); // 月は0から始まるので1足す
@@ -135,7 +150,7 @@ async function getPropertyString(filePath: string): Promise<string> {
 
     // フォーマット化して返す
     const formattedDate =
-      `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+      `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${offsetString}`;
 
     // 結果を表示
     return `${fileType}${permissionString} ${nlinkFormatted} ${owner} ${group} ${sizeFormatted} ${formattedDate}`;

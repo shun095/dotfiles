@@ -3,9 +3,20 @@ scriptencoding utf-8
 fun! mymisc#config#fern#setup() abort
   let s:Promise = vital#mymisc#import('Async.Promise')
 
-  nno <silent> <Leader>e :FernDo :<CR>
-  nno <silent> <Leader>E :Fern %:h -drawer -reveal=%:p -stay -keep<CR>
-  nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p -stay -keep<CR>
+  function! s:open_or_focus() abort
+    if &filetype ==# 'fern'
+      wincmd p
+    else
+      FernDo :
+      if &filetype !=# 'fern'
+        Fern . -drawer -reveal=%:p -keep
+      endif
+    endif
+  endfunction
+
+  nno <silent> <Leader>e :cal <SID>open_or_focus()<CR>
+  nno <silent> <Leader>E :Fern %:h -drawer -reveal=%:p -keep<CR>
+  nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p -keep<CR>
   nno <Leader>n :Fern<space>
 
   let g:fern#drawer_width = 35
@@ -18,7 +29,7 @@ fun! mymisc#config#fern#setup() abort
     if exists(':IndentLinesDisable')
       IndentLinesDisable
     endif
-    nno           <buffer>  <Leader>e      :<C-u>Fern<Space>
+    " nno           <buffer>  <Leader>e      :<C-u>Fern<Space>
     nno  <silent> <buffer>  ~              <Cmd>Fern ~<CR>
     nno  <silent> <buffer>  q              <Cmd>close<CR>
     nmap <silent> <buffer>  cd             <Plug>(fern-action-tcd)
