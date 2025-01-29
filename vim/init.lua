@@ -1,4 +1,6 @@
--- vim.cmd('source ~/.vimrc')
+------------------------------------------------------------------------------
+-- SECTION: INITIALIZATION {{{
+------------------------------------------------------------------------------
 vim.cmd('so $MYDOTFILES/vim/scripts/basic_config.vim')
 vim.cmd('so $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim')
 vim.cmd('cal g:plugin_mgr["load"]()')
@@ -10,11 +12,13 @@ vim.cmd('so $MYVIMHOME/scripts/custom_global.vim')
 vim.cmd("augroup init_lua")
 vim.cmd("autocmd!")
 vim.cmd("augroup END")
+------------------------------------------------------------------------------
+-- }}}
+------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
--- LSP & DAP SETUP                                                          --
+-- SECTION: LSP & DAP SETUP {{{
 ------------------------------------------------------------------------------
-
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require("mason").setup({
@@ -118,6 +122,12 @@ require("nvim-lightbulb").setup({
     },
 })
 require("trouble").setup {
+    auto_preview = false,
+    preview = {
+        type = "float",
+        border = "rounded",
+    },
+    max_items = 10000, -- limit number of items that can be displayed per section
     modes = {
         lsp_base = {
             params = {
@@ -204,7 +214,7 @@ vim.api.nvim_create_user_command("LSPDocumentSymbolQf",
 --     "lua require('telescope.builtin').lsp_document_symbols({fname_width=1000})",
 --     {})
 vim.api.nvim_create_user_command("LSPDocumentSymbol",
-    "Trouble lsp_document_symbols win.position=right",
+    "Trouble symbols",
     {})
 vim.api.nvim_create_user_command("LSPFormat",
     "lua vim.lsp.buf.format()",
@@ -342,11 +352,12 @@ end
 dap.listeners.before.launch.dapui_config = function()
     dapui.open()
 end
-
-
+------------------------------------------------------------------------------
+-- }}}
+------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
--- AUTOCOMPLETION SETUP
+-- SECTION: AUTOCOMPLETION SETUP {{{
 ------------------------------------------------------------------------------
 local cmp = require('cmp')
 local lspkind = require('lspkind')
@@ -536,11 +547,12 @@ cmp.setup.cmdline('@', {
 })
 
 require("nvim-autopairs").setup {}
-
-
+------------------------------------------------------------------------------
+-- }}}
+------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
--- TREESITTER SETUP
+-- SECTION: TREESITTER SETUP {{{
 ------------------------------------------------------------------------------
 require("nvim-treesitter.configs").setup {
     ensure_installed = {},
@@ -592,11 +604,12 @@ vim.cmd(
 -- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContext guifg=#6b7089')
 -- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContextLineNumber guifg=#6b7089')
 vim.cmd('set scrolloff=8')
-
-
+------------------------------------------------------------------------------
+-- }}}
+------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
--- NOTIFICATION SETUP
+-- SECTION: NOTIFICATION SETUP {{{
 ------------------------------------------------------------------------------
 require("notify").setup({
     minimum_width = 40,
@@ -688,12 +701,12 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 --         }
 --     }
 -- }
-
-
-
+------------------------------------------------------------------------------
+-- }}}
+------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
--- STATUS LINE & TAB LINE SETUP
+-- SECTION: STATUS LINE & TAB LINE SETUP {{{
 ------------------------------------------------------------------------------
 vim.o.mousemoveevent = true
 require("bufferline").setup {
@@ -755,11 +768,12 @@ require('lualine').setup {
         },
     },
 }
-
-
+------------------------------------------------------------------------------
+-- }}}
+------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
--- CODE DECORATION SETUP
+-- SECTION: CODE DECORATION SETUP {{{
 ------------------------------------------------------------------------------
 require('numb').setup()
 require("ibl").setup()
@@ -792,11 +806,12 @@ vim.api.nvim_set_keymap('n', '<Leader>h', '<Cmd>noh<CR>', kopts)
 vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchNear CurSearch')
 vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchLens DiagnosticHint')
 vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchLensNear DiagnosticInfo')
-
-
+------------------------------------------------------------------------------
+-- }}}
+------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
--- Language Specific SETUP
+-- SECTION: LANGUAGE SPECIFIC SETUP {{{
 ------------------------------------------------------------------------------
 require('render-markdown').setup()
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
@@ -808,11 +823,12 @@ require('render-markdown').setup()
 --
 require('csvview').setup()
 require('csvview').enable()
-
-
+------------------------------------------------------------------------------
+-- }}}
+------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
--- TOOLS SETUP
+-- SECTION: TOOLS SETUP {{{
 ------------------------------------------------------------------------------
 -- require("neo-tree").setup({
 --     window = {
@@ -930,8 +946,16 @@ vim.cmd('nno <silent> <Leader>o        :<Cmd>Telescope current_buffer_tags<CR>')
 vim.cmd('nno <silent> <Leader>r        :<Cmd>Telescope registers<CR>')
 vim.cmd('nno <silent> <Leader>u        :<Cmd>Telescope oldfiles<CR>')
 vim.cmd('nno <silent> <Leader>`        :<Cmd>Telescope marks<CR>')
+------------------------------------------------------------------------------
+-- }}}
+------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
--- COLOR SCHEME
+-- SECTION: COLOR SCHEME {{{
 ------------------------------------------------------------------------------
 vim.cmd('colorscheme iceberg')
+------------------------------------------------------------------------------
+-- }}}
+------------------------------------------------------------------------------
+
+-- vim: set foldmethod=marker:

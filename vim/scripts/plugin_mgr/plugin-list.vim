@@ -132,6 +132,7 @@ else
   Plug 'folke/neoconf.nvim'
   Plug 'folke/neodev.nvim'
   Plug 'folke/trouble.nvim'
+  Plug 'folke/which-key.nvim'
   Plug 'm-demare/hlargs.nvim'
 
   " Plug 'nvimdev/lspsaga.nvim'
