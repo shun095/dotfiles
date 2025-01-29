@@ -605,7 +605,7 @@
     if has('nvim')
       com! Tig cal mymisc#command_at_destdir(
             \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
-            \ [":tabe | :terminal tig"])
+            \ [":bel 100split | :terminal tig"])
     el
       com! Tig cal mymisc#command_at_destdir(
             \ mymisc#find_project_dir(g:mymisc_projectdir_reference_files),
