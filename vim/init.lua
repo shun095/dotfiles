@@ -887,6 +887,7 @@ require("which-key").setup({
     }
 })
 require("toggleterm").setup({
+    size = 15,
     float_opts = {
         border = 'curved',
         winblend = 0,
@@ -895,7 +896,7 @@ require("toggleterm").setup({
         enabled = true
     }
 })
-vim.api.nvim_set_keymap('n', '<Leader>te', '<Cmd>ToggleTerm direction=float<CR>',
+vim.api.nvim_set_keymap('n', '<Leader>te', '<Cmd>exe v:count . "ToggleTerm"<CR>',
     { silent = true, noremap = true, desc = "Toggle Terminal" })
 
 -- require("flatten").setup({
