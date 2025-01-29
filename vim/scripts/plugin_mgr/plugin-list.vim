@@ -149,7 +149,7 @@ else
   Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
   Plug 'hrsh7th/cmp-omni'
   Plug 'hrsh7th/nvim-cmp'
-  Plug 'dmitmel/cmp-cmdline-history'
+  " Plug 'dmitmel/cmp-cmdline-history'
   Plug 'teramako/cmp-cmdline-prompt.nvim'
   Plug 'uga-rosa/cmp-skkeleton'
   " Plug 'hrsh7th/cmp-vsnip'

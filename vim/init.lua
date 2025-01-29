@@ -11,31 +11,25 @@ vim.cmd("augroup init_lua")
 vim.cmd("autocmd!")
 vim.cmd("augroup END")
 
+------------------------------------------------------------------------------
+-- LSP & DAP SETUP                                                          --
+------------------------------------------------------------------------------
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 require("mason").setup({
     ui = {
         border = "rounded"
     }
 })
 
-require("nvim-lightbulb").setup({
-    autocmd = {
-        enabled = true,
-        updatetime = -1,
-    },
-})
 
 
+-- === LSP ===
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-require("neodev").setup({
-    -- add any options here, or leave empty to use the default settings
-})
+require("neodev").setup({})
 
--- require('navigator').setup()
-
--- Setup lspconfig.
 require("mason-lspconfig").setup()
-
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require("mason-lspconfig").setup_handlers {
     function(server_name) -- default handler (optional)
@@ -43,92 +37,12 @@ require("mason-lspconfig").setup_handlers {
             capabilities = capabilities
         }
     end,
-    jdtls = function()
-        -- nothing to do
-    end
+    jdtls = function() end
 }
 
 
-require("mason-nvim-dap").setup({
-    handlers = {
-        function(config)
-            require('mason-nvim-dap').default_setup(config)
-        end,
-        python = function()
-            -- nothing to do
-        end,
-    },
-})
 
-local dap = require("dap")
-dap.configurations.lua = {
-    {
-        type = 'nlua',
-        request = 'attach',
-        name = "Attach to running Neovim instance",
-    }
-}
-
-dap.adapters.nlua = function(callback, config)
-    callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
-end
-
-vim.api.nvim_create_user_command("LuaDebugLaunchServer",
-    'lua require("osv").launch({port = 8086})',
-    {})
-
-local dapui = require("dapui")
-require("dap-python")
-    .setup(require('mason-registry')
-        .get_package('debugpy')
-        :get_install_path() .. "/venv/bin/python3")
-
-
-
-require("dapui").setup()
-
-vim.api.nvim_create_user_command("DapUiOpen",
-    'lua require("dapui").open()',
-    {})
-vim.api.nvim_create_user_command("DapUiClose",
-    'lua require("dapui").close()',
-    {})
-vim.api.nvim_create_user_command("DapUiToggle",
-    'lua require("dapui").toggle()',
-    {})
-
-dap.listeners.before.attach.dapui_config = function()
-    dapui.open()
-end
-dap.listeners.before.launch.dapui_config = function()
-    dapui.open()
-end
--- dap.listeners.before.event_terminated.dapui_config = function()
---     dapui.close()
--- end
--- dap.listeners.before.event_exited.dapui_config = function()
---     dapui.close()
--- end
-
-require("nvim-dap-virtual-text").setup()
-
-local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
-vim.diagnostic.config({
-    severity_sort = true,
-    float = {
-        focusable = false,
-        style = "minimal",
-        border = "rounded",
-        source = "always",
-        header = "",
-        prefix = "",
-    },
-})
-
+-- === LSP Language Specific ===
 require("lspconfig").lua_ls.setup {
     settings = {
         Lua = {
@@ -194,11 +108,44 @@ require("lspconfig").denols.setup {
     }
 }
 
-require("inlay-hints").setup()
 
+
+-- === LSP UI ===
+require("nvim-lightbulb").setup({
+    autocmd = {
+        enabled = true,
+        updatetime = -1,
+    },
+})
+require("trouble").setup {
+    modes = {
+        lsp_base = {
+            params = {
+                include_current = true,
+            },
+        },
+    }
+}
+local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+vim.diagnostic.config({
+    severity_sort = true,
+    float = {
+        focusable = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+    },
+})
+
+require("inlay-hints").setup()
 vim.cmd(
     'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticHint","LspInlayHint",{"italic": v:true})')
-
 vim.cmd(
     'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticUnderlineHint","DiagnosticUnderlineHint",{"undercurl": v:true})')
 vim.cmd(
@@ -207,6 +154,19 @@ vim.cmd(
     'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticUnderlineWarn","DiagnosticUnderlineWarn",{"undercurl": v:true})')
 vim.cmd(
     'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticUnderlineError","DiagnosticUnderlineError",{"undercurl": v:true})')
+
+vim.cmd('autocmd init_lua ColorScheme * highlight! link NormalFloat Normal')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link WinBar Normal')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link WinBarNC Normal')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link LspCodeLens Comment')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link LspCodeLensSeparator Comment')
+
+-- vim.cmd("autocmd init_lua CursorHold  * lua vim.lsp.buf.document_highlight()")
+-- vim.cmd("autocmd init_lua CursorHoldI * lua vim.lsp.buf.document_highlight()")
+vim.cmd("autocmd init_lua CursorHold * lua vim.diagnostic.open_float()")
+-- vim.cmd("autocmd init_lua CursorMoved * lua vim.lsp.buf.clear_references()")
+vim.cmd("autocmd init_lua BufEnter    * lua vim.lsp.inlay_hint.enable()")
+-- vim.cmd("autocmd init_lua BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh({ bufnr = 0 })")
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
     vim.lsp.handlers.hover, {
@@ -222,12 +182,9 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
     }
 )
 
-vim.cmd('autocmd init_lua ColorScheme * highlight! link NormalFloat Normal')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link WinBar Normal')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link WinBarNC Normal')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link LspCodeLens Comment')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link LspCodeLensSeparator Comment')
 
+
+-- === LSP Commands ===
 vim.api.nvim_create_user_command("LSPCodeAction",
     "lua vim.lsp.buf.code_action()",
     {})
@@ -326,46 +283,83 @@ vim.api.nvim_create_user_command("LSPCodeLensRefresh",
 
 
 
+-- === DAP ===
+require("mason-nvim-dap").setup({
+    handlers = {
+        function(config)
+            require('mason-nvim-dap').default_setup(config)
+        end,
+        python = function() end,
+    },
+})
 
--- vim.cmd("autocmd init_lua CursorHold  * lua vim.lsp.buf.document_highlight()")
--- vim.cmd("autocmd init_lua CursorHoldI * lua vim.lsp.buf.document_highlight()")
-vim.cmd("autocmd init_lua CursorHold * lua vim.diagnostic.open_float()")
--- vim.cmd("autocmd init_lua CursorMoved * lua vim.lsp.buf.clear_references()")
-vim.cmd("autocmd init_lua BufEnter    * lua vim.lsp.inlay_hint.enable()")
--- vim.cmd("autocmd init_lua BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh({ bufnr = 0 })")
 
+
+-- === DAP Language Specific ===
+local dap = require("dap")
+dap.configurations.lua = {
+    {
+        type = 'nlua',
+        request = 'attach',
+        name = "Attach to running Neovim instance",
+    }
+}
+
+dap.adapters.nlua = function(callback, config)
+    callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+end
+
+vim.api.nvim_create_user_command("LuaDebugLaunchServer",
+    'lua require("osv").launch({port = 8086})',
+    {})
+
+local dapui = require("dapui")
+require("dap-python")
+    .setup(require('mason-registry')
+        .get_package('debugpy')
+        :get_install_path() .. "/venv/bin/python3")
+
+
+
+-- === DAP UI ===
+
+require("nvim-dap-virtual-text").setup()
+
+require("dapui").setup()
+vim.api.nvim_create_user_command("DapUiOpen",
+    'lua require("dapui").open()',
+    {})
+vim.api.nvim_create_user_command("DapUiClose",
+    'lua require("dapui").close()',
+    {})
+vim.api.nvim_create_user_command("DapUiToggle",
+    'lua require("dapui").toggle()',
+    {})
+
+dap.listeners.before.attach.dapui_config = function()
+    dapui.open()
+end
+dap.listeners.before.launch.dapui_config = function()
+    dapui.open()
+end
+
+
+
+------------------------------------------------------------------------------
+-- AUTOCOMPLETION SETUP
+------------------------------------------------------------------------------
 local cmp = require('cmp')
--- require('cmp.utils.debug').flag = false
-
 local lspkind = require('lspkind')
 
 -- Global setup.
 cmp.setup({
     window = {
-        -- completion = {
-        --     winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
-        --     col_offset = -3,
-        --     side_padding = 0,
-        -- },
         documentation = cmp.config.window.bordered(),
     },
-    -- formatting = {
-    --     fields = { "kind", "abbr", "menu" },
-    --     format = function(entry, vim_item)
-    --         local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
-    --         local strings = vim.split(kind.kind, "%s", { trimempty = true })
-    --         kind.kind = " " .. (strings[1] or "") .. " "
-    --         kind.menu = "    (" .. (strings[2] or "") .. ")"
-
-    --         return kind
-    --     end,
-    -- },
     formatting = {
         format = lspkind.cmp_format({
             mode = "symbol_text",
             menu = ({
-                -- ["luasnip"]         = "[LuaSnip]",
-                -- ["vsnip"]           = "[vsnip]",
                 ["cmdline-prompt"]           = "[Prompt]",
                 ["buffer"]                   = "[Buffer]",
                 ["cmdline"]                  = "[Command]",
@@ -384,11 +378,7 @@ cmp.setup({
     },
     snippet = {
         expand = function(args)
-            -- vim.fn["vsnip#anonymous"](args.body)     -- For `vsnip` users.
-            -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
             vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-            -- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
         end,
     },
     mapping = cmp.mapping.preset.insert({
@@ -421,9 +411,6 @@ cmp.setup({
     }),
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        -- { name = 'vsnip' },     -- For vsnip users.
-        -- { name = 'luasnip' },   -- For luasnip users.
-        -- { name = 'snippy' }, -- For snippy users.
         { name = 'ultisnips' }, -- For ultisnips users.
         { name = 'buffer' },
         { name = 'path' },
@@ -441,7 +428,6 @@ cmp.setup({
         { name = "skkeleton" },
     }),
 })
-
 
 -- `/`, `?` cmdline setup.
 for _, cmd_type in ipairs({ '/', '?' }) do
@@ -471,7 +457,6 @@ for _, cmd_type in ipairs({ '/', '?' }) do
         sources = {
             { name = 'nvim_lsp_document_symbol' },
             { name = 'buffer' },
-            -- { name = 'cmdline_history' },
         },
         window = {
             completion = {
@@ -508,7 +493,6 @@ cmp.setup.cmdline(':', {
     sources = cmp.config.sources({
         { name = 'cmdline' },
         { name = 'path' },
-        -- { name = 'cmdline_history' },
     }),
     window = {
         completion = {
@@ -517,8 +501,7 @@ cmp.setup.cmdline(':', {
     }
 })
 
-
--- for cmdline `input()` prompt
+-- `input()` cmdline setup.
 cmp.setup.cmdline('@', {
     mapping = cmp.mapping.preset.cmdline({
         ['<C-n>'] = {
@@ -552,33 +535,20 @@ cmp.setup.cmdline('@', {
     }
 })
 
+require("nvim-autopairs").setup {}
 
+
+
+------------------------------------------------------------------------------
+-- TREESITTER SETUP
+------------------------------------------------------------------------------
 require("nvim-treesitter.configs").setup {
-    -- A list of parser names, or "all" (the listed parsers MUST always be installed)
     ensure_installed = {},
-
-    -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
-
-    -- Automatically install missing parsers when entering buffer
-    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
     auto_install = true,
-
-    -- List of parsers to ignore installing (or "all")
     ignore_install = {},
-
-    ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-    -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
     highlight = {
         enable = true,
-
-        -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-        -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-        -- the name of the parser)
-        -- list of language that will be disabled
-        -- disable = { "c", "rust" },
-        -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
         disable = function(_, buf)
             local max_filesize = 100 * 1024 -- 100 KB
             local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
@@ -586,11 +556,6 @@ require("nvim-treesitter.configs").setup {
                 return true
             end
         end,
-
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
     },
     incremental_selection = {
@@ -620,17 +585,268 @@ require('treesitter-context').setup {
     on_attach = nil,         -- (fun(buf: integer): boolean) return false to disable attaching
 }
 
-vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContextBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
-vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContextLineNumberBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
+vim.cmd(
+'autocmd init_lua ColorScheme * highlight! TreesitterContextBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
+vim.cmd(
+'autocmd init_lua ColorScheme * highlight! TreesitterContextLineNumberBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
 -- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContext guifg=#6b7089')
 -- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContextLineNumber guifg=#6b7089')
 vim.cmd('set scrolloff=8')
 
 
-require("nvim-autopairs").setup {}
 
--- You dont need to set any of these options. These are the default ones. Only
--- the loading is important
+------------------------------------------------------------------------------
+-- NOTIFICATION SETUP
+------------------------------------------------------------------------------
+require("notify").setup({
+    minimum_width = 40,
+    max_width = 40,
+    render = "wrapped-default",
+    -- stages = "static",
+    timeout = 3000,
+})
+vim.o.winblend = 0
+
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyBackground links to Normal')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyERRORBody links to Normal')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyWARNBody links to Normal')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyINFOBody links to Normal')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyDEBUGBody links to Normal')
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyTRACEBody links to Normal')
+--
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyLogTime links to Comment')
+--
+-- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyLogTitle links to Special')
+
+-- local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal', link = false })
+-- local comment_hl = vim.api.nvim_get_hl(0, { name = 'Comment', link = false })
+-- local special_hl = vim.api.nvim_get_hl(0, { name = 'Special', link = false })
+
+-- vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+--     group = "init_lua",
+--     pattern = '*',
+--     callback = function()
+--         vim.api.nvim_set_hl(0, 'NotifyBackground', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyTRACEBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyINFOBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyWARNBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyERRORBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyLogTime', vim.tbl_extend('force', comment_hl, { blend = 30 }))
+--         vim.api.nvim_set_hl(0, 'NotifyLogTitle', vim.tbl_extend('force', special_hl, { blend = 30 }))
+--     end
+-- })
+
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
+
+require("noice").setup({
+    lsp = {
+        override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = false
+        },
+        progress = {
+            enabled = true,
+        },
+        signature = {
+            enabled = false,
+        }
+    },
+    -- you can enable a preset for easier configuration
+    presets = {
+        -- bottom_search = true, -- use a classic bottom cmdline for search
+        command_palette = true,       -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = true,        -- add a border to hover docs and signature help
+    },
+    messages = {
+        view_search = false
+    },
+    popupmenu = {
+        backend = "cmp"
+    }
+})
+
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+    group = "init_lua",
+    pattern = '*',
+    callback = function()
+        vim.api.nvim_set_hl(0, 'NoiceCmdlineIcon', { link = 'DiagnosticInfo', force = true })
+        vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupBorder', { link = 'DiagnosticInfo', force = true })
+        vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupTitle', { link = 'DiagnosticInfo', force = true })
+        vim.api.nvim_set_hl(0, 'NoiceCmdlineIconSearch', { link = 'DiagnosticWarn', force = true })
+        vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupBorderSearch', { link = 'DiagnosticWarn', force = true })
+    end
+})
+
+-- require("fidget").setup {
+--     notification = {
+--         window = {
+--             winblend = 30
+--         }
+--     }
+-- }
+
+
+
+
+------------------------------------------------------------------------------
+-- STATUS LINE & TAB LINE SETUP
+------------------------------------------------------------------------------
+vim.o.mousemoveevent = true
+require("bufferline").setup {
+    options = {
+        mode = "tabs", -- set to "tabs" to only show tabpages instead
+        separator_style = "slant",
+        indicator = {
+            style = 'none'
+        },
+        -- diagnostics = "nvim_lsp",
+        hover = {
+            enabled = true,
+            delay = 0,
+            reveal = { 'close' }
+        },
+        offsets = {
+            {
+                filetype = "fern",
+                text = "File Explorer",
+                highlight = "Directory",
+                separator = true -- use a "true" to enable the default, or set your own character
+            }
+        },
+        style_preset = require("bufferline").style_preset.no_italic,
+    },
+}
+
+require('lualine').setup {
+    options = {
+        theme = "auto",
+        component_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
+    },
+    sections = {
+        lualine_x = {
+            {
+                require("noice").api.status.message.get,
+                cond = require("noice").api.status.message.has,
+                color = { fg = "#6b7089" },
+            },
+            {
+                require("noice").api.status.command.get,
+                cond = require("noice").api.status.command.has,
+                color = { fg = "#6b7089" },
+            },
+            'encoding',
+            'fileformat',
+            'filetype',
+            {
+                require("noice").api.status.mode.get,
+                cond = require("noice").api.status.mode.has,
+                color = { fg = "#e27878" },
+            },
+            {
+                require("noice").api.status.search.get,
+                cond = require("noice").api.status.search.has,
+                color = { fg = "#e2a478" },
+            },
+        },
+    },
+}
+
+
+
+------------------------------------------------------------------------------
+-- CODE DECORATION SETUP
+------------------------------------------------------------------------------
+require('numb').setup()
+require("ibl").setup()
+-- require("hlchunk").setup()
+require('nvim_context_vt').setup()
+require('gitsigns').setup()
+require("scrollbar").setup()
+require("scrollbar.handlers.search").setup({
+    require("scrollbar.handlers.gitsigns").setup()
+})
+require('colorizer').setup()
+require('hlargs').setup()
+
+
+local kopts = { noremap = true, silent = true }
+
+vim.api.nvim_set_keymap('n', 'n',
+    [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+    kopts)
+vim.api.nvim_set_keymap('n', 'N',
+    [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+    kopts)
+vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+vim.api.nvim_set_keymap('n', '<Leader>h', '<Cmd>noh<CR>', kopts)
+
+vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchNear CurSearch')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchLens DiagnosticHint')
+vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchLensNear DiagnosticInfo')
+
+
+
+------------------------------------------------------------------------------
+-- Language Specific SETUP
+------------------------------------------------------------------------------
+require('render-markdown').setup()
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH3Bg",{"bold": v:true})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH4Bg",{})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH5Bg",{})')
+-- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH6Bg",{})')
+--
+require('csvview').setup()
+require('csvview').enable()
+
+
+
+------------------------------------------------------------------------------
+-- TOOLS SETUP
+------------------------------------------------------------------------------
+-- require("neo-tree").setup({
+--     window = {
+--         width = 35,
+--         mappings = {
+--             -- disable fuzzy finder
+--             ["/"] = "noop"
+--         }
+--     }
+-- }
+-- )
+
+-- vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
+-- vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
+
+require("toggleterm").setup({
+    float_opts = {
+        border = 'curved',
+        winblend = 0,
+    },
+    winbar = {
+        enabled = true
+    }
+})
+vim.cmd('nnoremap <Leader>te :<C-u>ToggleTerm direction=float<CR>')
+
+-- require("flatten").setup({
+--     window = {
+--         open = "split",
+--     },
+--     nest_if_no_args = true,
+--     nest_if_cmds = true,
+-- })
+
 local actions = require('telescope.actions')
 require('telescope').setup {
     defaults = {
@@ -697,8 +913,8 @@ require('telescope').setup {
 require('telescope').load_extension('fzf')
 require("telescope").load_extension("ui-select")
 require("telescope").load_extension("noice")
-require('telescope').load_extension 'telescope-tabs'
-require('telescope-tabs').setup {}
+require('telescope').load_extension('telescope-tabs')
+require('telescope-tabs').setup()
 
 -- vim.cmd('nno <Leader><Leader> :<C-u>Telescope git_files<CR>')
 vim.cmd('nno <silent> <Leader><Leader> :<Cmd>Telescope git_files<CR>')
@@ -715,253 +931,7 @@ vim.cmd('nno <silent> <Leader>r        :<Cmd>Telescope registers<CR>')
 vim.cmd('nno <silent> <Leader>u        :<Cmd>Telescope oldfiles<CR>')
 vim.cmd('nno <silent> <Leader>`        :<Cmd>Telescope marks<CR>')
 
--- require("hlchunk").setup({})
-
--- require("flatten").setup({
---     window = {
---         open = "split",
---     },
---     nest_if_no_args = true,
---     nest_if_cmds = true,
--- })
-
-require("ibl").setup()
-
-require("notify").setup({
-    minimum_width = 40,
-    max_width = 40,
-    render = "wrapped-default",
-    -- stages = "static",
-    timeout = 3000,
-})
-
-vim.o.winblend = 0
-
-
-
--- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyBackground links to Normal')
--- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyERRORBody links to Normal')
--- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyWARNBody links to Normal')
--- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyINFOBody links to Normal')
--- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyDEBUGBody links to Normal')
--- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyTRACEBody links to Normal')
---
--- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyLogTime links to Comment')
---
--- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyLogTitle links to Special')
-
--- local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal', link = false })
--- local comment_hl = vim.api.nvim_get_hl(0, { name = 'Comment', link = false })
--- local special_hl = vim.api.nvim_get_hl(0, { name = 'Special', link = false })
-
--- vim.api.nvim_create_autocmd({ "ColorScheme" }, {
---     group = "init_lua",
---     pattern = '*',
---     callback = function()
---         vim.api.nvim_set_hl(0, 'NotifyBackground', vim.tbl_extend('force', normal_hl, { blend = 30 }))
---         vim.api.nvim_set_hl(0, 'NotifyTRACEBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
---         vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
---         vim.api.nvim_set_hl(0, 'NotifyINFOBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
---         vim.api.nvim_set_hl(0, 'NotifyWARNBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
---         vim.api.nvim_set_hl(0, 'NotifyERRORBody', vim.tbl_extend('force', normal_hl, { blend = 30 }))
---         vim.api.nvim_set_hl(0, 'NotifyLogTime', vim.tbl_extend('force', comment_hl, { blend = 30 }))
---         vim.api.nvim_set_hl(0, 'NotifyLogTitle', vim.tbl_extend('force', special_hl, { blend = 30 }))
---     end
--- })
-
--- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
-
-require("noice").setup({
-    lsp = {
-        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-        override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = false,
-            ["vim.lsp.util.stylize_markdown"] = false,
-            ["cmp.entry.get_documentation"] = false
-        },
-        progress = {
-            enabled = true,
-        },
-        signature = {
-            enabled = false,
-        }
-    },
-    -- you can enable a preset for easier configuration
-    presets = {
-        -- bottom_search = true, -- use a classic bottom cmdline for search
-        command_palette = true,       -- position the cmdline and popupmenu together
-        long_message_to_split = true, -- long messages will be sent to a split
-        inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-        lsp_doc_border = true,        -- add a border to hover docs and signature help
-    },
-    messages = {
-        view_search = false
-    },
-    popupmenu = {
-        backend = "cmp"
-    }
-})
-
-vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-    group = "init_lua",
-    pattern = '*',
-    callback = function()
-        vim.api.nvim_set_hl(0, 'NoiceCmdlineIcon', { link = 'DiagnosticInfo', force = true })
-        vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupBorder', { link = 'DiagnosticInfo', force = true })
-        vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupTitle', { link = 'DiagnosticInfo', force = true })
-        vim.api.nvim_set_hl(0, 'NoiceCmdlineIconSearch', { link = 'DiagnosticWarn', force = true })
-        vim.api.nvim_set_hl(0, 'NoiceCmdlinePopupBorderSearch', { link = 'DiagnosticWarn', force = true })
-    end
-})
-
--- require("fidget").setup {
---     notification = {
---         window = {
---             winblend = 30
---         }
---     }
--- }
-
-vim.o.mousemoveevent = true
-
-require("bufferline").setup {
-    options = {
-        mode = "tabs", -- set to "tabs" to only show tabpages instead
-        separator_style = "slant",
-        indicator = {
-            style = 'none'
-        },
-        -- diagnostics = "nvim_lsp",
-        hover = {
-            enabled = true,
-            delay = 0,
-            reveal = { 'close' }
-        },
-        offsets = {
-            {
-                filetype = "fern",
-                text = "File Explorer",
-                highlight = "Directory",
-                separator = true -- use a "true" to enable the default, or set your own character
-            }
-        },
-        style_preset = require("bufferline").style_preset.no_italic,
-    },
-}
-
-require("trouble").setup {
-    modes = {
-        lsp_base = {
-            params = {
-                include_current = true,
-            },
-        },
-    }
-}
-
-require('lualine').setup {
-    options = {
-        theme = "auto",
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
-    },
-    sections = {
-        lualine_x = {
-            {
-                require("noice").api.status.message.get,
-                cond = require("noice").api.status.message.has,
-                color = { fg = "#6b7089" },
-            },
-            {
-                require("noice").api.status.command.get,
-                cond = require("noice").api.status.command.has,
-                color = { fg = "#6b7089" },
-            },
-            'encoding',
-            'fileformat',
-            'filetype',
-            {
-                require("noice").api.status.mode.get,
-                cond = require("noice").api.status.mode.has,
-                color = { fg = "#e27878" },
-            },
-            {
-                require("noice").api.status.search.get,
-                cond = require("noice").api.status.search.has,
-                color = { fg = "#e2a478" },
-            },
-        },
-    },
-}
-
-require('render-markdown').setup({
-    heading = {
-        -- width = 'block'
-    }
-})
-
-require('gitsigns').setup()
-require('numb').setup()
-require("scrollbar").setup()
-require("scrollbar.handlers.search").setup({
-    require("scrollbar.handlers.gitsigns").setup()
-    -- hlslens config overrides
-})
-require('colorizer').setup()
-require('hlargs').setup()
-
-local kopts = { noremap = true, silent = true }
-
-vim.api.nvim_set_keymap('n', 'n',
-    [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-    kopts)
-vim.api.nvim_set_keymap('n', 'N',
-    [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-    kopts)
-vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-
-vim.api.nvim_set_keymap('n', '<Leader>h', '<Cmd>noh<CR>', kopts)
-
-vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchNear CurSearch')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchLens DiagnosticHint')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchLensNear DiagnosticInfo')
-
--- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
--- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
--- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH3Bg",{"bold": v:true})')
--- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH4Bg",{})')
--- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH5Bg",{})')
--- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH6Bg",{})')
-
--- require("neo-tree").setup({
---     window = {
---         width = 35,
---         mappings = {
---             -- disable fuzzy finder
---             ["/"] = "noop"
---         }
---     }
--- }
--- )
-
--- vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
--- vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
-require('nvim_context_vt').setup({})
-require("toggleterm").setup({
-    float_opts = {
-        border = 'curved',
-        winblend = 0,
-    },
-    winbar = {
-        enabled = true
-    }
-})
-vim.cmd('nnoremap <Leader>te :<C-u>ToggleTerm direction=float<CR>')
-
-require('csvview').setup()
-require('csvview').enable()
-
+------------------------------------------------------------------------------
+-- COLOR SCHEME
+------------------------------------------------------------------------------
 vim.cmd('colorscheme iceberg')
