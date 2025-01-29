@@ -85,22 +85,26 @@
 
   if !has('gui_running')
     if match($TERM, '256color') > 0
-      if v:version >= 800
-        cal s:toggle_color_mode()
+      if $COLORTERM !=# 'truecolor'
+        se t_Co=16  " Limited colors on terminal
+      else
+        if v:version >= 800
+          cal s:toggle_color_mode()
+        en
+        let &t_SI = '[5 q'
+        let &t_EI = '[2 q'
+        let &t_fe = "\<Esc>[?1004h"
+        let &t_fd = "\<Esc>[?1004l"
+        execute "set <FocusGained>=\<Esc>[I"
+        execute "set <FocusLost>=\<Esc>[O"
       en
-      let &t_SI = '[5 q'
-      let &t_EI = '[2 q'
-      let &t_fe = "\<Esc>[?1004h"
-      let &t_fd = "\<Esc>[?1004l"
-      execute "set <FocusGained>=\<Esc>[I"
-      execute "set <FocusLost>=\<Esc>[O"
     else
       if has('win32')
         if has('vcon')
           se termguicolors
         en
       else
-        if $TERM ==# 'linux'
+        if $TERM ==# 'linux' || $COLORTERM !=# 'truecolor'
           se t_Co=16  " Limited colors on terminal
         else
           se t_Co=256 " Limited colors on terminal

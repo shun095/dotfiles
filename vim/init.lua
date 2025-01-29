@@ -4,14 +4,21 @@
 vim.cmd('so $MYDOTFILES/vim/scripts/basic_config.vim')
 vim.cmd('so $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim')
 vim.cmd('cal g:plugin_mgr["load"]()')
+
+if vim.fn.filereadable(vim.env.HOME .. '/localrcs/vim-local.vim') == 1 then
+    vim.cmd('so ' .. vim.env.HOME .. '/localrcs/vim-local.vim')
+end
+
 vim.cmd('cal g:plugin_mgr["init"]()')
 vim.cmd('so $MYVIMHOME/scripts/lazy_hooks.vim')
 vim.cmd('so $MYVIMHOME/scripts/custom.vim')
 vim.cmd('so $MYVIMHOME/scripts/custom_global.vim')
 
-vim.cmd("augroup init_lua")
-vim.cmd("autocmd!")
-vim.cmd("augroup END")
+if vim.fn.filereadable(vim.env.HOME .. '/localrcs/vim-localafter.vim') == 1 then
+    vim.cmd('so ' .. vim.env.HOME .. '/localrcs/vim-localafter.vim')
+end
+
+vim.api.nvim_create_augroup('init_lua', { clear = true })
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -19,6 +26,8 @@ vim.cmd("augroup END")
 ------------------------------------------------------------------------------
 -- SECTION: LSP & DAP SETUP {{{
 ------------------------------------------------------------------------------
+
+-- == Global setup. == {{{
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require("mason").setup({
@@ -26,12 +35,12 @@ require("mason").setup({
         border = "rounded"
     }
 })
+-- }}}
 
-
-
--- === LSP ===
+-- == LSP == {{{
+-- === LSP Core ===
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-require("neodev").setup({})
+require("neodev").setup()
 
 require("mason-lspconfig").setup()
 
@@ -50,23 +59,6 @@ require("mason-lspconfig").setup_handlers {
 require("lspconfig").lua_ls.setup {
     settings = {
         Lua = {
-            runtime = {
-                -- Tell the language server which version of Lua you're using
-                -- (most likely LuaJIT in the case of Neovim)
-                version = 'LuaJIT',
-            },
-            diagnostics = {
-                -- Get the language server to recognize the `vim` global
-                globals = {
-                    'vim',
-                    'require'
-                },
-            },
-            workspace = {
-                -- Make the server aware of Neovim runtime files
-                library = vim.api.nvim_get_runtime_file("", true),
-            },
-            -- Do not send telemetry data containing a randomized but unique identifier
             telemetry = {
                 enable = false,
             },
@@ -147,35 +139,55 @@ vim.diagnostic.config({
         focusable = false,
         style = "minimal",
         border = "rounded",
-        source = "always",
+        source = true,
         header = "",
         prefix = "",
     },
 })
 
 require("inlay-hints").setup()
-vim.cmd(
-    'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticHint","LspInlayHint",{"italic": v:true})')
-vim.cmd(
-    'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticUnderlineHint","DiagnosticUnderlineHint",{"undercurl": v:true})')
-vim.cmd(
-    'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticUnderlineInfo","DiagnosticUnderlineInfo",{"undercurl": v:true})')
-vim.cmd(
-    'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticUnderlineWarn","DiagnosticUnderlineWarn",{"undercurl": v:true})')
-vim.cmd(
-    'autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("DiagnosticUnderlineError","DiagnosticUnderlineError",{"undercurl": v:true})')
 
-vim.cmd('autocmd init_lua ColorScheme * highlight! link NormalFloat Normal')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link WinBar Normal')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link WinBarNC Normal')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link LspCodeLens Comment')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link LspCodeLensSeparator Comment')
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+    group = "init_lua",
+    pattern = '*',
+    callback = function()
+        vim.fn['mymisc#patch_highlight_attributes']("DiagnosticHint", "LspInlayHint",
+            { italic = true })
+        vim.fn['mymisc#patch_highlight_attributes']("DiagnosticUnderlineHint", "DiagnosticUnderlineHint",
+            { undercurl = true })
+        vim.fn['mymisc#patch_highlight_attributes']("DiagnosticUnderlineInfo", "DiagnosticUnderlineInfo",
+            { undercurl = true })
+        vim.fn['mymisc#patch_highlight_attributes']("DiagnosticUnderlineWarn", "DiagnosticUnderlineWarn",
+            { undercurl = true })
+        vim.fn['mymisc#patch_highlight_attributes']("DiagnosticUnderlineError", "DiagnosticUnderlineError",
+            { undercurl = true })
+
+        vim.api.nvim_set_hl(0, 'NormalFloat', { link = 'Normal', force = true })
+        vim.api.nvim_set_hl(0, 'WinBar', { link = 'Normal', force = true })
+        vim.api.nvim_set_hl(0, 'WinBarNC', { link = 'Normal', force = true })
+        vim.api.nvim_set_hl(0, 'LspCodeLens', { link = 'Comment', force = true })
+        vim.api.nvim_set_hl(0, 'LspCodeLensSeparator', { link = 'Comment', force = true })
+    end
+})
+
+vim.api.nvim_create_autocmd({ "CursorHold" }, {
+    group = "init_lua",
+    pattern = '*',
+    callback = function()
+        vim.diagnostic.open_float()
+    end
+})
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    group = "init_lua",
+    pattern = '*',
+    callback = function()
+        vim.lsp.inlay_hint.enable()
+    end
+})
 
 -- vim.cmd("autocmd init_lua CursorHold  * lua vim.lsp.buf.document_highlight()")
 -- vim.cmd("autocmd init_lua CursorHoldI * lua vim.lsp.buf.document_highlight()")
-vim.cmd("autocmd init_lua CursorHold * lua vim.diagnostic.open_float()")
 -- vim.cmd("autocmd init_lua CursorMoved * lua vim.lsp.buf.clear_references()")
-vim.cmd("autocmd init_lua BufEnter    * lua vim.lsp.inlay_hint.enable()")
 -- vim.cmd("autocmd init_lua BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh({ bufnr = 0 })")
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
@@ -290,10 +302,10 @@ vim.api.nvim_create_user_command("LSPDiagnosticBufQf",
 vim.api.nvim_create_user_command("LSPCodeLensRefresh",
     "lua vim.lsp.codelens.refresh()",
     {})
+-- }}}
 
-
-
--- === DAP ===
+-- == DAP == {{{
+-- === DAP Core ===
 require("mason-nvim-dap").setup({
     handlers = {
         function(config)
@@ -352,6 +364,8 @@ end
 dap.listeners.before.launch.dapui_config = function()
     dapui.open()
 end
+-- }}}
+
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -359,10 +373,10 @@ end
 ------------------------------------------------------------------------------
 -- SECTION: AUTOCOMPLETION SETUP {{{
 ------------------------------------------------------------------------------
+-- Global setup. {{{
 local cmp = require('cmp')
 local lspkind = require('lspkind')
 
--- Global setup.
 cmp.setup({
     window = {
         documentation = cmp.config.window.bordered(),
@@ -439,8 +453,9 @@ cmp.setup({
         { name = "skkeleton" },
     }),
 })
+-- }}}
 
--- `/`, `?` cmdline setup.
+-- `/`, `?` cmdline setup. {{{
 for _, cmd_type in ipairs({ '/', '?' }) do
     cmp.setup.cmdline(cmd_type, {
         mapping = cmp.mapping.preset.cmdline({
@@ -460,7 +475,7 @@ for _, cmd_type in ipairs({ '/', '?' }) do
                 end,
             },
             ['<C-Space>'] = {
-                c = function(fallback)
+                c = function(_)
                     cmp.mapping.complete()
                 end
             }
@@ -476,8 +491,9 @@ for _, cmd_type in ipairs({ '/', '?' }) do
         }
     })
 end
+-- }}}
 
--- `:` cmdline setup.
+-- `:` cmdline setup. {{{
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline({
         ['<C-n>'] = {
@@ -496,7 +512,7 @@ cmp.setup.cmdline(':', {
             end,
         },
         ['<C-Space>'] = {
-            c = function(fallback)
+            c = function(_)
                 cmp.mapping.complete()
             end
         }
@@ -511,8 +527,9 @@ cmp.setup.cmdline(':', {
         },
     }
 })
+-- }}}
 
--- `input()` cmdline setup.
+-- `input()` cmdline setup. {{{
 cmp.setup.cmdline('@', {
     mapping = cmp.mapping.preset.cmdline({
         ['<C-n>'] = {
@@ -531,7 +548,7 @@ cmp.setup.cmdline('@', {
             end,
         },
         ['<C-Space>'] = {
-            c = function(fallback)
+            c = function(_)
                 cmp.mapping.complete()
             end
         }
@@ -545,8 +562,10 @@ cmp.setup.cmdline('@', {
         },
     }
 })
+-- }}}
 
 require("nvim-autopairs").setup {}
+
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -597,13 +616,19 @@ require('treesitter-context').setup {
     on_attach = nil,         -- (fun(buf: integer): boolean) return false to disable attaching
 }
 
-vim.cmd(
-'autocmd init_lua ColorScheme * highlight! TreesitterContextBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
-vim.cmd(
-'autocmd init_lua ColorScheme * highlight! TreesitterContextLineNumberBottom gui=underline guisp=#6b7089 term=underline cterm=underline')
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+    group = "init_lua",
+    pattern = '*',
+    callback = function()
+        vim.api.nvim_set_hl(0, "TreesitterContextBottom",
+            { underline = true, sp = "#6b7089" })
+        vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom",
+            { underline = true, sp = "#6b7089" })
+    end
+})
 -- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContext guifg=#6b7089')
 -- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContextLineNumber guifg=#6b7089')
-vim.cmd('set scrolloff=8')
+vim.o.scrolloff = 8
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -616,7 +641,7 @@ require("notify").setup({
     max_width = 40,
     render = "wrapped-default",
     -- stages = "static",
-    timeout = 3000,
+    timeout = 5000,
 })
 vim.o.winblend = 0
 
@@ -679,7 +704,13 @@ require("noice").setup({
     },
     popupmenu = {
         backend = "cmp"
-    }
+    },
+    routes = {
+        {
+            view = "split",
+            filter = { event = "msg_show", min_height = 5 },
+        },
+    },
 })
 
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
@@ -803,9 +834,15 @@ vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]]
 
 vim.api.nvim_set_keymap('n', '<Leader>h', '<Cmd>noh<CR>', kopts)
 
-vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchNear CurSearch')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchLens DiagnosticHint')
-vim.cmd('autocmd init_lua ColorScheme * highlight! link HlSearchLensNear DiagnosticInfo')
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+    group = "init_lua",
+    pattern = '*',
+    callback = function()
+        vim.api.nvim_set_hl(0, 'HlSearchNear', { link = 'CurSearch', force = true })
+        vim.api.nvim_set_hl(0, 'HlSearchLens', { link = 'DiagnosticHint', force = true })
+        vim.api.nvim_set_hl(0, 'HlSearchLensNear', { link = 'DiagnosticInfo', force = true })
+    end
+})
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -843,7 +880,12 @@ require('csvview').enable()
 
 -- vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
 -- vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
-
+require("which-key").setup({
+    win = {
+        border = "rounded",
+        no_overlap = false,
+    }
+})
 require("toggleterm").setup({
     float_opts = {
         border = 'curved',
@@ -853,7 +895,8 @@ require("toggleterm").setup({
         enabled = true
     }
 })
-vim.cmd('nnoremap <Leader>te :<C-u>ToggleTerm direction=float<CR>')
+vim.api.nvim_set_keymap('n', '<Leader>te', '<Cmd>ToggleTerm direction=float<CR>',
+    { silent = true, noremap = true, desc = "Toggle Terminal" })
 
 -- require("flatten").setup({
 --     window = {
@@ -932,20 +975,32 @@ require("telescope").load_extension("noice")
 require('telescope').load_extension('telescope-tabs')
 require('telescope-tabs').setup()
 
--- vim.cmd('nno <Leader><Leader> :<C-u>Telescope git_files<CR>')
-vim.cmd('nno <silent> <Leader><Leader> :<Cmd>Telescope git_files<CR>')
-vim.cmd('nno <silent> <Leader>T        :<Cmd>Telescope tags<CR>')
-vim.cmd('nno <silent> <Leader>al       :<Cmd>Telescope grep_string search=<CR>')
-vim.cmd('nno <silent> <Leader>b        :<Cmd>Telescope buffers sort_lastused=true show_all_buffers=false<CR>')
-vim.cmd('nno <silent> <Leader><C-t>    :<Cmd>Telescope telescope-tabs list_tabs<CR>')
-vim.cmd('nno <silent> <Leader>c        :<Cmd>Telescope find_files<CR>')
-vim.cmd('nno <silent> <Leader>f        :<Cmd>Telescope git_files<CR>')
-vim.cmd('nno <silent> <Leader>gr       :<C-u>Telescope grep_string search=')
-vim.cmd('nno <silent> <Leader>l        :<Cmd>Telescope current_buffer_fuzzy_find<CR>')
-vim.cmd('nno <silent> <Leader>o        :<Cmd>Telescope current_buffer_tags<CR>')
-vim.cmd('nno <silent> <Leader>r        :<Cmd>Telescope registers<CR>')
-vim.cmd('nno <silent> <Leader>u        :<Cmd>Telescope oldfiles<CR>')
-vim.cmd('nno <silent> <Leader>`        :<Cmd>Telescope marks<CR>')
+vim.api.nvim_set_keymap('n', '<Leader><Leader>', ':<Cmd>Telescope git_files<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>T', ':<Cmd>Telescope tags<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>al', ':<Cmd>Telescope grep_string    search=<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>b', ':<Cmd>Telescope buffers sort_lastused=true show_all_buffers=false<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader><C-t>', ':<Cmd>Telescope telescope-tabs list_tabs<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>c', ':<Cmd>Telescope find_files<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>f', ':<Cmd>Telescope git_files<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search=',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>l', ':<Cmd>Telescope current_buffer_fuzzy_find<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope current_buffer_tags<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>r', ':<Cmd>Telescope registers<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>u', ':<Cmd>Telescope oldfiles<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>`', ':<Cmd>Telescope marks<CR>',
+    { silent = true, noremap = true })
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -953,7 +1008,11 @@ vim.cmd('nno <silent> <Leader>`        :<Cmd>Telescope marks<CR>')
 ------------------------------------------------------------------------------
 -- SECTION: COLOR SCHEME {{{
 ------------------------------------------------------------------------------
-vim.cmd('colorscheme iceberg')
+if vim.env.COLORTERM == 'truecolor' then
+    vim.cmd('colorscheme iceberg')
+else
+    vim.cmd('colorscheme default')
+end
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------

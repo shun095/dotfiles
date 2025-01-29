@@ -3,7 +3,7 @@ scriptencoding utf-8
 fun! mymisc#config#fern#setup() abort
   let s:Promise = vital#mymisc#import('Async.Promise')
 
-  function! s:open_or_focus() abort
+  function! s:fern_open_or_focus() abort
     if &filetype ==# 'fern'
       wincmd p
     else
@@ -14,7 +14,7 @@ fun! mymisc#config#fern#setup() abort
     endif
   endfunction
 
-  nno <silent> <Leader>e :cal <SID>open_or_focus()<CR>
+  nno <silent> <Leader>e :cal <SID>fern_open_or_focus()<CR>
   nno <silent> <Leader>E :Fern %:h -drawer -reveal=%:p -keep<CR>
   nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p -keep<CR>
   nno <Leader>n :Fern<space>
@@ -22,6 +22,14 @@ fun! mymisc#config#fern#setup() abort
   let g:fern#drawer_width = 35
   let g:fern#drawer_keep = v:true
   let g:fern#disable_drawer_hover_popup = v:true
+  
+  function! s:fern_toggle_zoom() abort
+    if winwidth(0) ==# g:fern#drawer_width
+      cal feedkeys("\<Plug>(fern-action-zoom:full)")
+    else
+      cal feedkeys("\<Plug>(fern-action-zoom:reset)")
+    endif
+  endfunction
 
   fun! s:init_fern() abort
     " Write custom code here
@@ -47,7 +55,7 @@ fun! mymisc#config#fern#setup() abort
     nmap <silent> <buffer>  X              <Plug>(fern-action-open:system)
     nmap <silent> <buffer>  F              <Plug>(fern-action-new-file)
     nmap <silent> <buffer>  u              <Plug>(fern-action-leave)
-    nmap <silent> <buffer>  A              <Plug>(fern-action-zoom:full)
+    nmap <silent> <buffer>  A              :cal <SID>fern_toggle_zoom()<CR>
     nno  <silent> <buffer>  }              j:cal search("\/")<CR>0:noh<CR>
     nno  <silent> <buffer>  {              :cal search("\/","b")<CR>0:noh<CR>
 
