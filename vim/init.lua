@@ -850,7 +850,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 ------------------------------------------------------------------------------
 -- SECTION: LANGUAGE SPECIFIC SETUP {{{
 ------------------------------------------------------------------------------
-require('render-markdown').setup()
+-- require('render-markdown').setup()
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH3Bg",{"bold": v:true})')
@@ -1002,6 +1002,58 @@ vim.api.nvim_set_keymap('n', '<Leader>u', ':<Cmd>Telescope oldfiles<CR>',
     { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>`', ':<Cmd>Telescope marks<CR>',
     { silent = true, noremap = true })
+
+
+require("obsidian").setup({
+    workspaces = {
+        {
+            name = "work",
+            path = "~/Documents/Obsidian/Work",
+        },
+        {
+            name = "personal",
+            path = "~/Documents/Obsidian/Personal",
+        },
+    },
+    completion = {
+        -- Set to false to disable completion.
+        nvim_cmp = true,
+        -- Trigger completion at 2 chars.
+        min_chars = 0,
+    },
+    note_id_func = function(title)
+        local id = ""
+        if title ~= nil then
+            id = title:gsub("[\\/:*?\"<>|.]", "-")
+        else
+            id = tostring(os.date("%Y-%m-%d_%H-%M", os.time()))
+        end
+        return id
+    end,
+    callbacks = {
+        post_set_workspace = function(client, workspace)
+            -- if vim.v.vim_did_enter == 1 then
+            client.log.info("Changing directory to %s", workspace.path)
+            vim.cmd.cd(tostring(workspace.path))
+            -- end
+        end,
+    },
+    templates = {
+        folder = "templates",
+        date_format = "%Y-%m-%d",
+        time_format = "%H:%M",
+        substitutions = {},
+    },
+    daily_notes = {
+        folder = "daily-notes",
+        date_format = "%Y-%m-%d",
+        alias_format = "%Y-%m-%d",        -- Optional, default tags to add to each new daily note created.
+        default_tags = { "daily-notes" },
+        template = "templates/DailyNotesTemplate.md"
+    },
+})
+
+
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
