@@ -17,6 +17,11 @@ plugins=(
 )
 
 lazy_plugins=(
+    zsh-completions
+    zsh-autosuggestions
+    zsh-interactive-cd
+    zsh-syntax-highlighting
+    history-substring-search
     alias-finder
     aliases
     colorize
@@ -28,15 +33,10 @@ lazy_plugins=(
     git-escape-magic
     gnu-utils
     history
-    history-substring-search
     macos
     safe-paste
     timer
-    zsh-autosuggestions
-    zsh-completions
-    zsh-interactive-cd
     # zsh-navigation-tools
-    zsh-syntax-highlighting
 )
 
 lazy_plugins_with_command=(

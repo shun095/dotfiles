@@ -565,6 +565,19 @@ cmp.setup.cmdline('@', {
 -- }}}
 
 require("nvim-autopairs").setup {}
+require('avante_lib').load()
+require('avante').setup({
+    provider = "ollama",
+    auto_suggestions_provider = "ollama",
+    vendors = {
+        ollama = {
+            __inherited_from = "openai",
+            api_key_name = "",
+            endpoint = "http://127.0.0.1:11434/v1",
+            model = "codegemma:2b",
+        },
+    },
+})
 
 ------------------------------------------------------------------------------
 -- }}}
@@ -1008,7 +1021,7 @@ require("obsidian").setup({
     workspaces = {
         {
             name = "work",
-            path = "~/Documents/Obsidian/Work",
+            path = "~/Documents/Obsidian",
         },
         {
             name = "personal",
@@ -1047,7 +1060,7 @@ require("obsidian").setup({
     daily_notes = {
         folder = "daily-notes",
         date_format = "%Y-%m-%d",
-        alias_format = "%Y-%m-%d",        -- Optional, default tags to add to each new daily note created.
+        alias_format = "%Y-%m-%d", -- Optional, default tags to add to each new daily note created.
         default_tags = { "daily-notes" },
         template = "templates/DailyNotesTemplate.md"
     },

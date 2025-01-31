@@ -181,6 +181,8 @@ else
   Plug 'petertriho/nvim-scrollbar'
   Plug 'kevinhwang91/nvim-hlslens'
   Plug 'andersevenrud/nvim_context_vt'
+  Plug 'stevearc/dressing.nvim'
+  Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
 endif
 
 " --- coc.nvim ---
@@ -270,7 +272,7 @@ Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
 Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
 if has('nvim')
-  " Plug 'MeanderingProgrammer/render-markdown.nvim'
+  Plug 'MeanderingProgrammer/render-markdown.nvim'
 endif
 Plug 'dhruvasagar/vim-table-mode', {'for': ['markdown']}
 Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
