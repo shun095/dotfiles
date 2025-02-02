@@ -437,6 +437,7 @@ cmp.setup({
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'ultisnips' }, -- For ultisnips users.
+        -- { name = 'cmp_ai' },
         { name = 'buffer' },
         { name = 'path' },
         { name = 'calc' },
@@ -565,19 +566,42 @@ cmp.setup.cmdline('@', {
 -- }}}
 
 require("nvim-autopairs").setup {}
-require('avante_lib').load()
-require('avante').setup({
-    provider = "ollama",
-    auto_suggestions_provider = "ollama",
-    vendors = {
-        ollama = {
-            __inherited_from = "openai",
-            api_key_name = "",
-            endpoint = "http://127.0.0.1:11434/v1",
-            model = "codegemma:2b",
-        },
-    },
-})
+-- require('avante_lib').load()
+-- require('avante').setup({
+--     provider = "ollama",
+--     auto_suggestions_provider = "ollama",
+--     vendors = {
+--         ollama = {
+--             __inherited_from = "openai",
+--             api_key_name = "",
+--             endpoint = "http://127.0.0.1:11434/v1",
+--             model = "codegemma:2b",
+--         },
+--     },
+-- })
+--
+-- local cmp_ai = require('cmp_ai.config')
+
+
+-- cmp_ai:setup({
+--     max_lines = 10,
+--     provider = 'Ollama',
+--     provider_options = {
+--         model = 'codegemma:2b-code',
+--         prompt = function(lines_before, lines_after)
+--             return lines_before
+--         end,
+--         suffix = function(lines_after)
+--             return lines_after
+--         end,
+--     },
+--     notify = true,
+--     notify_callback = function(msg)
+--         vim.notify(msg)
+--     end,
+--     run_on_every_keystroke = true,
+-- })
+
 
 ------------------------------------------------------------------------------
 -- }}}
@@ -1055,7 +1079,14 @@ require("obsidian").setup({
         folder = "templates",
         date_format = "%Y-%m-%d",
         time_format = "%H:%M",
-        substitutions = {},
+        substitutions = {
+            ["date:YYYYMMDDTHHmmssZZ"] = function()
+                return os.date("%Y%m%d%H%M%S%z",os.time())
+            end,
+            ["date:YYYY-MM-DDTHH:mm:ss"] = function()
+                return os.date("%Y-%m-%dT%H:%M:%S",os.time())
+            end,
+        },
     },
     daily_notes = {
         folder = "daily-notes",
@@ -1079,6 +1110,8 @@ if vim.env.COLORTERM == 'truecolor' then
 else
     vim.cmd('colorscheme default')
 end
+
+
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------

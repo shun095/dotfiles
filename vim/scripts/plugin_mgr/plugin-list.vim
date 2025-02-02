@@ -155,6 +155,8 @@ else
   Plug 'uga-rosa/cmp-skkeleton'
   " Plug 'hrsh7th/cmp-vsnip'
   Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+  " Plug 'tzachar/cmp-ai'
+
   Plug 'onsails/lspkind.nvim'
 
   " Plug 'L3Mon4D3/LuaSnip'
@@ -182,7 +184,7 @@ else
   Plug 'kevinhwang91/nvim-hlslens'
   Plug 'andersevenrud/nvim_context_vt'
   Plug 'stevearc/dressing.nvim'
-  Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
+  " Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
 endif
 
 " --- coc.nvim ---
@@ -420,6 +422,7 @@ endif
 if has('nvim')
   " Plug 'willothy/flatten.nvim'
   Plug 'akinsho/toggleterm.nvim'
+  " Plug 'neo451/feed.nvim'
 endif
 " Non lazy load for QuickRun with pandoc
 Plug 'thinca/vim-quickrun'
