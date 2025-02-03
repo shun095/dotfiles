@@ -113,7 +113,7 @@ require("nvim-lightbulb").setup({
         updatetime = -1,
     },
 })
-require("trouble").setup {
+require("trouble").setup ({
     auto_preview = false,
     preview = {
         type = "float",
@@ -121,13 +121,16 @@ require("trouble").setup {
     },
     max_items = 10000, -- limit number of items that can be displayed per section
     modes = {
+        lsp_document_symbols = {
+            format = "{kind_icon}{symbol.name}{pos}",
+        },
         lsp_base = {
             params = {
                 include_current = true,
             },
         },
     }
-}
+})
 local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
 for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
@@ -666,6 +669,16 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 -- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContext guifg=#6b7089')
 -- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContextLineNumber guifg=#6b7089')
 vim.o.scrolloff = 8
+
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = true, -- Auto close on trailing </
+  },
+})
+
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -745,7 +758,7 @@ require("noice").setup({
     routes = {
         {
             view = "split",
-            filter = { event = "msg_show", min_height = 5 },
+            filter = { event = "msg_show", min_height = 4 },
         },
     },
 })
@@ -1041,6 +1054,23 @@ vim.api.nvim_set_keymap('n', '<Leader>`', ':<Cmd>Telescope marks<CR>',
     { silent = true, noremap = true })
 
 
+local function obsidian_create_uid()
+    return tostring(os.date("%Y%m%dT%H%M%S%z", os.time()))
+end
+
+local function obsidian_note_id_func(title)
+    local id = ""
+    if title ~= nil then
+        id = title:gsub("[\\/:*?\"<>|.]", "-")
+        if id ~= "" then
+            return id
+        end
+    end
+
+    id = obsidian_create_uid()
+    return id
+end
+
 require("obsidian").setup({
     workspaces = {
         {
@@ -1058,16 +1088,40 @@ require("obsidian").setup({
         -- Trigger completion at 2 chars.
         min_chars = 0,
     },
-    note_id_func = function(title)
-        local id = ""
-        if title ~= nil then
-            id = title:gsub("[\\/:*?\"<>|.]", "-")
+    note_id_func = obsidian_note_id_func,
+    note_path_func = function(spec)
+        -- This is equivalent to the default behavior.
+        local path = spec.dir / tostring(spec.title)
+        return path:with_suffix(".md")
+    end,
+    note_frontmatter_func = function(note)
+        local out = {}
+
+        if note.id == nil then
+            out.id = obsidian_create_uid()
         else
-            id = tostring(os.date("%Y-%m-%d_%H-%M", os.time()))
+            out.id = note.id
         end
-        return id
+
+        out.id = out.id
+        out.aliases = note.aliases
+        out.tags = note.tags
+        out.datetime = os.date("%Y-%m-%dT%H:%M:%S",os.time())
+
+        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+            for k, v in pairs(note.metadata) do
+                out[k] = v
+            end
+        end
+
+        return out
     end,
     callbacks = {
+        pre_write_note = function(client, note)
+            if string.match(note.id, "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9][+][0-9][0-9][0-9][0-9]") then
+                note.id = obsidian_note_id_func(note.title)
+            end
+        end,
         post_set_workspace = function(client, workspace)
             -- if vim.v.vim_did_enter == 1 then
             client.log.info("Changing directory to %s", workspace.path)
@@ -1081,7 +1135,7 @@ require("obsidian").setup({
         time_format = "%H:%M",
         substitutions = {
             ["date:YYYYMMDDTHHmmssZZ"] = function()
-                return os.date("%Y%m%d%H%M%S%z",os.time())
+                return os.date("%Y%m%dT%H%M%S%z",os.time())
             end,
             ["date:YYYY-MM-DDTHH:mm:ss"] = function()
                 return os.date("%Y-%m-%dT%H:%M:%S",os.time())
@@ -1091,9 +1145,8 @@ require("obsidian").setup({
     daily_notes = {
         folder = "daily-notes",
         date_format = "%Y-%m-%d",
-        alias_format = "%Y-%m-%d", -- Optional, default tags to add to each new daily note created.
         default_tags = { "daily-notes" },
-        template = "templates/DailyNotesTemplate.md"
+        template = "templates/DailyNotesTemplate.md",
     },
 })
 

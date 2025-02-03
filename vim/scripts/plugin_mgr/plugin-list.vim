@@ -269,7 +269,11 @@ else
   Plug 'chrisbra/csv.vim', {'for': ['csv']}
 endif
 " Plug 'fatih/vim-go', {'for': ['go']}
-Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml', 'phtml']}
+if has('nvim')
+  Plug 'windwp/nvim-ts-autotag'
+else
+  Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml', 'phtml']}
+endif
 Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
 Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
