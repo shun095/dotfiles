@@ -113,7 +113,7 @@ require("nvim-lightbulb").setup({
         updatetime = -1,
     },
 })
-require("trouble").setup ({
+require("trouble").setup({
     auto_preview = false,
     preview = {
         type = "float",
@@ -229,7 +229,7 @@ vim.api.nvim_create_user_command("LSPDocumentSymbolQf",
 --     "lua require('telescope.builtin').lsp_document_symbols({fname_width=1000})",
 --     {})
 vim.api.nvim_create_user_command("LSPDocumentSymbol",
-    "Trouble symbols",
+    "Trouble lsp_document_symbols toggle win.position=right",
     {})
 vim.api.nvim_create_user_command("LSPFormat",
     "lua vim.lsp.buf.format()",
@@ -671,12 +671,12 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 vim.o.scrolloff = 8
 
 require('nvim-ts-autotag').setup({
-  opts = {
-    -- Defaults
-    enable_close = true, -- Auto close tags
-    enable_rename = true, -- Auto rename pairs of tags
-    enable_close_on_slash = true, -- Auto close on trailing </
-  },
+    opts = {
+        -- Defaults
+        enable_close = true,          -- Auto close tags
+        enable_rename = true,         -- Auto rename pairs of tags
+        enable_close_on_slash = true, -- Auto close on trailing </
+    },
 })
 
 ------------------------------------------------------------------------------
@@ -860,7 +860,29 @@ require('numb').setup()
 require("ibl").setup()
 -- require("hlchunk").setup()
 require('nvim_context_vt').setup()
-require('gitsigns').setup()
+require('gitsigns').setup({
+    on_attach = function(bufnr)
+        if vim.o.diff == 1 then
+            return false
+        end
+
+        vim.api.nvim_buf_set_keymap(bufnr,
+            'n',
+            ']c',
+            '<cmd>lua require("gitsigns").nav_hunk("next")<CR>',
+            {})
+        vim.api.nvim_buf_set_keymap(bufnr,
+            'n',
+            '[c',
+            '<cmd>lua require("gitsigns").nav_hunk("next")<CR>',
+            {})
+        vim.api.nvim_buf_set_keymap(bufnr,
+            'n',
+            '<leader>gd',
+            '<cmd>lua require("gitsigns").preview_hunk()<CR>',
+            {})
+    end
+})
 require("scrollbar").setup()
 require("scrollbar.handlers.search").setup({
     require("scrollbar.handlers.gitsigns").setup()
@@ -936,6 +958,22 @@ require("which-key").setup({
         no_overlap = false,
     }
 })
+
+vim.api.nvim_set_keymap("n", "<leader>?", "", {
+    noremap = true,
+    callback = function()
+        require("which-key").show({ global = false })
+    end,
+    desc = "Buffer Local Keymaps (which-key)",
+})
+vim.api.nvim_set_keymap("n", "g?", "", {
+    noremap = true,
+    callback = function()
+        require("which-key").show({ global = true })
+    end,
+    desc = "Global Keymaps (which-key)",
+})
+
 require("toggleterm").setup({
     size = 15,
     float_opts = {
@@ -1106,7 +1144,7 @@ require("obsidian").setup({
         out.id = out.id
         out.aliases = note.aliases
         out.tags = note.tags
-        out.datetime = os.date("%Y-%m-%dT%H:%M:%S",os.time())
+        out.datetime = os.date("%Y-%m-%dT%H:%M:%S", os.time())
 
         if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
             for k, v in pairs(note.metadata) do
@@ -1135,10 +1173,10 @@ require("obsidian").setup({
         time_format = "%H:%M",
         substitutions = {
             ["date:YYYYMMDDTHHmmssZZ"] = function()
-                return os.date("%Y%m%dT%H%M%S%z",os.time())
+                return os.date("%Y%m%dT%H%M%S%z", os.time())
             end,
             ["date:YYYY-MM-DDTHH:mm:ss"] = function()
-                return os.date("%Y-%m-%dT%H:%M:%S",os.time())
+                return os.date("%Y-%m-%dT%H:%M:%S", os.time())
             end,
         },
     },

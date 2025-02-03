@@ -476,11 +476,37 @@
     en
   en
 
+  ino <M-Up>    <esc><c-w>k
+  ino <M-Down>  <esc><c-w>j
+  ino <M-Right> <esc><c-w>l
+  ino <M-Left>  <esc><c-w>h
+  ino <M-k> <esc><c-w>k
+  ino <M-j> <esc><c-w>j
+  ino <M-l> <esc><c-w>l
+  ino <M-h> <esc><c-w>h
+  nno <M-Up>    <c-w>k
+  nno <M-Down>  <c-w>j
+  nno <M-Right> <c-w>l
+  nno <M-Left>  <c-w>h
+  nno <M-k> <c-w>k
+  nno <M-j> <c-w>j
+  nno <M-l> <c-w>l
+  nno <M-h> <c-w>h
+
   if has('nvim')
-    tno <C-w>      <C-\><C-n>G<C-w>
-    tno <C-w>.     <C-w>
-    tno <C-w><C-w> <C-w>
-    tno <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
+    " tno <C-w>      <C-\><C-n>G<C-w>
+    " tno <C-w>.     <C-w>
+    " tno <C-w><C-w> <C-w>
+    " tno <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
+    tno <M-Up>     <c-\><c-n><c-w>k
+    tno <M-Down>   <c-\><c-n><c-w>j
+    tno <M-Right>  <c-\><c-n><c-w>l
+    tno <M-Left>   <c-\><c-n><c-w>h
+    tno <M-k>      <c-\><c-n><c-w>k
+    tno <M-j>      <c-\><c-n><c-w>j
+    tno <M-l>      <c-\><c-n><c-w>l
+    tno <M-h>      <c-\><c-n><c-w>h
+    tno <ESC><ESC> <c-\><c-n>
   else
     if has('terminal')
       " tno <C-w><C-w> <C-w>.

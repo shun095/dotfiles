@@ -432,7 +432,7 @@ if mymisc#startup#plug_tap('gina.vim')
   nno <Leader>gs :<C-u>Gina status --opener=split<CR>
   nno <Leader>gc :<C-u>Gina commit --opener=split<CR>
   " nno <Leader>gp :<C-u>Gina push<CR>
-  " nno <Leader>gl :<C-u>Gina pull<CR>
+  nno <Leader>gl :<C-u>Gina pull<CR>
   nno <Leader>gf :<C-u>Gina fetch --all -t<CR>
   nno <Leader>gm :<C-u>Gina merge<CR>
 

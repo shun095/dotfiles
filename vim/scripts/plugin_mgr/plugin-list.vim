@@ -446,6 +446,7 @@ endif
 " Libraries
 Plug 'vim-denops/denops.vim'
 Plug 'vim-denops/denops-helloworld.vim'
+Plug 'vim-denops/denops-shared-server.vim'
 
 Plug 'vim-jp/autofmt'
 Plug 'vim-jp/vimdoc-ja'
