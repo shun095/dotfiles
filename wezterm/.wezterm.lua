@@ -28,7 +28,17 @@ config.keys = {
         key = "¥",
         mods = "ALT",
         action = wezterm.action.SendKey({ key = "¥" }),
-    }
+    },
+    {
+        key = "¥",
+        mods = "CTRL",
+        action = wezterm.action.SendKey({ key = "\\" , mods = "CTRL" })
+    },
+    {
+        key = "¥",
+        mods = "ALT",
+        action = wezterm.action.SendKey({ key = "\\" , mods = "ALT" })
+    },
 }
 
 return config
