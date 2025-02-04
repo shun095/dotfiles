@@ -30,6 +30,7 @@ local config = {
         '-XX:+UseStringDeduplication',
         '-Xms256m',
         '-Xmx2048m',
+        '--add-modules=javafx.media,javafx.web,javafx.swing,javafx.graphics,javafx.base,javafx.controls,javafx.fxml',
         '--add-modules=ALL-SYSTEM',
         '--add-opens', 'java.base/java.util=ALL-UNNAMED',
         '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
@@ -46,9 +47,21 @@ local config = {
             }
         },
         java = {
+            home = "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home",
             inlayHints = {
                 parameterNames = {
                     enabled = "all",
+                },
+            },
+            project = {
+                referencedLibraries = {
+                    '/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home/jmods/javafx.base.jmod',
+                    '/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home/jmods/javafx.controls.jmod',
+                    '/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home/jmods/javafx.fxml.jmod',
+                    '/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home/jmods/javafx.graphics.jmod',
+                    '/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home/jmods/javafx.media.jmod',
+                    '/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home/jmods/javafx.swing.jmod',
+                    '/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home/jmods/javafx.web.jmod',
                 },
             },
             implementationCodeLens = "all",

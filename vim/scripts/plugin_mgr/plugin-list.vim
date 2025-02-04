@@ -132,6 +132,7 @@ else
   Plug 'folke/neoconf.nvim'
   Plug 'folke/neodev.nvim'
   Plug 'folke/trouble.nvim'
+  Plug 'stevearc/aerial.nvim'
   Plug 'folke/which-key.nvim'
   Plug 'm-demare/hlargs.nvim'
 
@@ -178,6 +179,7 @@ else
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
   endif
   Plug 'nvim-telescope/telescope-ui-select.nvim'
+  Plug 'kevinhwang91/nvim-bqf'
   Plug 'nvim-tree/nvim-web-devicons'
   " Plug 'vim-fall/fall.vim'
   Plug 'petertriho/nvim-scrollbar'
@@ -368,6 +370,9 @@ endif
 Plug 'mbbill/undotree', {'on': ['UndotreeFocus', 'UndotreeHide', 'UndotreeShow', 'UndotreeToggle']}
 Plug 'majutsushi/tagbar', {'on': ['TagbarToggle', 'TagbarOpen']}
 Plug 'AndrewRadev/linediff.vim', {'on': ['Linediff']}
+if has('nvim')
+  Plug 'sindrets/diffview.nvim'
+endif
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 if has('nvim')
@@ -406,6 +411,12 @@ endif
 " General purpose motions
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+
+if has('nvim')
+  Plug 'Wansmer/treesj'
+  Plug 'monaqa/dial.nvim'
+endif
+
 Plug 'easymotion/vim-easymotion'
 Plug 'deris/vim-shot-f'
 Plug 'junegunn/vim-easy-align'
@@ -430,6 +441,10 @@ if has('nvim')
 endif
 " Non lazy load for QuickRun with pandoc
 Plug 'thinca/vim-quickrun'
+if has('nvim')
+  Plug 'michaelb/sniprun', { 'do': 'sh ./install.sh' }
+  Plug 'lambdalisue/vim-quickrun-neovim-job'
+endif
 " Plug 'lambdalisue/suda.vim'
 Plug 'editorconfig/editorconfig-vim'
 

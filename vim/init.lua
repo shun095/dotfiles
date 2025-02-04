@@ -679,6 +679,7 @@ require('nvim-ts-autotag').setup({
     },
 })
 
+require('treesj').setup({})
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -870,17 +871,23 @@ require('gitsigns').setup({
             'n',
             ']c',
             '<cmd>lua require("gitsigns").nav_hunk("next")<CR>',
-            {})
+            {
+                desc = "Next git hunk"
+            })
         vim.api.nvim_buf_set_keymap(bufnr,
             'n',
             '[c',
             '<cmd>lua require("gitsigns").nav_hunk("next")<CR>',
-            {})
+            {
+                desc = "Previous git hunk"
+            })
         vim.api.nvim_buf_set_keymap(bufnr,
             'n',
             '<leader>gd',
             '<cmd>lua require("gitsigns").preview_hunk()<CR>',
-            {})
+            {
+                desc = "Preview git hunk"
+            })
     end
 })
 require("scrollbar").setup()
@@ -922,7 +929,27 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 ------------------------------------------------------------------------------
 -- SECTION: LANGUAGE SPECIFIC SETUP {{{
 ------------------------------------------------------------------------------
--- require('render-markdown').setup()
+require('render-markdown').setup({
+    bullet = {
+        right_pad = 1,
+    },
+    checkbox = {
+        unchecked = {
+            icon = "󰄱",
+            highlight = "ObsidianTodo",
+        },
+        checked = {
+            icon = "",
+            highlight = "ObsidianDone",
+        },
+        custom = {
+            right_arrow = { raw = '[>]', rendered = "", highlight = 'ObsidianRightArrow',     scope_highlight = nil },
+            tilde       = { raw = '[~]', rendered = "󰰱", highlight = 'ObsidianRightTilde',     scope_highlight = nil },
+            important   = { raw = '[!]', rendered = "", highlight = 'ObsidianRightImportant', scope_highlight = nil },
+        }
+    }
+})
+
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH3Bg",{"bold": v:true})')
@@ -1160,12 +1187,12 @@ require("obsidian").setup({
                 note.id = obsidian_note_id_func(note.title)
             end
         end,
-        post_set_workspace = function(client, workspace)
-            -- if vim.v.vim_did_enter == 1 then
-            client.log.info("Changing directory to %s", workspace.path)
-            vim.cmd.cd(tostring(workspace.path))
-            -- end
-        end,
+        -- post_set_workspace = function(client, workspace)
+        --     -- if vim.v.vim_did_enter == 1 then
+        --     client.log.info("Changing directory to %s", workspace.path)
+        --     vim.cmd.cd(tostring(workspace.path))
+        --     -- end
+        -- end,
     },
     templates = {
         folder = "templates",
@@ -1188,7 +1215,37 @@ require("obsidian").setup({
     },
 })
 
+vim.api.nvim_create_user_command("ObsidianCd",
+    "exec 'tcd ' . luaeval(\"require('obsidian').get_client().current_workspace.path.filename\")",
+    {}
+)
 
+vim.keymap.set("n", "<C-a>", function()
+    require("dial.map").manipulate("increment", "normal")
+end)
+vim.keymap.set("n", "<C-x>", function()
+    require("dial.map").manipulate("decrement", "normal")
+end)
+vim.keymap.set("n", "g<C-a>", function()
+    require("dial.map").manipulate("increment", "gnormal")
+end)
+vim.keymap.set("n", "g<C-x>", function()
+    require("dial.map").manipulate("decrement", "gnormal")
+end)
+vim.keymap.set("v", "<C-a>", function()
+    require("dial.map").manipulate("increment", "visual")
+end)
+vim.keymap.set("v", "<C-x>", function()
+    require("dial.map").manipulate("decrement", "visual")
+end)
+vim.keymap.set("v", "g<C-a>", function()
+    require("dial.map").manipulate("increment", "gvisual")
+end)
+vim.keymap.set("v", "g<C-x>", function()
+    require("dial.map").manipulate("decrement", "gvisual")
+end)
+
+require("aerial").setup({})
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -1201,8 +1258,6 @@ if vim.env.COLORTERM == 'truecolor' then
 else
     vim.cmd('colorscheme default')
 end
-
-
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------

@@ -50,6 +50,8 @@ fun! mymisc#config#quickrun#setup() abort
   elseif has('job')
     let g:quickrun_config['_']['runner']                    = 'job'
     let g:quickrun_config['_']['runner/job/interval']       = 100
+  elseif has('nvim')
+    let g:quickrun_config['_']['runner']                    = 'neovim_job'
   else
     let g:quickrun_config['_']['runner']                    = 'system'
     let g:quickrun_config['python'] = {
