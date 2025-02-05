@@ -135,6 +135,9 @@
   if has('patch-8.1.1313')
     se diffopt+=algorithm:histogram,indent-heuristic                          " Diff options
   en
+  if has('nvim')
+    se diffopt+=linematch:60
+  endif
   if has('patch-8.0.1491')
     se pumwidth=0                                                             " 補完ウィンドウの最小幅
   en

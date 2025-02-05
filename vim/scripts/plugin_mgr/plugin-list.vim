@@ -151,7 +151,7 @@ else
   Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
   Plug 'hrsh7th/cmp-omni'
   Plug 'hrsh7th/nvim-cmp'
-  " Plug 'dmitmel/cmp-cmdline-history'
+  Plug 'dmitmel/cmp-cmdline-history'
   Plug 'teramako/cmp-cmdline-prompt.nvim'
   Plug 'uga-rosa/cmp-skkeleton'
   " Plug 'hrsh7th/cmp-vsnip'
@@ -426,7 +426,7 @@ Plug 'deton/jasegment.vim'
 
 " Applications
 Plug 'glidenote/memolist.vim' ", {'on': ['MemoNew', 'MemoList']}
-Plug 'epwalsh/obsidian.nvim'
+Plug 'shun095/obsidian.nvim', { 'branch': 'multibyte-tag-completion'}
 Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 Plug 'freitass/todo.txt-vim'
 
