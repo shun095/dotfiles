@@ -68,11 +68,14 @@ fun! mymisc#config#fern#setup() abort
     setlocal nonumber
     setlocal signcolumn=no
     setlocal norelativenumber
+
+    let g:glyph_palette#palette = v:lua.require('fr-web-icons').palette()
   endf
 
   aug vimrc_fern
     au! *
     au FileType fern cal s:init_fern()
+    au FileType fern call glyph_palette#apply()
   aug END
 
   if mymisc#startup#plug_tap('fern-preview.vim')
@@ -98,7 +101,6 @@ fun! mymisc#config#fern#setup() abort
     aug fern-settings
       au!
       au FileType fern cal s:fern_settings()
-      au FileType fern call glyph_palette#apply()
     aug END
   endif
 
