@@ -369,6 +369,16 @@ dap.listeners.before.launch.dapui_config = function()
 end
 -- }}}
 
+-- == Formatter ==
+-- require("conform").setup({
+--     formatters_by_ft = {
+--         lua = { "stylua" },
+--         python = { "isort", "black" },
+--         rust = { "rustfmt", lsp_format = "fallback" },
+--         javascript = { "prettierd", "prettier", stop_after_first = true },
+--     },
+-- })
+
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -1192,6 +1202,7 @@ vim.api.nvim_set_keymap('n', '<Leader>te', '<Cmd>exe v:count . "ToggleTerm"<CR>'
 --     nest_if_cmds = true,
 -- })
 
+require('telescope-all-recent').setup({})
 local actions = require('telescope.actions')
 require('telescope').setup {
     defaults = {

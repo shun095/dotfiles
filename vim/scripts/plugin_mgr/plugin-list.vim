@@ -179,6 +179,8 @@ else
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
   endif
   Plug 'nvim-telescope/telescope-ui-select.nvim'
+  Plug 'kkharji/sqlite.lua'
+  Plug 'prochri/telescope-all-recent.nvim'
   Plug 'kevinhwang91/nvim-bqf'
   Plug 'nvim-tree/nvim-web-devicons'
   " Plug 'vim-fall/fall.vim'
@@ -186,6 +188,7 @@ else
   Plug 'kevinhwang91/nvim-hlslens'
   Plug 'andersevenrud/nvim_context_vt'
   Plug 'stevearc/dressing.nvim'
+  " Plug 'stevearc/conform.nvim'
   " Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
 endif
 
