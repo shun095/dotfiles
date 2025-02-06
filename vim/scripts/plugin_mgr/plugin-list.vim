@@ -222,8 +222,11 @@ endif
   Plug 'lambdalisue/fern-git-status.vim'
   Plug 'lambdalisue/fern-ssh'
   Plug 'lambdalisue/nerdfont.vim'
-  " Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-  Plug 'shun095/fern-renderer-web-devicons.nvim', { 'branch': 'use-web-devicons-color' }
+  if has('nvim')
+    Plug 'shun095/fern-renderer-web-devicons.nvim', { 'branch': 'use-web-devicons-color' }
+  else
+    Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+  endif
   Plug 'lambdalisue/vim-fern-comparator-lexical'
   Plug 'lambdalisue/vim-glyph-palette'
   Plug 'lambdalisue/vim-fern-bookmark'

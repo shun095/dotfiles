@@ -104,10 +104,13 @@ fun! mymisc#config#fern#setup() abort
     aug END
   endif
 
-  let g:fern#renderer#web_devicons#indent_markers = v:true
-  let s:inherited_renderer = fern#renderer#web_devicons#new()
-  " let s:inherited_renderer = fern#renderer#nerdfont#new()
-  " let s:inherited_renderer = fern#renderer#default#new()
+  if has('nvim')
+    let g:fern#renderer#web_devicons#indent_markers = v:true
+    let s:inherited_renderer = fern#renderer#web_devicons#new()
+  else
+    let s:inherited_renderer = fern#renderer#nerdfont#new()
+    " let s:inherited_renderer = fern#renderer#default#new()
+  endif
 
   fun! s:renderer_new()
     cal denops#server#wait({"timeout": 5000})
