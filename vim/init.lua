@@ -24,6 +24,149 @@ vim.api.nvim_create_augroup('init_lua', { clear = true })
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
+-- SECTION: UTIL FUNCTIONS {{{
+------------------------------------------------------------------------------
+local function hex_to_rgb(hex)
+    hex = hex:gsub("#", "")
+    return tonumber(hex:sub(1, 2), 16), tonumber(hex:sub(3, 4), 16), tonumber(hex:sub(5, 6), 16)
+end
+
+local function rgb_to_xyz(r, g, b)
+    local function transform(c)
+        c = c / 255
+        return (c > 0.04045) and ((c + 0.055) / 1.055) ^ 2.4 or (c / 12.92)
+    end
+
+    r, g, b = transform(r) * 100, transform(g) * 100, transform(b) * 100
+
+    return r * 0.4124564 + g * 0.3575761 + b * 0.1804375,
+        r * 0.2126729 + g * 0.7151522 + b * 0.0721750,
+        r * 0.0193339 + g * 0.1191920 + b * 0.9503041
+end
+
+local function xyz_to_lab(x, y, z)
+    local function transform(c)
+        return (c > 0.008856) and (c ^ (1 / 3)) or ((7.787 * c) + (16 / 116))
+    end
+
+    x, y, z = transform(x / 95.047), transform(y / 100.000), transform(z / 108.883)
+
+    return (116 * y) - 16, 500 * (x - y), 200 * (y - z)
+end
+
+local function delta_e_ciede2000(l1, a1, b1, l2, a2, b2)
+    local function deg_to_rad(deg) return math.pi * deg / 180 end
+    local function rad_to_deg(rad) return 180 * rad / math.pi end
+
+    local c1 = math.sqrt(a1 ^ 2 + b1 ^ 2)
+    local c2 = math.sqrt(a2 ^ 2 + b2 ^ 2)
+    local c_avg = (c1 + c2) / 2
+    local g = 0.5 * (1 - math.sqrt((c_avg ^ 7) / (c_avg ^ 7 + 25 ^ 7)))
+
+    local a1p, a2p = (1 + g) * a1, (1 + g) * a2
+    local c1p, c2p = math.sqrt(a1p ^ 2 + b1 ^ 2), math.sqrt(a2p ^ 2 + b2 ^ 2)
+    local h1p = (math.atan2(b1, a1p) % (2 * math.pi))
+    local h2p = (math.atan2(b2, a2p) % (2 * math.pi))
+
+    local dl = l2 - l1
+    local dc = c2p - c1p
+    local dhp = h2p - h1p
+    if dhp > math.pi then dhp = dhp - 2 * math.pi end
+    if dhp < -math.pi then dhp = dhp + 2 * math.pi end
+    local dh = 2 * math.sqrt(c1p * c2p) * math.sin(dhp / 2)
+
+    local l_avg = (l1 + l2) / 2
+    local c_avgp = (c1p + c2p) / 2
+    local h_avgp = (h1p + h2p) / 2
+    if math.abs(h1p - h2p) > math.pi then h_avgp = h_avgp + math.pi end
+
+    local t = 1 - 0.17 * math.cos(h_avgp - deg_to_rad(30)) +
+        0.24 * math.cos(2 * h_avgp) +
+        0.32 * math.cos(3 * h_avgp + deg_to_rad(6)) -
+        0.20 * math.cos(4 * h_avgp - deg_to_rad(63))
+
+    local sl = 1 + (0.015 * (l_avg - 50) ^ 2) / math.sqrt(20 + (l_avg - 50) ^ 2)
+    local sc = 1 + 0.045 * c_avgp
+    local sh = 1 + 0.015 * c_avgp * t
+
+    local rt = -2 * math.sqrt((c_avgp ^ 7) / (c_avgp ^ 7 + 25 ^ 7)) *
+        math.sin(deg_to_rad(60) * math.exp(-((h_avgp - deg_to_rad(275)) / deg_to_rad(25)) ^ 2))
+
+    return math.sqrt((dl / sl) ^ 2 + (dc / sc) ^ 2 + (dh / sh) ^ 2 + rt * (dc / sc) * (dh / sh))
+end
+
+local function find_palette_color(hex)
+    -- iceberg pallette
+    local palette = {
+        "#392313", "#53343b", "#e98989",
+        "#45493e", "#e27878", "#ffffff",
+        "#5b7881", "#e2a478", "#e9b189",
+        "#384851", "#b4be82", "#e4aa80",
+        "#0f1117", "#c0ca8e", "#c0c5b9",
+        "#3e445e", "#89b8c2", "#95c4ce",
+        "#272c42", "#84a0c6", "#b3c3cc",
+        "#161821", "#91acd1", "#a3adcb",
+        "#242940", "#818596", "#eff0f4",
+        "#2e313f", "#515e97", "#c6c8d1",
+        "#3d425b", "#9a9ca5", "#d2d4de",
+        "#444b71", "#5b6389", "#cdd1e6",
+        "#2a3158", "#6b7089", "#d4d5db",
+        "#1e2132", "#686f9a", "#ada0d3",
+        "#17171b", "#a093c7", "#ceb0b6",
+    }
+    local r1, g1, b1 = hex_to_rgb(hex)
+    local x1, y1, z1 = rgb_to_xyz(r1, g1, b1)
+    local l1, a1, b1 = xyz_to_lab(x1, y1, z1)
+
+    local nearest_color, min_distance = nil, math.huge
+
+    for _, color in ipairs(palette) do
+        local r2, g2, b2 = hex_to_rgb(color)
+        local x2, y2, z2 = rgb_to_xyz(r2, g2, b2)
+        local l2, a2, b2 = xyz_to_lab(x2, y2, z2)
+
+        local distance = delta_e_ciede2000(l1, a1, b1, l2, a2, b2)
+
+        if distance < min_distance then
+            min_distance = distance
+            nearest_color = color
+        end
+    end
+
+    return nearest_color
+end
+
+local function set_hl_palette_color(hlgroup)
+    local hl = vim.api.nvim_get_hl(0, { name = hlgroup, link = false })
+    if not hl then
+        return nil
+    end
+    if hl.fg then
+        local hex = string.format("#%06X", hl.fg)
+        hl.fg = find_palette_color(hex)
+    end
+    if hl.bg then
+        local hex = string.format("#%06X", hl.bg)
+        hl.bg = find_palette_color(hex)
+    end
+    hl.force = true
+    vim.api.nvim_set_hl(0, hlgroup, hl)
+end
+
+-- local nvim_web_devicons = require("nvim-web-devicons")
+-- local devicons = nvim_web_devicons.get_icons()
+-- for key, value in pairs(devicons) do
+--     value.color = find_palette_color(value.color)
+-- end
+-- nvim_web_devicons.set_icon(devicons)
+
+
+
+------------------------------------------------------------------------------
+-- }}}
+------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
 -- SECTION: LSP & DAP SETUP {{{
 ------------------------------------------------------------------------------
 
@@ -40,7 +183,7 @@ require("mason").setup({
 -- == LSP == {{{
 -- === LSP Core ===
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-require("neodev").setup()
+require("neodev").setup({})
 
 require("mason-lspconfig").setup()
 
@@ -52,8 +195,6 @@ require("mason-lspconfig").setup_handlers {
     end,
     jdtls = function() end
 }
-
-
 
 -- === LSP Language Specific ===
 require("lspconfig").lua_ls.setup {
@@ -337,6 +478,7 @@ end
 vim.api.nvim_create_user_command("LuaDebugLaunchServer",
     'lua require("osv").launch({port = 8086})',
     {})
+-- require("osv").launch({ port = 8086, blocking = true })
 
 local dapui = require("dapui")
 require("dap-python")
@@ -395,48 +537,80 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     pattern = '*',
     callback = function()
         -- Customization for Pmenu
-        -- vim.api.nvim_set_hl(0, "PmenuSel",                 { bg = "#282C34", fg = "NONE"    })
-        -- vim.api.nvim_set_hl(0, "Pmenu",                    { fg = "#C5CDD9", bg = "#22252A" })
+        -- vim.api.nvim_set_hl(0, "PmenuSel", { bg = find_palette_color("#282C34"), fg = "NONE" })
+        -- vim.api.nvim_set_hl(0, "Pmenu", { fg = find_palette_color("#C5CDD9"), bg = find_palette_color("#22252A") })
 
-        vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = "#6b7089", bg = "NONE", strikethrough = true })
-        vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = "#b4be82", bg = "NONE", bold = true })
-        vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = "#b4be82", bg = "NONE", bold = true })
-        vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#a093c7", bg = "NONE", italic = false })
+        vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated",
+            { fg = find_palette_color("#7E8294"), bg = "NONE", strikethrough = true })
+        vim.api.nvim_set_hl(0, "CmpItemAbbrMatch",
+            { fg = find_palette_color("#82AAFF"), bg = "NONE", bold = true })
+        vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy",
+            { fg = find_palette_color("#82AAFF"), bg = "NONE", bold = true })
+        vim.api.nvim_set_hl(0, "CmpItemMenu",
+            { fg = find_palette_color("#C792EA"), bg = "NONE" })
 
-        vim.api.nvim_set_hl(0, "CmpItemKindField", { fg = "#EED8DA", bg = "#B5585F" })
-        vim.api.nvim_set_hl(0, "CmpItemKindProperty", { fg = "#EED8DA", bg = "#B5585F" })
-        vim.api.nvim_set_hl(0, "CmpItemKindEvent", { fg = "#EED8DA", bg = "#B5585F" })
-
-        vim.api.nvim_set_hl(0, "CmpItemKindText", { fg = "#C3E88D", bg = "#9FBD73" })
-        vim.api.nvim_set_hl(0, "CmpItemKindEnum", { fg = "#C3E88D", bg = "#9FBD73" })
-        vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { fg = "#C3E88D", bg = "#9FBD73" })
-
-        vim.api.nvim_set_hl(0, "CmpItemKindConstant", { fg = "#FFE082", bg = "#D4BB6C" })
-        vim.api.nvim_set_hl(0, "CmpItemKindConstructor", { fg = "#FFE082", bg = "#D4BB6C" })
-        vim.api.nvim_set_hl(0, "CmpItemKindReference", { fg = "#FFE082", bg = "#D4BB6C" })
-
-        vim.api.nvim_set_hl(0, "CmpItemKindFunction", { fg = "#EADFF0", bg = "#A377BF" })
-        vim.api.nvim_set_hl(0, "CmpItemKindStruct", { fg = "#EADFF0", bg = "#A377BF" })
-        vim.api.nvim_set_hl(0, "CmpItemKindClass", { fg = "#EADFF0", bg = "#A377BF" })
-        vim.api.nvim_set_hl(0, "CmpItemKindModule", { fg = "#EADFF0", bg = "#A377BF" })
-        vim.api.nvim_set_hl(0, "CmpItemKindOperator", { fg = "#EADFF0", bg = "#A377BF" })
-
-        vim.api.nvim_set_hl(0, "CmpItemKindVariable", { fg = "#C5CDD9", bg = "#7E8294" })
-        vim.api.nvim_set_hl(0, "CmpItemKindFile", { fg = "#C5CDD9", bg = "#7E8294" })
-
-        vim.api.nvim_set_hl(0, "CmpItemKindUnit", { fg = "#F5EBD9", bg = "#D4A959" })
-        vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { fg = "#F5EBD9", bg = "#D4A959" })
-        vim.api.nvim_set_hl(0, "CmpItemKindFolder", { fg = "#F5EBD9", bg = "#D4A959" })
-
-        vim.api.nvim_set_hl(0, "CmpItemKindMethod", { fg = "#DDE5F5", bg = "#6C8ED4" })
-        vim.api.nvim_set_hl(0, "CmpItemKindValue", { fg = "#DDE5F5", bg = "#6C8ED4" })
-        vim.api.nvim_set_hl(0, "CmpItemKindEnumMember", { fg = "#DDE5F5", bg = "#6C8ED4" })
-
-        vim.api.nvim_set_hl(0, "CmpItemKindInterface", { fg = "#D8EEEB", bg = "#58B5A8" })
-        vim.api.nvim_set_hl(0, "CmpItemKindColor", { fg = "#D8EEEB", bg = "#58B5A8" })
-        vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter", { fg = "#D8EEEB", bg = "#58B5A8" })
+        vim.api.nvim_set_hl(0, "CmpItemKindField",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#B5585F") })
+        vim.api.nvim_set_hl(0, "CmpItemKindProperty",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#B5585F") })
+        vim.api.nvim_set_hl(0, "CmpItemKindEvent",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#B5585F") })
+        vim.api.nvim_set_hl(0, "CmpItemKindText",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#9FBD73") })
+        vim.api.nvim_set_hl(0, "CmpItemKindEnum",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#9FBD73") })
+        vim.api.nvim_set_hl(0, "CmpItemKindKeyword",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#9FBD73") })
+        vim.api.nvim_set_hl(0, "CmpItemKindConstant",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4BB6C") })
+        vim.api.nvim_set_hl(0, "CmpItemKindConstructor",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4BB6C") })
+        vim.api.nvim_set_hl(0, "CmpItemKindReference",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4BB6C") })
+        vim.api.nvim_set_hl(0, "CmpItemKindFunction",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+        vim.api.nvim_set_hl(0, "CmpItemKindStruct",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+        vim.api.nvim_set_hl(0, "CmpItemKindClass",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+        vim.api.nvim_set_hl(0, "CmpItemKindModule",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+        vim.api.nvim_set_hl(0, "CmpItemKindOperator",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+        vim.api.nvim_set_hl(0, "CmpItemKindVariable",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#7E8294") })
+        vim.api.nvim_set_hl(0, "CmpItemKindFile",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#7E8294") })
+        vim.api.nvim_set_hl(0, "CmpItemKindUnit",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4A959") })
+        vim.api.nvim_set_hl(0, "CmpItemKindSnippet",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4A959") })
+        vim.api.nvim_set_hl(0, "CmpItemKindFolder",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4A959") })
+        vim.api.nvim_set_hl(0, "CmpItemKindMethod",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#6C8ED4") })
+        vim.api.nvim_set_hl(0, "CmpItemKindValue",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#6C8ED4") })
+        vim.api.nvim_set_hl(0, "CmpItemKindEnumMember",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#6C8ED4") })
+        vim.api.nvim_set_hl(0, "CmpItemKindInterface",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#58B5A8") })
+        vim.api.nvim_set_hl(0, "CmpItemKindColor",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#58B5A8") })
+        vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter",
+            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#58B5A8") })
     end
 })
+
+local has_words_before = function()
+    unpack = unpack or table.unpack
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
 
 cmp.setup({
     experimental = {
@@ -454,55 +628,80 @@ cmp.setup({
         fields = { "kind", "abbr", "menu" },
         format = function(entry, vim_item)
             local source_dict = {
-                ["cmdline-prompt"]           = "Prompt",
-                ["buffer"]                   = "Buffer",
-                ["cmdline"]                  = "Command",
-                ["cmdline_history"]          = "History",
-                ["nvim_lsp"]                 = "LSP",
-                ["path"]                     = "Path",
-                ["ultisnips"]                = "UltiSnips",
-                ["calc"]                     = "Calc",
-                ["emoji"]                    = "Emoji",
-                ["nvim_lsp_signature_help"]  = "LSPSignatureHelp",
-                ["omni"]                     = "Omni",
-                ["nvim_lsp_document_symbol"] = "LSPDocumentSymbol",
-                ["skkeleton"]                = "SKK",
+                ["cmdline-prompt"]           = "prompt         ",
+                ["buffer"]                   = "buffer         ",
+                ["cmdline"]                  = "command        ",
+                ["cmdline_history"]          = "history        ",
+                ["nvim_lsp"]                 = "lsp            ",
+                ["path"]                     = "path           ",
+                ["vsnip"]                    = "vsnip          ",
+                ["ultisnips"]                = "ultisnips      ",
+                ["calc"]                     = "calc           ",
+                ["emoji"]                    = "emoji          ",
+                ["nvim_lsp_signature_help"]  = "signature_help ",
+                ["omni"]                     = "omni           ",
+                ["nvim_lsp_document_symbol"] = "document_symbol",
+                ["skkeleton"]                = "skk            ",
             }
 
             local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
             local strings = vim.split(kind.kind, "%s", { trimempty = true })
             kind.kind = " " .. (strings[1] or "") .. " "
-            kind.menu = "    (" .. (strings[2] or "") .. ") " .. source_dict[entry.source.name]
+            kind.menu = " (" .. (strings[2] or "") .. ") " .. entry.source.name
             return kind
         end,
     },
     snippet = {
         expand = function(args)
-            vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+            vim.fn["vsnip#anonymous"](args.body)
         end,
     },
     mapping = cmp.mapping.preset.insert({
-        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
         ['<C-d>'] = cmp.mapping.scroll_docs(4),
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(8),
+        ['<C-b>'] = cmp.mapping.scroll_docs(-8),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
         ['<TAB>'] = {
             i = function(fallback)
                 if cmp.visible() then
-                    local types = require('cmp.types')
-                    cmp.select_next_item({ behavior = types.cmp.SelectBehavior.Insert })
+                    cmp.select_next_item()
+                elseif vim.fn["vsnip#available"](1) == 1 then
+                    feedkey("<Plug>(vsnip-expand-or-jump)", "")
+                elseif has_words_before() then
+                    cmp.complete()
                 else
-                    fallback()
+                    fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+                end
+            end,
+            s = function(fallback)
+                if cmp.visible() then
+                    cmp.select_next_item()
+                elseif vim.fn["vsnip#available"](1) == 1 then
+                    feedkey("<Plug>(vsnip-expand-or-jump)", "")
+                elseif has_words_before() then
+                    cmp.complete()
+                else
+                    fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
                 end
             end,
         },
         ['<S-TAB>'] = {
             i = function(fallback)
                 if cmp.visible() then
-                    local types = require('cmp.types')
-                    cmp.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert })
+                    cmp.select_prev_item()
+                elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+                    feedkey("<Plug>(vsnip-jump-prev)", "")
+                else
+                    fallback()
+                end
+            end,
+            s = function(fallback)
+                if cmp.visible() then
+                    cmp.select_prev_item()
+                elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+                    feedkey("<Plug>(vsnip-jump-prev)", "")
                 else
                     fallback()
                 end
@@ -511,7 +710,7 @@ cmp.setup({
     }),
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'ultisnips' }, -- For ultisnips users.
+        { name = 'vsnip' }, -- For vsnip users.
         -- { name = 'cmp_ai' },
         { name = 'buffer' },
         { name = 'path' },
@@ -531,6 +730,30 @@ cmp.setup({
 })
 -- }}}
 
+local nested_mapping_config = {
+    ['<C-p>'] = {
+        c = function(fallback)
+            fallback()
+        end,
+    },
+    ['<C-n>'] = {
+        c = function(fallback)
+            fallback()
+        end,
+    },
+    ['<C-e>'] = {
+        c = function(fallback)
+            fallback()
+        end,
+    },
+    ['<C-Space>'] = {
+        c = function(_)
+            cmp.complete()
+        end
+    },
+
+}
+
 -- `/`, `?` cmdline setup. {{{
 for _, cmd_type in ipairs({ '/', '?' }) do
     cmp.setup.cmdline(cmd_type, {
@@ -539,18 +762,7 @@ for _, cmd_type in ipairs({ '/', '?' }) do
                 c = function(_)
                     cmp.complete({
                         config = {
-                            mapping = cmp.mapping.preset.cmdline({
-                                ['<C-e>'] = {
-                                    c = function(fallback)
-                                        fallback()
-                                    end,
-                                },
-                                ['<C-Space>'] = {
-                                    c = function(_)
-                                        cmp.complete()
-                                    end
-                                },
-                            }),
+                            mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
                             sources = {
                                 { name = "cmdline_history" }
                             }
@@ -562,18 +774,7 @@ for _, cmd_type in ipairs({ '/', '?' }) do
                 c = function(_)
                     cmp.complete({
                         config = {
-                            mapping = cmp.mapping.preset.cmdline({
-                                ['<C-e>'] = {
-                                    c = function(fallback)
-                                        fallback()
-                                    end,
-                                },
-                                ['<C-Space>'] = {
-                                    c = function(_)
-                                        cmp.complete()
-                                    end
-                                },
-                            }),
+                            mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
                             sources = {
                                 { name = "cmdline_history" }
                             }
@@ -612,18 +813,7 @@ cmp.setup.cmdline(':', {
             c = function(_)
                 cmp.complete({
                     config = {
-                        mapping = cmp.mapping.preset.cmdline({
-                            ['<C-e>'] = {
-                                c = function(fallback)
-                                    fallback()
-                                end,
-                            },
-                            ['<C-Space>'] = {
-                                c = function(_)
-                                    cmp.complete()
-                                end
-                            },
-                        }),
+                        mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
                         sources = {
                             { name = "cmdline_history" }
                         }
@@ -635,18 +825,7 @@ cmp.setup.cmdline(':', {
             c = function(_)
                 cmp.complete({
                     config = {
-                        mapping = cmp.mapping.preset.cmdline({
-                            ['<C-e>'] = {
-                                c = function(fallback)
-                                    fallback()
-                                end,
-                            },
-                            ['<C-Space>'] = {
-                                c = function(_)
-                                    cmp.complete()
-                                end
-                            },
-                        }),
+                        mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
                         sources = {
                             { name = "cmdline_history" }
                         }
@@ -684,18 +863,7 @@ cmp.setup.cmdline('@', {
             c = function(_)
                 cmp.complete({
                     config = {
-                        mapping = cmp.mapping.preset.cmdline({
-                            ['<C-e>'] = {
-                                c = function(fallback)
-                                    fallback()
-                                end,
-                            },
-                            ['<C-Space>'] = {
-                                c = function(_)
-                                    cmp.complete()
-                                end
-                            },
-                        }),
+                        mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
                         sources = {
                             { name = "cmdline_history" }
                         }
@@ -707,18 +875,7 @@ cmp.setup.cmdline('@', {
             c = function(_)
                 cmp.complete({
                     config = {
-                        mapping = cmp.mapping.preset.cmdline({
-                            ['<C-e>'] = {
-                                c = function(fallback)
-                                    fallback()
-                                end,
-                            },
-                            ['<C-Space>'] = {
-                                c = function(_)
-                                    cmp.complete()
-                                end
-                            },
-                        }),
+                        mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
                         sources = {
                             { name = "cmdline_history" }
                         }
@@ -841,9 +998,9 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     pattern = '*',
     callback = function()
         vim.api.nvim_set_hl(0, "TreesitterContextBottom",
-            { underline = true, sp = "#6b7089" })
+            { underline = true, sp = "#6b7089", force = true })
         vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom",
-            { underline = true, sp = "#6b7089" })
+            { underline = true, sp = "#6b7089", force = true })
     end
 })
 -- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContext guifg=#6b7089')
@@ -1109,26 +1266,154 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 ------------------------------------------------------------------------------
 -- SECTION: LANGUAGE SPECIFIC SETUP {{{
 ------------------------------------------------------------------------------
-require('render-markdown').setup({
-    bullet = {
-        right_pad = 1,
-    },
-    checkbox = {
-        unchecked = {
-            icon = "󰄱",
-            highlight = "ObsidianTodo",
-        },
-        checked = {
-            icon = "",
-            highlight = "ObsidianDone",
-        },
-        custom = {
-            right_arrow = { raw = '[>]', rendered = "", highlight = 'ObsidianRightArrow', scope_highlight = nil },
-            tilde       = { raw = '[~]', rendered = "󰰱", highlight = 'ObsidianRightTilde', scope_highlight = nil },
-            important   = { raw = '[!]', rendered = "", highlight = 'ObsidianRightImportant', scope_highlight = nil },
-        }
-    }
+local function obsidian_create_uid()
+    return tostring(os.date("%Y%m%dT%H%M%S%z", os.time()))
+end
+
+local function obsidian_note_id_func(title)
+    local id = ""
+    if title ~= nil then
+        id = title:gsub("[\\/:*?\"<>|.]", "-")
+        if id ~= "" then
+            return id
+        end
+    end
+
+    id = obsidian_create_uid()
+    return id
+end
+
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+    group = "init_lua",
+    pattern = '*',
+    callback = function()
+        require("obsidian").setup({
+            ui = {
+                hl_groups = {
+                    ObsidianTodo          = { bold = true, fg = find_palette_color("#f78c6c") },
+                    ObsidianDone          = { bold = true, fg = find_palette_color("#89ddff") },
+                    ObsidianRightArrow    = { bold = true, fg = find_palette_color("#f78c6c") },
+                    ObsidianTilde         = { bold = true, fg = find_palette_color("#ff5370") },
+                    ObsidianImportant     = { bold = true, fg = find_palette_color("#d73128") },
+                    ObsidianBullet        = { bold = true, fg = find_palette_color("#89ddff") },
+                    ObsidianRefText       = { underline = true, fg = find_palette_color("#c792ea") },
+                    ObsidianExtLinkIcon   = { fg = find_palette_color("#c792ea") },
+                    ObsidianTag           = { italic = true, fg = find_palette_color("#89ddff") },
+                    ObsidianBlockID       = { italic = true, fg = find_palette_color("#89ddff") },
+                    ObsidianHighlightText = { bg = find_palette_color("#75662e") },
+                }
+            },
+            workspaces = {
+                {
+                    name = "work",
+                    path = "~/Documents/Obsidian",
+                },
+                {
+                    name = "personal",
+                    path = "~/Documents/Obsidian/Personal",
+                },
+            },
+            completion = {
+                -- Set to false to disable completion.
+                nvim_cmp = true,
+                -- Trigger completion at 2 chars.
+                min_chars = 0,
+            },
+            note_id_func = obsidian_note_id_func,
+            note_path_func = function(spec)
+                -- This is equivalent to the default behavior.
+                local path = spec.dir / tostring(spec.title)
+                return path:with_suffix(".md")
+            end,
+            note_frontmatter_func = function(note)
+                local out = {}
+
+                if note.id == nil then
+                    out.id = obsidian_create_uid()
+                else
+                    out.id = note.id
+                end
+
+                out.id = out.id
+                out.aliases = note.aliases
+                out.tags = note.tags
+                out.datetime = os.date("%Y-%m-%dT%H:%M:%S", os.time())
+
+                if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+                    for k, v in pairs(note.metadata) do
+                        out[k] = v
+                    end
+                end
+
+                return out
+            end,
+            callbacks = {
+                pre_write_note = function(client, note)
+                    if string.match(note.id, "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9][+][0-9][0-9][0-9][0-9]") then
+                        note.id = obsidian_note_id_func(note.title)
+                    end
+                end,
+                -- post_set_workspace = function(client, workspace)
+                --     -- if vim.v.vim_did_enter == 1 then
+                --     client.log.info("Changing directory to %s", workspace.path)
+                --     vim.cmd.cd(tostring(workspace.path))
+                --     -- end
+                -- end,
+            },
+            templates = {
+                folder = "templates",
+                date_format = "%Y-%m-%d",
+                time_format = "%H:%M",
+                substitutions = {
+                    ["date:YYYYMMDDTHHmmssZZ"] = function()
+                        return os.date("%Y%m%dT%H%M%S%z", os.time())
+                    end,
+                    ["date:YYYY-MM-DDTHH:mm:ss"] = function()
+                        return os.date("%Y-%m-%dT%H:%M:%S", os.time())
+                    end,
+                },
+            },
+            daily_notes = {
+                folder = "daily-notes",
+                date_format = "%Y-%m-%d",
+                default_tags = { "daily-notes" },
+                template = "templates/DailyNotesTemplate.md",
+            },
+            follow_url_func = function(url)
+                vim.fn.jobstart({ "open", url }) -- Mac OS
+            end,
+            follow_img_func = function(img)
+                local path = vim.fn.expand('%:p:h')
+                vim.fn.jobstart { "qlmanage", "-p", path .. '/' .. img } -- Mac OS quick look preview
+            end,
+        })
+    end
 })
+
+vim.api.nvim_create_user_command("ObsidianCd",
+    "exec 'tcd ' . luaeval(\"require('obsidian').get_client().current_workspace.path.filename\")",
+    {}
+)
+-- require('render-markdown').setup({
+--     anti_conceal = {
+--         enabled = false
+--     },
+--     checkbox = {
+--         unchecked = {
+--             icon = "󰄱",
+--             highlight = "ObsidianTodo",
+--         },
+--         checked = {
+--             icon = "",
+--             highlight = "ObsidianDone",
+--         },
+--         custom = {
+--             right_arrow = { raw = '[>]', rendered = "", highlight = 'ObsidianRightArrow', scope_highlight = nil },
+--             tilde       = { raw = '[~]', rendered = "󰰱", highlight = 'ObsidianRightTilde', scope_highlight = nil },
+--             important   = { raw = '[!]', rendered = "", highlight = 'ObsidianRightImportant', scope_highlight = nil },
+--         }
+--     }
+-- })
 
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
@@ -1300,107 +1585,6 @@ vim.api.nvim_set_keymap('n', '<Leader>`', ':<Cmd>Telescope marks<CR>',
     { silent = true, noremap = true })
 
 
-local function obsidian_create_uid()
-    return tostring(os.date("%Y%m%dT%H%M%S%z", os.time()))
-end
-
-local function obsidian_note_id_func(title)
-    local id = ""
-    if title ~= nil then
-        id = title:gsub("[\\/:*?\"<>|.]", "-")
-        if id ~= "" then
-            return id
-        end
-    end
-
-    id = obsidian_create_uid()
-    return id
-end
-
-require("obsidian").setup({
-    workspaces = {
-        {
-            name = "work",
-            path = "~/Documents/Obsidian",
-        },
-        {
-            name = "personal",
-            path = "~/Documents/Obsidian/Personal",
-        },
-    },
-    completion = {
-        -- Set to false to disable completion.
-        nvim_cmp = true,
-        -- Trigger completion at 2 chars.
-        min_chars = 0,
-    },
-    note_id_func = obsidian_note_id_func,
-    note_path_func = function(spec)
-        -- This is equivalent to the default behavior.
-        local path = spec.dir / tostring(spec.title)
-        return path:with_suffix(".md")
-    end,
-    note_frontmatter_func = function(note)
-        local out = {}
-
-        if note.id == nil then
-            out.id = obsidian_create_uid()
-        else
-            out.id = note.id
-        end
-
-        out.id = out.id
-        out.aliases = note.aliases
-        out.tags = note.tags
-        out.datetime = os.date("%Y-%m-%dT%H:%M:%S", os.time())
-
-        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-            for k, v in pairs(note.metadata) do
-                out[k] = v
-            end
-        end
-
-        return out
-    end,
-    callbacks = {
-        pre_write_note = function(client, note)
-            if string.match(note.id, "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9][+][0-9][0-9][0-9][0-9]") then
-                note.id = obsidian_note_id_func(note.title)
-            end
-        end,
-        -- post_set_workspace = function(client, workspace)
-        --     -- if vim.v.vim_did_enter == 1 then
-        --     client.log.info("Changing directory to %s", workspace.path)
-        --     vim.cmd.cd(tostring(workspace.path))
-        --     -- end
-        -- end,
-    },
-    templates = {
-        folder = "templates",
-        date_format = "%Y-%m-%d",
-        time_format = "%H:%M",
-        substitutions = {
-            ["date:YYYYMMDDTHHmmssZZ"] = function()
-                return os.date("%Y%m%dT%H%M%S%z", os.time())
-            end,
-            ["date:YYYY-MM-DDTHH:mm:ss"] = function()
-                return os.date("%Y-%m-%dT%H:%M:%S", os.time())
-            end,
-        },
-    },
-    daily_notes = {
-        folder = "daily-notes",
-        date_format = "%Y-%m-%d",
-        default_tags = { "daily-notes" },
-        template = "templates/DailyNotesTemplate.md",
-    },
-})
-
-vim.api.nvim_create_user_command("ObsidianCd",
-    "exec 'tcd ' . luaeval(\"require('obsidian').get_client().current_workspace.path.filename\")",
-    {}
-)
-
 vim.keymap.set("n", "<C-a>", function()
     require("dial.map").manipulate("increment", "normal")
 end)
@@ -1434,6 +1618,153 @@ require("aerial").setup({})
 ------------------------------------------------------------------------------
 -- SECTION: COLOR SCHEME {{{
 ------------------------------------------------------------------------------
+
+function OverrideHighlightColors()
+    local hlgroups = {
+        "NotifyBackground",
+        "NotifyDEBUGBody",
+        "NotifyDEBUGBorder",
+        "NotifyDEBUGIcon",
+        "NotifyDEBUGTitle",
+        "NotifyERRORBody",
+        "NotifyERRORBorder",
+        "NotifyERRORIcon",
+        "NotifyERRORTitle",
+        "NotifyINFOBody",
+        "NotifyINFOBorder",
+        "NotifyINFOIcon",
+        "NotifyINFOTitle",
+        "NotifyLogTime",
+        "NotifyLogTitle",
+        "NotifyTRACEBody",
+        "NotifyTRACEBorder",
+        "NotifyTRACEIcon",
+        "NotifyTRACETitle",
+        "NotifyWARNBody",
+        "NotifyWARNBorder",
+        "NotifyWARNIcon",
+        "NotifyWARNTitle",
+        "GitSignsAdd",
+        "GitSignsAddCul",
+        "GitSignsAddInline",
+        "GitSignsAddLn",
+        "GitSignsAddLnInline",
+        "GitSignsAddNr",
+        "GitSignsAddPreview",
+        "GitSignsChange",
+        "GitSignsChangeCul",
+        "GitSignsChangeInline",
+        "GitSignsChangeLn",
+        "GitSignsChangeLnInline",
+        "GitSignsChangeNr",
+        "GitSignsChangedelete",
+        "GitSignsChangedeleteCul",
+        "GitSignsChangedeleteLn",
+        "GitSignsChangedeleteNr",
+        "GitSignsCurrentLineBlame",
+        "GitSignsDelete",
+        "GitSignsDeleteCul",
+        "GitSignsDeleteInline",
+        "GitSignsDeleteLn",
+        "GitSignsDeleteLnInline",
+        "GitSignsDeleteNr",
+        "GitSignsDeletePreview",
+        "GitSignsDeleteVirtLn",
+        "GitSignsDeleteVirtLnInLine",
+        "GitSignsStagedAdd",
+        "GitSignsStagedAddCul",
+        "GitSignsStagedAddLn",
+        "GitSignsStagedAddNr",
+        "GitSignsStagedChange",
+        "GitSignsStagedChangeCul",
+        "GitSignsStagedChangeLn",
+        "GitSignsStagedChangeNr",
+        "GitSignsStagedChangedelete",
+        "GitSignsStagedChangedeleteCul",
+        "GitSignsStagedChangedeleteLn",
+        "GitSignsStagedChangedeleteNr",
+        "GitSignsStagedDelete",
+        "GitSignsStagedDeleteCul",
+        "GitSignsStagedDeleteNr",
+        "GitSignsStagedTopdelete",
+        "GitSignsStagedTopdeleteCul",
+        "GitSignsStagedTopdeleteLn",
+        "GitSignsStagedTopdeleteNr",
+        "GitSignsStagedUntracked",
+        "GitSignsStagedUntrackedCul",
+        "GitSignsStagedUntrackedLn",
+        "GitSignsStagedUntrackedNr",
+        "GitSignsTopdelete",
+        "GitSignsTopdeleteCul",
+        "GitSignsTopdeleteLn",
+        "GitSignsTopdeleteNr",
+        "GitSignsUntracked",
+        "GitSignsUntrackedCul",
+        "GitSignsUntrackedLn",
+        "GitSignsUntrackedNr",
+        "GitSignsVirtLnum",
+        "DapUIBreakpointsCurrentLine",
+        "DapUIBreakpointsDisabledLine",
+        "DapUIBreakpointsInfo",
+        "DapUIBreakpointsLine",
+        "DapUIBreakpointsPath",
+        "DapUICurrentFrameName",
+        "DapUIDecoration",
+        "DapUIEndofBuffer",
+        "DapUIFloatBorder",
+        "DapUIFloatNormal",
+        "DapUIFrameName",
+        "DapUILineNumber",
+        "DapUIModifiedValue",
+        "DapUINormal",
+        "DapUINormalNC",
+        "DapUIPlayPause",
+        "DapUIPlayPauseNC",
+        "DapUIRestart",
+        "DapUIRestartNC",
+        "DapUIScope",
+        "DapUISource",
+        "DapUIStepBack",
+        "DapUIStepBackNC",
+        "DapUIStepInto",
+        "DapUIStepIntoNC",
+        "DapUIStepOut",
+        "DapUIStepOutNC",
+        "DapUIStepOver",
+        "DapUIStepOverNC",
+        "DapUIStop",
+        "DapUIStopNC",
+        "DapUIStoppedThread",
+        "DapUIThread",
+        "DapUIType",
+        "DapUIUnavailable",
+        "DapUIUnavailableNC",
+        "DapUIValue",
+        "DapUIVariable",
+        "DapUIWatchesEmpty",
+        "DapUIWatchesError",
+        "DapUIWatchesValue",
+        "DapUIWinSelect",
+    }
+
+    for idx, hlgroup in ipairs(hlgroups) do
+        set_hl_palette_color(hlgroup)
+    end
+end
+
+-- vim.api.nvim_create_augroup('init_lua_color_override', { clear = true })
+-- vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+--     group = "init_lua_color_override",
+--     pattern = '*',
+--     callback = OverrideHighlightColors
+-- })
+
+vim.cmd([[
+  augroup init_lua_color_override
+    autocmd!
+    autocmd ColorScheme * lua OverrideHighlightColors()
+  augroup END
+]])
 if vim.env.COLORTERM == 'truecolor' then
     vim.cmd('colorscheme iceberg')
 else

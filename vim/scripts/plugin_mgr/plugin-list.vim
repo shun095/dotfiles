@@ -46,11 +46,12 @@ if !has('nvim')
 endif
 
 if s:has_python3
-  Plug 'SirVer/ultisnips'
+  " Plug 'SirVer/ultisnips'
 endif
+Plug 'rafamadriz/friendly-snippets'
 Plug 'honza/vim-snippets'
-" Plug 'hrsh7th/vim-vsnip'
-" Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 
 Plug 'mattn/sonictemplate-vim'
 " Plug 'aperezdc/vim-template'
@@ -82,12 +83,12 @@ if !has('nvim')
   Plug 'prabirshrestha/asyncomplete.vim'
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
   if s:has_python3
-    Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+    " Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
   endif
   " Disabled because when I insert '//' on Windows, vim freezes.
   " Plug 'prabirshrestha/asyncomplete-file.vim'
   Plug 'shun095/asyncomplete-buffer.vim', {'branch': 'wip/japanese_completion'}
-  Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-match'}
+  " Plug 'shun095/asyncomplete-neosnippet.vim', {'branch': 'fix-behavior-on-zero-match'}
   " Plug 'prabirshrestha/asyncomplete-necovim.vim'
   " Plug 'shun095/asyncomplete-omni.vim'
   " Plug 'shun095/asyncomplete-tsuquyomi.vim'
@@ -110,7 +111,7 @@ if !has('nvim')
   Plug 'mattn/vim-lsp-settings'
   if s:has_python3
     Plug 'thomasfaingnaert/vim-lsp-snippets'
-    Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+    " Plug 'thomasfaingnaert/vim-lsp-ultisnips'
   endif
   Plug 'rhysd/vim-healthcheck'
 else
@@ -154,8 +155,8 @@ else
   Plug 'dmitmel/cmp-cmdline-history'
   Plug 'teramako/cmp-cmdline-prompt.nvim'
   Plug 'uga-rosa/cmp-skkeleton'
-  " Plug 'hrsh7th/cmp-vsnip'
-  Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+  Plug 'hrsh7th/cmp-vsnip'
+  " Plug 'quangnguyen30192/cmp-nvim-ultisnips'
   " Plug 'tzachar/cmp-ai'
 
   Plug 'onsails/lspkind.nvim'
@@ -221,7 +222,7 @@ endif
   Plug 'lambdalisue/fern-ssh'
   Plug 'lambdalisue/nerdfont.vim'
   " Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-  Plug 'TheLeoP/fern-renderer-web-devicons.nvim'
+  Plug 'shun095/fern-renderer-web-devicons.nvim', { 'branch': 'use-web-devicons-color' }
   Plug 'lambdalisue/vim-fern-comparator-lexical'
   Plug 'lambdalisue/vim-glyph-palette'
   Plug 'lambdalisue/vim-fern-bookmark'
@@ -283,7 +284,8 @@ Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
 Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
 if has('nvim')
-  Plug 'MeanderingProgrammer/render-markdown.nvim'
+  Plug 'ixru/nvim-markdown'
+  " Plug 'MeanderingProgrammer/render-markdown.nvim'
 endif
 Plug 'dhruvasagar/vim-table-mode', {'for': ['markdown']}
 Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}

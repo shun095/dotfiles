@@ -38,9 +38,9 @@ fun! mymisc#config#quickrun#setup() abort
         \   'hook/close_buffer/enable_failure'       : 1,
         \   'hook/inu/enable'                        : 1,
         \   'hook/inu/wait'                          : 1,
-        \   'outputter'                              : 'multi:buffer:quickfix',
-        \   'outputter/buffer/split'                 : 'botright '.s:quickrun_winheight,
-        \   'outputter/quickfix/open_cmd'            : 'copen '.s:quickrun_winheight,
+        \   'outputter'                              : 'buffer',
+        \   'outputter/buffer/opener'                : 'new',
+        \   'outputter/buffer/into'                  : 1,
         \ }
 
   if has('terminal')
@@ -52,6 +52,10 @@ fun! mymisc#config#quickrun#setup() abort
     let g:quickrun_config['_']['runner/job/interval']       = 100
   elseif has('nvim')
     let g:quickrun_config['_']['runner']                    = 'neovim_job'
+    let g:quickrun_config['python'] = {
+          \ 'command' : 'python',
+          \ 'cmdopt' : '-u',
+          \ }
   else
     let g:quickrun_config['_']['runner']                    = 'system'
     let g:quickrun_config['python'] = {

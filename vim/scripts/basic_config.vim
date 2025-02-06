@@ -885,11 +885,12 @@
     " javaのsyntaxはmarkdownのsyntaxを参照しているので有効にすると再帰ループしてしまう
     let g:java_ignore_markdown = 1
 
-    au FileType markdown setl expandtab softtabstop=2 shiftwidth=2
+    au FileType markdown setl expandtab softtabstop=4 shiftwidth=4 concealcursor=n
 
     let g:markdown_syntax_conceal = 1
     " Json
     let g:vim_json_syntax_conceal = 1
+    let g:vim_markdown_frontmatter = 1
 
     " Java
     au FileType java setl noexpandtab softtabstop=4 shiftwidth=4
