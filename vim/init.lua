@@ -470,7 +470,7 @@ dap.configurations.lua = {
         name = "Attach to running Neovim instance",
     }
 }
-vim.fn.sign_define('DapBreakpoint', {text='🔴'})
+vim.fn.sign_define('DapBreakpoint', { text = '🔴' })
 
 dap.adapters.nlua = function(callback, config)
     callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
@@ -614,6 +614,10 @@ local feedkey = function(key, mode)
 end
 
 cmp.setup({
+    enabled = function()
+        return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+            or require("cmp_dap").is_dap_buffer()
+    end,
     experimental = {
         ghost_text = true,
     },
@@ -903,6 +907,12 @@ cmp.setup.cmdline('@', {
             -- col_offset = 0,
         },
     }
+})
+
+cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+    sources = {
+        { name = "dap" },
+    },
 })
 -- }}}
 

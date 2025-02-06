@@ -156,6 +156,7 @@ else
   Plug 'teramako/cmp-cmdline-prompt.nvim'
   Plug 'uga-rosa/cmp-skkeleton'
   Plug 'hrsh7th/cmp-vsnip'
+  Plug 'rcarriga/cmp-dap'
   " Plug 'quangnguyen30192/cmp-nvim-ultisnips'
   " Plug 'tzachar/cmp-ai'
 
