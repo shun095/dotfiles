@@ -1496,9 +1496,9 @@ require("toggleterm").setup({
 vim.api.nvim_set_keymap('n', '<Leader>te', '<Cmd>exe v:count . "ToggleTerm"<CR>',
     { silent = true, noremap = true, desc = "Toggle Terminal" })
 
-vim.api.nvim_create_user_command("Tig",
-    "cal execute(\"TermExec cmd=tig direction=float dir=\" . mymisc#find_project_dir(g:mymisc_projectdir_reference_files))",
-    {})
+-- vim.api.nvim_create_user_command("Tig",
+--     "cal execute(\"TermExec cmd=tig direction=float dir=\" . mymisc#find_project_dir(g:mymisc_projectdir_reference_files))",
+--     {})
 
 -- require("flatten").setup({
 --     window = {
