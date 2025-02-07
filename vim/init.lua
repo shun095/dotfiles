@@ -10,6 +10,7 @@ if vim.fn.filereadable(vim.env.HOME .. '/localrcs/vim-local.vim') == 1 then
 end
 
 vim.cmd('cal g:plugin_mgr["init"]()')
+
 vim.cmd('so $MYVIMHOME/scripts/lazy_hooks.vim')
 vim.cmd('so $MYVIMHOME/scripts/custom.vim')
 vim.cmd('so $MYVIMHOME/scripts/custom_global.vim')
@@ -17,6 +18,68 @@ vim.cmd('so $MYVIMHOME/scripts/custom_global.vim')
 if vim.fn.filereadable(vim.env.HOME .. '/localrcs/vim-localafter.vim') == 1 then
     vim.cmd('so ' .. vim.env.HOME .. '/localrcs/vim-localafter.vim')
 end
+
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out,                            "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+    spec        = {
+        {
+            dir = vim.env.MYVIMHOME
+        },
+        'cocopon/iceberg.vim',
+        {
+            "folke/which-key.nvim",
+            event = "VeryLazy",
+            opts = {
+                win = {
+                    border = "rounded",
+                    no_overlap = false,
+                }
+            },
+            keys = {
+                {
+                    "<leader>?",
+                    function()
+                        require("which-key").show({ global = false })
+                    end,
+                    desc = "Buffer Local Keymaps (which-key)",
+                },
+                {
+                    "g?",
+                    function()
+                        require("which-key").show({ global = true })
+                    end,
+                    desc = "Global Keymaps (which-key)",
+                }
+            },
+        } -- add your plugins here
+    },
+    -- Configure any other settings here. See the documentation for more details.
+    -- colorscheme that will be used when installing plugins.
+    install     = { colorscheme = { "iceberg" } },
+    -- automatically check for plugin updates
+    checker     = { enabled = true },
+    performance = {
+        rtp = {
+            reset = false, -- reset the runtime path to $VIMRUNTIME and your config directory
+        }
+    }
+})
 
 vim.api.nvim_create_augroup('init_lua', { clear = true })
 ------------------------------------------------------------------------------
@@ -184,9 +247,14 @@ require("mason").setup({
 -- === LSP Core ===
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
 require("neodev").setup({})
+-- for breadclumb
+require('lspsaga').setup({
+    lightbulb = {
+        enable = false,
+    }
+})
 
 require("mason-lspconfig").setup()
-
 require("mason-lspconfig").setup_handlers {
     function(server_name) -- default handler (optional)
         require("lspconfig")[server_name].setup {
@@ -263,7 +331,7 @@ require("trouble").setup({
     max_items = 10000, -- limit number of items that can be displayed per section
     modes = {
         lsp_document_symbols = {
-            format = "{kind_icon}{symbol.name}{pos}",
+            format = "{kind_icon}{symbol.name} {pos}",
         },
         lsp_base = {
             params = {
@@ -272,6 +340,16 @@ require("trouble").setup({
         },
     }
 })
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+    group = "init_lua",
+    pattern = '*',
+    callback = function()
+        vim.api.nvim_set_hl(0, "TroubleIndent", { link = "Comment", force = true })
+        vim.api.nvim_set_hl(0, "TroublePos", { link = "Comment", force = true })
+        vim.api.nvim_set_hl(0, "TroubleIndentFoldClosed", { link = "Comment", force = true })
+    end
+})
+
 local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
 for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
@@ -981,9 +1059,9 @@ require("nvim-treesitter.configs").setup {
         enable = true,
         keymaps = {
             init_selection = "gnn",
-            node_incremental = "grn",
-            scope_incremental = "grc",
-            node_decremental = "grm",
+            node_incremental = "gnn",
+            scope_incremental = "gnN",
+            node_decremental = "gnp",
         },
     },
     indent = {
@@ -1448,40 +1526,44 @@ require('csvview').enable()
 ------------------------------------------------------------------------------
 -- SECTION: TOOLS SETUP {{{
 ------------------------------------------------------------------------------
--- require("neo-tree").setup({
---     window = {
---         width = 35,
---         mappings = {
---             -- disable fuzzy finder
---             ["/"] = "noop"
---         }
---     }
--- }
--- )
-
--- vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
--- vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
-require("which-key").setup({
-    win = {
-        border = "rounded",
-        no_overlap = false,
+require("neo-tree").setup({
+    window = {
+        width = 35,
+        mappings = {
+            ["<C-h>"] = "navigate_up",
+            ["<C-l>"] = "refresh",
+            ["<CR>"] = "set_root",
+            ["h"] = "close_node",
+            ["l"] = "open",
+            ["o"] = "open",
+            ["<C-p>"] = "toggle_preview",
+            ["p"] = "toggle_preview",
+            ["S"] = "open_vsplit",
+            ["s"] = "open_with_window_picker",
+            ["O"] = "open_split",
+            ["I"] = "toggle_hidden",
+            ["a"] = "noop",
+            ["F"] = "add",
+            ["A"] = "noop",
+            ["K"] = "add_directory",
+            ["d"] = "noop",
+            ["D"] = "delete",
+            ["r"] = "noop",
+            ["b"] = "noop",
+            ["R"] = "rename",
+            ["y"] = "noop",
+            ["c"] = "noop",
+            ["C"] = "copy_to_clipboard",
+            ["P"] = "paste_from_clipboard",
+            ["m"] = "noop",
+            ["M"] = "move",
+            ["/"] = "filter_on_submit"
+        }
     }
 })
 
-vim.api.nvim_set_keymap("n", "<leader>?", "", {
-    noremap = true,
-    callback = function()
-        require("which-key").show({ global = false })
-    end,
-    desc = "Buffer Local Keymaps (which-key)",
-})
-vim.api.nvim_set_keymap("n", "g?", "", {
-    noremap = true,
-    callback = function()
-        require("which-key").show({ global = true })
-    end,
-    desc = "Global Keymaps (which-key)",
-})
+-- vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
+-- vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
 
 require("toggleterm").setup({
     size = 15,

@@ -151,7 +151,7 @@ if mymisc#startup#plug_tap('vim-easy-align')
   " nmap ga <Plug>(EasyAlign)
   " " Start interactive EasyAlign in visual mode (e.g. vipga)
   " xmap ga <Plug>(EasyAlign)
-en
+endif
 
 if mymisc#startup#plug_tap('vim-quickrun')
   cal mymisc#config#quickrun#setup()

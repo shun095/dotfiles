@@ -28,7 +28,9 @@ execute "Plug '" . expand('$MYVIMHOME') . "'"
 " Plug 'arcticicestudio/nord-vim'
 " Plug 'NLKNguyen/papercolor-theme'
 " Plug 'ajh17/spacegray.vim'
-Plug 'cocopon/iceberg.vim'
+if !has('nvim')
+  Plug 'cocopon/iceberg.vim'
+endif
 " Plug 'jdkanani/vim-material-theme'
 " Plug 'jonathanfilip/vim-lucius'
 " Plug 'joshdick/onedark.vim'
@@ -134,10 +136,10 @@ else
   Plug 'folke/neodev.nvim'
   Plug 'folke/trouble.nvim'
   Plug 'stevearc/aerial.nvim'
-  Plug 'folke/which-key.nvim'
+  " Plug 'folke/which-key.nvim'
   Plug 'm-demare/hlargs.nvim'
 
-  " Plug 'nvimdev/lspsaga.nvim'
+  Plug 'nvimdev/lspsaga.nvim'
   Plug 'kosayoda/nvim-lightbulb'
   " Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
   " Plug 'ray-x/navigator.lua'
@@ -215,7 +217,7 @@ endif
 " Plug 'justinmk/vim-dirvish'
 
 " if has('nvim')
-"   Plug 'nvim-neo-tree/neo-tree.nvim'
+  Plug 'nvim-neo-tree/neo-tree.nvim'
 " else
   Plug 'lambdalisue/fern.vim'
   Plug 'lambdalisue/fern-hijack.vim'
