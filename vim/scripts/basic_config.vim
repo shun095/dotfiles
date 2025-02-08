@@ -886,11 +886,17 @@
     let g:java_ignore_markdown = 1
 
     au FileType markdown setl expandtab softtabstop=4 shiftwidth=4 concealcursor=n
-
     let g:markdown_syntax_conceal = 1
+    let g:vim_markdown_frontmatter = 1
+
+    set concealcursor=n
+    " \x16はCTRL-Vのこと
+    au ModeChanged [^ivV\x16]*:[ivV\x16]* let g:prev_conceallevel=&conceallevel | setl conceallevel=0
+    au ModeChanged [ivV\x16]*:[^ivV\x16]* let &conceallevel = g:prev_conceallevel 
+
     " Json
     let g:vim_json_syntax_conceal = 1
-    let g:vim_markdown_frontmatter = 1
+    let g:vim_json_syntax_concealcursor = "n"
 
     " Java
     au FileType java setl noexpandtab softtabstop=4 shiftwidth=4

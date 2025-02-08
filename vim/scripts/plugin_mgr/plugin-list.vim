@@ -217,7 +217,7 @@ endif
 " Plug 'justinmk/vim-dirvish'
 
 " if has('nvim')
-  " Plug 'nvim-neo-tree/neo-tree.nvim'
+  Plug 'nvim-neo-tree/neo-tree.nvim'
 " else
   Plug 'lambdalisue/fern.vim'
   Plug 'lambdalisue/fern-hijack.vim'

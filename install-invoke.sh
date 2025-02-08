@@ -10,6 +10,8 @@ set -eu
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" >/dev/null 2>&1; pwd -P)"
 
+export DOTFILES_VERSION="0.1.0"
+
 export MYDOTFILES="${SCRIPT_DIR}"
 export MYDOTFILES_LITERAL='${SCRIPT_DIR}'
 if type cygpath > /dev/null 2>&1; then
@@ -577,20 +579,36 @@ install_essential_dependencies() {
 install_vim_plugins() {
     echo_section "Installing vim plugins"
 
-    if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
-        if [[ ! -d $MYVIMRUNTIME/plugged ]]; then
-            if [[ -d $MYDOTFILES/build/vim ]]; then
-                export PATH=$MYDOTFILES/build/vim/bin/:$PATH
-            fi
-            vim --not-a-term --version
-            echo "Running :PlugInstall"
-            vim --not-a-term \
-                --cmd 'let g:is_test = 1' \
-                --cmd 'set shortmess=a cmdheight=10' \
-                --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
-                -c ':PlugInstall --sync' \
-                -c ':qa!'
+    if type git > /dev/null 2>&1; then 
+        if type vim > /dev/null 2>&1; then
+            if [[ ! -d $MYVIMRUNTIME/plugged ]]; then
+                if [[ -d $MYDOTFILES/build/vim ]]; then
+                    export PATH=$MYDOTFILES/build/vim/bin/:$PATH
+                fi
+                vim --not-a-term --version
+                echo "Running :PlugInstall"
+                vim --not-a-term \
+                    --cmd 'let g:is_test = 1' \
+                    --cmd 'set shortmess=a cmdheight=10' \
+                    --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
+                    -c ':PlugInstall --sync' \
+                    -c ':qa!'
 
+            fi
+            if type nvim > /dev/null 2>&1; then
+                if [[ ! -d $MYVIMRUNTIME/plugged ]]; then
+                    if [[ -d $MYDOTFILES/build/nvim ]]; then
+                        export PATH=$MYDOTFILES/build/nvim/bin/:$PATH
+                    fi
+                    nvim --version
+                    echo "Running :PlugUpgrade, :PlugUpdate"
+                    nvim --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
+                        --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
+                        -c ':PlugInstall --sync' \
+                        -c ':Lazy update' \
+                        -c ':qa!'
+                fi
+            fi
         fi
     fi
     echo "Installed."
@@ -607,20 +625,36 @@ install_tmux_plugins() {
 
 update_vim_plugins() {
     echo_section "Updating vim plugins"
-
-    if type vim > /dev/null 2>&1 && type git > /dev/null 2>&1; then
-        if [[ -d $MYVIMRUNTIME/plugged ]] || [[ -d $MYVIMRUNTIME/pack ]]; then
-            if [[ -d $MYDOTFILES/build/vim ]]; then
-                export PATH=$MYDOTFILES/build/vim/bin/:$PATH
+    if type git > /dev/null 2>&1; then
+        if type vim > /dev/null 2>&1; then
+            if [[ -d $MYVIMRUNTIME/plugged ]] || [[ -d $MYVIMRUNTIME/pack ]]; then
+                if [[ -d $MYDOTFILES/build/vim ]]; then
+                    export PATH=$MYDOTFILES/build/vim/bin/:$PATH
+                fi
+                vim --not-a-term -T xterm-256color --version
+                echo "Running :PlugUpgrade, :PlugUpdate"
+                vim --not-a-term \
+                    --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
+                    --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
+                    -c ':PlugUpgrade' \
+                    -c ':PlugUpdate --sync' \
+                    -c ':qa!'
             fi
-            vim --not-a-term -T xterm-256color --version
-            echo "Running :PlugUpgrade, :PlugUpdate"
-            vim --not-a-term \
-                --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
-                --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
-                -c ':PlugUpgrade' \
-                -c ':PlugUpdate --sync' \
-                -c ':qa!'
+        fi
+        if type nvim > /dev/null 2>&1; then
+            if [[ -d $MYVIMRUNTIME/plugged ]] || [[ -d $MYVIMRUNTIME/pack ]]; then
+                if [[ -d $MYDOTFILES/build/nvim ]]; then
+                    export PATH=$MYDOTFILES/build/nvim/bin/:$PATH
+                fi
+                nvim --version
+                echo "Running :PlugUpgrade, :PlugUpdate"
+                nvim --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
+                    --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
+                    -c ':PlugUpgrade' \
+                    -c ':PlugUpdate --sync' \
+                    -c ':Lazy update' \
+                    -c ':qa!'
+            fi
         fi
     fi
     echo "Updated."
@@ -854,7 +888,8 @@ deploy() {
     if [[ ! -e ${TRASH} ]]; then
         mkdir ${TRASH}
     fi
-
+    
+    echo $DOTFILES_VERSION > "$SCRIPT_DIR/deployed-version.txt"
 }
 
 undeploy() {

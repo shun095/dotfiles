@@ -70,6 +70,7 @@ fun! mymisc#config#fern#setup() abort
     setlocal norelativenumber
 
     " let g:glyph_palette#palette = v:lua.require('fr-web-icons').palette()
+    let g:fern#renderer#web_devicons#use_web_devicons_color_palette = v:true
   endf
 
   aug vimrc_fern

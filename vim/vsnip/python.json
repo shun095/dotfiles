@@ -1,0 +1,6 @@
+{
+    "script_dir": {
+        "prefix": "script_dir",
+        "body": "script_dir = os.path.dirname(os.path.realpath(__file__))\n${0}"
+    }
+}

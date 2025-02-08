@@ -35,10 +35,11 @@ curl -X GET
 endsnippet
 
 snippet vimpipe "vim pipe"
-# -e means ex mode (non interactive mode)
-# -s menas silent
-# +xxx means run xxx command 
-# +setline means write result into buffer
-# +%p means print buffer to stdout
-vim -u NONE -es +"call setline(1, fnamemodify(\"~\",\":p\"))" +%p +qa! /dev/stdin
+# -e          : Ex mode (non interactive mode)
+# -s          : Silent
+# +xxx        : Run xxx command
+#   %s/,/^M/g : Replace comman to newline
+#   %p        : Print buffer to stdout
+#   qa!       : Exit vim
+echo "aaa,bbb,ccc" | vim -u NONE -es +"%s/,/^M/g" +%p +qa! /dev/stdin
 endsnippet

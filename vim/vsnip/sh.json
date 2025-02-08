@@ -1,0 +1,22 @@
+{
+    "script_dir": {
+        "prefix": "script_dir",
+        "body": "SCRIPT_DIR=\"\\$( cd \"\\$(dirname \"\\$0\")\" >/dev/null 2>&1 ; pwd -P )\"",
+        "description": "SCRIPT_DIR = ..."
+    },
+    "whileread": {
+        "prefix": "whileread",
+        "body": "while read line${2: > /dev/null}\ndo\n    ${3:echo \\$line}\n    ${0}\ndone < ${1:<(echo \"a\"; echo \"b\")}",
+        "description": "while read ..."
+    },
+    "whilereadifs": {
+        "prefix": "whilereadifs",
+        "body": "while IFS=${2:,} read ${3:foo bar} > ${4:/dev/null}\ndo\n    ${5:echo \\$foo \\$bar}\n    ${0}\ndone < ${1:<(echo \"a,b\"; echo \"c,d\")}",
+        "description": "while IFS=, read ..."
+    },
+    "vimpipe": {
+        "prefix": "vimpipe",
+        "body": "# -e          : Ex mode (non interactive mode)\n# -s          : Silent\n# +xxx        : Run xxx command\n#   %s/,/^M/g : Replace comman to newline\n#   %p        : Print buffer to stdout\n#   qa!       : Exit vim\necho \"aaa,bbb,ccc\" | vim -u NONE -es +\"%s/,/^M/g\" +%p +qa! /dev/stdin",
+        "description": "Use vim as pipe"
+    }
+}

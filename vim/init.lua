@@ -86,7 +86,13 @@ require("lazy").setup({
                     desc = "Global Keymaps (which-key)",
                 }
             },
-        } -- add your plugins here
+        },
+        {
+            "HakonHarnes/img-clip.nvim",
+            event = "VeryLazy",
+            opts = {},
+            keys = {},
+        }
     },
     -- Configure any other settings here. See the documentation for more details.
     -- colorscheme that will be used when installing plugins.
@@ -664,12 +670,14 @@ end
 local cmp = require('cmp')
 local lspkind = require('lspkind')
 
+vim.g.vsnip_snippet_dir = vim.env.MYVIMHOME .. "/vsnip"
+
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     group = "init_lua",
     pattern = '*',
     callback = function()
         -- Customization for Pmenu
-        vim.api.nvim_set_hl(0, "Pmenu", {bg = "#1e2132", fg = "NONE"})
+        vim.api.nvim_set_hl(0, "Pmenu", { bg = "#1e2132", fg = "NONE" })
         vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#2a3158", fg = "NONE" })
 
         -- vim.api.nvim_set_hl(0, "CmpItemAbbrDefault", { link = "PmenuSel", force = true})
@@ -780,7 +788,7 @@ cmp.setup({
                 ["skkeleton"]                = "skk            ",
             }
 
-            local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+            local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
             local strings = vim.split(kind.kind, "%s", { trimempty = true })
             kind.kind = " " .. (strings[1] or "") .. " "
             kind.menu = " (" .. (strings[2] or "") .. ") " .. entry.source.name
@@ -1289,6 +1297,12 @@ require("bufferline").setup {
                 text = "File Explorer",
                 highlight = "Directory",
                 separator = true -- use a "true" to enable the default, or set your own character
+            },
+            {
+                filetype = "neo-tree",
+                text = "File Explorer",
+                highlight = "Directory",
+                separator = true -- use a "true" to enable the default, or set your own character
             }
         },
         style_preset = require("bufferline").style_preset.no_italic,
@@ -1579,44 +1593,44 @@ require('csvview').enable()
 ------------------------------------------------------------------------------
 -- SECTION: TOOLS SETUP {{{
 ------------------------------------------------------------------------------
--- require("neo-tree").setup({
---     window = {
---         width = 35,
---         mappings = {
---             ["<C-h>"] = "navigate_up",
---             ["<C-l>"] = "refresh",
---             ["<CR>"] = "set_root",
---             ["h"] = "close_node",
---             ["l"] = "open",
---             ["o"] = "open",
---             ["<C-p>"] = "toggle_preview",
---             ["p"] = "toggle_preview",
---             ["S"] = "open_vsplit",
---             ["s"] = "open_with_window_picker",
---             ["O"] = "open_split",
---             ["I"] = "toggle_hidden",
---             ["a"] = "noop",
---             ["F"] = "add",
---             ["A"] = "noop",
---             ["K"] = "add_directory",
---             ["d"] = "noop",
---             ["D"] = "delete",
---             ["r"] = "noop",
---             ["b"] = "noop",
---             ["R"] = "rename",
---             ["y"] = "noop",
---             ["c"] = "noop",
---             ["C"] = "copy_to_clipboard",
---             ["P"] = "paste_from_clipboard",
---             ["m"] = "noop",
---             ["M"] = "move",
---             ["/"] = "filter_on_submit"
---         }
---     }
--- })
+require("neo-tree").setup({
+    window = {
+        width = 35,
+        mappings = {
+            ["<C-h>"] = "navigate_up",
+            ["<C-l>"] = "refresh",
+            ["<CR>"] = "set_root",
+            ["h"] = "close_node",
+            ["l"] = "open",
+            ["o"] = "open",
+            ["<C-p>"] = "toggle_preview",
+            ["p"] = "toggle_preview",
+            ["S"] = "open_vsplit",
+            ["s"] = "open_with_window_picker",
+            ["O"] = "open_split",
+            ["I"] = "toggle_hidden",
+            ["a"] = "noop",
+            ["F"] = "add",
+            ["A"] = "noop",
+            ["K"] = "add_directory",
+            ["d"] = "noop",
+            ["D"] = "delete",
+            ["r"] = "noop",
+            ["b"] = "noop",
+            ["R"] = "rename",
+            ["y"] = "noop",
+            ["c"] = "noop",
+            ["C"] = "copy_to_clipboard",
+            ["P"] = "paste_from_clipboard",
+            ["m"] = "noop",
+            ["M"] = "move",
+            ["/"] = "filter_on_submit"
+        }
+    }
+})
 
--- vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
--- vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
+vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
+vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
 
 require("toggleterm").setup({
     size = 15,
