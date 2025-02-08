@@ -41,7 +41,26 @@ require("lazy").setup({
         {
             dir = vim.env.MYVIMHOME
         },
-        'cocopon/iceberg.vim',
+        { 'cocopon/iceberg.vim' },
+        {
+            'nvim-lua/plenary.nvim',
+            config = function()
+                vim.g.plenary_profile = false
+                local function toggle_profile()
+                    local filename = vim.env.HOME .. "/.vim/profile.log"
+                    if vim.g.plenary_profile == true then
+                        require 'plenary.profile'.stop()
+                        vim.print(string.format("Wrote profile log: %s", filename))
+                        vim.g.plenary_profile = false
+                    else
+                        vim.print(string.format("Starting profile"))
+                        require 'plenary.profile'.start(filename, { flame = true })
+                        vim.g.plenary_profile = true
+                    end
+                end
+                vim.keymap.set("", "<F1>", toggle_profile)
+            end
+        },
         {
             "folke/which-key.nvim",
             event = "VeryLazy",
@@ -89,11 +108,24 @@ vim.api.nvim_create_augroup('init_lua', { clear = true })
 ------------------------------------------------------------------------------
 -- SECTION: UTIL FUNCTIONS {{{
 ------------------------------------------------------------------------------
+
+---Convert hex color to RGB
+---@param hex any
+---@return integer
+---@return integer
+---@return integer
 local function hex_to_rgb(hex)
     hex = hex:gsub("#", "")
     return tonumber(hex:sub(1, 2), 16), tonumber(hex:sub(3, 4), 16), tonumber(hex:sub(5, 6), 16)
 end
 
+---Convert RGB to XYZ color
+---@param r number
+---@param g number
+---@param b number
+---@return number
+---@return number
+---@return number
 local function rgb_to_xyz(r, g, b)
     local function transform(c)
         c = c / 255
@@ -107,6 +139,13 @@ local function rgb_to_xyz(r, g, b)
         r * 0.0193339 + g * 0.1191920 + b * 0.9503041
 end
 
+---Convert XYZ to LAB
+---@param x number
+---@param y number
+---@param z number
+---@return number
+---@return number
+---@return number
 local function xyz_to_lab(x, y, z)
     local function transform(c)
         return (c > 0.008856) and (c ^ (1 / 3)) or ((7.787 * c) + (16 / 116))
@@ -117,6 +156,14 @@ local function xyz_to_lab(x, y, z)
     return (116 * y) - 16, 500 * (x - y), 200 * (y - z)
 end
 
+---Calculate CIEDE2000
+---@param l1 number
+---@param a1 number
+---@param b1 number
+---@param l2 number
+---@param a2 number
+---@param b2 number
+---@return number
 local function delta_e_ciede2000(l1, a1, b1, l2, a2, b2)
     local function deg_to_rad(deg) return math.pi * deg / 180 end
     local function rad_to_deg(rad) return 180 * rad / math.pi end
@@ -158,8 +205,11 @@ local function delta_e_ciede2000(l1, a1, b1, l2, a2, b2)
     return math.sqrt((dl / sl) ^ 2 + (dc / sc) ^ 2 + (dh / sh) ^ 2 + rt * (dc / sc) * (dh / sh))
 end
 
+---Find color from colorscheme color palette
+---@param hex string hex color to find nearest
+---@return string|nil nearest_hex nearest hex color in color palette
 local function find_palette_color(hex)
-    -- iceberg pallette
+    -- iceberg palette
     local palette = {
         "#392313", "#53343b", "#e98989",
         "#45493e", "#e27878", "#ffffff",
@@ -199,6 +249,9 @@ local function find_palette_color(hex)
     return nearest_color
 end
 
+---Set highlights to color schemed color
+---@param hlgroup string highlight group to overwrite
+---@return nil
 local function set_hl_palette_color(hlgroup)
     local hl = vim.api.nvim_get_hl(0, { name = hlgroup, link = false })
     if not hl then
@@ -616,17 +669,17 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     pattern = '*',
     callback = function()
         -- Customization for Pmenu
-        -- vim.api.nvim_set_hl(0, "PmenuSel", { bg = find_palette_color("#282C34"), fg = "NONE" })
-        -- vim.api.nvim_set_hl(0, "Pmenu", { fg = find_palette_color("#C5CDD9"), bg = find_palette_color("#22252A") })
+        vim.api.nvim_set_hl(0, "Pmenu", {bg = "#1e2132", fg = "NONE"})
+        vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#2a3158", fg = "NONE" })
 
+        -- vim.api.nvim_set_hl(0, "CmpItemAbbrDefault", { link = "PmenuSel", force = true})
         vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated",
             { fg = find_palette_color("#7E8294"), bg = "NONE", strikethrough = true })
         vim.api.nvim_set_hl(0, "CmpItemAbbrMatch",
-            { fg = find_palette_color("#82AAFF"), bg = "NONE", bold = true })
+            { fg = "#91acd1", bold = true })
         vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy",
-            { fg = find_palette_color("#82AAFF"), bg = "NONE", bold = true })
-        vim.api.nvim_set_hl(0, "CmpItemMenu",
-            { fg = find_palette_color("#C792EA"), bg = "NONE" })
+            { fg = "#91acd1", bold = true })
+        vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#6b7089" })
 
         vim.api.nvim_set_hl(0, "CmpItemKindField",
             { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#B5585F") })
@@ -702,7 +755,7 @@ cmp.setup({
     window = {
         documentation = cmp.config.window.bordered(),
         completion = {
-            winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+            winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None,CursorLine:PmenuSel",
             col_offset = -3,
             side_padding = 0,
         },
@@ -1526,41 +1579,41 @@ require('csvview').enable()
 ------------------------------------------------------------------------------
 -- SECTION: TOOLS SETUP {{{
 ------------------------------------------------------------------------------
-require("neo-tree").setup({
-    window = {
-        width = 35,
-        mappings = {
-            ["<C-h>"] = "navigate_up",
-            ["<C-l>"] = "refresh",
-            ["<CR>"] = "set_root",
-            ["h"] = "close_node",
-            ["l"] = "open",
-            ["o"] = "open",
-            ["<C-p>"] = "toggle_preview",
-            ["p"] = "toggle_preview",
-            ["S"] = "open_vsplit",
-            ["s"] = "open_with_window_picker",
-            ["O"] = "open_split",
-            ["I"] = "toggle_hidden",
-            ["a"] = "noop",
-            ["F"] = "add",
-            ["A"] = "noop",
-            ["K"] = "add_directory",
-            ["d"] = "noop",
-            ["D"] = "delete",
-            ["r"] = "noop",
-            ["b"] = "noop",
-            ["R"] = "rename",
-            ["y"] = "noop",
-            ["c"] = "noop",
-            ["C"] = "copy_to_clipboard",
-            ["P"] = "paste_from_clipboard",
-            ["m"] = "noop",
-            ["M"] = "move",
-            ["/"] = "filter_on_submit"
-        }
-    }
-})
+-- require("neo-tree").setup({
+--     window = {
+--         width = 35,
+--         mappings = {
+--             ["<C-h>"] = "navigate_up",
+--             ["<C-l>"] = "refresh",
+--             ["<CR>"] = "set_root",
+--             ["h"] = "close_node",
+--             ["l"] = "open",
+--             ["o"] = "open",
+--             ["<C-p>"] = "toggle_preview",
+--             ["p"] = "toggle_preview",
+--             ["S"] = "open_vsplit",
+--             ["s"] = "open_with_window_picker",
+--             ["O"] = "open_split",
+--             ["I"] = "toggle_hidden",
+--             ["a"] = "noop",
+--             ["F"] = "add",
+--             ["A"] = "noop",
+--             ["K"] = "add_directory",
+--             ["d"] = "noop",
+--             ["D"] = "delete",
+--             ["r"] = "noop",
+--             ["b"] = "noop",
+--             ["R"] = "rename",
+--             ["y"] = "noop",
+--             ["c"] = "noop",
+--             ["C"] = "copy_to_clipboard",
+--             ["P"] = "paste_from_clipboard",
+--             ["m"] = "noop",
+--             ["M"] = "move",
+--             ["/"] = "filter_on_submit"
+--         }
+--     }
+-- })
 
 -- vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
 -- vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
@@ -1722,7 +1775,10 @@ require("aerial").setup({})
 -- SECTION: COLOR SCHEME {{{
 ------------------------------------------------------------------------------
 
-function OverrideHighlightColors()
+local function override_highlight_colors()
+    -- load before override
+    require('mason.ui.colors')
+
     local hlgroups = {
         "NotifyBackground",
         "NotifyDEBUGBody",
@@ -1848,6 +1904,18 @@ function OverrideHighlightColors()
         "DapUIWatchesError",
         "DapUIWatchesValue",
         "DapUIWinSelect",
+        "MasonHeaderSecondary",
+        "MasonHeader",
+        "MasonHeading",
+        "MasonHighlightBlockBoldSecondary",
+        "MasonHighlightBlockBold",
+        "MasonHighlightBlockSecondary",
+        "MasonHighlightBlock",
+        "MasonHighlightSecondary",
+        "MasonHighlight",
+        "MasonMutedBlockBold",
+        "MasonMutedBlock",
+        "MasonMuted",
     }
 
     for idx, hlgroup in ipairs(hlgroups) do
@@ -1855,19 +1923,12 @@ function OverrideHighlightColors()
     end
 end
 
--- vim.api.nvim_create_augroup('init_lua_color_override', { clear = true })
--- vim.api.nvim_create_autocmd({ "ColorScheme" }, {
---     group = "init_lua_color_override",
---     pattern = '*',
---     callback = OverrideHighlightColors
--- })
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+    group = "init_lua",
+    pattern = '*',
+    callback = override_highlight_colors
+})
 
-vim.cmd([[
-  augroup init_lua_color_override
-    autocmd!
-    autocmd ColorScheme * lua OverrideHighlightColors()
-  augroup END
-]])
 if vim.env.COLORTERM == 'truecolor' then
     vim.cmd('colorscheme iceberg')
 else

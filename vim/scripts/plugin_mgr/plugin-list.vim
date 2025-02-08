@@ -174,7 +174,7 @@ else
   Plug 'rcarriga/nvim-notify'
   Plug 'folke/noice.nvim'
   " Plug 'j-hui/fidget.nvim'
-  Plug 'nvim-lua/plenary.nvim'
+  " Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'LukasPietzschmann/telescope-tabs'
   if executable('cmake')
@@ -217,7 +217,7 @@ endif
 " Plug 'justinmk/vim-dirvish'
 
 " if has('nvim')
-  Plug 'nvim-neo-tree/neo-tree.nvim'
+  " Plug 'nvim-neo-tree/neo-tree.nvim'
 " else
   Plug 'lambdalisue/fern.vim'
   Plug 'lambdalisue/fern-hijack.vim'

@@ -17,6 +17,12 @@ plugins=(
 )
 
 lazy_plugins=(
+    # zsh-navigation-tools
+    zsh-autosuggestions
+    zsh-completions
+    zsh-interactive-cd
+    zsh-syntax-highlighting
+    history-substring-search
     alias-finder
     aliases
     colorize
@@ -31,12 +37,6 @@ lazy_plugins=(
     macos
     safe-paste
     timer
-    zsh-interactive-cd
-    zsh-autosuggestions
-    zsh-completions
-    history-substring-search
-    zsh-syntax-highlighting
-    # zsh-navigation-tools
 )
 
 lazy_plugins_with_command=(
@@ -60,7 +60,6 @@ lazy_plugins_with_command=(
     istioctl
     k9s
     kn
-    kube-ps1:kubectl
     kubectl
     kubectx
     microk8s
@@ -76,7 +75,6 @@ lazy_plugins_with_command=(
     pip:pip3
     podman
     postgres:psql
-    pyenv
     python
     python:python3
     rsync
@@ -100,6 +98,9 @@ lazy_plugins_with_command=(
     xcode:xcode-select
     yarn
     yum
+    # Following plugins should be last because it creates slow precmd hooks
+    kube-ps1:kubectl
+    pyenv
 )
 
 while IFS=: read plugin cmd
@@ -131,39 +132,40 @@ compinit(){
     args=$@
     . $ZSH/custom/plugins/zsh-defer/zsh-defer.plugin.zsh
     zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compinit...\";"
-    zsh-defer +12 -d +m -sz +rp -t0.001 -c "unfunction compinit; unfunction compdef; autoload -Uz compinit && compinit $args"
+    zsh-defer +12 -dmszr +p -t0.001 -c "unfunction compinit; unfunction compdef; autoload -Uz compinit && compinit $args"
 }
 
 compdef(){
     args=$@
     zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compdef...\";"
-    zsh-defer +12 -d +m -sz +rp -t0.001 -c "compdef $args"
+    zsh-defer +12 -dmszr +p -t0.001 -c "compdef $args"
 }
-
-# source(){
-
-#     echo "start `date +%s.%3N`"
-#     echo "Source: " $@
-#     . $@
-#     echo "end   `date +%s.%3N`"
-
-# }
 
 source $ZSH/oh-my-zsh.sh
 
 if [ -f ~/.fzf.zsh ]; then
     plugin=fzf
     zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Loading $plugin...\";"
-    zsh-defer +12 -d +m -sz +rp -t0.001 -c "source $HOME/.fzf.zsh"
+    zsh-defer +12 -dmszr +p  -t0.001 -c "source $HOME/.fzf.zsh"
 fi
 
-while IFS= read plugin
+# Load essential plugin
+while IFS=: read plugin
 do
-    cmd=true
-    # lazy_plugins_with_command+=("$plugin:$cmd")
-    lazy_plugins_with_command=("$plugin:$cmd" "${lazy_plugins_with_command[@]}")
+    if is_plugin "$ZSH_CUSTOM" "$plugin"; then
+        fpath=("$ZSH_CUSTOM/plugins/$plugin" $fpath)
+    elif is_plugin "$ZSH" "$plugin"; then
+        fpath=("$ZSH/plugins/$plugin" $fpath)
+    else
+        echo "[oh-my-zsh] plugin '$plugin' not found"
+    fi
+
+    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Loading $plugin...\";"
+    # All hooks executed to enabled for zsh-syntax-highlighting/history-substring-search
+    zsh-defer +12dmrp -sz -t0.001 -c "_omz_source \"plugins/$plugin/$plugin.plugin.zsh\"" 
 done < <(for line in $lazy_plugins; do echo $line; done)
 
+# Load plugin if associated command exists
 while IFS=: read plugin cmd
 do
     if [[ "$cmd" = "" ]]; then
@@ -179,7 +181,7 @@ do
     fi
 
     zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Loading $plugin...\";"
-    zsh-defer +12 -d +m -sz +rp -t0.001 -c "
+    zsh-defer +12dmrp -sz -t0.001 -c "
         if type $cmd >/dev/null 2>&1; then
             _omz_source \"plugins/$plugin/$plugin.plugin.zsh\"; 
         fi"
