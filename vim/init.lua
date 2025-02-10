@@ -259,8 +259,11 @@ end
 ---@param hlgroup string highlight group to overwrite
 ---@return nil
 local function set_hl_palette_color(hlgroup)
-    local hl = vim.api.nvim_get_hl(0, { name = hlgroup, link = false })
+    local hl = vim.api.nvim_get_hl(0, { name = hlgroup })
     if not hl then
+        return nil
+    end
+    if hl.link then
         return nil
     end
     if hl.fg then
@@ -275,12 +278,12 @@ local function set_hl_palette_color(hlgroup)
     vim.api.nvim_set_hl(0, hlgroup, hl)
 end
 
--- local nvim_web_devicons = require("nvim-web-devicons")
--- local devicons = nvim_web_devicons.get_icons()
--- for key, value in pairs(devicons) do
---     value.color = find_palette_color(value.color)
--- end
--- nvim_web_devicons.set_icon(devicons)
+local nvim_web_devicons = require("nvim-web-devicons")
+local devicons = nvim_web_devicons.get_icons()
+for key, value in pairs(devicons) do
+    value.color = find_palette_color(value.color)
+end
+nvim_web_devicons.set_icon(devicons)
 
 
 
@@ -1629,6 +1632,93 @@ require("neo-tree").setup({
     }
 })
 
+local function remove_hl_background(name)
+    local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
+    if hl.bg then
+        local hex = string.format("#%06X", hl.bg)
+        hl.bg = "NONE"
+    end
+    hl.force = true
+    vim.api.nvim_set_hl(0, name, hl)
+end
+local function neo_tree_overide_highlights()
+    local hlgroups = {
+        "NeoTreeBufferNumber",
+        "NeoTreeCursorLine",
+        "NeoTreeDimText",
+        "NeoTreeDirectoryIcon",
+        "NeoTreeDirectoryName",
+        "NeoTreeDotfile",
+        "NeoTreeEndOfBuffer",
+        "NeoTreeExpander",
+        "NeoTreeFadeText1",
+        "NeoTreeFadeText2",
+        "NeoTreeFileIcon",
+        "NeoTreeFileNameOpened",
+        "NeoTreeFileName",
+        "NeoTreeFileStatsHeader",
+        "NeoTreeFileStats",
+        "NeoTreeFilterTerm",
+        "NeoTreeFloatBorder",
+        "NeoTreeFloatNormal",
+        "NeoTreeFloatTitle",
+        "NeoTreeGitAdded",
+        "NeoTreeGitConflict",
+        "NeoTreeGitDeleted",
+        "NeoTreeGitIgnored",
+        "NeoTreeGitModified",
+        "NeoTreeGitRenamed",
+        "NeoTreeGitStaged",
+        "NeoTreeGitUnstaged",
+        "NeoTreeGitUntracked",
+        "NeoTreeHiddenByName",
+        "NeoTreeIndentMarker",
+        "NeoTreeMessage",
+        "NeoTreeModified",
+        "NeoTreeNormalNC",
+        "NeoTreeNormal",
+        "NeoTreePreview",
+        "NeoTreeRootName",
+        "NeoTreeSignColumn",
+        "NeoTreeStatusLineNC",
+        "NeoTreeStatusLine",
+        "NeoTreeSymbolicLinkTarget",
+        "NeoTreeTabActive",
+        "NeoTreeTabInactive",
+        "NeoTreeTabSeparatorActive",
+        "NeoTreeTabSeparatorInactive",
+        "NeoTreeTitleBar",
+        "NeoTreeVertSplit",
+        "NeoTreeWinSeparator",
+        "NeoTreeWindowsHidden",
+    }
+    for idx, hlgroup in ipairs(hlgroups) do
+        set_hl_palette_color(hlgroup)
+    end
+
+    local remove_bg_highlights = {
+        "NeoTreeGitAdded",
+        "NeoTreeGitDeleted",
+        "NeoTreeGitModified",
+        "NeoTreeGitConflict",
+        "NeoTreeGitIgnored",
+        "NeoTreeGitRenamed",
+        "NeoTreeGitStaged",
+        "NeoTreeGitUnstaged",
+        "NeoTreeGitUntracked",
+    }
+    for index, hlgroup in ipairs(remove_bg_highlights) do
+        remove_hl_background(hlgroup)
+    end
+end
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    group = "init_lua",
+    pattern = 'neo-tree',
+    callback = neo_tree_overide_highlights
+})
+
+
 vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
 vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
 
@@ -1789,7 +1879,7 @@ require("aerial").setup({})
 -- SECTION: COLOR SCHEME {{{
 ------------------------------------------------------------------------------
 
-local function override_highlight_colors()
+function OverrideHighlightColors()
     -- load before override
     require('mason.ui.colors')
 
@@ -1940,7 +2030,7 @@ end
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     group = "init_lua",
     pattern = '*',
-    callback = override_highlight_colors
+    callback = OverrideHighlightColors
 })
 
 if vim.env.COLORTERM == 'truecolor' then
