@@ -278,12 +278,12 @@ local function set_hl_palette_color(hlgroup)
     vim.api.nvim_set_hl(0, hlgroup, hl)
 end
 
-local nvim_web_devicons = require("nvim-web-devicons")
-local devicons = nvim_web_devicons.get_icons()
-for key, value in pairs(devicons) do
-    value.color = find_palette_color(value.color)
-end
-nvim_web_devicons.set_icon(devicons)
+-- local nvim_web_devicons = require("nvim-web-devicons")
+-- local devicons = nvim_web_devicons.get_icons()
+-- for key, value in pairs(devicons) do
+--     value.color = find_palette_color(value.color)
+-- end
+-- nvim_web_devicons.set_icon(devicons)
 
 
 
@@ -888,11 +888,6 @@ local nested_mapping_config = {
             fallback()
         end,
     },
-    ['<C-e>'] = {
-        c = function(fallback)
-            fallback()
-        end,
-    },
     ['<C-Space>'] = {
         c = function(_)
             cmp.complete()
@@ -906,7 +901,8 @@ for _, cmd_type in ipairs({ '/', '?' }) do
     cmp.setup.cmdline(cmd_type, {
         mapping = cmp.mapping.preset.cmdline({
             ['<C-n>'] = {
-                c = function(_)
+                c = function(fallback)
+                    fallback()
                     cmp.complete({
                         config = {
                             mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
@@ -918,7 +914,8 @@ for _, cmd_type in ipairs({ '/', '?' }) do
                 end
             },
             ['<C-p>'] = {
-                c = function(_)
+                c = function(fallback)
+                    fallback()
                     cmp.complete({
                         config = {
                             mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
@@ -928,11 +925,6 @@ for _, cmd_type in ipairs({ '/', '?' }) do
                         }
                     })
                 end
-            },
-            ['<C-e>'] = {
-                c = function(fallback)
-                    fallback()
-                end,
             },
             ['<C-Space>'] = {
                 c = function(_)
@@ -957,7 +949,8 @@ end
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline({
         ['<C-n>'] = {
-            c = function(_)
+            c = function(fallback)
+                fallback()
                 cmp.complete({
                     config = {
                         mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
@@ -969,7 +962,8 @@ cmp.setup.cmdline(':', {
             end
         },
         ['<C-p>'] = {
-            c = function(_)
+            c = function(fallback)
+                fallback()
                 cmp.complete({
                     config = {
                         mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
@@ -979,11 +973,6 @@ cmp.setup.cmdline(':', {
                     }
                 })
             end
-        },
-        ['<C-e>'] = {
-            c = function(fallback)
-                fallback()
-            end,
         },
         ['<C-Space>'] = {
             c = function(_)
@@ -1007,7 +996,8 @@ cmp.setup.cmdline(':', {
 cmp.setup.cmdline('@', {
     mapping = cmp.mapping.preset.cmdline({
         ['<C-n>'] = {
-            c = function(_)
+            c = function(fallback)
+                fallback()
                 cmp.complete({
                     config = {
                         mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
@@ -1019,7 +1009,8 @@ cmp.setup.cmdline('@', {
             end
         },
         ['<C-p>'] = {
-            c = function(_)
+            c = function(fallback)
+                fallback()
                 cmp.complete({
                     config = {
                         mapping = cmp.mapping.preset.cmdline(nested_mapping_config),
@@ -1029,11 +1020,6 @@ cmp.setup.cmdline('@', {
                     }
                 })
             end
-        },
-        ['<C-e>'] = {
-            c = function(fallback)
-                fallback()
-            end,
         },
         ['<C-Space>'] = {
             c = function(_)
@@ -1122,10 +1108,10 @@ require("nvim-treesitter.configs").setup {
     incremental_selection = {
         enable = true,
         keymaps = {
-            init_selection = "gnn",
-            node_incremental = "gnn",
-            scope_incremental = "gnN",
-            node_decremental = "gnp",
+            init_selection = "gsn",
+            node_incremental = "gsn",
+            scope_incremental = "gsN",
+            node_decremental = "gsp",
         },
     },
     indent = {
@@ -1597,37 +1583,64 @@ require('csvview').enable()
 -- SECTION: TOOLS SETUP {{{
 ------------------------------------------------------------------------------
 require("neo-tree").setup({
-    window = {
-        width = 35,
-        mappings = {
-            ["<C-h>"] = "navigate_up",
-            ["<C-l>"] = "refresh",
-            ["<CR>"] = "set_root",
-            ["h"] = "close_node",
-            ["l"] = "open",
-            ["o"] = "open",
-            ["<C-p>"] = "toggle_preview",
-            ["p"] = "toggle_preview",
-            ["S"] = "open_vsplit",
-            ["s"] = "open_with_window_picker",
-            ["O"] = "open_split",
-            ["I"] = "toggle_hidden",
-            ["a"] = "noop",
-            ["F"] = "add",
-            ["A"] = "noop",
-            ["K"] = "add_directory",
-            ["d"] = "noop",
-            ["D"] = "delete",
-            ["r"] = "noop",
-            ["b"] = "noop",
-            ["R"] = "rename",
-            ["y"] = "noop",
-            ["c"] = "noop",
-            ["C"] = "copy_to_clipboard",
-            ["P"] = "paste_from_clipboard",
-            ["m"] = "noop",
-            ["M"] = "move",
-            ["/"] = "filter_on_submit"
+    default_component_configs = {
+        diagnostics = {
+            symbols = {
+                hint = "󰌶 ",
+                info = " ",
+                warn = "󰀪 ",
+                error = "󰅚 ",
+            },
+        },
+        git_status = {
+            symbols = {
+                -- Change type
+                added     = "A",
+                deleted   = "D",
+                modified  = "M",
+                renamed   = "R",
+                -- Status type
+                untracked = "?",
+                ignored   = "!",
+                unstaged  = "󰄱",
+                staged    = "",
+                conflict  = "",
+            }
+        }
+    },
+    filesystem = {
+        window = {
+            width = 35,
+            mappings = {
+                ["<C-h>"] = "navigate_up",
+                ["<C-l>"] = "refresh",
+                ["<CR>"] = "set_root",
+                ["h"] = "close_node",
+                ["l"] = "open",
+                ["o"] = "open",
+                ["<C-p>"] = "toggle_preview",
+                ["p"] = "toggle_preview",
+                ["S"] = "open_vsplit",
+                ["s"] = "open_with_window_picker",
+                ["O"] = "open_split",
+                ["I"] = "toggle_hidden",
+                ["a"] = "noop",
+                ["F"] = "add",
+                ["A"] = "noop",
+                ["K"] = "add_directory",
+                ["d"] = "noop",
+                ["D"] = "delete",
+                ["r"] = "noop",
+                ["b"] = "noop",
+                ["R"] = "rename",
+                ["y"] = "noop",
+                ["c"] = "noop",
+                ["C"] = "copy_to_clipboard",
+                ["P"] = "paste_from_clipboard",
+                ["m"] = "noop",
+                ["M"] = "move",
+                ["/"] = "filter_on_submit"
+            }
         }
     }
 })

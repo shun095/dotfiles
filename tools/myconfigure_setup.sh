@@ -19,7 +19,7 @@ update_repository() {
 	local needs_pull=$3
 	cd ${repo_dir}
 	git fetch origin ${branch_name}
-	git fetch -t
+	git fetch -t --force
 	git checkout ${branch_name}
 
 	if ${needs_pull}; then

@@ -32,8 +32,8 @@ export PATH="$MYDOTFILES/build/emacs/bin:$PATH"
 export PATH="$MYDOTFILES/build/tig/bin:$PATH"
 export PATH="$MYDOTFILES/build/tmux/bin:$PATH"
 export PATH="$MYDOTFILES/build/ctags/bin:$PATH"
-export PATH="$MYDOTFILES/build/nvim-qt/bin:$PATH"
-export PATH="$MYDOTFILES/build/nvim/bin:$PATH"
+export PATH="$MYDOTFILES/build/neovim-qt/bin:$PATH"
+export PATH="$MYDOTFILES/build/neovim/bin:$PATH"
 export PATH="$MYDOTFILES/build/vim/bin:$PATH"
 
 # Custom Completions

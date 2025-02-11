@@ -773,6 +773,41 @@ fi
 install_deps "vim build" "${deps}" "${curl_deps}"
 }
 
+build_neovim_install_deps() {
+    local deps=""
+    local curl_deps=""
+    local tmp_deps=""
+    if [[ $OSTYPE == 'darwin'* ]]; then
+        deps='cmake'
+    elif [[ $(lsb_release -rs) == "20.04" ]]; then
+        tmp_deps='cmake'
+        for package in ${tmp_deps}; do
+            if ! dpkg -s ${package} > /dev/null 2>&1; then
+                deps="${deps} ${package}"
+            fi
+        done
+    elif [[ $(lsb_release -rs) == "22.04" ]]; then
+        tmp_deps='cmake'
+        for package in ${tmp_deps}; do
+            if ! dpkg -s ${package} > /dev/null 2>&1; then
+                deps="${deps} ${package}"
+            fi
+        done
+    elif [[ $(lsb_release -rs) == "24.04" ]]; then
+        tmp_deps='cmake'
+        for package in ${tmp_deps}; do
+            if ! dpkg -s ${package} > /dev/null 2>&1; then
+                deps="${deps} ${package}"
+            fi
+        done
+    elif type dnf > /dev/null 2>&1; then
+        deps='cmake'
+    elif type yum > /dev/null 2>&1; then
+        deps='cmake'
+    fi
+    install_deps "vim build" "${deps}" "${curl_deps}"
+}
+
 build_tmux_install_deps() {
 local deps=""
 local tmp_deps=""
@@ -836,9 +871,19 @@ build_tig_make_install() {
     make_install "tig_myconfigure.sh" "https://github.com/jonas/tig"
 }
 
+build_neovim_make_install() {
+    echo_section "Compiling neovim"
+    make_install "neovim_myconfigure.sh" "https://github.com/neovim/neovim"
+}
+
 build_vim(){
     build_vim_install_deps
     build_vim_make_install
+}
+
+build_neovim(){
+    build_neovim_install_deps
+    build_neovim_make_install
 }
 
 build_tmux(){
@@ -861,6 +906,7 @@ buildtools(){
     build_vim
     build_tmux
     build_tig_make_install
+    build_neovim
 }
 
 deploy() {
@@ -964,8 +1010,8 @@ check_arguments() {
         undeploy)  ;;
         uninstall) ;;
         debug)     ;;
-        buildtools)     ;;
-        runtest) ;;
+        buildtools);;
+        runtest)   ;;
         *)
             echo "Unknown argument: ${arg}"
             help
