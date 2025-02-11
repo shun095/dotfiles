@@ -19,6 +19,10 @@ if vim.fn.filereadable(vim.env.HOME .. '/localrcs/vim-localafter.vim') == 1 then
     vim.cmd('so ' .. vim.env.HOME .. '/localrcs/vim-localafter.vim')
 end
 
+-- -- Neovim の `package.path` と `package.cpath` に追加
+package.path = package.path .. ";" .. vim.env.LUA_PATH
+package.cpath = package.cpath .. ";" .. vim.env.LUA_CPATH
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -92,6 +96,11 @@ require("lazy").setup({
             event = "VeryLazy",
             opts = {},
             keys = {},
+        },
+        {
+            "3rd/image.nvim",
+            branch = "develop", -- wrapすると表示位置がおかしくなる問題のためブランチ変更 https://github.com/3rd/image.nvim/issues/263
+            opts = {}
         }
     },
     -- Configure any other settings here. See the documentation for more details.
@@ -1440,6 +1449,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     callback = function()
         require("obsidian").setup({
             ui = {
+                enable = false,
                 hl_groups = {
                     ObsidianTodo          = { bold = true, fg = find_palette_color("#f78c6c") },
                     ObsidianDone          = { bold = true, fg = find_palette_color("#89ddff") },
@@ -1545,26 +1555,59 @@ vim.api.nvim_create_user_command("ObsidianCd",
     "exec 'tcd ' . luaeval(\"require('obsidian').get_client().current_workspace.path.filename\")",
     {}
 )
--- require('render-markdown').setup({
---     anti_conceal = {
---         enabled = false
---     },
---     checkbox = {
---         unchecked = {
---             icon = "󰄱",
---             highlight = "ObsidianTodo",
---         },
---         checked = {
---             icon = "",
---             highlight = "ObsidianDone",
---         },
---         custom = {
---             right_arrow = { raw = '[>]', rendered = "", highlight = 'ObsidianRightArrow', scope_highlight = nil },
---             tilde       = { raw = '[~]', rendered = "󰰱", highlight = 'ObsidianRightTilde', scope_highlight = nil },
---             important   = { raw = '[!]', rendered = "", highlight = 'ObsidianRightImportant', scope_highlight = nil },
---         }
---     }
--- })
+require('render-markdown').setup({
+    preset = 'obsidian',
+    anti_conceal = {
+        enabled = false
+    },
+    checkbox = {
+        unchecked = {
+            icon = "󰄱",
+            -- highlight = "ObsidianTodo",
+        },
+        checked = {
+            icon = "",
+            -- highlight = "ObsidianDone",
+        },
+        custom = {
+            right_arrow = {
+                raw = '[>]',
+                rendered = "",
+                highlight = 'RenderMarkdownChecked',
+                scope_highlight = nil,
+            },
+            tilde       = {
+                raw = '[~]',
+                rendered = "󰰱",
+                highlight = 'RenderMarkdownChecked',
+                scope_highlight = nil,
+            },
+            important   = {
+                raw = '[!]',
+                rendered = "",
+                highlight = 'RenderMarkdownChecked',
+                scope_highlight = nil,
+            },
+        }
+    },
+    bullet = {
+        -- right_pad = 1,
+    },
+    link = {
+        custom = {
+            web = { pattern = '^http', icon = '󰖟 ' },
+            discord = { pattern = 'discord%.com', icon = '󰙯 ' },
+            github = { pattern = 'github%.com', icon = '󰊤 ' },
+            gitlab = { pattern = 'gitlab%.com', icon = '󰮠 ' },
+            google = { pattern = 'google%.com', icon = '󰊭 ' },
+            neovim = { pattern = 'neovim%.io', icon = ' ' },
+            reddit = { pattern = 'reddit%.com', icon = '󰑍 ' },
+            stackoverflow = { pattern = 'stackoverflow%.com', icon = '󰓌 ' },
+            wikipedia = { pattern = 'wikipedia%.org', icon = '󰖬 ' },
+            youtube = { pattern = 'youtube%.com', icon = '󰗃 ' },
+        },
+    }
+})
 
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
@@ -1601,10 +1644,10 @@ require("neo-tree").setup({
                 renamed   = "R",
                 -- Status type
                 untracked = "?",
-                ignored   = "!",
+                ignored   = "",
                 unstaged  = "󰄱",
                 staged    = "",
-                conflict  = "",
+                conflict  = "!",
             }
         }
     },
@@ -1616,10 +1659,12 @@ require("neo-tree").setup({
                 ["<C-l>"] = "refresh",
                 ["<CR>"] = "set_root",
                 ["h"] = "close_node",
+                ["<Left>"] = "close_node",
                 ["l"] = "open",
+                ["<Right>"] = "open",
                 ["o"] = "open",
-                ["<C-p>"] = "toggle_preview",
-                ["p"] = "toggle_preview",
+                ["<C-p>"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
+                ["p"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
                 ["S"] = "open_vsplit",
                 ["s"] = "open_with_window_picker",
                 ["O"] = "open_split",
@@ -1655,6 +1700,9 @@ local function remove_hl_background(name)
     vim.api.nvim_set_hl(0, name, hl)
 end
 local function neo_tree_overide_highlights()
+    if NeoTreeHighlightOverrided == true then
+        return nil
+    end
     local hlgroups = {
         "NeoTreeBufferNumber",
         "NeoTreeCursorLine",
@@ -1723,6 +1771,14 @@ local function neo_tree_overide_highlights()
     for index, hlgroup in ipairs(remove_bg_highlights) do
         remove_hl_background(hlgroup)
     end
+
+    vim.api.nvim_set_hl(0, "NeoTreeGitIgnored", { link = "Comment" })
+    vim.api.nvim_set_hl(0, "NeoTreeDotfile", { link = "Comment" })
+    vim.api.nvim_set_hl(0, "NeoTreeDimText", { link = "Comment" })
+    vim.api.nvim_set_hl(0, "NeoTreeMessage", { link = "Comment" })
+    vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { link = "Statement" })
+    vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { link = "Normal" })
+    NeoTreeHighlightOverrided = true
 end
 
 vim.api.nvim_create_autocmd({ "FileType" }, {

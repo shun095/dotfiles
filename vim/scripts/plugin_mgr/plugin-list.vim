@@ -291,7 +291,7 @@ Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
 if has('nvim')
   Plug 'ixru/nvim-markdown'
-  " Plug 'MeanderingProgrammer/render-markdown.nvim'
+  Plug 'MeanderingProgrammer/render-markdown.nvim'
 endif
 Plug 'dhruvasagar/vim-table-mode', {'for': ['markdown']}
 Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
