@@ -6,23 +6,41 @@
 #
 set -eu
 
-SCRIPT_DIR=$(cd $(dirname $0);pwd)
+##### NEOVIM #####
+## CONFIG
+SOFTWARE_NAME="neovim"
+BRANCH_NAME="v0.10.4"
+NEEDS_PULL=true
 
-NVIM_PREFIX=$HOME/build/nvim
-NVIMQT_PREFIX=$HOME/build/nvim-qt
-CPUNUM=`cat /proc/cpuinfo | grep -c processor`
+## COMMON
+. ./myconfigure_setup.sh
+_SCRIPT_DIR=$(cd $(dirname $0);pwd)
+_NUM_PARALLEL=$(get_num_cpus)
+_PREFIX=$(get_prefix $SOFTWARE_NAME)
+_REPO_DIR=${_SCRIPT_DIR}/${SOFTWARE_NAME}
+update_repository "${_REPO_DIR}" "${BRANCH_NAME}" "${NEEDS_PULL}"
 
-cd ${SCRIPT_DIR}/neovim
-git checkout master
-git pull
-
-make -j${CPUNUM} CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=${NVIM_PREFIX} -DCMAKE_BUILD_TYPE=Release"
+## BUILD
+cd $_REPO_DIR
+make distclean
+make -j${_NUM_PARALLEL} CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=${_PREFIX} -DCMAKE_BUILD_TYPE=RelWithDebInfo"
 make install
 
-cd ${SCRIPT_DIR}/neovim-qt/build
-git checkout master
-git pull
+# ##### NEOVIM-QT #####
+# ## CONFIG
+# SOFTWARE_NAME="neovim-qt"
+# BRANCH_NAME="v0.2.19"
+# NEEDS_PULL=true
 
-cmake -DCMAKE_INSTALL_PREFIX=${NVIMQT_PREFIX} -DCMAKE_BUILD_TYPE=Release ..
-make -j${CPUNUM}
-make install
+# ## COMMON
+# . ./myconfigure_setup.sh
+# _SCRIPT_DIR=$(cd $(dirname $0);pwd)
+# _NUM_PARALLEL=$(get_num_cpus)
+# _PREFIX=$(get_prefix $SOFTWARE_NAME)
+# _REPO_DIR=${_SCRIPT_DIR}/${SOFTWARE_NAME}
+# update_repository "${_REPO_DIR}" "${BRANCH_NAME}" "${NEEDS_PULL}"
+
+# SCRIPT_DIR=$(cd $(dirname $0);pwd)
+
+# make -j${_NUM_PARALLEL} CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=${_PREFIX} -DCMAKE_BUILD_TYPE=Release"
+# make install
