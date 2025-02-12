@@ -219,10 +219,12 @@ backup_file() {
             fi
         fi
 
-        echo "Making backup"
-        echo "  from: $1"
-        echo "  to:   $1.bak0"
-        cp $1 $1.bak0
+        if [[ ! -d $1 ]]; then
+            echo "Making backup"
+            echo "  from: $1"
+            echo "  to:   $1.bak0"
+            cp $1 $1.bak0
+        fi
     fi
 }
 

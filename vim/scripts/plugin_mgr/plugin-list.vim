@@ -282,7 +282,7 @@ else
 endif
 " Plug 'fatih/vim-go', {'for': ['go']}
 if has('nvim')
-  Plug 'windwp/nvim-ts-autotag'
+  " Plug 'windwp/nvim-ts-autotag'
 else
   Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml', 'phtml']}
 endif
@@ -325,8 +325,8 @@ Plug 'leafgarland/typescript-vim', {'for': ['typescript']}
 Plug 'vim-jp/syntax-vim-ex', {'for': ['vim']}
 Plug 'posva/vim-vue', {'for': ['vue']}
 if has('nvim')
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-treesitter/nvim-treesitter-context'
+  " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  " Plug 'nvim-treesitter/nvim-treesitter-context'
 endif
 " }}}
 
@@ -424,7 +424,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
 if has('nvim')
-  Plug 'Wansmer/treesj'
+  " Plug 'Wansmer/treesj'
   Plug 'monaqa/dial.nvim'
 endif
 

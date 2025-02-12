@@ -20,8 +20,12 @@ if vim.fn.filereadable(vim.env.HOME .. '/localrcs/vim-localafter.vim') == 1 then
 end
 
 -- -- Neovim の `package.path` と `package.cpath` に追加
-package.path = package.path .. ";" .. vim.env.LUA_PATH
-package.cpath = package.cpath .. ";" .. vim.env.LUA_CPATH
+if vim.env.LUA_PATH then
+    package.path = package.path .. ";" .. vim.env.LUA_PATH
+end
+if vim.env.LUA_CPATH then
+    package.cpath = package.cpath .. ";" .. vim.env.LUA_CPATH
+end
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -38,84 +42,37 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
         os.exit(1)
     end
 end
+
 vim.opt.rtp:prepend(lazypath)
+vim.api.nvim_create_augroup('init_lua', { clear = true })
 
 require("lazy").setup({
     spec        = {
         {
-            dir = vim.env.MYVIMHOME
-        },
-        { 'cocopon/iceberg.vim' },
-        {
-            'nvim-lua/plenary.nvim',
-            config = function()
-                vim.g.plenary_profile = false
-                local function toggle_profile()
-                    local filename = vim.env.HOME .. "/.vim/profile.log"
-                    if vim.g.plenary_profile == true then
-                        require 'plenary.profile'.stop()
-                        vim.print(string.format("Wrote profile log: %s", filename))
-                        vim.g.plenary_profile = false
-                    else
-                        vim.print(string.format("Starting profile"))
-                        require 'plenary.profile'.start(filename, { flame = true })
-                        vim.g.plenary_profile = true
-                    end
-                end
-                vim.keymap.set("", "<F1>", toggle_profile)
-            end
+            dir = vim.env.MYVIMHOME,
         },
         {
-            "folke/which-key.nvim",
-            event = "VeryLazy",
-            opts = {
-                win = {
-                    border = "rounded",
-                    no_overlap = false,
-                }
-            },
-            keys = {
-                {
-                    "<leader>?",
-                    function()
-                        require("which-key").show({ global = false })
-                    end,
-                    desc = "Buffer Local Keymaps (which-key)",
-                },
-                {
-                    "g?",
-                    function()
-                        require("which-key").show({ global = true })
-                    end,
-                    desc = "Global Keymaps (which-key)",
-                }
-            },
+            import = "plugins",
         },
-        {
-            "HakonHarnes/img-clip.nvim",
-            event = "VeryLazy",
-            opts = {},
-            keys = {},
-        },
-        {
-            "3rd/image.nvim",
-            branch = "develop", -- wrapすると表示位置がおかしくなる問題のためブランチ変更 https://github.com/3rd/image.nvim/issues/263
-            opts = {}
+    },
+    install     = {
+        missing = true,
+        colorscheme = {
+            "iceberg",
         }
     },
-    -- Configure any other settings here. See the documentation for more details.
-    -- colorscheme that will be used when installing plugins.
-    install     = { colorscheme = { "iceberg" } },
-    -- automatically check for plugin updates
-    checker     = { enabled = true },
+    rocks       = {
+        hererocks = true,
+    },
+    checker     = {
+        enabled = true,
+    },
     performance = {
         rtp = {
             reset = false, -- reset the runtime path to $VIMRUNTIME and your config directory
         }
-    }
+    },
 })
-
-vim.api.nvim_create_augroup('init_lua', { clear = true })
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -1096,80 +1053,6 @@ require("nvim-autopairs").setup {}
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
--- SECTION: TREESITTER SETUP {{{
-------------------------------------------------------------------------------
-require("nvim-treesitter.configs").setup {
-    ensure_installed = {},
-    sync_install = false,
-    auto_install = true,
-    ignore_install = {},
-    highlight = {
-        enable = true,
-        disable = function(_, buf)
-            local max_filesize = 100 * 1024 -- 100 KB
-            local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-            if ok and stats and stats.size > max_filesize then
-                return true
-            end
-        end,
-        additional_vim_regex_highlighting = false,
-    },
-    incremental_selection = {
-        enable = true,
-        keymaps = {
-            init_selection = "gsn",
-            node_incremental = "gsn",
-            scope_incremental = "gsN",
-            node_decremental = "gsp",
-        },
-    },
-    indent = {
-        enable = true
-    },
-}
-require('treesitter-context').setup {
-    enable = true,           -- Enable this plugin (Can be enabled/disabled later via commands)
-    multiwindow = true,      -- Enable multiwindow support.
-    max_lines = 0,           -- How many lines the window should span. Values <= 0 mean no limit.
-    min_window_height = 0,   -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-    line_numbers = true,
-    multiline_threshold = 8, -- Maximum number of lines to show for a single context
-    trim_scope = 'inner',    -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-    mode = 'topline',        -- Line used to calculate context. Choices: 'cursor', 'topline'
-    -- separator = "─",
-    zindex = 20,             -- The Z-index of the context window
-    on_attach = nil,         -- (fun(buf: integer): boolean) return false to disable attaching
-}
-
-vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-    group = "init_lua",
-    pattern = '*',
-    callback = function()
-        vim.api.nvim_set_hl(0, "TreesitterContextBottom",
-            { underline = true, sp = "#6b7089", force = true })
-        vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom",
-            { underline = true, sp = "#6b7089", force = true })
-    end
-})
--- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContext guifg=#6b7089')
--- vim.cmd('autocmd init_lua ColorScheme * highlight! TreesitterContextLineNumber guifg=#6b7089')
-vim.o.scrolloff = 8
-
-require('nvim-ts-autotag').setup({
-    opts = {
-        -- Defaults
-        enable_close = true,          -- Auto close tags
-        enable_rename = true,         -- Auto rename pairs of tags
-        enable_close_on_slash = true, -- Auto close on trailing </
-    },
-})
-
-require('treesj').setup({})
-------------------------------------------------------------------------------
--- }}}
-------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------
 -- SECTION: NOTIFICATION SETUP {{{
 ------------------------------------------------------------------------------
 require("notify").setup({
@@ -1649,44 +1532,57 @@ require("neo-tree").setup({
                 staged    = "",
                 conflict  = "!",
             }
+        },
+        icon = {
+            default = require('nvim-web-devicons').get_icon("aaa.bbb", "ccc", { default = true }),
+            highlight = "DevIconDefault",
+        },
+    },
+    window = {
+        width = 35,
+        mappings = {
+            ["<C-l>"] = "refresh",
+            ["h"] = "close_node",
+            ["<Left>"] = "close_node",
+            ["l"] = "open",
+            ["<Right>"] = "open",
+            ["<C-p>"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
+            ["p"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
+            ["S"] = "open_vsplit",
+            ["s"] = "open_with_window_picker",
+            ["O"] = "open_split",
+            ["a"] = "noop", -- add
+            ["F"] = "add",
+            ["A"] = "noop", -- add_directory
+            ["K"] = "add_directory",
+            ["d"] = "noop", -- delete
+            ["D"] = "delete",
+            ["r"] = "noop", -- rename
+            ["b"] = "noop", -- rename_basename
+            ["R"] = "rename",
+            ["y"] = "noop", -- copy_to_clipboard
+            ["c"] = "noop", -- copy
+            ["C"] = "copy_to_clipboard",
+            ["x"] = "noop", -- cut_to_clipboard
+            ["X"] = "cut_to_clipboard",
+            ["P"] = "paste_from_clipboard",
+            ["m"] = "noop", -- move
+            ["M"] = "move",
         }
     },
     filesystem = {
         window = {
-            width = 35,
             mappings = {
-                ["<C-h>"] = "navigate_up",
-                ["<C-l>"] = "refresh",
-                ["<CR>"] = "set_root",
-                ["h"] = "close_node",
-                ["<Left>"] = "close_node",
-                ["l"] = "open",
-                ["<Right>"] = "open",
-                ["o"] = "open",
-                ["<C-p>"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
-                ["p"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
-                ["S"] = "open_vsplit",
-                ["s"] = "open_with_window_picker",
-                ["O"] = "open_split",
                 ["I"] = "toggle_hidden",
-                ["a"] = "noop",
-                ["F"] = "add",
-                ["A"] = "noop",
-                ["K"] = "add_directory",
-                ["d"] = "noop",
-                ["D"] = "delete",
-                ["r"] = "noop",
-                ["b"] = "noop",
-                ["R"] = "rename",
-                ["y"] = "noop",
-                ["c"] = "noop",
-                ["C"] = "copy_to_clipboard",
-                ["P"] = "paste_from_clipboard",
-                ["m"] = "noop",
-                ["M"] = "move",
-                ["/"] = "filter_on_submit"
+                ["/"] = "noop",
+                ["<CR>"] = "set_root",
+                ["<C-h>"] = "navigate_up",
             }
         }
+    },
+    buffers = {
+        ["<CR>"] = "set_root",
+        ["<C-h>"] = "navigate_up",
     }
 })
 
@@ -1841,6 +1737,8 @@ require('telescope').setup {
                 ["<C-n>"] = actions.cycle_history_next,
                 ["<C-p>"] = actions.cycle_history_prev,
                 ["<C-f>"] = false,
+                ["<Tab>"] = actions.move_selection_next,
+                ["<S-Tab>"] = actions.move_selection_previous,
             },
             n = {
                 ["<C-u>"] = actions.preview_scrolling_up,
@@ -1848,6 +1746,9 @@ require('telescope').setup {
                 ["<C-b>"] = actions.preview_scrolling_up,
                 ["<C-f>"] = actions.preview_scrolling_down,
                 ["<C-g>"] = actions.close,
+                ["<Tab>"] = actions.move_selection_next,
+                ["<S-Tab>"] = actions.move_selection_previous,
+                ["-"] = actions.toggle_selection,
             }
         },
         layout_strategy = 'vertical',
@@ -1886,7 +1787,8 @@ require("telescope").load_extension("noice")
 require('telescope').load_extension('telescope-tabs')
 require('telescope-tabs').setup()
 
-vim.api.nvim_set_keymap('n', '<Leader><Leader>', ':<Cmd>Telescope git_files<CR>',
+vim.api.nvim_set_keymap('n', '<Leader><Leader>',
+    ':<Cmd>execute "Telescope git_files cwd=" . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>',
     { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>T', ':<Cmd>Telescope tags<CR>',
     { silent = true, noremap = true })
