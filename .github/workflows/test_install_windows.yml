@@ -14,13 +14,23 @@ jobs:
     timeout-minutes: 20
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+    - name: Restore cached repositories
+      id: cache-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          build/neovim
+          build/tig
+          build/tmux
+          build/vim
+        key: ${{ runner.os }}-repos
     - name: Install vim with chocolatey
       shell: cmd
-      run: 'choco install vim python3 deno'
+      run: 'choco install vim python3 deno neovim luarocks'
     - name: Test install.sh install
       shell: cmd
       run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh"'
     - name: Test install.sh runtest
       shell: cmd
-      run: 'runtest.bat'
+      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh runtest"'
