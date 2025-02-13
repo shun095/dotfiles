@@ -1340,6 +1340,11 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     group = "init_lua",
     pattern = '*',
     callback = function()
+        vim.fn.system({
+            'mkdir',
+            '-p',
+            vim.fn.expand('~/Documents/Obsidian/Personal'),
+        })
         require("obsidian").setup({
             ui = {
                 enable = false,
@@ -1361,10 +1366,12 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
                 {
                     name = "work",
                     path = "~/Documents/Obsidian",
+                    strict = true,
                 },
                 {
                     name = "personal",
                     path = "~/Documents/Obsidian/Personal",
+                    strict = true,
                 },
             },
             completion = {
