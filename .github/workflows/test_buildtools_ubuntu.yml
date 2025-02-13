@@ -31,3 +31,13 @@ jobs:
       run: ./install-invoke.sh
     - name: Test install.sh runtest
       run: ./install-invoke.sh runtest
+    - name: Save cache
+      id: cache-save
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          build/neovim
+          build/tig
+          build/tmux
+          build/vim
+        key: ${{ steps.cache-restore.outputs.cache-primary-key }}

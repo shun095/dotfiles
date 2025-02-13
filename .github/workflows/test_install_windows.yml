@@ -34,3 +34,13 @@ jobs:
     - name: Test install.sh runtest
       shell: cmd
       run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh runtest"'
+    - name: Save cache
+      id: cache-save
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          build/neovim
+          build/tig
+          build/tmux
+          build/vim
+        key: ${{ steps.cache-restore.outputs.cache-primary-key }}
