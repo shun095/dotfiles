@@ -563,7 +563,7 @@ vim.api.nvim_create_user_command("LSPCodeLensRefresh",
 -- === DAP Core ===
 require("mason-nvim-dap").setup({
     ensure_installed = {
-        "debugpy",
+        "python",
     },
     handlers = {
         function(config)
