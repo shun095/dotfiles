@@ -1028,6 +1028,9 @@ runtest() {
     fi
 
     pushd $MYDOTFILES/vim
+
+    pwd
+    ls -la
     echo "ls -la ~/"
     ls -la ~/
     echo "ls -la ~/.config/nvim/"
