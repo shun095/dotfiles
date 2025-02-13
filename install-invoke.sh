@@ -586,31 +586,26 @@ install_vim_plugins() {
             export PATH=$MYDOTFILES/build/vim/bin/:$PATH
         fi
         if type vim > /dev/null 2>&1; then
-            if [[ ! -d $MYVIMRUNTIME/plugged ]]; then
-                vim --not-a-term --version
-                echo "Running :PlugInstall"
-                vim --not-a-term \
-                    --cmd 'let g:is_test = 1' \
-                    --cmd 'set shortmess=a cmdheight=10' \
-                    --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
-                    -c ':PlugInstall --sync' \
-                    -c ':qa!'
-
-            fi
+            vim --not-a-term --version
+            echo "Running :PlugInstall"
+            vim --not-a-term \
+                --cmd 'let g:is_test = 1' \
+                --cmd 'set shortmess=a cmdheight=10' \
+                --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
+                -c ':PlugInstall --sync' \
+                -c ':qa!'
         fi
         if [[ -d $MYDOTFILES/build/neovim ]]; then
             export PATH=$MYDOTFILES/build/neovim/bin/:$PATH
         fi
         if type nvim > /dev/null 2>&1; then
-            if [[ ! -d $MYVIMRUNTIME/plugged ]]; then
-                nvim --version
-                echo "Running :PlugUpgrade, :PlugUpdate"
-                nvim --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
-                    --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
-                    -c ':PlugInstall --sync' \
-                    -c ':Lazy update' \
-                    -c ':qa!'
-            fi
+            nvim --version
+            echo "Running :PlugInstall"
+            nvim --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
+                --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
+                -c ':PlugInstall --sync' \
+                -c ':Lazy update' \
+                -c ':qa!'
         fi
     fi
     echo "Installed."
