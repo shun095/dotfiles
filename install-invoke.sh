@@ -1023,11 +1023,13 @@ runtest() {
     if ! type luarocks > /dev/null 2>&1; then
         runtest_install_deps
     fi
+    . <(luarocks --lua-version=5.1 path)
+
     set +e
     echo "STARTING TEST"
 
-    if [[ -d $MYDOTFILES/build/vim ]]; then
-        export PATH=$MYDOTFILES/build/vim/bin/:$PATH
+    if [[ -d $MYDOTFILES/build/neovim ]]; then
+        export PATH=$MYDOTFILES/build/neovim/bin:$PATH
     fi
 
     pushd $MYDOTFILES/vim
