@@ -32,6 +32,7 @@ jobs:
     - name: Test install.sh install
       shell: cmd
       run: |
+        set PATH=%APPDATA%/LuaRocks/bin;C:\tools\neovim\nvim-win64\bin;%PATH%
         "C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh"
     - name: Test runtest.bat
       shell: cmd
