@@ -30,12 +30,6 @@ jobs:
     - name: Test install.sh buildtools
       shell: zsh -le {0}
       run: ./install-invoke.sh buildtools
-    - name: Test install.sh install
-      shell: zsh -le {0}
-      run: ./install-invoke.sh
-    - name: Test install.sh runtest
-      shell: zsh -le {0}
-      run: ./install-invoke.sh runtest
     - name: Save cache
       id: cache-save
       uses: actions/cache/save@v4
@@ -46,3 +40,9 @@ jobs:
           build/tmux
           build/vim
         key: ${{ steps.cache-restore.outputs.cache-primary-key }}
+    - name: Test install.sh install
+      shell: zsh -le {0}
+      run: ./install-invoke.sh
+    - name: Test install.sh runtest
+      shell: zsh -le {0}
+      run: ./install-invoke.sh runtest
