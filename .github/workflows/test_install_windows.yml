@@ -24,6 +24,7 @@ jobs:
           build/tig
           build/tmux
           build/vim
+          C:\Users\runneradmin\AppData\Local\Temp\chocolatey
         key: ${{ runner.os }}-repos
     - name: Install vim with chocolatey
       shell: cmd
@@ -50,4 +51,5 @@ jobs:
           build/tig
           build/tmux
           build/vim
+          C:\Users\runneradmin\AppData\Local\Temp\chocolatey
         key: ${{ steps.cache-restore.outputs.cache-primary-key }}

@@ -24,6 +24,7 @@ jobs:
           build/tig
           build/tmux
           build/vim
+          $(brew --cache)
         key: ${{ runner.os }}-repos
     - name: Test install.sh install
       run: ./install-invoke.sh
@@ -39,6 +40,7 @@ jobs:
           build/tig
           build/tmux
           build/vim
+          $(brew --cache)
         key: ${{ steps.cache-restore.outputs.cache-primary-key }}
     - name: Test install.sh install
       shell: zsh -le {0}
