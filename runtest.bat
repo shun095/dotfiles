@@ -10,7 +10,7 @@ echo LUA_PATH: %LUA_PATH%
 echo LUA_CPATH: %LUA_CPATH%
 
 set VUSTED_ARGS=--headless
-
+set VUSTED_USE_LOCAL=1
 call vusted --shuffle
 
 exit /B %ERRORLEVEL%
