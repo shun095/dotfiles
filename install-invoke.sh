@@ -42,7 +42,7 @@ FLAKE8="$HOME/.config/flake8"
 VINTRC="$HOME/.vintrc.yml"
 EMACSINIT="$HOME/.spacemacs"
 TIGRC="$HOME/.tigrc"
-if [[ $OSTYPE == 'msys' ]]; then
+if type cygpath > /dev/null 2>&1; then
     NVIMRC="$USERPROFILE/AppData/Local/nvim/init.lua"
     GNVIMRC="$USERPROFILE/AppData/Local/nvim/ginit.vim"
 else
