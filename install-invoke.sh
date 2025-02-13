@@ -582,11 +582,11 @@ install_vim_plugins() {
     echo_section "Installing vim plugins"
 
     if type git > /dev/null 2>&1; then 
+        if [[ -d $MYDOTFILES/build/vim ]]; then
+            export PATH=$MYDOTFILES/build/vim/bin/:$PATH
+        fi
         if type vim > /dev/null 2>&1; then
             if [[ ! -d $MYVIMRUNTIME/plugged ]]; then
-                if [[ -d $MYDOTFILES/build/vim ]]; then
-                    export PATH=$MYDOTFILES/build/vim/bin/:$PATH
-                fi
                 vim --not-a-term --version
                 echo "Running :PlugInstall"
                 vim --not-a-term \
@@ -598,11 +598,11 @@ install_vim_plugins() {
 
             fi
         fi
+        if [[ -d $MYDOTFILES/build/nvim ]]; then
+            export PATH=$MYDOTFILES/build/nvim/bin/:$PATH
+        fi
         if type nvim > /dev/null 2>&1; then
             if [[ ! -d $MYVIMRUNTIME/plugged ]]; then
-                if [[ -d $MYDOTFILES/build/nvim ]]; then
-                    export PATH=$MYDOTFILES/build/nvim/bin/:$PATH
-                fi
                 nvim --version
                 echo "Running :PlugUpgrade, :PlugUpdate"
                 nvim --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
@@ -628,11 +628,11 @@ install_tmux_plugins() {
 update_vim_plugins() {
     echo_section "Updating vim plugins"
     if type git > /dev/null 2>&1; then
+        if [[ -d $MYDOTFILES/build/vim ]]; then
+            export PATH=$MYDOTFILES/build/vim/bin/:$PATH
+        fi
         if type vim > /dev/null 2>&1; then
             if [[ -d $MYVIMRUNTIME/plugged ]] || [[ -d $MYVIMRUNTIME/pack ]]; then
-                if [[ -d $MYDOTFILES/build/vim ]]; then
-                    export PATH=$MYDOTFILES/build/vim/bin/:$PATH
-                fi
                 vim --not-a-term -T xterm-256color --version
                 echo "Running :PlugUpgrade, :PlugUpdate"
                 vim --not-a-term \
@@ -643,11 +643,11 @@ update_vim_plugins() {
                     -c ':qa!'
             fi
         fi
+        if [[ -d $MYDOTFILES/build/nvim ]]; then
+            export PATH=$MYDOTFILES/build/nvim/bin/:$PATH
+        fi
         if type nvim > /dev/null 2>&1; then
             if [[ -d $MYVIMRUNTIME/plugged ]] || [[ -d $MYVIMRUNTIME/pack ]]; then
-                if [[ -d $MYDOTFILES/build/nvim ]]; then
-                    export PATH=$MYDOTFILES/build/nvim/bin/:$PATH
-                fi
                 nvim --version
                 echo "Running :PlugUpgrade, :PlugUpdate"
                 nvim --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
