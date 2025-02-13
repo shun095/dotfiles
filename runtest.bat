@@ -1,7 +1,7 @@
 @echo off
 set MYDOTFILES=%~dp0
 
-luarocks --lua-version=5.1 --local install vusted
+luarocks --lua-version=5.1 --local install vusted luafilesystem
 
 set PATH=%APPDATA%/LuaRocks/bin;C:\tools\neovim\nvim-win64\bin;%PATH%
 for /f "delims=" %%i in ('luarocks --lua-version=5.1 --local path') do %%i
