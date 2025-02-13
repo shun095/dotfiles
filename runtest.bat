@@ -1,10 +1,17 @@
 @echo off
 set MYDOTFILES=%~dp0
 
-call vim --not-a-term --cmd "let g:is_test = 1" --cmd "set shortmess=a cmdheight=10" --cmd "cal feedkeys(""\<CR>\<CR>\<CR>\<CR>\<CR>"")" -c ":PlugInstall --sync" -c ":qa!"
+dir
+dir %USERPROFILE%
+dir %USERPROFILE%/.config/nvim/
 
-%USERPROFILE%/vimfiles/plugged/vim-themis/bin/themis
+for /f "delims=" %%i in ('luarocks --lua-version=5.1 --local path') do %%i
+echo PATH: %PATH%
+echo LUA_PATH: %LUA_PATH%
+echo LUA_CPATH: %LUA_CPATH%
 
-set RC=%ERRORLEVEL%
+set VUSTED_ARGS=--headless
 
-exit /B %RC%
+call vusted --shuffle
+
+exit /B %ERRORLEVEL%

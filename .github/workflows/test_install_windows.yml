@@ -31,9 +31,9 @@ jobs:
     - name: Test install.sh install
       shell: cmd
       run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh"'
-    - name: Test install.sh runtest
+    - name: Test runtest.bat
       shell: cmd
-      run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh runtest"'
+      run: 'runtest.bat'
     - name: Save cache
       id: cache-save
       uses: actions/cache/save@v4
