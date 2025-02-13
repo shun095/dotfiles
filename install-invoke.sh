@@ -1033,7 +1033,9 @@ runtest() {
     fi
 
     pushd $MYDOTFILES/vim
-    VUSTED_ARGS="--headless" vusted --shuffle
+    export VUSTED_ARGS="-u ./init.lua --headless"
+    vusted --shuffle
+
     return_code=$?
     popd
 
