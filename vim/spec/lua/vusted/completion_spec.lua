@@ -26,10 +26,10 @@ describe("補完エンジンは", function()
     it("\"script_dir\"をsnippetとして展開する", function()
         vim.cmd("set ft=sh")
 
-        table.insert(test_timers, vim.fn.timer_start(500, function()
+        table.insert(test_timers, vim.fn.timer_start(1000, function()
             vim.cmd('call feedkeys("\\<C-n>\\<CR>", "t")')
         end, { ["repeat"] = 1 }))
-        table.insert(test_timers, vim.fn.timer_start(1000, function()
+        table.insert(test_timers, vim.fn.timer_start(2000, function()
             vim.cmd('call feedkeys("\\<ESC>", "t")')
         end, { ["repeat"] = 1 }))
 
