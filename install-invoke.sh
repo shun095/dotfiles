@@ -598,8 +598,8 @@ install_vim_plugins() {
 
             fi
         fi
-        if [[ -d $MYDOTFILES/build/nvim ]]; then
-            export PATH=$MYDOTFILES/build/nvim/bin/:$PATH
+        if [[ -d $MYDOTFILES/build/neovim ]]; then
+            export PATH=$MYDOTFILES/build/neovim/bin/:$PATH
         fi
         if type nvim > /dev/null 2>&1; then
             if [[ ! -d $MYVIMRUNTIME/plugged ]]; then
@@ -643,8 +643,8 @@ update_vim_plugins() {
                     -c ':qa!'
             fi
         fi
-        if [[ -d $MYDOTFILES/build/nvim ]]; then
-            export PATH=$MYDOTFILES/build/nvim/bin/:$PATH
+        if [[ -d $MYDOTFILES/build/neovim ]]; then
+            export PATH=$MYDOTFILES/build/neovim/bin/:$PATH
         fi
         if type nvim > /dev/null 2>&1; then
             if [[ -d $MYVIMRUNTIME/plugged ]] || [[ -d $MYVIMRUNTIME/pack ]]; then
