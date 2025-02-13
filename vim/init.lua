@@ -294,58 +294,59 @@ require("mason-lspconfig").setup_handlers {
             capabilities = capabilities
         }
     end,
-    jdtls = function() end
-}
-
--- === LSP Language Specific ===
-require("lspconfig").lua_ls.setup {
-    settings = {
-        Lua = {
-            telemetry = {
-                enable = false,
+    jdtls = function() end,
+    lua_ls = function()
+        require("lspconfig").lua_ls.setup {
+            settings = {
+                Lua = {
+                    telemetry = {
+                        enable = false,
+                    },
+                    capabilities = capabilities,
+                    hint = {
+                        arrayIndex     = "Enable",
+                        await          = true,
+                        awaitPropagate = true,
+                        enable         = true,
+                        paramName      = "All",
+                        paramType      = true,
+                        semicolon      = "SameLine",
+                        setType        = true,
+                    },
+                    completion = {
+                        callSnippet = "Replace"
+                    }
+                },
             },
-            capabilities = capabilities,
-            hint = {
-                arrayIndex     = "Enable",
-                await          = true,
-                awaitPropagate = true,
-                enable         = true,
-                paramName      = "All",
-                paramType      = true,
-                semicolon      = "SameLine",
-                setType        = true,
-            },
-            completion = {
-                callSnippet = "Replace"
-            }
-        },
-    },
-}
-require("lspconfig").denols.setup {
-    settings = {
-        deno = {
-            inlayHints = {
-                enumMemberValues = { enabled = true },
-                functionLikeReturnTypes = { enabled = true },
-                parameterNames = {
-                    enabled                         = "all",
-                    suppressWhenArgumentMatchesName = false
-                },
-                parameterTypes = {
-                    enabled = true
-                },
-                propertyDeclarationTypes = {
-                    enabled = true
-                },
-                variableTypes = {
-                    enabled                     = true,
-                    suppressWhenTypeMatchesName = false
+        }
+    end,
+    denols = function()
+        require("lspconfig").denols.setup {
+            settings = {
+                deno = {
+                    inlayHints = {
+                        enumMemberValues = { enabled = true },
+                        functionLikeReturnTypes = { enabled = true },
+                        parameterNames = {
+                            enabled                         = "all",
+                            suppressWhenArgumentMatchesName = false
+                        },
+                        parameterTypes = {
+                            enabled = true
+                        },
+                        propertyDeclarationTypes = {
+                            enabled = true
+                        },
+                        variableTypes = {
+                            enabled                     = true,
+                            suppressWhenTypeMatchesName = false
+                        }
+                    }
                 }
             }
         }
-    }
+    end
 }
-
 
 
 -- === LSP UI ===
@@ -569,7 +570,12 @@ require("mason-nvim-dap").setup({
         function(config)
             require('mason-nvim-dap').default_setup(config)
         end,
-        python = function() end,
+        python = function(config)
+            require("dap-python")
+                .setup(require('mason-registry')
+                    .get_package('debugpy')
+                    :get_install_path() .. "/venv/bin/python3")
+        end,
     },
 })
 
@@ -596,10 +602,6 @@ vim.api.nvim_create_user_command("LuaDebugLaunchServer",
 -- require("osv").launch({ port = 8086, blocking = true })
 
 local dapui = require("dapui")
-require("dap-python")
-    .setup(require('mason-registry')
-        .get_package('debugpy')
-        :get_install_path() .. "/venv/bin/python3")
 
 
 
