@@ -1035,6 +1035,7 @@ runtest() {
     ls -la ~/
     echo "ls -la ~/.config/nvim/"
     ls -la ~/.config/nvim/
+
     zsh -lc "VUSTED_ARGS=\"--headless\" vusted --shuffle"
 
     return_code=$?
