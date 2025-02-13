@@ -27,7 +27,7 @@ jobs:
         key: ${{ runner.os }}-repos
     - name: Install vim with chocolatey
       shell: cmd
-      run: 'choco install vim python3 deno neovim luarocks'
+      run: 'choco install vim python3 deno neovim luarocks --force'
     - name: Test install.sh install
       shell: cmd
       run: '"C:\Program Files\Git\bin\bash.exe" -c "./install-invoke.sh"'
