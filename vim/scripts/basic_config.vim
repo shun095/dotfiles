@@ -132,7 +132,7 @@
   if has('patch-8.1.1880')
     se completeopt+=popup
   en
-  if has('patch-8.1.1313')
+  if has('patch-9.1.1009')
     se diffopt+=algorithm:histogram,indent-heuristic                          " Diff options
   en
   if has('nvim')
