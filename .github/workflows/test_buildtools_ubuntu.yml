@@ -28,13 +28,13 @@ jobs:
     - name: Test install.sh install
       run: ./install-invoke.sh
     - name: Test install.sh buildtools
-      shell: zsh -lc {0}
+      shell: zsh -lc "{0}"
       run: ./install-invoke.sh buildtools
     - name: Test install.sh install
-      shell: zsh -lc {0}
+      shell: zsh -lc "{0}"
       run: ./install-invoke.sh
     - name: Test install.sh runtest
-      shell: zsh -lc {0}
+      shell: zsh -lc "{0}"
       run: ./install-invoke.sh runtest
     - name: Save cache
       id: cache-save
