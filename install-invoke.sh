@@ -1028,8 +1028,11 @@ runtest() {
     fi
 
     pushd $MYDOTFILES/vim
-    export VUSTED_ARGS="-u ./init.lua --headless"
-    vusted --shuffle
+    echo "ls -la ~/"
+    ls -la ~/
+    echo "ls -la ~/.config/nvim/"
+    ls -la ~/.config/nvim/
+    zsh -lc "VUSTED_ARGS=\"--headless\" vusted --shuffle"
 
     return_code=$?
     popd
