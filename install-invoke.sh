@@ -1023,7 +1023,7 @@ runtest() {
     if ! type luarocks > /dev/null 2>&1; then
         runtest_install_deps
     fi
-    . <(luarocks --lua-version=5.1 path)
+    eval $(luarocks --lua-version=5.1 path)
 
     set +e
     echo "STARTING TEST"
