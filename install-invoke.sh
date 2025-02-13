@@ -597,19 +597,19 @@ install_vim_plugins() {
                     -c ':qa!'
 
             fi
-            if type nvim > /dev/null 2>&1; then
-                if [[ ! -d $MYVIMRUNTIME/plugged ]]; then
-                    if [[ -d $MYDOTFILES/build/nvim ]]; then
-                        export PATH=$MYDOTFILES/build/nvim/bin/:$PATH
-                    fi
-                    nvim --version
-                    echo "Running :PlugUpgrade, :PlugUpdate"
-                    nvim --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
-                        --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
-                        -c ':PlugInstall --sync' \
-                        -c ':Lazy update' \
-                        -c ':qa!'
+        fi
+        if type nvim > /dev/null 2>&1; then
+            if [[ ! -d $MYVIMRUNTIME/plugged ]]; then
+                if [[ -d $MYDOTFILES/build/nvim ]]; then
+                    export PATH=$MYDOTFILES/build/nvim/bin/:$PATH
                 fi
+                nvim --version
+                echo "Running :PlugUpgrade, :PlugUpdate"
+                nvim --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
+                    --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
+                    -c ':PlugInstall --sync' \
+                    -c ':Lazy update' \
+                    -c ':qa!'
             fi
         fi
     fi
