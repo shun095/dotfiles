@@ -282,7 +282,12 @@ require('lspsaga').setup({
     }
 })
 
-require("mason-lspconfig").setup()
+require("mason-lspconfig").setup({
+    ensure_installed = {
+        "denols",
+        "lua_ls",
+    }
+})
 require("mason-lspconfig").setup_handlers {
     function(server_name) -- default handler (optional)
         require("lspconfig")[server_name].setup {
@@ -557,6 +562,9 @@ vim.api.nvim_create_user_command("LSPCodeLensRefresh",
 -- == DAP == {{{
 -- === DAP Core ===
 require("mason-nvim-dap").setup({
+    ensure_installed = {
+        "debugpy",
+    },
     handlers = {
         function(config)
             require('mason-nvim-dap').default_setup(config)
