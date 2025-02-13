@@ -1016,14 +1016,14 @@ runtest_install_deps() {
     fi
     install_deps "runtest" "${deps}" "${curl_deps}"
 
-    luarocks --lua-version=5.1 install vusted
+    luarocks --lua-version=5.1 --local install vusted
 }
 
 runtest() {
     if ! type luarocks > /dev/null 2>&1; then
         runtest_install_deps
     fi
-    eval $(luarocks --lua-version=5.1 path)
+    eval $(luarocks --lua-version=5.1 --local path)
 
     set +e
     echo "STARTING TEST"
