@@ -14,10 +14,35 @@ jobs:
     timeout-minutes: 20
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Test install.sh buildtools
-      run: ./install-invoke.sh buildtools
+    - uses: actions/checkout@v4
+    - name: Restore cached repositories
+      id: cache-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          build/neovim
+          build/tig
+          build/tmux
+          build/vim
+        key: ${{ runner.os }}-repos
     - name: Test install.sh install
       run: ./install-invoke.sh
+    - name: Test install.sh buildtools
+      shell: zsh -le {0}
+      run: ./install-invoke.sh buildtools
+    - name: Save cache
+      id: cache-save
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          build/neovim
+          build/tig
+          build/tmux
+          build/vim
+        key: ${{ steps.cache-restore.outputs.cache-primary-key }}
+    - name: Test install.sh install
+      shell: zsh -le {0}
+      run: ./install-invoke.sh
     - name: Test install.sh runtest
+      shell: zsh -le {0}
       run: ./install-invoke.sh runtest

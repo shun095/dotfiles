@@ -8,6 +8,13 @@ describe("Fuzzy Finderは", function()
 
     before_each(function()
         vim.cmd("%bwipeout!")
+        -- Leave insert mode focibly when timeout
+        table.insert(test_timers, vim.fn.timer_start(10000, function()
+            vim.cmd('call feedkeys("\\<ESC>", "t")')
+        end, { ["repeat"] = 1 }))
+        table.insert(test_timers, vim.fn.timer_start(10000, function()
+            vim.cmd('call feedkeys("\\<C-c>", "t")')
+        end, { ["repeat"] = 1 }))
     end)
 
     after_each(function()
@@ -52,7 +59,7 @@ describe("Fuzzy Finderは", function()
 
         vim.cmd('call feedkeys("\\<Space>\\<Space>", "tx!")')
 
-        local expected = vim.env.HOME .. '/dotfiles/zsh/zshrc.zsh'
+        local expected = vim.fn.fnamemodify('../', ':p') .. 'zsh/zshrc.zsh'
         local actual = vim.fn.expand("%")
         assert.are.same(expected, actual)
     end)

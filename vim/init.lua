@@ -282,65 +282,71 @@ require('lspsaga').setup({
     }
 })
 
-require("mason-lspconfig").setup()
+require("mason-lspconfig").setup({
+    ensure_installed = {
+        "denols",
+        "lua_ls",
+    }
+})
 require("mason-lspconfig").setup_handlers {
     function(server_name) -- default handler (optional)
         require("lspconfig")[server_name].setup {
             capabilities = capabilities
         }
     end,
-    jdtls = function() end
-}
-
--- === LSP Language Specific ===
-require("lspconfig").lua_ls.setup {
-    settings = {
-        Lua = {
-            telemetry = {
-                enable = false,
+    jdtls = function() end,
+    lua_ls = function()
+        require("lspconfig").lua_ls.setup {
+            settings = {
+                Lua = {
+                    telemetry = {
+                        enable = false,
+                    },
+                    capabilities = capabilities,
+                    hint = {
+                        arrayIndex     = "Enable",
+                        await          = true,
+                        awaitPropagate = true,
+                        enable         = true,
+                        paramName      = "All",
+                        paramType      = true,
+                        semicolon      = "SameLine",
+                        setType        = true,
+                    },
+                    completion = {
+                        callSnippet = "Replace"
+                    }
+                },
             },
-            capabilities = capabilities,
-            hint = {
-                arrayIndex     = "Enable",
-                await          = true,
-                awaitPropagate = true,
-                enable         = true,
-                paramName      = "All",
-                paramType      = true,
-                semicolon      = "SameLine",
-                setType        = true,
-            },
-            completion = {
-                callSnippet = "Replace"
-            }
-        },
-    },
-}
-require("lspconfig").denols.setup {
-    settings = {
-        deno = {
-            inlayHints = {
-                enumMemberValues = { enabled = true },
-                functionLikeReturnTypes = { enabled = true },
-                parameterNames = {
-                    enabled                         = "all",
-                    suppressWhenArgumentMatchesName = false
-                },
-                parameterTypes = {
-                    enabled = true
-                },
-                propertyDeclarationTypes = {
-                    enabled = true
-                },
-                variableTypes = {
-                    enabled                     = true,
-                    suppressWhenTypeMatchesName = false
+        }
+    end,
+    denols = function()
+        require("lspconfig").denols.setup {
+            settings = {
+                deno = {
+                    inlayHints = {
+                        enumMemberValues = { enabled = true },
+                        functionLikeReturnTypes = { enabled = true },
+                        parameterNames = {
+                            enabled                         = "all",
+                            suppressWhenArgumentMatchesName = false
+                        },
+                        parameterTypes = {
+                            enabled = true
+                        },
+                        propertyDeclarationTypes = {
+                            enabled = true
+                        },
+                        variableTypes = {
+                            enabled                     = true,
+                            suppressWhenTypeMatchesName = false
+                        }
+                    }
                 }
             }
         }
-    }
+    end
 }
-
 
 
 -- === LSP UI ===
@@ -557,11 +563,19 @@ vim.api.nvim_create_user_command("LSPCodeLensRefresh",
 -- == DAP == {{{
 -- === DAP Core ===
 require("mason-nvim-dap").setup({
+    ensure_installed = {
+        "python",
+    },
     handlers = {
         function(config)
             require('mason-nvim-dap').default_setup(config)
         end,
-        python = function() end,
+        python = function(config)
+            require("dap-python")
+                .setup(require('mason-registry')
+                    .get_package('debugpy')
+                    :get_install_path() .. "/venv/bin/python3")
+        end,
     },
 })
 
@@ -588,10 +602,6 @@ vim.api.nvim_create_user_command("LuaDebugLaunchServer",
 -- require("osv").launch({ port = 8086, blocking = true })
 
 local dapui = require("dapui")
-require("dap-python")
-    .setup(require('mason-registry')
-        .get_package('debugpy')
-        :get_install_path() .. "/venv/bin/python3")
 
 
 
@@ -1330,6 +1340,11 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     group = "init_lua",
     pattern = '*',
     callback = function()
+        vim.fn.system({
+            'mkdir',
+            '-p',
+            vim.fn.expand('~/Documents/Obsidian/Personal'),
+        })
         require("obsidian").setup({
             ui = {
                 enable = false,
@@ -1351,10 +1366,12 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
                 {
                     name = "work",
                     path = "~/Documents/Obsidian",
+                    strict = true,
                 },
                 {
                     name = "personal",
                     path = "~/Documents/Obsidian/Personal",
+                    strict = true,
                 },
             },
             completion = {
