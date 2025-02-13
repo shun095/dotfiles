@@ -7,6 +7,13 @@ describe("補完エンジンは", function()
 
     before_each(function()
         vim.cmd("%bwipeout!")
+        -- Leave insert mode focibly when timeout
+        table.insert(test_timers, vim.fn.timer_start(5000, function()
+            vim.cmd('call feedkeys("\\<ESC>", "t")')
+        end, { ["repeat"] = -1 }))
+        table.insert(test_timers, vim.fn.timer_start(5000, function()
+            vim.print("feedkeys() aborted because timeout")
+        end, { ["repeat"] = -1 }))
     end)
 
     after_each(function()

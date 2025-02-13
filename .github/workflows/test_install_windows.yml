@@ -28,12 +28,6 @@ jobs:
     - name: Install vim with chocolatey
       shell: cmd
       run: 'choco install vim deno neovim lua luarocks --force'
-    - name: Configure Visual Studio
-      shell: cmd
-      run: |
-        echo "Setting up MSVC environment"
-        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
-        cl
     - name: Test install.sh install
       shell: cmd
       run: |
@@ -41,6 +35,9 @@ jobs:
     - name: Test runtest.bat
       shell: cmd
       run: |
+        echo "Setting up MSVC environment"
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
+        cl
         runtest.bat
     - name: Save cache
       id: cache-save
