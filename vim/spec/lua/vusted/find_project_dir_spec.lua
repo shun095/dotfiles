@@ -1,4 +1,8 @@
 describe("mymisc#find_project_dir()は", function()
+    before_each(function()
+        vim.cmd("%bwipeout!")
+    end)
+
     it("引数が文字列の場合、その文字列をマーカーとしてマーカーの配置された親ディレクトリを探して返す", function()
         vim.cmd("cd $MYDOTFILES/vim/spec/lua/vusted")
 

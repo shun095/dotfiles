@@ -1,3 +1,0 @@
-call themis#option('recursive', 1)
-let g:assert = themis#helper('assert')
-call themis#helper('command').with(g:assert)

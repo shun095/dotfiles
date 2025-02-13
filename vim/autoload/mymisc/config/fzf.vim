@@ -49,11 +49,11 @@ fun! mymisc#config#fzf#setup() abort
   " vimのpopup windowは行番号が消えたり、GGrepに失敗(Gitリポジトリ外で実行するなど)
   " した場合に表示が壊れたり不安定
   " let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.9 }}
-  if exists('$TMUX')
-    let g:fzf_layout = { 'tmux': 'bottom,50%' }
-  else
+  " if exists('$TMUX')
+  "   let g:fzf_layout = { 'tmux': 'bottom,50%' }
+  " else
     let g:fzf_layout = { 'window': 'botright 20new' }
-  endif
+  " endif
 
   if has('nvim')
     aug vimrc_fzf
