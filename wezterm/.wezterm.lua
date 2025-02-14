@@ -41,4 +41,11 @@ config.keys = {
     },
 }
 
+
+-- local is_windows = wezterm.target_triple:find("windows") ~= nil
+
+-- if is_windows then
+--   config.default_prog = { "cmd.exe", "/k", "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\Tools\\VsDevCmd.bat" }
+-- end
+
 return config

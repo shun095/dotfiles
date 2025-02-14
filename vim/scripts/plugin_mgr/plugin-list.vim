@@ -177,14 +177,14 @@ else
   " Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'LukasPietzschmann/telescope-tabs'
-  if executable('cmake')
-    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
-  elseif executable('make')
-    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-  endif
+  " if executable('cmake')
+  "   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
+  " elseif executable('make')
+  "   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+  " endif
   Plug 'nvim-telescope/telescope-ui-select.nvim'
-  Plug 'kkharji/sqlite.lua'
-  Plug 'prochri/telescope-all-recent.nvim'
+  " Plug 'kkharji/sqlite.lua'
+  " Plug 'prochri/telescope-all-recent.nvim'
   Plug 'kevinhwang91/nvim-bqf'
   Plug 'nvim-tree/nvim-web-devicons'
   " Plug 'vim-fall/fall.vim'
@@ -233,7 +233,7 @@ endif
   Plug 'lambdalisue/vim-glyph-palette'
   Plug 'lambdalisue/vim-fern-bookmark'
   Plug 'lambdalisue/vim-fern-mapping-git'
-  Plug 'LumaKernel/fern-mapping-fzf.vim'
+  " Plug 'LumaKernel/fern-mapping-fzf.vim'
   Plug 'andykog/fern-highlight.vim'
   Plug 'yuki-yano/fern-preview.vim'
 " endif
@@ -398,7 +398,7 @@ Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'Rainbo
 " Plug 'kien/rainbow_parentheses.vim'
 " Plug 'google/vim-searchindex'
 if has('nvim')
-  Plug 'lukas-reineke/indent-blankline.nvim'
+  " Plug 'lukas-reineke/indent-blankline.nvim'
 else
   Plug 'Yggdroot/indentLine'
 endif

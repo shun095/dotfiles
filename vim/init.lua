@@ -1,6 +1,11 @@
 ------------------------------------------------------------------------------
 -- SECTION: INITIALIZATION {{{
 ------------------------------------------------------------------------------
+vim.cmd([[
+if $MYDOTFILES == ""
+  call setenv("MYDOTFILES",$HOME . "/dotfiles")
+endif
+]])
 vim.cmd('so $MYDOTFILES/vim/scripts/basic_config.vim')
 vim.cmd('so $MYDOTFILES/vim/scripts/plugin_mgr/vim-plug.vim')
 vim.cmd('cal g:plugin_mgr["load"]()')
@@ -1340,11 +1345,13 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     group = "init_lua",
     pattern = '*',
     callback = function()
-        vim.fn.system({
-            'mkdir',
-            '-p',
-            vim.fn.expand('~/Documents/Obsidian/Personal'),
-        })
+        if vim.fn.executable("mkdir") == 1 then
+            vim.fn.system({
+                'mkdir',
+                '-p',
+                vim.fn.expand('~/Documents/Obsidian/Personal'),
+            })
+        end
         require("obsidian").setup({
             ui = {
                 enable = false,
