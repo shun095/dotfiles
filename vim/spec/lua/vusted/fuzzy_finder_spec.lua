@@ -2,12 +2,9 @@ local test_timers
 
 describe("Fuzzy Finderは", function()
 
-    setup(function() 
-        test_timers = {}
-    end)
-
     before_each(function()
         vim.cmd("%bwipeout!")
+        test_timers = {}
         -- Leave insert mode focibly when timeout
         table.insert(test_timers, vim.fn.timer_start(10000, function()
             vim.cmd('call feedkeys("\\<ESC>", "t")')
