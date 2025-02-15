@@ -27,7 +27,7 @@
     endif
   endif
 
-  if has('nvim')
+  if has('nvim') && !has('win32')
     " neovimはneovimのpyenvを作ってそれを使う想定。
     let g:python3_host_prog = system('(type pyenv &>/dev/null && echo -n "$(pyenv root)/versions/neovim/bin/python") || echo -n $(which python3)')
   endif
@@ -100,9 +100,7 @@
       en
     else
       if has('win32')
-        if has('vcon')
-          se termguicolors
-        en
+        se termguicolors
       else
         if $TERM ==# 'linux' || $COLORTERM !=# 'truecolor'
           se t_Co=16  " Limited colors on terminal
