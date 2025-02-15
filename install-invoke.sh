@@ -906,16 +906,7 @@ buildtools(){
     build_neovim
 }
 
-deploy() {
-    deploy_ohmyzsh_files
-    deploy_selfmade_rcfiles
-    deploy_fzf
-    compile_zshfiles
-    install_vim_plugins
-    # install_tmux_plugins
-
-    git_configulation
-
+create_localrc_dir() {
     # Not symlink
     if [[ ! -e ${LOCALRCSDIR} ]]; then
         mkdir -p ${LOCALRCSDIR}
@@ -927,11 +918,25 @@ deploy() {
             echo "made ${rcfile}"
         fi
     done
+}
 
+create_trash_dir() {
     if [[ ! -e ${TRASH} ]]; then
         mkdir ${TRASH}
     fi
-    
+}
+
+deploy() {
+    deploy_ohmyzsh_files
+    deploy_selfmade_rcfiles
+    deploy_fzf
+    compile_zshfiles
+    install_vim_plugins
+    # install_tmux_plugins
+    git_configulation
+    create_localrc_dir
+    create_trash_dir
+
     echo $DOTFILES_VERSION > "$SCRIPT_DIR/deployed-version.txt"
 }
 
