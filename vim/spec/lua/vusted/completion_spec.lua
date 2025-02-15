@@ -1,12 +1,9 @@
 local test_timers
 
 describe("補完エンジンは", function()
-    setup(function() 
-        test_timers = {}
-    end)
-
     before_each(function()
         vim.cmd("%bwipeout!")
+        test_timers = {}
     end)
 
     after_each(function()

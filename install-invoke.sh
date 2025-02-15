@@ -982,49 +982,7 @@ reinstall() {
     install
 }
 
-runtest_install_deps() {
-    local deps=""
-    local curl_deps=""
-    local tmp_deps=""
-    if [[ $OSTYPE == 'darwin'* ]]; then
-        deps='luarocks'
-    elif [[ $(lsb_release -rs) == "20.04" ]]; then
-        tmp_deps='luarocks'
-        for package in ${tmp_deps}; do
-            if ! dpkg -s ${package} > /dev/null 2>&1; then
-                deps="${deps} ${package}"
-            fi
-        done
-    elif [[ $(lsb_release -rs) == "22.04" ]]; then
-        tmp_deps='luarocks'
-        for package in ${tmp_deps}; do
-            if ! dpkg -s ${package} > /dev/null 2>&1; then
-                deps="${deps} ${package}"
-            fi
-        done
-    elif [[ $(lsb_release -rs) == "24.04" ]]; then
-        tmp_deps='luarocks'
-        for package in ${tmp_deps}; do
-            if ! dpkg -s ${package} > /dev/null 2>&1; then
-                deps="${deps} ${package}"
-            fi
-        done
-    elif type dnf > /dev/null 2>&1; then
-        tmp_deps='luarocks'
-    elif type yum > /dev/null 2>&1; then
-        tmp_deps='luarocks'
-    fi
-    install_deps "runtest" "${deps}" "${curl_deps}"
-
-    luarocks --lua-version=5.1 --local install vusted
-}
-
 runtest() {
-    if ! type luarocks > /dev/null 2>&1; then
-        runtest_install_deps
-    fi
-    eval $(luarocks --lua-version=5.1 --local path)
-
     set +e
     echo "STARTING TEST"
 
@@ -1041,7 +999,7 @@ runtest() {
     echo "ls -la ~/.config/nvim/"
     ls -la ~/.config/nvim/
 
-    zsh -lc "VUSTED_ARGS=\"--headless\" vusted --shuffle"
+    nvim --headless -c "PlenaryBustedDirectory . { init = \"./init.lua\" }"
 
     return_code=$?
     popd
