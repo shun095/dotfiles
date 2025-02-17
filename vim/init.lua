@@ -300,6 +300,19 @@ require("mason-lspconfig").setup_handlers {
         }
     end,
     jdtls = function() end,
+    pylsp = function()
+        require("lspconfig").pylsp.setup {
+            settings = {
+                pylsp = {
+                    plugins = {
+                        pycodestyle = {
+                            maxLineLength = 120
+                        }
+                    }
+                }
+            }
+        }
+    end,
     lua_ls = function()
         require("lspconfig").lua_ls.setup {
             settings = {
@@ -1290,7 +1303,9 @@ require("scrollbar.handlers.search").setup({
     require("scrollbar.handlers.gitsigns").setup()
 })
 require('colorizer').setup()
-require('hlargs').setup()
+require('hlargs').setup({
+    color = find_palette_color('#ef9062')
+})
 
 
 local kopts = { noremap = true, silent = true }

@@ -7,6 +7,10 @@ from libs import utils
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
+
+def install()
+
+
 def main():
     utils.get_deployed_version()
 
