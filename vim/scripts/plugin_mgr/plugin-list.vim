@@ -469,6 +469,8 @@ if has('nvim') && has('win32')
   let g:win_ime_con_mode = 0
 endif
 
+Plug 'christoomey/vim-tmux-navigator'
+
 " Libraries
 Plug 'vim-denops/denops.vim'
 Plug 'vim-denops/denops-helloworld.vim'

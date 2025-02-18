@@ -593,6 +593,10 @@ require("mason-nvim-dap").setup({
                 .setup(require('mason-registry')
                     .get_package('debugpy')
                     :get_install_path() .. "/venv/bin/python3")
+            vim.api.nvim_create_user_command("DebugpyRunTestClass",
+                'lua require("dap-python").test_class()', {})
+            vim.api.nvim_create_user_command("DebugpyRunTestMethod",
+                'lua require("dap-python").test_method()', {})
         end,
     },
 })
@@ -1603,10 +1607,10 @@ require("neo-tree").setup({
             ["c"] = "noop", -- copy
             ["C"] = "copy_to_clipboard",
             ["x"] = "noop", -- cut_to_clipboard
-            ["X"] = "cut_to_clipboard",
+            ["X"] = "system_open",
             ["P"] = "paste_from_clipboard",
-            ["m"] = "noop", -- move
-            ["M"] = "move",
+            ["m"] = "move", -- move
+            ["M"] = "cut_to_clipboard",
         }
     },
     filesystem = {
@@ -1622,6 +1626,27 @@ require("neo-tree").setup({
     buffers = {
         ["<CR>"] = "set_root",
         ["<C-h>"] = "navigate_up",
+    },
+    commands = {
+        system_open = function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+
+            if vim.uv.os_uname().sysname == "Darwin" then
+                vim.fn.jobstart({ "open", path }, { detach = true })
+            elseif vim.uv.os_uname().sysname == "Linux" then
+                vim.fn.jobstart({ "xdg-open", path }, { detach = true })
+            elseif vim.uv.os_uname().sysname == "Windows_NT" then
+                local p
+                local lastSlashIndex = path:match("^.+()\\[^\\]*$")
+                if lastSlashIndex then
+                    p = path:sub(1, lastSlashIndex - 1)
+                else
+                    p = path
+                end
+                vim.cmd("silent !start explorer " .. p)
+            end
+        end,
     }
 })
 

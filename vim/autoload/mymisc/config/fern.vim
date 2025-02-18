@@ -17,7 +17,7 @@ fun! mymisc#config#fern#setup() abort
   nno <silent> <Leader>e :cal <SID>fern_open_or_focus()<CR>
   nno <silent> <Leader>E :Fern %:h -drawer -reveal=%:p -keep<CR>
   nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p -keep<CR>
-  nno <Leader>n :Fern<space>
+  nno <Leader>n :Fern . -drawer -reveal=%:p -keep<CR>
 
   let g:fern#drawer_width = 35
   let g:fern#drawer_keep = v:true

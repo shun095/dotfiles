@@ -1,4 +1,5 @@
-print("hello world")
+def hello():
+    return "hello"
 
 # bak0→bakに変更 (source を書き込むファイルはバックアップを取っていない)
 # 対象:
