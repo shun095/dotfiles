@@ -8,54 +8,56 @@ def apply_patch():
 
     # bak0→bakに変更 (source を書き込むファイルはバックアップを取っていない)
     paths = [
-        os.environ.get("HOME") + "/.config/nvim/init.lua",
-        os.environ.get("HOME") + "/.config/nvim/ginit.vim",
-        os.environ.get("HOME") + "/.tigrc",
-        os.environ.get("HOME") + "/.wezterm.lua",
+        "/.config/nvim/init.lua",
+        "/.config/nvim/ginit.vim",
+        "/.tigrc",
+        "/.wezterm.lua",
     ]
 
     for path in paths:
         # bak0→bakに変更 (source を書き込むファイルはバックアップを取っていない)
-        if os.path.exists(path + ".bak0"):
-            os.rename(path + ".bak0", path + ".bak")
-
-    paths = [
-        os.environ.get("HOME") + "/.config/nvim/init.lua",
-        os.environ.get("HOME") + "/.config/nvim/ginit.vim",
-        os.environ.get("HOME") + "/.tigrc",
-        os.environ.get("HOME") + "/.wezterm.lua",
-    ]
+        if os.path.exists(os.environ.get("HOME") + path + ".bak0"):
+            os.rename(os.environ.get("HOME") + path + ".bak0", os.environ.get("HOME") + path + ".bak")
 
     for path in paths:
-        globpaths = glob.glob(path + ".bak?")
+        globpaths = glob.glob(os.environ.get("HOME") + path + ".bak?")
         for globpath in globpaths:
             os.remove(globpath)
 
-    # もしbakが存在したら削除
-    #   $HOME/.zshrc
-    #   $HOME/.vimrc
-    #   $HOME/.gvimrc
-    #   $HOME/.tmux.conf
-    #
-    #   $HOME/.config/nvim/init.vim
-    #   $HOME/.config/flake8
-    #   $HOME/.vintrc.yml
-    #   $HOME/.spacemacs
-    #   $HOME/.config/alacritty/alacritty.toml
+    # もしbakXが存在したら削除
+    paths = [
+        "/.config/alacritty/alacritty.toml",
+        "/.config/flake8",
+        "/.config/nvim/init.vim",
+        "/.gvimrc",
+        "/.spacemacs",
+        "/.tmux.conf",
+        "/.vimrc",
+        "/.vintrc.yml",
+        "/.zshrc",
+    ]
+    for path in paths:
+        globpaths = glob.glob(os.environ.get("HOME") + path + ".bak?")
+        for globpath in globpaths:
+            os.remove(globpath)
 
     # 設定自体削除
-    #   $HOME/.config/nvim/init.vim
-    #   $HOME/.config/flake8
-    #   $HOME/.vintrc.yml
-    #   $HOME/.spacemacs
-    #   $HOME/.config/alacritty/alacritty.toml
+    paths = [
+        "/.config/alacritty/alacritty.toml",
+        "/.config/flake8",
+        "/.config/nvim/init.vim",
+        "/.spacemacs",
+        "/.vintrc.yml",
+    ]
+    for path in paths:
+        os.remove(os.environ.get("HOME") + path)
 
     # XDG化検討
+    #   $HOME/.gvimrc
     #   $HOME/.tmux.conf
+    #   $HOME/.vimrc
     #   $HOME/.wezterm.lua
     #   $HOME/.zshrc
-    #   $HOME/.vimrc
-    #   $HOME/.gvimrc
 
     # localrcs→.localrcsに命名変更
 

@@ -32,7 +32,7 @@ class Test_apply_patch(fake_filesystem_unittest.TestCase):
         for path in paths:
             self.fs.create_file(os.environ.get("HOME") + path)
             for i in range(5):
-                if bool(random.getrandbits(1)): # あったりなかったりでも通るようにする
+                if i == 0 or bool(random.getrandbits(1)):  # あったりなかったりでも通るようにする
                     self.fs.create_file(os.environ.get("HOME") + path + ".bak" + str(i))
 
         print(os.listdir(os.environ.get("HOME")))
