@@ -2,7 +2,9 @@ import os
 import pytest
 import unittest
 from pyfakefs import fake_filesystem_unittest
-import importlib
+from pyfakefs.fake_filesystem_unittest import (
+    PatchMode,
+)
 
 from . import version_util
 
@@ -75,54 +77,58 @@ class Test_get_patch_files(fake_filesystem_unittest.TestCase):
 
     def test_デプロイされたバージョンより新しくかつ現在のバージョンまでのパッチ用pythonスクリプトの一覧を返す(self):
         self.fs.create_file(version_util.get_abs_path("deployed-version.txt"), contents="0.1.0\n")
-        self.fs.create_file(version_util.get_abs_path("libs/patches/0.1.0.py"),
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_1_0.py"),
                             contents="def hello():\n    print(\"0.1.0\")")
-        self.fs.create_file(version_util.get_abs_path("libs/patches/0.1.2.py"),
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_1_2.py"),
                             contents="def hello():\n    print(\"0.1.2\")")
-        self.fs.create_file(version_util.get_abs_path("libs/patches/0.2.0.py"),
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_2_0.py"),
                             contents="def hello():\n    print(\"0.2.0\")")
-        self.fs.create_file(version_util.get_abs_path("libs/patches/0.2.1.py"),
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_2_1.py"),
                             contents="def hello():\n    print(\"0.2.1\")")
         assert version_util.get_patch_files() \
-            == [version_util.get_abs_path("libs/patches/0.1.2.py"), version_util.get_abs_path("libs/patches/0.2.0.py")]
+            == [version_util.get_abs_path("libs/patches/patch_0_1_2.py"),
+                version_util.get_abs_path("libs/patches/patch_0_2_0.py")]
 
 
 class Test_get_patch_files_nonfakefs(unittest.TestCase):
     def test_デプロイされたバージョンより新しくかつ現在のバージョンまでのパッチ用pythonスクリプトの一覧を返す(self):
-        assert version_util.get_patch_files() == [version_util.get_abs_path("libs/patches/0.2.0.py")]
+        assert version_util.get_patch_files() == [version_util.get_abs_path("libs/patches/patch_0_2_0.py")]
 
 
-class Test_import_and_run_modules(unittest.TestCase):
+class Test_import_and_run_modules(fake_filesystem_unittest.TestCase):
+    def setUp(self):
+        self.setUpPyfakefs(patch_open_code=PatchMode.ON)
 
     def test_一覧化されたpythonスクリプトをインポートして実行する(self):
-        assert version_util.import_and_run_modules(version_util.get_patch_files(), "hello") == ["hello"]
+        self.fs.create_file(version_util.get_abs_path("deployed-version.txt"), contents="0.1.0\n")
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_1_0.py"),
+                            contents="def hello():\n    return \"0.1.0\"")
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_1_2.py"),
+                            contents="def hello():\n    return \"0.1.2\"")
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_2_0.py"),
+                            contents="def hello():\n    return \"0.2.0\"")
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_2_1.py"),
+                            contents="def hello():\n    return \"0.2.1\"")
+
+        assert version_util.import_and_run_modules(version_util.get_patch_files(), "hello") == ["0.1.2", "0.2.0"]
 
     def test_存在しないメソッドを指定したときは例外を送出する(self):
+        self.fs.create_file(version_util.get_abs_path("deployed-version.txt"), contents="0.1.0\n")
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_1_0.py"),
+                            contents="def hello():\n    return \"0.1.0\"")
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_1_2.py"),
+                            contents="def hello():\n    return \"0.1.2\"")
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_2_0.py"),
+                            contents="def hello():\n    return \"0.2.0\"")
+        self.fs.create_file(version_util.get_abs_path("libs/patches/patch_0_2_1.py"),
+                            contents="def hello():\n    return \"0.2.1\"")
+
         with pytest.raises(Exception) as e:
             version_util.import_and_run_modules(version_util.get_patch_files(), "world")
 
-        path = version_util.get_abs_path("libs/patches/0.2.0.py")
+        path = version_util.get_abs_path("libs/patches/patch_0_1_2.py")
         assert str(e.value) == f"Method 'world' not found in {path}."
 
-
-import os
-
-class Test_importlib(fake_filesystem_unittest.TestCase):
-    def setUp(self):
-        self.setUpPyfakefs()
-
-    def test_importlibの挙動確認(self):
-        # 相対パスでファイルを作成
-        file_path = "libs/patches/0.2.1.py"
-        self.fs.create_file(file_path, contents="def hello():\n    print(\"0.2.1\")")
-
-        # ファイルが作成されていることを確認
-        self.assertTrue(self.fs.exists(file_path))
-
-        # モジュールのインポート
-        spec = importlib.util.spec_from_file_location("module", file_path)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
 
 class Test_get_abs_path(unittest.TestCase):
     def test_与えられたMYDOTFILESからの相対パスを絶対パスにして返す(self):

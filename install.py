@@ -31,6 +31,7 @@ def update():
 
 
 def buildtools():
+    version_util.import_and_run_modules(version_util.get_patch_files(), "apply_patch")
     # ディレクトリ構成にパッチを当てる
 
     # バックアップする
@@ -105,7 +106,6 @@ def main():
     subparsers.add_parser("update", help="Update the application")
 
     args = parser.parse_args()
-
 
 
 if __name__ == "__main__":
