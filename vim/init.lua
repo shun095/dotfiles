@@ -601,6 +601,8 @@ require("mason-nvim-dap").setup({
                     .get_package('debugpy')
                     :get_install_path() .. "/venv/bin/python3")
         end,
+        js = function(config)
+        end
     },
 })
 
@@ -627,24 +629,29 @@ vim.api.nvim_create_user_command("LuaDebugLaunchServer",
     {})
 -- require("osv").launch({ port = 8086, blocking = true })
 
-dap.adapters.deno = function(callback, config)
-    callback({
-        type = 'server',
-        host = config.host or "127.0.0.1",
-        port = config.port or 9229,
-    })
-end
 
+dap.adapters["pwa-node"] = {
+    type = "server",
+    host = "localhost",
+    port = "9230",
+    executable = {
+        command = "node",
+        args = {
+            require('mason-registry')
+            .get_package('js-debug-adapter')
+            :get_install_path() .. "/js-debug/src/dapDebugServer.js",
+            "9230"
+        },
+    }
+}
 dap.configurations.javascript = {
-        type = 'deno',
+    {
+        type = 'pwa-node',
         request = 'attach',
         name = "Attach to running deno instance",
+    }
 }
-dap.configurations.typescript = {
-        type = 'deno',
-        request = 'attach',
-        name = "Attach to running deno instance",
-}
+dap.configurations.typescript = dap.configurations.javascript
 
 -- === DAP UI ===
 local dapui = require("dapui")
