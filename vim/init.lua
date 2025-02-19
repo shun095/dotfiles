@@ -86,6 +86,10 @@ require("lazy").setup({
 -- SECTION: UTIL FUNCTIONS {{{
 ------------------------------------------------------------------------------
 
+function HelloWorld()
+    vim.print("Hello world.")
+end
+
 ---Convert hex color to RGB
 ---@param hex any
 ---@return integer
@@ -279,7 +283,9 @@ require("mason").setup({
 -- == LSP == {{{
 -- === LSP Core ===
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-require("neodev").setup({})
+require("neodev").setup({
+    library = { plugins = { "nvim-dap-ui" }, types = true },
+})
 -- for breadclumb
 require('lspsaga').setup({
     lightbulb = {
@@ -580,6 +586,7 @@ vim.api.nvim_create_user_command("LSPCodeLensRefresh",
 
 -- == DAP == {{{
 -- === DAP Core ===
+vim.fn.sign_define('DapBreakpoint', { text = '🔴' })
 require("mason-nvim-dap").setup({
     ensure_installed = {
         "python",
@@ -593,10 +600,6 @@ require("mason-nvim-dap").setup({
                 .setup(require('mason-registry')
                     .get_package('debugpy')
                     :get_install_path() .. "/venv/bin/python3")
-            vim.api.nvim_create_user_command("DebugpyRunTestClass",
-                'lua require("dap-python").test_class()', {})
-            vim.api.nvim_create_user_command("DebugpyRunTestMethod",
-                'lua require("dap-python").test_method()', {})
         end,
     },
 })
@@ -605,6 +608,13 @@ require("mason-nvim-dap").setup({
 
 -- === DAP Language Specific ===
 local dap = require("dap")
+dap.adapters.nlua = function(callback, config)
+    callback({
+        type = 'server',
+        host = config.host or "127.0.0.1",
+        port = config.port or 8086,
+    })
+end
 dap.configurations.lua = {
     {
         type = 'nlua',
@@ -612,28 +622,88 @@ dap.configurations.lua = {
         name = "Attach to running Neovim instance",
     }
 }
-vim.fn.sign_define('DapBreakpoint', { text = '🔴' })
-
-dap.adapters.nlua = function(callback, config)
-    callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
-end
-
 vim.api.nvim_create_user_command("LuaDebugLaunchServer",
     'lua require("osv").launch({port = 8086})',
     {})
 -- require("osv").launch({ port = 8086, blocking = true })
 
-local dapui = require("dapui")
+dap.adapters.deno = function(callback, config)
+    callback({
+        type = 'server',
+        host = config.host or "127.0.0.1",
+        port = config.port or 9229,
+    })
+end
 
-
+dap.configurations.javascript = {
+        type = 'deno',
+        request = 'attach',
+        name = "Attach to running deno instance",
+}
+dap.configurations.typescript = {
+        type = 'deno',
+        request = 'attach',
+        name = "Attach to running deno instance",
+}
 
 -- === DAP UI ===
-
+local dapui = require("dapui")
 require("nvim-dap-virtual-text").setup()
-
-require("dapui").setup()
+require("dapui").setup({
+    controls = {
+        icons = {
+            pause = " 󱊮",
+            play = " 󱊯",
+            step_into = " 󱊰",
+            step_over = " 󱊱",
+            step_out = " ⇧󱊰",
+            step_back = " ⇧󱊱",
+            run_last = " ⇧󱊯",
+            terminate = " 󱊴",
+            disconnect = " ⇧󱊴",
+        }
+    },
+    layouts = {
+        {
+            elements = {
+                {
+                    id = "scopes",
+                    size = 0.25
+                },
+                {
+                    id = "breakpoints",
+                    size = 0.25
+                },
+                {
+                    id = "stacks",
+                    size = 0.25
+                },
+                {
+                    id = "watches",
+                    size = 0.25
+                }
+            },
+            position = "right",
+            size = 35
+        },
+        {
+            elements = {
+                {
+                    id = "console",
+                    size = 0.6
+                },
+                {
+                    id = "repl",
+                    size = 0.4
+                }
+            },
+            position = "bottom",
+            size = 12
+        }
+    },
+})
 vim.api.nvim_create_user_command("DapUiOpen",
-    'lua require("dapui").open()',
+    'lua require("dapui").open({ reset = true })',
     {})
 vim.api.nvim_create_user_command("DapUiClose",
     'lua require("dapui").close()',
@@ -642,12 +712,34 @@ vim.api.nvim_create_user_command("DapUiToggle",
     'lua require("dapui").toggle()',
     {})
 
+vim.api.nvim_set_keymap('n', '<F4>',
+    [[<Cmd>lua require('dap').pause()<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<F5>',
+    [[<Cmd>DapContinue<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<F6>',
+    [[<Cmd>DapStepInto<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<F7>',
+    [[<Cmd>DapStepOver<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<S-F6>',
+    [[<Cmd>DapStepOut<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<S-F7>',
+    [[<Cmd>lua require('dap').step_back()<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<S-F5>',
+    [[<Cmd>lua require('dap').run_last()<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<F10>',
+    [[<Cmd>DapTerminate<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<S-F10>',
+    [[<Cmd>DapDisconnect<CR>]], { silent = true, noremap = true })
+
+
+
 dap.listeners.before.attach.dapui_config = function()
-    dapui.open()
+    dapui.open({ reset = true })
 end
 dap.listeners.before.launch.dapui_config = function()
-    dapui.open()
+    dapui.open({ reset = true })
 end
+
 -- }}}
 
 -- == Formatter ==

@@ -592,3 +592,11 @@ if mymisc#startup#plug_tap('vim-tmux-navigator')
   nnoremap <silent> <M-Right> :<C-U>TmuxNavigateRight<cr>
   nnoremap <silent> <M-l>     :<C-U>TmuxNavigateRight<cr>
 endif
+
+if mymisc#startup#plug_tap('vim-pyenv')
+  augroup vimrc_pyenv
+    autocmd! *
+    autocmd User vim-pyenv-activate-post   let $VIRTUAL_ENV = substitute(system('pyenv prefix'),"\n", "","")
+    autocmd User vim-pyenv-deactivate-post unlet $VIRTUAL_ENV
+  augroup END
+endif
