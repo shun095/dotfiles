@@ -983,6 +983,7 @@ reinstall() {
 }
 
 runtest() {
+    set +e
     echo "STARTING TEST"
 
     if [[ -d $MYDOTFILES/build/neovim ]]; then
@@ -1000,6 +1001,7 @@ runtest() {
     ls -la ~/.config/nvim/
 
     nvim --headless -c "PlenaryBustedDirectory . { init = \"./init.lua\" }"
+
     return_code=$?
     popd
 
