@@ -586,7 +586,44 @@ vim.api.nvim_create_user_command("LSPCodeLensRefresh",
 
 -- == DAP == {{{
 -- === DAP Core ===
-vim.fn.sign_define('DapBreakpoint', { text = '🔴' })
+
+local signs = {
+    DapBreakpoint = {
+        text = "B",
+        texthl = "DiagnosticSignError",
+        linehl = "",
+        numhl = "",
+    },
+    DapBreakpointCondition = {
+        text = "C",
+        texthl = "DiagnosticSignError",
+        linehl = "",
+        numhl = "",
+    },
+    DapBreakpointRejected = {
+        text = "R",
+        texthl = "DiagnosticSignError",
+        linehl = "",
+        numhl = "",
+    },
+    DapLogPoint = {
+        text = "L",
+        texthl = "DiagnosticSignError",
+        linehl = "",
+        numhl = "",
+    },
+    DapStopped = {
+        text = "→",
+        texthl = "DiagnosticSignError",
+        linehl = "debugPC",
+        numhl = "",
+    },
+}
+
+for key, value in pairs(signs) do
+    vim.fn.sign_define(key, value)
+end
+
 require("mason-nvim-dap").setup({
     ensure_installed = {
         "python",
@@ -633,18 +670,34 @@ vim.api.nvim_create_user_command("LuaDebugLaunchServer",
 dap.adapters["pwa-node"] = {
     type = "server",
     host = "localhost",
-    port = "9230",
+    port = "${port}",
     executable = {
         command = "node",
         args = {
             require('mason-registry')
             .get_package('js-debug-adapter')
             :get_install_path() .. "/js-debug/src/dapDebugServer.js",
-            "9230"
+            "${port}"
         },
     }
 }
 dap.configurations.javascript = {
+    {
+        type = 'pwa-node',
+        request = 'launch',
+        name = "Launch file",
+        runtimeExecutable = "deno",
+        runtimeArgs = {
+            "run",
+            "--inspect-wait",
+            "--no-lock",
+            "--allow-all"
+        },
+        program = "${file} --port 32123",
+        cwd = "${workspaceFolder}",
+        attachSimplePort = 9229,
+    },
+
     {
         type = 'pwa-node',
         request = 'attach',
@@ -1573,6 +1626,12 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
                 vim.fn.jobstart { "qlmanage", "-p", path .. '/' .. img } -- Mac OS quick look preview
             end,
         })
+        vim.api.nvim_set_keymap('n', '<Leader>mc', '<Cmd>ObsidianCd<CR><Cmd>ObsidianQuickSwitch<CR>',
+            { silent = true, noremap = true })
+        vim.api.nvim_set_keymap('n', '<Leader>mn', '<Cmd>ObsidianCd<CR><Cmd>ObsidianToday<CR>',
+            { silent = true, noremap = true })
+        vim.api.nvim_set_keymap('n', '<Leader>ml', '<Cmd>ObsidianCd<CR><Cmd>Neotree<CR><Cmd>redraw!<CR>',
+            { silent = true, noremap = true })
     end
 })
 
@@ -1965,11 +2024,11 @@ vim.api.nvim_set_keymap('n', '<Leader>c', ':<Cmd>Telescope find_files<CR>',
     { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>f', ':<Cmd>Telescope git_files<CR>',
     { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search=',
-    { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search=',
+--     { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>l', ':<Cmd>Telescope current_buffer_fuzzy_find<CR>',
     { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope current_buffer_tags<CR>',
+vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope lsp_document_symbols<CR>',
     { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>r', ':<Cmd>Telescope registers<CR>',
     { silent = true, noremap = true })

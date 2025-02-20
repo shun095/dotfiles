@@ -983,13 +983,13 @@ reinstall() {
 }
 
 runtest() {
-    set +e
     echo "STARTING TEST"
 
     if [[ -d $MYDOTFILES/build/neovim ]]; then
         export PATH=$MYDOTFILES/build/neovim/bin:$PATH
     fi
 
+    set +e
     pushd $MYDOTFILES/vim
 
     pwd
@@ -1000,9 +1000,40 @@ runtest() {
     ls -la ~/.config/nvim/
 
     nvim --headless -c "PlenaryBustedDirectory . { init = \"./init.lua\" }"
-
     return_code=$?
     popd
+
+    set -e
+
+    if [[ "$return_code" -ne 0 ]]; then
+        echo "END TEST"
+        echo "TEST FAILED: return_code is not 0"
+        return $return_code
+    fi
+
+    if ! pytest --version; then
+        if [[ ! -d ".venv" ]]; then
+            python -m venv .venv
+        fi
+        source .venv/bin/activate
+        if ! pytest --version; then
+            python -m pip install -r ./requirements_test.txt
+        fi
+    fi
+
+    set +e
+
+    pytest -v
+    return_code=$?
+
+    set -e
+
+    if [[ "$return_code" -ne 0 ]]; then
+        echo "END TEST"
+        echo "TEST FAILED: return_code is not 0"
+        set -e
+        return $return_code
+    fi
 
     echo "END TEST"
     set -e
