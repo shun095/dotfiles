@@ -1694,6 +1694,21 @@ require('render-markdown').setup({
         },
     }
 })
+vim.api.nvim_create_autocmd({ "ModeChanged" }, {
+    group = "init_lua",
+    pattern = '[^ivV\x16]*:[ivV\x16]*',
+    callback = function()
+        vim.cmd('RenderMarkdown disable')
+    end
+})
+vim.api.nvim_create_autocmd({ "ModeChanged" }, {
+    group = "init_lua",
+    pattern = '[ivV\x16]*:[^ivV\x16]*',
+    callback = function()
+        vim.cmd('RenderMarkdown enable')
+    end
+})
+
 
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
