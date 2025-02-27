@@ -709,7 +709,7 @@ elif type cygpath > /dev/null 2>&1; then
     # Do nothing on cygwin
     :
 elif type dnf > /dev/null 2>&1; then
-    ${sudo} dnf update
+    ${sudo} dnf update -y
     ${sudo} dnf install -y ${deps} || true
 elif type yum > /dev/null 2>&1; then
     ${sudo} yum update

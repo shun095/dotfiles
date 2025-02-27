@@ -437,7 +437,6 @@ Plug 'deton/jasegment.vim'
 
 " Applications
 Plug 'glidenote/memolist.vim' ", {'on': ['MemoNew', 'MemoList']}
-Plug 'shun095/obsidian.nvim', { 'branch': 'multibyte-tag-completion'}
 Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 Plug 'freitass/todo.txt-vim'
 

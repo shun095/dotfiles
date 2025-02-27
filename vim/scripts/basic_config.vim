@@ -499,15 +499,16 @@
     " tno <C-w>.     <C-w>
     " tno <C-w><C-w> <C-w>
     " tno <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
-    tno <M-Up>     <c-\><c-n><c-w>k
-    tno <M-Down>   <c-\><c-n><c-w>j
-    tno <M-Right>  <c-\><c-n><c-w>l
-    tno <M-Left>   <c-\><c-n><c-w>h
-    tno <M-k>      <c-\><c-n><c-w>k
-    tno <M-j>      <c-\><c-n><c-w>j
-    tno <M-l>      <c-\><c-n><c-w>l
-    tno <M-h>      <c-\><c-n><c-w>h
-    tno <ESC><ESC> <c-\><c-n>
+    tno <M-Up>           <c-\><c-n><c-w>k
+    tno <M-Down>         <c-\><c-n><c-w>j
+    tno <M-Right>        <c-\><c-n><c-w>l
+    tno <M-Left>         <c-\><c-n><c-w>h
+    tno <M-k>            <c-\><c-n><c-w>k
+    tno <M-j>            <c-\><c-n><c-w>j
+    tno <M-l>            <c-\><c-n><c-w>l
+    tno <M-h>            <c-\><c-n><c-w>h
+    tno <ESC>            <c-\><c-n><Plug>(esc)
+    nno <Plug>(esc)<ESC> i<ESC>
   else
     if has('terminal')
       " tno <C-w><C-w> <C-w>.
@@ -889,8 +890,10 @@
 
     set concealcursor=n
     " \x16はCTRL-Vのこと
-    au ModeChanged [^ivV\x16]*:[ivV\x16]* let g:prev_conceallevel=&conceallevel | setl conceallevel=0
-    au ModeChanged [ivV\x16]*:[^ivV\x16]* let &conceallevel = g:prev_conceallevel 
+    if exists('#ModeChanged')
+      au ModeChanged [^ivV\x16]*:[ivV\x16]* let g:prev_conceallevel=&conceallevel | setl conceallevel=0
+      au ModeChanged [ivV\x16]*:[^ivV\x16]* let &conceallevel = g:prev_conceallevel 
+    endif
 
     " Json
     let g:vim_json_syntax_conceal = 1
@@ -956,7 +959,9 @@
       au TerminalOpen * setl nonumber nolist
       au TerminalOpen * nn <buffer>q :bw<CR>
     else
-      autocmd TermOpen * startinsert
+      if exists('#TermOpen')
+        autocmd TermOpen * startinsert
+      endif
     en
 
     if has('nvim')

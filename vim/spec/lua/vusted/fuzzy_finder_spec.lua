@@ -21,87 +21,77 @@ describe("Fuzzy Finderは", function()
         test_timers = {}
     end)
 
-    it("\"<Space><Space>\"の後\"fuzzyfindertest\"を入力されると、\"test/fuzzyfinder_test.txt\"を見つけて開く", function()
-        table.insert(test_timers, vim.fn.timer_start(500, function()
-            vim.cmd('call feedkeys("fuzzyfindertest", "t")')
-        end, { ["repeat"] = 1 }))
-        table.insert(test_timers, vim.fn.timer_start(1000, function()
-            vim.cmd('call feedkeys("\\<CR>", "t")')
-        end, { ["repeat"] = 1 }))
-        table.insert(test_timers, vim.fn.timer_start(1500, function()
-            vim.cmd('call feedkeys("\\<ESC>", "t")')
-        end, { ["repeat"] = 1 }))
+    local test_cases = {
+        {
+            input = {
+                mapping = '\\<Space>\\<Space>',
+                search = 'fuzzyfindertest'
+            },
+            expected = {
+                filename = 'spec/stubs/fuzzyfinder_test.txt',
+                buffer = { 'This is fuzzyfinder test!' }
+            },
+        },
+        {
+            input = {
+                mapping = '\\<Space>c',
+                search = 'fuzzyfindertest'
+            },
+            expected = {
+                filename = 'spec/stubs/fuzzyfinder_test.txt',
+                buffer = { 'This is fuzzyfinder test!' }
+            },
+        },
+        {
+            input = {
+                mapping = '\\<Space>\\<Space>',
+                search = 'vimtestub'
+            },
+            expected = {
+                filename = vim.fn.fnamemodify('../', ':p') .. 'vimtest/vimteststub.txt',
+                buffer = { 'vimtest stub!' }
+            },
+        },
+        {
+            input = {
+                mapping = '\\<Space>c',
+                search = 'vimtestub'
+            },
+            expected = {
+                filename = '',
+                buffer = { '' }
+            },
+        },
+    }
 
-        vim.cmd('call feedkeys("\\<Space>\\<Space>", "tx!")')
+    for _, case in ipairs(test_cases) do
+        local expected_description = case.expected.filename .. " を見つけて開く"
+        if case.expected.filename == "" then
+            expected_description = "何も開かない"
+        end
 
-        local expected = 'spec/stubs/fuzzyfinder_test.txt'
-        local actual = vim.fn.expand("%")
-        assert.are.same(expected, actual)
+        it(case.input.mapping .. " の後 " .. case.input.search .. " を入力すると " .. expected_description,
+            function()
+                table.insert(test_timers, vim.fn.timer_start(500, function()
+                    vim.cmd('call feedkeys("' .. case.input.search .. '", "t")')
+                end, { ["repeat"] = 1 }))
+                table.insert(test_timers, vim.fn.timer_start(1000, function()
+                    vim.cmd('call feedkeys("\\<CR>", "t")')
+                end, { ["repeat"] = 1 }))
+                table.insert(test_timers, vim.fn.timer_start(1500, function()
+                    vim.cmd('call feedkeys("\\<ESC>", "t")')
+                end, { ["repeat"] = 1 }))
 
-        local expected = { 'This is fuzzyfinder test!' }
-        local actual = vim.fn.getline(0, "$")
-        assert.are.same(expected, actual)
-    end)
+                vim.cmd('call feedkeys("' .. case.input.mapping .. '", "tx!")')
 
-    it("\"<Space><Space>\"の後\"zshrc\"を入力されると、\"zshrc.zsh\"を見つけて開く", function()
-        table.insert(test_timers, vim.fn.timer_start(500, function()
-            vim.cmd('call feedkeys("zshrc", "t")')
-        end, { ["repeat"] = 1 }))
-        table.insert(test_timers, vim.fn.timer_start(1000, function()
-            vim.cmd('call feedkeys("\\<CR>", "t")')
-        end, { ["repeat"] = 1 }))
-        table.insert(test_timers, vim.fn.timer_start(1500, function()
-            vim.cmd('call feedkeys("\\<ESC>", "t")')
-        end, { ["repeat"] = 1 }))
+                local expected_filename = case.expected.filename
+                local actual_filename = vim.fn.expand("%")
+                assert.are.same(expected_filename, actual_filename)
 
-        vim.cmd('call feedkeys("\\<Space>\\<Space>", "tx!")')
+                local expected_buffer = case.expected.buffer
+                local actual_buffer = vim.fn.getline(0, "$")
+                assert.are.same(expected_buffer, actual_buffer)
+            end)
+    end
 
-        local expected = vim.fn.fnamemodify('../', ':p') .. 'zsh/zshrc.zsh'
-        local actual = vim.fn.expand("%")
-        assert.are.same(expected, actual)
-    end)
-
-    it("\"<Space>c\"の後\"fuzzyfindertest\"を入力されると、\"test/fuzzyfinder_test.txt\"を見つけて開く", function()
-        table.insert(test_timers, vim.fn.timer_start(500, function()
-            vim.cmd('call feedkeys("fuzzyfindertest", "t")')
-        end, { ["repeat"] = 1 }))
-        table.insert(test_timers, vim.fn.timer_start(1000, function()
-            vim.cmd('call feedkeys("\\<CR>", "t")')
-        end, { ["repeat"] = 1 }))
-        table.insert(test_timers, vim.fn.timer_start(1500, function()
-            vim.cmd('call feedkeys("\\<ESC>", "t")')
-        end, { ["repeat"] = 1 }))
-
-        vim.cmd('call feedkeys("\\<Space>c", "tx!")')
-
-        local expected = 'spec/stubs/fuzzyfinder_test.txt'
-        local actual = vim.fn.expand("%")
-        assert.are.same(expected, actual)
-
-        local expected = { 'This is fuzzyfinder test!' }
-        local actual = vim.fn.getline(0, "$")
-        assert.are.same(expected, actual)
-    end)
-
-    it("\"<Space>c\"の後\"zshrc\"を入力されると、何も開かない", function()
-        table.insert(test_timers, vim.fn.timer_start(500, function()
-            vim.cmd('call feedkeys("zshrc", "t")')
-        end, { ["repeat"] = 1 }))
-        table.insert(test_timers, vim.fn.timer_start(1000, function()
-            vim.cmd('call feedkeys("\\<CR>", "t")')
-        end, { ["repeat"] = 1 }))
-        table.insert(test_timers, vim.fn.timer_start(1500, function()
-            vim.cmd('call feedkeys("\\<ESC>", "t")')
-        end, { ["repeat"] = 1 }))
-
-        vim.cmd('call feedkeys("\\<Space>c", "tx!")')
-
-        local expected = ''
-        local actual = vim.fn.expand("%")
-        assert.are.same(expected, actual)
-
-        local expected = { '' }
-        local actual = vim.fn.getline(0, "$")
-        assert.are.same(expected, actual)
-    end)
 end)

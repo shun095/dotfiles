@@ -5,11 +5,6 @@ fun! mymisc#config#fzf#setup() abort
     let $FZF_DEFAULT_COMMAND = substitute(g:ctrlp_user_command,'%s','.','g')
   endif
 
-  " for GVIM
-  if !exists('$FZF_DEFAULT_OPTS')
-    let $FZF_DEFAULT_OPTS="--reverse --preview \"cat {}\" --preview-window=right:50% --bind=?:toggle-preview"
-  endif
-
   nno <Leader><Leader> :<C-u>execute ":Files " . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>
   nno <Leader>T        :<C-u>Tags<CR>
   nno <Leader>al       :<C-u>Lines<CR>
@@ -27,14 +22,14 @@ fun! mymisc#config#fzf#setup() abort
         \ call fzf#vim#grep(
         \   substitute(&grepprg, '\$\*', '', 'g' ).' --color=always '.shellescape(<q-args>).' .', 0,
         \   <bang>0 ? fzf#vim#with_preview('up:60%')
-        \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+        \           : fzf#vim#with_preview('right:50%:hidden', 'ctrl-/'),
         \   <bang>0)
 
   com! -bang -nargs=* Rg
         \ call fzf#vim#grep(
         \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 0,
         \   <bang>0 ? fzf#vim#with_preview('up:60%')
-        \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+        \           : fzf#vim#with_preview('right:50%:hidden', 'ctrl-/'),
         \   <bang>0)
 
   com! -bang -nargs=* GGrep
@@ -42,18 +37,22 @@ fun! mymisc#config#fzf#setup() abort
         \   'git grep --line-number '.shellescape(<q-args>), 0,
         \   extend({ 'dir': systemlist('git rev-parse --show-toplevel')[0] },
         \          <bang>0 ? fzf#vim#with_preview('up:60%')
-        \                  : fzf#vim#with_preview('right:50%:hidden', '?')),
+        \                  : fzf#vim#with_preview('right:50%:hidden', 'ctrl-/')),
         \   <bang>0)
 
   exe "com! Dotfiles :FZF " . $MYDOTFILES
   " vimのpopup windowは行番号が消えたり、GGrepに失敗(Gitリポジトリ外で実行するなど)
   " した場合に表示が壊れたり不安定
-  " let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.9 }}
-  if exists('$TMUX')
-    let g:fzf_layout = { 'tmux': 'bottom,50%' }
+  if has('nvim')
+    let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.9 }}
   else
+  " tmuxを使うとテストができない
+  " if exists('$TMUX')
+  "   let g:fzf_layout = { 'tmux': 'bottom,50%' }
+  " else
     let g:fzf_layout = { 'window': 'botright 20new' }
   endif
+  " endif
 
   if has('nvim')
     aug vimrc_fzf
@@ -61,6 +60,8 @@ fun! mymisc#config#fzf#setup() abort
       if exists(':IndentLinesDisable')
         au FileType fzf IndentLinesDisable
       endif
+      au FileType fzf setl nonumber norelativenumber
+      au FileType fzf nno <buffer> <ESC> i<ESC>
     aug END
   endif
 endf

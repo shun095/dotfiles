@@ -189,7 +189,7 @@ end
 ---Find color from colorscheme color palette
 ---@param hex string hex color to find nearest
 ---@return string|nil nearest_hex nearest hex color in color palette
-local function find_palette_color(hex)
+function FindPaletteColor(hex)
     -- iceberg palette
     local palette = {
         "#392313", "#53343b", "#e98989",
@@ -243,11 +243,11 @@ local function set_hl_palette_color(hlgroup)
     end
     if hl.fg then
         local hex = string.format("#%06X", hl.fg)
-        hl.fg = find_palette_color(hex)
+        hl.fg = FindPaletteColor(hex)
     end
     if hl.bg then
         local hex = string.format("#%06X", hl.bg)
-        hl.bg = find_palette_color(hex)
+        hl.bg = FindPaletteColor(hex)
     end
     hl.force = true
     vim.api.nvim_set_hl(0, hlgroup, hl)
@@ -260,7 +260,90 @@ end
 -- end
 -- nvim_web_devicons.set_icon(devicons)
 
+-- HTML特殊文字を通常の文字に変換する関数
+local function decode_html_entities(input)
+    -- HTML特殊文字（名前付きエンティティ）とその対応する文字を定義
+    local entities = {
+        ["&lt;"] = "<",
+        ["&gt;"] = ">",
+        ["&amp;"] = "&",
+        ["&quot;"] = "\"",
+        ["&apos;"] = "'",
+        ["&nbsp;"] = " ",
+        ["&copy;"] = "©",
+        ["&reg;"] = "®",
+        -- 必要に応じて他の特殊文字を追加できます
+    }
 
+    -- 文字列中の名前付きエンティティを変換
+    input = input:gsub("&[a-zA-Z0-9#]+;", function(entity)
+        return entities[entity] or entity
+    end)
+
+    -- 数字指定エンティティ（&#number;または&#xHexNumber;）を変換
+    input = input:gsub("&#x?([0-9a-fA-F]+);", function(entity)
+        local num
+        -- 16進数か10進数かを判定
+        if entity:sub(1, 1) == "x" then
+            num = tonumber(entity:sub(2), 16) -- 16進数として解釈
+        else
+            num = tonumber(entity)            -- 10進数として解釈
+        end
+
+        if num then
+            return string.char(num)      -- 文字に変換
+        else
+            return "&#" .. entity .. ";" -- 変換できなければそのまま
+        end
+    end)
+
+    return input
+end
+
+
+local function get_url_title(url)
+    local handle = io.popen("curl -s -L " .. url .. " | grep -o '<title>.*</title>'")
+    if not handle then
+        vim.notify("Failed to execute curl command", vim.log.levels.ERROR)
+        return nil
+    end
+
+    local title = handle:read("*a")
+    handle:close()
+
+    title = string.gsub(title, "</?title>", "")
+    if not title or title == "" then
+        vim.notify("Failed to fetch title from URL: " .. url, vim.log.levels.WARN)
+        return nil
+    end
+
+    title = decode_html_entities(title)
+
+    return title:gsub("\n.*", ""):gsub("^%s*(.-)%s*$", "%1")
+end
+
+local function replace_url_with_markdown()
+    local line = vim.api.nvim_get_current_line()
+    local url_pattern = "(https?://[%w%%-_%.%?%.:/&=#+~]+)"
+
+    local start_idx, end_idx, url = string.find(line, url_pattern)
+    if not start_idx or not url then
+        vim.notify("No URL found on this line", vim.log.levels.WARN)
+        return
+    end
+
+    local title = get_url_title(url)
+    if not title then
+        return
+    end
+
+    local new_line = string.sub(line, 1, start_idx - 1) ..
+        "[" .. title .. "](" .. url .. ")" .. string.sub(line, end_idx + 1)
+    vim.api.nvim_set_current_line(new_line)
+    vim.notify("URL replaced with markdown link", vim.log.levels.INFO)
+end
+
+vim.api.nvim_create_user_command('ConvertUrlToMarkdown', replace_url_with_markdown, {})
 
 ------------------------------------------------------------------------------
 -- }}}
@@ -282,10 +365,7 @@ require("mason").setup({
 
 -- == LSP == {{{
 -- === LSP Core ===
--- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-require("neodev").setup({
-    library = { plugins = { "nvim-dap-ui" }, types = true },
-})
+
 -- for breadclumb
 require('lspsaga').setup({
     lightbulb = {
@@ -837,7 +917,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 
         -- vim.api.nvim_set_hl(0, "CmpItemAbbrDefault", { link = "PmenuSel", force = true})
         vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated",
-            { fg = find_palette_color("#7E8294"), bg = "NONE", strikethrough = true })
+            { fg = FindPaletteColor("#7E8294"), bg = "NONE", strikethrough = true })
         vim.api.nvim_set_hl(0, "CmpItemAbbrMatch",
             { fg = "#91acd1", bold = true })
         vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy",
@@ -845,55 +925,55 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
         vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#6b7089" })
 
         vim.api.nvim_set_hl(0, "CmpItemKindField",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#B5585F") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#B5585F") })
         vim.api.nvim_set_hl(0, "CmpItemKindProperty",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#B5585F") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#B5585F") })
         vim.api.nvim_set_hl(0, "CmpItemKindEvent",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#B5585F") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#B5585F") })
         vim.api.nvim_set_hl(0, "CmpItemKindText",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#9FBD73") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#9FBD73") })
         vim.api.nvim_set_hl(0, "CmpItemKindEnum",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#9FBD73") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#9FBD73") })
         vim.api.nvim_set_hl(0, "CmpItemKindKeyword",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#9FBD73") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#9FBD73") })
         vim.api.nvim_set_hl(0, "CmpItemKindConstant",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4BB6C") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4BB6C") })
         vim.api.nvim_set_hl(0, "CmpItemKindConstructor",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4BB6C") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4BB6C") })
         vim.api.nvim_set_hl(0, "CmpItemKindReference",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4BB6C") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4BB6C") })
         vim.api.nvim_set_hl(0, "CmpItemKindFunction",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindStruct",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindClass",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindModule",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindOperator",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindVariable",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#7E8294") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#7E8294") })
         vim.api.nvim_set_hl(0, "CmpItemKindFile",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#7E8294") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#7E8294") })
         vim.api.nvim_set_hl(0, "CmpItemKindUnit",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4A959") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4A959") })
         vim.api.nvim_set_hl(0, "CmpItemKindSnippet",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4A959") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4A959") })
         vim.api.nvim_set_hl(0, "CmpItemKindFolder",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4A959") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4A959") })
         vim.api.nvim_set_hl(0, "CmpItemKindMethod",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#6C8ED4") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#6C8ED4") })
         vim.api.nvim_set_hl(0, "CmpItemKindValue",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#6C8ED4") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#6C8ED4") })
         vim.api.nvim_set_hl(0, "CmpItemKindEnumMember",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#6C8ED4") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#6C8ED4") })
         vim.api.nvim_set_hl(0, "CmpItemKindInterface",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#58B5A8") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#58B5A8") })
         vim.api.nvim_set_hl(0, "CmpItemKindColor",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#58B5A8") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#58B5A8") })
         vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#58B5A8") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#58B5A8") })
     end
 })
 
@@ -1462,7 +1542,7 @@ require("scrollbar.handlers.search").setup({
 })
 require('colorizer').setup()
 require('hlargs').setup({
-    color = find_palette_color('#ef9062')
+    color = FindPaletteColor('#ef9062')
 })
 
 
@@ -1497,150 +1577,6 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 ------------------------------------------------------------------------------
 -- SECTION: LANGUAGE SPECIFIC SETUP {{{
 ------------------------------------------------------------------------------
-local function obsidian_create_uid()
-    return tostring(os.date("%Y%m%dT%H%M%S%z", os.time()))
-end
-
-local function obsidian_note_id_func(title)
-    local id = ""
-    if title ~= nil then
-        id = title:gsub("[\\/:*?\"<>|.]", "-")
-        if id ~= "" then
-            return id
-        end
-    end
-
-    id = obsidian_create_uid()
-    return id
-end
-
-vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-    group = "init_lua",
-    pattern = '*',
-    callback = function()
-        if vim.fn.executable("mkdir") == 1 then
-            vim.fn.system({
-                'mkdir',
-                '-p',
-                vim.fn.expand('~/Documents/Obsidian/Personal'),
-            })
-        end
-        require("obsidian").setup({
-            ui = {
-                enable = false,
-                hl_groups = {
-                    ObsidianTodo          = { bold = true, fg = find_palette_color("#f78c6c") },
-                    ObsidianDone          = { bold = true, fg = find_palette_color("#89ddff") },
-                    ObsidianRightArrow    = { bold = true, fg = find_palette_color("#f78c6c") },
-                    ObsidianTilde         = { bold = true, fg = find_palette_color("#ff5370") },
-                    ObsidianImportant     = { bold = true, fg = find_palette_color("#d73128") },
-                    ObsidianBullet        = { bold = true, fg = find_palette_color("#89ddff") },
-                    ObsidianRefText       = { underline = true, fg = find_palette_color("#c792ea") },
-                    ObsidianExtLinkIcon   = { fg = find_palette_color("#c792ea") },
-                    ObsidianTag           = { italic = true, fg = find_palette_color("#89ddff") },
-                    ObsidianBlockID       = { italic = true, fg = find_palette_color("#89ddff") },
-                    ObsidianHighlightText = { bg = find_palette_color("#75662e") },
-                }
-            },
-            workspaces = {
-                {
-                    name = "work",
-                    path = "~/Documents/Obsidian",
-                    strict = true,
-                },
-                {
-                    name = "personal",
-                    path = "~/Documents/Obsidian/Personal",
-                    strict = true,
-                },
-            },
-            completion = {
-                -- Set to false to disable completion.
-                nvim_cmp = true,
-                -- Trigger completion at 2 chars.
-                min_chars = 0,
-            },
-            note_id_func = obsidian_note_id_func,
-            note_path_func = function(spec)
-                -- This is equivalent to the default behavior.
-                local path = spec.dir / tostring(spec.title)
-                return path:with_suffix(".md")
-            end,
-            note_frontmatter_func = function(note)
-                local out = {}
-
-                if note.id == nil then
-                    out.id = obsidian_create_uid()
-                else
-                    out.id = note.id
-                end
-
-                out.id = out.id
-                out.aliases = note.aliases
-                out.tags = note.tags
-                out.datetime = os.date("%Y-%m-%dT%H:%M:%S", os.time())
-
-                if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-                    for k, v in pairs(note.metadata) do
-                        out[k] = v
-                    end
-                end
-
-                return out
-            end,
-            callbacks = {
-                pre_write_note = function(client, note)
-                    if string.match(note.id, "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9][+][0-9][0-9][0-9][0-9]") then
-                        note.id = obsidian_note_id_func(note.title)
-                    end
-                end,
-                -- post_set_workspace = function(client, workspace)
-                --     -- if vim.v.vim_did_enter == 1 then
-                --     client.log.info("Changing directory to %s", workspace.path)
-                --     vim.cmd.cd(tostring(workspace.path))
-                --     -- end
-                -- end,
-            },
-            templates = {
-                folder = "templates",
-                date_format = "%Y-%m-%d",
-                time_format = "%H:%M",
-                substitutions = {
-                    ["date:YYYYMMDDTHHmmssZZ"] = function()
-                        return os.date("%Y%m%dT%H%M%S%z", os.time())
-                    end,
-                    ["date:YYYY-MM-DDTHH:mm:ss"] = function()
-                        return os.date("%Y-%m-%dT%H:%M:%S", os.time())
-                    end,
-                },
-            },
-            daily_notes = {
-                folder = "daily-notes",
-                date_format = "%Y-%m-%d",
-                default_tags = { "daily-notes" },
-                template = "templates/DailyNotesTemplate.md",
-            },
-            follow_url_func = function(url)
-                vim.fn.jobstart({ "open", url }) -- Mac OS
-            end,
-            follow_img_func = function(img)
-                local path = vim.fn.expand('%:p:h')
-                vim.fn.jobstart { "qlmanage", "-p", path .. '/' .. img } -- Mac OS quick look preview
-            end,
-        })
-        vim.api.nvim_set_keymap('n', '<Leader>mc', '<Cmd>ObsidianCd<CR><Cmd>ObsidianQuickSwitch<CR>',
-            { silent = true, noremap = true })
-        vim.api.nvim_set_keymap('n', '<Leader>mn', '<Cmd>ObsidianCd<CR><Cmd>ObsidianToday<CR>',
-            { silent = true, noremap = true })
-        vim.api.nvim_set_keymap('n', '<Leader>ml', '<Cmd>ObsidianCd<CR><Cmd>Neotree<CR><Cmd>redraw!<CR>',
-            { silent = true, noremap = true })
-    end
-})
-
-vim.api.nvim_create_user_command("ObsidianCd",
-    "exec 'tcd ' . luaeval(\"require('obsidian').get_client().current_workspace.path.filename\")",
-    {}
-)
 require('render-markdown').setup({
     preset = 'obsidian',
     anti_conceal = {
@@ -1649,11 +1585,9 @@ require('render-markdown').setup({
     checkbox = {
         unchecked = {
             icon = "󰄱",
-            -- highlight = "ObsidianTodo",
         },
         checked = {
             icon = "",
-            -- highlight = "ObsidianDone",
         },
         custom = {
             right_arrow = {
@@ -2002,6 +1936,9 @@ require('telescope').setup {
         winblend = 0,
         dynamic_preview_title = true,
         sorting_strategy = "ascending",
+        preview = {
+            check_mime_type = false
+        }
     },
     extensions = {
         ["fzf"] = {
@@ -2026,33 +1963,33 @@ require("telescope").load_extension("noice")
 require('telescope').load_extension('telescope-tabs')
 require('telescope-tabs').setup()
 
-vim.api.nvim_set_keymap('n', '<Leader><Leader>',
-    ':<Cmd>execute "Telescope git_files cwd=" . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>T', ':<Cmd>Telescope tags<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>al', ':<Cmd>Telescope grep_string    search=<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>b', ':<Cmd>Telescope buffers sort_lastused=true show_all_buffers=false<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader><C-t>', ':<Cmd>Telescope telescope-tabs list_tabs<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>c', ':<Cmd>Telescope find_files<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>f', ':<Cmd>Telescope git_files<CR>',
-    { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search=',
+-- vim.api.nvim_set_keymap('n', '<Leader><Leader>',
+--     ':<Cmd>execute "Telescope git_files cwd=" . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>',
 --     { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>l', ':<Cmd>Telescope current_buffer_fuzzy_find<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope lsp_document_symbols<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>r', ':<Cmd>Telescope registers<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>u', ':<Cmd>Telescope oldfiles<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>`', ':<Cmd>Telescope marks<CR>',
-    { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>T', ':<Cmd>Telescope tags<CR>',
+--     { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>al', ':<Cmd>Telescope grep_string    search=<CR>',
+--     { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>b', ':<Cmd>Telescope buffers sort_lastused=true show_all_buffers=false<CR>',
+--     { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader><C-t>', ':<Cmd>Telescope telescope-tabs list_tabs<CR>',
+--     { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>c', ':<Cmd>Telescope find_files<CR>',
+--     { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>f', ':<Cmd>Telescope git_files<CR>',
+--     { silent = true, noremap = true })
+-- -- vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search=',
+-- --     { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>l', ':<Cmd>Telescope current_buffer_fuzzy_find<CR>',
+--     { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope lsp_document_symbols<CR>',
+--     { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>r', ':<Cmd>Telescope registers<CR>',
+--     { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>u', ':<Cmd>Telescope oldfiles<CR>',
+--     { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>`', ':<Cmd>Telescope marks<CR>',
+--     { silent = true, noremap = true })
 
 
 vim.keymap.set("n", "<C-a>", function()
