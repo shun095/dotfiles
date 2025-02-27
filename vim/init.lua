@@ -345,6 +345,42 @@ end
 
 vim.api.nvim_create_user_command('ConvertUrlToMarkdown', replace_url_with_markdown, {})
 
+local function open_in_popup(cmd)
+    local buf = vim.api.nvim_create_buf(false, true)
+    local width = math.floor(vim.o.columns * 0.9)
+    local height = math.floor(vim.o.lines * 0.9)
+    local row = math.floor((vim.o.lines - height) / 2)
+    local col = math.floor((vim.o.columns - width) / 2)
+
+    local cwd = vim.fn["mymisc#find_project_dir"](vim.g.mymisc_projectdir_reference_files)
+
+    local win = vim.api.nvim_open_win(buf, true, {
+        relative = 'editor',
+        width = width,
+        height = height,
+        row = row,
+        col = col,
+        style = 'minimal',
+        border = 'rounded',
+    })
+
+    vim.fn.termopen(cmd, {
+        cwd = cwd,
+        on_exit = function()
+            vim.api.nvim_win_close(win, true)
+        end
+    })
+
+    vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<Cmd>close<CR>', { noremap = true, silent = true })
+    vim.cmd('startinsert')
+end
+
+vim.api.nvim_create_user_command('Tig', function()
+    open_in_popup("tig")
+end, {})
+vim.api.nvim_create_user_command('Htop', function()
+    open_in_popup("htop")
+end, {})
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -377,80 +413,80 @@ require("mason-lspconfig").setup({
     ensure_installed = {
         "denols",
         "lua_ls",
+    },
+    handlers = {
+        function(server_name) -- default handler (optional)
+            require("lspconfig")[server_name].setup {
+                capabilities = capabilities
+            }
+        end,
+        jdtls = function() end,
+        pylsp = function()
+            require("lspconfig").pylsp.setup {
+                settings = {
+                    pylsp = {
+                        plugins = {
+                            pycodestyle = {
+                                maxLineLength = 120
+                            }
+                        }
+                    }
+                }
+            }
+        end,
+        lua_ls = function()
+            require("lspconfig").lua_ls.setup {
+                settings = {
+                    Lua = {
+                        telemetry = {
+                            enable = false,
+                        },
+                        capabilities = capabilities,
+                        hint = {
+                            arrayIndex     = "Enable",
+                            await          = true,
+                            awaitPropagate = true,
+                            enable         = true,
+                            paramName      = "All",
+                            paramType      = true,
+                            semicolon      = "SameLine",
+                            setType        = true,
+                        },
+                        completion = {
+                            callSnippet = "Replace"
+                        },
+                    },
+                },
+            }
+        end,
+        denols = function()
+            require("lspconfig").denols.setup {
+                settings = {
+                    deno = {
+                        inlayHints = {
+                            enumMemberValues = { enabled = true },
+                            functionLikeReturnTypes = { enabled = true },
+                            parameterNames = {
+                                enabled                         = "all",
+                                suppressWhenArgumentMatchesName = false
+                            },
+                            parameterTypes = {
+                                enabled = true
+                            },
+                            propertyDeclarationTypes = {
+                                enabled = true
+                            },
+                            variableTypes = {
+                                enabled                     = true,
+                                suppressWhenTypeMatchesName = false
+                            }
+                        }
+                    }
+                }
+            }
+        end
     }
 })
-require("mason-lspconfig").setup_handlers {
-    function(server_name) -- default handler (optional)
-        require("lspconfig")[server_name].setup {
-            capabilities = capabilities
-        }
-    end,
-    jdtls = function() end,
-    pylsp = function()
-        require("lspconfig").pylsp.setup {
-            settings = {
-                pylsp = {
-                    plugins = {
-                        pycodestyle = {
-                            maxLineLength = 120
-                        }
-                    }
-                }
-            }
-        }
-    end,
-    lua_ls = function()
-        require("lspconfig").lua_ls.setup {
-            settings = {
-                Lua = {
-                    telemetry = {
-                        enable = false,
-                    },
-                    capabilities = capabilities,
-                    hint = {
-                        arrayIndex     = "Enable",
-                        await          = true,
-                        awaitPropagate = true,
-                        enable         = true,
-                        paramName      = "All",
-                        paramType      = true,
-                        semicolon      = "SameLine",
-                        setType        = true,
-                    },
-                    completion = {
-                        callSnippet = "Replace"
-                    }
-                },
-            },
-        }
-    end,
-    denols = function()
-        require("lspconfig").denols.setup {
-            settings = {
-                deno = {
-                    inlayHints = {
-                        enumMemberValues = { enabled = true },
-                        functionLikeReturnTypes = { enabled = true },
-                        parameterNames = {
-                            enabled                         = "all",
-                            suppressWhenArgumentMatchesName = false
-                        },
-                        parameterTypes = {
-                            enabled = true
-                        },
-                        propertyDeclarationTypes = {
-                            enabled = true
-                        },
-                        variableTypes = {
-                            enabled                     = true,
-                            suppressWhenTypeMatchesName = false
-                        }
-                    }
-                }
-            }
-        }
-    end
-}
 
 
 -- === LSP UI ===
@@ -1963,33 +1999,33 @@ require("telescope").load_extension("noice")
 require('telescope').load_extension('telescope-tabs')
 require('telescope-tabs').setup()
 
--- vim.api.nvim_set_keymap('n', '<Leader><Leader>',
---     ':<Cmd>execute "Telescope git_files cwd=" . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>',
+vim.api.nvim_set_keymap('n', '<Leader><Leader>',
+    ':<Cmd>execute "Telescope git_files cwd=" . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>T', ':<Cmd>Telescope tags<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>al', ':<Cmd>Telescope grep_string    search=<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>b', ':<Cmd>Telescope buffers sort_lastused=true show_all_buffers=false<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader><C-t>', ':<Cmd>Telescope telescope-tabs list_tabs<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>c', ':<Cmd>Telescope find_files<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>f', ':<Cmd>Telescope git_files<CR>',
+    { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search=',
 --     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>T', ':<Cmd>Telescope tags<CR>',
---     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>al', ':<Cmd>Telescope grep_string    search=<CR>',
---     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>b', ':<Cmd>Telescope buffers sort_lastused=true show_all_buffers=false<CR>',
---     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader><C-t>', ':<Cmd>Telescope telescope-tabs list_tabs<CR>',
---     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>c', ':<Cmd>Telescope find_files<CR>',
---     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>f', ':<Cmd>Telescope git_files<CR>',
---     { silent = true, noremap = true })
--- -- vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search=',
--- --     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>l', ':<Cmd>Telescope current_buffer_fuzzy_find<CR>',
---     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope lsp_document_symbols<CR>',
---     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>r', ':<Cmd>Telescope registers<CR>',
---     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>u', ':<Cmd>Telescope oldfiles<CR>',
---     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>`', ':<Cmd>Telescope marks<CR>',
---     { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>l', ':<Cmd>Telescope current_buffer_fuzzy_find<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope lsp_document_symbols<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>r', ':<Cmd>Telescope registers<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>u', ':<Cmd>Telescope oldfiles<CR>',
+    { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>`', ':<Cmd>Telescope marks<CR>',
+    { silent = true, noremap = true })
 
 
 vim.keymap.set("n", "<C-a>", function()

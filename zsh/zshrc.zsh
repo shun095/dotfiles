@@ -341,7 +341,6 @@ fi
 alias dir="dir --group-directories-first --color=auto"
 if type pygmentize > /dev/null 2>&1; then
     alias pyg="pygmentize -O style=monokai -f 256 -g"
-    alias ccat="pyg"
 fi
 
 if type highlight > /dev/null 2>&1; then
