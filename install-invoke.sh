@@ -1000,6 +1000,8 @@ runtest() {
     echo "ls -la ~/.config/nvim/"
     ls -la ~/.config/nvim/
 
+    echo "Starting nvim test"
+
     nvim --headless -c "PlenaryBustedDirectory . { init = \"./init.lua\" }"
 
     return_code=$?
@@ -1012,6 +1014,8 @@ runtest() {
         echo "TEST FAILED: return_code is not 0"
         return $return_code
     fi
+
+    echo "Starting pytest"
 
     if ! pytest --version; then
         if [[ ! -d ".venv" ]]; then
