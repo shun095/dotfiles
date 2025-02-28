@@ -391,12 +391,6 @@ end, {})
 
 -- == Global setup. == {{{
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-require("mason").setup({
-    ui = {
-        border = "rounded"
-    }
-})
 -- }}}
 
 -- == LSP == {{{
@@ -408,86 +402,6 @@ require('lspsaga').setup({
         enable = false,
     }
 })
-
-require("mason-lspconfig").setup({
-    ensure_installed = {
-        "denols",
-        "lua_ls",
-    },
-    handlers = {
-        function(server_name) -- default handler (optional)
-            require("lspconfig")[server_name].setup {
-                capabilities = capabilities
-            }
-        end,
-        jdtls = function() end,
-        pylsp = function()
-            require("lspconfig").pylsp.setup {
-                settings = {
-                    pylsp = {
-                        plugins = {
-                            pycodestyle = {
-                                maxLineLength = 120
-                            }
-                        }
-                    }
-                }
-            }
-        end,
-        lua_ls = function()
-            require("lspconfig").lua_ls.setup {
-                settings = {
-                    Lua = {
-                        telemetry = {
-                            enable = false,
-                        },
-                        capabilities = capabilities,
-                        hint = {
-                            arrayIndex     = "Enable",
-                            await          = true,
-                            awaitPropagate = true,
-                            enable         = true,
-                            paramName      = "All",
-                            paramType      = true,
-                            semicolon      = "SameLine",
-                            setType        = true,
-                        },
-                        completion = {
-                            callSnippet = "Replace"
-                        },
-                    },
-                },
-            }
-        end,
-        denols = function()
-            require("lspconfig").denols.setup {
-                settings = {
-                    deno = {
-                        inlayHints = {
-                            enumMemberValues = { enabled = true },
-                            functionLikeReturnTypes = { enabled = true },
-                            parameterNames = {
-                                enabled                         = "all",
-                                suppressWhenArgumentMatchesName = false
-                            },
-                            parameterTypes = {
-                                enabled = true
-                            },
-                            propertyDeclarationTypes = {
-                                enabled = true
-                            },
-                            variableTypes = {
-                                enabled                     = true,
-                                suppressWhenTypeMatchesName = false
-                            }
-                        }
-                    }
-                }
-            }
-        end
-    }
-})
-
 
 -- === LSP UI ===
 require("nvim-lightbulb").setup({
@@ -1477,13 +1391,13 @@ require("bufferline").setup {
         offsets = {
             {
                 filetype = "fern",
-                text = "File Explorer",
+                text = "Fern",
                 highlight = "Directory",
                 separator = true -- use a "true" to enable the default, or set your own character
             },
             {
                 filetype = "neo-tree",
-                text = "File Explorer",
+                text = "Neo Tree",
                 highlight = "Directory",
                 separator = true -- use a "true" to enable the default, or set your own character
             }
@@ -2014,8 +1928,8 @@ vim.api.nvim_set_keymap('n', '<Leader>c', ':<Cmd>Telescope find_files<CR>',
     { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>f', ':<Cmd>Telescope git_files<CR>',
     { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search=',
---     { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search=',
+    { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>l', ':<Cmd>Telescope current_buffer_fuzzy_find<CR>',
     { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope lsp_document_symbols<CR>',
