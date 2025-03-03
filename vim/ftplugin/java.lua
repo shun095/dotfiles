@@ -93,9 +93,20 @@ local config = {
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 require("inlay-hints").setup()
-require('jdtls').start_or_attach(config)
+require("jdtls").start_or_attach(config)
 
-vim.cmd('com! -buffer JdtTestMethod lua require("jdtls").test_class()')
-vim.cmd('com! -buffer JdtTestClass  lua require("jdtls").test_nearest_method()')
-vim.cmd('com! -buffer JdtTestGotoSubjects lua require("jdtls.tests").goto_subjects()')
-vim.cmd('com! -buffer JdtTestGenerate lua require("jdtls").generate()')
+vim.api.nvim_buf_create_user_command(0, "JdtTestMethod",
+    "lua require(\"jdtls\").test_nearest_method()",
+    {})
+vim.api.nvim_buf_create_user_command(0, "JdtTestClass",
+    "lua require(\"jdtls\").test_class()",
+    {})
+vim.api.nvim_buf_create_user_command(0, "JdtPickTest",
+    "lua require(\"jdtls\").pick_test()",
+    {})
+vim.api.nvim_buf_create_user_command(0, "JdtTestGotoSubjects",
+    "lua require(\"jdtls.tests\").goto_subjects()",
+    {})
+vim.api.nvim_buf_create_user_command(0, "JdtTestGenerate",
+    "lua require(\"jdtls\").generate()",
+    {})

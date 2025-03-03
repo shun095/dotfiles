@@ -57,7 +57,13 @@ require("lazy").setup({
             dir = vim.env.MYVIMHOME,
         },
         {
+            dir = vim.env.HOME .. "/Documents/dev/my-ai-plugin",
+        },
+        {
             import = "plugins",
+        },
+        {
+            import = "local_plugins",
         },
     },
     install     = {
@@ -85,6 +91,10 @@ require("lazy").setup({
 ------------------------------------------------------------------------------
 -- SECTION: UTIL FUNCTIONS {{{
 ------------------------------------------------------------------------------
+
+function HelloWorld()
+    vim.print("Hello world.")
+end
 
 ---Convert hex color to RGB
 ---@param hex any
@@ -185,7 +195,7 @@ end
 ---Find color from colorscheme color palette
 ---@param hex string hex color to find nearest
 ---@return string|nil nearest_hex nearest hex color in color palette
-local function find_palette_color(hex)
+function FindPaletteColor(hex)
     -- iceberg palette
     local palette = {
         "#392313", "#53343b", "#e98989",
@@ -239,11 +249,11 @@ local function set_hl_palette_color(hlgroup)
     end
     if hl.fg then
         local hex = string.format("#%06X", hl.fg)
-        hl.fg = find_palette_color(hex)
+        hl.fg = FindPaletteColor(hex)
     end
     if hl.bg then
         local hex = string.format("#%06X", hl.bg)
-        hl.bg = find_palette_color(hex)
+        hl.bg = FindPaletteColor(hex)
     end
     hl.force = true
     vim.api.nvim_set_hl(0, hlgroup, hl)
@@ -256,8 +266,127 @@ end
 -- end
 -- nvim_web_devicons.set_icon(devicons)
 
+-- HTML特殊文字を通常の文字に変換する関数
+local function decode_html_entities(input)
+    -- HTML特殊文字（名前付きエンティティ）とその対応する文字を定義
+    local entities = {
+        ["&lt;"] = "<",
+        ["&gt;"] = ">",
+        ["&amp;"] = "&",
+        ["&quot;"] = "\"",
+        ["&apos;"] = "'",
+        ["&nbsp;"] = " ",
+        ["&copy;"] = "©",
+        ["&reg;"] = "®",
+        -- 必要に応じて他の特殊文字を追加できます
+    }
+
+    -- 文字列中の名前付きエンティティを変換
+    input = input:gsub("&[a-zA-Z0-9#]+;", function(entity)
+        return entities[entity] or entity
+    end)
+
+    -- 数字指定エンティティ（&#number;または&#xHexNumber;）を変換
+    input = input:gsub("&#x?([0-9a-fA-F]+);", function(entity)
+        local num
+        -- 16進数か10進数かを判定
+        if entity:sub(1, 1) == "x" then
+            num = tonumber(entity:sub(2), 16) -- 16進数として解釈
+        else
+            num = tonumber(entity)            -- 10進数として解釈
+        end
+
+        if num then
+            return string.char(num)      -- 文字に変換
+        else
+            return "&#" .. entity .. ";" -- 変換できなければそのまま
+        end
+    end)
+
+    return input
+end
 
 
+local function get_url_title(url)
+    local handle = io.popen("curl -s -L " .. url .. " | grep -o '<title>.*</title>'")
+    if not handle then
+        vim.notify("Failed to execute curl command", vim.log.levels.ERROR)
+        return nil
+    end
+
+    local title = handle:read("*a")
+    handle:close()
+
+    title = string.gsub(title, "</?title>", "")
+    if not title or title == "" then
+        vim.notify("Failed to fetch title from URL: " .. url, vim.log.levels.WARN)
+        return nil
+    end
+
+    title = decode_html_entities(title)
+
+    return title:gsub("\n.*", ""):gsub("^%s*(.-)%s*$", "%1")
+end
+
+local function replace_url_with_markdown()
+    local line = vim.api.nvim_get_current_line()
+    local url_pattern = "(https?://[%w%%-_%.%?%.:/&=#+~]+)"
+
+    local start_idx, end_idx, url = string.find(line, url_pattern)
+    if not start_idx or not url then
+        vim.notify("No URL found on this line", vim.log.levels.WARN)
+        return
+    end
+
+    local title = get_url_title(url)
+    if not title then
+        return
+    end
+
+    local new_line = string.sub(line, 1, start_idx - 1) ..
+        "[" .. title .. "](" .. url .. ")" .. string.sub(line, end_idx + 1)
+    vim.api.nvim_set_current_line(new_line)
+    vim.notify("URL replaced with markdown link", vim.log.levels.INFO)
+end
+
+vim.api.nvim_create_user_command('ConvertUrlToMarkdown', replace_url_with_markdown, {})
+
+local function open_in_popup(cmd)
+    local buf = vim.api.nvim_create_buf(false, true)
+    local width = math.floor(vim.o.columns * 0.9)
+    local height = math.floor(vim.o.lines * 0.9)
+    local row = math.floor((vim.o.lines - height) / 2)
+    local col = math.floor((vim.o.columns - width) / 2)
+
+    local cwd = vim.fn["mymisc#find_project_dir"](vim.g.mymisc_projectdir_reference_files)
+
+    local win = vim.api.nvim_open_win(buf, true, {
+        relative = 'editor',
+        width = width,
+        height = height,
+        row = row,
+        col = col,
+        style = 'minimal',
+        border = 'rounded',
+    })
+
+    vim.fn.termopen(cmd, {
+        cwd = cwd,
+        on_exit = function()
+            vim.api.nvim_win_close(win, true)
+        end
+    })
+
+    vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<Cmd>close<CR>', { noremap = true, silent = true })
+    vim.cmd('startinsert')
+end
+
+vim.api.nvim_create_user_command('Tig', function()
+    open_in_popup("tig")
+end, {})
+vim.api.nvim_create_user_command('Htop', function()
+    open_in_popup("htop")
+end, {})
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -268,91 +397,17 @@ end
 
 -- == Global setup. == {{{
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-require("mason").setup({
-    ui = {
-        border = "rounded"
-    }
-})
 -- }}}
 
 -- == LSP == {{{
 -- === LSP Core ===
--- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-require("neodev").setup({})
+
 -- for breadclumb
 require('lspsaga').setup({
     lightbulb = {
         enable = false,
     }
 })
-
-require("mason-lspconfig").setup({
-    ensure_installed = {
-        "denols",
-        "lua_ls",
-    }
-})
-require("mason-lspconfig").setup_handlers {
-    function(server_name) -- default handler (optional)
-        require("lspconfig")[server_name].setup {
-            capabilities = capabilities
-        }
-    end,
-    jdtls = function() end,
-    lua_ls = function()
-        require("lspconfig").lua_ls.setup {
-            settings = {
-                Lua = {
-                    telemetry = {
-                        enable = false,
-                    },
-                    capabilities = capabilities,
-                    hint = {
-                        arrayIndex     = "Enable",
-                        await          = true,
-                        awaitPropagate = true,
-                        enable         = true,
-                        paramName      = "All",
-                        paramType      = true,
-                        semicolon      = "SameLine",
-                        setType        = true,
-                    },
-                    completion = {
-                        callSnippet = "Replace"
-                    }
-                },
-            },
-        }
-    end,
-    denols = function()
-        require("lspconfig").denols.setup {
-            settings = {
-                deno = {
-                    inlayHints = {
-                        enumMemberValues = { enabled = true },
-                        functionLikeReturnTypes = { enabled = true },
-                        parameterNames = {
-                            enabled                         = "all",
-                            suppressWhenArgumentMatchesName = false
-                        },
-                        parameterTypes = {
-                            enabled = true
-                        },
-                        propertyDeclarationTypes = {
-                            enabled = true
-                        },
-                        variableTypes = {
-                            enabled                     = true,
-                            suppressWhenTypeMatchesName = false
-                        }
-                    }
-                }
-            }
-        }
-    end
-}
-
 
 -- === LSP UI ===
 require("nvim-lightbulb").setup({
@@ -567,10 +622,53 @@ vim.api.nvim_create_user_command("LSPCodeLensRefresh",
 
 -- == DAP == {{{
 -- === DAP Core ===
+local dap = require("dap")
+
+local signs = {
+    DapBreakpoint = {
+        text = "B",
+        texthl = "DiagnosticSignError",
+        linehl = "",
+        numhl = "",
+    },
+    DapBreakpointCondition = {
+        text = "C",
+        texthl = "DiagnosticSignError",
+        linehl = "",
+        numhl = "",
+    },
+    DapBreakpointRejected = {
+        text = "R",
+        texthl = "DiagnosticSignError",
+        linehl = "",
+        numhl = "",
+    },
+    DapLogPoint = {
+        text = "L",
+        texthl = "DiagnosticSignError",
+        linehl = "",
+        numhl = "",
+    },
+    DapStopped = {
+        text = "→",
+        texthl = "DiagnosticSignError",
+        linehl = "debugPC",
+        numhl = "",
+    },
+}
+
+for key, value in pairs(signs) do
+    vim.fn.sign_define(key, value)
+end
+
 require("mason-nvim-dap").setup({
     ensure_installed = {
         "python",
+        "js",
+        "javadbg",
+        "javatest",
     },
+    automatic_installation = false,
     handlers = {
         function(config)
             require('mason-nvim-dap').default_setup(config)
@@ -581,13 +679,57 @@ require("mason-nvim-dap").setup({
                     .get_package('debugpy')
                     :get_install_path() .. "/venv/bin/python3")
         end,
+        js = function(config)
+            dap.adapters["pwa-node"] = {
+                type = "server",
+                host = "localhost",
+                port = "${port}",
+                executable = {
+                    command = "node",
+                    args = {
+                        require('mason-registry')
+                        .get_package('js-debug-adapter')
+                        :get_install_path() .. "/js-debug/src/dapDebugServer.js",
+                        "${port}"
+                    },
+                }
+            }
+            dap.configurations.javascript = {
+                {
+                    type = 'pwa-node',
+                    request = 'attach',
+                    name = "Attach to running deno instance",
+                },
+                {
+                    type = 'pwa-node',
+                    request = 'launch',
+                    name = "Launch file",
+                    runtimeExecutable = "deno",
+                    runtimeArgs = {
+                        "run",
+                        "--inspect-wait",
+                        "--allow-all"
+                    },
+                    program = "${file} --port 32123",
+                    cwd = "${workspaceFolder}",
+                    attachSimplePort = 9229,
+                },
+            }
+            dap.configurations.typescript = dap.configurations.javascript
+        end
     },
 })
 
 
 
 -- === DAP Language Specific ===
-local dap = require("dap")
+dap.adapters.nlua = function(callback, config)
+    callback({
+        type = 'server',
+        host = config.host or "127.0.0.1",
+        port = config.port or 8086,
+    })
+end
 dap.configurations.lua = {
     {
         type = 'nlua',
@@ -595,28 +737,71 @@ dap.configurations.lua = {
         name = "Attach to running Neovim instance",
     }
 }
-vim.fn.sign_define('DapBreakpoint', { text = '🔴' })
-
-dap.adapters.nlua = function(callback, config)
-    callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
-end
-
 vim.api.nvim_create_user_command("LuaDebugLaunchServer",
     'lua require("osv").launch({port = 8086})',
     {})
 -- require("osv").launch({ port = 8086, blocking = true })
 
-local dapui = require("dapui")
-
 
 
 -- === DAP UI ===
-
+local dapui = require("dapui")
 require("nvim-dap-virtual-text").setup()
-
-require("dapui").setup()
+require("dapui").setup({
+    controls = {
+        icons = {
+            pause = " 󱊮",
+            play = " 󱊯",
+            step_into = " 󱊰",
+            step_over = " 󱊱",
+            step_out = " ⇧󱊰",
+            step_back = " ⇧󱊱",
+            run_last = " ⇧󱊯",
+            terminate = " 󱊴",
+            disconnect = " ⇧󱊴",
+        }
+    },
+    layouts = {
+        {
+            elements = {
+                {
+                    id = "scopes",
+                    size = 0.25
+                },
+                {
+                    id = "breakpoints",
+                    size = 0.25
+                },
+                {
+                    id = "stacks",
+                    size = 0.25
+                },
+                {
+                    id = "watches",
+                    size = 0.25
+                }
+            },
+            position = "right",
+            size = 35
+        },
+        {
+            elements = {
+                {
+                    id = "console",
+                    size = 0.6
+                },
+                {
+                    id = "repl",
+                    size = 0.4
+                }
+            },
+            position = "bottom",
+            size = 12
+        }
+    },
+})
 vim.api.nvim_create_user_command("DapUiOpen",
-    'lua require("dapui").open()',
+    'lua require("dapui").open({ reset = true })',
     {})
 vim.api.nvim_create_user_command("DapUiClose",
     'lua require("dapui").close()',
@@ -625,12 +810,34 @@ vim.api.nvim_create_user_command("DapUiToggle",
     'lua require("dapui").toggle()',
     {})
 
+vim.api.nvim_set_keymap('n', '<F4>',
+    [[<Cmd>lua require('dap').pause()<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<F5>',
+    [[<Cmd>DapContinue<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<F6>',
+    [[<Cmd>DapStepInto<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<F7>',
+    [[<Cmd>DapStepOver<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<S-F6>',
+    [[<Cmd>DapStepOut<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<S-F7>',
+    [[<Cmd>lua require('dap').step_back()<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<S-F5>',
+    [[<Cmd>lua require('dap').run_last()<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<F10>',
+    [[<Cmd>DapTerminate<CR>]], { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<S-F10>',
+    [[<Cmd>DapDisconnect<CR>]], { silent = true, noremap = true })
+
+
+
 dap.listeners.before.attach.dapui_config = function()
-    dapui.open()
+    dapui.open({ reset = true })
 end
 dap.listeners.before.launch.dapui_config = function()
-    dapui.open()
+    dapui.open({ reset = true })
 end
+
 -- }}}
 
 -- == Formatter ==
@@ -666,7 +873,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 
         -- vim.api.nvim_set_hl(0, "CmpItemAbbrDefault", { link = "PmenuSel", force = true})
         vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated",
-            { fg = find_palette_color("#7E8294"), bg = "NONE", strikethrough = true })
+            { fg = FindPaletteColor("#7E8294"), bg = "NONE", strikethrough = true })
         vim.api.nvim_set_hl(0, "CmpItemAbbrMatch",
             { fg = "#91acd1", bold = true })
         vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy",
@@ -674,55 +881,55 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
         vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#6b7089" })
 
         vim.api.nvim_set_hl(0, "CmpItemKindField",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#B5585F") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#B5585F") })
         vim.api.nvim_set_hl(0, "CmpItemKindProperty",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#B5585F") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#B5585F") })
         vim.api.nvim_set_hl(0, "CmpItemKindEvent",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#B5585F") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#B5585F") })
         vim.api.nvim_set_hl(0, "CmpItemKindText",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#9FBD73") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#9FBD73") })
         vim.api.nvim_set_hl(0, "CmpItemKindEnum",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#9FBD73") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#9FBD73") })
         vim.api.nvim_set_hl(0, "CmpItemKindKeyword",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#9FBD73") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#9FBD73") })
         vim.api.nvim_set_hl(0, "CmpItemKindConstant",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4BB6C") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4BB6C") })
         vim.api.nvim_set_hl(0, "CmpItemKindConstructor",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4BB6C") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4BB6C") })
         vim.api.nvim_set_hl(0, "CmpItemKindReference",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4BB6C") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4BB6C") })
         vim.api.nvim_set_hl(0, "CmpItemKindFunction",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindStruct",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindClass",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindModule",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindOperator",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#A377BF") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindVariable",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#7E8294") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#7E8294") })
         vim.api.nvim_set_hl(0, "CmpItemKindFile",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#7E8294") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#7E8294") })
         vim.api.nvim_set_hl(0, "CmpItemKindUnit",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4A959") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4A959") })
         vim.api.nvim_set_hl(0, "CmpItemKindSnippet",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4A959") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4A959") })
         vim.api.nvim_set_hl(0, "CmpItemKindFolder",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#D4A959") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4A959") })
         vim.api.nvim_set_hl(0, "CmpItemKindMethod",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#6C8ED4") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#6C8ED4") })
         vim.api.nvim_set_hl(0, "CmpItemKindValue",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#6C8ED4") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#6C8ED4") })
         vim.api.nvim_set_hl(0, "CmpItemKindEnumMember",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#6C8ED4") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#6C8ED4") })
         vim.api.nvim_set_hl(0, "CmpItemKindInterface",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#58B5A8") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#58B5A8") })
         vim.api.nvim_set_hl(0, "CmpItemKindColor",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#58B5A8") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#58B5A8") })
         vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter",
-            { fg = find_palette_color("#FFFFFF"), bg = find_palette_color("#58B5A8") })
+            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#58B5A8") })
     end
 })
 
@@ -770,6 +977,7 @@ cmp.setup({
                 ["omni"]                     = "omni           ",
                 ["nvim_lsp_document_symbol"] = "document_symbol",
                 ["skkeleton"]                = "skk            ",
+                ["copilot"]                  = "copilot        ",
             }
 
             local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
@@ -837,6 +1045,8 @@ cmp.setup({
         },
     }),
     sources = cmp.config.sources({
+        { name = 'copilot' },
+        { name = 'ultisnips' },
         { name = 'nvim_lsp' },
         { name = 'vsnip' }, -- For vsnip users.
         -- { name = 'cmp_ai' },
@@ -1190,13 +1400,13 @@ require("bufferline").setup {
         offsets = {
             {
                 filetype = "fern",
-                text = "File Explorer",
+                text = "Fern",
                 highlight = "Directory",
                 separator = true -- use a "true" to enable the default, or set your own character
             },
             {
                 filetype = "neo-tree",
-                text = "File Explorer",
+                text = "Neo Tree",
                 highlight = "Directory",
                 separator = true -- use a "true" to enable the default, or set your own character
             }
@@ -1290,7 +1500,9 @@ require("scrollbar.handlers.search").setup({
     require("scrollbar.handlers.gitsigns").setup()
 })
 require('colorizer').setup()
-require('hlargs').setup()
+require('hlargs').setup({
+    color = FindPaletteColor('#ef9062')
+})
 
 
 local kopts = { noremap = true, silent = true }
@@ -1324,144 +1536,6 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 ------------------------------------------------------------------------------
 -- SECTION: LANGUAGE SPECIFIC SETUP {{{
 ------------------------------------------------------------------------------
-local function obsidian_create_uid()
-    return tostring(os.date("%Y%m%dT%H%M%S%z", os.time()))
-end
-
-local function obsidian_note_id_func(title)
-    local id = ""
-    if title ~= nil then
-        id = title:gsub("[\\/:*?\"<>|.]", "-")
-        if id ~= "" then
-            return id
-        end
-    end
-
-    id = obsidian_create_uid()
-    return id
-end
-
-vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-    group = "init_lua",
-    pattern = '*',
-    callback = function()
-        if vim.fn.executable("mkdir") == 1 then
-            vim.fn.system({
-                'mkdir',
-                '-p',
-                vim.fn.expand('~/Documents/Obsidian/Personal'),
-            })
-        end
-        require("obsidian").setup({
-            ui = {
-                enable = false,
-                hl_groups = {
-                    ObsidianTodo          = { bold = true, fg = find_palette_color("#f78c6c") },
-                    ObsidianDone          = { bold = true, fg = find_palette_color("#89ddff") },
-                    ObsidianRightArrow    = { bold = true, fg = find_palette_color("#f78c6c") },
-                    ObsidianTilde         = { bold = true, fg = find_palette_color("#ff5370") },
-                    ObsidianImportant     = { bold = true, fg = find_palette_color("#d73128") },
-                    ObsidianBullet        = { bold = true, fg = find_palette_color("#89ddff") },
-                    ObsidianRefText       = { underline = true, fg = find_palette_color("#c792ea") },
-                    ObsidianExtLinkIcon   = { fg = find_palette_color("#c792ea") },
-                    ObsidianTag           = { italic = true, fg = find_palette_color("#89ddff") },
-                    ObsidianBlockID       = { italic = true, fg = find_palette_color("#89ddff") },
-                    ObsidianHighlightText = { bg = find_palette_color("#75662e") },
-                }
-            },
-            workspaces = {
-                {
-                    name = "work",
-                    path = "~/Documents/Obsidian",
-                    strict = true,
-                },
-                {
-                    name = "personal",
-                    path = "~/Documents/Obsidian/Personal",
-                    strict = true,
-                },
-            },
-            completion = {
-                -- Set to false to disable completion.
-                nvim_cmp = true,
-                -- Trigger completion at 2 chars.
-                min_chars = 0,
-            },
-            note_id_func = obsidian_note_id_func,
-            note_path_func = function(spec)
-                -- This is equivalent to the default behavior.
-                local path = spec.dir / tostring(spec.title)
-                return path:with_suffix(".md")
-            end,
-            note_frontmatter_func = function(note)
-                local out = {}
-
-                if note.id == nil then
-                    out.id = obsidian_create_uid()
-                else
-                    out.id = note.id
-                end
-
-                out.id = out.id
-                out.aliases = note.aliases
-                out.tags = note.tags
-                out.datetime = os.date("%Y-%m-%dT%H:%M:%S", os.time())
-
-                if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-                    for k, v in pairs(note.metadata) do
-                        out[k] = v
-                    end
-                end
-
-                return out
-            end,
-            callbacks = {
-                pre_write_note = function(client, note)
-                    if string.match(note.id, "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9][+][0-9][0-9][0-9][0-9]") then
-                        note.id = obsidian_note_id_func(note.title)
-                    end
-                end,
-                -- post_set_workspace = function(client, workspace)
-                --     -- if vim.v.vim_did_enter == 1 then
-                --     client.log.info("Changing directory to %s", workspace.path)
-                --     vim.cmd.cd(tostring(workspace.path))
-                --     -- end
-                -- end,
-            },
-            templates = {
-                folder = "templates",
-                date_format = "%Y-%m-%d",
-                time_format = "%H:%M",
-                substitutions = {
-                    ["date:YYYYMMDDTHHmmssZZ"] = function()
-                        return os.date("%Y%m%dT%H%M%S%z", os.time())
-                    end,
-                    ["date:YYYY-MM-DDTHH:mm:ss"] = function()
-                        return os.date("%Y-%m-%dT%H:%M:%S", os.time())
-                    end,
-                },
-            },
-            daily_notes = {
-                folder = "daily-notes",
-                date_format = "%Y-%m-%d",
-                default_tags = { "daily-notes" },
-                template = "templates/DailyNotesTemplate.md",
-            },
-            follow_url_func = function(url)
-                vim.fn.jobstart({ "open", url }) -- Mac OS
-            end,
-            follow_img_func = function(img)
-                local path = vim.fn.expand('%:p:h')
-                vim.fn.jobstart { "qlmanage", "-p", path .. '/' .. img } -- Mac OS quick look preview
-            end,
-        })
-    end
-})
-
-vim.api.nvim_create_user_command("ObsidianCd",
-    "exec 'tcd ' . luaeval(\"require('obsidian').get_client().current_workspace.path.filename\")",
-    {}
-)
 require('render-markdown').setup({
     preset = 'obsidian',
     anti_conceal = {
@@ -1470,11 +1544,9 @@ require('render-markdown').setup({
     checkbox = {
         unchecked = {
             icon = "󰄱",
-            -- highlight = "ObsidianTodo",
         },
         checked = {
             icon = "",
-            -- highlight = "ObsidianDone",
         },
         custom = {
             right_arrow = {
@@ -1515,6 +1587,21 @@ require('render-markdown').setup({
         },
     }
 })
+vim.api.nvim_create_autocmd({ "ModeChanged" }, {
+    group = "init_lua",
+    pattern = '[^ivV\x16]*:[ivV\x16]*',
+    callback = function()
+        vim.cmd('RenderMarkdown disable')
+    end
+})
+vim.api.nvim_create_autocmd({ "ModeChanged" }, {
+    group = "init_lua",
+    pattern = '[ivV\x16]*:[^ivV\x16]*',
+    callback = function()
+        vim.cmd('RenderMarkdown enable')
+    end
+})
+
 
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH2Bg",{"underline": v:true, "bold": v:true})')
@@ -1588,10 +1675,10 @@ require("neo-tree").setup({
             ["c"] = "noop", -- copy
             ["C"] = "copy_to_clipboard",
             ["x"] = "noop", -- cut_to_clipboard
-            ["X"] = "cut_to_clipboard",
+            ["X"] = "system_open",
             ["P"] = "paste_from_clipboard",
-            ["m"] = "noop", -- move
-            ["M"] = "move",
+            ["m"] = "move", -- move
+            ["M"] = "cut_to_clipboard",
         }
     },
     filesystem = {
@@ -1607,6 +1694,27 @@ require("neo-tree").setup({
     buffers = {
         ["<CR>"] = "set_root",
         ["<C-h>"] = "navigate_up",
+    },
+    commands = {
+        system_open = function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+
+            if vim.uv.os_uname().sysname == "Darwin" then
+                vim.fn.jobstart({ "open", path }, { detach = true })
+            elseif vim.uv.os_uname().sysname == "Linux" then
+                vim.fn.jobstart({ "xdg-open", path }, { detach = true })
+            elseif vim.uv.os_uname().sysname == "Windows_NT" then
+                local p
+                local lastSlashIndex = path:match("^.+()\\[^\\]*$")
+                if lastSlashIndex then
+                    p = path:sub(1, lastSlashIndex - 1)
+                else
+                    p = path
+                end
+                vim.cmd("silent !start explorer " .. p)
+            end
+        end,
     }
 })
 
@@ -1787,6 +1895,9 @@ require('telescope').setup {
         winblend = 0,
         dynamic_preview_title = true,
         sorting_strategy = "ascending",
+        preview = {
+            check_mime_type = false
+        }
     },
     extensions = {
         ["fzf"] = {
@@ -1830,7 +1941,7 @@ vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search='
     { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>l', ':<Cmd>Telescope current_buffer_fuzzy_find<CR>',
     { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope current_buffer_tags<CR>',
+vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope lsp_document_symbols<CR>',
     { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>r', ':<Cmd>Telescope registers<CR>',
     { silent = true, noremap = true })

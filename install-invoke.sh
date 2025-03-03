@@ -709,7 +709,7 @@ elif type cygpath > /dev/null 2>&1; then
     # Do nothing on cygwin
     :
 elif type dnf > /dev/null 2>&1; then
-    ${sudo} dnf update
+    ${sudo} dnf update -y
     ${sudo} dnf install -y ${deps} || true
 elif type yum > /dev/null 2>&1; then
     ${sudo} yum update
@@ -990,6 +990,7 @@ runtest() {
         export PATH=$MYDOTFILES/build/neovim/bin:$PATH
     fi
 
+    set +e
     pushd $MYDOTFILES/vim
 
     pwd
@@ -999,10 +1000,46 @@ runtest() {
     echo "ls -la ~/.config/nvim/"
     ls -la ~/.config/nvim/
 
+    echo "Starting nvim test"
+
     nvim --headless -c "PlenaryBustedDirectory . { init = \"./init.lua\" }"
 
     return_code=$?
     popd
+
+    set -e
+
+    if [[ "$return_code" -ne 0 ]]; then
+        echo "END TEST"
+        echo "TEST FAILED: return_code is not 0"
+        return $return_code
+    fi
+
+    echo "Starting pytest"
+
+    if ! pytest --version; then
+        if [[ ! -d ".venv" ]]; then
+            python -m venv .venv
+        fi
+        source .venv/bin/activate
+        if ! pytest --version; then
+            python -m pip install -r ./requirements_test.txt
+        fi
+    fi
+
+    set +e
+
+    pytest -v
+    return_code=$?
+
+    set -e
+
+    if [[ "$return_code" -ne 0 ]]; then
+        echo "END TEST"
+        echo "TEST FAILED: return_code is not 0"
+        set -e
+        return $return_code
+    fi
 
     echo "END TEST"
     set -e
