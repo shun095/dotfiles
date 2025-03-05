@@ -165,7 +165,7 @@ else
 
   " Plug 'karb94/neoscroll.nvim'
   " Plug 'folke/trouble.nvim'
-  Plug 'MunifTanjim/nui.nvim'
+  " Plug 'MunifTanjim/nui.nvim'
   Plug 'rcarriga/nvim-notify'
   Plug 'folke/noice.nvim'
   " Plug 'j-hui/fidget.nvim'
@@ -178,7 +178,7 @@ else
   Plug 'petertriho/nvim-scrollbar'
   Plug 'kevinhwang91/nvim-hlslens'
   Plug 'andersevenrud/nvim_context_vt'
-  Plug 'stevearc/dressing.nvim'
+  " Plug 'stevearc/dressing.nvim'
   " Plug 'stevearc/conform.nvim'
   " Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
 endif

@@ -57,7 +57,13 @@ require("lazy").setup({
             dir = vim.env.MYVIMHOME,
         },
         {
+            dir = vim.env.HOME .. "/Documents/dev/my-ai-plugin",
+        },
+        {
             import = "plugins",
+        },
+        {
+            import = "local_plugins",
         },
     },
     install     = {
@@ -971,6 +977,7 @@ cmp.setup({
                 ["omni"]                     = "omni           ",
                 ["nvim_lsp_document_symbol"] = "document_symbol",
                 ["skkeleton"]                = "skk            ",
+                ["copilot"]                  = "copilot        ",
             }
 
             local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
@@ -1038,6 +1045,8 @@ cmp.setup({
         },
     }),
     sources = cmp.config.sources({
+        { name = 'copilot' },
+        { name = 'ultisnips' },
         { name = 'nvim_lsp' },
         { name = 'vsnip' }, -- For vsnip users.
         -- { name = 'cmp_ai' },
