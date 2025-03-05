@@ -157,7 +157,7 @@
   se expandtab                                                                " Expand tabs to spaces
   se autoindent                                                               " Enable auto indenting
   se list                                                                     " Show invisible characters
-  se listchars=tab:→\ ,space:･,eol:↵,extends:>,precedes:<                     " How invisible characters will be shown
+  se listchars=tab:→\ ,trail:･,eol:↵,extends:>,precedes:<                     " How invisible characters will be shown
   se nofixendofline
   se synmaxcol=500
   se wildmenu                                                                 " Enable completion for s

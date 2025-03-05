@@ -137,8 +137,8 @@ return {
                     { silent = true, noremap = true })
                 vim.api.nvim_set_keymap('n', '<Leader>mn', '<Cmd>ObsidianCd<CR><Cmd>ObsidianToday<CR>',
                     { silent = true, noremap = true })
-                vim.api.nvim_set_keymap('n', '<Leader>ml', '<Cmd>ObsidianCd<CR><Cmd>Neotree<CR><Cmd>redraw!<CR>',
-                    { silent = true, noremap = true })
+                vim.api.nvim_set_keymap('n', '<Leader>ml', '<Cmd>ObsidianCd<CR><Leader><C-e>',
+                    { silent = true, noremap = false })
             end
         })
 

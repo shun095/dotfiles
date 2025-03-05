@@ -1806,9 +1806,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     callback = neo_tree_overide_highlights
 })
 
-
-vim.cmd('nnoremap <leader>e :Neotree reveal<cr>')
-vim.cmd('nnoremap <leader>E :Neotree reveal<cr>')
+vim.cmd('nnoremap <leader>n     :<C-u>Neotree reveal<cr>')
+vim.cmd('nnoremap <leader>N     :<C-u>Neotree reveal<cr>')
+vim.cmd('nnoremap <leader><C-n> :<C-u>Neotree reveal<cr>')
 
 require("toggleterm").setup({
     size = 15,
