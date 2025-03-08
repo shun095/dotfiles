@@ -175,7 +175,7 @@ else
   Plug 'kevinhwang91/nvim-bqf'
   Plug 'nvim-tree/nvim-web-devicons'
   " Plug 'vim-fall/fall.vim'
-  Plug 'petertriho/nvim-scrollbar'
+  " Plug 'petertriho/nvim-scrollbar'
   Plug 'kevinhwang91/nvim-hlslens'
   Plug 'andersevenrud/nvim_context_vt'
   " Plug 'stevearc/dressing.nvim'

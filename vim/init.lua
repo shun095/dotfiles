@@ -1418,8 +1418,10 @@ require("bufferline").setup {
 require('lualine').setup {
     options = {
         theme = "auto",
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
+        -- component_separators = { left = '', right = '' },
+        -- section_separators = { left = '', right = '' },
+        component_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
     },
     sections = {
         lualine_c = {
@@ -1495,10 +1497,10 @@ require('gitsigns').setup({
             })
     end
 })
-require("scrollbar").setup()
-require("scrollbar.handlers.search").setup({
-    require("scrollbar.handlers.gitsigns").setup()
-})
+-- require("scrollbar").setup()
+-- require("scrollbar.handlers.search").setup({
+--     require("scrollbar.handlers.gitsigns").setup()
+-- })
 require('colorizer').setup()
 require('hlargs').setup({
     color = FindPaletteColor('#ef9062')

@@ -76,10 +76,15 @@ fun! mymisc#config#fern#setup() abort
     let g:fern#renderer#web_devicons#use_web_devicons_color_palette = v:true
   endf
 
+  fun s:fern_change_dir(...) abort
+    Fern . -drawer -reveal=%:p -keep -stay
+  endfun
+
   aug vimrc_fern
     au! *
     au FileType fern cal s:init_fern()
     " au FileType fern call glyph_palette#apply()
+    au DirChanged global,tabpage call timer_start(0, funcref("s:fern_change_dir"))
   aug END
 
   if mymisc#startup#plug_tap('fern-preview.vim')
