@@ -1045,6 +1045,7 @@ cmp.setup({
         },
     }),
     sources = cmp.config.sources({
+        { name = 'nvim_lsp_signature_help' },
         { name = 'copilot' },
         { name = 'ultisnips' },
         { name = 'nvim_lsp' },
@@ -1054,7 +1055,6 @@ cmp.setup({
         { name = 'path' },
         { name = 'calc' },
         { name = 'emoji' },
-        -- { name = 'nvim_lsp_signature_help' }, -- -> Using Noice signature help instead
         {
             name = 'omni',
             option = {
@@ -1321,7 +1321,10 @@ vim.o.winblend = 0
 
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH1Bg",{"underline": v:true, "bold": v:true})')
 
-require("noice").setup({
+require('noice').setup({
+    cmdline = {
+        enabled = false,
+    },
     lsp = {
         override = {
             ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -1344,6 +1347,7 @@ require("noice").setup({
         lsp_doc_border = true,        -- add a border to hover docs and signature help
     },
     messages = {
+        enabled = false,
         view_search = false
     },
     popupmenu = {
@@ -1354,6 +1358,9 @@ require("noice").setup({
             view = "split",
             filter = { event = "msg_show", min_height = 4 },
         },
+    },
+    notify = {
+        enabled = false
     },
 })
 
@@ -1940,7 +1947,7 @@ vim.api.nvim_set_keymap('n', '<Leader>c', ':<Cmd>Telescope find_files<CR>',
 vim.api.nvim_set_keymap('n', '<Leader>f', ':<Cmd>Telescope git_files<CR>',
     { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search=',
-    { silent = true, noremap = true })
+    { silent = false, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>l', ':<Cmd>Telescope current_buffer_fuzzy_find<CR>',
     { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope lsp_document_symbols<CR>',

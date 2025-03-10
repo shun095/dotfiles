@@ -84,7 +84,7 @@ fun! mymisc#config#fern#setup() abort
     au! *
     au FileType fern cal s:init_fern()
     " au FileType fern call glyph_palette#apply()
-    au DirChanged global,tabpage call timer_start(0, funcref("s:fern_change_dir"))
+    " au DirChanged global,tabpage call timer_start(0, funcref("s:fern_change_dir"))
   aug END
 
   if mymisc#startup#plug_tap('fern-preview.vim')
