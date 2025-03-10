@@ -18,22 +18,18 @@ Describe Fuzzy Finderは
     End
     It <Leader><Leader> の後 fuzzyfindertest を入力すると spec/stubs/fuzzyfinder_test.txt を見つけて開く
 
-        cal add(s:test_timers, timer_start(500, { 
-                    \ -> feedkeys("fuzzyfindertest","t")
-                    \ }, #{repeat: 1}))
         cal add(s:test_timers, timer_start(1000, { 
                     \ -> feedkeys("\<CR>","t")
                     \ }, #{repeat: 1}))
         cal add(s:test_timers, timer_start(1500, { 
                     \ -> feedkeys("\<ESC>","t")
                     \ }, #{repeat: 1}))
-
-        cal feedkeys("\<Space>\<Space>", "tx!")
+        cal feedkeys("\<Space>\<Space>fuzzyfindertest", "tx!")
 
         let l:actual_filename = expand("%")
         Assert Equals(l:actual_filename, "spec/stubs/fuzzyfinder_test.txt")
 
         let l:actual_buffer = getline(0, "$")
-        Assert Equals(l:actual_buffer, "This is fuzzyfinder test!")
+        Assert Equals(l:actual_buffer, ["This is fuzzyfinder test!"])
     End
 End

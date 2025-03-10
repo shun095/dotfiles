@@ -990,7 +990,8 @@ runtest() {
         export PATH=$MYDOTFILES/build/neovim/bin:$PATH
     fi
 
-    set +e
+    echo "Starting nvim test"
+
     pushd $MYDOTFILES/vim
 
     pwd
@@ -1000,14 +1001,35 @@ runtest() {
     echo "ls -la ~/.config/nvim/"
     ls -la ~/.config/nvim/
 
-    echo "Starting nvim test"
+    set +e
 
     nvim --headless -c "PlenaryBustedDirectory . { init = \"./init.lua\" }"
-
     return_code=$?
-    popd
 
     set -e
+
+    popd
+
+    if [[ "$return_code" -ne 0 ]]; then
+        echo "END TEST"
+        echo "TEST FAILED: return_code is not 0"
+        return $return_code
+    fi
+
+    echo "Starting vim test"
+
+    export THEMIS_ARGS="-e -s -u $HOME/.vimrc"
+
+    pushd $MYDOTFILES/vim
+
+    set +e
+
+    $HOME/.vim/plugged/vim-themis/bin/themis
+    return_code=$?
+
+    set -e
+
+    popd
 
     if [[ "$return_code" -ne 0 ]]; then
         echo "END TEST"

@@ -9,5 +9,5 @@ class Test_get_deployed_version(fake_filesystem_unittest.TestCase):
     def setUp(self):
         self.setUpPyfakefs()
 
-    def test_(self):
-       tool_installer.install 
+    # def test_(self):
+    #    tool_installer.install()
