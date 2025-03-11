@@ -7,10 +7,10 @@ Describe Fuzzy Finderは
         let s:test_timers = []
         cal add(s:test_timers, timer_start(10000, { 
                     \ -> feedkeys("\<ESC>")
-                    \ }, {"repeat": 1}))
+                    \ }, {"repeat": -1}))
         cal add(s:test_timers, timer_start(10000, { 
                     \ -> feedkeys("\<C-c>")
-                    \ }, {"repeat": 1}))
+                    \ }, {"repeat": -1}))
         cal themis#log("Before each END")
     End
     After each
@@ -22,20 +22,27 @@ Describe Fuzzy Finderは
     End
     It <Leader><Leader> の後 fuzzyfindertest を入力すると spec/stubs/fuzzyfinder_test.txt を見つけて開く
         cal themis#log("It START")
-
+        cal themis#log("1")
         cal add(s:test_timers, timer_start(1000, { 
                     \ -> feedkeys("\<CR>")
                     \ }, {"repeat": 1}))
+        cal themis#log("2")
         cal add(s:test_timers, timer_start(1500, { 
                     \ -> feedkeys("\<ESC>")
                     \ }, {"repeat": 1}))
+        cal themis#log("3")
         cal feedkeys("\<Space>\<Space>fuzzyfindertest", "x!")
 
+        cal themis#log("4")
         let l:actual_filename = expand("%")
+        cal themis#log("5")
         Assert Equals(l:actual_filename, "spec/stubs/fuzzyfinder_test.txt")
 
+        cal themis#log("6")
         let l:actual_buffer = getline(0, "$")
+        cal themis#log("7")
         Assert Equals(l:actual_buffer, ["This is fuzzyfinder test!"])
+        cal themis#log("8")
         cal themis#log("It END")
     End
 End
