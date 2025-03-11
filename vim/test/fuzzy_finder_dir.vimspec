@@ -1,16 +1,16 @@
 Describe Fuzzy Finderは
     Before each
         cal themis#log("Before each START")
-        " cal feedkeys("\<CR>\<CR>", "tx!")
+        cal feedkeys("\<CR>\<CR>", "x!")
         %bwipeout!
         " set messagesopt=wait:1,history:500
         let s:test_timers = []
-        " cal add(s:test_timers, timer_start(10000, { 
-        "             \ -> feedkeys("\<ESC>","t")
-        "             \ }, {"repeat": 1}))
-        " cal add(s:test_timers, timer_start(10000, { 
-        "             \ -> feedkeys("\<C-c>","t")
-        "             \ }, {"repeat": 1}))
+        cal add(s:test_timers, timer_start(10000, { 
+                    \ -> feedkeys("\<ESC>")
+                    \ }, {"repeat": 1}))
+        cal add(s:test_timers, timer_start(10000, { 
+                    \ -> feedkeys("\<C-c>")
+                    \ }, {"repeat": 1}))
         cal themis#log("Before each END")
     End
     After each
@@ -24,12 +24,12 @@ Describe Fuzzy Finderは
         cal themis#log("It START")
 
         cal add(s:test_timers, timer_start(1000, { 
-                    \ -> feedkeys("\<CR>","t")
+                    \ -> feedkeys("\<CR>")
                     \ }, {"repeat": 1}))
         cal add(s:test_timers, timer_start(1500, { 
-                    \ -> feedkeys("\<ESC>","t")
+                    \ -> feedkeys("\<ESC>")
                     \ }, {"repeat": 1}))
-        cal feedkeys("\<Space>\<Space>fuzzyfindertest", "tx!")
+        cal feedkeys("\<Space>\<Space>fuzzyfindertest", "x!")
 
         let l:actual_filename = expand("%")
         Assert Equals(l:actual_filename, "spec/stubs/fuzzyfinder_test.txt")
