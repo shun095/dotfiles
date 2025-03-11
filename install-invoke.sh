@@ -8,6 +8,10 @@
 
 set -eu
 
+if [ -z "$TERM" ]; then
+    export TERM=xterm
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" >/dev/null 2>&1; pwd -P)"
 
 export DOTFILES_VERSION="0.1.0"
