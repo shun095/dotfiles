@@ -5,12 +5,12 @@ Describe Fuzzy Finderは
         %bwipeout!
         " set messagesopt=wait:1,history:500
         let s:test_timers = []
-        cal add(s:test_timers, timer_start(10000, { 
-                    \ -> feedkeys("\<ESC>","t")
-                    \ }, {"repeat": 1}))
-        cal add(s:test_timers, timer_start(10000, { 
-                    \ -> feedkeys("\<C-c>","t")
-                    \ }, {"repeat": 1}))
+        " cal add(s:test_timers, timer_start(10000, { 
+        "             \ -> feedkeys("\<ESC>","t")
+        "             \ }, {"repeat": 1}))
+        " cal add(s:test_timers, timer_start(10000, { 
+        "             \ -> feedkeys("\<C-c>","t")
+        "             \ }, {"repeat": 1}))
         cal themis#log("Before each END")
     End
     After each
