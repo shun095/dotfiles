@@ -1023,6 +1023,7 @@ runtest() {
     echo "Starting vim test"
 
     export THEMIS_ARGS="-e -s -u $HOME/.vimrc"
+    export THEMIS_DEBUG=1
 
     pushd $MYDOTFILES/vim
 
