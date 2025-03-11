@@ -7,10 +7,10 @@ Describe Fuzzy Finderは
         let s:test_timers = []
         cal add(s:test_timers, timer_start(10000, { 
                     \ -> feedkeys("\<ESC>","t")
-                    \ }, #{repeat: 1}))
+                    \ }, {"repeat": 1}))
         cal add(s:test_timers, timer_start(10000, { 
                     \ -> feedkeys("\<C-c>","t")
-                    \ }, #{repeat: 1}))
+                    \ }, {"repeat": 1}))
         cal themis#log("Before each END")
     End
     After each
@@ -25,10 +25,10 @@ Describe Fuzzy Finderは
 
         cal add(s:test_timers, timer_start(1000, { 
                     \ -> feedkeys("\<CR>","t")
-                    \ }, #{repeat: 1}))
+                    \ }, {"repeat": 1}))
         cal add(s:test_timers, timer_start(1500, { 
                     \ -> feedkeys("\<ESC>","t")
-                    \ }, #{repeat: 1}))
+                    \ }, {"repeat": 1}))
         cal feedkeys("\<Space>\<Space>fuzzyfindertest", "tx!")
 
         let l:actual_filename = expand("%")

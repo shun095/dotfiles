@@ -1081,7 +1081,15 @@ check_arguments() {
         undeploy)  ;;
         uninstall) ;;
         debug)     ;;
-        buildtools);;
+        buildtools)
+            # case $2 in
+            #     vim|neovim|tig|tmux|all)
+            #         ;;
+            #     *)
+            #         buildtools_help
+            #         ;;
+            # esac
+            ;;
         runtest)   ;;
         *)
             echo "Unknown argument: ${arg}"
