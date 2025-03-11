@@ -18,7 +18,22 @@ class Test_get_deployed_version(fake_filesystem_unittest.TestCase):
         assert version_util.get_deployed_version() == "0.2.0"
 
 
-class Test_is_newer_than(unittest.TestCase):
+class Test_is_newer_than:
+
+    test_cases = [
+        ("0.2.0", "0.1.0", True),
+        ("0.1.0", "0.2.0", False),
+        ("1.0.0", "1.0.0", False),
+    ]
+
+    @pytest.mark.parametrize(
+        "version_a, version_b, result",
+        test_cases,
+        ids=[f"引数に {a} と {b} が渡されたとき {res} を返す" for a, b, res in test_cases]
+    )
+    def test(self, version_a, version_b, result):
+        assert version_util.is_newer_than(version_a, version_b) is result
+
     def test_引数に0_2_0と0_1_0が渡されるとTrueを返す(self):
         assert version_util.is_newer_than("0.2.0", "0.1.0") is True
 
