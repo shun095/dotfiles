@@ -196,7 +196,7 @@
   se ambiwidth=single                                                         " 全角記号（「→」など）の文字幅 :terminalのためにsingleに設定
   se mouse=a                                                                  " マウスを有効化
   se mousehide                                                                " 入力中にポインタを消すかどうか
-  se mousemodel=                                                              " Behavior of right-click
+  "se mousemodel=                                                              " Behavior of right-click
   se nolazyredraw                                                               " スクロールが間に合わない時などに描画を省略する
   se updatetime=1000                                                          " Wait time until swap file will be written
   se timeout

@@ -1,5 +1,6 @@
 Describe Fuzzy Finderは
     Before each
+        cal themis#log("Before each START")
         cal feedkeys("\<CR>\<CR>", "tx!")
         %bwipeout!
         " set messagesopt=wait:1,history:500
@@ -10,13 +11,17 @@ Describe Fuzzy Finderは
         cal add(s:test_timers, timer_start(10000, { 
                     \ -> feedkeys("\<C-c>","t")
                     \ }, #{repeat: 1}))
+        cal themis#log("Before each END")
     End
     After each
+        cal themis#log("After each START")
         for l:timer_id in s:test_timers
             cal timer_stop(l:timer_id)
         endfor
+        cal themis#log("After each END")
     End
     It <Leader><Leader> の後 fuzzyfindertest を入力すると spec/stubs/fuzzyfinder_test.txt を見つけて開く
+        cal themis#log("It START")
 
         cal add(s:test_timers, timer_start(1000, { 
                     \ -> feedkeys("\<CR>","t")
@@ -31,5 +36,6 @@ Describe Fuzzy Finderは
 
         let l:actual_buffer = getline(0, "$")
         Assert Equals(l:actual_buffer, ["This is fuzzyfinder test!"])
+        cal themis#log("It END")
     End
 End
