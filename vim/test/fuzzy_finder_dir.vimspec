@@ -1,7 +1,7 @@
 Describe Fuzzy Finderは
     Before each
         cal themis#log("Before each START")
-        cal feedkeys("\<CR>\<CR>", "tx!")
+        " cal feedkeys("\<CR>\<CR>", "tx!")
         %bwipeout!
         " set messagesopt=wait:1,history:500
         let s:test_timers = []
