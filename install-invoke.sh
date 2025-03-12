@@ -1029,7 +1029,7 @@ runtest() {
 
     set +e
 
-    $HOME/.vim/plugged/vim-themis/bin/themis
+    $HOME/.vim/plugged/vim-themis/bin/themis --debug
     return_code=$?
 
     set -e
