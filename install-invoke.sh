@@ -739,7 +739,8 @@ local deps=""
 local curl_deps=""
 local tmp_deps=""
 if [[ $OSTYPE == 'darwin'* ]]; then
-    deps='lua luajit automake python3 deno pkg-config utf8proc'
+    deps='lua luajit automake python3 pkg-config utf8proc'
+    curl_deps='https://deno.land/install.sh'
 elif [[ $(lsb_release -rs) == "20.04" ]]; then
     tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2 libutf8proc-dev'
     for package in ${tmp_deps}; do
@@ -987,6 +988,15 @@ reinstall() {
 runtest() {
     echo "STARTING TEST"
 
+    pwd
+    ls -la
+    echo "ls -la ~/"
+    ls -la ~/
+    echo "ls -la ~/.config/nvim/"
+    ls -la ~/.config/nvim/
+    echo "ls -la ~/.vim/plugged/"
+    ls -la ~/.vim/plugged/
+
     . $HOME/.deno/env
     export PATH=$HOME/.deno/bin:$PATH
     export PATH=$MYDOTFILES/build/neovim/bin:$PATH
@@ -994,13 +1004,6 @@ runtest() {
     # echo "Starting nvim test"
 
     # pushd $MYDOTFILES/vim
-
-    # pwd
-    # ls -la
-    # echo "ls -la ~/"
-    # ls -la ~/
-    # echo "ls -la ~/.config/nvim/"
-    # ls -la ~/.config/nvim/
 
     # set +e
 
