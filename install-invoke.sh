@@ -669,69 +669,69 @@ update_tmux_plugins() {
 }
 
 install_deps() {
-local msg=$1
-local deps=$2
-local curl_deps=$3
-echo_section "Installing dependencies for: ${msg}"
-local sudo=""
+    local msg=$1
+    local deps=$2
+    local curl_deps=$3
+    echo_section "Installing dependencies for: ${msg}"
+    local sudo=""
 
-if [[ ${deps} = '' ]]; then
-    echo "Nothing to do."
-    return
-fi
-
-echo
-echo "Packages:"
-echo "  ${deps}"
-echo
-
-if [[ ! $(whoami) = 'root' ]]; then
-    sudo="sudo "
-fi
-
-if [[ $OSTYPE == 'darwin'* ]]; then
-    brew update
-    brew upgrade
-    brew install ${deps}
-elif [[ $(lsb_release -rs) == "18.04" ]]; then
-    ${sudo} apt-get update
-    ${sudo} apt-get upgrade -y
-    ${sudo} apt-get install -y ${deps}
-elif [[ $(lsb_release -rs) == "20.04" ]]; then
-    ${sudo} apt-get update
-    ${sudo} apt-get upgrade -y
-    ${sudo} apt-get install -y ${deps}
-elif [[ $(lsb_release -rs) == "22.04" ]]; then
-    ${sudo} apt-get update
-    ${sudo} apt-get upgrade -y
-    ${sudo} apt-get install -y ${deps}
-elif type apt-get > /dev/null 2>&1; then
-    ${sudo} apt-get update
-    ${sudo} apt-get upgrade -y
-    ${sudo} apt-get install -y ${deps}
-elif type cygpath > /dev/null 2>&1; then
-    # Do nothing on cygwin
-    :
-elif type dnf > /dev/null 2>&1; then
-    ${sudo} dnf update -y
-    ${sudo} dnf install -y ${deps} || true
-elif type yum > /dev/null 2>&1; then
-    ${sudo} yum update
-    if cat /etc/redhat-release | grep " 7."; then
-        # Cent/RHEL 7
-        if ${sudo} yum list installed git2u >/dev/null 2>&1; then
-            :
-        else
-            ${sudo} yum remove git* -y
-        fi
-        ${sudo} yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
+    if [[ ${deps} = '' ]]; then
+        echo "Nothing to do."
+        return
     fi
-    ${sudo} yum install -y ${deps} || true
-fi
 
-for url in $curl_deps; do
-    curl -fsSL $url | sh
-done
+    echo
+    echo "Packages:"
+    echo "  ${deps}"
+    echo
+
+    if [[ ! $(whoami) = 'root' ]]; then
+        sudo="sudo "
+    fi
+
+    if [[ $OSTYPE == 'darwin'* ]]; then
+        brew update
+        brew upgrade
+        brew install ${deps}
+    elif [[ $(lsb_release -rs) == "18.04" ]]; then
+        ${sudo} apt-get update
+        ${sudo} apt-get upgrade -y
+        ${sudo} apt-get install -y ${deps}
+    elif [[ $(lsb_release -rs) == "20.04" ]]; then
+        ${sudo} apt-get update
+        ${sudo} apt-get upgrade -y
+        ${sudo} apt-get install -y ${deps}
+    elif [[ $(lsb_release -rs) == "22.04" ]]; then
+        ${sudo} apt-get update
+        ${sudo} apt-get upgrade -y
+        ${sudo} apt-get install -y ${deps}
+    elif type apt-get > /dev/null 2>&1; then
+        ${sudo} apt-get update
+        ${sudo} apt-get upgrade -y
+        ${sudo} apt-get install -y ${deps}
+    elif type cygpath > /dev/null 2>&1; then
+        # Do nothing on cygwin
+        :
+    elif type dnf > /dev/null 2>&1; then
+        ${sudo} dnf update -y
+        ${sudo} dnf install -y ${deps} || true
+    elif type yum > /dev/null 2>&1; then
+        ${sudo} yum update
+        if cat /etc/redhat-release | grep " 7."; then
+            # Cent/RHEL 7
+            if ${sudo} yum list installed git2u >/dev/null 2>&1; then
+                :
+            else
+                ${sudo} yum remove git* -y
+            fi
+            ${sudo} yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
+        fi
+        ${sudo} yum install -y ${deps} || true
+    fi
+
+    for url in $curl_deps; do
+        curl -fsSL $url | sh
+    done
 }
 
 build_vim_install_deps() {

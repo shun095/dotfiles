@@ -24,6 +24,9 @@ export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
 # node js
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 
+# deno
+export PATH="$HOME/.deno/bin:$PATH"
+
 export USE_CCACHE=1
 
 # tools
