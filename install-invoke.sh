@@ -987,6 +987,9 @@ reinstall() {
 runtest() {
     echo "STARTING TEST"
 
+    if [[ -d $HOME/.deno/bin ]]; then
+        export PATH=$HOME/.deno/bin:$PATH
+    fi
 
     # echo "Starting nvim test"
 
