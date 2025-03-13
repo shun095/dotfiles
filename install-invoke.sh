@@ -996,6 +996,8 @@ runtest() {
     ls -la ~/.config/nvim/
     echo "ls -la ~/.vim/plugged/"
     ls -la ~/.vim/plugged/
+    echo "ls -la ~/.deno"
+    ls -la ~/.deno
 
     . $HOME/.deno/env
     export PATH=$HOME/.deno/bin:$PATH
