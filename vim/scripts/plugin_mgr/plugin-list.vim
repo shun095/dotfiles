@@ -190,7 +190,7 @@ endif
 
 " === Debug Adapter Protocl === {{{
 if !has('nvim')
-  Plug 'puremourning/vimspector'
+  " Plug 'puremourning/vimspector'
 endif
 " }}}
 
@@ -273,7 +273,7 @@ if !has('nvim')
 endif
 Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
 Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
-Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
+Plug 'kat0h/bufpreview.vim', { 'do': 'deno task prepare' }
 if has('nvim')
   Plug 'ixru/nvim-markdown'
   Plug 'MeanderingProgrammer/render-markdown.nvim'
@@ -430,7 +430,7 @@ endif
 " Non lazy load for QuickRun with pandoc
 Plug 'thinca/vim-quickrun'
 if has('nvim')
-  Plug 'michaelb/sniprun', { 'do': 'sh ./install.sh' }
+  " Plug 'michaelb/sniprun', { 'do': 'sh ./install.sh' }
   Plug 'lambdalisue/vim-quickrun-neovim-job'
 endif
 " Plug 'lambdalisue/suda.vim'

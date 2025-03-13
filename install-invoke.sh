@@ -987,15 +987,11 @@ reinstall() {
 runtest() {
     echo "STARTING TEST"
 
-    if [[ -d $HOME/.deno/bin ]]; then
-        export PATH=$HOME/.deno/bin:$PATH
-    fi
+    . $HOME/.deno/env
+    export PATH=$HOME/.deno/bin:$PATH
+    export PATH=$MYDOTFILES/build/neovim/bin:$PATH
 
     # echo "Starting nvim test"
-
-    # if [[ -d $MYDOTFILES/build/neovim ]]; then
-    #     export PATH=$MYDOTFILES/build/neovim/bin:$PATH
-    # fi
 
     # pushd $MYDOTFILES/vim
 
