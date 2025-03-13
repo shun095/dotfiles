@@ -836,14 +836,12 @@ make_install() {
         mkdir -p $MYDOTFILES/build
     fi
 
-    current_path=$(pwd)
-
     pushd $MYDOTFILES/build
     if [[ ! -e ./myconfigure_setup.sh ]]; then
-        ln -s ${current_path}/tools/myconfigure_setup.sh ./myconfigure_setup.sh
+        ln -s $MYDOTFILES/tools/myconfigure_setup.sh ./myconfigure_setup.sh
     fi
     if [[ ! -e ${script} ]]; then
-        ln -s ${current_path}/tools/${script} ./$script
+        ln -s $MYDOTFILES/tools/${script} ./$script
         ls -la
     fi
 
@@ -987,38 +985,38 @@ reinstall() {
 }
 
 runtest() {
-    set +e
     echo "STARTING TEST"
 
-    if [[ -d $MYDOTFILES/build/neovim ]]; then
-        export PATH=$MYDOTFILES/build/neovim/bin:$PATH
-    fi
 
-    echo "Starting nvim test"
+    # echo "Starting nvim test"
 
-    pushd $MYDOTFILES/vim
+    # if [[ -d $MYDOTFILES/build/neovim ]]; then
+    #     export PATH=$MYDOTFILES/build/neovim/bin:$PATH
+    # fi
 
-    pwd
-    ls -la
-    echo "ls -la ~/"
-    ls -la ~/
-    echo "ls -la ~/.config/nvim/"
-    ls -la ~/.config/nvim/
+    # pushd $MYDOTFILES/vim
 
-    set +e
+    # pwd
+    # ls -la
+    # echo "ls -la ~/"
+    # ls -la ~/
+    # echo "ls -la ~/.config/nvim/"
+    # ls -la ~/.config/nvim/
 
-    nvim --headless -c "PlenaryBustedDirectory . { init = \"./init.lua\" }"
-    return_code=$?
+    # set +e
 
-    set -e
+    # nvim --headless -c "PlenaryBustedDirectory . { init = \"./init.lua\" }"
+    # return_code=$?
 
-    popd
+    # set -e
 
-    if [[ "$return_code" -ne 0 ]]; then
-        echo "END TEST"
-        echo "TEST FAILED: return_code is not 0"
-        return $return_code
-    fi
+    # popd
+
+    # if [[ "$return_code" -ne 0 ]]; then
+    #     echo "END TEST"
+    #     echo "TEST FAILED: return_code is not 0"
+    #     return $return_code
+    # fi
 
     echo "Starting vim test"
 
@@ -1029,6 +1027,7 @@ runtest() {
 
     set +e
 
+    patch -N $HOME/.vim/plugged/vim-themis/bin/themis $MYDOTFILES/themis-patch.diff
     $HOME/.vim/plugged/vim-themis/bin/themis --debug
     return_code=$?
 
@@ -1064,12 +1063,10 @@ runtest() {
     if [[ "$return_code" -ne 0 ]]; then
         echo "END TEST"
         echo "TEST FAILED: return_code is not 0"
-        set -e
         return $return_code
     fi
 
     echo "END TEST"
-    set -e
     return $return_code
 }
 

@@ -31,7 +31,7 @@ local config = {
         '-XX:AdaptiveSizePolicyWeight=90',
         '-Dsun.zip.disableMemoryMapping=true',
         '-Xms128m',
-        '-Xmx4096m',
+        '-Xmx2048m',
         '--add-modules=javafx.media,javafx.web,javafx.swing,javafx.graphics,javafx.base,javafx.controls,javafx.fxml',
         '--add-modules=ALL-SYSTEM',
         '--add-opens', 'java.base/java.util=ALL-UNNAMED',

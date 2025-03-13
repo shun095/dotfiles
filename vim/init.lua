@@ -1673,7 +1673,7 @@ require("neo-tree").setup({
             ["O"] = "open_split",
             ["a"] = "noop", -- add
             ["F"] = "add",
-            ["A"] = "noop", -- add_directory
+            ["A"] = "toggle_auto_expand_width", -- add_directory
             ["K"] = "add_directory",
             ["d"] = "noop", -- delete
             ["D"] = "delete",
@@ -1688,6 +1688,7 @@ require("neo-tree").setup({
             ["P"] = "paste_from_clipboard",
             ["m"] = "move", -- move
             ["M"] = "cut_to_clipboard",
+            ["Z"] = "toggle_auto_expand_width",
         }
     },
     filesystem = {
