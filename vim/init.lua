@@ -1287,7 +1287,6 @@ require("notify").setup({
     -- stages = "static",
     timeout = 5000,
 })
-vim.o.winblend = 0
 
 -- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyBackground links to Normal')
 -- vim.cmd('autocmd init_lua ColorScheme * highlight! NotifyERRORBody links to Normal')
