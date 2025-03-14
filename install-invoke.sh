@@ -730,7 +730,7 @@ install_deps() {
     fi
 
     for url in $curl_deps; do
-        curl -fsSL $url | sh
+        curl -fsSL $url | sh -s -- --yes
     done
 }
 
