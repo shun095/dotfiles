@@ -1,6 +1,9 @@
 ------------------------------------------------------------------------------
 -- SECTION: INITIALIZATION {{{
 ------------------------------------------------------------------------------
+-- This section initializes the Vim environment with various plugins and configurations.
+-- It sets up the environment for a smooth Vim experience, including plugin management,
+-- color schemes, and custom scripts.
 vim.cmd([[
 if $MYDOTFILES == ""
   call setenv("MYDOTFILES",$HOME . "/dotfiles")
@@ -15,6 +18,7 @@ if vim.fn.filereadable(vim.env.HOME .. '/localrcs/vim-local.vim') == 1 then
 end
 
 vim.cmd('cal g:plugin_mgr["init"]()')
+
 
 vim.cmd('so $MYVIMHOME/scripts/lazy_hooks.vim')
 vim.cmd('so $MYVIMHOME/scripts/custom.vim')
@@ -92,9 +96,6 @@ require("lazy").setup({
 -- SECTION: UTIL FUNCTIONS {{{
 ------------------------------------------------------------------------------
 
-function HelloWorld()
-    vim.print("Hello world.")
-end
 
 ---Convert hex color to RGB
 ---@param hex any
@@ -943,6 +944,25 @@ local feedkey = function(key, mode)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
+local nested_mapping_config = {
+    ['<C-p>'] = {
+        c = function(fallback)
+            fallback()
+        end,
+    },
+    ['<C-n>'] = {
+        c = function(fallback)
+            fallback()
+        end,
+    },
+    ['<C-Space>'] = {
+        c = function(_)
+            cmp.complete()
+        end
+    },
+
+}
+
 cmp.setup({
     enabled = function()
         return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
@@ -998,6 +1018,18 @@ cmp.setup({
         ['<C-f>'] = cmp.mapping.scroll_docs(8),
         ['<C-b>'] = cmp.mapping.scroll_docs(-8),
         ['<C-Space>'] = cmp.mapping.complete(),
+        ['<M-Space>'] = {
+            i = function(fallback)
+                cmp.complete({
+                    config = {
+                        mapping = cmp.mapping.preset.insert(nested_mapping_config),
+                        sources = {
+                            { name = "cmp_ai" }
+                        }
+                    }
+                })
+            end
+        },
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
         ['<TAB>'] = {
             i = function(fallback)
@@ -1045,12 +1077,13 @@ cmp.setup({
         },
     }),
     sources = cmp.config.sources({
+        -- { name = 'ollama' },
+        -- { name = "cmp_ai" },
         { name = 'nvim_lsp_signature_help' },
-        { name = 'copilot' },
+        -- { name = 'copilot' },
         { name = 'ultisnips' },
         { name = 'nvim_lsp' },
         { name = 'vsnip' }, -- For vsnip users.
-        -- { name = 'cmp_ai' },
         { name = 'buffer' },
         { name = 'path' },
         { name = 'calc' },
@@ -1067,25 +1100,6 @@ cmp.setup({
     }),
 })
 -- }}}
-
-local nested_mapping_config = {
-    ['<C-p>'] = {
-        c = function(fallback)
-            fallback()
-        end,
-    },
-    ['<C-n>'] = {
-        c = function(fallback)
-            fallback()
-        end,
-    },
-    ['<C-Space>'] = {
-        c = function(_)
-            cmp.complete()
-        end
-    },
-
-}
 
 -- `/`, `?` cmdline setup. {{{
 for _, cmd_type in ipairs({ '/', '?' }) do
@@ -1248,28 +1262,6 @@ require("nvim-autopairs").setup {}
 --             model = "codegemma:2b",
 --         },
 --     },
--- })
---
--- local cmp_ai = require('cmp_ai.config')
-
-
--- cmp_ai:setup({
---     max_lines = 10,
---     provider = 'Ollama',
---     provider_options = {
---         model = 'codegemma:2b-code',
---         prompt = function(lines_before, lines_after)
---             return lines_before
---         end,
---         suffix = function(lines_after)
---             return lines_after
---         end,
---     },
---     notify = true,
---     notify_callback = function(msg)
---         vim.notify(msg)
---     end,
---     run_on_every_keystroke = true,
 -- })
 
 
@@ -1544,6 +1536,9 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 ------------------------------------------------------------------------------
 -- SECTION: LANGUAGE SPECIFIC SETUP {{{
 ------------------------------------------------------------------------------
+-- This section includes configurations for syntax highlighting, indentation
+-- guides, and other language-specific features.
+--
 require('render-markdown').setup({
     preset = 'obsidian',
     anti_conceal = {
@@ -1670,19 +1665,19 @@ require("neo-tree").setup({
             ["S"] = "open_vsplit",
             ["s"] = "open_with_window_picker",
             ["O"] = "open_split",
-            ["a"] = "noop", -- add
+            ["a"] = "noop",                     -- add
             ["F"] = "add",
             ["A"] = "toggle_auto_expand_width", -- add_directory
             ["K"] = "add_directory",
-            ["d"] = "noop", -- delete
+            ["d"] = "noop",                     -- delete
             ["D"] = "delete",
-            ["r"] = "noop", -- rename
-            ["b"] = "noop", -- rename_basename
+            ["r"] = "noop",                     -- rename
+            ["b"] = "noop",                     -- rename_basename
             ["R"] = "rename",
-            ["y"] = "noop", -- copy_to_clipboard
-            ["c"] = "noop", -- copy
+            ["y"] = "noop",                     -- copy_to_clipboard
+            ["c"] = "noop",                     -- copy
             ["C"] = "copy_to_clipboard",
-            ["x"] = "noop", -- cut_to_clipboard
+            ["x"] = "noop",                     -- cut_to_clipboard
             ["X"] = "system_open",
             ["P"] = "paste_from_clipboard",
             ["m"] = "move", -- move
