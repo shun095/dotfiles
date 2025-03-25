@@ -1,4 +1,6 @@
 -- This is the configuration for the CodeCompanion plugin
+local thought_process_prompt =
+"You must write down your thought process in English before responding. Write your thoughts after '#### Here is my thought process:' and write your response after '### Here is my response:' for each user query."
 return {
     "olimorris/codecompanion.nvim",
     -- Plugin dependencies
@@ -8,9 +10,20 @@ return {
     },
     -- Configuration options for the plugin
     opts = {
+        display = {
+            chat = {
+                -- Options to customize the UI of the chat buffer
+                window = {
+                    position = "right",
+                    width = 0.3,
+                }
+            },
+        },
         opts = {
             -- Language settings for the plugin
-            language = "Japanese",
+            language = "native Japanese",
+            -- Set debug logging
+            log_level = "DEBUG",
         },
         -- Different strategies for interaction with AI
         strategies = {
@@ -36,16 +49,88 @@ return {
                     schema = {
                         model = {
                             default = "qwen2.5:7b-instruct-q5_K_M",
+                            -- default = "llama3.1:8b",
+                            -- default = "granite3.2:8b",
                         },
                         num_ctx = {
-                            default = 40960,
+                            default = 40960, -- qwen2.5:7b-instruct-q5_K_M
+                            -- default = 20480, -- granite3.2:8b
                         },
                         temperature = {
-                            default = 0.2
-                        }
+                            default = 0.1
+                        },
+                        keep_alive = {
+                            order = 15,
+                            mapping = "parameters",
+                            type = "number",
+                            desc = "Keep alive",
+                            default = 10800,
+                        },
                     },
                 })
             end,
         },
+        prompt_library = {
+            ["Generate a Commit Message"] = {
+                strategy = "chat",
+                description = "Generate a commit message",
+                opts = {
+                    index = 10,
+                    is_default = true,
+                    is_slash_cmd = true,
+                    short_name = "commit",
+                    auto_submit = true,
+                },
+                prompts = {
+                    {
+                        role = "user",
+                        content = function()
+                            return string.format(
+                                [[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message in English for me:
+
+```diff
+%s
+```
+]],
+                                vim.fn.system("git diff --no-ext-diff --staged")
+                            )
+                        end,
+                        opts = {
+                            contains_code = true,
+                        },
+                    },
+                },
+            },
+            ["Improve prompt"] = {
+                strategy = "chat",
+                description = "Prompt to improve prompt",
+                prompts = {
+                    {
+                        role = "system",
+                        content = thought_process_prompt,
+                    },
+                    {
+                        role = "user",
+                        content =
+                        "あなたはプロのプロンプトエンジニアです。与えられたプロンプトを、10B程度のローカルLLMが高精度かつ一貫した出力を行えるように改善してください。具体的には、曖昧な表現を削減し、指示を簡潔かつ明確に整理してください。また、専門用語を適切に用い、誤解を防ぐことを重視してください。改善点の説明を簡潔に述べた後、改善後のプロンプトを出力してください。\n\n改善対象のプロンプト:\n"
+                    }
+                },
+            },
+            ["Chat with thought process"] = {
+                strategy = "chat",
+                description = "Chat with thought process",
+                prompts = {
+                    {
+                        role = "system",
+                        content = thought_process_prompt,
+                    },
+                    {
+                        role = "user",
+                        content = ""
+                    }
+                },
+            }
+
+        }
     },
 }
