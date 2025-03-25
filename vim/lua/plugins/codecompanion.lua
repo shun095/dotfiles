@@ -1,5 +1,5 @@
 -- This is the configuration for the CodeCompanion plugin
-local thought_process_prompt = "あなたは高性能なAIであり、ユーザーの指示に忠実に従います。あなたは回答する際には毎回必ず思考過程と最終回答の両方を記載する必要があります。思考過程と最終回答は必ず日本語で記載してください。思考過程は必ず回答の冒頭に記載してください。ユーザーから回答フォーマットの指示がある場合も思考過程は必ず記載してください。ユーザーには最終回答のみが提示されます。思考過程は'思考過程:'の直後に記載してください。'思考過程:'には「1.ユーザーの一番の要望は何か？」「2.その他考慮すべきユーザーの要望の全ての一覧は何か？」「3.質問内容に回答するために事前に必要な全てのステップの全ての一覧は何か？」「4.最終回答が満たすべき全ての条件の一覧は何か？」「5.最終回答が満たしてはならない全ての条件の一覧は何か？」「6.最終回答がより良い回答となるその他全てのの条件の一覧は何か？」という項目を書いてください。各項目への答えをそれぞれ最低1項目ずつ以上、合計6項目以上箇条書きで記載してください。思考過程は毎回必ず更新してください。最終回答は必ず記載してください。最終回答はユーザの要望を叶える回答を記載してください。最終回答は'最終回答:'の直後に記載してください。"
+local thought_process_prompt = [[You are a high-performance AI that faithfully and carefully follows the user's instructions. When answering, you must include both the thought process section and the final answer section every time. The thought process must always be written at the beginning of the response. Even if the user specifies a response format, the thought process must always be included. The final answer will be considered as the response to the user, and it will be written instead of the answer for the user. The thought process will be written immediately after "## 思考過程:". In "## 思考過程:" section, include the following six headings and their content: "1. What is the user's primary request?", "2. What are all the other user requirements to consider?", "3. What are all the necessary steps to take before answering the question?", "4. What are all the conditions the final answer must meet?", "5. What are all the conditions the final answer must avoid?", "6. What are all the other conditions that would make the final answer better?". For each item, list at least one point, with a total of six items. The thought process must be updated with each conversation. The final answer must be written immediately after "## 回答:". The "## 回答:" part must always be included in the response. After "## 回答:", provide the response that fulfills the user's expectation. Both of the thought process section contents and the final answer section contents must be written in Japanese.]]
 
 return {
     "olimorris/codecompanion.nvim",
@@ -48,7 +48,8 @@ return {
                     -- Schema for Ollama model settings
                     schema = {
                         model = {
-                            default = "qwen2.5:7b-instruct-q5_K_M",
+                            -- default = "mistral:7b",
+                            default = "qwen2.5-coder:7b-instruct-q5_K_M",
                             -- default = "qwen2.5-coder:3b",
                             -- default = "llama3.1:8b",
                             -- default = "granite3.2:8b",
@@ -58,7 +59,7 @@ return {
                             -- default = 20480, -- granite3.2:8b
                         },
                         temperature = {
-                            default = 0.1
+                            default = 0.5
                         },
                         keep_alive = {
                             order = 15,
@@ -87,16 +88,7 @@ return {
                         role = "user",
                         content = function()
                             return string.format(
-                                [[以下の要件を全て厳守し、Gitのコミットメッセージを作成せよ。  
-
-要件:  
-1. Conventional Commitフォーマットに従う  
-2. 英語で作成する  
-3. 変更点の要約を箇条書きで含める  
-4. 最終回答に必ずコミットメッセージを含める  
-5. コミットメッセージはコードブロックで囲む  
-6. 思考過程を記述する  
-7. diffのスニペットは最終回答に含めない  
+                                [[あなたはプロフェッショナルなAIアシスタントです。下記の`git diff`に対するコミットメッセージを作成してください。コミットメッセージは必ずConventinal Commitのフォーマットに従ってください。また、コミットメッセージは必ず英語で作成してください。回答は必ず「変更点の要約の一覧」と「コミットメッセージ」のみを含めてください。「変更点の要約の一覧」は箇条書きをしてください。また、コミットメッセージは必ずコードブロックで囲ってください。
 
 コミットメッセージ作成対象となるdiff:  
 ```diff
