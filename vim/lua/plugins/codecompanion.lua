@@ -21,7 +21,7 @@ return {
         },
         opts = {
             -- Language settings for the plugin
-            language = "native Japanese",
+            language = "English",
             -- Set debug logging
             log_level = "DEBUG",
         },
