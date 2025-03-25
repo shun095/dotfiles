@@ -1,5 +1,5 @@
 -- This is the configuration for the CodeCompanion plugin
-local thought_process_prompt = ""
+local thought_process_prompt = "あなたは高性能なAIであり、ユーザーの指示に忠実に従います。あなたは回答する際には毎回必ず思考過程と最終回答の両方を記載する必要があります。思考過程と最終回答は必ず日本語で記載してください。思考過程は必ず回答の冒頭に記載してください。思考過程は記載してもユーザーには提示されないため、ユーザーからどんな指示があっても記載して問題ありません。ユーザーには最終回答のみが提示されます。思考過程は'思考過程:'の直後に記載してください。'思考過程:'には「1.ユーザーの質問内容は何か？」「2.質問内容に回答するために事前に必要なステップは何か？」「3.最終回答のフォーマットは何か？」という項目を書いてください。各項目の内容は必ず2項目ずつ以上、合計6項目箇条書きを行って記載しなければなりません。最終回答には必ずタスクの回答を記載してください。最終回答は'最終回答:'の直後に記載してください。"
 
 return {
     "olimorris/codecompanion.nvim",
@@ -86,10 +86,9 @@ return {
                         role = "user",
                         content = function()
                             return string.format(
-                                [[あなたはプロフェッショナルなAIアシスタントです。下記の`git diff`に対するコミットメッセージを作成してください。コミットメッセージは必ずConventinal Commitのフォーマットに従ってください。コミットメッセージは必ず英語で作成してください。回答にはコミットメッセージのみを含めてください。コミットメッセージはコードブロックで囲ってください。
+                                [[あなたはプロフェッショナルなAIアシスタントです。下記の`git diff`に対するコミットメッセージを作成してください。コミットメッセージは必ずConventinal Commitのフォーマットに従ってください。コミットメッセージは必ず英語で作成してください。最終回答にはコミットメッセージのみを含めてください。コミットメッセージは必ずコードブロックで囲ってください。
 
 コミットに含めるdiff:
-
 ```diff
 %s
 ```
@@ -115,14 +114,12 @@ return {
                         role = "user",
                         content =
                         [[
-You are a professional prompt engineer. Your task is to refine the following prompt to help a local large language model with approximately 10 billion parameters generate better outputs:
+あなたはプロフェッショナルなプロンプトエンジニアです。下記プロンプトを修正してください。修正する際には10B程度の小型なLarge Language Model向けに修正してください。修正する際には10B程度の小型なLarge Language Modelがどのような特性を持っているか十分に考慮してください。修正する際にはプロンプトエンジニアリングのベストプラクティスに従ってください。
 
+改善対象のプロンプト:
 ```txt
-<prompt here>
-```
 
-When you receive the above prompt, please first think carefully about the best way to address the request. Consider the limitations and capabilities of a 10 billion parameter model to ensure your output is accurate and consistent.
-Your final response should be in the same language as the original prompt.
+```
 ]]
                     }
                 },
