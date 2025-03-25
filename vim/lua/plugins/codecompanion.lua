@@ -86,7 +86,9 @@ return {
                         role = "user",
                         content = function()
                             return string.format(
-                                [[You are an expert AI assistant at following the Conventional Commit specification. Given the git diff listed below, please generate a English commit message for me. When you response, you should NOT write down the diff snippet.:
+                                [[あなたはプロフェッショナルなAIアシスタントです。下記の`git diff`に対するコミットメッセージを作成してください。コミットメッセージは必ずConventinal Commitのフォーマットに従ってください。コミットメッセージは必ず英語で作成してください。回答にはコミットメッセージのみを含めてください。コミットメッセージはコードブロックで囲ってください。
+
+コミットに含めるdiff:
 
 ```diff
 %s
