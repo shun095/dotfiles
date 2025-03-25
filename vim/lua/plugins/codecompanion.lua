@@ -1,6 +1,6 @@
 -- This is the configuration for the CodeCompanion plugin
-local thought_process_prompt =
-"You must write down your thought process in English before responding. Write your thoughts after 'Here is my thought process:' and write your response after 'Here is my response:' for each user query."
+local thought_process_prompt = ""
+
 return {
     "olimorris/codecompanion.nvim",
     -- Plugin dependencies
@@ -86,7 +86,7 @@ return {
                         role = "user",
                         content = function()
                             return string.format(
-                                [[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message in for me. The commit message must be written in English.:
+                                [[You are an expert AI assistant at following the Conventional Commit specification. Given the git diff listed below, please generate a English commit message for me. When you response, you should NOT write down the diff snippet.:
 
 ```diff
 %s
@@ -112,7 +112,16 @@ return {
                     {
                         role = "user",
                         content =
-                        "You are a professional prompt engineer. Improve the given prompt so that a local LLM with approximately 10B parameters can produce high-precision and consistent outputs. Reduce ambiguous expressions, make the instructions concise, and use appropriate technical terms to avoid misunderstandings.\n\nImprovement target prompt:\n```txt\n```"
+                        [[
+You are a professional prompt engineer. Your task is to refine the following prompt to help a local large language model with approximately 10 billion parameters generate better outputs:
+
+```txt
+<prompt here>
+```
+
+When you receive the above prompt, please first think carefully about the best way to address the request. Consider the limitations and capabilities of a 10 billion parameter model to ensure your output is accurate and consistent.
+Your final response should be in the same language as the original prompt.
+]]
                     }
                 },
             },
