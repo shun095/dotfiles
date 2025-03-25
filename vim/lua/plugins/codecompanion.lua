@@ -15,7 +15,7 @@ return {
                 -- Options to customize the UI of the chat buffer
                 window = {
                     position = "right",
-                    width = 0.3,
+                    width = 0.4,
                 }
             },
         },
@@ -50,6 +50,8 @@ return {
                         model = {
                             -- default = "mistral:7b",
                             default = "qwen2.5-coder:7b-instruct-q5_K_M",
+                            -- default = "qwen2.5-coder:3b-instruct-q8_0",
+                            
                             -- default = "qwen2.5-coder:3b",
                             -- default = "llama3.1:8b",
                             -- default = "granite3.2:8b",
@@ -59,7 +61,7 @@ return {
                             -- default = 20480, -- granite3.2:8b
                         },
                         temperature = {
-                            default = 0.5
+                            default = 0.2
                         },
                         keep_alive = {
                             order = 15,
