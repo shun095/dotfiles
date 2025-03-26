@@ -32,34 +32,52 @@ return {
         strategies = {
             chat = {
                 -- Chat strategy configuration
-                adapter = "ollama",
+                adapter = "ollama_qwencoder7b",
             },
             inline = {
                 -- Inline strategy configuration
-                adapter = "ollama",
+                adapter = "ollama_qwencoder7b",
             },
             cmd = {
                 -- Command strategy configuration
-                adapter = "ollama",
+                adapter = "ollama_qwencoder7b",
             }
         },
         -- Adapters for different AI models
         adapters = {
-            -- Ollama adapter configuration
-            ollama = function()
+            ["ollama_qwencoder7b"] = function()
                 return require("codecompanion.adapters").extend("ollama", {
                     -- Schema for Ollama model settings
                     schema = {
                         model = {
-                            -- default = "mistral:7b",
                             default = "qwen2.5-coder:7b",
-                            -- default = "qwen2.5-coder:3b-instruct-q8_0",
-                            -- default = "qwen2.5-coder:3b",
-                            -- default = "llama3.1:8b",
-                            -- default = "granite3.2:8b",
                         },
                         num_ctx = {
-                            default = 32768, -- qwen2.5:7b-instruct-q5_K_M
+                            default = 32768, -- qwen2.5-coder:7b
+                            -- default = 20480, -- granite3.2:8b
+                        },
+                        temperature = {
+                            default = 0.2
+                        },
+                        keep_alive = {
+                            order = 15,
+                            mapping = "parameters",
+                            type = "number",
+                            desc = "Keep alive",
+                            default = 10800,
+                        },
+                    },
+                })
+            end,
+            ["ollama_qwencoder3b"] = function()
+                return require("codecompanion.adapters").extend("ollama", {
+                    -- Schema for Ollama model settings
+                    schema = {
+                        model = {
+                            default = "qwen2.5-coder:3b",
+                        },
+                        num_ctx = {
+                            default = 32768, -- qwen2.5-coder:7b
                             -- default = 20480, -- granite3.2:8b
                         },
                         temperature = {
@@ -90,8 +108,17 @@ return {
                         content = "Your instructions here..."
                     }
                 },
+            },
+            ["Create polite English prompt"] = {
+                strategy = "chat",
+                description = "Create polite English prompt",
+                prompts = {
+                    {
+                        role = "user",
+                        content = "Please translate the following text into polite English:\n\n--- Start of text ---\n\n--- End of text ---"
+                    }
+                },
             }
-
         }
     },
     keys = {
