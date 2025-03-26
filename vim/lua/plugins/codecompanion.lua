@@ -75,7 +75,7 @@ return {
             end,
         },
         prompt_library = {
-            ["Generate a Commit Message"] = {
+            ["Generate a Git Commit Message (Custom)"] = {
                 strategy = "chat",
                 description = "Generate a commit message",
                 opts = {
@@ -106,7 +106,7 @@ return {
                     },
                 },
             },
-            ["Improve prompt"] = {
+            ["Improve prompt (Custom)"] = {
                 strategy = "chat",
                 description = "Prompt to improve prompt",
                 prompts = {
@@ -136,7 +136,7 @@ return {
                     }
                 },
             },
-            ["Chat with thought process"] = {
+            ["Chat with thought process (Custom)"] = {
                 strategy = "chat",
                 description = "Chat with thought process",
                 prompts = {
