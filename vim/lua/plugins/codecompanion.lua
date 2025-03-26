@@ -49,9 +49,8 @@ return {
                     schema = {
                         model = {
                             -- default = "mistral:7b",
-                            default = "qwen2.5-coder:7b-instruct-q5_K_M",
+                            default = "qwen2.5-coder:7b",
                             -- default = "qwen2.5-coder:3b-instruct-q8_0",
-                            
                             -- default = "qwen2.5-coder:3b",
                             -- default = "llama3.1:8b",
                             -- default = "granite3.2:8b",
@@ -75,7 +74,7 @@ return {
             end,
         },
         prompt_library = {
-            ["Generate a Git Commit Message (Custom)"] = {
+            ["Generate a Commit Message (Custom)"] = {
                 strategy = "chat",
                 description = "Generate a commit message",
                 opts = {
