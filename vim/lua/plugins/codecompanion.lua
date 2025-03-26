@@ -57,7 +57,7 @@ return {
                             -- default = "granite3.2:8b",
                         },
                         num_ctx = {
-                            default = 40960, -- qwen2.5:7b-instruct-q5_K_M
+                            default = 32768, -- qwen2.5:7b-instruct-q5_K_M
                             -- default = 20480, -- granite3.2:8b
                         },
                         temperature = {
@@ -153,4 +153,7 @@ return {
 
         }
     },
+    keys = {
+        {"<Leader>aa", "<cmd>CodeCompanionActions<CR>"}
+    }
 }
