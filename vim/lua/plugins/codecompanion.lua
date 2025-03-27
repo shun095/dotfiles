@@ -53,23 +53,50 @@ return {
                             default = "qwen2.5-coder:7b",
                         },
                         num_ctx = {
-                            -- default = 32768, -- qwen2.5-coder:7b
-                            default = 20480, -- granite3.2:8b
+                            default = 32768,
                         },
                         temperature = {
                             default = 0.2
                         },
-                        keep_alive = {
-                            mapping = "parameters",
-                            type = "number",
-                            desc = "Keep alive",
-                            default = 10800,
+                        -- keep_alive = {
+                        --     mapping = "parameters",
+                        --     type = "number",
+                        --     desc = "Keep alive",
+                        --     default = 10800,
+                        -- },
+                    },
+                })
+            end,
+            -- Qwen2.5 Coder 3B
+            ["ollama_qwencoder3b"] = function()
+                return require("codecompanion.adapters").extend("ollama", {
+                    -- Schema for Ollama model settings
+                    schema = {
+                        model = {
+                            default = "qwen2.5-coder:3b",
                         },
+                        num_ctx = {
+                            default = 32768,
+                        },
+                        temperature = {
+                            default = 0.2
+                        },
+                        -- keep_alive = {
+                        --     mapping = "parameters",
+                        --     type = "number",
+                        --     desc = "Keep alive",
+                        --     default = 10800,
+                        -- },
                     },
                 })
             end,
         },
         prompt_library = {
+            ["Generate a Commit Message"] = {
+                opts = {
+                    auto_submit = false,
+                },
+            },
             ["Chat with thought process"] = {
                 strategy = "chat",
                 description = "Chat with thought process",
@@ -90,7 +117,8 @@ return {
                 prompts = {
                     {
                         role = "user",
-                        content = "Please translate the following text into polite English:\n\n--- Start of text ---\n\n--- End of text ---"
+                        content =
+                        "Please translate the following text into polite English:\n\n--- Start of text ---\n\n--- End of text ---"
                     }
                 },
             }
