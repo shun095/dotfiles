@@ -94,7 +94,7 @@ return {
             ["llama_cpp"] = function()
                 return require("codecompanion.adapters").extend("openai_compatible", {
                     -- Use following command to launch llama.cpp
-                    -- ./llama-server --hf-repo Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --hf-file qwen2.5-coder-7b-instruct-q4_k_m.gguf -ngl 100 -c 20480 --temp 0.2 --top-p 0.9 --repeat-penalty 1.1
+                    -- ./build/bin/llama-server --hf-repo Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --hf-file qwen2.5-coder-7b-instruct-q4_k_m.gguf -ngl 100 -c 20480 --temp 0.2 --top-p 0.9 --top-k 40 --repeat-penalty 1.1 -s 0
 
                     name = "llama_cpp",
                     formatted_name = "Llama.cpp",
@@ -109,18 +109,6 @@ return {
                         model = {
                             default = "llama", -- define llm model to be used
                         },
-                        temperature = {
-                            mapping = "parameters",
-                            type = "number",
-                            default = 2.0,
-                            desc =
-                            "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. We generally recommend altering this or top_p but not both.",
-                        },
-                        n_ctx = {
-                            mapping = "parameters.generation_settings",
-                            default = 32768,
-                            type = "number",
-                        }
                     },
                     handlers = {
                         chat_output = function(self, data)
