@@ -53,7 +53,7 @@ return {
                             default = "qwen2.5-coder:7b",
                         },
                         num_ctx = {
-                            default = 20480,
+                            default = 32768,
                         },
                         temperature = {
                             default = 0.2
