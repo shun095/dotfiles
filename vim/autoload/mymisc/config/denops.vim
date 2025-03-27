@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 fun! mymisc#config#denops#setup() abort
-  " let g:denops_server_addr = '127.0.0.1:32123'
+  let g:denops_server_addr = '127.0.0.1:32123'
   " let g:denops#server#deno_args = ['-q', '--no-lock', '-A', '--inspect']
   " Run follwing command for instruction.
   " call denops_shared_server#install()
