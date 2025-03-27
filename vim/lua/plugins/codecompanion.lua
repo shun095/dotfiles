@@ -5,6 +5,7 @@ local thought_process_prompt =
 -- Return the configuration for the CodeCompanion plugin
 return {
     "olimorris/codecompanion.nvim",
+    version = "*",
     -- Plugin dependencies
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -32,15 +33,15 @@ return {
         strategies = {
             chat = {
                 -- Chat strategy configuration
-                adapter = "ollama_qwencoder7b",
+                adapter = "llama_cpp",
             },
             inline = {
                 -- Inline strategy configuration
-                adapter = "ollama_qwencoder7b",
+                adapter = "llama_cpp",
             },
             cmd = {
                 -- Command strategy configuration
-                adapter = "ollama_qwencoder7b",
+                adapter = "llama_cpp",
             }
         },
         -- Adapters for different AI models
@@ -88,6 +89,49 @@ return {
                             default = 3600,
                         },
                     },
+                })
+            end,
+            ["llama_cpp"] = function()
+                return require("codecompanion.adapters").extend("openai_compatible", {
+                    -- Use following command to launch llama.cpp
+                    -- ./llama-server --hf-repo Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --hf-file qwen2.5-coder-7b-instruct-q4_k_m.gguf -ngl 100 -c 20480 --temp 0.2 --top-p 0.9 --repeat-penalty 1.1
+
+                    name = "llama_cpp",
+                    formatted_name = "Llama.cpp",
+                    roles = {
+                        llm = "assistant",
+                        user = "user",
+                    },
+                    env = {
+                        url = "http://localhost:8080",
+                    },
+                    schema = {
+                        model = {
+                            default = "llama", -- define llm model to be used
+                        },
+                        temperature = {
+                            mapping = "parameters",
+                            type = "number",
+                            default = 2.0,
+                            desc =
+                            "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. We generally recommend altering this or top_p but not both.",
+                        },
+                        n_ctx = {
+                            mapping = "parameters.generation_settings",
+                            default = 32768,
+                            type = "number",
+                        }
+                    },
+                    handlers = {
+                        chat_output = function(self, data)
+                            local openai = require("codecompanion.adapters.openai")
+                            local ret = openai.handlers.chat_output(self, data)
+                            if ret ~= nil and ret.status == "success" then
+                                ret.output.role = "assistant"
+                            end
+                            return ret
+                        end,
+                    }
                 })
             end,
         },
