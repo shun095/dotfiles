@@ -53,17 +53,17 @@ return {
                             default = "qwen2.5-coder:7b",
                         },
                         num_ctx = {
-                            default = 32768,
+                            default = 20480,
                         },
                         temperature = {
                             default = 0.2
                         },
-                        -- keep_alive = {
-                        --     mapping = "parameters",
-                        --     type = "number",
-                        --     desc = "Keep alive",
-                        --     default = 10800,
-                        -- },
+                        keep_alive = {
+                            mapping = "parameters",
+                            type = "number",
+                            desc = "Keep alive",
+                            default = 3600,
+                        },
                     },
                 })
             end,
@@ -81,12 +81,12 @@ return {
                         temperature = {
                             default = 0.2
                         },
-                        -- keep_alive = {
-                        --     mapping = "parameters",
-                        --     type = "number",
-                        --     desc = "Keep alive",
-                        --     default = 10800,
-                        -- },
+                        keep_alive = {
+                            mapping = "parameters",
+                            type = "number",
+                            desc = "Keep alive",
+                            default = 3600,
+                        },
                     },
                 })
             end,
