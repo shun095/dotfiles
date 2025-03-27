@@ -982,24 +982,7 @@ cmp.setup({
     formatting = {
         fields = { "kind", "abbr", "menu" },
         format = function(entry, vim_item)
-            local source_dict = {
-                ["cmdline-prompt"]           = "prompt         ",
-                ["buffer"]                   = "buffer         ",
-                ["cmdline"]                  = "command        ",
-                ["cmdline_history"]          = "history        ",
-                ["nvim_lsp"]                 = "lsp            ",
-                ["path"]                     = "path           ",
-                ["vsnip"]                    = "vsnip          ",
-                ["ultisnips"]                = "ultisnips      ",
-                ["calc"]                     = "calc           ",
-                ["emoji"]                    = "emoji          ",
-                ["nvim_lsp_signature_help"]  = "signature_help ",
-                ["omni"]                     = "omni           ",
-                ["nvim_lsp_document_symbol"] = "document_symbol",
-                ["skkeleton"]                = "skk            ",
-                ["copilot"]                  = "copilot        ",
-            }
-
+            -- Get the symbol text from lspkind
             local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
             local strings = vim.split(kind.kind, "%s", { trimempty = true })
             kind.kind = " " .. (strings[1] or "") .. " "
@@ -1012,24 +995,33 @@ cmp.setup({
             vim.fn["vsnip#anonymous"](args.body)
         end,
     },
+    sources = cmp.config.sources({
+        { name = 'minuet' },
+        { name = 'nvim_lsp_signature_help' },
+        { name = 'ultisnips' },
+        { name = 'nvim_lsp' },
+        { name = 'vsnip' },
+        { name = 'buffer' },
+        { name = 'path' },
+        { name = 'calc' },
+        { name = 'emoji' },
+        {
+            name = 'omni',
+            option = {
+                disable_omnifuncs = {
+                    'v:lua.vim.lsp.omnifunc'
+                }
+            },
+        },
+        { name = "skkeleton" },
+    }),
     mapping = cmp.mapping.preset.insert({
         ['<C-d>'] = cmp.mapping.scroll_docs(4),
         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(8),
         ['<C-b>'] = cmp.mapping.scroll_docs(-8),
         ['<C-Space>'] = cmp.mapping.complete(),
-        ['<M-Space>'] = {
-            i = function(fallback)
-                cmp.complete({
-                    config = {
-                        mapping = cmp.mapping.preset.insert(nested_mapping_config),
-                        sources = {
-                            { name = "cmp_ai" }
-                        }
-                    }
-                })
-            end
-        },
+        ['<M-Space>'] = require('minuet').make_cmp_map(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
         ['<TAB>'] = {
             i = function(fallback)
@@ -1075,28 +1067,6 @@ cmp.setup({
                 end
             end,
         },
-    }),
-    sources = cmp.config.sources({
-        -- { name = 'ollama' },
-        -- { name = "cmp_ai" },
-        { name = 'nvim_lsp_signature_help' },
-        -- { name = 'copilot' },
-        { name = 'ultisnips' },
-        { name = 'nvim_lsp' },
-        { name = 'vsnip' }, -- For vsnip users.
-        { name = 'buffer' },
-        { name = 'path' },
-        { name = 'calc' },
-        { name = 'emoji' },
-        {
-            name = 'omni',
-            option = {
-                disable_omnifuncs = {
-                    'v:lua.vim.lsp.omnifunc'
-                }
-            },
-        },
-        { name = "skkeleton" },
     }),
 })
 -- }}}

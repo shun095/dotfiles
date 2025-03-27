@@ -45,46 +45,21 @@ return {
         },
         -- Adapters for different AI models
         adapters = {
+            -- Qwen2.5 Coder 7B
             ["ollama_qwencoder7b"] = function()
                 return require("codecompanion.adapters").extend("ollama", {
-                    -- Schema for Ollama model settings
                     schema = {
                         model = {
                             default = "qwen2.5-coder:7b",
                         },
                         num_ctx = {
-                            default = 32768, -- qwen2.5-coder:7b
-                            -- default = 20480, -- granite3.2:8b
+                            -- default = 32768, -- qwen2.5-coder:7b
+                            default = 20480, -- granite3.2:8b
                         },
                         temperature = {
                             default = 0.2
                         },
                         keep_alive = {
-                            order = 15,
-                            mapping = "parameters",
-                            type = "number",
-                            desc = "Keep alive",
-                            default = 10800,
-                        },
-                    },
-                })
-            end,
-            ["ollama_qwencoder3b"] = function()
-                return require("codecompanion.adapters").extend("ollama", {
-                    -- Schema for Ollama model settings
-                    schema = {
-                        model = {
-                            default = "qwen2.5-coder:3b",
-                        },
-                        num_ctx = {
-                            default = 32768, -- qwen2.5-coder:7b
-                            -- default = 20480, -- granite3.2:8b
-                        },
-                        temperature = {
-                            default = 0.2
-                        },
-                        keep_alive = {
-                            order = 15,
                             mapping = "parameters",
                             type = "number",
                             desc = "Keep alive",
@@ -122,6 +97,7 @@ return {
         }
     },
     keys = {
-        { "<Leader>aa", "<cmd>CodeCompanionActions<CR>" }
+        { "<Leader>aa", "<cmd>CodeCompanionActions<CR>" },
+        { "<Leader>ac", "<cmd>CodeCompanionChat<CR>" }
     }
 }
