@@ -95,7 +95,7 @@ return {
             end,
         },
         prompt_library = {
-            ["Chat with thought process (Custom)"] = {
+            ["Chat with thought process"] = {
                 strategy = "chat",
                 description = "Chat with thought process",
                 prompts = {
