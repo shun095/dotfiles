@@ -3,6 +3,8 @@ return {
     'milanglacier/minuet-ai.nvim',
     config = function()
         require('minuet').setup {
+            n_completions = 5,
+            request_timeout = 30,
             cmp = {
                 enable_auto_complete = false,
             },
@@ -23,9 +25,10 @@ return {
                     --     top_k = 20,
                     --     temperature = 0.5,
                     -- },
+                    --
 
                     -- Llama.cpp configuration
-                    end_point = 'http://localhost:8080/v1/completions',
+                    end_point = 'http://localhost:8081/v1/completions',
                     -- The model is set by the llama-cpp server and cannot be altered
                     -- post-launch.
                     model = 'llama',

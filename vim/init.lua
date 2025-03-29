@@ -968,6 +968,9 @@ cmp.setup({
         return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
             or require("cmp_dap").is_dap_buffer()
     end,
+    performance = {
+        fetching_timeout = 30000,
+    },
     experimental = {
         ghost_text = true,
     },
@@ -1445,14 +1448,14 @@ require('gitsigns').setup({
         vim.api.nvim_buf_set_keymap(bufnr,
             'n',
             ']c',
-            '<cmd>lua require("gitsigns").nav_hunk("next")<CR>',
+            '<cmd>lua require("gitsigns").nav_hunk("next", { target = "all" })<CR>',
             {
                 desc = "Next git hunk"
             })
         vim.api.nvim_buf_set_keymap(bufnr,
             'n',
             '[c',
-            '<cmd>lua require("gitsigns").nav_hunk("next")<CR>',
+            '<cmd>lua require("gitsigns").nav_hunk("prev", { target = "all" })<CR>',
             {
                 desc = "Previous git hunk"
             })
