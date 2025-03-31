@@ -57,55 +57,11 @@ return {
             },
             -- Adapters for different AI models
             adapters = {
-                -- Qwen2.5 Coder 7B
-                ["ollama_qwencoder7b"] = function()
-                    return require("codecompanion.adapters").extend("ollama", {
-                        schema = {
-                            model = {
-                                default = "qwen2.5-coder:7b",
-                            },
-                            num_ctx = {
-                                default = 32768,
-                            },
-                            temperature = {
-                                default = 0.2
-                            },
-                            keep_alive = {
-                                mapping = "parameters",
-                                type = "number",
-                                desc = "Keep alive",
-                                default = 3600,
-                            },
-                        },
-                    })
-                end,
-                -- Qwen2.5 Coder 3B
-                ["ollama_qwencoder3b"] = function()
-                    return require("codecompanion.adapters").extend("ollama", {
-                        -- Schema for Ollama model settings
-                        schema = {
-                            model = {
-                                default = "qwen2.5-coder:3b",
-                            },
-                            num_ctx = {
-                                default = 32768,
-                            },
-                            temperature = {
-                                default = 0.2
-                            },
-                            keep_alive = {
-                                mapping = "parameters",
-                                type = "number",
-                                desc = "Keep alive",
-                                default = 3600,
-                            },
-                        },
-                    })
-                end,
                 ["llama_cpp"] = function()
                     return require("codecompanion.adapters").extend("openai_compatible", {
                         -- Use following command to launch llama.cpp
-                        -- ./build/bin/llama-server --hf-repo Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --hf-file qwen2.5-coder-7b-instruct-q4_k_m.gguf -ngl 100 -c 20480 --temp 0.2 --top-p 0.9 --top-k 40 --repeat-penalty 1.1 -s 0
+                        -- ./build/bin/llama-server --hf-repo Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --hf-file qwen2.5-coder-7b-instruct-q4_k_m.gguf -ngl 42 -c 32768 -b 64 --flash-attn --mlock -ctk q8_0 -ctv q8_0 --temp 0.2 --port 8080
+
 
                         name = "llama_cpp",
                         formatted_name = "Llama.cpp",
