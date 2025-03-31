@@ -1426,6 +1426,11 @@ require('lualine').setup {
                 color = { fg = "#e2a478" },
             },
         },
+        lualine_z = {
+            { "location" },
+            { require("lualine.codecompanion-component") },
+        }
+
     },
 }
 ------------------------------------------------------------------------------
