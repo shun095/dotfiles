@@ -3,7 +3,7 @@ return {
     'milanglacier/minuet-ai.nvim',
     config = function()
         require('minuet').setup {
-            n_completions = 3,
+            n_completions = 1,
             request_timeout = 30,
             cmp = {
                 enable_auto_complete = false,
