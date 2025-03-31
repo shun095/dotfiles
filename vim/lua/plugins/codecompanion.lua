@@ -143,13 +143,44 @@ Input:
                         {
                             role = "user",
                             content = [[Instruction:
-Please translate the following text into natural and polite English
+Please translate the following text into natural and polite English.
 
 Input:
 --- Start of text ---
 
 --- End of text ---
 ]]
+                        }
+                    },
+                },
+                ["Translate into Japanese"] = {
+                    strategy = "chat",
+                    description = "Translate into Japanese",
+                    prompts = {
+                        {
+                            role = "user",
+                            content = [[Instruction:
+Please provide an accurate Japanese translation of the following text that sounds natural.
+
+Input:
+--- Start of text ---
+
+--- End of text ---
+]]
+                        }
+                    },
+                },
+                ["Translate into Japanese (Slash)"] = {
+                    strategy = "chat",
+                    description = "Translate into Japanese",
+                    opts = {
+                        is_slash_cmd = true,
+                        short_name = "translate",
+                    },
+                    prompts = {
+                        {
+                            role = "user",
+                            content = [[Please provide an accurate Japanese translation of your last message that sounds natural.]]
                         }
                     },
                 }
