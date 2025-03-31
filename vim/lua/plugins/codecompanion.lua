@@ -24,148 +24,180 @@ return {
             { noremap = true, silent = true }
         )
         require('codecompanion').setup({
-                -- Display settings for the plugin
-                display = {
-                    chat = {
-                        -- Options to customize the UI of the chat buffer
-                        window = {
-                            position = "right",
-                            width = 0.4,
+            -- Display settings for the plugin
+            display = {
+                chat = {
+                    -- Options to customize the UI of the chat buffer
+                    window = {
+                        position = "right",
+                        width = 0.4,
+                    }
+                },
+            },
+            opts = {
+                -- Language settings for the plugin
+                language = "English",
+                -- Set debug logging
+                log_level = "DEBUG",
+            },
+            -- Different strategies for interaction with AI
+            strategies = {
+                chat = {
+                    -- Chat strategy configuration
+                    adapter = "llama_cpp",
+                },
+                inline = {
+                    -- Inline strategy configuration
+                    adapter = "llama_cpp",
+                },
+                cmd = {
+                    -- Command strategy configuration
+                    adapter = "llama_cpp",
+                }
+            },
+            -- Adapters for different AI models
+            adapters = {
+                -- Qwen2.5 Coder 7B
+                ["ollama_qwencoder7b"] = function()
+                    return require("codecompanion.adapters").extend("ollama", {
+                        schema = {
+                            model = {
+                                default = "qwen2.5-coder:7b",
+                            },
+                            num_ctx = {
+                                default = 32768,
+                            },
+                            temperature = {
+                                default = 0.2
+                            },
+                            keep_alive = {
+                                mapping = "parameters",
+                                type = "number",
+                                desc = "Keep alive",
+                                default = 3600,
+                            },
+                        },
+                    })
+                end,
+                -- Qwen2.5 Coder 3B
+                ["ollama_qwencoder3b"] = function()
+                    return require("codecompanion.adapters").extend("ollama", {
+                        -- Schema for Ollama model settings
+                        schema = {
+                            model = {
+                                default = "qwen2.5-coder:3b",
+                            },
+                            num_ctx = {
+                                default = 32768,
+                            },
+                            temperature = {
+                                default = 0.2
+                            },
+                            keep_alive = {
+                                mapping = "parameters",
+                                type = "number",
+                                desc = "Keep alive",
+                                default = 3600,
+                            },
+                        },
+                    })
+                end,
+                ["llama_cpp"] = function()
+                    return require("codecompanion.adapters").extend("openai_compatible", {
+                        -- Use following command to launch llama.cpp
+                        -- ./build/bin/llama-server --hf-repo Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --hf-file qwen2.5-coder-7b-instruct-q4_k_m.gguf -ngl 100 -c 20480 --temp 0.2 --top-p 0.9 --top-k 40 --repeat-penalty 1.1 -s 0
+
+                        name = "llama_cpp",
+                        formatted_name = "Llama.cpp",
+                        roles = {
+                            llm = "assistant",
+                            user = "user",
+                        },
+                        env = {
+                            url = "http://localhost:8080",
+                        },
+                        schema = {
+                            model = {
+                                default = "llama", -- define llm model to be used
+                            },
+                            thinking = {
+                                mapping = "parameters",
+                                type = "boolean",
+                                default = true,
+                            },
+                        },
+                        handlers = {
+                            chat_output = function(self, data)
+                                local openai = require("codecompanion.adapters.openai")
+                                local ret = openai.handlers.chat_output(self, data)
+                                if ret ~= nil and ret.status == "success" then
+                                    ret.output.role = "assistant"
+                                end
+                                return ret
+                            end,
+                        }
+                    })
+                end,
+            },
+            prompt_library = {
+                ["Generate a Commit Message"] = {
+                    opts = {
+                        auto_submit = false,
+                    },
+                    prompts = {
+                        {
+                            role = "user",
+                            content = function()
+                                return string.format(
+                                    [[Instruction:
+You are an expert at following the Conventional Commit specification. Given the git diff below, please create a commit message that adheres to the Conventional Commit specification.
+
+Input:
+```diff
+%s
+```
+]],
+                                    vim.fn.system("git diff --no-ext-diff --staged")
+                                )
+                            end,
+                            opts = {
+                                contains_code = true,
+                            },
+                        },
+                    },
+                },
+                ["Chat with thought process"] = {
+                    strategy = "chat",
+                    description = "Chat with thought process",
+                    prompts = {
+                        {
+                            role = "system",
+                            content = thought_process_prompt,
+                        },
+                        {
+                            role = "user",
+                            content = "Your instructions here..."
                         }
                     },
                 },
-                opts = {
-                    -- Language settings for the plugin
-                    language = "English",
-                    -- Set debug logging
-                    log_level = "DEBUG",
-                },
-                -- Different strategies for interaction with AI
-                strategies = {
-                    chat = {
-                        -- Chat strategy configuration
-                        adapter = "llama_cpp",
-                    },
-                    inline = {
-                        -- Inline strategy configuration
-                        adapter = "llama_cpp",
-                    },
-                    cmd = {
-                        -- Command strategy configuration
-                        adapter = "llama_cpp",
-                    }
-                },
-                -- Adapters for different AI models
-                adapters = {
-                    -- Qwen2.5 Coder 7B
-                    ["ollama_qwencoder7b"] = function()
-                        return require("codecompanion.adapters").extend("ollama", {
-                            schema = {
-                                model = {
-                                    default = "qwen2.5-coder:7b",
-                                },
-                                num_ctx = {
-                                    default = 32768,
-                                },
-                                temperature = {
-                                    default = 0.2
-                                },
-                                keep_alive = {
-                                    mapping = "parameters",
-                                    type = "number",
-                                    desc = "Keep alive",
-                                    default = 3600,
-                                },
-                            },
-                        })
-                    end,
-                    -- Qwen2.5 Coder 3B
-                    ["ollama_qwencoder3b"] = function()
-                        return require("codecompanion.adapters").extend("ollama", {
-                            -- Schema for Ollama model settings
-                            schema = {
-                                model = {
-                                    default = "qwen2.5-coder:3b",
-                                },
-                                num_ctx = {
-                                    default = 32768,
-                                },
-                                temperature = {
-                                    default = 0.2
-                                },
-                                keep_alive = {
-                                    mapping = "parameters",
-                                    type = "number",
-                                    desc = "Keep alive",
-                                    default = 3600,
-                                },
-                            },
-                        })
-                    end,
-                    ["llama_cpp"] = function()
-                        return require("codecompanion.adapters").extend("openai_compatible", {
-                            -- Use following command to launch llama.cpp
-                            -- ./build/bin/llama-server --hf-repo Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --hf-file qwen2.5-coder-7b-instruct-q4_k_m.gguf -ngl 100 -c 20480 --temp 0.2 --top-p 0.9 --top-k 40 --repeat-penalty 1.1 -s 0
+                ["Create polite English prompt"] = {
+                    strategy = "chat",
+                    description = "Create polite English prompt",
+                    prompts = {
+                        {
+                            role = "user",
+                            content = [[Instruction:
+Please translate the following text into natural and polite English
 
-                            name = "llama_cpp",
-                            formatted_name = "Llama.cpp",
-                            roles = {
-                                llm = "assistant",
-                                user = "user",
-                            },
-                            env = {
-                                url = "http://localhost:8080",
-                            },
-                            schema = {
-                                model = {
-                                    default = "llama", -- define llm model to be used
-                                },
-                            },
-                            handlers = {
-                                chat_output = function(self, data)
-                                    local openai = require("codecompanion.adapters.openai")
-                                    local ret = openai.handlers.chat_output(self, data)
-                                    if ret ~= nil and ret.status == "success" then
-                                        ret.output.role = "assistant"
-                                    end
-                                    return ret
-                                end,
-                            }
-                        })
-                    end,
-                },
-                prompt_library = {
-                    ["Generate a Commit Message"] = {
-                        opts = {
-                            auto_submit = false,
-                        },
+Input:
+--- Start of text ---
+
+--- End of text ---
+]]
+                        }
                     },
-                    ["Chat with thought process"] = {
-                        strategy = "chat",
-                        description = "Chat with thought process",
-                        prompts = {
-                            {
-                                role = "system",
-                                content = thought_process_prompt,
-                            },
-                            {
-                                role = "user",
-                                content = "Your instructions here..."
-                            }
-                        },
-                    },
-                    ["Create polite English prompt"] = {
-                        strategy = "chat",
-                        description = "Create polite English prompt",
-                        prompts = {
-                            {
-                                role = "user",
-                                content =
-                                "Please translate the following text into polite English:\n\n--- Start of text ---\n\n--- End of text ---"
-                            }
-                        },
-                    }
                 }
-            })
+            }
+        })
     end,
 }

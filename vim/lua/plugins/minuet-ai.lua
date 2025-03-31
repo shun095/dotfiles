@@ -3,13 +3,13 @@ return {
     'milanglacier/minuet-ai.nvim',
     config = function()
         require('minuet').setup {
-            n_completions = 5,
+            n_completions = 3,
             request_timeout = 30,
             cmp = {
                 enable_auto_complete = false,
             },
             provider = 'openai_fim_compatible',
-            context_window = 512,
+            context_window = 2048,
             provider_options = {
                 -- OpenAI FIM compatible provider options
                 openai_fim_compatible = {
@@ -33,7 +33,7 @@ return {
                     -- post-launch.
                     model = 'llama',
                     optional = {
-                        temperature = 0.5,
+                        -- temperature = 0.5,
                     },
                     -- Llama.cpp does not support the `suffix` option in FIM completion.
                     -- Therefore, we must disable it and manually populate the special
