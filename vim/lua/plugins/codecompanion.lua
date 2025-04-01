@@ -110,10 +110,8 @@ return {
                             role = "user",
                             content = function()
                                 return string.format(
-                                    [[Instruction:
-You are an expert at following the Conventional Commit specification. Given the git diff below, please create a commit message that adheres to the Conventional Commit specification.
+                                    [[You are an expert at following the Conventional Commit specification. Given the git diff below, please create a commit message that adheres to the Conventional Commit specification:
 
-Input:
 ```diff
 %s
 ```
@@ -147,13 +145,9 @@ Input:
                     prompts = {
                         {
                             role = "user",
-                            content = [[Instruction:
-Please translate the following text into natural and polite English.
+                            content = [[Please translate the following passage into formal and natural English:
 
-Input:
---- Start of text ---
-
---- End of text ---
+[Input text]
 ]]
                         }
                     },
