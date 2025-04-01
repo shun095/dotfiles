@@ -207,7 +207,7 @@ Your memory will reset soon. Please save memory bank file as `memorybank.md` usi
                     description = "Chat from memory bank",
                     opts = {
                         is_slash_cmd = true,
-                        short_name = "save_memory",
+                        short_name = "load_memory",
                     },
                     prompts = {
                         {
