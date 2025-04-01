@@ -50,6 +50,15 @@ return {
                 chat = {
                     -- Chat strategy configuration
                     adapter = "llama_cpp",
+                    tools = {
+                        ["mcp"] = {
+                            callback = require("mcphub.extensions.codecompanion"),
+                            description = "Call tools and resources from the MCP Servers",
+                            opts = {
+                                requires_approval = true
+                            }
+                        }
+                    }
                 },
                 inline = {
                     -- Inline strategy configuration
@@ -140,7 +149,7 @@ fix(parser): resolve async tokenization issue
 
 Closes #456
 
-**Output the commit message as plain text without surrounding it with triple backticks.**
+**Output the commit message as `txt` code block with triple backticks.**
 
 Now, based on the following git diff, generate a commit message:
 
@@ -171,15 +180,19 @@ Now, based on the following git diff, generate a commit message:
                         }
                     },
                 },
-                ["Create polite English prompt"] = {
+                ["Translate into English"] = {
                     strategy = "chat",
-                    description = "Create polite English prompt",
+                    description = "Translate into English",
                     prompts = {
                         {
                             role = "user",
-                            content = [[Please translate the following passage into formal and natural English:
+                            content = [[Instruction:
+Please translate the following text into formal and natural English:
 
-[Input text]
+Input:
+--- Start of text ---
+
+--- End of text ---
 ]]
                         }
                     },
@@ -248,12 +261,86 @@ Your memory will reset soon. Please save memory bank file as `memorybank.md` usi
                             [[You are an expert software engineer with a unique characteristic: your memory resets completely between sessions. This isn't a limitation - it's what drives you to maintain perfect documentation. After each reset, you rely ENTIRELY on your Memory Bank to understand the project and continue work effectively. I MUST read ALL memory bank files at the start of EVERY task - this is not optional. The format is flexible - focus on capturing valuable insights that help me work more effectively with you and the project. After every memory reset, I begin completely fresh. The Memory Bank is my only link to previous work. It must be maintained with precision and clarity, as my effectiveness depends entirely on its accuracy.
 
 New session was started. Please read memory bank file from `memorybank.md` using cmd_runner tool at first. @cmd_runner
-After that, please continue your task. 
+After that, please continue your task.
 
 Your task is:
 ]]
                         }
                     },
+                },
+                ["Code review"] = {
+                    strategy = "chat",
+                    description = "Code review",
+                    opts = {
+                        is_slash_cmd = true,
+                        short_name = "review",
+                    },
+                    prompts = {
+                        {
+                            role = "user",
+                            content = [[Please conduct a code review based on the following request.
+
+---
+
+**Code Review Request**
+
+**Introduction**
+We are requesting a professional code review of the following code. The goal of this review is to ensure that the code is well-structured, maintainable, and free of potential issues.
+
+**Code Details**
+- **Code Snippet**: #buffer
+
+**Review Criteria and Checklist**
+1. **Functionality**
+   - Does the code perform its intended function correctly?
+   - Are there any edge cases or special scenarios that are not handled?
+
+2. **Readability and Maintainability**
+   - Is the code well-structured and easy to understand?
+   - Are variable names descriptive and meaningful?
+   - Is the code modular and can be easily extended or modified?
+
+3. **Error Handling and Robustness**
+   - Are there any potential errors or exceptions that are not handled?
+   - Does the code handle errors gracefully and provide useful error messages?
+   - Are there any redundant or unnecessary error checks?
+
+4. **Performance Considerations**
+   - Is the code optimized for performance?
+   - Are there any potential bottlenecks or areas for improvement?
+   - Are there any unnecessary computations or memory allocations?
+
+5. **Security Implications**
+   - Does the code follow best practices for security?
+   - Are there any potential vulnerabilities or security risks?
+   - Are there any sensitive data or operations that are not properly protected?
+
+6. **Compliance with Coding Standards and Best Practices**
+   - Does the code follow the established coding standards and best practices?
+   - Are there any outdated or deprecated practices being used?
+   - Are there any opportunities for refactoring or improvement?
+
+**Instructions for the Reviewer**
+- Please review the code thoroughly and provide a detailed analysis.
+- Use the checklist above to guide your review.
+- Provide any comments or notes during the review process.
+- Suggest any improvements or changes that can be made to the code.
+- Ensure that the code is thoroughly tested and passes all relevant tests.
+
+**Follow-up Actions and Next Steps**
+- After the review is complete, please provide a summary of the findings and recommendations.
+- If necessary, provide a revised version of the code as diff format.
+- Ensure that the code is integrated into the project and tested thoroughly.
+
+**Reviewer Signature:**
+__________________________
+Date: ________________
+
+---
+
+]]
+                        }
+                    }
                 }
             }
         })
