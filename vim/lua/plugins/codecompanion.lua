@@ -110,7 +110,39 @@ return {
                             role = "user",
                             content = function()
                                 return string.format(
-                                    [[You are an expert at following the Conventional Commit specification. Given the git diff below, please create a commit message that adheres to the Conventional Commit specification:
+                                    [[You are an expert at following the Conventional Commit specification. Given the git diff below, create a commit message that strictly follows this format:
+
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer]
+
+### **Guidelines**
+- **`<type>`**: Use one of the following based on the change:
+  - `feat`: New feature
+  - `fix`: Bug fix
+  - `docs`: Documentation update
+  - `chore`: Maintenance (e.g., refactoring, dependencies)
+  - `refactor`: Code changes without functional impact
+  - `test`: Adding/modifying tests
+  - `style`: Formatting changes
+- **`<scope>`** (optional): Specify the affected module or feature (e.g., `neovim`, `config`, `parser`).
+- **`<description>`**: Concise summary in imperative mood.
+- **`[optional body]`**: Additional details if needed.
+- **`[optional footer]`**: Metadata like issue references (e.g., `Closes #123`).
+
+### **Example**
+fix(parser): resolve async tokenization issue
+
+- Fixed incorrect token boundary detection.
+- Improved error handling in parser.
+
+Closes #456
+
+**Output the commit message as plain text without surrounding it with triple backticks.**
+
+Now, based on the following git diff, generate a commit message:
 
 ```diff
 %s
