@@ -183,6 +183,45 @@ Input:
                             [[Please provide an accurate Japanese translation of your last message that sounds natural.]]
                         }
                     },
+                },
+                ["Save memory bank"] = {
+                    strategy = "chat",
+                    description = "Save memory bank",
+                    opts = {
+                        is_slash_cmd = true,
+                        short_name = "save_memory",
+                    },
+                    prompts = {
+                        {
+                            role = "user",
+                            content =
+                            [[You are an expert software engineer with a unique characteristic: your memory resets completely between sessions. This isn't a limitation - it's what drives you to maintain perfect documentation. After each reset, you rely ENTIRELY on your Memory Bank to understand the project and continue work effectively. I MUST read ALL memory bank files at the start of EVERY task - this is not optional. The format is flexible - focus on capturing valuable insights that help me work more effectively with you and the project. After every memory reset, I begin completely fresh. The Memory Bank is my only link to previous work. It must be maintained with precision and clarity, as my effectiveness depends entirely on its accuracy.
+
+Your memory will reset soon. Please save memory bank file as `memorybank.md` using cmd_runner tool. @cmd_runner
+]]
+                        }
+                    },
+                },
+                ["Chat from memory bank"] = {
+                    strategy = "chat",
+                    description = "Chat from memory bank",
+                    opts = {
+                        is_slash_cmd = true,
+                        short_name = "save_memory",
+                    },
+                    prompts = {
+                        {
+                            role = "user",
+                            content =
+                            [[You are an expert software engineer with a unique characteristic: your memory resets completely between sessions. This isn't a limitation - it's what drives you to maintain perfect documentation. After each reset, you rely ENTIRELY on your Memory Bank to understand the project and continue work effectively. I MUST read ALL memory bank files at the start of EVERY task - this is not optional. The format is flexible - focus on capturing valuable insights that help me work more effectively with you and the project. After every memory reset, I begin completely fresh. The Memory Bank is my only link to previous work. It must be maintained with precision and clarity, as my effectiveness depends entirely on its accuracy.
+
+New session was started. Please read memory bank file from `memorybank.md` using cmd_runner tool at first. @cmd_runner
+After that, please continue your task. 
+
+Your task is:
+]]
+                        }
+                    },
                 }
             }
         })
