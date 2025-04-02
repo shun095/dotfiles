@@ -1518,6 +1518,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 -- guides, and other language-specific features.
 --
 require('render-markdown').setup({
+    file_types = { 'markdown', 'codecompanion' },
     preset = 'obsidian',
     anti_conceal = {
         enabled = false
