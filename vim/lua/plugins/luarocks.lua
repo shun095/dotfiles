@@ -1,6 +1,6 @@
 return {
   "camspiers/luarocks",
   opts = {
-    rocks = { "fzy" } -- Specify LuaRocks packages to install
+    rocks = { "fzy", "tiktoken_core" , "rxi-json-lua"} -- Specify LuaRocks packages to install
   }
 }

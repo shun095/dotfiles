@@ -17,6 +17,11 @@ return {
             "<cmd>CodeCompanionActions<CR>",
             { noremap = true, silent = true }
         )
+        vim.api.nvim_set_keymap('v',
+            "<Leader>aa",
+            "<cmd>CodeCompanionActions<CR>",
+            { noremap = true, silent = true }
+        )
         vim.api.nvim_set_keymap('n',
             "<Leader>ac",
             "<cmd>CodeCompanionChat<CR>",
@@ -35,19 +40,38 @@ return {
             },
             opts = {
                 -- Language settings for the plugin
-                language = "natural Japanese",
+                language = "Japanese",
                 -- Set debug logging
                 log_level = "DEBUG",
-                system_prompt = function(opts)
-                    local language = opts.language or "English"
-                    return string.format(require("prompts.system_prompt"),
-                        language
-                    )
-                end,
+                -- system_prompt = function(opts)
+                --     local language = opts.language or "English"
+                --     return string.format(require("prompts.system_prompt"),
+                --         language
+                --     )
+                -- end,
             },
             -- Different strategies for interaction with AI
             strategies = {
                 chat = {
+                    -- keymaps = {
+                    --     close = {
+                    --         modes = {
+                    --             n = nil,
+                    --             i = nil,
+                    --         },
+                    --     },
+                    --     stop = {
+                    --         modes = {
+                    --             n = "<C-c>",
+                    --         },
+                    --     },
+                    --     clear = {
+                    --         modes = {
+                    --             n = nil,
+                    --         },
+                    --     },
+                    --     -- Add further custom keymaps here
+                    -- },
                     -- Chat strategy configuration
                     adapter = "llama_cpp",
                     tools = {
@@ -76,7 +100,6 @@ return {
                         -- Use following command to launch llama.cpp
                         -- ./build/bin/llama-server --hf-repo Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --hf-file qwen2.5-coder-7b-instruct-q4_k_m.gguf -ngl 42 -c 32768 -b 64 --flash-attn --mlock -ctk q8_0 -ctv q8_0 --temp 0.2 --port 8080
 
-
                         name = "llama_cpp",
                         formatted_name = "Llama.cpp",
                         roles = {
@@ -100,7 +123,7 @@ return {
                             chat_output = function(self, data)
                                 local openai = require("codecompanion.adapters.openai")
                                 local ret = openai.handlers.chat_output(self, data)
-                                if ret ~= nil and ret.status == "success" then
+                                if ret and ret.status == "success" then
                                     ret.output.role = "assistant"
                                 end
                                 return ret
@@ -110,6 +133,12 @@ return {
                 end,
             },
             prompt_library = {
+
+                ["Explain"] = {
+                    opts = {
+                        auto_submit = false,
+                    },
+                },
                 ["Generate a Commit Message"] = {
                     opts = {
                         auto_submit = false,
@@ -119,7 +148,7 @@ return {
                             role = "user",
                             content = function()
                                 return string.format(
-                                    [[You are an expert at following the Conventional Commit specification. Given the git diff below, create a commit message that strictly follows this format:
+                                    [[You are an expert in following the Conventional Commit specification. Given the provided git diff, your task is to generate a commit message that strictly follows this format:
 
 ```txt
 <type>(<scope>): <description>
@@ -127,20 +156,33 @@ return {
 [optional body]
 ```
 
-### **Guidelines**
-- **`<type>`**: Use one of the following based on the change:
-  - `feat`: New feature
-  - `fix`: Bug fix
-  - `docs`: Documentation update
-  - `chore`: Maintenance (e.g., refactoring, dependencies)
-  - `refactor`: Code changes without functional impact
-  - `test`: Adding/modifying tests
-  - `style`: Formatting changes
-- **`<scope>`** (optional): Specify the affected module or feature (e.g., `neovim`, `config`, `parser`).
-- **`<description>`**: Concise summary in imperative mood.
-- **`[optional body]`**: Additional details if needed.
+### **Instructions:**
 
-### **Example**
+1. **`<type>`**:  
+   Identify the type of change in the code and choose one of these options:
+   - **`feat`**: The commit adds a new feature.
+   - **`fix`**: The commit fixes a bug.
+   - **`docs`**: The commit updates documentation.
+   - **`chore`**: The commit involves maintenance tasks (like refactoring or managing dependencies).
+   - **`refactor`**: The commit changes the code structure without changing functionality.
+   - **`test`**: The commit involves adding or modifying tests.
+   - **`style`**: The commit includes code formatting changes (e.g., indentation, spacing) that don’t affect functionality.
+
+2. **`<scope>`** (optional):  
+   If the change impacts a specific part of the system (such as a module or feature), name that part in parentheses. Examples: `neovim`, `config`, `parser`.  
+   If no specific part of the system is affected, you can skip this part.
+
+3. **`<description>`**:  
+   Write a concise, clear summary of what the commit does, using the imperative mood (for example, “Add feature”, “Fix bug”).  
+   **Important**: Keep the description brief and focused on the purpose of the commit.
+
+4. **[optional body]**:  
+   If additional context or details are needed to explain the commit (e.g., clarifying why certain changes were made), you can add them in the body. This section is optional, so only include it when necessary.
+
+---
+
+**Example Commit Message:**
+
 ```txt
 fix(parser): resolve async tokenization issue
 
@@ -148,11 +190,17 @@ fix(parser): resolve async tokenization issue
 - Improved error handling in parser.
 ```
 
-Now, based on the following git diff, generate a commit message:
+---
 
+### **Your Task:**
+Based on the following git diff, generate a commit message by following the steps above:
+
+--- Start of the git diff ---
 ```diff
 %s
 ```
+--- End of the git diff ---
+
 ]],
                                     vim.fn.system("git diff --no-ext-diff --staged")
                                 )
@@ -177,53 +225,68 @@ Now, based on the following git diff, generate a commit message:
                         }
                     },
                 },
-                ["Translate into English"] = {
-                    strategy = "chat",
-                    description = "Translate into English",
-                    prompts = {
-                        {
-                            role = "user",
-                            content = [[Instruction:
-Please translate the following text into formal and natural English:
-
-Input:
---- Start of text ---
-
---- End of text ---
-]]
-                        }
-                    },
-                },
                 ["Translate into Japanese"] = {
                     strategy = "chat",
                     description = "Translate into Japanese",
+                    opts = {
+                        modes = { "v" },
+                        auto_submit = true,
+                        short_name = "english",
+                        stop_context_insertion = true,
+                    },
                     prompts = {
                         {
                             role = "user",
-                            content = [[Instruction:
-Please provide an accurate Japanese translation of the following text that sounds natural.
+                            content = function(context)
+                                local code = require("codecompanion.helpers.actions").get_code(context.start_line,
+                                    context.end_line)
 
-Input:
+                                return string.format(
+                                    [[Please translate into Japanese this text:
+
 --- Start of text ---
-
+%s
 --- End of text ---
-]]
-                        }
+]],
+                                    code
+                                )
+                            end,
+                            opts = {
+                                contains_code = false,
+                            },
+                        },
                     },
                 },
-                ["Say in japanese"] = {
+                ["Translate into English"] = {
                     strategy = "chat",
-                    description = "Translate into Japanese",
+                    description = "Translate into English",
                     opts = {
-                        is_slash_cmd = true,
-                        short_name = "translate",
+                        modes = { "v" },
+                        auto_submit = true,
+                        short_name = "english",
+                        stop_context_insertion = true,
                     },
                     prompts = {
                         {
                             role = "user",
-                            content =
-                            [[最後の返答を日本語にして]]
-                        }
+                            content = function(context)
+                                local code = require("codecompanion.helpers.actions").get_code(context.start_line,
+                                    context.end_line)
+
+                                return string.format(
+                                    [[Please translate into English this text:
+
+--- Start of text ---
+%s
+--- End of text ---
+]],
+                                    code
+                                )
+                            end,
+                            opts = {
+                                contains_code = false,
+                            },
+                        },
                     },
                 },
                 ["Save memory bank"] = {
