@@ -43,12 +43,12 @@ return {
                 language = "Japanese",
                 -- Set debug logging
                 log_level = "DEBUG",
-                -- system_prompt = function(opts)
-                --     local language = opts.language or "English"
-                --     return string.format(require("prompts.system_prompt"),
-                --         language
-                --     )
-                -- end,
+                system_prompt = function(opts)
+                    local language = opts.language or "English"
+                    return string.format(require("prompts.system_prompt"),
+                        language
+                    )
+                end,
             },
             -- Different strategies for interaction with AI
             strategies = {
