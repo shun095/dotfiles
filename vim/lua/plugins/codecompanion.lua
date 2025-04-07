@@ -44,9 +44,8 @@ return {
                 -- Set debug logging
                 log_level = "DEBUG",
                 system_prompt = function(opts)
-                    local language = opts.language or "English"
                     return string.format(require("prompts.system_prompt"),
-                        language
+                        opts.language
                     )
                 end,
             },
@@ -158,7 +157,7 @@ return {
 
 ### **Instructions:**
 
-1. **`<type>`**:  
+1. **`<type>`**:
    Identify the type of change in the code and choose one of these options:
    - **`feat`**: The commit adds a new feature.
    - **`fix`**: The commit fixes a bug.
@@ -168,16 +167,16 @@ return {
    - **`test`**: The commit involves adding or modifying tests.
    - **`style`**: The commit includes code formatting changes (e.g., indentation, spacing) that don’t affect functionality.
 
-2. **`<scope>`** (optional):  
-   If the change impacts a specific part of the system (such as a module or feature), name that part in parentheses. Examples: `neovim`, `config`, `parser`.  
+2. **`<scope>`** (optional):
+   If the change impacts a specific part of the system (such as a module or feature), name that part in parentheses. Examples: `neovim`, `config`, `parser`.
    If no specific part of the system is affected, you can skip this part.
 
-3. **`<description>`**:  
-   Write a concise, clear summary of what the commit does, using the imperative mood (for example, “Add feature”, “Fix bug”).  
+3. **`<description>`**:
+   Write a concise, clear summary of what the commit does, using the imperative mood (for example, “Add feature”, “Fix bug”).
    **Important**: Keep the description brief and focused on the purpose of the commit.
 
-4. **[optional body]**:  
-   If additional context or details are needed to explain the commit (e.g., clarifying why certain changes were made), you can add them in the body. This section is optional, so only include it when necessary.
+4. **[optional body]**:
+   If additional context or details are needed to explain the commit (e.g., clarifying why certain changes were made), you can add them in the body as bullet points. This section is optional, so only include it when necessary.
 
 ---
 
