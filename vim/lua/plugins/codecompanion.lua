@@ -244,7 +244,23 @@ Based on the following git diff, generate a commit message by following the step
                         {
                             role = "user",
                             content =
-                            "Please create a commit with your message using @cmd_runner tools. All related files have been already staged, so only you have to do is to run `git commit` command with your message."
+                            [=[Please create a commit with your message using @cmd_runner tools. All related files have been already staged, so only you have to do is to run `git commit` command with your message. Do not forget to include optional body in the message.
+
+Example:
+```xml
+<tools>
+  <tool name="cmd_runner">
+    <action>
+      <command><![CDATA[git commit -m "fix(parser): resolve async tokenization issue
+
+- Fixed incorrect token boundary detection.
+- Improved error handling in parser."]]></command>
+    </action>
+  </tool>
+</tools>
+```
+
+                            ]=],
                         }
                     },
                 },
