@@ -149,13 +149,19 @@ return {
                                 return string.format(
                                     [[You are an expert in following the Conventional Commit specification. Given the provided git diff, your task is to generate a commit message that strictly follows this format:
 
+
+No.<number>:
+
 ```txt
 <type>(<scope>): <description>
 
 [optional body]
 ```
 
+Please generate the message 3 times, so the user can choose one from them.
+
 ### **Instructions:**
+0. <number>: Identity of the commit message. It should be 1,2 or 3 because you will create 3 times.
 
 1. **`<type>`**:
    Identify the type of change in the code and choose one of these options:
@@ -181,6 +187,8 @@ return {
 ---
 
 **Example Commit Message:**
+
+No.1:
 
 ```txt
 fix(parser): resolve async tokenization issue
@@ -221,6 +229,21 @@ Based on the following git diff, generate a commit message by following the step
                         {
                             role = "user",
                             content = "Your instructions here..."
+                        }
+                    },
+                },
+                ["Create commit"] = {
+                    strategy = "chat",
+                    description = "Create git commit",
+                    opts = {
+                        auto_submit = false,
+                        short_name = "create_commit",
+                        is_slash_cmd = true,
+                    },
+                    prompts = {
+                        {
+                            role = "user",
+                            content = "Please create a commit with your message using @cmd_runner tools. All related files have been already staged, so only you have to do is to run `git commit` command with your message."
                         }
                     },
                 },
