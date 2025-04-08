@@ -56,7 +56,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.api.nvim_create_augroup('init_lua', { clear = true })
 
 require("lazy").setup({
-    spec        = {
+    spec             = {
         {
             dir = vim.env.MYVIMHOME,
         },
@@ -70,19 +70,24 @@ require("lazy").setup({
             import = "local_plugins",
         },
     },
-    install     = {
+    install          = {
         missing = true,
         colorscheme = {
             "iceberg",
         }
     },
-    rocks       = {
+    rocks            = {
         hererocks = true,
     },
-    checker     = {
+    checker          = {
         enabled = true,
+        notify = false,
     },
-    performance = {
+    change_detection = {
+        enabled = true,
+        notify = false, -- get a notification when changes are found
+    },
+    performance      = {
         rtp = {
             reset = false, -- reset the runtime path to $VIMRUNTIME and your config directory
         }
