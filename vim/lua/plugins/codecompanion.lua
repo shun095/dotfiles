@@ -119,6 +119,38 @@ return {
                             },
                         },
                         handlers = {
+                            form_messages = function(self, messages)
+                                local new_messages = {}
+                                local merged_message = nil
+                                local last_role = ""
+                                for index, message in ipairs(messages) do
+                                    if message.role == "system" then
+                                        message.role = "user"
+                                    end
+
+                                    if message.role ~= last_role and merged_message then
+                                        table.insert(new_messages, merged_message)
+                                        merged_message = { role = message.role, content = "" }
+                                    end
+
+                                    if merged_message then
+                                        merged_message = {
+                                            role = message.role,
+                                            content = merged_message.content .. "\n\n\n\n" .. message.content,
+                                        }
+                                    else
+                                        merged_message = {
+                                            role = message.role,
+                                            content = message.content,
+                                        }
+                                    end
+
+                                    last_role = message.role
+                                end
+                                table.insert(new_messages, merged_message)
+
+                                return { messages = new_messages }
+                            end,
                             chat_output = function(self, data)
                                 local openai = require("codecompanion.adapters.openai")
                                 local ret = openai.handlers.chat_output(self, data)
