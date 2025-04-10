@@ -72,7 +72,7 @@ return {
                     --     -- Add further custom keymaps here
                     -- },
                     -- Chat strategy configuration
-                    adapter = "llama_cpp",
+                    adapter = "llama_cpp_local",
                     tools = {
                         ["mcp"] = {
                             callback = require("mcphub.extensions.codecompanion"),
@@ -85,21 +85,21 @@ return {
                 },
                 inline = {
                     -- Inline strategy configuration
-                    adapter = "llama_cpp",
+                    adapter = "llama_cpp_local",
                 },
                 cmd = {
                     -- Command strategy configuration
-                    adapter = "llama_cpp",
+                    adapter = "llama_cpp_local",
                 }
             },
             -- Adapters for different AI models
             adapters = {
-                ["llama_cpp"] = function()
+                ["llama_cpp_local"] = function()
                     return require("codecompanion.adapters").extend("openai_compatible", {
                         -- Use following command to launch llama.cpp
                         -- ./build/bin/llama-server --hf-repo Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --hf-file qwen2.5-coder-7b-instruct-q4_k_m.gguf -ngl 42 -c 32768 -b 64 --flash-attn --mlock -ctk q8_0 -ctv q8_0 --temp 0.2 --port 8080
 
-                        name = "llama_cpp",
+                        name = "llama_cpp_local",
                         formatted_name = "Llama.cpp",
                         roles = {
                             llm = "assistant",
@@ -107,6 +107,71 @@ return {
                         },
                         env = {
                             url = "http://localhost:8080",
+                        },
+                        schema = {
+                            model = {
+                                default = "llama", -- define llm model to be used
+                            },
+                            thinking = {
+                                mapping = "parameters",
+                                type = "boolean",
+                                default = true,
+                            },
+                        },
+                        handlers = {
+                            form_messages = function(self, messages)
+                                local new_messages = {}
+                                local merged_message = nil
+                                local last_role = ""
+                                for index, message in ipairs(messages) do
+                                    -- if message.role == "system" then
+                                    --     message.role = "user"
+                                    -- end
+
+                                    if message.role ~= last_role and merged_message then
+                                        table.insert(new_messages, merged_message)
+                                        merged_message = { role = message.role, content = "" }
+                                    end
+
+                                    if merged_message then
+                                        merged_message = {
+                                            role = message.role,
+                                            content = merged_message.content .. "\n\n\n\n" .. message.content,
+                                        }
+                                    else
+                                        merged_message = {
+                                            role = message.role,
+                                            content = message.content,
+                                        }
+                                    end
+
+                                    last_role = message.role
+                                end
+                                table.insert(new_messages, merged_message)
+
+                                return { messages = new_messages }
+                            end,
+                            chat_output = function(self, data)
+                                local openai = require("codecompanion.adapters.openai")
+                                local ret = openai.handlers.chat_output(self, data)
+                                if ret and ret.status == "success" then
+                                    ret.output.role = "assistant"
+                                end
+                                return ret
+                            end,
+                        }
+                    })
+                end,
+                ["llama_cpp_remote"] = function()
+                    return require("codecompanion.adapters").extend("openai_compatible", {
+                        name = "llama_cpp_remote",
+                        formatted_name = "Llama.cpp",
+                        roles = {
+                            llm = "assistant",
+                            user = "user",
+                        },
+                        env = {
+                            url = "http://bastion-1.local:8080",
                         },
                         schema = {
                             model = {
