@@ -60,15 +60,15 @@ require("lazy").setup({
         {
             dir = vim.env.MYVIMHOME,
         },
-        {
-            dir = vim.env.HOME .. "/Documents/dev/my-ai-plugin",
-        },
+        -- {
+        --     dir = vim.env.HOME .. "/Documents/dev/my-ai-plugin",
+        -- },
         {
             import = "plugins",
         },
-        {
-            import = "local_plugins",
-        },
+        -- {
+        --     import = "local_plugins",
+        -- },
     },
     install          = {
         missing = true,

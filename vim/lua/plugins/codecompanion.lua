@@ -475,7 +475,7 @@ Your task is:
                             role = "user",
                             content = [[Task: [Your task here]
 
-You can use the `@xxx` tool to carry out this task. It supports multi-turn interactions, so there’s no need to accomplish everything in a single step. Instead, proceed incrementally.
+You can use the `@mcp` tool to carry out this task. It supports multi-turn interactions, so there’s no need to accomplish everything in a single step. Instead, proceed incrementally.
 While exploring the task, keep the main objective in mind. Start with a clear plan, but be ready to adjust it as needed to stay aligned with your goal. If you come across something that requires deeper investigation, refine your plan accordingly and dive deeper.
 In such cases, it may be helpful to use sequential thinking tools to manage branching logic and maintain clarity in your process. So, take a moment to pause, then move forward one step at a time.]]
                         }
