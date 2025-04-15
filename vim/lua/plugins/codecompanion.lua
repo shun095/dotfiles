@@ -124,13 +124,19 @@ return {
                                 local merged_message = nil
                                 local last_role = ""
                                 for index, message in ipairs(messages) do
-                                    -- if message.role == "system" then
-                                    --     message.role = "user"
-                                    -- end
+                                    -- For Gemma 3
+                                    if message.role == "system" then
+                                        message.role = "user"
+                                    end
+
+                                    -- For reasoning models
+                                    if message.role == "assistant" or message.role == "llm" then
+                                        message.content = message.content:gsub('<think>.-</think>', '')
+                                    end
 
                                     if message.role ~= last_role and merged_message then
                                         table.insert(new_messages, merged_message)
-                                        merged_message = { role = message.role, content = "" }
+                                        merged_message = nil
                                     end
 
                                     if merged_message then
@@ -189,13 +195,19 @@ return {
                                 local merged_message = nil
                                 local last_role = ""
                                 for index, message in ipairs(messages) do
-                                    if message.role == "system" then
-                                        message.role = "user"
+                                    -- For Gemma 3
+                                    -- if message.role == "system" then
+                                    --     message.role = "user"
+                                    -- end
+
+                                    -- For reasoning models
+                                    if message.role == "assistant" or message.role == "llm" then
+                                        message.content = message.content:gsub('<think>.-</think>', '')
                                     end
 
                                     if message.role ~= last_role and merged_message then
                                         table.insert(new_messages, merged_message)
-                                        merged_message = { role = message.role, content = "" }
+                                        merged_message = nil
                                     end
 
                                     if merged_message then
