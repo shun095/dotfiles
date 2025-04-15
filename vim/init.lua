@@ -1360,36 +1360,6 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 -- SECTION: STATUS LINE & TAB LINE SETUP {{{
 ------------------------------------------------------------------------------
 vim.o.mousemoveevent = true
-require("bufferline").setup {
-    options = {
-        mode = "tabs", -- set to "tabs" to only show tabpages instead
-        separator_style = "slant",
-        indicator = {
-            style = 'none'
-        },
-        -- diagnostics = "nvim_lsp",
-        hover = {
-            enabled = true,
-            delay = 0,
-            reveal = { 'close' }
-        },
-        offsets = {
-            {
-                filetype = "fern",
-                text = "Fern",
-                highlight = "Directory",
-                separator = true -- use a "true" to enable the default, or set your own character
-            },
-            {
-                filetype = "neo-tree",
-                text = "Neo Tree",
-                highlight = "Directory",
-                separator = true -- use a "true" to enable the default, or set your own character
-            }
-        },
-        style_preset = require("bufferline").style_preset.no_italic,
-    },
-}
 
 require('lualine').setup {
     options = {

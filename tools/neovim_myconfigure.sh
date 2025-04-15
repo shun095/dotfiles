@@ -9,7 +9,7 @@ set -eu
 ##### NEOVIM #####
 ## CONFIG
 SOFTWARE_NAME="neovim"
-BRANCH_NAME="stable"
+BRANCH_NAME="v0.10.4"
 NEEDS_PULL=true
 
 ## COMMON

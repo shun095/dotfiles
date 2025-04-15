@@ -173,7 +173,7 @@ else
   Plug 'LukasPietzschmann/telescope-tabs'
   Plug 'nvim-telescope/telescope-ui-select.nvim'
   Plug 'kevinhwang91/nvim-bqf'
-  Plug 'nvim-tree/nvim-web-devicons'
+  " Plug 'nvim-tree/nvim-web-devicons'
   " Plug 'vim-fall/fall.vim'
   " Plug 'petertriho/nvim-scrollbar'
   Plug 'kevinhwang91/nvim-hlslens'
@@ -368,7 +368,6 @@ endif
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 if has('nvim')
-  Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
   Plug 'nvim-lualine/lualine.nvim'
 else
   Plug 'vim-airline/vim-airline'
