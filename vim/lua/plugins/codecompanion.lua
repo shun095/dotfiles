@@ -27,6 +27,11 @@ return {
             "<cmd>CodeCompanionChat<CR>",
             { noremap = true, silent = true }
         )
+        vim.api.nvim_set_keymap('v',
+            "<Leader>ac",
+            "<cmd>CodeCompanionChat<CR>",
+            { noremap = true, silent = true }
+        )
         require('codecompanion').setup({
             -- Display settings for the plugin
             display = {
@@ -52,26 +57,6 @@ return {
             -- Different strategies for interaction with AI
             strategies = {
                 chat = {
-                    -- keymaps = {
-                    --     close = {
-                    --         modes = {
-                    --             n = nil,
-                    --             i = nil,
-                    --         },
-                    --     },
-                    --     stop = {
-                    --         modes = {
-                    --             n = "<C-c>",
-                    --         },
-                    --     },
-                    --     clear = {
-                    --         modes = {
-                    --             n = nil,
-                    --         },
-                    --     },
-                    --     -- Add further custom keymaps here
-                    -- },
-                    -- Chat strategy configuration
                     adapter = "llama_cpp_local",
                     tools = {
                         ["mcp"] = {
@@ -97,7 +82,7 @@ return {
                 ["llama_cpp_local"] = function()
                     return require("codecompanion.adapters").extend("openai_compatible", {
                         -- Use following command to launch llama.cpp
-                        -- ./build/bin/llama-server --hf-repo Qwen/Qwen2.5-Coder-7B-Instruct-GGUF --hf-file qwen2.5-coder-7b-instruct-q4_k_m.gguf -ngl 42 -c 32768 -b 64 --flash-attn --mlock -ctk q8_0 -ctv q8_0 --temp 0.2 --port 8080
+                        -- ./build/bin/llama-server --hf-repo lmstudio-community/gemma-3-4b-it-GGUF --hf-file gemma-3-4b-it-Q8_0.gguf -ngl 40 -c 32768 -np 1 -b 64 -fa -dev Metal
 
                         name = "llama_cpp_local",
                         formatted_name = "Llama.cpp",
@@ -129,7 +114,7 @@ return {
                                         message.role = "user"
                                     end
 
-                                    -- For reasoning models
+                                    -- For reasoning models like QwQ
                                     if message.role == "assistant" or message.role == "llm" then
                                         message.content = message.content:gsub('<think>.-</think>', '')
                                     end
@@ -200,7 +185,7 @@ return {
                                     --     message.role = "user"
                                     -- end
 
-                                    -- For reasoning models
+                                    -- For reasoning models like QwQ
                                     if message.role == "assistant" or message.role == "llm" then
                                         message.content = message.content:gsub('<think>.-</think>', '')
                                     end
