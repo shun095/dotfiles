@@ -176,8 +176,6 @@ return {
                                 elseif string.find(inner.output.content, "</think>") ~= nil then
                                     _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
                                     inner.output.content = inner.output.content:gsub("%s*</think>%s*", "")
-                                elseif inner.output.content:match("^%s*$") ~= nil then
-                                    inner.output.content = ""
                                 elseif _llamacpp_state == LlamacppState.ANTICIPATING_OUTPUTTING then
                                     _llamacpp_state = LlamacppState.OUTPUTTING
                                 elseif _llamacpp_state == LlamacppState.ANTICIPATING_REASONING then
