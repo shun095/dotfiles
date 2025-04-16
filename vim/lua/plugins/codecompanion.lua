@@ -1,6 +1,16 @@
 -- This is the configuration for the CodeCompanion plugin
 local thought_process_prompt = require("prompts.custom_thought_process_prompt")
 
+-- Refer: https://github.com/olimorris/codecompanion.nvim/discussions/669
+local LlamacppState = {
+    ANTICIPATING_REASONING = 1,
+    REASONING = 2,
+    ANTICIPATING_OUTPUTTING = 3,
+    OUTPUTTING = 4,
+}
+---@type integer
+local _llamacpp_state
+
 -- Return the configuration for the CodeCompanion plugin
 return {
     "olimorris/codecompanion.nvim",
@@ -103,6 +113,10 @@ return {
                                 default = true,
                             },
                         },
+                        setup = function(self)
+                            _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
+                            return true
+                        end,
                         handlers = {
                             form_messages = function(self, messages)
                                 local new_messages = {}
@@ -115,9 +129,9 @@ return {
                                     end
 
                                     -- For reasoning models like QwQ
-                                    if message.role == "assistant" or message.role == "llm" then
-                                        message.content = message.content:gsub('<think>.-</think>', '')
-                                    end
+                                    -- if message.role == "assistant" or message.role == "llm" then
+                                    --     message.content = message.content:gsub('<think>.-</think>[ \t]*(\n*)', '')
+                                    -- end
 
                                     if message.role ~= last_role and merged_message then
                                         table.insert(new_messages, merged_message)
@@ -144,11 +158,38 @@ return {
                             end,
                             chat_output = function(self, data)
                                 local openai = require("codecompanion.adapters.openai")
-                                local ret = openai.handlers.chat_output(self, data)
-                                if ret and ret.status == "success" then
-                                    ret.output.role = "assistant"
+                                local inner = openai.handlers.chat_output(self, data)
+
+                                if inner == nil then
+                                    return inner
                                 end
-                                return ret
+
+                                if inner.status ~= "success" or inner.output == nil or type(inner.output.content) ~= "string" then
+                                    return inner
+                                end
+
+                                inner.output.role = "assistant"
+
+                                if string.find(inner.output.content, "<think>") ~= nil then
+                                    _llamacpp_state = LlamacppState.ANTICIPATING_REASONING
+                                    inner.output.content = inner.output.content:gsub("%s*<think>%s*", "")
+                                elseif string.find(inner.output.content, "</think>") ~= nil then
+                                    _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
+                                    inner.output.content = inner.output.content:gsub("%s*</think>%s*", "")
+                                elseif inner.output.content:match("^%s*$") ~= nil then
+                                    inner.output.content = ""
+                                elseif _llamacpp_state == LlamacppState.ANTICIPATING_OUTPUTTING then
+                                    _llamacpp_state = LlamacppState.OUTPUTTING
+                                elseif _llamacpp_state == LlamacppState.ANTICIPATING_REASONING then
+                                    _llamacpp_state = LlamacppState.REASONING
+                                end
+
+                                if _llamacpp_state == LlamacppState.ANTICIPATING_REASONING or _llamacpp_state == LlamacppState.REASONING then
+                                    inner.output.reasoning = inner.output.content
+                                    inner.output.content = nil
+                                end
+
+                                return inner
                             end,
                         }
                     })
@@ -174,6 +215,10 @@ return {
                                 default = true,
                             },
                         },
+                        setup = function(self)
+                            _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
+                            return true
+                        end,
                         handlers = {
                             form_messages = function(self, messages)
                                 local new_messages = {}
@@ -186,9 +231,9 @@ return {
                                     -- end
 
                                     -- For reasoning models like QwQ
-                                    if message.role == "assistant" or message.role == "llm" then
-                                        message.content = message.content:gsub('<think>.-</think>', '')
-                                    end
+                                    -- if message.role == "assistant" or message.role == "llm" then
+                                    --     message.content = message.content:gsub('<think>.-</think>[ \t]*(\n*)', '')
+                                    -- end
 
                                     if message.role ~= last_role and merged_message then
                                         table.insert(new_messages, merged_message)
@@ -215,11 +260,36 @@ return {
                             end,
                             chat_output = function(self, data)
                                 local openai = require("codecompanion.adapters.openai")
-                                local ret = openai.handlers.chat_output(self, data)
-                                if ret and ret.status == "success" then
-                                    ret.output.role = "assistant"
+                                local inner = openai.handlers.chat_output(self, data)
+
+                                if inner == nil then
+                                    return inner
                                 end
-                                return ret
+
+                                if inner.status ~= "success" or inner.output == nil or type(inner.output.content) ~= "string" then
+                                    return inner
+                                end
+
+                                inner.output.role = "assistant"
+
+                                if string.find(inner.output.content, "<think>") ~= nil then
+                                    _llamacpp_state = LlamacppState.ANTICIPATING_REASONING
+                                    inner.output.content = inner.output.content:gsub("%s*<think>%s*", "")
+                                elseif string.find(inner.output.content, "</think>") ~= nil then
+                                    _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
+                                    inner.output.content = inner.output.content:gsub("%s*</think>%s*", "")
+                                elseif _llamacpp_state == LlamacppState.ANTICIPATING_OUTPUTTING then
+                                    _llamacpp_state = LlamacppState.OUTPUTTING
+                                elseif _llamacpp_state == LlamacppState.ANTICIPATING_REASONING then
+                                    _llamacpp_state = LlamacppState.REASONING
+                                end
+
+                                if _llamacpp_state == LlamacppState.ANTICIPATING_REASONING or _llamacpp_state == LlamacppState.REASONING then
+                                    inner.output.reasoning = inner.output.content
+                                    inner.output.content = nil
+                                end
+
+                                return inner
                             end,
                         }
                     })
