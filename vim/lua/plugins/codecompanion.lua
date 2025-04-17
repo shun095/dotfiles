@@ -118,12 +118,17 @@ return {
         )
         vim.api.nvim_set_keymap('n',
             "<Leader>ac",
-            "<cmd>CodeCompanionChat<CR>",
+            "<cmd>CodeCompanionChat Toggle<CR>",
             { noremap = true, silent = true }
         )
         vim.api.nvim_set_keymap('v',
             "<Leader>ac",
-            "<cmd>CodeCompanionChat<CR>",
+            "<cmd>CodeCompanionChat Toggle<CR>",
+            { noremap = true, silent = true }
+        )
+        vim.api.nvim_set_keymap('n',
+            "<Leader>ag",
+            "<cmd>CodeCompanion /commit<CR>",
             { noremap = true, silent = true }
         )
         require('codecompanion').setup({
@@ -236,6 +241,16 @@ return {
             prompt_library = {
 
                 ["Explain"] = {
+                    opts = {
+                        auto_submit = false,
+                    },
+                },
+                ["Fix code"] = {
+                    opts = {
+                        auto_submit = false,
+                    },
+                },
+                ["Explain LSP Diagnostics"] = {
                     opts = {
                         auto_submit = false,
                     },
