@@ -11,6 +11,90 @@ local LlamacppState = {
 ---@type integer
 local _llamacpp_state
 
+local chat_output_callback = function(self, data)
+    local openai = require("codecompanion.adapters.openai")
+    local inner = openai.handlers.chat_output(self, data)
+
+    if inner == nil then
+        return inner
+    end
+
+    if inner.status ~= "success" or inner.output == nil or type(inner.output.content) ~= "string" then
+        return inner
+    end
+
+    -- Assigning roles to "assistant" because Llama.cpp doesn't return roles.
+    inner.output.role = "assistant"
+
+    if string.find(inner.output.content, "<think>") ~= nil then
+        _llamacpp_state = LlamacppState.ANTICIPATING_REASONING
+        inner.output.content = inner.output.content:gsub("%s*<think>%s*", "")
+    elseif string.find(inner.output.content, "</think>") ~= nil then
+        _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
+        inner.output.content = inner.output.content:gsub("%s*</think>%s*", "")
+    elseif _llamacpp_state == LlamacppState.ANTICIPATING_OUTPUTTING then
+        if inner.output.content:match("\n") ~= nil then
+            inner.output.content = ""
+        else
+            _llamacpp_state = LlamacppState.OUTPUTTING
+        end
+    elseif _llamacpp_state == LlamacppState.ANTICIPATING_REASONING then
+        if inner.output.content:match("\n") ~= nil then
+            inner.output.content = ""
+        else
+            _llamacpp_state = LlamacppState.REASONING
+        end
+    end
+
+    if _llamacpp_state == LlamacppState.ANTICIPATING_REASONING or _llamacpp_state == LlamacppState.REASONING then
+        inner.output.reasoning = inner.output.content
+        inner.output.content = nil
+    end
+
+    return inner
+end
+
+local form_messages_callback = function(self, messages)
+    local new_messages = {}
+    local merged_message = nil
+    local last_role = ""
+    for index, message in ipairs(messages) do
+        -- For Gemma 3
+        if self.schema.model.default():find("[gG]emma%-3") then
+            if message.role == "system" then
+                message.role = "user"
+            end
+        end
+
+        -- For reasoning models like QwQ
+        if message.role == "assistant" or message.role == "llm" then
+            message.content = message.content:gsub('%s*<think>.-</think>%s*(\n*)', '')
+        end
+
+        if message.role ~= last_role and merged_message then
+            table.insert(new_messages, merged_message)
+            merged_message = nil
+        end
+
+        if merged_message then
+            merged_message = {
+                role = message.role,
+                content = merged_message.content .. "\n\n\n\n" .. message.content,
+            }
+        else
+            merged_message = {
+                role = message.role,
+                content = message.content,
+            }
+        end
+
+        last_role = message.role
+    end
+    table.insert(new_messages, merged_message)
+
+    return { messages = new_messages }
+end
+
 -- Return the configuration for the CodeCompanion plugin
 return {
     "olimorris/codecompanion.nvim",
@@ -95,7 +179,7 @@ return {
                         -- ./build/bin/llama-server --hf-repo lmstudio-community/gemma-3-4b-it-GGUF --hf-file gemma-3-4b-it-Q8_0.gguf -ngl 40 -c 32768 -np 1 -b 64 -fa -dev Metal
 
                         name = "llama_cpp_local",
-                        formatted_name = "Llama.cpp",
+                        formatted_name = "Llama.cpp Local",
                         roles = {
                             llm = "assistant",
                             user = "user",
@@ -104,9 +188,6 @@ return {
                             url = "http://localhost:8080",
                         },
                         schema = {
-                            model = {
-                                default = "llama", -- define llm model to be used
-                            },
                             thinking = {
                                 mapping = "parameters",
                                 type = "boolean",
@@ -118,84 +199,15 @@ return {
                             return true
                         end,
                         handlers = {
-                            form_messages = function(self, messages)
-                                local new_messages = {}
-                                local merged_message = nil
-                                local last_role = ""
-                                for index, message in ipairs(messages) do
-                                    -- For Gemma 3
-                                    if message.role == "system" then
-                                        message.role = "user"
-                                    end
-
-                                    -- For reasoning models like QwQ
-                                    -- if message.role == "assistant" or message.role == "llm" then
-                                    --     message.content = message.content:gsub('<think>.-</think>[ \t]*(\n*)', '')
-                                    -- end
-
-                                    if message.role ~= last_role and merged_message then
-                                        table.insert(new_messages, merged_message)
-                                        merged_message = nil
-                                    end
-
-                                    if merged_message then
-                                        merged_message = {
-                                            role = message.role,
-                                            content = merged_message.content .. "\n\n\n\n" .. message.content,
-                                        }
-                                    else
-                                        merged_message = {
-                                            role = message.role,
-                                            content = message.content,
-                                        }
-                                    end
-
-                                    last_role = message.role
-                                end
-                                table.insert(new_messages, merged_message)
-
-                                return { messages = new_messages }
-                            end,
-                            chat_output = function(self, data)
-                                local openai = require("codecompanion.adapters.openai")
-                                local inner = openai.handlers.chat_output(self, data)
-
-                                if inner == nil then
-                                    return inner
-                                end
-
-                                if inner.status ~= "success" or inner.output == nil or type(inner.output.content) ~= "string" then
-                                    return inner
-                                end
-
-                                inner.output.role = "assistant"
-
-                                if string.find(inner.output.content, "<think>") ~= nil then
-                                    _llamacpp_state = LlamacppState.ANTICIPATING_REASONING
-                                    inner.output.content = inner.output.content:gsub("%s*<think>%s*", "")
-                                elseif string.find(inner.output.content, "</think>") ~= nil then
-                                    _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
-                                    inner.output.content = inner.output.content:gsub("%s*</think>%s*", "")
-                                elseif _llamacpp_state == LlamacppState.ANTICIPATING_OUTPUTTING then
-                                    _llamacpp_state = LlamacppState.OUTPUTTING
-                                elseif _llamacpp_state == LlamacppState.ANTICIPATING_REASONING then
-                                    _llamacpp_state = LlamacppState.REASONING
-                                end
-
-                                if _llamacpp_state == LlamacppState.ANTICIPATING_REASONING or _llamacpp_state == LlamacppState.REASONING then
-                                    inner.output.reasoning = inner.output.content
-                                    inner.output.content = nil
-                                end
-
-                                return inner
-                            end,
+                            form_messages = form_messages_callback,
+                            chat_output = chat_output_callback,
                         }
                     })
                 end,
                 ["llama_cpp_remote"] = function()
                     return require("codecompanion.adapters").extend("openai_compatible", {
                         name = "llama_cpp_remote",
-                        formatted_name = "Llama.cpp",
+                        formatted_name = "Llama.cpp Remote",
                         roles = {
                             llm = "assistant",
                             user = "user",
@@ -204,9 +216,6 @@ return {
                             url = "http://bastion-1.local:8080",
                         },
                         schema = {
-                            model = {
-                                default = "llama", -- define llm model to be used
-                            },
                             thinking = {
                                 mapping = "parameters",
                                 type = "boolean",
@@ -218,77 +227,8 @@ return {
                             return true
                         end,
                         handlers = {
-                            form_messages = function(self, messages)
-                                local new_messages = {}
-                                local merged_message = nil
-                                local last_role = ""
-                                for index, message in ipairs(messages) do
-                                    -- For Gemma 3
-                                    -- if message.role == "system" then
-                                    --     message.role = "user"
-                                    -- end
-
-                                    -- For reasoning models like QwQ
-                                    -- if message.role == "assistant" or message.role == "llm" then
-                                    --     message.content = message.content:gsub('<think>.-</think>[ \t]*(\n*)', '')
-                                    -- end
-
-                                    if message.role ~= last_role and merged_message then
-                                        table.insert(new_messages, merged_message)
-                                        merged_message = nil
-                                    end
-
-                                    if merged_message then
-                                        merged_message = {
-                                            role = message.role,
-                                            content = merged_message.content .. "\n\n\n\n" .. message.content,
-                                        }
-                                    else
-                                        merged_message = {
-                                            role = message.role,
-                                            content = message.content,
-                                        }
-                                    end
-
-                                    last_role = message.role
-                                end
-                                table.insert(new_messages, merged_message)
-
-                                return { messages = new_messages }
-                            end,
-                            chat_output = function(self, data)
-                                local openai = require("codecompanion.adapters.openai")
-                                local inner = openai.handlers.chat_output(self, data)
-
-                                if inner == nil then
-                                    return inner
-                                end
-
-                                if inner.status ~= "success" or inner.output == nil or type(inner.output.content) ~= "string" then
-                                    return inner
-                                end
-
-                                inner.output.role = "assistant"
-
-                                if string.find(inner.output.content, "<think>") ~= nil then
-                                    _llamacpp_state = LlamacppState.ANTICIPATING_REASONING
-                                    inner.output.content = inner.output.content:gsub("%s*<think>%s*", "")
-                                elseif string.find(inner.output.content, "</think>") ~= nil then
-                                    _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
-                                    inner.output.content = inner.output.content:gsub("%s*</think>%s*", "")
-                                elseif _llamacpp_state == LlamacppState.ANTICIPATING_OUTPUTTING then
-                                    _llamacpp_state = LlamacppState.OUTPUTTING
-                                elseif _llamacpp_state == LlamacppState.ANTICIPATING_REASONING then
-                                    _llamacpp_state = LlamacppState.REASONING
-                                end
-
-                                if _llamacpp_state == LlamacppState.ANTICIPATING_REASONING or _llamacpp_state == LlamacppState.REASONING then
-                                    inner.output.reasoning = inner.output.content
-                                    inner.output.content = nil
-                                end
-
-                                return inner
-                            end,
+                            form_messages = form_messages_callback,
+                            chat_output = chat_output_callback,
                         }
                     })
                 end,
@@ -431,8 +371,8 @@ Example:
                     description = "Translate into Japanese",
                     opts = {
                         modes = { "v" },
-                        auto_submit = true,
-                        short_name = "english",
+                        auto_submit = false,
+                        short_name = "japanese",
                         stop_context_insertion = true,
                     },
                     prompts = {
@@ -463,7 +403,7 @@ Example:
                     description = "Translate into English",
                     opts = {
                         modes = { "v" },
-                        auto_submit = true,
+                        auto_submit = false,
                         short_name = "english",
                         stop_context_insertion = true,
                     },
