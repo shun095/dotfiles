@@ -58,6 +58,23 @@ local form_messages_callback = function(self, messages)
     local new_messages = {}
     local merged_message = nil
     local last_role = ""
+
+    -- For cogito
+    if self.schema.model.default():find("[cC]ogito") then
+        table.insert(messages, 1, { role = "system", content = "Enable deep thinking subroutine." })
+    end
+
+    -- For granite
+    if self.schema.model.default():find("[gG]ranite") then
+        table.insert(messages, 1, {
+            role = "system",
+            content = [[You are a helpful AI assistant.
+Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
+        })
+    end
+
+
+
     for index, message in ipairs(messages) do
         -- For Gemma 3
         if self.schema.model.default():find("[gG]emma%-3") then
@@ -66,9 +83,11 @@ local form_messages_callback = function(self, messages)
             end
         end
 
-        -- For reasoning models like QwQ
-        if message.role == "assistant" or message.role == "llm" then
-            message.content = message.content:gsub('%s*<think>.-</think>%s*(\n*)', '')
+        if not self.schema.model.default():find("[gG]ranite") then
+            -- For reasoning models like QwQ
+            if message.role == "assistant" or message.role == "llm" then
+                message.content = message.content:gsub('%s*<think>.-</think>%s*(\n*)', '')
+            end
         end
 
         if message.role ~= last_role and merged_message then
@@ -91,6 +110,7 @@ local form_messages_callback = function(self, messages)
         last_role = message.role
     end
     table.insert(new_messages, merged_message)
+
 
     return { messages = new_messages }
 end
@@ -119,6 +139,11 @@ return {
         vim.api.nvim_set_keymap('n',
             "<Leader>ac",
             "<cmd>CodeCompanionChat Toggle<CR>",
+            { noremap = true, silent = true }
+        )
+        vim.api.nvim_set_keymap('n',
+            "<Leader>an",
+            "<cmd>CodeCompanionChat<CR>",
             { noremap = true, silent = true }
         )
         vim.api.nvim_set_keymap('v',
