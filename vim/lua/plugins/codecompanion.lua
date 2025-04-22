@@ -64,16 +64,6 @@ local form_messages_callback = function(self, messages)
         table.insert(messages, 1, { role = "system", content = "Enable deep thinking subroutine." })
     end
 
-    -- For granite
-    if self.schema.model.default():find("[gG]ranite") then
-        table.insert(messages, 1, {
-            role = "system",
-            content = [[You are a helpful AI assistant.
-Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
-        })
-    end
-
-
 
     for index, message in ipairs(messages) do
         -- For Gemma 3
@@ -111,6 +101,13 @@ Respond to every user query in a comprehensive and detailed way. You can write d
     end
     table.insert(new_messages, merged_message)
 
+    -- For granite
+    if self.schema.model.default():find("[gG]ranite") then
+        if new_messages[1].role == "system" then
+            new_messages[1].content = new_messages[1].content .. [[You are a helpful AI assistant.
+Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
+        end
+    end
 
     return { messages = new_messages }
 end
