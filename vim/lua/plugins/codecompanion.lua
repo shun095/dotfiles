@@ -2,16 +2,19 @@
 local thought_process_prompt = require("prompts.custom_thought_process_prompt")
 
 -- Refer: https://github.com/olimorris/codecompanion.nvim/discussions/669
-local LlamacppState = {
+local chat_output_state = {
     ANTICIPATING_REASONING = 1,
     REASONING = 2,
     ANTICIPATING_OUTPUTTING = 3,
     OUTPUTTING = 4,
 }
 ---@type integer
-local _llamacpp_state
-local _llamacpp_buffer = ""
+local chat_output_current_state
+local chat_output_buffer = ""
 
+-- Processes chat output from Llama.cpp, handling special tags and state transitions
+-- @param self  The instance of the class (codecompanion instance)
+-- @param data  The raw chat output data from Llama.cpp to be processed
 local chat_output_callback = function(self, data)
     local openai = require("codecompanion.adapters.openai")
     local inner = openai.handlers.chat_output(self, data)
@@ -32,42 +35,42 @@ local chat_output_callback = function(self, data)
 
     for i = 1, #content do
         local char = content:sub(i, i)
-        _llamacpp_buffer = _llamacpp_buffer .. char
+        chat_output_buffer = chat_output_buffer .. char
 
-        if _llamacpp_buffer == "<think>" then
-            _llamacpp_state = LlamacppState.ANTICIPATING_REASONING
-            _llamacpp_buffer = ""
-        elseif _llamacpp_buffer == "</think>" then
-            _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
-            _llamacpp_buffer = ""
-        elseif _llamacpp_buffer == "<response>" then
-            _llamacpp_buffer = ""
-        elseif _llamacpp_buffer == "</response>" then
-            _llamacpp_buffer = ""
-        elseif (not (("<think>"):sub(1, #_llamacpp_buffer) == _llamacpp_buffer) == true)
-            and (not (("</think>"):sub(1, #_llamacpp_buffer) == _llamacpp_buffer) == true)
-            and (not (("<response>"):sub(1, #_llamacpp_buffer) == _llamacpp_buffer) == true)
-            and (not (("</response>"):sub(1, #_llamacpp_buffer) == _llamacpp_buffer) == true) then
-            inner.output.content = inner.output.content .. _llamacpp_buffer
-            _llamacpp_buffer = ""
+        if chat_output_buffer == "<think>" then
+            chat_output_current_state = chat_output_state.ANTICIPATING_REASONING
+            chat_output_buffer = ""
+        elseif chat_output_buffer == "</think>" then
+            chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+            chat_output_buffer = ""
+        elseif chat_output_buffer == "<response>" then
+            chat_output_buffer = ""
+        elseif chat_output_buffer == "</response>" then
+            chat_output_buffer = ""
+        elseif (not (("<think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
+            and (not (("</think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
+            and (not (("<response>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
+            and (not (("</response>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true) then
+            inner.output.content = inner.output.content .. chat_output_buffer
+            chat_output_buffer = ""
 
-            if _llamacpp_state == LlamacppState.ANTICIPATING_OUTPUTTING then
+            if chat_output_current_state == chat_output_state.ANTICIPATING_OUTPUTTING then
                 if inner.output.content:match("\n") ~= nil then
                     inner.output.content = ""
                 else
-                    _llamacpp_state = LlamacppState.OUTPUTTING
+                    chat_output_current_state = chat_output_state.OUTPUTTING
                 end
-            elseif _llamacpp_state == LlamacppState.ANTICIPATING_REASONING then
+            elseif chat_output_current_state == chat_output_state.ANTICIPATING_REASONING then
                 if inner.output.content:match("\n") ~= nil then
                     inner.output.content = ""
                 else
-                    _llamacpp_state = LlamacppState.REASONING
+                    chat_output_current_state = chat_output_state.REASONING
                 end
             end
         end
     end
 
-    if _llamacpp_state == LlamacppState.ANTICIPATING_REASONING or _llamacpp_state == LlamacppState.REASONING then
+    if chat_output_current_state == chat_output_state.ANTICIPATING_REASONING or chat_output_current_state == chat_output_state.REASONING then
         inner.output.reasoning = inner.output.content
         inner.output.content = nil
     end
@@ -75,6 +78,10 @@ local chat_output_callback = function(self, data)
     return inner
 end
 
+-- This function processes and formats messages for different AI models, handling special cases for different model types.
+-- @param self: The instance of the current object containing the schema and model information.
+-- @param messages: A table of message objects, each with 'role' (e.g., "system", "user", "assistant") and 'content' fields.
+-- @return A table containing the processed messages in a 'messages' key.
 local form_messages_callback = function(self, messages)
     local new_messages = {}
     local merged_message = nil
@@ -243,8 +250,8 @@ return {
                             },
                         },
                         setup = function(self)
-                            _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
-                            _llamacpp_buffer = ""
+                            chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+                            chat_output_buffer = ""
                             return true
                         end,
                         handlers = {
@@ -272,8 +279,8 @@ return {
                             },
                         },
                         setup = function(self)
-                            _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
-                            _llamacpp_buffer = ""
+                            chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+                            chat_output_buffer = ""
                             return true
                         end,
                         handlers = {
@@ -320,12 +327,14 @@ No.<number>:
 [optional body]
 ```
 
-Please generate the message 3 times, so the user can choose one from them.
+Please generate the message 5 times, so the user can choose one from them.
 
-### **Instructions:**
-0. <number>: Identity of the commit message. It should be 1,2 or 3 because you will create 3 times.
+---
 
-1. **`<type>`**:
+### **Legend:**
+1. <number>: Number of the commit message.
+
+2. **`<type>`**:
    Identify the type of change in the code and choose one of these options:
    - **`feat`**: The commit adds a new feature.
    - **`fix`**: The commit fixes a bug.
@@ -335,15 +344,15 @@ Please generate the message 3 times, so the user can choose one from them.
    - **`test`**: The commit involves adding or modifying tests.
    - **`style`**: The commit includes code formatting changes (e.g., indentation, spacing) that don’t affect functionality.
 
-2. **`<scope>`** (optional):
+3. **`<scope>`** (optional):
    If the change impacts a specific part of the system (such as a module or feature), name that part in parentheses. Examples: `neovim`, `config`, `parser`.
    If no specific part of the system is affected, you can skip this part.
 
-3. **`<description>`**:
+4. **`<description>`**:
    Write a concise, clear summary of what the commit does, using the imperative mood (for example, “Add feature”, “Fix bug”).
    **Important**: Keep the description brief and focused on the purpose of the commit.
 
-4. **[optional body]**:
+5. **[optional body]**:
    If additional context or details are needed to explain the commit (e.g., clarifying why certain changes were made), you can add them in the body as bullet points. This section is optional, so only include it when necessary.
 
 ---
@@ -353,7 +362,7 @@ Please generate the message 3 times, so the user can choose one from them.
 No.1:
 
 ```txt
-fix(parser): resolve async tokenization issue
+fix(parser): Resolve async tokenization issue
 
 - Fixed incorrect token boundary detection.
 - Improved error handling in parser.
