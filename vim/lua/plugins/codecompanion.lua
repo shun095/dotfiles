@@ -10,6 +10,7 @@ local LlamacppState = {
 }
 ---@type integer
 local _llamacpp_state
+local _llamacpp_buffer = ""
 
 local chat_output_callback = function(self, data)
     local openai = require("codecompanion.adapters.openai")
@@ -26,23 +27,43 @@ local chat_output_callback = function(self, data)
     -- Assigning roles to "assistant" because Llama.cpp doesn't return roles.
     inner.output.role = "assistant"
 
-    if string.find(inner.output.content, "<think>") ~= nil then
-        _llamacpp_state = LlamacppState.ANTICIPATING_REASONING
-        inner.output.content = inner.output.content:gsub("%s*<think>%s*", "")
-    elseif string.find(inner.output.content, "</think>") ~= nil then
-        _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
-        inner.output.content = inner.output.content:gsub("%s*</think>%s*", "")
-    elseif _llamacpp_state == LlamacppState.ANTICIPATING_OUTPUTTING then
-        if inner.output.content:match("\n") ~= nil then
-            inner.output.content = ""
-        else
-            _llamacpp_state = LlamacppState.OUTPUTTING
-        end
-    elseif _llamacpp_state == LlamacppState.ANTICIPATING_REASONING then
-        if inner.output.content:match("\n") ~= nil then
-            inner.output.content = ""
-        else
-            _llamacpp_state = LlamacppState.REASONING
+    local content = inner.output.content
+    inner.output.content = ""
+
+    for i = 1, #content do
+        local char = content:sub(i, i)
+        _llamacpp_buffer = _llamacpp_buffer .. char
+
+        if _llamacpp_buffer == "<think>" then
+            _llamacpp_state = LlamacppState.ANTICIPATING_REASONING
+            _llamacpp_buffer = ""
+        elseif _llamacpp_buffer == "</think>" then
+            _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
+            _llamacpp_buffer = ""
+        elseif _llamacpp_buffer == "<response>" then
+            _llamacpp_buffer = ""
+        elseif _llamacpp_buffer == "</response>" then
+            _llamacpp_buffer = ""
+        elseif (not (("<think>"):sub(1, #_llamacpp_buffer) == _llamacpp_buffer) == true)
+            and (not (("</think>"):sub(1, #_llamacpp_buffer) == _llamacpp_buffer) == true)
+            and (not (("<response>"):sub(1, #_llamacpp_buffer) == _llamacpp_buffer) == true)
+            and (not (("</response>"):sub(1, #_llamacpp_buffer) == _llamacpp_buffer) == true) then
+            inner.output.content = inner.output.content .. _llamacpp_buffer
+            _llamacpp_buffer = ""
+
+            if _llamacpp_state == LlamacppState.ANTICIPATING_OUTPUTTING then
+                if inner.output.content:match("\n") ~= nil then
+                    inner.output.content = ""
+                else
+                    _llamacpp_state = LlamacppState.OUTPUTTING
+                end
+            elseif _llamacpp_state == LlamacppState.ANTICIPATING_REASONING then
+                if inner.output.content:match("\n") ~= nil then
+                    inner.output.content = ""
+                else
+                    _llamacpp_state = LlamacppState.REASONING
+                end
+            end
         end
     end
 
@@ -223,6 +244,7 @@ return {
                         },
                         setup = function(self)
                             _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
+                            _llamacpp_buffer = ""
                             return true
                         end,
                         handlers = {
@@ -251,6 +273,7 @@ return {
                         },
                         setup = function(self)
                             _llamacpp_state = LlamacppState.ANTICIPATING_OUTPUTTING
+                            _llamacpp_buffer = ""
                             return true
                         end,
                         handlers = {
