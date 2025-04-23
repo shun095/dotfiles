@@ -12,6 +12,63 @@ local chat_output_state = {
 local chat_output_current_state
 local chat_output_buffer = ""
 
+
+---Get a list of available OpenAI compatible models
+---@params self CodeCompanion.Adapter
+---@params opts? table
+---@return table
+local function get_model(self)
+    local config = require("codecompanion.config")
+    local curl = require("plenary.curl")
+    local log = require("codecompanion.utils.log")
+    local adapter = require("codecompanion.adapters").resolve(self)
+
+    local models = {}
+
+    if not adapter then
+        log:error("Could not resolve OpenAI compatible adapter in the `get_models` function")
+        return {}
+    end
+
+    adapter:get_env_vars()
+    local url = adapter.env_replaced.url
+    local models_endpoint = adapter.env_replaced.models_endpoint
+
+    local headers = {
+        ["content-type"] = "application/json",
+    }
+    if adapter.env_replaced.api_key then
+        headers["Authorization"] = "Bearer " .. adapter.env_replaced.api_key
+    end
+
+    local ok, response, json
+
+    ok, response = pcall(function()
+        return curl.get(url .. models_endpoint, {
+            sync = true,
+            headers = headers,
+            insecure = config.adapters.opts.allow_insecure,
+            proxy = config.adapters.opts.proxy,
+        })
+    end)
+    if not ok then
+        log:error("Could not get the OpenAI compatible models from " .. url .. "/v1/models.\nError: %s", response)
+        return {}
+    end
+
+    ok, json = pcall(vim.json.decode, response.body)
+    if not ok then
+        log:error("Could not parse the response from " .. url .. "/v1/models")
+        return {}
+    end
+
+    for _, model in ipairs(json.data) do
+        table.insert(models, model.id)
+    end
+
+    return models[1]
+end
+
 -- Processes chat output from Llama.cpp, handling special tags and state transitions
 -- @param self  The instance of the class (codecompanion instance)
 -- @param data  The raw chat output data from Llama.cpp to be processed
@@ -88,20 +145,20 @@ local form_messages_callback = function(self, messages)
     local last_role = ""
 
     -- For cogito
-    if self.schema.model.default():find("[cC]ogito") then
+    if get_model(self):find("[cC]ogito") then
         table.insert(messages, 1, { role = "system", content = "Enable deep thinking subroutine." })
     end
 
 
     for index, message in ipairs(messages) do
         -- For Gemma 3
-        if self.schema.model.default():find("[gG]emma%-3") then
+        if get_model(self):find("[gG]emma%-3") then
             if message.role == "system" then
                 message.role = "user"
             end
         end
 
-        if not self.schema.model.default():find("[gG]ranite") then
+        if not get_model(self):find("[gG]ranite") then
             -- For reasoning models like QwQ
             if message.role == "assistant" or message.role == "llm" then
                 message.content = message.content:gsub('%s*<think>.-</think>%s*(\n*)', '')
@@ -130,7 +187,7 @@ local form_messages_callback = function(self, messages)
     table.insert(new_messages, merged_message)
 
     -- For granite
-    if self.schema.model.default():find("[gG]ranite") then
+    if get_model(self):find("[gG]ranite") then
         if new_messages[1].role == "system" then
             new_messages[1].content = new_messages[1].content .. [[You are a helpful AI assistant.
 Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
@@ -215,7 +272,7 @@ return {
                                 requires_approval = true
                             }
                         }
-                    }
+                    },
                 },
                 inline = {
                     -- Inline strategy configuration
@@ -243,6 +300,9 @@ return {
                             url = "http://localhost:8080",
                         },
                         schema = {
+                            model = {
+                                default = get_model
+                            },
                             thinking = {
                                 mapping = "parameters",
                                 type = "boolean",
@@ -272,6 +332,9 @@ return {
                             url = "http://bastion-1.local:8080",
                         },
                         schema = {
+                            model = {
+                                default = get_model
+                            },
                             thinking = {
                                 mapping = "parameters",
                                 type = "boolean",
@@ -431,7 +494,7 @@ Example:
 </tools>
 ```
 
-                            ]=],
+]=],
                         }
                     },
                 },
