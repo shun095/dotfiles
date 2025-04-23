@@ -1685,6 +1685,7 @@ local function remove_hl_background(name)
     hl.force = true
     vim.api.nvim_set_hl(0, name, hl)
 end
+
 local function neo_tree_overide_highlights()
     if NeoTreeHighlightOverrided == true then
         return nil
@@ -2089,6 +2090,26 @@ function OverrideHighlightColors()
     for idx, hlgroup in ipairs(hlgroups) do
         set_hl_palette_color(hlgroup)
     end
+
+    local function remove_hl_reverse(name)
+        local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
+        if hl.reverse then
+            hl.reverse = nil
+            local tmp = hl.fg
+            hl.fg = hl.bg
+            hl.bg = tmp
+        end
+        if hl.cterm and hl.cterm.reverse then
+            hl.cterm.reverse = nil
+            local tmp = hl.ctermfg
+            hl.ctermfg = hl.ctermbg
+            hl.ctermbg = tmp
+        end
+        hl.force = true
+        vim.api.nvim_set_hl(0, name, hl)
+    end
+
+    remove_hl_reverse("TabLineFill")
 end
 
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
