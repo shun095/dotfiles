@@ -69,9 +69,9 @@ local function get_model(self)
     return models[1]
 end
 
--- Processes chat output from Llama.cpp, handling special tags and state transitions
--- @param self  The instance of the class (codecompanion instance)
--- @param data  The raw chat output data from Llama.cpp to be processed
+---Processes chat output from Llama.cpp, handling special tags and state transitions
+---@param self  The instance of the class (codecompanion instance)
+---@param data  The raw chat output data from Llama.cpp to be processed
 local chat_output_callback = function(self, data)
     local openai = require("codecompanion.adapters.openai")
     local inner = openai.handlers.chat_output(self, data)
@@ -97,13 +97,25 @@ local chat_output_callback = function(self, data)
         if chat_output_buffer == "<think>" then
             chat_output_current_state = chat_output_state.ANTICIPATING_REASONING
             chat_output_buffer = ""
+            if get_model(self):find("[gG]ranite") then
+                inner.output.content = "<think>\n"
+            end
         elseif chat_output_buffer == "</think>" then
             chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
             chat_output_buffer = ""
+            if get_model(self):find("[gG]ranite") then
+                inner.output.content = "</think>"
+            end
         elseif chat_output_buffer == "<response>" then
             chat_output_buffer = ""
+            if get_model(self):find("[gG]ranite") then
+                inner.output.content = "\n<response>\n"
+            end
         elseif chat_output_buffer == "</response>" then
             chat_output_buffer = ""
+            if get_model(self):find("[gG]ranite") then
+                inner.output.content = "</response>"
+            end
         elseif (not (("<think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
             and (not (("</think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
             and (not (("<response>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
@@ -128,8 +140,10 @@ local chat_output_callback = function(self, data)
     end
 
     if chat_output_current_state == chat_output_state.ANTICIPATING_REASONING or chat_output_current_state == chat_output_state.REASONING then
-        inner.output.reasoning = inner.output.content
-        inner.output.content = nil
+        if not get_model(self):find("[gG]ranite") then
+            inner.output.reasoning = inner.output.content
+            inner.output.content = nil
+        end
     end
 
     return inner
@@ -161,7 +175,9 @@ local form_messages_callback = function(self, messages)
         if not get_model(self):find("[gG]ranite") then
             -- For reasoning models like QwQ
             if message.role == "assistant" or message.role == "llm" then
-                message.content = message.content:gsub('%s*<think>.-</think>%s*(\n*)', '')
+                if not get_model(self):find("[gG]ranite") then
+                    message.content = message.content:gsub('%s*<think>.-</think>%s*(\n*)', '')
+                end
             end
         end
 
@@ -200,7 +216,7 @@ end
 -- Return the configuration for the CodeCompanion plugin
 return {
     "olimorris/codecompanion.nvim",
-    version = "*",
+    version = "v14.13.0",
     -- Plugin dependencies
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -251,7 +267,7 @@ return {
             },
             opts = {
                 -- Language settings for the plugin
-                language = "Japanese",
+                language = "natural Japanese",
                 -- Set debug logging
                 log_level = "DEBUG",
                 system_prompt = function(opts)
@@ -329,7 +345,8 @@ return {
                             user = "user",
                         },
                         env = {
-                            url = "http://bastion-1.local:8080",
+                            url = vim.env.CODECOMPANION_REMOTE_URL and vim.env.CODECOMPANION_REMOTE_URL or
+                                "http://bastion-1.local:8080",
                         },
                         schema = {
                             model = {
