@@ -465,6 +465,12 @@ vim.diagnostic.config({
         header = "",
         prefix = "",
     },
+    -- local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+    -- signs = {
+    -- text = {
+    --         [vim.diagnostic.severity.ERROR] =  "󰅚 ",
+    --     }
+    -- }
 })
 
 require("inlay-hints").setup()
@@ -681,9 +687,7 @@ require("mason-nvim-dap").setup({
         end,
         python = function(config)
             require("dap-python")
-                .setup(require('mason-registry')
-                    .get_package('debugpy')
-                    :get_install_path() .. "/venv/bin/python3")
+                .setup(vim.fn.expand('$MASON/packages/debugpy') .. "/venv/bin/python3")
         end,
         js = function(config)
             dap.adapters["pwa-node"] = {
@@ -693,9 +697,7 @@ require("mason-nvim-dap").setup({
                 executable = {
                     command = "node",
                     args = {
-                        require('mason-registry')
-                        .get_package('js-debug-adapter')
-                        :get_install_path() .. "/js-debug/src/dapDebugServer.js",
+                        vim.fn.expand('$MASON/packages/js-debug-adapter') .. "/js-debug/src/dapDebugServer.js",
                         "${port}"
                     },
                 }

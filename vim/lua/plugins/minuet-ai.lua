@@ -16,20 +16,9 @@ return {
                     api_key = 'TERM',
                     name = '🤖',
 
-                    -- Ollama configuration
-                    -- end_point = 'http://localhost:11434/v1/completions',
-                    -- model = 'qwen2.5-coder:3b',
-                    -- optional = {
-                    --     -- max_tokens = 20,
-                    --     -- top_p = 0.9,
-                    --     top_k = 20,
-                    --     temperature = 0.5,
-                    -- },
-                    --
-
                     -- Llama.cpp configuration
                     -- ./build/bin/llama-server --hf-repo Qwen/Qwen2.5-Coder-3B-Instruct-GGUF --hf-file qwen2.5-coder-3b-instruct-q4_k_m.gguf -ngl 42 -c 2048 -b 64 --flash-attn --mlock --port 8081
-                    end_point = 'http://localhost:8081/v1/completions',
+                    end_point = 'http://localhost:8080/v1/completions',
                     -- The model is set by the llama-cpp server and cannot be altered
                     -- post-launch.
                     model = 'llama',
