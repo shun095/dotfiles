@@ -13,6 +13,19 @@ local chat_output_current_state
 local chat_output_buffer = ""
 
 
+local _cache_expires
+local _cache_file = vim.fn.tempname()
+local _cached_models
+
+---Return the cached models
+---@params opts? table
+local function models(opts)
+    if opts and opts.last then
+        return _cached_models[1]
+    end
+    return _cached_models
+end
+
 ---Get a list of available OpenAI compatible models
 ---@params self CodeCompanion.Adapter
 ---@params opts? table
@@ -21,12 +34,19 @@ local function get_model(self)
     local config = require("codecompanion.config")
     local curl = require("plenary.curl")
     local log = require("codecompanion.utils.log")
+    local openai = require("codecompanion.adapters.openai")
+    local utils = require("codecompanion.utils.adapters")
+
+    local opts = { last = true }
+    if _cached_models and _cache_expires and _cache_expires > os.time() then
+        return models(opts)
+    end
+
+    _cached_models = {}
+
     local adapter = require("codecompanion.adapters").resolve(self)
-
-    local models = {}
-
     if not adapter then
-        log:error("Could not resolve OpenAI compatible adapter in the `get_models` function")
+        log:error("Could not resolve OpenAI compatible adapter in the `get_model` function")
         return {}
     end
 
@@ -63,15 +83,17 @@ local function get_model(self)
     end
 
     for _, model in ipairs(json.data) do
-        table.insert(models, model.id)
+        table.insert(_cached_models, model.id)
     end
 
-    return models[1]
+    _cache_expires = utils.refresh_cache(_cache_file, config.adapters.opts.cache_models_for)
+
+    return models(opts)
 end
 
 ---Processes chat output from Llama.cpp, handling special tags and state transitions
----@param self  The instance of the class (codecompanion instance)
----@param data  The raw chat output data from Llama.cpp to be processed
+---@param self table The instance of the class (codecompanion instance)
+---@param data table The raw chat output data from Llama.cpp to be processed
 local chat_output_callback = function(self, data)
     local openai = require("codecompanion.adapters.openai")
     local inner = openai.handlers.chat_output(self, data)
@@ -301,6 +323,9 @@ return {
             },
             -- Adapters for different AI models
             adapters = {
+                opts = {
+                    cache_models_for = 15
+                },
                 ["llama_cpp_local"] = function()
                     return require("codecompanion.adapters").extend("openai_compatible", {
                         -- Use following command to launch llama.cpp
