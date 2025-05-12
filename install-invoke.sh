@@ -1003,24 +1003,24 @@ runtest() {
     export PATH=$HOME/.deno/bin:$PATH
     export PATH=$MYDOTFILES/build/neovim/bin:$PATH
 
-    # echo "Starting nvim test"
+    echo "Starting nvim test"
 
-    # pushd $MYDOTFILES/vim
+    pushd $MYDOTFILES/vim
 
-    # set +e
+    set +e
 
-    # nvim --headless -c "PlenaryBustedDirectory . { init = \"./init.lua\" }"
-    # return_code=$?
+    nvim --headless -c "PlenaryBustedDirectory . { init = \"./init.lua\" }"
+    return_code=$?
 
-    # set -e
+    set -e
 
-    # popd
+    popd
 
-    # if [[ "$return_code" -ne 0 ]]; then
-    #     echo "END TEST"
-    #     echo "TEST FAILED: return_code is not 0"
-    #     return $return_code
-    # fi
+    if [[ "$return_code" -ne 0 ]]; then
+        echo "END TEST"
+        echo "TEST FAILED: return_code is not 0"
+        return $return_code
+    fi
 
     echo "Starting vim test"
 

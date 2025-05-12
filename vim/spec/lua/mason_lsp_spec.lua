@@ -3,14 +3,14 @@ if require('mason-registry').is_installed("deno") and
     describe("mason-lspconfigは", function()
         it("denolsを設定した", function()
             local actual = true
-            local expected = require("lspconfig").denols.manager.config.settings.deno.inlayHints.enumMemberValues
+            local expected = vim.lsp.config.denols.settings.deno.inlayHints.enumMemberValues
             .enabled
             assert.is_equal(expected, actual)
         end)
 
         it("lua_lsを設定した", function()
             local expected = "Replace"
-            local actual = require("lspconfig").lua_ls.manager.config.settings.Lua.completion.callSnippet
+            local actual = vim.lsp.config.lua_ls.settings.Lua.completion.callSnippet
             assert.is_equal(expected, actual)
         end)
     end)
