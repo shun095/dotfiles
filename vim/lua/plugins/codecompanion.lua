@@ -1,7 +1,7 @@
 -- Return the configuration for the CodeCompanion plugin
 return {
     "olimorris/codecompanion.nvim",
-    version = "v14.13.0",
+    version = "*",
     -- Plugin dependencies
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -105,7 +105,6 @@ return {
         ---@param self table The instance of the class (codecompanion instance)
         ---@param data table The raw chat output data from Llama.cpp to be processed
         local chat_output_callback = function(self, data)
-            local openai = require("codecompanion.adapters.openai")
             local inner = openai.handlers.chat_output(self, data)
 
             if inner == nil then
