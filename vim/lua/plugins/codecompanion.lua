@@ -1,240 +1,3 @@
--- This is the configuration for the CodeCompanion plugin
-local thought_process_prompt = require("prompts.custom_thought_process_prompt")
-
--- Refer: https://github.com/olimorris/codecompanion.nvim/discussions/669
-local chat_output_state = {
-    ANTICIPATING_REASONING = 1,
-    REASONING = 2,
-    ANTICIPATING_OUTPUTTING = 3,
-    OUTPUTTING = 4,
-}
----@type integer
-local chat_output_current_state
-local chat_output_buffer = ""
-
-
-local _cache_expires
-local _cache_file = vim.fn.tempname()
-local _cached_models
-
----Return the cached models
----@params opts? table
-local function models(opts)
-    if opts and opts.last then
-        return _cached_models[1]
-    end
-    return _cached_models
-end
-
----Get a list of available OpenAI compatible models
----@params self CodeCompanion.Adapter
----@params opts? table
----@return table
-local function get_model(self)
-    local config = require("codecompanion.config")
-    local curl = require("plenary.curl")
-    local log = require("codecompanion.utils.log")
-    local openai = require("codecompanion.adapters.openai")
-    local utils = require("codecompanion.utils.adapters")
-
-    local opts = { last = true }
-    if _cached_models and _cache_expires and _cache_expires > os.time() then
-        return models(opts)
-    end
-
-    _cached_models = {}
-
-    local adapter = require("codecompanion.adapters").resolve(self)
-    if not adapter then
-        log:error("Could not resolve OpenAI compatible adapter in the `get_model` function")
-        return {}
-    end
-
-    adapter:get_env_vars()
-    local url = adapter.env_replaced.url
-    local models_endpoint = adapter.env_replaced.models_endpoint
-
-    local headers = {
-        ["content-type"] = "application/json",
-    }
-    if adapter.env_replaced.api_key then
-        headers["Authorization"] = "Bearer " .. adapter.env_replaced.api_key
-    end
-
-    local ok, response, json
-
-    ok, response = pcall(function()
-        return curl.get(url .. models_endpoint, {
-            sync = true,
-            headers = headers,
-            insecure = config.adapters.opts.allow_insecure,
-            proxy = config.adapters.opts.proxy,
-        })
-    end)
-    if not ok then
-        log:error("Could not get the OpenAI compatible models from " .. url .. "/v1/models.\nError: %s", response)
-        return {}
-    end
-
-    ok, json = pcall(vim.json.decode, response.body)
-    if not ok then
-        log:error("Could not parse the response from " .. url .. "/v1/models")
-        return {}
-    end
-
-    for _, model in ipairs(json.data) do
-        table.insert(_cached_models, model.id)
-    end
-
-    _cache_expires = utils.refresh_cache(_cache_file, config.adapters.opts.cache_models_for)
-
-    return models(opts)
-end
-
----Processes chat output from Llama.cpp, handling special tags and state transitions
----@param self table The instance of the class (codecompanion instance)
----@param data table The raw chat output data from Llama.cpp to be processed
-local chat_output_callback = function(self, data)
-    local openai = require("codecompanion.adapters.openai")
-    local inner = openai.handlers.chat_output(self, data)
-
-    if inner == nil then
-        return inner
-    end
-
-    if inner.status ~= "success" or inner.output == nil or type(inner.output.content) ~= "string" then
-        return inner
-    end
-
-    -- Assigning roles to "assistant" because Llama.cpp doesn't return roles.
-    inner.output.role = "assistant"
-
-    local content = inner.output.content
-    inner.output.content = ""
-
-    for i = 1, #content do
-        local char = content:sub(i, i)
-        chat_output_buffer = chat_output_buffer .. char
-
-        if chat_output_buffer == "<think>" then
-            chat_output_current_state = chat_output_state.ANTICIPATING_REASONING
-            chat_output_buffer = ""
-            if get_model(self):find("[gG]ranite") then
-                inner.output.content = "<think>\n"
-            end
-        elseif chat_output_buffer == "</think>" then
-            chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
-            chat_output_buffer = ""
-            if get_model(self):find("[gG]ranite") then
-                inner.output.content = "</think>"
-            end
-        elseif chat_output_buffer == "<response>" then
-            chat_output_buffer = ""
-            if get_model(self):find("[gG]ranite") then
-                inner.output.content = "\n<response>\n"
-            end
-        elseif chat_output_buffer == "</response>" then
-            chat_output_buffer = ""
-            if get_model(self):find("[gG]ranite") then
-                inner.output.content = "</response>"
-            end
-        elseif (not (("<think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
-            and (not (("</think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
-            and (not (("<response>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
-            and (not (("</response>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true) then
-            inner.output.content = inner.output.content .. chat_output_buffer
-            chat_output_buffer = ""
-
-            if chat_output_current_state == chat_output_state.ANTICIPATING_OUTPUTTING then
-                if inner.output.content:match("\n") ~= nil then
-                    inner.output.content = ""
-                else
-                    chat_output_current_state = chat_output_state.OUTPUTTING
-                end
-            elseif chat_output_current_state == chat_output_state.ANTICIPATING_REASONING then
-                if inner.output.content:match("\n") ~= nil then
-                    inner.output.content = ""
-                else
-                    chat_output_current_state = chat_output_state.REASONING
-                end
-            end
-        end
-    end
-
-    if chat_output_current_state == chat_output_state.ANTICIPATING_REASONING or chat_output_current_state == chat_output_state.REASONING then
-        if not get_model(self):find("[gG]ranite") then
-            inner.output.reasoning = inner.output.content
-            inner.output.content = nil
-        end
-    end
-
-    return inner
-end
-
--- This function processes and formats messages for different AI models, handling special cases for different model types.
--- @param self: The instance of the current object containing the schema and model information.
--- @param messages: A table of message objects, each with 'role' (e.g., "system", "user", "assistant") and 'content' fields.
--- @return A table containing the processed messages in a 'messages' key.
-local form_messages_callback = function(self, messages)
-    local new_messages = {}
-    local merged_message = nil
-    local last_role = ""
-
-    -- For cogito
-    if get_model(self):find("[cC]ogito") then
-        table.insert(messages, 1, { role = "system", content = "Enable deep thinking subroutine." })
-    end
-
-
-    for index, message in ipairs(messages) do
-        -- For Gemma 3
-        if get_model(self):find("[gG]emma%-3") then
-            if message.role == "system" then
-                message.role = "user"
-            end
-        end
-
-        if not get_model(self):find("[gG]ranite") then
-            -- For reasoning models like QwQ
-            if message.role == "assistant" or message.role == "llm" then
-                if not get_model(self):find("[gG]ranite") then
-                    message.content = message.content:gsub('%s*<think>.-</think>%s*(\n*)', '')
-                end
-            end
-        end
-
-        if message.role ~= last_role and merged_message then
-            table.insert(new_messages, merged_message)
-            merged_message = nil
-        end
-
-        if merged_message then
-            merged_message = {
-                role = message.role,
-                content = merged_message.content .. "\n\n\n\n" .. message.content,
-            }
-        else
-            merged_message = {
-                role = message.role,
-                content = message.content,
-            }
-        end
-
-        last_role = message.role
-    end
-    table.insert(new_messages, merged_message)
-
-    -- For granite
-    if get_model(self):find("[gG]ranite") then
-        if new_messages[1].role == "system" then
-            new_messages[1].content = new_messages[1].content .. [[You are a helpful AI assistant.
-Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
-        end
-    end
-
-    return { messages = new_messages }
-end
-
 -- Return the configuration for the CodeCompanion plugin
 return {
     "olimorris/codecompanion.nvim",
@@ -246,6 +9,242 @@ return {
     },
     -- Configuration options for the plugin
     config = function()
+        -- This is the configuration for the CodeCompanion plugin
+        local thought_process_prompt = require("prompts.custom_thought_process_prompt")
+        local config = require("codecompanion.config")
+        local curl = require("plenary.curl")
+        local log = require("codecompanion.utils.log")
+        local openai = require("codecompanion.adapters.openai")
+        local utils = require("codecompanion.utils.adapters")
+
+        -- Refer: https://github.com/olimorris/codecompanion.nvim/discussions/669
+        local chat_output_state = {
+            ANTICIPATING_REASONING = 1,
+            REASONING = 2,
+            ANTICIPATING_OUTPUTTING = 3,
+            OUTPUTTING = 4,
+        }
+        ---@type integer
+        local chat_output_current_state
+        local chat_output_buffer = ""
+
+
+        local _cache_expires
+        local _cache_file = vim.fn.tempname()
+        local _cached_models
+
+        ---Return the cached models
+        ---@params opts? table
+        local function models(opts)
+            if opts and opts.last then
+                return _cached_models[1]
+            end
+            return _cached_models
+        end
+
+        ---Get a list of available OpenAI compatible models
+        ---@params self CodeCompanion.Adapter
+        ---@params opts? table
+        ---@return table
+        local function get_model(self)
+            local opts = { last = true }
+            if _cached_models and _cache_expires and _cache_expires > os.time() then
+                return models(opts)
+            end
+
+            _cached_models = {}
+
+            local adapter = require("codecompanion.adapters").resolve(self)
+            if not adapter then
+                log:error("Could not resolve OpenAI compatible adapter in the `get_model` function")
+                return {}
+            end
+
+            adapter:get_env_vars()
+            local url = adapter.env_replaced.url
+            local models_endpoint = adapter.env_replaced.models_endpoint
+
+            local headers = {
+                ["content-type"] = "application/json",
+            }
+            if adapter.env_replaced.api_key then
+                headers["Authorization"] = "Bearer " .. adapter.env_replaced.api_key
+            end
+
+            local ok, response, json
+
+            ok, response = pcall(function()
+                return curl.get(url .. models_endpoint, {
+                    sync = true,
+                    headers = headers,
+                    insecure = config.adapters.opts.allow_insecure,
+                    proxy = config.adapters.opts.proxy,
+                })
+            end)
+            if not ok then
+                log:error("Could not get the OpenAI compatible models from " .. url .. "/v1/models.\nError: %s", response)
+                return {}
+            end
+
+            ok, json = pcall(vim.json.decode, response.body)
+            if not ok then
+                log:error("Could not parse the response from " .. url .. "/v1/models")
+                return {}
+            end
+
+            for _, model in ipairs(json.data) do
+                table.insert(_cached_models, model.id)
+            end
+
+            _cache_expires = utils.refresh_cache(_cache_file, config.adapters.opts.cache_models_for)
+
+            return models(opts)
+        end
+
+        ---Processes chat output from Llama.cpp, handling special tags and state transitions
+        ---@param self table The instance of the class (codecompanion instance)
+        ---@param data table The raw chat output data from Llama.cpp to be processed
+        local chat_output_callback = function(self, data)
+            local openai = require("codecompanion.adapters.openai")
+            local inner = openai.handlers.chat_output(self, data)
+
+            if inner == nil then
+                return inner
+            end
+
+            if inner.status ~= "success" or inner.output == nil or type(inner.output.content) ~= "string" then
+                return inner
+            end
+
+            -- Assigning roles to "assistant" because Llama.cpp doesn't return roles.
+            inner.output.role = "assistant"
+
+            local content = inner.output.content
+            inner.output.content = ""
+
+            for i = 1, #content do
+                local char = content:sub(i, i)
+                chat_output_buffer = chat_output_buffer .. char
+
+                if chat_output_buffer == "<think>" then
+                    chat_output_current_state = chat_output_state.ANTICIPATING_REASONING
+                    chat_output_buffer = ""
+                    if get_model(self):find("[gG]ranite") then
+                        inner.output.content = "<think>\n"
+                    end
+                elseif chat_output_buffer == "</think>" then
+                    chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+                    chat_output_buffer = ""
+                    if get_model(self):find("[gG]ranite") then
+                        inner.output.content = "</think>"
+                    end
+                elseif chat_output_buffer == "<response>" then
+                    chat_output_buffer = ""
+                    if get_model(self):find("[gG]ranite") then
+                        inner.output.content = "\n<response>\n"
+                    end
+                elseif chat_output_buffer == "</response>" then
+                    chat_output_buffer = ""
+                    if get_model(self):find("[gG]ranite") then
+                        inner.output.content = "</response>"
+                    end
+                elseif (not (("<think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
+                    and (not (("</think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
+                    and (not (("<response>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
+                    and (not (("</response>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true) then
+                    inner.output.content = inner.output.content .. chat_output_buffer
+                    chat_output_buffer = ""
+
+                    if chat_output_current_state == chat_output_state.ANTICIPATING_OUTPUTTING then
+                        if inner.output.content:match("\n") ~= nil then
+                            inner.output.content = ""
+                        else
+                            chat_output_current_state = chat_output_state.OUTPUTTING
+                        end
+                    elseif chat_output_current_state == chat_output_state.ANTICIPATING_REASONING then
+                        if inner.output.content:match("\n") ~= nil then
+                            inner.output.content = ""
+                        else
+                            chat_output_current_state = chat_output_state.REASONING
+                        end
+                    end
+                end
+            end
+
+            if chat_output_current_state == chat_output_state.ANTICIPATING_REASONING or chat_output_current_state == chat_output_state.REASONING then
+                if not get_model(self):find("[gG]ranite") then
+                    inner.output.reasoning = inner.output.content
+                    inner.output.content = nil
+                end
+            end
+
+            return inner
+        end
+
+        -- This function processes and formats messages for different AI models, handling special cases for different model types.
+        -- @param self: The instance of the current object containing the schema and model information.
+        -- @param messages: A table of message objects, each with 'role' (e.g., "system", "user", "assistant") and 'content' fields.
+        -- @return A table containing the processed messages in a 'messages' key.
+        local form_messages_callback = function(self, messages)
+            local new_messages = {}
+            local merged_message = nil
+            local last_role = ""
+
+            -- For cogito
+            if get_model(self):find("[cC]ogito") then
+                table.insert(messages, 1, { role = "system", content = "Enable deep thinking subroutine." })
+            end
+
+
+            for index, message in ipairs(messages) do
+                -- For Gemma 3
+                if get_model(self):find("[gG]emma%-3") then
+                    if message.role == "system" then
+                        message.role = "user"
+                    end
+                end
+
+                if not get_model(self):find("[gG]ranite") then
+                    -- For reasoning models like QwQ
+                    if message.role == "assistant" or message.role == "llm" then
+                        if not get_model(self):find("[gG]ranite") then
+                            message.content = message.content:gsub('%s*<think>.-</think>%s*(\n*)', '')
+                        end
+                    end
+                end
+
+                if message.role ~= last_role and merged_message then
+                    table.insert(new_messages, merged_message)
+                    merged_message = nil
+                end
+
+                if merged_message then
+                    merged_message = {
+                        role = message.role,
+                        content = merged_message.content .. "\n\n\n\n" .. message.content,
+                    }
+                else
+                    merged_message = {
+                        role = message.role,
+                        content = message.content,
+                    }
+                end
+
+                last_role = message.role
+            end
+            table.insert(new_messages, merged_message)
+
+            -- For granite
+            if get_model(self):find("[gG]ranite") then
+                if new_messages[1].role == "system" then
+                    new_messages[1].content = new_messages[1].content .. [[You are a helpful AI assistant.
+Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
+                end
+            end
+
+            return { messages = new_messages }
+        end
+
         vim.api.nvim_set_keymap('n',
             "<Leader>aa",
             "<cmd>CodeCompanionActions<CR>",
