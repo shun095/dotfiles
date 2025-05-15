@@ -157,7 +157,7 @@
   se expandtab                                                                " Expand tabs to spaces
   se autoindent                                                               " Enable auto indenting
   se list                                                                     " Show invisible characters
-  se listchars=tab:→\ ,space:･,eol:↵,extends:>,precedes:<                     " How invisible characters will be shown
+  se listchars=tab:→\ ,trail:･,eol:↵,extends:>,precedes:<                     " How invisible characters will be shown
   se nofixendofline
   se synmaxcol=500
   se wildmenu                                                                 " Enable completion for s
@@ -196,7 +196,7 @@
   se ambiwidth=single                                                         " 全角記号（「→」など）の文字幅 :terminalのためにsingleに設定
   se mouse=a                                                                  " マウスを有効化
   se mousehide                                                                " 入力中にポインタを消すかどうか
-  se mousemodel=                                                              " Behavior of right-click
+  "se mousemodel=                                                              " Behavior of right-click
   se nolazyredraw                                                               " スクロールが間に合わない時などに描画を省略する
   se updatetime=1000                                                          " Wait time until swap file will be written
   se timeout
@@ -499,15 +499,16 @@
     " tno <C-w>.     <C-w>
     " tno <C-w><C-w> <C-w>
     " tno <expr> <C-w>" '<C-\><C-N>"'.nr2char(getchar()).'pi'
-    tno <M-Up>     <c-\><c-n><c-w>k
-    tno <M-Down>   <c-\><c-n><c-w>j
-    tno <M-Right>  <c-\><c-n><c-w>l
-    tno <M-Left>   <c-\><c-n><c-w>h
-    tno <M-k>      <c-\><c-n><c-w>k
-    tno <M-j>      <c-\><c-n><c-w>j
-    tno <M-l>      <c-\><c-n><c-w>l
-    tno <M-h>      <c-\><c-n><c-w>h
-    tno <ESC><ESC> <c-\><c-n>
+    tno <M-Up>           <c-\><c-n><c-w>k
+    tno <M-Down>         <c-\><c-n><c-w>j
+    tno <M-Right>        <c-\><c-n><c-w>l
+    tno <M-Left>         <c-\><c-n><c-w>h
+    tno <M-k>            <c-\><c-n><c-w>k
+    tno <M-j>            <c-\><c-n><c-w>j
+    tno <M-l>            <c-\><c-n><c-w>l
+    tno <M-h>            <c-\><c-n><c-w>h
+    tno <ESC>            <c-\><c-n><Plug>(esc)
+    nno <Plug>(esc)<ESC> i<ESC>
   else
     if has('terminal')
       " tno <C-w><C-w> <C-w>.
@@ -536,12 +537,12 @@
   vn <leader>p "_dp
   vn <leader>P "_dP
 
-  vno <leader>ty y:call system("tmux load-buffer -", @0)<cr>
-  vno <leader>ny y:call system("nc localhost 8377", @0)<cr>
+  " vno <leader>ty y:call system("tmux load-buffer -", @0)<cr>
+  " vno <leader>ny y:call system("nc localhost 8377", @0)<cr>
 
-  nno <leader>tyy yy:call system("tmux load-buffer -", @0)<cr>
-  nno <leader>nyy yy:call system("nc localhost 8377", @0)<cr>
-  nno <leader>tp :let @0 = system("tmux save-buffer -")<cr>"0p
+  " nno <leader>tyy yy:call system("tmux load-buffer -", @0)<cr>
+  " nno <leader>nyy yy:call system("nc localhost 8377", @0)<cr>
+  " nno <leader>tp :let @0 = system("tmux save-buffer -")<cr>"0p
 
   nno ,c viw:s/\%V\(_\\|-\)\(.\)/\u\2/g<CR>
   nno ,_ viw:s/\%V\([A-Z]\)/_\l\1/g<CR>
@@ -889,8 +890,10 @@
 
     set concealcursor=n
     " \x16はCTRL-Vのこと
-    au ModeChanged [^ivV\x16]*:[ivV\x16]* let g:prev_conceallevel=&conceallevel | setl conceallevel=0
-    au ModeChanged [ivV\x16]*:[^ivV\x16]* let &conceallevel = g:prev_conceallevel 
+    if exists('#ModeChanged')
+      au ModeChanged [^ivV\x16]*:[ivV\x16]* let g:prev_conceallevel=&conceallevel | setl conceallevel=0
+      au ModeChanged [ivV\x16]*:[^ivV\x16]* let &conceallevel = g:prev_conceallevel 
+    endif
 
     " Json
     let g:vim_json_syntax_conceal = 1
@@ -956,7 +959,9 @@
       au TerminalOpen * setl nonumber nolist
       au TerminalOpen * nn <buffer>q :bw<CR>
     else
-      autocmd TermOpen * startinsert
+      if exists('#TermOpen')
+        autocmd TermOpen * startinsert
+      endif
     en
 
     if has('nvim')

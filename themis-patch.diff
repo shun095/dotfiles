@@ -1,0 +1,10 @@
+diff --git a/bin/themis b/bin/themis
+index 7de173a..3bd523b 100755
+--- a/bin/themis
++++ b/bin/themis
+@@ -21,4 +21,4 @@ if [ ! -f "${STARTUP_SCRIPT}" ]; then
+ 	exit 2
+ fi
+ 
+-"${THEMIS_VIM}" -u NONE -i NONE -n -N ${THEMIS_ARGS} --cmd "source ${STARTUP_SCRIPT}" -- "$@" 3>&1 1>&2 2>&3 3>&-
++"${THEMIS_VIM}" -u NONE -i NONE -n -N ${THEMIS_ARGS} -c "source ${STARTUP_SCRIPT}" -- "$@" 3>&1 1>&2 2>&3 3>&-

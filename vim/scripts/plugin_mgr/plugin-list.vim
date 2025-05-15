@@ -118,8 +118,6 @@ if !has('nvim')
   Plug 'rhysd/vim-healthcheck'
 else
   " -- nvim native lsp & dap---
-  Plug 'williamboman/mason.nvim'
-  Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'mfussenegger/nvim-dap'
   Plug 'mfussenegger/nvim-jdtls'
   Plug 'mfussenegger/nvim-dap-python'
@@ -128,15 +126,12 @@ else
   Plug 'nvim-neotest/nvim-nio'
   Plug 'rcarriga/nvim-dap-ui'
   Plug 'theHamsta/nvim-dap-virtual-text'
-  Plug 'neovim/nvim-lspconfig'
   Plug 'jay-babu/mason-null-ls.nvim'
   Plug 'nvimtools/none-ls.nvim'
   Plug 'MysticalDevil/inlay-hints.nvim'
   Plug 'folke/neoconf.nvim'
-  Plug 'folke/neodev.nvim'
   Plug 'folke/trouble.nvim'
   Plug 'stevearc/aerial.nvim'
-  " Plug 'folke/which-key.nvim'
   Plug 'm-demare/hlargs.nvim'
 
   Plug 'nvimdev/lspsaga.nvim'
@@ -170,28 +165,20 @@ else
 
   " Plug 'karb94/neoscroll.nvim'
   " Plug 'folke/trouble.nvim'
-  Plug 'MunifTanjim/nui.nvim'
+  " Plug 'MunifTanjim/nui.nvim'
   Plug 'rcarriga/nvim-notify'
   Plug 'folke/noice.nvim'
   " Plug 'j-hui/fidget.nvim'
-  " Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'LukasPietzschmann/telescope-tabs'
-  " if executable('cmake')
-  "   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
-  " elseif executable('make')
-  "   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-  " endif
   Plug 'nvim-telescope/telescope-ui-select.nvim'
-  " Plug 'kkharji/sqlite.lua'
-  " Plug 'prochri/telescope-all-recent.nvim'
   Plug 'kevinhwang91/nvim-bqf'
-  Plug 'nvim-tree/nvim-web-devicons'
+  " Plug 'nvim-tree/nvim-web-devicons'
   " Plug 'vim-fall/fall.vim'
-  Plug 'petertriho/nvim-scrollbar'
+  " Plug 'petertriho/nvim-scrollbar'
   Plug 'kevinhwang91/nvim-hlslens'
   Plug 'andersevenrud/nvim_context_vt'
-  Plug 'stevearc/dressing.nvim'
+  " Plug 'stevearc/dressing.nvim'
   " Plug 'stevearc/conform.nvim'
   " Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
 endif
@@ -203,7 +190,7 @@ endif
 
 " === Debug Adapter Protocl === {{{
 if !has('nvim')
-  Plug 'puremourning/vimspector'
+  " Plug 'puremourning/vimspector'
 endif
 " }}}
 
@@ -281,14 +268,12 @@ else
   Plug 'chrisbra/csv.vim', {'for': ['csv']}
 endif
 " Plug 'fatih/vim-go', {'for': ['go']}
-if has('nvim')
-  " Plug 'windwp/nvim-ts-autotag'
-else
+if !has('nvim')
   Plug 'alvan/vim-closetag', {'for': ['html', 'xml', 'xhtml', 'phtml']}
 endif
 Plug 'mattn/emmet-vim', {'for': ['html', 'xml']}
 Plug 'Valloric/MatchTagAlways', {'for': ['html', 'xml']}
-Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install', 'for': ['markdown']}
+Plug 'kat0h/bufpreview.vim', { 'do': 'deno task prepare' }
 if has('nvim')
   Plug 'ixru/nvim-markdown'
   Plug 'MeanderingProgrammer/render-markdown.nvim'
@@ -324,10 +309,6 @@ Plug 'cespare/vim-toml', {'for': ['toml']}
 Plug 'leafgarland/typescript-vim', {'for': ['typescript']}
 Plug 'vim-jp/syntax-vim-ex', {'for': ['vim']}
 Plug 'posva/vim-vue', {'for': ['vue']}
-if has('nvim')
-  " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  " Plug 'nvim-treesitter/nvim-treesitter-context'
-endif
 " }}}
 
 " === General purpose viewers/indicators {{{
@@ -387,7 +368,6 @@ endif
 Plug 'Konfekt/FastFold'
 Plug 'LeafCage/foldCC.vim'
 if has('nvim')
-  Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
   Plug 'nvim-lualine/lualine.nvim'
 else
   Plug 'vim-airline/vim-airline'
@@ -397,17 +377,15 @@ Plug 'luochen1990/rainbow', {'on': ['RainbowToggle', 'RainbowToggleOff', 'Rainbo
 " Plug 'junegunn/rainbow_parentheses.vim'
 " Plug 'kien/rainbow_parentheses.vim'
 " Plug 'google/vim-searchindex'
-if has('nvim')
-  " Plug 'lukas-reineke/indent-blankline.nvim'
-else
+if !has('nvim')
   Plug 'Yggdroot/indentLine'
 endif
 " Plug 'nathanaelkane/vim-indent-guides'
 
 " Git plugins
-Plug 'lambdalisue/gina.vim'
-" Plug 'tpope/vim-fugitive'
-" Plug 'tpope/vim-rhubarb'
+" Plug 'lambdalisue/gina.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/gv.vim'
 if has('nvim')
   Plug 'lewis6991/gitsigns.nvim'
@@ -424,7 +402,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
 if has('nvim')
-  " Plug 'Wansmer/treesj'
   Plug 'monaqa/dial.nvim'
 endif
 
@@ -437,7 +414,6 @@ Plug 'deton/jasegment.vim'
 
 " Applications
 Plug 'glidenote/memolist.vim' ", {'on': ['MemoNew', 'MemoList']}
-Plug 'shun095/obsidian.nvim', { 'branch': 'multibyte-tag-completion'}
 Plug 'itchyny/calendar.vim', {'on':'Calendar'}
 Plug 'freitass/todo.txt-vim'
 
@@ -453,7 +429,7 @@ endif
 " Non lazy load for QuickRun with pandoc
 Plug 'thinca/vim-quickrun'
 if has('nvim')
-  Plug 'michaelb/sniprun', { 'do': 'sh ./install.sh' }
+  " Plug 'michaelb/sniprun', { 'do': 'sh ./install.sh' }
   Plug 'lambdalisue/vim-quickrun-neovim-job'
 endif
 " Plug 'lambdalisue/suda.vim'
@@ -468,6 +444,8 @@ if has('nvim') && has('win32')
   Plug 'pepo-le/win-ime-con.nvim'
   let g:win_ime_con_mode = 0
 endif
+
+Plug 'christoomey/vim-tmux-navigator'
 
 " Libraries
 Plug 'vim-denops/denops.vim'

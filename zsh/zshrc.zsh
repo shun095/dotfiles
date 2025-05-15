@@ -24,6 +24,9 @@ export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
 # node js
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 
+# deno
+export PATH="$HOME/.deno/bin:$PATH"
+
 export USE_CCACHE=1
 
 # tools
@@ -68,13 +71,13 @@ _zshrc_get_fzf_preview_cmd() {
     echo $previewcmd
 }
 if [[ $TMUX = "" ]]; then
-    export FZF_DEFAULT_OPTS="--height 80%"
+    export FZF_DEFAULT_OPTS="--height 50%"
 else
     export FZF_DEFAULT_OPTS="--tmux bottom,50%"
 fi
 export FZF_CTRL_R_OPTS="--reverse"
-export FZF_CTRL_T_OPTS="--preview '$(_zshrc_get_fzf_preview_cmd)' --preview-window=right:50%"
-export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target --preview 'tree -C {}' --preview-window=right:50%"
+export FZF_CTRL_T_OPTS="--preview '$(_zshrc_get_fzf_preview_cmd)' --preview-window=right:50% --bind=ctrl-/:toggle-preview"
+export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target --preview 'tree -C {}' --preview-window=right:50% --bind=ctrl-/:toggle-preview"
 
 # Should be called before source ohmyzshrc for faster boot
 _zshrc_custom_tmux(){
@@ -132,7 +135,7 @@ fi
 if [[ "${VIM_EDITERM_SETUP}" != "" ]]; then
     source "${VIM_EDITERM_SETUP}"
 fi
-# alias tmux=_zshrc_custom_tmux
+alias tmux=_zshrc_custom_tmux
 
 if [ $(uname) = "Darwin" ]; then
     alias excel='open -n /Applications/Microsoft\ Excel.app'
@@ -341,7 +344,6 @@ fi
 alias dir="dir --group-directories-first --color=auto"
 if type pygmentize > /dev/null 2>&1; then
     alias pyg="pygmentize -O style=monokai -f 256 -g"
-    alias ccat="pyg"
 fi
 
 if type highlight > /dev/null 2>&1; then

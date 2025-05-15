@@ -26,7 +26,7 @@ jobs:
           build/tmux
           build/vim
         key: ${{ runner.os }}-repos
-    - name: Test install.sh install
+    - name: Test install.sh install (/wo nvim)
       run: ./install-invoke.sh
     - name: Test install.sh buildtools
       shell: zsh -le {0}
@@ -41,7 +41,7 @@ jobs:
           build/tmux
           build/vim
         key: ${{ steps.cache-restore.outputs.cache-primary-key }}
-    - name: Test install.sh install
+    - name: Test install.sh install (/w nvim)
       shell: zsh -le {0}
       run: ./install-invoke.sh
     - name: Test install.sh runtest

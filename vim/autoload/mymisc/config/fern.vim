@@ -17,7 +17,8 @@ fun! mymisc#config#fern#setup() abort
   nno <silent> <Leader>e :cal <SID>fern_open_or_focus()<CR>
   nno <silent> <Leader>E :Fern %:h -drawer -reveal=%:p -keep<CR>
   nno <silent> <Leader><c-e> :Fern . -drawer -reveal=%:p -keep<CR>
-  nno <Leader>n :Fern<space>
+  nno <Leader>N :Fern %:h -drawer -reveal=%:p -keep<CR>
+  nno <Leader>n :Fern . -drawer -reveal=%:p -keep<CR>
 
   let g:fern#drawer_width = 35
   let g:fern#drawer_keep = v:true
@@ -49,9 +50,11 @@ fun! mymisc#config#fern#setup() abort
     nmap <silent> <buffer>  I              <Plug>(fern-action-hidden:toggle)
     nmap <silent> <buffer>  <C-l>          <Plug>(fern-action-reload:all)
     nmap <silent> <buffer>  o              <Plug>(fern-action-open-or-expand)
+    nmap <silent> <buffer>  <Right>        <Plug>(fern-action-open-or-expand)
     nmap <silent> <buffer>  O              <Plug>(fern-action-open:split)
     nmap <silent> <buffer>  S              <Plug>(fern-action-open:vsplit)
     nmap <silent> <buffer>  x              <Plug>(fern-action-collapse)
+    nmap <silent> <buffer>  <Left>         <Plug>(fern-action-collapse)
     nmap <silent> <buffer>  X              <Plug>(fern-action-open:system)
     nmap <silent> <buffer>  F              <Plug>(fern-action-new-file)
     nmap <silent> <buffer>  u              <Plug>(fern-action-leave)
@@ -73,10 +76,15 @@ fun! mymisc#config#fern#setup() abort
     let g:fern#renderer#web_devicons#use_web_devicons_color_palette = v:true
   endf
 
+  fun s:fern_change_dir(...) abort
+    Fern . -drawer -reveal=%:p -keep -stay
+  endfun
+
   aug vimrc_fern
     au! *
     au FileType fern cal s:init_fern()
     " au FileType fern call glyph_palette#apply()
+    " au DirChanged global,tabpage call timer_start(0, funcref("s:fern_change_dir"))
   aug END
 
   if mymisc#startup#plug_tap('fern-preview.vim')

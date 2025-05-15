@@ -3,9 +3,9 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- If you started neovim within `~/dev/xy/project-1` this would resolve to `project-1`
 local project_name = vim.fn.fnamemodify(vim.fs.root(0, { ".git", ".zshrc" }), ':p:h:t')
 
-local jdtls_path = require('mason-registry').get_package('jdtls'):get_install_path()
-local java_debug_adapter_path = require('mason-registry').get_package('java-debug-adapter'):get_install_path()
-local java_test_path = require('mason-registry').get_package('java-test'):get_install_path()
+local jdtls_path = vim.fn.expand('$MASON/packages/jdtls')
+local java_debug_adapter_path = vim.fn.expand('$MASON/packages/java-debug-adapter')
+local java_test_path = vim.fn.expand('$MASON/packages/java-test')
 
 local bundles = {
     vim.fn.glob(java_debug_adapter_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
@@ -31,7 +31,7 @@ local config = {
         '-XX:AdaptiveSizePolicyWeight=90',
         '-Dsun.zip.disableMemoryMapping=true',
         '-Xms128m',
-        '-Xmx4096m',
+        '-Xmx2048m',
         '--add-modules=javafx.media,javafx.web,javafx.swing,javafx.graphics,javafx.base,javafx.controls,javafx.fxml',
         '--add-modules=ALL-SYSTEM',
         '--add-opens', 'java.base/java.util=ALL-UNNAMED',
@@ -93,9 +93,20 @@ local config = {
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 require("inlay-hints").setup()
-require('jdtls').start_or_attach(config)
+require("jdtls").start_or_attach(config)
 
-vim.cmd('com! -buffer JdtTestMethod lua require("jdtls").test_class()')
-vim.cmd('com! -buffer JdtTestClass  lua require("jdtls").test_nearest_method()')
-vim.cmd('com! -buffer JdtTestGotoSubjects lua require("jdtls.tests").goto_subjects()')
-vim.cmd('com! -buffer JdtTestGenerate lua require("jdtls").generate()')
+vim.api.nvim_buf_create_user_command(0, "JdtTestMethod",
+    "lua require(\"jdtls\").test_nearest_method()",
+    {})
+vim.api.nvim_buf_create_user_command(0, "JdtTestClass",
+    "lua require(\"jdtls\").test_class()",
+    {})
+vim.api.nvim_buf_create_user_command(0, "JdtPickTest",
+    "lua require(\"jdtls\").pick_test()",
+    {})
+vim.api.nvim_buf_create_user_command(0, "JdtTestGotoSubjects",
+    "lua require(\"jdtls.tests\").goto_subjects()",
+    {})
+vim.api.nvim_buf_create_user_command(0, "JdtTestGenerate",
+    "lua require(\"jdtls\").generate()",
+    {})

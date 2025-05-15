@@ -3,7 +3,8 @@ local config = wezterm.config_builder()
 
 config.color_scheme = 'iceberg-dark'
 config.font = wezterm.font_with_fallback({
-    'JetBrainsMono Nerd Font',
+    'BlexMono Nerd Font',
+    -- 'JetBrainsMono Nerd Font',
     'BIZ UDGothic',
 })
 config.font_size = 13

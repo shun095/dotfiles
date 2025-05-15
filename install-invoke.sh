@@ -8,6 +8,10 @@
 
 set -eu
 
+if [ -z "$TERM" ]; then
+    export TERM=xterm
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" >/dev/null 2>&1; pwd -P)"
 
 export DOTFILES_VERSION="0.1.0"
@@ -665,69 +669,69 @@ update_tmux_plugins() {
 }
 
 install_deps() {
-local msg=$1
-local deps=$2
-local curl_deps=$3
-echo_section "Installing dependencies for: ${msg}"
-local sudo=""
+    local msg=$1
+    local deps=$2
+    local curl_deps=$3
+    echo_section "Installing dependencies for: ${msg}"
+    local sudo=""
 
-if [[ ${deps} = '' ]]; then
-    echo "Nothing to do."
-    return
-fi
-
-echo
-echo "Packages:"
-echo "  ${deps}"
-echo
-
-if [[ ! $(whoami) = 'root' ]]; then
-    sudo="sudo "
-fi
-
-if [[ $OSTYPE == 'darwin'* ]]; then
-    brew update
-    brew upgrade
-    brew install ${deps}
-elif [[ $(lsb_release -rs) == "18.04" ]]; then
-    ${sudo} apt-get update
-    ${sudo} apt-get upgrade -y
-    ${sudo} apt-get install -y ${deps}
-elif [[ $(lsb_release -rs) == "20.04" ]]; then
-    ${sudo} apt-get update
-    ${sudo} apt-get upgrade -y
-    ${sudo} apt-get install -y ${deps}
-elif [[ $(lsb_release -rs) == "22.04" ]]; then
-    ${sudo} apt-get update
-    ${sudo} apt-get upgrade -y
-    ${sudo} apt-get install -y ${deps}
-elif type apt-get > /dev/null 2>&1; then
-    ${sudo} apt-get update
-    ${sudo} apt-get upgrade -y
-    ${sudo} apt-get install -y ${deps}
-elif type cygpath > /dev/null 2>&1; then
-    # Do nothing on cygwin
-    :
-elif type dnf > /dev/null 2>&1; then
-    ${sudo} dnf update
-    ${sudo} dnf install -y ${deps} || true
-elif type yum > /dev/null 2>&1; then
-    ${sudo} yum update
-    if cat /etc/redhat-release | grep " 7."; then
-        # Cent/RHEL 7
-        if ${sudo} yum list installed git2u >/dev/null 2>&1; then
-            :
-        else
-            ${sudo} yum remove git* -y
-        fi
-        ${sudo} yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
+    if [[ ${deps} = '' ]]; then
+        echo "Nothing to do."
+        return
     fi
-    ${sudo} yum install -y ${deps} || true
-fi
 
-for url in $curl_deps; do
-    curl -fsSL $url | sh
-done
+    echo
+    echo "Packages:"
+    echo "  ${deps}"
+    echo
+
+    if [[ ! $(whoami) = 'root' ]]; then
+        sudo="sudo "
+    fi
+
+    if [[ $OSTYPE == 'darwin'* ]]; then
+        brew update
+        brew upgrade
+        brew install ${deps}
+    elif [[ $(lsb_release -rs) == "18.04" ]]; then
+        ${sudo} apt-get update
+        ${sudo} apt-get upgrade -y
+        ${sudo} apt-get install -y ${deps}
+    elif [[ $(lsb_release -rs) == "20.04" ]]; then
+        ${sudo} apt-get update
+        ${sudo} apt-get upgrade -y
+        ${sudo} apt-get install -y ${deps}
+    elif [[ $(lsb_release -rs) == "22.04" ]]; then
+        ${sudo} apt-get update
+        ${sudo} apt-get upgrade -y
+        ${sudo} apt-get install -y ${deps}
+    elif type apt-get > /dev/null 2>&1; then
+        ${sudo} apt-get update
+        ${sudo} apt-get upgrade -y
+        ${sudo} apt-get install -y ${deps}
+    elif type cygpath > /dev/null 2>&1; then
+        # Do nothing on cygwin
+        :
+    elif type dnf > /dev/null 2>&1; then
+        ${sudo} dnf update -y
+        ${sudo} dnf install -y ${deps} || true
+    elif type yum > /dev/null 2>&1; then
+        ${sudo} yum update
+        if cat /etc/redhat-release | grep " 7."; then
+            # Cent/RHEL 7
+            if ${sudo} yum list installed git2u >/dev/null 2>&1; then
+                :
+            else
+                ${sudo} yum remove git* -y
+            fi
+            ${sudo} yum install -y https://centos7.iuscommunity.org/ius-release.rpm || true
+        fi
+        ${sudo} yum install -y ${deps} || true
+    fi
+
+    for url in $curl_deps; do
+        curl -fsSL $url | sh -s -- --yes
+    done
 }
 
 build_vim_install_deps() {
@@ -735,7 +739,8 @@ local deps=""
 local curl_deps=""
 local tmp_deps=""
 if [[ $OSTYPE == 'darwin'* ]]; then
-    deps='lua luajit automake python3 deno pkg-config utf8proc'
+    deps='lua luajit automake python3 pkg-config utf8proc'
+    curl_deps='https://deno.land/install.sh'
 elif [[ $(lsb_release -rs) == "20.04" ]]; then
     tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2 libutf8proc-dev'
     for package in ${tmp_deps}; do
@@ -832,14 +837,12 @@ make_install() {
         mkdir -p $MYDOTFILES/build
     fi
 
-    current_path=$(pwd)
-
     pushd $MYDOTFILES/build
     if [[ ! -e ./myconfigure_setup.sh ]]; then
-        ln -s ${current_path}/tools/myconfigure_setup.sh ./myconfigure_setup.sh
+        ln -s $MYDOTFILES/tools/myconfigure_setup.sh ./myconfigure_setup.sh
     fi
     if [[ ! -e ${script} ]]; then
-        ln -s ${current_path}/tools/${script} ./$script
+        ln -s $MYDOTFILES/tools/${script} ./$script
         ls -la
     fi
 
@@ -983,14 +986,7 @@ reinstall() {
 }
 
 runtest() {
-    set +e
     echo "STARTING TEST"
-
-    if [[ -d $MYDOTFILES/build/neovim ]]; then
-        export PATH=$MYDOTFILES/build/neovim/bin:$PATH
-    fi
-
-    pushd $MYDOTFILES/vim
 
     pwd
     ls -la
@@ -998,14 +994,83 @@ runtest() {
     ls -la ~/
     echo "ls -la ~/.config/nvim/"
     ls -la ~/.config/nvim/
+    echo "ls -la ~/.vim/plugged/"
+    ls -la ~/.vim/plugged/
+    echo "ls -la ~/.deno"
+    ls -la ~/.deno
+
+    . $HOME/.deno/env
+    export PATH=$HOME/.deno/bin:$PATH
+    export PATH=$MYDOTFILES/build/neovim/bin:$PATH
+
+    echo "Starting nvim test"
+
+    pushd $MYDOTFILES/vim
+
+    set +e
 
     nvim --headless -c "PlenaryBustedDirectory . { init = \"./init.lua\" }"
-
     return_code=$?
+
+    set -e
+
     popd
 
-    echo "END TEST"
+    if [[ "$return_code" -ne 0 ]]; then
+        echo "END TEST"
+        echo "TEST FAILED: return_code is not 0"
+        return $return_code
+    fi
+
+    echo "Starting vim test"
+
+    export THEMIS_ARGS="-e -s -u $HOME/.vimrc"
+    export THEMIS_DEBUG=1
+
+    pushd $MYDOTFILES/vim
+
+    set +e
+
+    patch -N $HOME/.vim/plugged/vim-themis/bin/themis $MYDOTFILES/themis-patch.diff
+    $HOME/.vim/plugged/vim-themis/bin/themis --debug
+    return_code=$?
+
     set -e
+
+    popd
+
+    if [[ "$return_code" -ne 0 ]]; then
+        echo "END TEST"
+        echo "TEST FAILED: return_code is not 0"
+        return $return_code
+    fi
+
+    echo "Starting pytest"
+
+    if ! pytest --version; then
+        if [[ ! -d ".venv" ]]; then
+            python -m venv .venv
+        fi
+        source .venv/bin/activate
+        if ! pytest --version; then
+            python -m pip install -r ./requirements_test.txt
+        fi
+    fi
+
+    set +e
+
+    pytest -v
+    return_code=$?
+
+    set -e
+
+    if [[ "$return_code" -ne 0 ]]; then
+        echo "END TEST"
+        echo "TEST FAILED: return_code is not 0"
+        return $return_code
+    fi
+
+    echo "END TEST"
     return $return_code
 }
 
@@ -1022,7 +1087,15 @@ check_arguments() {
         undeploy)  ;;
         uninstall) ;;
         debug)     ;;
-        buildtools);;
+        buildtools)
+            # case $2 in
+            #     vim|neovim|tig|tmux|all)
+            #         ;;
+            #     *)
+            #         buildtools_help
+            #         ;;
+            # esac
+            ;;
         runtest)   ;;
         *)
             echo "Unknown argument: ${arg}"

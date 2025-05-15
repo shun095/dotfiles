@@ -19,3 +19,5 @@ build/
 
 test_result.log
 deployed-version.txt
+.coverage
+.venv/

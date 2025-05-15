@@ -1,0 +1,2 @@
+let s:assert = themis#helper('assert')
+call themis#helper('command').with(s:assert)

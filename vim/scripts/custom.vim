@@ -579,3 +579,24 @@ en
 if mymisc#startup#plug_tap('denops.vim')
   cal mymisc#config#denops#setup()
 endif
+
+if mymisc#startup#plug_tap('vim-tmux-navigator')
+  let g:tmux_navigator_no_mappings = 1
+
+  nnoremap <silent> <M-Left>  :<C-U>TmuxNavigateLeft<cr>
+  nnoremap <silent> <M-h>     :<C-U>TmuxNavigateLeft<cr>
+  nnoremap <silent> <M-Down>  :<C-U>TmuxNavigateDown<cr>
+  nnoremap <silent> <M-j>     :<C-U>TmuxNavigateDown<cr>
+  nnoremap <silent> <M-Up>    :<C-U>TmuxNavigateUp<cr>
+  nnoremap <silent> <M-k>     :<C-U>TmuxNavigateUp<cr>
+  nnoremap <silent> <M-Right> :<C-U>TmuxNavigateRight<cr>
+  nnoremap <silent> <M-l>     :<C-U>TmuxNavigateRight<cr>
+endif
+
+if mymisc#startup#plug_tap('vim-pyenv')
+  augroup vimrc_pyenv
+    autocmd! *
+    autocmd User vim-pyenv-activate-post   let $VIRTUAL_ENV = substitute(system('pyenv prefix'),"\n", "","")
+    autocmd User vim-pyenv-deactivate-post unlet $VIRTUAL_ENV
+  augroup END
+endif

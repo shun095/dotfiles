@@ -1,0 +1,10 @@
+{
+    "seealso": {
+        "prefix": "seealso",
+        "body": "## See also\n- "
+    },
+    "reference": {
+        "prefix": "reference",
+        "body": "## Reference\n- "
+    }
+}
