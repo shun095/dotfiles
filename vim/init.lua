@@ -1569,8 +1569,6 @@ vim.api.nvim_create_autocmd({ "ModeChanged" }, {
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH5Bg",{})')
 -- vim.cmd('autocmd init_lua ColorScheme * cal mymisc#patch_highlight_attributes("Title","RenderMarkdownH6Bg",{})')
 --
-require('csvview').setup()
-require('csvview').enable()
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------

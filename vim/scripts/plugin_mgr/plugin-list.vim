@@ -263,7 +263,6 @@ endif
 " Plug 'mopp/next-alter.vim', {'for': ['c', 'cpp', 'vim']}
 " Plug 'OrangeT/vim-csharp', {'for': ['cs', 'csi', 'csx']}
 if has('nvim')
-  Plug 'hat0uma/csvview.nvim'
 else
   Plug 'chrisbra/csv.vim', {'for': ['csv']}
 endif
