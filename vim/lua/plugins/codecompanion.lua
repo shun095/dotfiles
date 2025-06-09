@@ -171,10 +171,10 @@ return {
             end
 
             if chat_output_current_state == chat_output_state.ANTICIPATING_REASONING or chat_output_current_state == chat_output_state.REASONING then
-                if not get_model(self):find("[gG]ranite") then
+                -- if not get_model(self):find("[gG]ranite") then
                     inner.output.reasoning = inner.output.content
                     inner.output.content = nil
-                end
+                -- end
             end
 
             return inner
@@ -419,10 +419,11 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                             role = "user",
                             content = function()
                                 return string.format(
-                                    [[You are an expert in following the Conventional Commit specification. Given the provided git diff, your task is to generate a commit message that strictly follows this format:
+                                    [[<Task>
+Given the provided git diff, your task is to generate a commit message in Conventional Commit style that strictly follows the format.
+</Task>
 
-
-No.<number>:
+<Format>
 
 ```txt
 <type>(<scope>): <description>
@@ -430,11 +431,9 @@ No.<number>:
 [optional body]
 ```
 
-Please generate the message 5 times, so the user can choose one from them.
+</Format>
 
----
-
-### **Legend:**
+<LegendsForEachItems>
 1. <number>: Number of the commit message.
 
 2. **`<type>`**:
@@ -457,12 +456,11 @@ Please generate the message 5 times, so the user can choose one from them.
 
 5. **[optional body]**:
    If additional context or details are needed to explain the commit (e.g., clarifying why certain changes were made), you can add them in the body as bullet points. This section is optional, so only include it when necessary.
+</LegendsForEachItems>
 
----
+<Example>
 
-**Example Commit Message:**
-
-No.1:
+### No.1:
 
 ```txt
 fix(parser): Resolve async tokenization issue
@@ -471,16 +469,15 @@ fix(parser): Resolve async tokenization issue
 - Improved error handling in parser.
 ```
 
----
+</Example>
 
-### **Your Task:**
-Based on the following git diff, generate a commit message by following the steps above:
+<Diff>
 
---- Start of the git diff ---
 ```diff
 %s
 ```
---- End of the git diff ---
+
+</Diff>
 
 ]],
                                     vim.fn.system("git diff --no-ext-diff --staged")

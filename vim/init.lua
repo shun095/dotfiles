@@ -409,11 +409,11 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- === LSP Core ===
 
 -- for breadclumb
-require('lspsaga').setup({
-    lightbulb = {
-        enable = false,
-    }
-})
+-- require('lspsaga').setup({
+--     lightbulb = {
+--         enable = false,
+--     }
+-- })
 
 -- === LSP UI ===
 require("nvim-lightbulb").setup({

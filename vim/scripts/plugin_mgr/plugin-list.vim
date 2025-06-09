@@ -134,7 +134,7 @@ else
   Plug 'stevearc/aerial.nvim'
   Plug 'm-demare/hlargs.nvim'
 
-  Plug 'nvimdev/lspsaga.nvim'
+  " Plug 'nvimdev/lspsaga.nvim'
   Plug 'kosayoda/nvim-lightbulb'
   " Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }
   " Plug 'ray-x/navigator.lua'
@@ -409,7 +409,7 @@ Plug 'deris/vim-shot-f'
 Plug 'junegunn/vim-easy-align'
 " Plug 'kana/vim-submode'
 Plug 'bkad/CamelCaseMotion'
-Plug 'deton/jasegment.vim'
+" Plug 'deton/jasegment.vim'
 
 " Applications
 Plug 'glidenote/memolist.vim' ", {'on': ['MemoNew', 'MemoList']}
