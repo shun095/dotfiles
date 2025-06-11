@@ -441,15 +441,13 @@ Given the provided git diff, your task is to generate a commit message in Conven
 ```txt
 <type>(<scope>): <description>
 
-[optional body]
+<body>
 ```
 
 </Format>
 
 <LegendsForEachItems>
-1. <number>: Number of the commit message.
-
-2. **`<type>`**:
+1. **`<type>`**:
    Identify the type of change in the code and choose one of these options:
    - **`feat`**: The commit adds a new feature.
    - **`fix`**: The commit fixes a bug.
@@ -459,21 +457,21 @@ Given the provided git diff, your task is to generate a commit message in Conven
    - **`test`**: The commit involves adding or modifying tests.
    - **`style`**: The commit includes code formatting changes (e.g., indentation, spacing) that don’t affect functionality.
 
-3. **`<scope>`** (optional):
+2. **`<scope>`** (optional):
    If the change impacts a specific part of the system (such as a module or feature), name that part in parentheses. Examples: `neovim`, `config`, `parser`.
    If no specific part of the system is affected, you can skip this part.
 
-4. **`<description>`**:
+3. **`<description>`**:
    Write a concise, clear summary of what the commit does, using the imperative mood (for example, “Add feature”, “Fix bug”).
-   **Important**: Keep the description brief and focused on the purpose of the commit.
+   Keep the description brief and focused on the purpose of the commit.
 
-5. **[optional body]**:
-   If additional context or details are needed to explain the commit (e.g., clarifying why certain changes were made), you can add them in the body as bullet points. This section is optional, so only include it when necessary.
+4. **`<body>`**:
+   Additional context or details to explain the commit (e.g., clarifying why certain changes were made), you can add them in the body as bullet points.
+   Include all details that didn't fit in the description.
+
 </LegendsForEachItems>
 
 <Example>
-
-### No.1:
 
 ```txt
 fix(parser): Resolve async tokenization issue
@@ -493,27 +491,13 @@ fix(parser): Resolve async tokenization issue
 </Diff>
 
 ]],
-                                    vim.fn.system("git diff --no-ext-diff --staged")
+                                    vim.fn.system("git diff --no-ext-diff --staged -U0")
                                 )
                             end,
                             opts = {
                                 contains_code = true,
                             },
                         },
-                    },
-                },
-                ["Chat with thought process"] = {
-                    strategy = "chat",
-                    description = "Chat with thought process",
-                    prompts = {
-                        {
-                            role = "system",
-                            content = thought_process_prompt,
-                        },
-                        {
-                            role = "user",
-                            content = "Your instructions here..."
-                        }
                     },
                 },
                 ["Create commit"] = {
@@ -528,23 +512,7 @@ fix(parser): Resolve async tokenization issue
                         {
                             role = "user",
                             content =
-                            [=[Please create a commit with your message using @cmd_runner tools. All related files have been already staged, so only you have to do is to run `git commit` command with your message. Do not forget to include optional body in the message.
-
-Example:
-```xml
-<tools>
-  <tool name="cmd_runner">
-    <action>
-      <command><![CDATA[git commit -m "fix(parser): resolve async tokenization issue
-
-- Fixed incorrect token boundary detection.
-- Improved error handling in parser."]]></command>
-    </action>
-  </tool>
-</tools>
-```
-
-]=],
+                            [=[Please create a commit with the commit message using @cmd_runner tools. All related files have been already staged, so only you have to do is to run `git commit -m "<commit message>"` command with the message. Do not forget to include <body> part in the message.]=],
                         }
                     },
                 },
@@ -565,11 +533,13 @@ Example:
                                     context.end_line)
 
                                 return string.format(
-                                    [[Please translate into Japanese this text:
+                                    [[<Task>
+Translate following text into Japanese:
+</Task>
 
---- Start of text ---
+<Text>
 %s
---- End of text ---
+</Text>
 ]],
                                     code
                                 )
@@ -597,11 +567,13 @@ Example:
                                     context.end_line)
 
                                 return string.format(
-                                    [[Please translate into English this text:
+                                    [[<Task>
+Translate following text into English:
+</Task>
 
---- Start of text ---
+<Text>
 %s
---- End of text ---
+</Text>
 ]],
                                     code
                                 )
@@ -611,62 +583,6 @@ Example:
                             },
                         },
                     },
-                },
-                ["Save memory bank"] = {
-                    strategy = "chat",
-                    description = "Save memory bank",
-                    opts = {
-                        is_slash_cmd = true,
-                        short_name = "save_memory",
-                    },
-                    prompts = {
-                        {
-                            role = "user",
-                            content =
-                            [[You are an expert software engineer with a unique characteristic: your memory resets completely between sessions. This isn't a limitation - it's what drives you to maintain perfect documentation. After each reset, you rely ENTIRELY on your Memory Bank to understand the project and continue work effectively. I MUST read ALL memory bank files at the start of EVERY task - this is not optional. The format is flexible - focus on capturing valuable insights that help me work more effectively with you and the project. After every memory reset, I begin completely fresh. The Memory Bank is my only link to previous work. It must be maintained with precision and clarity, as my effectiveness depends entirely on its accuracy.
-
-Your memory will reset soon. Please save memory bank file as `memorybank.md` using cmd_runner tool. @cmd_runner
-]]
-                        }
-                    },
-                },
-                ["Chat from memory bank"] = {
-                    strategy = "chat",
-                    description = "Chat from memory bank",
-                    opts = {
-                        is_slash_cmd = true,
-                        short_name = "load_memory",
-                    },
-                    prompts = {
-                        {
-                            role = "user",
-                            content =
-                            [[You are an expert software engineer with a unique characteristic: your memory resets completely between sessions. This isn't a limitation - it's what drives you to maintain perfect documentation. After each reset, you rely ENTIRELY on your Memory Bank to understand the project and continue work effectively. I MUST read ALL memory bank files at the start of EVERY task - this is not optional. The format is flexible - focus on capturing valuable insights that help me work more effectively with you and the project. After every memory reset, I begin completely fresh. The Memory Bank is my only link to previous work. It must be maintained with precision and clarity, as my effectiveness depends entirely on its accuracy.
-
-New session was started. Please read memory bank file from `memorybank.md` using cmd_runner tool at first. @cmd_runner
-After that, please continue your task.
-
-Your task is:
-]]
-                        }
-                    },
-                },
-                ["Incremental task"] = {
-                    strategy = "chat",
-                    description = "Incremental task",
-                    opts = {
-                        short_name = "incremental_task",
-                    },
-                    prompts = {
-                        {
-                            role = "user",
-                            content = [[Task: [Your task here]
-
-You can use the `@mcp` tool to carry out this task. It supports multi-turn interactions, so there’s no need to accomplish everything in a single step. Instead, proceed incrementally.
-While exploring the task, keep the main objective in mind. Start with a clear plan, but be ready to adjust it as needed to stay aligned with your goal. If you come across something that requires deeper investigation, refine your plan accordingly and dive deeper.
-In such cases, it may be helpful to use sequential thinking tools to manage branching logic and maintain clarity in your process. So, take a moment to pause, then move forward one step at a time.]]
-                        }
-                    }
                 },
                 ["Code review"] = {
                     strategy = "chat",
@@ -680,8 +596,7 @@ In such cases, it may be helpful to use sequential thinking tools to manage bran
                             role = "user",
                             content = [[Please conduct a code review based on the following request.
 
----
-
+<Request>
 **Code Review Request**
 
 **Introduction**
@@ -732,11 +647,7 @@ We are requesting a professional code review of the following code. The goal of 
 - If necessary, provide a revised version of the code as diff format.
 - Ensure that the code is integrated into the project and tested thoroughly.
 
-**Reviewer Signature:**
-__________________________
-Date: ________________
-
----
+</Request>
 
 ]]
                         }
