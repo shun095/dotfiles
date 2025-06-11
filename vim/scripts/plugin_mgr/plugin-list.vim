@@ -405,7 +405,7 @@ if has('nvim')
 endif
 
 Plug 'easymotion/vim-easymotion'
-Plug 'deris/vim-shot-f'
+" Plug 'deris/vim-shot-f'
 Plug 'junegunn/vim-easy-align'
 " Plug 'kana/vim-submode'
 Plug 'bkad/CamelCaseMotion'

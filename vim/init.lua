@@ -498,13 +498,13 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     end
 })
 
-vim.api.nvim_create_autocmd({ "CursorHold" }, {
-    group = "init_lua",
-    pattern = '*',
-    callback = function()
-        vim.diagnostic.open_float()
-    end
-})
+-- vim.api.nvim_create_autocmd({ "CursorHold" }, {
+--     group = "init_lua",
+--     pattern = '*',
+--     callback = function()
+--         vim.diagnostic.open_float()
+--     end
+-- })
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
     group = "init_lua",
     pattern = '*',
