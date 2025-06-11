@@ -101,11 +101,13 @@ return {
             return models(opts)
         end
 
-        ---Processes chat output from Llama.cpp, handling special tags and state transitions
-        ---@param self table The instance of the class (codecompanion instance)
-        ---@param data table The raw chat output data from Llama.cpp to be processed
-        local chat_output_callback = function(self, data)
-            local inner = openai.handlers.chat_output(self, data)
+        ---Output the data from the API ready for insertion into the chat buffer
+        ---@param self CodeCompanion.Adapter
+        ---@param data table The streamed JSON data from the API, also formatted by the format_data handler
+        ---@param tools? table The table to write any tool output to
+        ---@return table|nil [status: string, output: table]
+        local chat_output_callback = function(self, data, tools)
+            local inner = openai.handlers.chat_output(self, data, tools)
 
             if inner == nil then
                 return inner
@@ -115,11 +117,24 @@ return {
                 return inner
             end
 
-            -- Assigning roles to "assistant" because Llama.cpp doesn't return roles.
-            inner.output.role = "assistant"
+            -- When "inner" is not nil, "data" must be extracted correctly.
+            local data_mod = type(data) == "table" and data.body or utils.clean_streamed_data(data)
+            local ok, json = pcall(vim.json.decode, data_mod, { luanil = { object = true } })
+            -- Extract reasoning_content from the response.
+            local choice = json.choices[1]
+            local delta = self.opts.stream and choice.delta or choice.message
 
+            -- If the reasoning_content exists
+            if delta.reasoning_content then
+                inner.output.reasoning = delta.reasoning_content
+                inner.output.content = nil
+                return inner
+            end
+
+            -- If the reasoning_content does not exist, parse content and detect reasoning content.
             local content = inner.output.content
             inner.output.content = ""
+            inner.output.reasoning = nil
 
             for i = 1, #content do
                 local char = content:sub(i, i)
@@ -128,53 +143,49 @@ return {
                 if chat_output_buffer == "<think>" then
                     chat_output_current_state = chat_output_state.ANTICIPATING_REASONING
                     chat_output_buffer = ""
-                    if get_model(self):find("[gG]ranite") then
-                        inner.output.content = "<think>\n"
-                    end
                 elseif chat_output_buffer == "</think>" then
                     chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
                     chat_output_buffer = ""
-                    if get_model(self):find("[gG]ranite") then
-                        inner.output.content = "</think>"
-                    end
-                elseif chat_output_buffer == "<response>" then
+                elseif chat_output_buffer == "<response>" then  -- For granite
                     chat_output_buffer = ""
-                    if get_model(self):find("[gG]ranite") then
-                        inner.output.content = "\n<response>\n"
-                    end
-                elseif chat_output_buffer == "</response>" then
+                elseif chat_output_buffer == "</response>" then -- For granite
                     chat_output_buffer = ""
-                    if get_model(self):find("[gG]ranite") then
-                        inner.output.content = "</response>"
-                    end
                 elseif (not (("<think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
                     and (not (("</think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
                     and (not (("<response>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
                     and (not (("</response>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true) then
-                    inner.output.content = inner.output.content .. chat_output_buffer
-                    chat_output_buffer = ""
-
                     if chat_output_current_state == chat_output_state.ANTICIPATING_OUTPUTTING then
-                        if inner.output.content:match("\n") ~= nil then
-                            inner.output.content = ""
+                        if chat_output_buffer:match("\n") ~= nil then
+                            chat_output_buffer = ""
                         else
                             chat_output_current_state = chat_output_state.OUTPUTTING
                         end
                     elseif chat_output_current_state == chat_output_state.ANTICIPATING_REASONING then
-                        if inner.output.content:match("\n") ~= nil then
-                            inner.output.content = ""
+                        if chat_output_buffer:match("\n") ~= nil then
+                            chat_output_buffer = ""
                         else
                             chat_output_current_state = chat_output_state.REASONING
                         end
                     end
-                end
-            end
 
-            if chat_output_current_state == chat_output_state.ANTICIPATING_REASONING or chat_output_current_state == chat_output_state.REASONING then
-                -- if not get_model(self):find("[gG]ranite") then
-                    inner.output.reasoning = inner.output.content
-                    inner.output.content = nil
-                -- end
+                    if chat_output_current_state == chat_output_state.ANTICIPATING_REASONING or chat_output_current_state == chat_output_state.REASONING then
+                        -- if not get_model(self):find("[gG]ranite") then
+                        if not inner.output.reasoning then
+                            inner.output.reasoning = ""
+                        end
+                        inner.output.reasoning = inner.output.reasoning .. chat_output_buffer
+                        inner.output.content = nil
+                        chat_output_buffer = ""
+                        -- end
+                    else
+                        if not inner.output.content then
+                            inner.output.content = ""
+                        end
+                        inner.output.content = inner.output.content .. chat_output_buffer
+                        inner.output.reasoning = nil
+                        chat_output_buffer = ""
+                    end
+                end
             end
 
             return inner
@@ -203,30 +214,32 @@ return {
                     end
                 end
 
-                if not get_model(self):find("[gG]ranite") then
-                    -- For reasoning models like QwQ
-                    if message.role == "assistant" or message.role == "llm" then
-                        if not get_model(self):find("[gG]ranite") then
-                            message.content = message.content:gsub('%s*<think>.-</think>%s*(\n*)', '')
+                if message.content ~= nil then
+                    if not get_model(self):find("[gG]ranite") then
+                        -- For reasoning models like QwQ
+                        if message.role == "assistant" or message.role == "llm" then
+                            if not get_model(self):find("[gG]ranite") then
+                                message.content = message.content:gsub('%s*<think>.-</think>%s*(\n*)', '')
+                            end
                         end
                     end
-                end
 
-                if message.role ~= last_role and merged_message then
-                    table.insert(new_messages, merged_message)
-                    merged_message = nil
-                end
+                    if message.role ~= last_role and merged_message then
+                        table.insert(new_messages, merged_message)
+                        merged_message = nil
+                    end
 
-                if merged_message then
-                    merged_message = {
-                        role = message.role,
-                        content = merged_message.content .. "\n\n\n\n" .. message.content,
-                    }
-                else
-                    merged_message = {
-                        role = message.role,
-                        content = message.content,
-                    }
+                    if merged_message then
+                        merged_message = {
+                            role = message.role,
+                            content = merged_message.content .. "\n\n\n\n" .. message.content,
+                        }
+                    else
+                        merged_message = {
+                            role = message.role,
+                            content = message.content,
+                        }
+                    end
                 end
 
                 last_role = message.role
