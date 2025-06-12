@@ -10,7 +10,6 @@ return {
     -- Configuration options for the plugin
     config = function()
         -- This is the configuration for the CodeCompanion plugin
-        local thought_process_prompt = require("prompts.custom_thought_process_prompt")
         local config = require("codecompanion.config")
         local curl = require("plenary.curl")
         local log = require("codecompanion.utils.log")
