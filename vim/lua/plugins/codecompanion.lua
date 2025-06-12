@@ -42,6 +42,16 @@ return {
             return _cached_models
         end
 
+        -- インデントを追加する関数
+        local function indentString(str, indent)
+            local indentedLines = {}
+            for line in str:gmatch("([^\n]*)\n?") do
+                table.insert(indentedLines, indent .. line)
+            end
+            return table.concat(indentedLines, "\n")
+        end
+
+
         ---Get a list of available OpenAI compatible models
         ---@params self CodeCompanion.Adapter
         ---@params opts? table
@@ -433,10 +443,14 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                             content = function()
                                 return string.format(
                                     [[<Task>
-Given the provided git diff, your task is to generate a commit message in Conventional Commit style that strictly follows the format.
+
+Your task is to create a commit message that follows the Conventional Commit style based on the provided git diff. When analyzing diffs, adhere to <HowToGuides> section.
+
 </Task>
 
 <Format>
+
+Here is the Conventional Commit format you need to follow.:
 
 ```txt
 <type>(<scope>): <description>
@@ -447,6 +461,7 @@ Given the provided git diff, your task is to generate a commit message in Conven
 </Format>
 
 <LegendsForEachItems>
+
 1. **`<type>`**:
    Identify the type of change in the code and choose one of these options:
    - **`feat`**: The commit adds a new feature.
@@ -462,36 +477,85 @@ Given the provided git diff, your task is to generate a commit message in Conven
    If no specific part of the system is affected, you can skip this part.
 
 3. **`<description>`**:
-   Write a concise, clear summary of what the commit does, using the imperative mood (for example, “Add feature”, “Fix bug”).
+   Write a concise, clear summary of what the commit does, using the imperative mood (for example, "Add feature ...", "Fix bug ...").
    Keep the description brief and focused on the purpose of the commit.
 
 4. **`<body>`**:
    Additional context or details to explain the commit (e.g., clarifying why certain changes were made), you can add them in the body as bullet points.
    Include all details that didn't fit in the description.
+   For example,
+   ```
+   - Explanation of details 1
+   - Explanation of details 2
+   - ...
+   ```
 
 </LegendsForEachItems>
 
-<Example>
-
-```txt
-fix(parser): Resolve async tokenization issue
-
-- Fixed incorrect token boundary detection.
-- Improved error handling in parser.
-```
-
-</Example>
-
 <Diff>
 
-```diff
+Here is the diff you need to generate the message for:
+
+    ```diff
 %s
-```
+    ```
 
 </Diff>
 
+<HowToGuides>
+<HowToReadDiffFiles>
+
+#### How to Read Diff Files:
+
+A diff file is a text file that shows the differences between two versions of a file. It has the following structure:
+
+1. **Header Section**:
+   - Contains the paths of the changed files and version information before and after the changes.
+   - Example:
+     ```
+     diff --git a/path/to/file.txt b/path/to/file.txt
+     index abc1234..def5678 100644
+     --- a/path/to/file.txt
+     +++ b/path/to/file.txt
+     ```
+
+2. **Change Content Section**:
+   - Contains information about the changed lines.
+   - Lines are prefixed with the following symbols:
+     - `-`: Deleted line
+     - `+`: Added line
+     - Space: Unchanged line
+   - Example:
+     ```
+     @@ -1,4 +1,4 @@
+      This is the first line.
+     -This is the second line.
+     +This is the modified second line.
+      This is the third line.
+      This is the fourth line.
+     ```
+</HowToReadDiffFiles>
+
+<HowToAnalyzeDiffFiles>
+
+#### How to Analyze Diff Files:
+
+1. **Check the Header Section**:
+   - Identify which files have been changed.
+   - Check the version information before and after the changes.
+
+2. **Check the Change Content Section**:
+   - Look at the symbols at the beginning of each line to determine which lines have been added, deleted, or modified.
+   - Compare the content of the changed lines to identify specific changes.
+
+3. **Understand the Meaning of the Changes**:
+   - Read the content of the changed lines and consider the impact of those changes.
+   - For example, if a function definition has been changed, think about how the function's behavior has changed.
+
+</HowToAnalyzeDiffFiles>
+</HowToGuides>
 ]],
-                                    vim.fn.system("git diff --no-ext-diff --staged -U0")
+                                    indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
                                 )
                             end,
                             opts = {
