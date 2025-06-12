@@ -598,7 +598,7 @@ A diff file is a text file that shows the differences between two versions of a 
 
                                 return string.format(
                                     [[<Task>
-Translate following text into Japanese:
+Translate following text into natural Japanese:
 </Task>
 
 <Text>
@@ -632,7 +632,7 @@ Translate following text into Japanese:
 
                                 return string.format(
                                     [[<Task>
-Translate following text into English:
+Translate following text into natural English:
 </Task>
 
 <Text>
