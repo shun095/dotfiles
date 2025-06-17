@@ -3,8 +3,8 @@ local config = wezterm.config_builder()
 
 config.color_scheme = 'iceberg-dark'
 config.font = wezterm.font_with_fallback({
-    'BlexMono Nerd Font',
-    -- 'JetBrainsMono Nerd Font',
+    -- 'BlexMono Nerd Font',
+    'JetBrainsMono Nerd Font',
     'BIZ UDGothic',
 })
 config.font_size = 13
@@ -22,6 +22,11 @@ config.keys = {
         action = wezterm.action.ToggleFullScreen
     },
     {
+        key = "UpArrow",
+        mods = "CTRL|ALT",
+        action = wezterm.action.ToggleFullScreen,
+    },
+    {
         key = "¥",
         action = wezterm.action.SendKey({ key = "\\" })
     },
@@ -33,13 +38,18 @@ config.keys = {
     {
         key = "¥",
         mods = "CTRL",
-        action = wezterm.action.SendKey({ key = "\\" , mods = "CTRL" })
+        action = wezterm.action.SendKey({ key = "\\", mods = "CTRL" })
     },
     {
         key = "¥",
         mods = "ALT",
-        action = wezterm.action.SendKey({ key = "\\" , mods = "ALT" })
+        action = wezterm.action.SendKey({ key = "\\", mods = "ALT" })
     },
+    {
+        key = 'Enter',
+        mods = 'ALT',
+        action = wezterm.action.DisableDefaultAssignment,
+    }
 }
 
 
