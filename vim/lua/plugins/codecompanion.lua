@@ -257,10 +257,12 @@ return {
 
             -- For granite
             if get_model(self):find("[gG]ranite") then
-                if new_messages[1].role == "system" then
-                    new_messages[1].content = new_messages[1].content .. [[You are a helpful AI assistant.
-Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
+                if new_messages[1].role ~= "system" then
+                    table.insert(new_messages, 1, { role = "system", content = "" })
                 end
+
+                new_messages[1].content = new_messages[1].content .. [[You are a helpful AI assistant.
+Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
             end
 
             return { messages = new_messages }
