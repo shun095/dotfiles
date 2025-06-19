@@ -299,6 +299,16 @@ Respond to every user query in a comprehensive and detailed way. You can write d
             { noremap = true, silent = true }
         )
         require('codecompanion').setup({
+            extensions = {
+                mcphub = {
+                    callback = "mcphub.extensions.codecompanion",
+                    opts = {
+                        show_result_in_chat = true, -- Show mcp tool results in chat
+                        make_vars = true,           -- Convert resources to #variables
+                        make_slash_commands = true, -- Add prompts as /slash commands
+                    }
+                }
+            },
             -- Display settings for the plugin
             display = {
                 chat = {
@@ -324,15 +334,6 @@ Respond to every user query in a comprehensive and detailed way. You can write d
             strategies = {
                 chat = {
                     adapter = "llama_cpp_local",
-                    tools = {
-                        ["mcp"] = {
-                            callback = require("mcphub.extensions.codecompanion"),
-                            description = "Call tools and resources from the MCP Servers",
-                            opts = {
-                                requires_approval = true
-                            }
-                        }
-                    },
                 },
                 inline = {
                     -- Inline strategy configuration
