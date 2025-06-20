@@ -34,6 +34,7 @@ return {
 
         ---Return the cached models
         ---@params opts? table
+        ---@return table
         local function models(opts)
             if opts and opts.last then
                 return _cached_models[1]
@@ -41,7 +42,10 @@ return {
             return _cached_models
         end
 
-        -- インデントを追加する関数
+        ---Add indentation to the leading of all lines in a multi-line str.
+        ---@param str string
+        ---@param indent string
+        ---@return string
         local function indentString(str, indent)
             local indentedLines = {}
             for line in str:gmatch("([^\n]*)\n?") do
@@ -51,9 +55,8 @@ return {
         end
 
 
-        ---Get a list of available OpenAI compatible models
+        ---Get a available model
         ---@params self CodeCompanion.Adapter
-        ---@params opts? table
         ---@return table
         local function get_model(self)
             local opts = { last = true }
@@ -200,10 +203,10 @@ return {
             return inner
         end
 
-        -- This function processes and formats messages for different AI models, handling special cases for different model types.
-        -- @param self: The instance of the current object containing the schema and model information.
-        -- @param messages: A table of message objects, each with 'role' (e.g., "system", "user", "assistant") and 'content' fields.
-        -- @return A table containing the processed messages in a 'messages' key.
+        ---Set the format of the role and content for the messages from the chat buffer
+        ---@param self CodeCompanion.Adapter
+        ---@param messages table Format is: { { role = "user", content = "Your prompt here" } }
+        ---@return table
         local form_messages_callback = function(self, messages)
             local new_messages = {}
             local merged_message = nil
@@ -362,16 +365,12 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                         },
                         env = {
                             url = "http://localhost:8080",
+                            api_key = vim.env.CODECOMPANION_API_KEY
                         },
                         schema = {
                             model = {
                                 default = get_model
-                            },
-                            thinking = {
-                                mapping = "parameters",
-                                type = "boolean",
-                                default = true,
-                            },
+                            }
                         },
                         setup = function(self)
                             chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
@@ -393,18 +392,13 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                             user = "user",
                         },
                         env = {
-                            url = vim.env.CODECOMPANION_REMOTE_URL and vim.env.CODECOMPANION_REMOTE_URL or
-                                "http://bastion-1.local:8080",
+                            url = vim.env.CODECOMPANION_REMOTE_URL,
+                            api_key = vim.env.CODECOMPANION_API_KEY
                         },
                         schema = {
                             model = {
                                 default = get_model
-                            },
-                            thinking = {
-                                mapping = "parameters",
-                                type = "boolean",
-                                default = true,
-                            },
+                            }
                         },
                         setup = function(self)
                             chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
@@ -578,7 +572,7 @@ A diff file is a text file that shows the differences between two versions of a 
                         {
                             role = "user",
                             content =
-                            [=[Please create a commit with the commit message using @cmd_runner tools. All related files have been already staged, so only you have to do is to run `git commit -m "<commit message>"` command with the message. Do not forget to include <body> part in the message.]=],
+                            [=[Please create a commit with the commit message using @cmd_runner tools. All related files have been already staged, so only you have to do is to run `git commit -m "<commit message>"` command with the message. Do not forget to include <body> part in the message. The command can be multi-line, so use `\n` but avoid `\\n` in the commit message.]=],
                         }
                     },
                 },
