@@ -488,16 +488,6 @@ Here is the Conventional Commit format you need to follow.:
 
 </LegendsForEachItems>
 
-<Diff>
-
-Here is the diff you need to generate the message for:
-
-    ```diff
-%s
-    ```
-
-</Diff>
-
 <HowToGuides>
 <HowToReadDiffFiles>
 
@@ -550,6 +540,17 @@ A diff file is a text file that shows the differences between two versions of a 
 
 </HowToAnalyzeDiffFiles>
 </HowToGuides>
+
+<Diff>
+
+Here is the diff you need to generate the message for:
+
+    ```diff
+%s
+    ```
+
+</Diff>
+
 ]],
                                     indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
                                 )
@@ -581,7 +582,8 @@ commit
 message"
 ```
 
-, you must give string like: `"git commit -m \"multi-line\ncommit\nmessage\""` in the JSON.]=],
+, you must write like: `"git commit -m \"multi-line\ncommit\nmessage\""` in the JSON.
+Avoid writing like `"git commit -m \"multi-line\\ncommit\\nmessage\""`.]=],
                         }
                     },
                 },
