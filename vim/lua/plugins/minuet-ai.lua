@@ -10,7 +10,7 @@ return {
                 enable_auto_complete = false,
             },
             provider = 'openai_fim_compatible',
-            context_window = 2048,
+            context_window = 8192,
             provider_options = {
                 -- OpenAI FIM compatible provider options
                 openai_fim_compatible = {
@@ -20,8 +20,8 @@ return {
                     stream = true,
                     model = 'llama',
                     optional = {
-                        -- temperature = 0.5,
-                        --
+                        temperature = 0.1,
+                        max_tokens = 64
                     },
                     template = {
                         prompt = function(context_before_cursor, context_after_cursor)
