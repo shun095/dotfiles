@@ -13,12 +13,19 @@ function stringToHexBytes(s: string): string[] {
 
 export const main: Entrypoint = (denops: Denops) => {
     denops.dispatcher = {
+        /**
+         * Initialize the plugin.
+         */
         async init() {
             const { name } = denops;
             await denops.cmd(
                 `command! -nargs=? LangChain echomsg denops#request_async('${name}', 'invoke', [<q-args>], {val -> v:true}, {val -> v:true })`,
             );
         },
+        /**
+        * Invoke the command asynchronously.
+        * @param {string} text - The command to invoke.
+        */
         async invoke(text) {
             try {
                 assert(text, is.String);
@@ -40,7 +47,6 @@ export const main: Entrypoint = (denops: Denops) => {
                     } else {
                         denops.cmd("new");
                         denops.cmd("file denops-langchain");
-                        // denops.cmd("set ft=markdown");
                     }
                 }
 
