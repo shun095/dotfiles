@@ -5,6 +5,7 @@ return {
     config = function()
         -- this is an example, not a default. Please see the readme for more configuration options
         vim.g.molten_output_win_max_height = 12
+        vim.g.molten_enter_output_behavior = "open_and_enter"
         -- I find auto open annoying, keep in mind setting this option will require setting
         -- a keybind for `:noautocmd MoltenEnterOutput` to open the output again
         vim.g.molten_auto_open_output = false
@@ -21,6 +22,21 @@ return {
         vim.g.molten_virt_text_output = true
 
         -- this will make it so the output shows up below the \`\`\` cell delimiter
-        vim.g.molten_virt_lines_off_by_1 = true
+        vim.g.molten_virt_lines_off_by_1 = false
+
+        vim.g.molten_virt_text_max_lines = 20
+
+        vim.keymap.set("n", "<localleader>e", ":MoltenEvaluateOperator<CR>",
+            { desc = "evaluate operator", silent = true })
+        vim.keymap.set("n", "<localleader>os", ":noautocmd MoltenEnterOutput<CR>",
+            { desc = "open output window", silent = true })
+        vim.keymap.set("n", "<localleader>rr", ":MoltenReevaluateCell<CR>", { desc = "re-eval cell", silent = true })
+        vim.keymap.set("v", "<localleader>r", ":<C-u>MoltenEvaluateVisual<CR>gv",
+            { desc = "execute visual selection", silent = true })
+        vim.keymap.set("n", "<localleader>oh", ":MoltenHideOutput<CR>", { desc = "close output window", silent = true })
+        vim.keymap.set("n", "<localleader>md", ":MoltenDelete<CR>", { desc = "delete Molten cell", silent = true })
+        -- if you work with html outputs:
+        vim.keymap.set("n", "<localleader>mx", ":MoltenOpenInBrowser<CR>",
+            { desc = "open output in browser", silent = true })
     end,
 }
