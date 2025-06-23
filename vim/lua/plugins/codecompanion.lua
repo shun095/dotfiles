@@ -572,7 +572,16 @@ A diff file is a text file that shows the differences between two versions of a 
                         {
                             role = "user",
                             content =
-                            [=[Please create a commit with the commit message using @cmd_runner tools. All related files have been already staged, so only you have to do is to run `git commit -m "<commit message>"` command with the message. Do not forget to include <body> part in the message. The command can be multi-line, so use `\n` but avoid `\\n` in the commit message.]=],
+                            [=[Please create a commit with the commit message using @cmd_runner tools. All related files have been already staged, so only you have to do is to run `git commit -m "<commit message>"` command with the message. Do not forget to include <body> part in the message.
+The command can be multi-line, so use `\n` but avoid `\\n` in the commit message. I mean, when you must run:
+
+```sh
+git commit -m "multi-line
+commit
+message"
+```
+
+, you must give string like: `"git commit -m \"multi-line\ncommit\nmessage\""` in the JSON.]=],
                         }
                     },
                 },
