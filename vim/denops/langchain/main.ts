@@ -19,19 +19,20 @@ export const main: Entrypoint = (denops: Denops) => {
         async init() {
             const { name } = denops;
             await denops.cmd(
-                `command! -nargs=? LangChain echomsg denops#request_async('${name}', 'invoke', [<q-args>], {val -> v:true}, {val -> v:true })`,
+                `command! -nargs=? LangChain call denops#request_async('${name}', 'invoke', [<q-args>], {val -> v:true}, {val -> v:true })`,
             );
         },
         /**
-        * Invoke the command asynchronously.
-        * @param {string} text - The command to invoke.
-        */
+         * Invoke the command asynchronously.
+         * @param {string} text - The command to invoke.
+         */
         async invoke(text) {
             try {
                 assert(text, is.String);
 
-                await denops.cmd("noremap <C-c> <Cmd>call denops#interrupt()<CR><C-c>")
-                // const systemTemplate = "You are a helpful AI assistant.";
+                await denops.cmd(
+                    "noremap <C-c> <Cmd>call denops#interrupt()<CR><C-c>",
+                );
 
                 const promptTemplate = ChatPromptTemplate.fromMessages([
                     ["user", "{text}"],
@@ -47,6 +48,8 @@ export const main: Entrypoint = (denops: Denops) => {
                     } else {
                         denops.cmd("new");
                         denops.cmd("file denops-langchain");
+                        denops.cmd("set buftype=nofile");
+                        denops.cmd("set ft=markdown");
                     }
                 }
 
@@ -65,18 +68,33 @@ export const main: Entrypoint = (denops: Denops) => {
                     streaming: true,
                 });
 
+
                 const stream = await model.stream(promptValue);
                 const chunks = [];
 
                 for await (const chunk of stream) {
-                    const content = await fn.getline(denops, "$");
+                    const content = await fn.getbufoneline(
+                        denops,
+                        "denops-langchain",
+                        "$",
+                    );
                     const combined = content + chunk.content;
                     const lines = combined.split("\n");
 
                     if (lines.length > 0) {
-                        await fn.setline(denops, "$", lines[0]);
+                        await fn.setbufline(
+                            denops,
+                            "denops-langchain",
+                            "$",
+                            lines[0],
+                        );
                         for (let i = 1; i < lines.length; i++) {
-                            await fn.append(denops, "$", lines[i]);
+                            await fn.appendbufline(
+                                denops,
+                                "denops-langchain",
+                                "$",
+                                lines[i],
+                            );
                         }
                     }
                     console.debug(
