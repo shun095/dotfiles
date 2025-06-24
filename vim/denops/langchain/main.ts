@@ -44,13 +44,12 @@ export const main: Entrypoint = (denops: Denops) => {
 
                 if (await fn.expand(denops, "%") !== "denops-langchain") {
                     if (await fn.bufexists(denops, "denops-langchain")) {
-                        denops.cmd("drop denops-langchain");
-                    } else {
-                        denops.cmd("new");
-                        denops.cmd("file denops-langchain");
-                        denops.cmd("set buftype=nofile");
-                        denops.cmd("set ft=markdown");
+                        denops.cmd("bdelete denops-langchain");
                     }
+                    denops.cmd("new");
+                    denops.cmd("file denops-langchain");
+                    denops.cmd("set buftype=nofile");
+                    denops.cmd("set ft=markdown");
                 }
 
                 const OPENAI_API_BASE = "http://localhost:8080/v1";
@@ -67,7 +66,6 @@ export const main: Entrypoint = (denops: Denops) => {
                     maxTokens: -1,
                     streaming: true,
                 });
-
 
                 const stream = await model.stream(promptValue);
                 const chunks = [];
