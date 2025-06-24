@@ -20,8 +20,8 @@ return {
                     stream = true,
                     model = 'llama',
                     optional = {
-                        temperature = 0.1,
-                        max_tokens = 64
+                        -- temperature = 0.1,
+                        max_tokens = 256
                     },
                     template = {
                         prompt = function(context_before_cursor, context_after_cursor)
