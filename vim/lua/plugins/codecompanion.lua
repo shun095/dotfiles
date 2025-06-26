@@ -327,11 +327,11 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                 language = "natural Japanese",
                 -- Set debug logging
                 log_level = "DEBUG",
-                system_prompt = function(opts)
-                    return string.format(require("prompts.system_prompt"),
-                        opts.language
-                    )
-                end,
+                -- system_prompt = function(opts)
+                --     return string.format(require("prompts.system_prompt"),
+                --         opts.language
+                --     )
+                -- end,
             },
             -- Different strategies for interaction with AI
             strategies = {
@@ -605,7 +605,7 @@ Avoid writing like `"git commit -m \"multi-line\\ncommit\\nmessage\""`.]=],
 
                                 return string.format(
                                     [[<Task>
-Translate following text into natural Japanese:
+Translate following text into natural Japanese precisely:
 </Task>
 
 <Text>
@@ -639,7 +639,7 @@ Translate following text into natural Japanese:
 
                                 return string.format(
                                     [[<Task>
-Translate following text into natural English:
+Translate following text into natural English precisely:
 </Task>
 
 <Text>
