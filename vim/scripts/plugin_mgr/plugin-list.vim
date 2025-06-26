@@ -127,7 +127,7 @@ else
   Plug 'rcarriga/nvim-dap-ui'
   Plug 'theHamsta/nvim-dap-virtual-text'
   Plug 'jay-babu/mason-null-ls.nvim'
-  Plug 'nvimtools/none-ls.nvim'
+  " Plug 'nvimtools/none-ls.nvim'
   " Plug 'MysticalDevil/inlay-hints.nvim'
   Plug 'folke/neoconf.nvim'
   Plug 'folke/trouble.nvim'
