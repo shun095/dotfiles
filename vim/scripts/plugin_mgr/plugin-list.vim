@@ -119,7 +119,7 @@ if !has('nvim')
 else
   " -- nvim native lsp & dap---
   Plug 'mfussenegger/nvim-dap'
-  Plug 'mfussenegger/nvim-jdtls'
+  " Plug 'mfussenegger/nvim-jdtls'
   Plug 'mfussenegger/nvim-dap-python'
   Plug 'jbyuki/one-small-step-for-vimkind'
   Plug 'jay-babu/mason-nvim-dap.nvim'
@@ -128,7 +128,7 @@ else
   Plug 'theHamsta/nvim-dap-virtual-text'
   Plug 'jay-babu/mason-null-ls.nvim'
   Plug 'nvimtools/none-ls.nvim'
-  Plug 'MysticalDevil/inlay-hints.nvim'
+  " Plug 'MysticalDevil/inlay-hints.nvim'
   Plug 'folke/neoconf.nvim'
   Plug 'folke/trouble.nvim'
   Plug 'stevearc/aerial.nvim'

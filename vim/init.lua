@@ -473,8 +473,6 @@ vim.diagnostic.config({
     -- }
 })
 
-require("inlay-hints").setup()
-
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     group = "init_lua",
     pattern = '*',
