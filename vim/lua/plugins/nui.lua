@@ -27,7 +27,7 @@ return {
             end
 
             -- 入力テキストを改行で分割
-            for orig_line in text:gmatch("[^\n]+") do
+            for _, orig_line in ipairs(vim.split(text, "\n")) do
                 if orig_line == "" then
                     -- 空行はそのまま追加
                     table.insert(lines, "")
@@ -65,35 +65,45 @@ return {
             return lines
         end
 
-        -- -- wrap_text のテスト
-        -- local function test_wrap_text()
-        --     local function eq(a, b)
-        --         assert(vim.inspect(a) == vim.inspect(b), "Failed: " .. vim.inspect(a) .. " != " .. vim.inspect(b))
-        --     end
+        -- wrap_text のテスト
+        local function test_wrap_text()
+            local function eq(a, b)
+                assert(vim.inspect(a) == vim.inspect(b), "Failed: " .. vim.inspect(a) .. " != " .. vim.inspect(b))
+            end
 
-        --     local text1 = "This is a simple test case with short words."
-        --     eq(wrap_text(text1, 20), {
-        --         "This is a simple",
-        --         "test case with",
-        --         "short words."
-        --     })
+            local text1 = "This is a simple test case with short words."
+            eq(wrap_text(text1, 20), {
+                "This is a simple",
+                "test case with short",
+                "words."
+            })
 
-        --     local text2 = "Supercalifragilisticexpialidocious is a longword."
-        --     eq(wrap_text(text2, 20), {
-        --         "Supercalifragilist",
-        --         "icexpialidocious",
-        --         "is a longword."
-        --     })
+            local text2 = "Supercalifragilisticexpialidocious is a longword."
+            eq(wrap_text(text2, 20), {
+                "Supercalifragilistic",
+                "expialidocious is a",
+                "longword."
+            })
 
-        --     local text3 = "これは日本語のテスト文章です。この文章は自動的に折り返されます。"
-        --     local result3 = wrap_text(text3, 20)
-        --     for _, line in ipairs(result3) do
-        --         assert(vim.fn.strdisplaywidth(line) <= 20, "Line exceeds width: " .. line)
-        --     end
+            local text3 = "これは日本語のテスト文章です。この文章は自動的に折り返されます。"
+            eq(wrap_text(text3, 20), {
+                "これは日本語のテスト",
+                "文章です。この文章は",
+                "自動的に折り返されま",
+                "す。"
+            })
 
-        --     print("wrap_text tests passed.")
-        -- end
-        -- test_wrap_text()
+            local text4 = "これは改行のテスト文章です。\n\nこれは改行のテスト文章です。"
+            eq(wrap_text(text4, 20), {
+                "これは改行のテスト文",
+                "章です。",
+                "",
+                "これは改行のテスト文",
+                "章です。",
+            })
+            print("wrap_text tests passed.")
+        end
+        test_wrap_text()
 
         -- 高速かつスコアリング付きファジーマッチャー (fzfライク)
         -- クエリと対象文字列からスコアを算出
