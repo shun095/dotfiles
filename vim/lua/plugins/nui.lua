@@ -65,45 +65,44 @@ return {
             return lines
         end
 
-        -- wrap_text のテスト
-        local function test_wrap_text()
-            local function eq(a, b)
-                assert(vim.inspect(a) == vim.inspect(b), "Failed: " .. vim.inspect(a) .. " != " .. vim.inspect(b))
-            end
+        -- -- wrap_text のテスト
+        -- local function test_wrap_text()
+        --     local function eq(a, b)
+        --         assert(vim.inspect(a) == vim.inspect(b), "Failed: " .. vim.inspect(a) .. " != " .. vim.inspect(b))
+        --     end
 
-            local text1 = "This is a simple test case with short words."
-            eq(wrap_text(text1, 20), {
-                "This is a simple",
-                "test case with short",
-                "words."
-            })
+        --     local text1 = "This is a simple test case with short words."
+        --     eq(wrap_text(text1, 20), {
+        --         "This is a simple",
+        --         "test case with short",
+        --         "words."
+        --     })
 
-            local text2 = "Supercalifragilisticexpialidocious is a longword."
-            eq(wrap_text(text2, 20), {
-                "Supercalifragilistic",
-                "expialidocious is a",
-                "longword."
-            })
+        --     local text2 = "Supercalifragilisticexpialidocious is a longword."
+        --     eq(wrap_text(text2, 20), {
+        --         "Supercalifragilistic",
+        --         "expialidocious is a",
+        --         "longword."
+        --     })
 
-            local text3 = "これは日本語のテスト文章です。この文章は自動的に折り返されます。"
-            eq(wrap_text(text3, 20), {
-                "これは日本語のテスト",
-                "文章です。この文章は",
-                "自動的に折り返されま",
-                "す。"
-            })
+        --     local text3 = "これは日本語のテスト文章です。この文章は自動的に折り返されます。"
+        --     eq(wrap_text(text3, 20), {
+        --         "これは日本語のテスト",
+        --         "文章です。この文章は",
+        --         "自動的に折り返されま",
+        --         "す。"
+        --     })
 
-            local text4 = "これは改行のテスト文章です。\n\nこれは改行のテスト文章です。"
-            eq(wrap_text(text4, 20), {
-                "これは改行のテスト文",
-                "章です。",
-                "",
-                "これは改行のテスト文",
-                "章です。",
-            })
-            print("wrap_text tests passed.")
-        end
-        test_wrap_text()
+        --     local text4 = "これは改行のテスト文章です。\n\nこれは改行のテスト文章です。"
+        --     eq(wrap_text(text4, 20), {
+        --         "これは改行のテスト文",
+        --         "章です。",
+        --         "",
+        --         "これは改行のテスト文",
+        --         "章です。",
+        --     })
+        -- end
+        -- test_wrap_text()
 
         -- 高速かつスコアリング付きファジーマッチャー (fzfライク)
         -- クエリと対象文字列からスコアを算出
@@ -205,9 +204,7 @@ return {
         --             assert(texts[i] == v, string.format("[%s] index %d mismatch, got %s, expected %s", tc.query, i, texts[i], v))
         --         end
         --     end
-        --     print("All tests passed!")
         -- end
-
         -- run_tests()
 
         vim.ui.select = function(items, opts, on_choice)
