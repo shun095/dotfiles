@@ -573,8 +573,14 @@ Here is the diff you need to generate the message for:
                         {
                             role = "user",
                             content =
-                            [=[Please create a commit with the commit message using @cmd_runner tools. All related files have been already staged, so only you have to do is to run `git commit -m "<commit message>"` command with the message. Do not forget to include <body> part in the message.
-The command can be multi-line, so use `\n` but avoid `\\n` in the commit message. I mean, when you must run:
+                            [=[Use the @cmd_runner tool to create a commit with a commit message.
+
+Since all relevant files are already staged, just run the command `git commit -m "<commit message>"` with your commit message. Don't forget to include the <body> part in your message.
+
+You can have multiple lines in your command, but avoid including literal `\n` in the commit message.
+In a string field of the JSON, you must use `\n` instead `\\n` or actual line breaks. For example,
+
+When you run the following command:
 
 ```sh
 git commit -m "multi-line
@@ -582,8 +588,10 @@ commit
 message"
 ```
 
-, you must write like: `"git commit -m \"multi-line\ncommit\nmessage\""` in the JSON.
-Avoid writing like `"git commit -m \"multi-line\\ncommit\\nmessage\""`.]=],
+In the JSON,
+- This is valid: `"git commit -m \"multi-line\ncommit\nmessage\""`.
+- This is invalid: `"git commit -m \"multi-line\\ncommit\\nmessage\""`.
+]=],
                         }
                     },
                 },
