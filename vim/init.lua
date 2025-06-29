@@ -76,6 +76,10 @@ require("lazy").setup({
             "iceberg",
         }
     },
+    ui = {
+        border = "rounded",
+        title = " Lazy.nvim "
+    },
     rocks            = {
         hererocks = true,
     },

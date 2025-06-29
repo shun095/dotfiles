@@ -213,7 +213,7 @@ return {
             local format_item = opts.format_item or tostring
 
             local W = math.floor(vim.o.columns * 0.6)
-            local prompt_lines = wrap_text(opts.prompt or "Select:", W - 2)
+            local prompt_lines = wrap_text(opts.prompt or "Select", W - 2)
             local H = #prompt_lines + 2
             -- local prompt_lines = vim.split(opts.prompt or "", "\n", { plain = true })
 
@@ -228,7 +228,7 @@ return {
                 border = {
                     style = "rounded",
                     text = {
-                        top = "Message",
+                        top = " Prompt ",
                         top_align = "left",
                     },
                 },
@@ -240,7 +240,7 @@ return {
                     border = {
                         style = "rounded",
                         text = {
-                            top = "Select from",
+                            top = " Choices ",
                             top_align = "left",
                         },
                     },
@@ -254,7 +254,7 @@ return {
                 border = {
                     style = "rounded",
                     text = {
-                        top = "Filter",
+                        top = " Filter ",
                         top_align = "left",
                     },
                 },
