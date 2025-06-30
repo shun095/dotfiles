@@ -6,6 +6,8 @@ return {
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
+        "ravitemer/codecompanion-history.nvim",
+        "ravitemer/mcphub.nvim",
     },
     -- Configuration options for the plugin
     config = function()
@@ -310,6 +312,13 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                         make_vars = true,           -- Convert resources to #variables
                         make_slash_commands = true, -- Add prompts as /slash commands
                     }
+                },
+                history = {
+                    enabled = true,
+                    opts = {
+                        expiration_days = 30,
+                        continue_last_chat = true,
+                    }
                 }
             },
             -- Display settings for the plugin
@@ -325,13 +334,13 @@ Respond to every user query in a comprehensive and detailed way. You can write d
             opts = {
                 -- Language settings for the plugin
                 language = "natural Japanese",
-                -- Set debug logging
+                -- Set logging level
                 log_level = "DEBUG",
-                -- system_prompt = function(opts)
-                --     return string.format(require("prompts.system_prompt"),
-                --         opts.language
-                --     )
-                -- end,
+                system_prompt = function(opts)
+                    return string.format(require("prompts.system_prompt"),
+                        opts.language
+                    )
+                end,
             },
             -- Different strategies for interaction with AI
             strategies = {
@@ -541,6 +550,16 @@ A diff file is a text file that shows the differences between two versions of a 
 </HowToAnalyzeDiffFiles>
 </HowToGuides>
 
+<GitManagedFiles>
+
+This is the result of `git ls-files`. Refer if necessary to create the commit message:
+
+    ```
+%s
+    ```
+
+</GitManagedFiles>
+
 <Diff>
 
 Here is the diff you need to generate the message for:
@@ -552,6 +571,7 @@ Here is the diff you need to generate the message for:
 </Diff>
 
 ]],
+                                    indentString(vim.fn.system("git ls-files"), "    "),
                                     indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
                                 )
                             end,
@@ -573,7 +593,7 @@ Here is the diff you need to generate the message for:
                         {
                             role = "user",
                             content =
-                            [=[Use the @cmd_runner tool to create a commit with a commit message.
+                            [=[Use the @{cmd_runner} tool to create a commit with the commit message.
 
 Since all relevant files are already staged, just run the command `git commit -m "<commit message>"` with your commit message. Don't forget to include the <body> part in your message.
 
