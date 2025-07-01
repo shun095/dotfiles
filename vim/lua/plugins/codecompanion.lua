@@ -164,10 +164,10 @@ return {
                     chat_output_buffer = ""
                 elseif chat_output_buffer == "</response>" then -- For granite
                     chat_output_buffer = ""
-                elseif (("<think>"):find( chat_output_buffer, 1, true) ~= 1)
-                    and (("</think>"):find( chat_output_buffer, 1, true) ~= 1)
-                    and (("<response>"):find( chat_output_buffer, 1, true) ~= 1)
-                    and (("</response>"):find( chat_output_buffer, 1, true) ~= 1) then
+                elseif (("<think>"):find(chat_output_buffer, 1, true) ~= 1)
+                    and (("</think>"):find(chat_output_buffer, 1, true) ~= 1)
+                    and (("<response>"):find(chat_output_buffer, 1, true) ~= 1)
+                    and (("</response>"):find(chat_output_buffer, 1, true) ~= 1) then
                     if chat_output_current_state == chat_output_state.ANTICIPATING_OUTPUTTING then
                         if chat_output_buffer:match("\n") ~= nil then
                             chat_output_buffer = ""
@@ -204,6 +204,44 @@ return {
 
             return inner
         end
+
+        -- local function chat_output_callback_test()
+        --     -- モックデータの準備
+        --     local self = {
+        --         opts = { stream = true },
+        --         get_model = function() return "test-model" end,
+        --     }
+        --     openai.handlers.chat_output = function()
+        --         return { status = "success", output = { content = "Hello", reasoning = nil } }
+        --     end
+
+        --     -- テストケース1: reasoning_contentが存在する場合
+        --     local data1 = {
+        --         body = [[{"choices":[{"delta":{"reasoning_content":"思考中...","content":""}}]}]]
+        --     }
+        --     local result1 = chat_output_callback(self, data1)
+        --     assert(result1.output.reasoning == "思考中...", "Test 1 failed")
+        --     print("✅ Test 1 passed")
+
+        --     -- テストケース2: 普通のコンテンツのみ
+        --     local data2 = {
+        --         body = [[{"choices":[{"delta":{"content":"Hello"}}]}]]
+        --     }
+        --     local result2 = chat_output_callback(self, data2)
+        --     assert(result2.output.content == "Hello", "Test 2 failed")
+        --     print("✅ Test 2 passed")
+
+        --     -- テストケース3: 部分一致処理
+        --     local data3 = {
+        --         body = [[{"choices":[{"delta":{"content":"\n"}}]}]]
+        --     }
+        --     local result3 = chat_output_callback(self, data3)
+        --     assert(result3.output.content == "", "Test 3 failed: " .. result3.output.content)
+        --     print("✅ Test 3 passed")
+        -- end
+
+        -- -- 実行
+        -- chat_output_callback_test()
 
         ---Set the format of the role and content for the messages from the chat buffer
         ---@param self CodeCompanion.Adapter
@@ -359,7 +397,8 @@ Respond to every user query in a comprehensive and detailed way. You can write d
             -- Adapters for different AI models
             adapters = {
                 opts = {
-                    cache_models_for = 15
+                    cache_models_for = 15,
+                    show_defaults = false,
                 },
                 ["llama_cpp_local"] = function()
                     return require("codecompanion.adapters").extend("openai_compatible", {
