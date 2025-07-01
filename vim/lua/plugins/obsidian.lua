@@ -1,6 +1,5 @@
 return {
-    'shun095/obsidian.nvim',
-    branch = 'multibyte-tag-completion',
+    'obsidian-nvim/obsidian.nvim',
     config = function()
         local function obsidian_create_uid()
             return tostring(os.date("%Y%m%dT%H%M%S%z", os.time()))
