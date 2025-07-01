@@ -232,6 +232,9 @@ return {
                         top_align = "left",
                     },
                 },
+                win_options = {
+                    winblend = 30,
+                },
             })
 
             vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, prompt_lines)
@@ -244,6 +247,9 @@ return {
                             top_align = "left",
                         },
                     },
+                    win_options = {
+                        winblend = 30,
+                    },
                 },
                 {
                     lines = menu_items,
@@ -251,39 +257,43 @@ return {
 
             -- 2. Input コンポーネント
             local input      = Input({
-                border = {
-                    style = "rounded",
-                    text = {
-                        top = " Filter ",
-                        top_align = "left",
+                    border = {
+                        style = "rounded",
+                        text = {
+                            top = " Filter ",
+                            top_align = "left",
+                        },
+                    },
+                    win_options = {
+                        winblend = 30,
                     },
                 },
-            }, {
-                prompt = "> ",
-                default_value = "",
-                on_close = function()
-                end,
-                on_submit = function(value)
-                end,
-                on_change = function(value)
-                    local new_lines = filter_items(value, menu_items)
-                    local tree = menu.tree
+                {
+                    prompt = "> ",
+                    default_value = "",
+                    on_close = function()
+                    end,
+                    on_submit = function(value)
+                    end,
+                    on_change = function(value)
+                        local new_lines = filter_items(value, menu_items)
+                        local tree = menu.tree
 
-                    for _, node in ipairs(tree:get_nodes()) do
-                        tree:remove_node(node:get_id())
-                    end
+                        for _, node in ipairs(tree:get_nodes()) do
+                            tree:remove_node(node:get_id())
+                        end
 
-                    for _, item in ipairs(new_lines) do
-                        tree:add_node(item) -- 親ID を省略すると root に追加されます :contentReference[oaicite:0]{index=0}
-                    end
+                        for _, item in ipairs(new_lines) do
+                            tree:add_node(item) -- 親ID を省略すると root に追加されます :contentReference[oaicite:0]{index=0}
+                        end
 
-                    -- (c) 描画し直し
-                    vim.schedule(function()
-                        tree:render() -- 変更を反映して再描画します :contentReference[oaicite:1]{index=1}
-                        vim.api.nvim_win_set_cursor(menu.winid, { 1, 0 })
-                    end)
-                end,
-            })
+                        -- (c) 描画し直し
+                        vim.schedule(function()
+                            tree:render() -- 変更を反映して再描画します :contentReference[oaicite:1]{index=1}
+                            vim.api.nvim_win_set_cursor(menu.winid, { 1, 0 })
+                        end)
+                    end,
+                })
 
             local layout     = Layout(
                 {
