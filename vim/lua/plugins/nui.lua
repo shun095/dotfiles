@@ -228,7 +228,7 @@ return {
                 border = {
                     style = "rounded",
                     text = {
-                        top = " Prompt ",
+                        top = " Prompt " .. (opts.kind and "(" .. opts.kind .. ") " or ""),
                         top_align = "left",
                     },
                 },
