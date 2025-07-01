@@ -164,10 +164,10 @@ return {
                     chat_output_buffer = ""
                 elseif chat_output_buffer == "</response>" then -- For granite
                     chat_output_buffer = ""
-                elseif (not (("<think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
-                    and (not (("</think>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
-                    and (not (("<response>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true)
-                    and (not (("</response>"):sub(1, #chat_output_buffer) == chat_output_buffer) == true) then
+                elseif (("<think>"):find( chat_output_buffer, 1, true) ~= 1)
+                    and (("</think>"):find( chat_output_buffer, 1, true) ~= 1)
+                    and (("<response>"):find( chat_output_buffer, 1, true) ~= 1)
+                    and (("</response>"):find( chat_output_buffer, 1, true) ~= 1) then
                     if chat_output_current_state == chat_output_state.ANTICIPATING_OUTPUTTING then
                         if chat_output_buffer:match("\n") ~= nil then
                             chat_output_buffer = ""
