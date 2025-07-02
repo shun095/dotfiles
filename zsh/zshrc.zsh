@@ -13,23 +13,24 @@ export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
 export MYDOTFILES=$HOME/dotfiles
 
-# golang
+# Go
 export GOPATH=$HOME/.gopath
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 
-# ruby
+# Ruby
 export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
 
-# node js
+# Node.js
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 
-# deno
+# Deno
 export PATH="$HOME/.deno/bin:$PATH"
 
+# C/C++
 export USE_CCACHE=1
 
-# tools
+# Tools
 export PATH="$HOME/Applications/MacVim.app/Contents/bin/:$PATH"
 export PATH="$MYDOTFILES/build/emacs/bin:$PATH"
 export PATH="$MYDOTFILES/build/tig/bin:$PATH"
@@ -38,6 +39,11 @@ export PATH="$MYDOTFILES/build/ctags/bin:$PATH"
 export PATH="$MYDOTFILES/build/neovim-qt/bin:$PATH"
 export PATH="$MYDOTFILES/build/neovim/bin:$PATH"
 export PATH="$MYDOTFILES/build/vim/bin:$PATH"
+
+# ZSH CONFIG
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=999999
+export SAVEHIST=$HISTSIZE
 
 # Custom Completions
 # Completion should be before compinit
@@ -54,12 +60,12 @@ export ZSH_HIGHLIGHT_MAXLENGTH=300
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[comment]='fg=magenta,dimmed'
 
-# export ZSH_TMUX_AUTOSTART=true
 export KUBE_PS1_SYMBOL_DEFAULT='K8s'
 export KUBE_PS1_PREFIX='['
 export KUBE_PS1_SUFFIX=']'
 export TIMER_PRECISION=3
-export TIMER_FORMAT='[%d]'
+export TIMER_FORMAT='
+time: %d'
 
 _zshrc_get_fzf_preview_cmd() {
     if type pygmentize > /dev/null 2>&1; then
@@ -78,6 +84,7 @@ fi
 export FZF_CTRL_R_OPTS="--reverse"
 export FZF_CTRL_T_OPTS="--preview '$(_zshrc_get_fzf_preview_cmd)' --preview-window=right:50% --bind=ctrl-/:toggle-preview"
 export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target --preview 'tree -C {}' --preview-window=right:50% --bind=ctrl-/:toggle-preview"
+
 
 # Should be called before source ohmyzshrc for faster boot
 _zshrc_custom_tmux(){
@@ -380,15 +387,15 @@ alias cput='curl -X PUT -H "Content-Type: application/json" https://localhost -d
 alias cdelete='curl -X DELETE -H "Content-Type: application/json" https://localhost/'
 
 # https://qiita.com/astrsk_hori/items/b42fb0e9784146407d08
-my-open-alias() {
+expand-alias() {
     if [ -z "$RBUFFER" ] ; then
-        my-open-alias-aux
+        expand-alias-impl
     else
         zle end-of-line
     fi
 }
 
-my-open-alias-aux() {
+expand-alias-impl() {
     str=${LBUFFER%% }
     bp=$str
     str=${str##* }
@@ -400,37 +407,36 @@ my-open-alias-aux() {
     fi
 }
 
-zle -N my-open-alias
-bindkey "^ " my-open-alias
+zle -N expand-alias
+bindkey "^ " expand-alias
 ##### Aliases END ##### }}}
 
-##### Configurations ##### {{{
+##### ZSH Configurations ##### {{{
 ## BIND
 [[ $- == *i* ]] && stty -ixon
 bindkey \^U backward-kill-line
 
-export HISTFILE=$HOME/.zsh_history
-export HISTSIZE=999999
-export SAVEHIST=$HISTSIZE
-
 setopt auto_param_slash      # ディレクトリ名の補完で末尾の / を自動的に付加し、次の補完に備える
 setopt mark_dirs             # ファイル名の展開でディレクトリにマッチした場合 末尾に / を付加
 setopt list_types            # 補完候補一覧でファイルの種別を識別マーク表示 (訳注:ls -F の記号)
-# setopt auto_menu             # 補完キー連打で順に補完候補を自動で補完
+# setopt auto_menu             # 補完キー連打で順に補完候補を自動で補完 (oh-my-zshで設定済み)
 setopt auto_param_keys       # カッコの対応などを自動的に補完
 setopt interactive_comments  # コマンドラインでも
 setopt magic_equal_subst     # コマンドラインの引数で --prefix=/usr などの = 以降でも補完できる
-# setopt complete_in_word      # 語の途中でもカーソル位置で補完
+# setopt complete_in_word      # 語の途中でもカーソル位置で補完 (oh-my-zshで設定済み)
 setopt always_last_prompt    # カーソル位置は保持したままファイル名一覧を順次その場で表示
 setopt print_eight_bit       # 日本語ファイル名等8ビットを通す
 setopt extended_glob         # 拡張グロブで補完(~とか^とか。例えばless *.txt~memo.txt ならmemo.txt 以外の *.txt にマッチ)
 setopt globdots              # 明確なドットの指定なしで.から始まるファイルをマッチ
-# setopt auto_cd               # "./dir"で"cd ./dir"になる
+# setopt auto_cd               # "./dir"で"cd ./dir"になる (oh-my-zshで設定済み)
 
 zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
 zstyle ':completion:*' group-name ''
+# (oh-my-zshで設定済み)
 # zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# (oh-my-zshで設定済み)
 # zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# (oh-my-zshで設定済み)
 # zstyle ':completion:*' use-cache true
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*:approximate:*' max-errors 3 numeric
@@ -442,7 +448,7 @@ zstyle ':completion:*:options' description 'yes'
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 zstyle ':completion:*:warnings' format '%F{red}No matches for:%F{yellow} %d%f'
 ##### Configurations END ##### }}}
-#
+
 # Override by local configurations
 if [[ -e "$HOME/localrcs/zsh-local.zsh" ]]; then
     source "$HOME/localrcs/zsh-local.zsh"
