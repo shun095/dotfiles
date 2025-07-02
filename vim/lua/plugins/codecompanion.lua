@@ -355,7 +355,7 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                     enabled = true,
                     opts = {
                         expiration_days = 30,
-                        continue_last_chat = true,
+                        auto_generate_title = false,
                     }
                 }
             },
