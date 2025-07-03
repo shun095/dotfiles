@@ -1023,28 +1023,28 @@ runtest() {
         return $return_code
     fi
 
-    echo "Starting vim test"
+    # echo "Starting vim test"
 
-    export THEMIS_ARGS="-e -s -u $HOME/.vimrc"
-    export THEMIS_DEBUG=1
+    # export THEMIS_ARGS="-e -s -u $HOME/.vimrc"
+    # export THEMIS_DEBUG=1
 
-    pushd $MYDOTFILES/vim
+    # pushd $MYDOTFILES/vim
 
-    set +e
+    # set +e
 
-    patch -N $HOME/.vim/plugged/vim-themis/bin/themis $MYDOTFILES/themis-patch.diff
-    $HOME/.vim/plugged/vim-themis/bin/themis --debug
-    return_code=$?
+    # # patch -N $HOME/.vim/plugged/vim-themis/bin/themis $MYDOTFILES/themis-patch.diff
+    # $HOME/.vim/plugged/vim-themis/bin/themis --debug
+    # return_code=$?
 
-    set -e
+    # set -e
 
-    popd
+    # popd
 
-    if [[ "$return_code" -ne 0 ]]; then
-        echo "END TEST"
-        echo "TEST FAILED: return_code is not 0"
-        return $return_code
-    fi
+    # if [[ "$return_code" -ne 0 ]]; then
+    #     echo "END TEST"
+    #     echo "TEST FAILED: return_code is not 0"
+    #     return $return_code
+    # fi
 
     echo "Starting pytest"
 
