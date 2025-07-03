@@ -1853,7 +1853,7 @@ require('telescope').setup {
             mirror = true,
         },
         -- wrap_results = false,
-        winblend = 0,
+        winblend = 20,
         dynamic_preview_title = true,
         sorting_strategy = "ascending",
         preview = {

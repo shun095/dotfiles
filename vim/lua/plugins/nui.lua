@@ -233,7 +233,7 @@ return {
                     },
                 },
                 win_options = {
-                    winblend = 30,
+                    winblend = 20,
                 },
             })
 
@@ -248,7 +248,7 @@ return {
                         },
                     },
                     win_options = {
-                        winblend = 30,
+                        winblend = 20,
                     },
                 },
                 {
@@ -265,7 +265,7 @@ return {
                         },
                     },
                     win_options = {
-                        winblend = 30,
+                        winblend = 20,
                     },
                 },
                 {
