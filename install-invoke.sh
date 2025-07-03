@@ -694,7 +694,6 @@ install_deps() {
         brew update
         brew upgrade
         brew install ${deps}
-        brew upgrade --cask wezterm@nightly --no-quarantine --greedy-latest
     elif [[ $(lsb_release -rs) == "18.04" ]]; then
         ${sudo} apt-get update
         ${sudo} apt-get upgrade -y
