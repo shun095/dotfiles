@@ -400,9 +400,9 @@ endif
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
-if has('nvim')
-  Plug 'monaqa/dial.nvim'
-endif
+" if has('nvim')
+"   Plug 'monaqa/dial.nvim'
+" endif
 
 Plug 'easymotion/vim-easymotion'
 " Plug 'deris/vim-shot-f'
