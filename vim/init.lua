@@ -1008,7 +1008,6 @@ cmp.setup({
         end,
     },
     sources = cmp.config.sources({
-        { name = 'minuet' },
         { name = 'nvim_lsp_signature_help' },
         { name = 'ultisnips' },
         { name = 'nvim_lsp' },
@@ -1034,7 +1033,7 @@ cmp.setup({
         ['<C-b>'] = cmp.mapping.scroll_docs(-8),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<M-Space>'] = require('minuet').make_cmp_map(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<CR>'] = cmp.mapping.confirm(),
         ['<TAB>'] = {
             i = function(fallback)
                 if cmp.visible() then
