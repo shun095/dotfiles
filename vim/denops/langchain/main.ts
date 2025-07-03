@@ -12,6 +12,8 @@ function stringToHexBytes(s: string): string[] {
 }
 
 export const main: Entrypoint = (denops: Denops) => {
+    let controller = new AbortController();
+
     denops.dispatcher = {
         /**
          * Initialize the plugin.
@@ -21,6 +23,16 @@ export const main: Entrypoint = (denops: Denops) => {
             await denops.cmd(
                 `command! -nargs=? LangChain call denops#request_async('${name}', 'invoke', [<q-args>], {val -> v:true}, {val -> v:true })`,
             );
+            await denops.cmd(
+                `command! LangChainTerminate call denops#request_async('${name}', 'terminate', [], {val -> v:true}, {val -> v:true })`,
+            );
+        },
+        terminate() {
+            try {
+                controller.abort();
+            } catch (error) {
+                console.error(error);
+            }
         },
         /**
          * Invoke the command asynchronously.
@@ -30,9 +42,7 @@ export const main: Entrypoint = (denops: Denops) => {
             try {
                 assert(text, is.String);
 
-                await denops.cmd(
-                    "noremap <C-c> <Cmd>call denops#interrupt()<CR><C-c>",
-                );
+                controller = new AbortController();
 
                 const promptTemplate = ChatPromptTemplate.fromMessages([
                     ["user", "{text}"],
@@ -42,15 +52,17 @@ export const main: Entrypoint = (denops: Denops) => {
                     text: text,
                 });
 
-                if (await fn.expand(denops, "%") !== "denops-langchain") {
-                    if (await fn.bufexists(denops, "denops-langchain")) {
-                        denops.cmd("bdelete denops-langchain");
-                    }
-                    denops.cmd("new");
-                    denops.cmd("file denops-langchain");
-                    denops.cmd("set buftype=nofile");
-                    denops.cmd("set ft=markdown");
+                if (await fn.bufexists(denops, "denops-langchain")) {
+                    denops.cmd("bdelete denops-langchain");
                 }
+
+                denops.cmd("new");
+                denops.cmd("file denops-langchain");
+                denops.cmd("set buftype=nofile");
+                denops.cmd("set ft=markdown");
+                await denops.cmd(
+                    "nnoremap <buffer> <C-c> <Cmd>LangChainTerminate<CR>",
+                );
 
                 const OPENAI_API_BASE = "http://localhost:8080/v1";
                 const OPENAI_API_KEY = await vars.environment.get(
@@ -67,8 +79,17 @@ export const main: Entrypoint = (denops: Denops) => {
                     streaming: true,
                 });
 
-                const stream = await model.stream(promptValue);
+                const stream = await model.stream(promptValue, {
+                    signal: controller.signal,
+                });
                 const chunks = [];
+
+                await fn.appendbufline(
+                    denops,
+                    "denops-langchain",
+                    "$",
+                    ["# AI:", "", ""],
+                );
 
                 for await (const chunk of stream) {
                     const content = await fn.getbufoneline(
@@ -105,7 +126,8 @@ export const main: Entrypoint = (denops: Denops) => {
 
                 console.debug(chunks);
             } catch (error) {
-                console.error(error);
+                console.error(`Caught an error:`, error.name);
+                console.error(`Error message:`, error.message);
             }
         },
     };
