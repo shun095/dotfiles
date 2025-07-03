@@ -76,7 +76,7 @@ require("lazy").setup({
             "iceberg",
         }
     },
-    ui = {
+    ui               = {
         border = "rounded",
         title = " Lazy.nvim "
     },
@@ -453,28 +453,28 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
         vim.api.nvim_set_hl(0, "TroubleIndentFoldClosed", { link = "Comment", force = true })
     end
 })
-
 local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
 vim.diagnostic.config({
     severity_sort = true,
     float = {
-        focusable = false,
-        style = "minimal",
-        border = "rounded",
+        focusable = true,
         source = true,
-        header = "",
-        prefix = "",
+        border = "rounded"
     },
-    -- local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-    -- signs = {
-    -- text = {
-    --         [vim.diagnostic.severity.ERROR] =  "󰅚 ",
-    --     }
-    -- }
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = signs.Error,
+            [vim.diagnostic.severity.WARN] = signs.Warn,
+            [vim.diagnostic.severity.HINT] = signs.Hint,
+            [vim.diagnostic.severity.INFO] = signs.Info,
+        },
+        numhl = {
+            [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+            [vim.diagnostic.severity.WARN]  = "DiagnosticSignWarn",
+            [vim.diagnostic.severity.HINT]  = "DiagnosticSignHint",
+            [vim.diagnostic.severity.INFO]  = "DiagnosticSignInfo",
+        }
+    }
 })
 
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
