@@ -468,6 +468,7 @@ if mymisc#startup#plug_tap('vim-fugitive')
   nno <Leader>gc :<C-u>Git checkout<Space>
   nno <Leader>gf :<C-u>Git fetch --all -t<CR>
   nno <Leader>gm :<C-u>Git merge<Space>
+  nno <Leader>gl :<C-u>Git pull<CR>
 en
 
 if mymisc#startup#plug_tap('vim-gitgutter')
