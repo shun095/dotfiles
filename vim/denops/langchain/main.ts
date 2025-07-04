@@ -11,8 +11,13 @@ function stringToHexBytes(s: string): string[] {
     );
 }
 
+enum State {
+    Human = "human",
+    AI = "ai",
+}
+
 // Compare arr1 and arr2
-function arrayEquals(arr1: any[], arr2: any[]) : boolean {
+function arrayEquals(arr1: any[], arr2: any[]): boolean {
     const arr1Length = arr1.length;
     const arr2Length = arr2.length;
 
@@ -62,25 +67,17 @@ export const main: Entrypoint = (denops: Denops) => {
 
                 controller = new AbortController();
 
-                const promptTemplate = ChatPromptTemplate.fromMessages([
-                    ["user", "{text}"],
-                ]);
-
-                const promptValue = await promptTemplate.invoke({
-                    text: text,
-                });
-
                 if (await fn.bufexists(denops, "denops-langchain")) {
-                    denops.cmd("bdelete denops-langchain");
+                    denops.cmd("drop denops-langchain");
+                } else {
+                    denops.cmd("new");
+                    denops.cmd("file denops-langchain");
+                    denops.cmd("set buftype=nofile");
+                    denops.cmd("set ft=markdown");
+                    await denops.cmd(
+                        "nnoremap <buffer> <C-c> <Cmd>LangChainTerminate<CR>",
+                    );
                 }
-
-                denops.cmd("new");
-                denops.cmd("file denops-langchain");
-                denops.cmd("set buftype=nofile");
-                denops.cmd("set ft=markdown");
-                await denops.cmd(
-                    "nnoremap <buffer> <C-c> <Cmd>LangChainTerminate<CR>",
-                );
 
                 const OPENAI_API_BASE = "http://localhost:8080/v1";
                 const OPENAI_API_KEY = await vars.environment.get(
@@ -97,21 +94,60 @@ export const main: Entrypoint = (denops: Denops) => {
                     streaming: true,
                 });
 
-                const lines = fn.getbufline(denops, "denops-langchain", 1, "$")
+                const lines = await fn.getbufline(
+                    denops,
+                    "denops-langchain",
+                    1,
+                    "$",
+                );
 
-                if (lines === [""]) {
-
-                } else {
-                    await fn.appendbufline(
+                let messages: any[] = [];
+                if (arrayEquals(lines, [""])) {
+                    await fn.setbufline(
                         denops,
                         "denops-langchain",
                         "$",
                         ["# USER:", "", text, ""],
                     );
+                } else {
+                    let state = State.Human;
+                    let lastState: string | null = null;
+                    let content: string = "";
+                    lines.forEach((elem) => {
+                        if (elem === "# USER:") {
+                            state = State.Human;
+                        } else if (elem === "# AI:") {
+                            state = State.AI;
+                        }
+                        if (lastState !== state) {
+                            if (lastState !== null) {
+                                messages.push([lastState, content]);
+                                content = "";
+                            }
+                        } else {
+                            content = content + elem;
+                        }
+                        lastState = state;
+                    });
+                    messages.push([lastState, content]);
+
+                    await fn.appendbufline(
+                        denops,
+                        "denops-langchain",
+                        "$",
+                        ["", "# USER:", "", text],
+                    );
                 }
+                messages.push([State.Human, text]);
+                console.log(messages);
 
+                const promptTemplate = ChatPromptTemplate.fromMessages(
+                    messages,
+                );
 
-
+                const promptValue = await promptTemplate.invoke({
+                    text: text,
+                });
                 const stream = await model.stream(promptValue, {
                     signal: controller.signal,
                 });
@@ -121,7 +157,7 @@ export const main: Entrypoint = (denops: Denops) => {
                     denops,
                     "denops-langchain",
                     "$",
-                    ["# AI:", "", ""],
+                    ["", "# AI:", "", ""],
                 );
 
                 for await (const chunk of stream) {
@@ -158,7 +194,7 @@ export const main: Entrypoint = (denops: Denops) => {
                 }
 
                 console.debug(chunks);
-            } catch (error) {
+            } catch (error: any) {
                 console.error(`Caught an error:`, error.name);
                 console.error(`Error message:`, error.message);
             }
