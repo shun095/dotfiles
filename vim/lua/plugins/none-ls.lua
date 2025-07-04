@@ -9,8 +9,8 @@ return {
             sources = {
                 null_ls.builtins.formatting.stylua,
                 null_ls.builtins.completion.spell,
-                require("none-ls.code_actions.eslint"),
-                require("none-ls.diagnostics.eslint"),
+                -- require("none-ls.code_actions.eslint"),
+                -- require("none-ls.diagnostics.eslint"),
                 require("none-ls.diagnostics.flake8").with({
                     diagnostics_postprocess = function(diagnostic)
                         if diagnostic.severity == vim.diagnostic.severity["ERROR"] then
