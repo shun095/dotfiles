@@ -1,7 +1,7 @@
 import type { Denops, Entrypoint } from "jsr:@denops/std@^7.0.0";
 import * as fn from "jsr:@denops/std/function";
 import * as vars from "jsr:@denops/std/variable";
-import { assert, is } from "jsr:@core/unknownutil@3.18.1";
+import { assert, is, isBoolean } from "jsr:@core/unknownutil@3.18.1";
 import { ChatOpenAI } from "npm:@langchain/openai";
 import { ChatPromptTemplate } from "npm:@langchain/core/prompts";
 
@@ -9,6 +9,24 @@ function stringToHexBytes(s: string): string[] {
     return [...s].map((c) =>
         `0x${c.charCodeAt(0).toString(16).padStart(2, "0")}`
     );
+}
+
+// Compare arr1 and arr2
+function arrayEquals(arr1: any[], arr2: any[]) : boolean {
+    const arr1Length = arr1.length;
+    const arr2Length = arr2.length;
+
+    if (arr1Length !== arr2Length) {
+        return false;
+    }
+
+    for (let i = 0; i < arr1Length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 export const main: Entrypoint = (denops: Denops) => {
@@ -78,6 +96,21 @@ export const main: Entrypoint = (denops: Denops) => {
                     maxTokens: -1,
                     streaming: true,
                 });
+
+                const lines = fn.getbufline(denops, "denops-langchain", 1, "$")
+
+                if (lines === [""]) {
+
+                } else {
+                    await fn.appendbufline(
+                        denops,
+                        "denops-langchain",
+                        "$",
+                        ["# USER:", "", text, ""],
+                    );
+                }
+
+
 
                 const stream = await model.stream(promptValue, {
                     signal: controller.signal,
