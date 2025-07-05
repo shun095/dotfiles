@@ -119,7 +119,6 @@ if !has('nvim')
 else
   " -- nvim native lsp & dap---
   Plug 'mfussenegger/nvim-dap'
-  " Plug 'mfussenegger/nvim-jdtls'
   Plug 'mfussenegger/nvim-dap-python'
   Plug 'jbyuki/one-small-step-for-vimkind'
   Plug 'jay-babu/mason-nvim-dap.nvim'
@@ -127,8 +126,6 @@ else
   Plug 'rcarriga/nvim-dap-ui'
   Plug 'theHamsta/nvim-dap-virtual-text'
   Plug 'jay-babu/mason-null-ls.nvim'
-  " Plug 'nvimtools/none-ls.nvim'
-  " Plug 'MysticalDevil/inlay-hints.nvim'
   Plug 'folke/neoconf.nvim'
   Plug 'folke/trouble.nvim'
   Plug 'stevearc/aerial.nvim'
@@ -164,8 +161,6 @@ else
   " Plug 'saadparwaiz1/cmp_luasnip'
 
   " Plug 'karb94/neoscroll.nvim'
-  " Plug 'folke/trouble.nvim'
-  " Plug 'MunifTanjim/nui.nvim'
   Plug 'rcarriga/nvim-notify'
   Plug 'folke/noice.nvim'
   " Plug 'j-hui/fidget.nvim'
@@ -203,9 +198,6 @@ endif
 " Plug 'ryanoasis/vim-devicons'
 " Plug 'justinmk/vim-dirvish'
 
-" if has('nvim')
-  Plug 'nvim-neo-tree/neo-tree.nvim'
-" else
   Plug 'lambdalisue/fern.vim'
   Plug 'lambdalisue/fern-hijack.vim'
   Plug 'lambdalisue/fern-git-status.vim'
