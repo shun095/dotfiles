@@ -1,4 +1,4 @@
-import type { Denops, Entrypoint } from "jsr:@denops/std@^7.0.0";
+import type { Denops, Entrypoint, Dispatcher } from "jsr:@denops/std@^7.0.0";
 import * as fn from "jsr:@denops/std/function";
 import * as vars from "jsr:@denops/std/variable";
 import { assert, is, isBoolean } from "jsr:@core/unknownutil@3.18.1";
@@ -34,6 +34,38 @@ function arrayEquals(arr1: any[], arr2: any[]): boolean {
     return true;
 }
 
+function parseBufferLines(lines: string[]) {
+    const messages: string[][] = [];
+    let state = State.Human;
+    let lastState: string | undefined = undefined;
+    let content: string = "";
+    for (let index = 0; index < lines.length; index++) {
+        const elem = lines[index];
+        if (elem === "# USER:") {
+            state = State.Human;
+        } else if (elem === "# AI:") {
+            state = State.AI;
+        }
+        if (lastState !== state) {
+            if (lastState !== undefined) {
+                messages.push([lastState, content]);
+                content = "";
+            }
+        } else {
+            content = content + elem;
+        }
+        lastState = state;
+    }
+    if (lastState !== undefined) {
+        messages.push([lastState, content]);
+    }
+    return messages;
+}
+
+/**
+ * Main entry point method for Denos.
+ * @param {Denops} denops - Denops instance.
+ */
 export const main: Entrypoint = (denops: Denops) => {
     let controller = new AbortController();
 
@@ -50,6 +82,9 @@ export const main: Entrypoint = (denops: Denops) => {
                 `command! LangChainTerminate call denops#request_async('${name}', 'terminate', [], {val -> v:true}, {val -> v:true })`,
             );
         },
+        /**
+         * Terminate the plugin.
+         */
         terminate() {
             try {
                 controller.abort();
@@ -76,6 +111,9 @@ export const main: Entrypoint = (denops: Denops) => {
                     denops.cmd("set ft=markdown");
                     await denops.cmd(
                         "nnoremap <buffer> <C-c> <Cmd>LangChainTerminate<CR>",
+                    );
+                    await denops.cmd(
+                        "nnoremap <buffer> <CR> <Cmd>LangChainSubmit<CR>",
                     );
                 }
 
@@ -110,35 +148,22 @@ export const main: Entrypoint = (denops: Denops) => {
                         ["# USER:", "", text, ""],
                     );
                 } else {
-                    let state = State.Human;
-                    let lastState: string | null = null;
-                    let content: string = "";
-                    lines.forEach((elem) => {
-                        if (elem === "# USER:") {
-                            state = State.Human;
-                        } else if (elem === "# AI:") {
-                            state = State.AI;
-                        }
-                        if (lastState !== state) {
-                            if (lastState !== null) {
-                                messages.push([lastState, content]);
-                                content = "";
-                            }
-                        } else {
-                            content = content + elem;
-                        }
-                        lastState = state;
-                    });
-                    messages.push([lastState, content]);
-
                     await fn.appendbufline(
                         denops,
                         "denops-langchain",
                         "$",
-                        ["", "# USER:", "", text],
+                        [text],
                     );
                 }
-                messages.push([State.Human, text]);
+
+                const linesNew = await fn.getbufline(
+                    denops,
+                    "denops-langchain",
+                    1,
+                    "$",
+                );
+
+                messages = parseBufferLines(linesNew);
                 console.log(messages);
 
                 const promptTemplate = ChatPromptTemplate.fromMessages(
@@ -193,6 +218,12 @@ export const main: Entrypoint = (denops: Denops) => {
                     chunks.push(chunk);
                 }
 
+                await fn.appendbufline(
+                    denops,
+                    "denops-langchain",
+                    "$",
+                    ["", "# USER:", ""],
+                );
                 console.debug(chunks);
             } catch (error: any) {
                 console.error(`Caught an error:`, error.name);
