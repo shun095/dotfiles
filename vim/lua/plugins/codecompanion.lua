@@ -29,7 +29,6 @@ return {
         local chat_output_current_state
         local chat_output_buffer = ""
 
-
         local _cache_expires
         local _cache_file = vim.fn.tempname()
         local _cached_models
@@ -55,7 +54,6 @@ return {
             end
             return table.concat(indentedLines, "\n")
         end
-
 
         ---Get a available model
         ---@params self CodeCompanion.Adapter
@@ -96,7 +94,10 @@ return {
                 })
             end)
             if not ok then
-                log:error("Could not get the OpenAI compatible models from " .. url .. "/v1/models.\nError: %s", response)
+                log:error(
+                    "Could not get the OpenAI compatible models from " .. url .. "/v1/models.\nError: %s",
+                    response
+                )
                 return {}
             end
 
@@ -160,14 +161,16 @@ return {
                 elseif chat_output_buffer == "</think>" then
                     chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
                     chat_output_buffer = ""
-                elseif chat_output_buffer == "<response>" then  -- For granite
+                elseif chat_output_buffer == "<response>" then -- For granite
                     chat_output_buffer = ""
                 elseif chat_output_buffer == "</response>" then -- For granite
                     chat_output_buffer = ""
-                elseif (("<think>"):find(chat_output_buffer, 1, true) ~= 1)
+                elseif
+                    (("<think>"):find(chat_output_buffer, 1, true) ~= 1)
                     and (("</think>"):find(chat_output_buffer, 1, true) ~= 1)
                     and (("<response>"):find(chat_output_buffer, 1, true) ~= 1)
-                    and (("</response>"):find(chat_output_buffer, 1, true) ~= 1) then
+                    and (("</response>"):find(chat_output_buffer, 1, true) ~= 1)
+                then
                     if chat_output_current_state == chat_output_state.ANTICIPATING_OUTPUTTING then
                         if chat_output_buffer:match("\n") ~= nil then
                             chat_output_buffer = ""
@@ -182,7 +185,10 @@ return {
                         end
                     end
 
-                    if chat_output_current_state == chat_output_state.ANTICIPATING_REASONING or chat_output_current_state == chat_output_state.REASONING then
+                    if
+                        chat_output_current_state == chat_output_state.ANTICIPATING_REASONING
+                        or chat_output_current_state == chat_output_state.REASONING
+                    then
                         -- if not get_model(self):find("[gG]ranite") then
                         if not inner.output.reasoning then
                             inner.output.reasoning = ""
@@ -257,7 +263,6 @@ return {
                 table.insert(messages, 1, { role = "system", content = "Enable deep thinking subroutine." })
             end
 
-
             for index, message in ipairs(messages) do
                 -- For Gemma 3
                 if get_model(self):find("[gG]emma%-3") then
@@ -271,7 +276,7 @@ return {
                         -- For reasoning models like QwQ
                         if message.role == "assistant" or message.role == "llm" then
                             if not get_model(self):find("[gG]ranite") then
-                                message.content = message.content:gsub('%s*<think>.-</think>%s*(\n*)', '')
+                                message.content = message.content:gsub("%s*<think>.-</think>%s*(\n*)", "")
                             end
                         end
                     end
@@ -304,60 +309,47 @@ return {
                     table.insert(new_messages, 1, { role = "system", content = "" })
                 end
 
-                new_messages[1].content = new_messages[1].content .. [[You are a helpful AI assistant.
+                new_messages[1].content = new_messages[1].content
+                    .. [[You are a helpful AI assistant.
 Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
             end
 
             return { messages = new_messages }
         end
 
-        vim.api.nvim_set_keymap('n',
-            "<Leader>aa",
-            "<cmd>CodeCompanionActions<CR>",
-            { noremap = true, silent = true }
-        )
-        vim.api.nvim_set_keymap('v',
-            "<Leader>aa",
-            "<cmd>CodeCompanionActions<CR>",
-            { noremap = true, silent = true }
-        )
-        vim.api.nvim_set_keymap('n',
+        vim.api.nvim_set_keymap("n", "<Leader>aa", "<cmd>CodeCompanionActions<CR>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("v", "<Leader>aa", "<cmd>CodeCompanionActions<CR>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap(
+            "n",
             "<Leader>ac",
             "<cmd>CodeCompanionChat Toggle<CR>",
             { noremap = true, silent = true }
         )
-        vim.api.nvim_set_keymap('n',
-            "<Leader>an",
-            "<cmd>CodeCompanionChat<CR>",
-            { noremap = true, silent = true }
-        )
-        vim.api.nvim_set_keymap('v',
+        vim.api.nvim_set_keymap("n", "<Leader>an", "<cmd>CodeCompanionChat<CR>", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap(
+            "v",
             "<Leader>ac",
             "<cmd>CodeCompanionChat Toggle<CR>",
             { noremap = true, silent = true }
         )
-        vim.api.nvim_set_keymap('n',
-            "<Leader>ag",
-            "<cmd>CodeCompanion /commit<CR>",
-            { noremap = true, silent = true }
-        )
-        require('codecompanion').setup({
+        vim.api.nvim_set_keymap("n", "<Leader>ag", "<cmd>CodeCompanion /commit<CR>", { noremap = true, silent = true })
+        require("codecompanion").setup({
             extensions = {
                 mcphub = {
                     callback = "mcphub.extensions.codecompanion",
                     opts = {
                         show_result_in_chat = true, -- Show mcp tool results in chat
-                        make_vars = true,           -- Convert resources to #variables
+                        make_vars = true, -- Convert resources to #variables
                         make_slash_commands = true, -- Add prompts as /slash commands
-                    }
+                    },
                 },
                 history = {
                     enabled = true,
                     opts = {
                         expiration_days = 30,
                         auto_generate_title = false,
-                    }
-                }
+                    },
+                },
             },
             -- Display settings for the plugin
             display = {
@@ -366,7 +358,7 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                     window = {
                         position = "right",
                         width = 0.4,
-                    }
+                    },
                 },
             },
             opts = {
@@ -375,9 +367,7 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                 -- Set logging level
                 log_level = "DEBUG",
                 system_prompt = function(opts)
-                    return string.format(require("prompts.system_prompt"),
-                        opts.language
-                    )
+                    return string.format(require("prompts.system_prompt"), opts.language)
                 end,
             },
             -- Different strategies for interaction with AI
@@ -392,7 +382,7 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                 cmd = {
                     -- Command strategy configuration
                     adapter = "llama_cpp_local",
-                }
+                },
             },
             -- Adapters for different AI models
             adapters = {
@@ -413,22 +403,30 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                         },
                         env = {
                             url = "http://localhost:8080",
-                            api_key = vim.env.CODECOMPANION_API_KEY
+                            api_key = vim.env.CODECOMPANION_API_KEY,
                         },
                         schema = {
                             model = {
-                                default = get_model
-                            }
+                                mapping = "parameters",
+                                default = get_model,
+                            },
                         },
-                        setup = function(self)
-                            chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
-                            chat_output_buffer = ""
-                            return true
-                        end,
                         handlers = {
+                            setup = function(self)
+                                if self.opts and self.opts.stream then
+                                    if not self.parameters then
+                                        self. parameters = {}
+                                    end
+                                    self.parameters.stream = true
+                                    self.parameters.stream_options = { include_usage = true }
+                                end
+                                chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+                                chat_output_buffer = ""
+                                return true
+                            end,
                             form_messages = form_messages_callback,
                             chat_output = chat_output_callback,
-                        }
+                        },
                     })
                 end,
                 ["llama_cpp_remote"] = function()
@@ -441,22 +439,30 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                         },
                         env = {
                             url = vim.env.CODECOMPANION_REMOTE_URL,
-                            api_key = vim.env.CODECOMPANION_API_KEY
+                            api_key = vim.env.CODECOMPANION_API_KEY,
                         },
                         schema = {
                             model = {
-                                default = get_model
-                            }
+                                mapping = "parameters",
+                                default = get_model,
+                            },
                         },
-                        setup = function(self)
-                            chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
-                            chat_output_buffer = ""
-                            return true
-                        end,
                         handlers = {
+                            setup = function(self)
+                                if self.opts and self.opts.stream then
+                                    if not self.parameters then
+                                        self. parameters = {}
+                                    end
+                                    self.parameters.stream = true
+                                    self.parameters.stream_options = { include_usage = true }
+                                end
+                                chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+                                chat_output_buffer = ""
+                                return true
+                            end,
                             form_messages = form_messages_callback,
                             chat_output = chat_output_callback,
-                        }
+                        },
                     })
                 end,
             },
@@ -642,8 +648,7 @@ Here is the diff you need to generate the message for:
                     prompts = {
                         {
                             role = "user",
-                            content =
-                            [=[Use the @{cmd_runner} tool to create a commit with the commit message.
+                            content = [=[Use the @{cmd_runner} tool to create a commit with the commit message.
 
 Since all relevant files are already staged, just run the command `git commit -m "<commit message>"` with your commit message. Don't forget to include the <body> part in your message.
 
@@ -651,7 +656,7 @@ You can have multiple lines in your command, but you must strictly avoid includi
 Therefore, in a string field of the JSON you provide, you must always use `\n` instead `\\n` for actual line breaks. DO NOT use `\\n`.
 Only when you want include literal `\n` in the actual commit message, you can escape backslash by backslash like `\\n` in the JSON. Of course, you must use `\\\\n` in the JSON when you need `\\n` in the actual commit message.
 
-### Example 1. 
+### Example 1.
 When you want to write actual commit message like:
 
 ```txt
@@ -689,7 +694,7 @@ Therefore, in the JSON,
 - ✅You must write: `"git commit -m \"multi-line\\ncommit\\nmessage\""`.
 - ❌DO NOT write: `"git commit -m \"multi-line\ncommit\nmessage\""`.
 ]=],
-                        }
+                        },
                     },
                 },
                 ["Translate into Japanese"] = {
@@ -705,8 +710,10 @@ Therefore, in the JSON,
                         {
                             role = "user",
                             content = function(context)
-                                local code = require("codecompanion.helpers.actions").get_code(context.start_line,
-                                    context.end_line)
+                                local code = require("codecompanion.helpers.actions").get_code(
+                                    context.start_line,
+                                    context.end_line
+                                )
 
                                 return string.format(
                                     [[<Task>
@@ -739,8 +746,10 @@ Translate following text into natural Japanese precisely:
                         {
                             role = "user",
                             content = function(context)
-                                local code = require("codecompanion.helpers.actions").get_code(context.start_line,
-                                    context.end_line)
+                                local code = require("codecompanion.helpers.actions").get_code(
+                                    context.start_line,
+                                    context.end_line
+                                )
 
                                 return string.format(
                                     [[<Task>
@@ -825,11 +834,11 @@ We are requesting a professional code review of the following code. The goal of 
 
 </Request>
 
-]]
-                        }
-                    }
-                }
-            }
+]],
+                        },
+                    },
+                },
+            },
         })
     end,
 }
