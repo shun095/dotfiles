@@ -30,6 +30,7 @@ return {
                     })
                 end
                 require("obsidian").setup({
+                    legacy_commands = false,
                     ui = {
                         enable = false,
                         hl_groups = {
@@ -132,9 +133,9 @@ return {
                         vim.fn.jobstart { "qlmanage", "-p", path .. '/' .. img } -- Mac OS quick look preview
                     end,
                 })
-                vim.api.nvim_set_keymap('n', '<Leader>mc', '<Cmd>ObsidianCd<CR><Cmd>ObsidianQuickSwitch<CR>',
+                vim.api.nvim_set_keymap('n', '<Leader>mc', '<Cmd>ObsidianCd<CR><Cmd>Obsidian quick_switch<CR>',
                     { silent = true, noremap = true })
-                vim.api.nvim_set_keymap('n', '<Leader>mn', '<Cmd>ObsidianCd<CR><Cmd>ObsidianToday<CR>',
+                vim.api.nvim_set_keymap('n', '<Leader>mn', '<Cmd>ObsidianCd<CR><Cmd>Obsidian today<CR>',
                     { silent = true, noremap = true })
                 vim.api.nvim_set_keymap('n', '<Leader>ml', '<Cmd>ObsidianCd<CR><Leader><C-e>',
                     { silent = true, noremap = false })
