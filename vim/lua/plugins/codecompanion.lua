@@ -648,11 +648,11 @@ Here is the diff you need to generate the message for:
 Since all relevant files are already staged, just run the command `git commit -m "<commit message>"` with your commit message. Don't forget to include the <body> part in your message.
 
 You can have multiple lines in your command, but you must strictly avoid including literal `\n` in the actual commit message.
-Therefore, in a string field of the JSON you provide, you must always use `\n` instead `\\n` for actual line breaks. 
-Only when you want include literal `\n` in the commit message, you can escape backslash by backslash like `\\n`. Of course, you must use `\\\\n` when you need `\\n` in the commit message.
+Therefore, in a string field of the JSON you provide, you must always use `\n` instead `\\n` for actual line breaks. DO NOT use `\\n`.
+Only when you want include literal `\n` in the actual commit message, you can escape backslash by backslash like `\\n` in the JSON. Of course, you must use `\\\\n` in the JSON when you need `\\n` in the actual commit message.
 
 ### Example 1. 
-When you want to write commit message like:
+When you want to write actual commit message like:
 
 ```txt
 multi-line
@@ -660,7 +660,7 @@ commit
 message
 ```
 
-The actual command you must run would be:
+The command you must run is:
 
 ```sh
 git commit -m "multi-line
@@ -673,13 +673,13 @@ Therefore, in the JSON,
 - ❌DO NOT write: `"git commit -m \"multi-line\\ncommit\\nmessage\""`.
 
 ### Example 2.
-When you want to write commit message like:
+When you want to write actual commit message like:
 
 ```txt
 multi-line\ncommit\nmessage
 ```
 
-The actual command you must run would be:
+The command you must run is:
 
 ```sh
 git commit -m "multi-line\ncommit\nmessage"
