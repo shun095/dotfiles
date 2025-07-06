@@ -5,91 +5,10 @@ import { assert, is } from "jsr:@core/unknownutil@3.18.1";
 import { ChatOpenAI } from "npm:@langchain/openai";
 import { ChatPromptTemplate } from "npm:@langchain/core/prompts";
 import { MessageContent } from "npm:@langchain/core/messages";
-
-enum State {
-    Human = "human",
-    AI = "ai",
-}
-
-const stringToHexBytes = (s: string): string[] => {
-    return [...s].map((c) =>
-        `0x${c.charCodeAt(0).toString(16).padStart(2, "0")}`
-    );
-};
-
-// Compare arr1 and arr2
-const arrayEquals = (arr1: any[], arr2: any[]): boolean => {
-    const arr1Length = arr1.length;
-    const arr2Length = arr2.length;
-
-    if (arr1Length !== arr2Length) {
-        return false;
-    }
-
-    for (let i = 0; i < arr1Length; i++) {
-        if (arr1[i] !== arr2[i]) {
-            return false;
-        }
-    }
-
-    return true;
-};
-
-const parseBufferLines = (lines: string[]) => {
-    const messages: string[][] = [];
-    let state = undefined;
-    let lastState: string | undefined = undefined;
-    let content: string | undefined = undefined;
-    let skipEmptyLine: boolean = false;
-    for (let index = 0; index < lines.length; index++) {
-        const elem = lines[index];
-        if (elem === "# USER:") {
-            state = State.Human;
-            skipEmptyLine = false;
-        } else if (elem === "# AI:") {
-            state = State.AI;
-            skipEmptyLine = false;
-        }
-
-        if (lastState !== state) { // When role is changed.
-            if (lastState !== undefined) {
-                // For the non-first message
-                if (content === undefined) {
-                    content = "";
-                }
-                if (content.endsWith("\n")) {
-                    content = content.slice(0, -1);
-                }
-                messages.push([lastState, content]);
-                content = undefined;
-                skipEmptyLine = true;
-            } else {
-                // For the first message
-                content = undefined;
-                skipEmptyLine = true;
-            }
-        } else { // When role is not changed.
-            if (skipEmptyLine && elem === "") {
-                // Skip to add empty line.
-                skipEmptyLine = false;
-            } else {
-                if (content === undefined) {
-                    content = elem;
-                } else {
-                    content = content + "\n" + elem;
-                }
-            }
-        }
-        lastState = state;
-    }
-    if (lastState !== undefined) {
-        if (content === undefined) {
-            content = "";
-        }
-        messages.push([lastState, content]);
-    }
-    return messages;
-};
+import { getTools } from "./agent_tools.ts";
+import { stringToHexBytes } from "./debug_utils.ts";
+import { arrayEquals } from "./common_utils.ts";
+import { parseBufferLines } from "./agent_utils.ts";
 
 /**
  * Main entry point method for Denos.
@@ -98,6 +17,7 @@ const parseBufferLines = (lines: string[]) => {
 export const main: Entrypoint = (denops: Denops) => {
     let controller: AbortController;
     let model: ChatOpenAI;
+    let lastUsedBuffer: string;
 
     // Functions which uses denops instance
     const appendBuffer = async (newMessageContent: MessageContent) => {
@@ -133,9 +53,9 @@ export const main: Entrypoint = (denops: Denops) => {
         if (await fn.bufexists(denops, "denops-langchain")) {
             await denops.cmd("drop denops-langchain");
         } else {
-            await denops.cmd("new");
-            await denops.cmd("file denops-langchain");
+            await denops.cmd("rightbelow vs new");
             await denops.cmd("set buftype=nofile");
+            await denops.cmd("file denops-langchain");
             await denops.cmd("set ft=markdown");
             await denops.cmd(
                 "nnoremap <buffer> <C-c> <Cmd>LangChainTerminate<CR>",
