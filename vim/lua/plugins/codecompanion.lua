@@ -599,6 +599,16 @@ This is the result of `git ls-files`. Refer if necessary to create the commit me
 
 </GitManagedFiles>
 
+<GitLog>
+
+This is the result of `git log -5`. Refer if necessary to create the commit message:
+
+    ```
+%s
+    ```
+
+</GitLog>
+
 <Diff>
 
 Here is the diff you need to generate the message for:
@@ -611,6 +621,7 @@ Here is the diff you need to generate the message for:
 
 ]],
                                     indentString(vim.fn.system("git ls-files"), "    "),
+                                    indentString(vim.fn.system("git log -5"), "    "),
                                     indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
                                 )
                             end,
