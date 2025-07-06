@@ -1414,6 +1414,7 @@ vim.api.nvim_create_autocmd({ "ModeChanged" }, {
 ------------------------------------------------------------------------------
 require("toggleterm").setup({
     size = 15,
+    auto_scroll = false,
     float_opts = {
         border = 'curved',
         winblend = 0,
