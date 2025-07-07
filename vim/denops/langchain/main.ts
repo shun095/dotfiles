@@ -32,14 +32,14 @@ export const main: Entrypoint = (denops: Denops) => {
         const lines = combined.split("\n");
 
         if (lines.length > 0) {
-            await fn.setbufline(
+            fn.setbufline(
                 denops,
                 "denops-langchain",
                 "$",
                 lines[0],
             );
             for (let i = 1; i < lines.length; i++) {
-                await fn.appendbufline(
+                fn.appendbufline(
                     denops,
                     "denops-langchain",
                     "$",
@@ -82,6 +82,10 @@ export const main: Entrypoint = (denops: Denops) => {
             await denops.cmd(
                 `command! LangChainSubmit call denops#request_async('${name}', 'invokeOnChat', [], {val -> v:true}, {val -> v:true })`,
             );
+            // await denops.cmd(
+            //     `command! LangChainTest call denops#request_async('${name}', 'test', [], {val -> v:true}, {val -> v:true })`,
+            // );
+
 
             const baseURL = "http://localhost:8080/v1";
             const apiKey = await vars.environment.get(
@@ -98,6 +102,12 @@ export const main: Entrypoint = (denops: Denops) => {
                 maxTokens: -1,
                 streaming: true,
             });
+        },
+        async test() {
+            await prepareBuffer();
+            for (let index = 0; index < 10000; index++) {
+                appendBuffer(index.toString() + "\n")
+            }
         },
         /**
          * Terminate the plugin.
