@@ -161,7 +161,7 @@ return {
                 elseif chat_output_buffer == "</think>" then
                     chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
                     chat_output_buffer = ""
-                elseif chat_output_buffer == "<response>" then -- For granite
+                elseif chat_output_buffer == "<response>" then  -- For granite
                     chat_output_buffer = ""
                 elseif chat_output_buffer == "</response>" then -- For granite
                     chat_output_buffer = ""
@@ -254,6 +254,9 @@ return {
         ---@param messages table Format is: { { role = "user", content = "Your prompt here" } }
         ---@return table
         local form_messages_callback = function(self, messages)
+            local orig_messages = messages
+            messages = openai.handlers.form_messages(self, messages).messages
+
             local new_messages = {}
             local merged_message = nil
             local last_role = ""
@@ -263,6 +266,28 @@ return {
                 table.insert(messages, 1, { role = "system", content = "Enable deep thinking subroutine." })
             end
 
+            local function reorder_messages(messages)
+                local systems = {}
+                local others = {}
+                for _, msg in ipairs(messages) do
+                    if msg.role == "system" then
+                        table.insert(systems, msg)
+                    else
+                        table.insert(others, msg)
+                    end
+                end
+                local result = {}
+                for _, msg in ipairs(systems) do
+                    table.insert(result, msg)
+                end
+                for _, msg in ipairs(others) do
+                    table.insert(result, msg)
+                end
+                return result
+            end
+
+            messages = reorder_messages(messages)
+
             for index, message in ipairs(messages) do
                 -- For Gemma 3
                 if get_model(self):find("[gG]emma%-3") then
@@ -271,37 +296,42 @@ return {
                     end
                 end
 
-                if message.content ~= nil then
-                    if not get_model(self):find("[gG]ranite") then
-                        -- For reasoning models like QwQ
-                        if message.role == "assistant" or message.role == "llm" then
-                            if not get_model(self):find("[gG]ranite") then
-                                message.content = message.content:gsub("%s*<think>.-</think>%s*(\n*)", "")
-                            end
-                        end
-                    end
+                vim.print(message.role)
 
+                local merged_roles = { system = true, user = true }
+                if merged_roles[message.role] then
                     if message.role ~= last_role and merged_message then
                         table.insert(new_messages, merged_message)
                         merged_message = nil
                     end
-
                     if merged_message then
-                        merged_message = {
-                            role = message.role,
-                            content = merged_message.content .. "\n\n\n\n" .. message.content,
-                        }
+                        if message.content ~= "" then
+                            merged_message = {
+                                role = message.role,
+                                content = merged_message.content .. "\n\n---\n\n" .. message.content,
+                            }
+                        end
                     else
                         merged_message = {
                             role = message.role,
                             content = message.content,
                         }
                     end
+                else
+                    if merged_message then
+                        table.insert(new_messages, merged_message)
+                        merged_message = nil
+                    end
+                    -- assistant with tool_calls
+                    table.insert(new_messages, message)
                 end
 
                 last_role = message.role
             end
-            table.insert(new_messages, merged_message)
+            if merged_message then
+                table.insert(new_messages, merged_message)
+                merged_message = nil
+            end
 
             -- For granite
             if get_model(self):find("[gG]ranite") then
@@ -310,8 +340,12 @@ return {
                 end
 
                 new_messages[1].content = new_messages[1].content
-                    .. [[You are a helpful AI assistant.
-Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
+                    .. [[
+
+
+---
+
+You are a helpful AI assistant. Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
             end
 
             return { messages = new_messages }
@@ -339,7 +373,7 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                     callback = "mcphub.extensions.codecompanion",
                     opts = {
                         show_result_in_chat = true, -- Show mcp tool results in chat
-                        make_vars = true, -- Convert resources to #variables
+                        make_vars = true,           -- Convert resources to #variables
                         make_slash_commands = true, -- Add prompts as /slash commands
                     },
                 },
@@ -415,7 +449,7 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                             setup = function(self)
                                 if self.opts and self.opts.stream then
                                     if not self.parameters then
-                                        self. parameters = {}
+                                        self.parameters = {}
                                     end
                                     self.parameters.stream = true
                                     self.parameters.stream_options = { include_usage = true }
@@ -451,7 +485,7 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                             setup = function(self)
                                 if self.opts and self.opts.stream then
                                     if not self.parameters then
-                                        self. parameters = {}
+                                        self.parameters = {}
                                     end
                                     self.parameters.stream = true
                                     self.parameters.stream_options = { include_usage = true }
