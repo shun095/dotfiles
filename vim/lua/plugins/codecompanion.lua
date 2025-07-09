@@ -29,18 +29,18 @@ return {
         local chat_output_current_state
         local chat_output_buffer = ""
 
-        local _cache_expires
-        local _cache_file = vim.fn.tempname()
-        local _cached_models
+        local cache_expires
+        local cache_file = vim.fn.tempname()
+        local cached_models
 
         ---Return the cached models
         ---@params opts? table
         ---@return table
         local function models(opts)
             if opts and opts.last then
-                return _cached_models[1]
+                return cached_models[1]
             end
-            return _cached_models
+            return cached_models
         end
 
         ---Add indentation to the leading of all lines in a multi-line str.
@@ -60,11 +60,11 @@ return {
         ---@return table
         local function get_model(self)
             local opts = { last = true }
-            if _cached_models and _cache_expires and _cache_expires > os.time() then
+            if cached_models and cache_expires and cache_expires > os.time() then
                 return models(opts)
             end
 
-            _cached_models = {}
+            cached_models = {}
 
             local adapter = require("codecompanion.adapters").resolve(self)
             if not adapter then
@@ -108,10 +108,10 @@ return {
             end
 
             for _, model in ipairs(json.data) do
-                table.insert(_cached_models, model.id)
+                table.insert(cached_models, model.id)
             end
 
-            _cache_expires = utils.refresh_cache(_cache_file, config.adapters.opts.cache_models_for)
+            cache_expires = utils.refresh_cache(cache_file, config.adapters.opts.cache_models_for)
 
             return models(opts)
         end
@@ -172,13 +172,13 @@ return {
                     and (("</response>"):find(chat_output_buffer, 1, true) ~= 1)
                 then
                     if chat_output_current_state == chat_output_state.ANTICIPATING_OUTPUTTING then
-                        if chat_output_buffer:match("\n") ~= nil then
+                        if chat_output_buffer:match("^[\n]+$") ~= nil then
                             chat_output_buffer = ""
                         else
                             chat_output_current_state = chat_output_state.OUTPUTTING
                         end
                     elseif chat_output_current_state == chat_output_state.ANTICIPATING_REASONING then
-                        if chat_output_buffer:match("\n") ~= nil then
+                        if chat_output_buffer:match("^[\n]+$") ~= nil then
                             chat_output_buffer = ""
                         else
                             chat_output_current_state = chat_output_state.REASONING
@@ -296,8 +296,6 @@ return {
                     end
                 end
 
-                vim.print(message.role)
-
                 local merged_roles = { system = true, user = true }
                 if merged_roles[message.role] then
                     if message.role ~= last_role and merged_message then
@@ -381,7 +379,7 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                     enabled = true,
                     opts = {
                         expiration_days = 30,
-                        auto_generate_title = false,
+                        auto_generate_title = true,
                     },
                 },
             },
