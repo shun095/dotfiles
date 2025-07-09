@@ -212,9 +212,9 @@ return {
             opts = opts or {}
             local format_item = opts.format_item or tostring
 
-            local W = math.floor(vim.o.columns * 0.6)
-            local prompt_lines = wrap_text(opts.prompt or "Select", W - 2)
-            local H = #prompt_lines + 2
+            local width = math.floor(vim.o.columns * 0.6)
+            local prompt_lines = wrap_text(opts.prompt or "Select", width - 2)
+            local height = #prompt_lines + 2
             -- local prompt_lines = vim.split(opts.prompt or "", "\n", { plain = true })
 
             local menu_items = {}
@@ -228,7 +228,7 @@ return {
                 border = {
                     style = "rounded",
                     text = {
-                        top = " Prompt " .. (opts.kind and "(" .. opts.kind .. ") " or ""),
+                        top = " Prompt " .. (opts.kind and "(kind: " .. opts.kind .. ") " or ""),
                         top_align = "left",
                     },
                 },
@@ -300,19 +300,20 @@ return {
                     position = "50%",
                     relative = "editor",
                     size = {
-                        width = W,
+                        width = width,
                         height = 0.6,
                     },
                 },
                 Layout.Box(
                     {
-                        Layout.Box(popup, { size = H }),
+                        Layout.Box(popup, { size = height }),
                         Layout.Box(menu, { grow = 1 }),
                         Layout.Box(input, { size = 3 }),
                     },
                     { dir = "col" })
             )
 
+            local is_mounted = false
             local components = { popup, menu, input }
             for _, component in pairs(components) do
                 component:on("BufLeave", function()
@@ -323,7 +324,12 @@ return {
                                 return
                             end
                         end
-                        layout:unmount()
+                        if is_mounted == true then
+                            layout:hide()
+                            vim.api.nvim_create_user_command("RevealSelectWindow", function()
+                                layout:show()
+                            end, {})
+                        end
                     end)
                 end)
             end
@@ -346,12 +352,31 @@ return {
                     on_choice(item.value)
                 end
                 vim.api.nvim_set_current_win(win_id)
+                layout:unmount()
+                is_mounted = false
+                if vim.fn.exists(":RevealSelectWindow") ~= 0 then
+                    vim.api.nvim_del_user_command("RevealSelectWindow")
+                end
             end, { noremap = true })
             input:map("i", "<ESC>", function()
                 vim.api.nvim_set_current_win(win_id)
+                layout:unmount()
+                is_mounted = false
+                if vim.fn.exists(":RevealSelectWindow") ~= 0 then
+                    vim.api.nvim_del_user_command("RevealSelectWindow")
+                end
+            end, { noremap = true })
+            input:map("i", "<C-C>", function()
+                vim.api.nvim_set_current_win(win_id)
+                layout:unmount()
+                is_mounted = false
+                if vim.fn.exists(":RevealSelectWindow") ~= 0 then
+                    vim.api.nvim_del_user_command("RevealSelectWindow")
+                end
             end, { noremap = true })
 
             layout:mount()
+            is_mounted = true
         end
 
         -- vim.ui.select({ 'tabs', 'spaces' }, {
