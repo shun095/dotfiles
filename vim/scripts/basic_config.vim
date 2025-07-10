@@ -183,7 +183,7 @@
     se smoothscroll                                                           " スムーススクロール(wrapの時にスキップしない)
   endif
   se number                                                                   " 行番号表示
-  se relativenumber
+  se norelativenumber
   se signcolumn=yes                                                           " Gutter行を常に表示
   se hlsearch                                                                 " 文字列検索時にハイライトする
   se incsearch                                                                " 文字入力中に検索を開始

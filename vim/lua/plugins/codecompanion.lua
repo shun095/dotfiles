@@ -1,7 +1,7 @@
 -- Return the configuration for the CodeCompanion plugin
 return {
     "olimorris/codecompanion.nvim",
-    version = "*",
+    version = "v17.6.0",
     -- Plugin dependencies
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -25,9 +25,6 @@ return {
             ANTICIPATING_OUTPUTTING = 3,
             OUTPUTTING = 4,
         }
-        ---@type integer
-        local chat_output_current_state
-        local chat_output_buffer = ""
 
         local cache_expires
         local cache_file = vim.fn.tempname()
@@ -153,57 +150,51 @@ return {
 
             for i = 1, #content do
                 local char = content:sub(i, i)
-                chat_output_buffer = chat_output_buffer .. char
+                self.chat_output_buffer = self.chat_output_buffer .. char
 
-                if chat_output_buffer == "<think>" then
-                    chat_output_current_state = chat_output_state.ANTICIPATING_REASONING
-                    chat_output_buffer = ""
-                elseif chat_output_buffer == "</think>" then
-                    chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
-                    chat_output_buffer = ""
-                elseif chat_output_buffer == "<response>" then  -- For granite
-                    chat_output_buffer = ""
-                elseif chat_output_buffer == "</response>" then -- For granite
-                    chat_output_buffer = ""
+                if self.chat_output_buffer == "<think>" then
+                    self.chat_output_current_state = chat_output_state.ANTICIPATING_REASONING
+                    self.chat_output_buffer = ""
+                elseif self.chat_output_buffer == "</think>" then
+                    self.chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+                    self.chat_output_buffer = ""
+                elseif self.chat_output_buffer == "<response>" then  -- For granite
+                    self.chat_output_buffer = ""
+                elseif self.chat_output_buffer == "</response>" then -- For granite
+                    self.chat_output_buffer = ""
                 elseif
-                    (("<think>"):find(chat_output_buffer, 1, true) ~= 1)
-                    and (("</think>"):find(chat_output_buffer, 1, true) ~= 1)
-                    and (("<response>"):find(chat_output_buffer, 1, true) ~= 1)
-                    and (("</response>"):find(chat_output_buffer, 1, true) ~= 1)
+                    (("<think>"):find(self.chat_output_buffer, 1, true) ~= 1)
+                    and (("</think>"):find(self.chat_output_buffer, 1, true) ~= 1)
+                    and (("<response>"):find(self.chat_output_buffer, 1, true) ~= 1)
+                    and (("</response>"):find(self.chat_output_buffer, 1, true) ~= 1)
                 then
-                    if chat_output_current_state == chat_output_state.ANTICIPATING_OUTPUTTING then
-                        if chat_output_buffer:match("^[\n]+$") ~= nil then
-                            chat_output_buffer = ""
-                        else
-                            chat_output_current_state = chat_output_state.OUTPUTTING
-                        end
-                    elseif chat_output_current_state == chat_output_state.ANTICIPATING_REASONING then
-                        if chat_output_buffer:match("^[\n]+$") ~= nil then
-                            chat_output_buffer = ""
-                        else
-                            chat_output_current_state = chat_output_state.REASONING
-                        end
+                    if self.chat_output_current_state == chat_output_state.ANTICIPATING_OUTPUTTING then
+                        -- Something needed between the Reasoning/Output section can be written here.
+                        -- Currently, nothing is needed.
+                        self.chat_output_current_state = chat_output_state.OUTPUTTING
+                    elseif self.chat_output_current_state == chat_output_state.ANTICIPATING_REASONING then
+                        -- Something needed between the Reasoning/Output section can be written here.
+                        -- Currently, nothing is needed.
+                        self.chat_output_current_state = chat_output_state.REASONING
                     end
 
                     if
-                        chat_output_current_state == chat_output_state.ANTICIPATING_REASONING
-                        or chat_output_current_state == chat_output_state.REASONING
+                        self.chat_output_current_state == chat_output_state.ANTICIPATING_REASONING
+                        or self.chat_output_current_state == chat_output_state.REASONING
                     then
                         -- if not get_model(self):find("[gG]ranite") then
                         if not inner.output.reasoning then
                             inner.output.reasoning = ""
                         end
-                        inner.output.reasoning = inner.output.reasoning .. chat_output_buffer
-                        inner.output.content = nil
-                        chat_output_buffer = ""
+                        inner.output.reasoning = inner.output.reasoning .. self.chat_output_buffer
+                        self.chat_output_buffer = ""
                         -- end
                     else
                         if not inner.output.content then
                             inner.output.content = ""
                         end
-                        inner.output.content = inner.output.content .. chat_output_buffer
-                        inner.output.reasoning = nil
-                        chat_output_buffer = ""
+                        inner.output.content = inner.output.content .. self.chat_output_buffer
+                        self.chat_output_buffer = ""
                     end
                 end
             end
@@ -320,6 +311,11 @@ return {
                         table.insert(new_messages, merged_message)
                         merged_message = nil
                     end
+                    if get_model(self):find("[gG]ranite") then
+                        if message.role == "assistant" and message.content then
+                            message.content = "<think></think><response>" .. message.content .. "</response>"
+                        end
+                    end
                     -- assistant with tool_calls
                     table.insert(new_messages, message)
                 end
@@ -343,7 +339,10 @@ return {
 
 ---
 
-Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding or calling tools. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
+
+Finally, you must be a helpful AI assistant.
+Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.
+]]
             end
 
             return { messages = new_messages }
@@ -389,8 +388,18 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                     -- Options to customize the UI of the chat buffer
                     window = {
                         position = "right",
-                        width = 0.4,
+                        width = 60,
+                        row = "center", -- for debug window
+                        col = "center"  -- for debug window
                     },
+                    debug_window = {
+                        height = function()
+                            return math.floor(vim.o.lines * 0.9)
+                        end,
+                        width = function()
+                            return math.floor(vim.o.columns * 0.9)
+                        end,
+                    }
                 },
             },
             opts = {
@@ -455,8 +464,8 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                                     self.parameters.stream = true
                                     self.parameters.stream_options = { include_usage = true }
                                 end
-                                chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
-                                chat_output_buffer = ""
+                                self.chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+                                self.chat_output_buffer = ""
                                 return true
                             end,
                             form_messages = form_messages_callback,
@@ -491,8 +500,8 @@ Respond to every user query in a comprehensive and detailed way. You can write d
                                     self.parameters.stream = true
                                     self.parameters.stream_options = { include_usage = true }
                                 end
-                                chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
-                                chat_output_buffer = ""
+                                self.chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+                                self.chat_output_buffer = ""
                                 return true
                             end,
                             form_messages = form_messages_callback,
@@ -731,6 +740,43 @@ Therefore, in the JSON,
 ]=],
                         },
                     },
+                },
+                ["Check the vulnerabilities of diff"] = {
+                    strategy = "chat",
+                    description = "Check the vulnerabilities of diff",
+                    opts = {
+                        auto_submit = false,
+                        short_name = "check_vulnerabilities",
+                        is_slash_cmd = true,
+                    },
+                    prompts = {
+                        {
+                            role = "user",
+                            content = function()
+                                return string.format(
+                                    [[Task: Analyze the provided code diff to identify **vulnerable or insecure code patterns** that should **not be pushed to public repositories like GitHub**.
+
+---
+
+<Diff>
+
+Here is the diff you need to analyze:
+
+    ```diff
+%s
+    ```
+
+</Diff>
+                            ]],
+                                    indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
+                                )
+                            end,
+                            opts = {
+                                contains_code = true,
+                            },
+                        }
+                    }
+
                 },
                 ["Translate into Japanese"] = {
                     strategy = "chat",

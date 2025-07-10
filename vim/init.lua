@@ -232,6 +232,26 @@ end, {})
 vim.api.nvim_create_user_command('Htop', function()
     open_in_popup("htop")
 end, {})
+
+-- TODO: 実際のactivateと挙動をあわせ、deactivateを実装する。_OLD_XXXで環境変数を管理、PS1も変更する。
+local function auto_activate_venv()
+    local venv_path = vim.fn.getcwd() .. '/.venv'
+    if vim.fn.isdirectory(venv_path) == 1
+        and vim.env.VIRTUAL_ENV ~= venv_path then
+        vim.env.VIRTUAL_ENV = venv_path
+        vim.env.PATH = vim.env.VIRTUAL_ENV .. '/bin:' .. vim.env.PATH
+        vim.notify("venv activated: " .. venv_path)
+    end
+end
+
+vim.api.nvim_create_autocmd('DirChanged', {
+    pattern = { "*" },
+    callback = function()
+        auto_activate_venv()
+    end
+})
+
+
 ------------------------------------------------------------------------------
 -- }}}
 ------------------------------------------------------------------------------
@@ -466,6 +486,10 @@ vim.api.nvim_create_user_command("LSPDiagnosticBufQf",
 
 vim.api.nvim_create_user_command("LSPCodeLensRefresh",
     "lua vim.lsp.codelens.refresh()",
+    {})
+
+vim.api.nvim_create_user_command("LSPStopAllClients",
+    "lua vim.lsp.stop_client(vim.lsp.get_clients())",
     {})
 -- }}}
 
