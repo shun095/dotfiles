@@ -125,14 +125,13 @@ return {
                 return inner
             end
 
-            if inner.status ~= "success" or inner.output == nil or type(inner.output.content) ~= "string" then
+            if inner.status ~= "success" then
                 return inner
             end
 
-            -- When "inner" is not nil, "data" must be extracted correctly.
+            -- When the openai parser succeeds to parse data, data must be extracted correctly, so the error handlers are not prepared here.
             local data_mod = type(data) == "table" and data.body or utils.clean_streamed_data(data)
             local ok, json = pcall(vim.json.decode, data_mod, { luanil = { object = true } })
-            -- Extract reasoning_content from the response.
             local choice = json.choices[1]
             local delta = self.opts.stream and choice.delta or choice.message
 
@@ -143,10 +142,17 @@ return {
                 return inner
             end
 
+            -- Return before content parse if the content is nil. 
+            -- This case occurs when the delta is only for specifying roles.
+            if not inner.output.content then
+                return inner
+            end
+
             -- If the reasoning_content does not exist, parse content and detect reasoning content.
             local content = inner.output.content
             inner.output.content = nil
             inner.output.reasoning = nil
+
 
             for i = 1, #content do
                 local char = content:sub(i, i)
