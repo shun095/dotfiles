@@ -53,6 +53,8 @@ config.keys = {
 }
 
 config.audible_bell = "Disabled"
+config.front_end = "Software"
+config.prefer_egl = false
 -- local is_windows = wezterm.target_triple:find("windows") ~= nil
 
 -- if is_windows then
