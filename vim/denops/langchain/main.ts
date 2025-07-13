@@ -2,9 +2,15 @@ import type { Denops, Entrypoint } from "jsr:@denops/std@^7.0.0";
 import * as fn from "jsr:@denops/std/function";
 import * as vars from "jsr:@denops/std/variable";
 import { assert, is } from "jsr:@core/unknownutil@3.18.1";
-import { ChatOpenAI } from "npm:@langchain/openai";
-import { ChatPromptTemplate } from "npm:@langchain/core/prompts";
-import { MessageContent } from "npm:@langchain/core/messages";
+import { AgentExecutor } from "npm:langchain@^0.3.0/agents";
+import { createReactAgent } from "npm:@langchain/langgraph@0.3.0/prebuilt";
+import { pull } from "npm:langchain@^0.3.0/hub";
+import { ChatPromptTemplate, PromptTemplate } from "npm:@langchain/core@^0.3.0/prompts";
+import { MessageContent } from "npm:@langchain/core@^0.3.0/messages";
+import 'npm:duck-duck-scrape'; // for dependency
+import { DuckDuckGoSearch } from "npm:@langchain/community@^0.3.0/tools/duckduckgo_search";
+import { ChatOpenAI, OpenAI } from "npm:@langchain/openai@^0.5.0";
+
 import { getTools } from "./agent_tools.ts";
 import { stringToHexBytes } from "./debug_utils.ts";
 import { arrayEquals } from "./common_utils.ts";
@@ -19,6 +25,8 @@ export const main: Entrypoint = (denops: Denops) => {
     let model: ChatOpenAI;
     let lastUsedBuffer: string;
 
+    // 1. ツールの定義
+    const tools = [new DuckDuckGoSearch({ maxResults: 5 })];
     // Functions which uses denops instance
     const appendBuffer = async (newMessageContent: MessageContent) => {
         assert(newMessageContent, is.String);
@@ -86,7 +94,6 @@ export const main: Entrypoint = (denops: Denops) => {
             //     `command! LangChainTest call denops#request_async('${name}', 'test', [], {val -> v:true}, {val -> v:true })`,
             // );
 
-
             const baseURL = "http://localhost:8080/v1";
             const apiKey = await vars.environment.get(
                 denops,
@@ -106,7 +113,7 @@ export const main: Entrypoint = (denops: Denops) => {
         async test() {
             await prepareBuffer();
             for (let index = 0; index < 10000; index++) {
-                appendBuffer(index.toString() + "\n")
+                appendBuffer(index.toString() + "\n");
             }
         },
         /**
@@ -197,6 +204,107 @@ export const main: Entrypoint = (denops: Denops) => {
                 await appendBuffer(text);
 
                 await this.invokeOnChat();
+            } catch (error: any) {
+                console.error(`Caught an error:`, error.name);
+                console.error(`Error message:`, error.message);
+            }
+        },
+        async invokeReactAgentOnChat() {
+            let messages: any[] = [];
+            const linesNew = await fn.getbufline(
+                denops,
+                "denops-langchain",
+                1,
+                "$",
+            );
+            messages = parseBufferLines(linesNew);
+            console.debug(messages);
+
+            const baseURL = "http://localhost:8080/v1";
+            const apiKey = await vars.environment.get(
+                denops,
+                "CODECOMPANION_API_KEY",
+            ) as string;
+            const llm = new OpenAI({
+                configuration: {
+                    baseURL: baseURL,
+                    apiKey: apiKey,
+                },
+                modelName: "gpt-4o",
+                maxTokens: -1,
+                streaming: true,
+            });
+
+            const prompt = await pull<PromptTemplate>("hwchase17/react");
+            const agent = await createReactAgent({
+                llm,
+                tools,
+                prompt,
+            });
+
+            const agentExecutor = new AgentExecutor({
+                agent,
+                tools,
+            });
+
+            const result = await agentExecutor.invoke({
+                input: "what is LangChain?",
+            });
+            const chunks = [];
+
+            await fn.appendbufline(
+                denops,
+                "denops-langchain",
+                "$",
+                ["", "# AI:", "", ""],
+            );
+
+            for await (const chunk of stream) {
+                await appendBuffer(chunk.content);
+                console.debug(
+                    `chunk.content: ${chunk.content} - ${
+                        stringToHexBytes(chunk.content.toString())
+                    }`,
+                );
+                chunks.push(chunk);
+            }
+
+            await fn.appendbufline(
+                denops,
+                "denops-langchain",
+                "$",
+                ["", "# USER:", "", ""],
+            );
+            console.debug(chunks);
+        },
+        async invokeReactAgent(text) {
+            try {
+                assert(text, is.String);
+
+                controller = new AbortController();
+
+                await prepareBuffer();
+
+                const lines = await fn.getbufline(
+                    denops,
+                    "denops-langchain",
+                    1,
+                    "$",
+                );
+
+                // If the buffer is empty, add user prompt
+                if (arrayEquals(lines, [""])) {
+                    await fn.setbufline(
+                        denops,
+                        "denops-langchain",
+                        "$",
+                        ["# USER:", "", ""],
+                    );
+                }
+
+                await appendBuffer(text);
+
+                await this.invokeReactAgentOnChat();
             } catch (error: any) {
                 console.error(`Caught an error:`, error.name);
                 console.error(`Error message:`, error.message);
