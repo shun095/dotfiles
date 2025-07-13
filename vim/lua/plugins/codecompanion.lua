@@ -1,7 +1,7 @@
 -- Return the configuration for the CodeCompanion plugin
 return {
     "olimorris/codecompanion.nvim",
-    version = "v17.6.0",
+    version = "*",
     -- Plugin dependencies
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -138,14 +138,14 @@ return {
 
             -- If the reasoning_content exists
             if delta.reasoning_content then
-                inner.output.reasoning = delta.reasoning_content
-                inner.output.content = nil
+                inner.output.reasoning = inner.output.reasoning or {}
+                inner.output.reasoning.content = delta.reasoning_content
                 return inner
             end
 
             -- If the reasoning_content does not exist, parse content and detect reasoning content.
             local content = inner.output.content
-            inner.output.content = ""
+            inner.output.content = nil
             inner.output.reasoning = nil
 
             for i = 1, #content do
@@ -184,9 +184,10 @@ return {
                     then
                         -- if not get_model(self):find("[gG]ranite") then
                         if not inner.output.reasoning then
-                            inner.output.reasoning = ""
+                            inner.output.reasoning = {}
+                            inner.output.reasoning.content = ""
                         end
-                        inner.output.reasoning = inner.output.reasoning .. self.chat_output_buffer
+                        inner.output.reasoning.content = inner.output.reasoning.content .. self.chat_output_buffer
                         self.chat_output_buffer = ""
                         -- end
                     else
