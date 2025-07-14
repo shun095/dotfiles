@@ -233,28 +233,6 @@ vim.api.nvim_create_user_command('Htop', function()
     open_in_popup("htop")
 end, {})
 
--- 仮想環境を有効化する関数
-local function auto_activate_venv()
-    local venv_path = vim.fn.getcwd() .. '/.venv'
-    if vim.fn.isdirectory(venv_path) == 1 and vim.env.VIRTUAL_ENV ~= venv_path then
-        -- 有効化前の環境変数を保存
-        vim.env._OLD_VIRTUAL_PATH = vim.env.PATH or ""
-        vim.env._OLD_VIRTUAL_PS1 = vim.env.PS1 or ""
-        if vim.env.PYTHONHOME then
-            vim.env._OLD_VIRTUAL_PYTHONHOME = vim.env.PYTHONHOME
-        end
-
-        -- 有効化処理
-        vim.env.VIRTUAL_ENV = venv_path
-        vim.env.PATH = venv_path .. '/bin:' .. vim.env.PATH
-        vim.env.VIRTUAL_ENV_PROMPT = ".venv"
-        vim.env.PS1 = '(' .. vim.env.VIRTUAL_ENV_PROMPT .. ') ' .. (vim.env.PS1 or "")
-        vim.env.PYTHONHOME = nil  -- PYTHONHOMEをクリア
-
-        vim.notify("venv activated: " .. venv_path)
-    end
-end
-
 -- 仮想環境を無効化する関数
 local function auto_deactivate_venv()
     if vim.env.VIRTUAL_ENV then
@@ -289,6 +267,33 @@ local function auto_deactivate_venv()
         vim.notify("venv deactivated")
     end
 end
+
+-- 仮想環境を有効化する関数
+local function auto_activate_venv()
+    local venv_path = vim.fn.getcwd() .. '/.venv'
+    if vim.fn.isdirectory(venv_path) == 1 and vim.env.VIRTUAL_ENV ~= venv_path then
+        -- Deactivate if previous venv is activated.
+        if vim.env.VIRTUAL_ENV then
+            auto_deactivate_venv()
+        end
+        -- 有効化前の環境変数を保存
+        vim.env._OLD_VIRTUAL_PATH = vim.env.PATH or ""
+        vim.env._OLD_VIRTUAL_PS1 = vim.env.PS1 or ""
+        if vim.env.PYTHONHOME then
+            vim.env._OLD_VIRTUAL_PYTHONHOME = vim.env.PYTHONHOME
+        end
+
+        -- 有効化処理
+        vim.env.VIRTUAL_ENV = venv_path
+        vim.env.PATH = venv_path .. '/bin:' .. vim.env.PATH
+        vim.env.VIRTUAL_ENV_PROMPT = ".venv"
+        vim.env.PS1 = '(' .. vim.env.VIRTUAL_ENV_PROMPT .. ') ' .. (vim.env.PS1 or "")
+        vim.env.PYTHONHOME = nil  -- PYTHONHOMEをクリア
+
+        vim.notify("venv activated: " .. venv_path)
+    end
+end
+
 
 -- ディレクトリ変更イベントのコールバック
 vim.api.nvim_create_autocmd('DirChanged', {
