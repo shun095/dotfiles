@@ -215,8 +215,9 @@ local function open_in_popup(cmd)
         border = 'rounded',
     })
 
-    vim.fn.termopen(cmd, {
+    vim.fn.jobstart(cmd, {
         cwd = cwd,
+        term = true,
         on_exit = function()
             vim.api.nvim_win_close(win, true)
         end
@@ -288,7 +289,7 @@ local function auto_activate_venv()
         vim.env.PATH = venv_path .. '/bin:' .. vim.env.PATH
         vim.env.VIRTUAL_ENV_PROMPT = ".venv"
         vim.env.PS1 = '(' .. vim.env.VIRTUAL_ENV_PROMPT .. ') ' .. (vim.env.PS1 or "")
-        vim.env.PYTHONHOME = nil  -- PYTHONHOMEをクリア
+        vim.env.PYTHONHOME = nil -- PYTHONHOMEをクリア
 
         vim.notify("venv activated: " .. venv_path)
     end
