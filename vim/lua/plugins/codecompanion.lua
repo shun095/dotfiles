@@ -304,7 +304,7 @@ return {
                         if message.content ~= "" then
                             merged_message = {
                                 role = message.role,
-                                content = merged_message.content .. "\n\n---\n\n" .. message.content,
+                                content = merged_message.content .. "\n\n\n\n" .. message.content,
                             }
                         end
                     else
@@ -337,18 +337,19 @@ return {
             -- For granite
             if get_model(self):find("[gG]ranite") then
                 if new_messages[1].role ~= "system" then
-                    table.insert(new_messages, 1, { role = "system", content = "" })
-                end
-
-                new_messages[1].content = new_messages[1].content
+                    table.insert(new_messages, 1, { role = "system", content = "You are a helpful AI assistant.\n" })
+                else
+                    new_messages[1].content = new_messages[1].content 
                     .. [[
 
 
----
 
 
 Finally, you must be a helpful AI assistant.
-Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.
+]]
+                end
+
+                new_messages[1].content = new_messages[1].content .. [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.
 ]]
             end
 
@@ -411,9 +412,9 @@ Respond to every user query in a comprehensive and detailed way. You can write d
             },
             opts = {
                 -- Language settings for the plugin
-                language = "natural Japanese",
+                language = "English",
                 -- Set logging level
-                log_level = "DEBUG",
+                log_level = "INFO",
                 system_prompt = function(opts)
                     return string.format(
                         require("prompts.system_prompt"),
