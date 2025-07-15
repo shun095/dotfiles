@@ -1,11 +1,11 @@
 return {
     'obsidian-nvim/obsidian.nvim',
     config = function()
-        local function obsidian_create_uid()
+        local function create_uid()
             return tostring(os.date("%Y%m%dT%H%M%S%z", os.time()))
         end
 
-        local function obsidian_note_id_func(title)
+        local function note_id_func(title)
             local id = ""
             if title ~= nil then
                 id = title:gsub("[\\/:*?\"<>|.]", "-")
@@ -14,8 +14,37 @@ return {
                 end
             end
 
-            id = obsidian_create_uid()
+            id = create_uid()
             return id
+        end
+
+        local function note_path_func(spec)
+            -- This is equivalent to the default behavior.
+            local path = spec.dir / tostring(spec.id)
+            return path:with_suffix(".md")
+        end
+
+        local function note_frontmatter_func(note)
+            local out = {}
+
+            if note.id == nil then
+                out.id = create_uid()
+            else
+                out.id = note.id
+            end
+
+            out.id = out.id
+            out.aliases = note.aliases
+            out.tags = note.tags
+            out.datetime = os.date("%Y-%m-%dT%H:%M:%S", os.time())
+
+            if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+                for k, v in pairs(note.metadata) do
+                    out[k] = v
+                end
+            end
+
+            return out
         end
 
         vim.api.nvim_create_autocmd({ "ColorScheme" }, {
@@ -65,38 +94,13 @@ return {
                         -- Trigger completion at 2 chars.
                         min_chars = 0,
                     },
-                    note_id_func = obsidian_note_id_func,
-                    note_path_func = function(spec)
-                        -- This is equivalent to the default behavior.
-                        local path = spec.dir / tostring(spec.id)
-                        return path:with_suffix(".md")
-                    end,
-                    note_frontmatter_func = function(note)
-                        local out = {}
-
-                        if note.id == nil then
-                            out.id = obsidian_create_uid()
-                        else
-                            out.id = note.id
-                        end
-
-                        out.id = out.id
-                        out.aliases = note.aliases
-                        out.tags = note.tags
-                        out.datetime = os.date("%Y-%m-%dT%H:%M:%S", os.time())
-
-                        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-                            for k, v in pairs(note.metadata) do
-                                out[k] = v
-                            end
-                        end
-
-                        return out
-                    end,
+                    note_id_func = note_id_func,
+                    note_path_func = note_path_func,
+                    note_frontmatter_func = note_frontmatter_func,
                     callbacks = {
                         pre_write_note = function(client, note)
                             if string.match(note.id, "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9][+][0-9][0-9][0-9][0-9]") then
-                                note.id = obsidian_note_id_func(note.title)
+                                note.id = note_id_func(note.title)
                             end
                         end,
                         -- post_set_workspace = function(client, workspace)
@@ -133,17 +137,17 @@ return {
                         vim.fn.jobstart { "qlmanage", "-p", path .. '/' .. img } -- Mac OS quick look preview
                     end,
                 })
-                vim.api.nvim_set_keymap('n', '<Leader>mc', '<Cmd>ObsidianCd<CR><Cmd>Obsidian quick_switch<CR>',
-                    { silent = true, noremap = true })
-                vim.api.nvim_set_keymap('n', '<Leader>mn', '<Cmd>ObsidianCd<CR><Cmd>Obsidian today<CR>',
-                    { silent = true, noremap = true })
-                vim.api.nvim_set_keymap('n', '<Leader>ml', '<Cmd>ObsidianCd<CR><Leader><C-e>',
-                    { silent = true, noremap = false })
             end
         })
 
+        vim.api.nvim_set_keymap('n', '<Leader>mc', '<Cmd>ObsidianCd<CR><Cmd>Obsidian quick_switch<CR>',
+            { silent = true, noremap = true })
+        vim.api.nvim_set_keymap('n', '<Leader>mn', '<Cmd>ObsidianCd<CR><Cmd>Obsidian today<CR>',
+            { silent = true, noremap = true })
+        vim.api.nvim_set_keymap('n', '<Leader>ml', '<Cmd>ObsidianCd<CR><Leader><C-e>',
+            { silent = true, noremap = false })
         vim.api.nvim_create_user_command("ObsidianCd",
-            "exec 'tcd ' . luaeval(\"require('obsidian').get_client().current_workspace.path.filename\")",
+            "exec 'tcd ' . luaeval(\"Obsidian.workspace.path.filename\")",
             {}
         )
     end
