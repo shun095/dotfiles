@@ -35,12 +35,12 @@ return {
             window = {
                 width = 35,
                 mappings = {
-                    ["<C-l>"] = "refresh",
+                    ["<c-l>"] = "refresh",
                     ["h"] = "close_node",
-                    ["<Left>"] = "close_node",
+                    ["<left>"] = "close_node",
                     ["l"] = "open",
-                    ["<Right>"] = "open",
-                    ["<C-p>"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
+                    ["<right>"] = "open",
+                    ["<c-p>"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
                     ["p"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
                     ["S"] = "open_vsplit",
                     ["s"] = "open_with_window_picker",
@@ -63,6 +63,7 @@ return {
                     ["m"] = "move", -- move
                     ["M"] = "cut_to_clipboard",
                     ["Z"] = "toggle_auto_expand_width",
+                    ["<cr>"] = "noop",
                 },
             },
             filesystem = {
@@ -70,14 +71,14 @@ return {
                     mappings = {
                         ["I"] = "toggle_hidden",
                         ["/"] = "noop",
-                        ["<CR>"] = "set_root",
-                        ["<C-h>"] = "navigate_up",
+                        ["<cr>"] = "set_root",
+                        ["<c-h>"] = "navigate_up",
                     },
                 },
             },
             buffers = {
-                ["<CR>"] = "set_root",
-                ["<C-h>"] = "navigate_up",
+                ["<cr>"] = "set_root",
+                ["<c-h>"] = "navigate_up",
             },
             commands = {
                 system_open = function(state)
