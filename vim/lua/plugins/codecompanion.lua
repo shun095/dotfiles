@@ -1,3 +1,7 @@
+---@class CustomCodeCompanionAdapter : CodeCompanion.Adapter
+---@field chat_output_buffer string
+---@field chat_output_current_state ChatOutputState
+
 -- Return the configuration for the CodeCompanion plugin
 return {
     "olimorris/codecompanion.nvim",
@@ -19,7 +23,12 @@ return {
         local utils = require("codecompanion.utils.adapters")
 
         -- Refer: https://github.com/olimorris/codecompanion.nvim/discussions/669
-        local chat_output_state = {
+        ---@enum ChatOutputState
+        --| 1 ANTICIPATING_REASONING     # 推論前待機
+        --| 2 REASONING                  # 推論中
+        --| 3 ANTICIPATING_OUTPUTTING    # 出力前待機
+        --| 4 OUTPUTTING                 # 出力中
+        local ChatOutputState = {
             ANTICIPATING_REASONING = 1,
             REASONING = 2,
             ANTICIPATING_OUTPUTTING = 3,
@@ -53,7 +62,7 @@ return {
         end
 
         ---Get a available model
-        ---@params self CodeCompanion.Adapter
+        ---@param self CustomCodeCompanionAdapter
         ---@return table
         local function get_model(self)
             local opts = { last = true }
@@ -114,7 +123,7 @@ return {
         end
 
         ---Output the data from the API ready for insertion into the chat buffer
-        ---@param self CodeCompanion.Adapter
+        ---@param self CustomCodeCompanionAdapter
         ---@param data table The streamed JSON data from the API, also formatted by the format_data handler
         ---@param tools? table The table to write any tool output to
         ---@return table|nil [status: string, output: table]
@@ -142,7 +151,7 @@ return {
                 return inner
             end
 
-            -- Return before content parse if the content is nil. 
+            -- Return before content parse if the content is nil.
             -- This case occurs when the delta is only for specifying roles.
             if not inner.output.content then
                 return inner
@@ -159,10 +168,10 @@ return {
                 self.chat_output_buffer = self.chat_output_buffer .. char
 
                 if self.chat_output_buffer == "<think>" then
-                    self.chat_output_current_state = chat_output_state.ANTICIPATING_REASONING
+                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
                     self.chat_output_buffer = ""
                 elseif self.chat_output_buffer == "</think>" then
-                    self.chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
                     self.chat_output_buffer = ""
                 elseif self.chat_output_buffer == "<response>" then  -- For granite
                     self.chat_output_buffer = ""
@@ -174,19 +183,19 @@ return {
                     and (("<response>"):find(self.chat_output_buffer, 1, true) ~= 1)
                     and (("</response>"):find(self.chat_output_buffer, 1, true) ~= 1)
                 then
-                    if self.chat_output_current_state == chat_output_state.ANTICIPATING_OUTPUTTING then
+                    if self.chat_output_current_state == ChatOutputState.ANTICIPATING_OUTPUTTING then
                         -- Something needed between the Reasoning/Output section can be written here.
                         -- Currently, nothing is needed.
-                        self.chat_output_current_state = chat_output_state.OUTPUTTING
-                    elseif self.chat_output_current_state == chat_output_state.ANTICIPATING_REASONING then
+                        self.chat_output_current_state = ChatOutputState.OUTPUTTING
+                    elseif self.chat_output_current_state == ChatOutputState.ANTICIPATING_REASONING then
                         -- Something needed between the Reasoning/Output section can be written here.
                         -- Currently, nothing is needed.
-                        self.chat_output_current_state = chat_output_state.REASONING
+                        self.chat_output_current_state = ChatOutputState.REASONING
                     end
 
                     if
-                        self.chat_output_current_state == chat_output_state.ANTICIPATING_REASONING
-                        or self.chat_output_current_state == chat_output_state.REASONING
+                        self.chat_output_current_state == ChatOutputState.ANTICIPATING_REASONING
+                        or self.chat_output_current_state == ChatOutputState.REASONING
                     then
                         -- if not get_model(self):find("[gG]ranite") then
                         if not inner.output.reasoning then
@@ -248,7 +257,7 @@ return {
         -- chat_output_callback_test()
 
         ---Set the format of the role and content for the messages from the chat buffer
-        ---@param self CodeCompanion.Adapter
+        ---@param self CustomCodeCompanionAdapter
         ---@param messages table Format is: { { role = "user", content = "Your prompt here" } }
         ---@return table
         local form_messages_callback = function(self, messages)
@@ -472,7 +481,7 @@ Finally, you must be a helpful AI assistant.
                                     self.parameters.stream = true
                                     self.parameters.stream_options = { include_usage = true }
                                 end
-                                self.chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+                                self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
                                 self.chat_output_buffer = ""
                                 return true
                             end,
@@ -508,7 +517,7 @@ Finally, you must be a helpful AI assistant.
                                     self.parameters.stream = true
                                     self.parameters.stream_options = { include_usage = true }
                                 end
-                                self.chat_output_current_state = chat_output_state.ANTICIPATING_OUTPUTTING
+                                self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
                                 self.chat_output_buffer = ""
                                 return true
                             end,
