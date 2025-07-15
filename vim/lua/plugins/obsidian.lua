@@ -68,7 +68,7 @@ return {
                     note_id_func = obsidian_note_id_func,
                     note_path_func = function(spec)
                         -- This is equivalent to the default behavior.
-                        local path = spec.dir / tostring(spec.title)
+                        local path = spec.dir / tostring(spec.id)
                         return path:with_suffix(".md")
                     end,
                     note_frontmatter_func = function(note)
