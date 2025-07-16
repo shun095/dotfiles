@@ -240,20 +240,14 @@ local function auto_deactivate_venv()
         -- 有効化前の環境変数を復元
         if vim.env._OLD_VIRTUAL_PATH then
             vim.env.PATH = vim.env._OLD_VIRTUAL_PATH
-        else
-            vim.env.PATH = nil
         end
 
         if vim.env._OLD_VIRTUAL_PYTHONHOME then
             vim.env.PYTHONHOME = vim.env._OLD_VIRTUAL_PYTHONHOME
-        else
-            vim.env.PYTHONHOME = nil
         end
 
         if vim.env._OLD_VIRTUAL_PS1 then
             vim.env.PS1 = vim.env._OLD_VIRTUAL_PS1
-        else
-            vim.env.PS1 = nil
         end
 
         -- 保存されていた変数を削除
