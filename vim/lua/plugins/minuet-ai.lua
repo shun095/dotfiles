@@ -180,7 +180,7 @@ if (n <= 1) {
 <fim_prefix>{{{context_before_cursor}}}<fim_suffix>{{{context_after_cursor}}}<fim_middle>]]
                     },
                     optional = {
-                        max_tokens = 10240
+                        max_tokens = 128
                     },
                 },
                 openai_fim_compatible = {
