@@ -406,7 +406,7 @@ Finally, you must be a helpful AI assistant.
                     -- Options to customize the UI of the chat buffer
                     window = {
                         position = "right",
-                        width = 60,
+                        width = 80,
                         row = "center", -- for debug window
                         col = "center"  -- for debug window
                     },
