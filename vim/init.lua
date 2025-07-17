@@ -434,21 +434,6 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 -- vim.cmd("autocmd init_lua CursorMoved * lua vim.lsp.buf.clear_references()")
 -- vim.cmd("autocmd init_lua BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh({ bufnr = 0 })")
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-    vim.lsp.handlers.hover, {
-        -- Use a sharp border with `FloatBorder` highlights
-        border = "rounded",
-    }
-)
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-    vim.lsp.handlers.signature_help, {
-        -- Use a sharp border with `FloatBorder` highlights
-        border = "rounded"
-    }
-)
-
-
 
 -- === LSP Commands ===
 vim.api.nvim_create_user_command("LSPCodeAction",
@@ -466,9 +451,6 @@ vim.api.nvim_create_user_command("LSPDefinition",
 vim.api.nvim_create_user_command("LSPDocumentSymbolQf",
     "lua vim.lsp.buf.document_symbol()",
     {})
--- vim.api.nvim_create_user_command("LSPDocumentSymbol",
---     "lua require('telescope.builtin').lsp_document_symbols({fname_width=1000})",
---     {})
 vim.api.nvim_create_user_command("LSPDocumentSymbol",
     "Trouble lsp_document_symbols toggle win.position=right",
     {})
@@ -488,7 +470,7 @@ vim.api.nvim_create_user_command("LSPIncommingCallsQf",
     "lua vim.lsp.buf.incoming_calls()",
     {})
 vim.api.nvim_create_user_command("LSPIncommingCalls",
-    "lua require('telescope.builtin').lsp_incoming_calls({fname_width=1000})",
+    "Telescope hierarchy incoming_calls",
     {})
 vim.api.nvim_create_user_command("LSPListWorkspaceFolders",
     "lua vim.print(vim.lsp.buf.list_workspace_folders())",
@@ -497,7 +479,7 @@ vim.api.nvim_create_user_command("LSPOutgoingCallsQf",
     "lua vim.lsp.buf.outgoing_calls()",
     {})
 vim.api.nvim_create_user_command("LSPOutgoingCalls",
-    "lua require('telescope.builtin').lsp_outgoing_calls({fname_width=1000})",
+    "Telescope hierarchy outgoing_calls",
     {})
 vim.api.nvim_create_user_command("LSPReferencesQf",
     "lua vim.lsp.buf.references()",
@@ -1521,137 +1503,9 @@ vim.api.nvim_set_keymap('n', '<Leader>te', '<Cmd>exe v:count . "ToggleTerm"<CR>'
 --     nest_if_cmds = true,
 -- })
 
-require('telescope-all-recent').setup({})
-local actions = require('telescope.actions')
-require('telescope').setup {
-    defaults = {
-        mappings = {
-            i = {
-                ["<C-k>"] = actions.move_selection_previous,
-                ["<C-j>"] = actions.move_selection_next,
-                ["<Up>"] = actions.move_selection_previous,
-                ["<Down>"] = actions.move_selection_next,
-                ["<Left>"] = actions.results_scrolling_left,
-                ["<Right>"] = actions.results_scrolling_right,
-                ["<PageUp>"] = actions.preview_scrolling_up,
-                ["<PageDown>"] = actions.preview_scrolling_down,
-                ["<S-Up>"] = actions.preview_scrolling_up,
-                ["<S-Down>"] = actions.preview_scrolling_down,
-                ["<S-Right>"] = actions.preview_scrolling_right,
-                ["<S-Left>"] = actions.preview_scrolling_left,
-                ["<C-u>"] = false,
-                ["<C-c>"] = { "<esc>", type = "command" },
-                ["<esc>"] = actions.close,
-                ["<C-g>"] = actions.close,
-                ["<C-n>"] = actions.cycle_history_next,
-                ["<C-p>"] = actions.cycle_history_prev,
-                ["<C-f>"] = false,
-                ["<Tab>"] = actions.move_selection_next,
-                ["<S-Tab>"] = actions.move_selection_previous,
-            },
-            n = {
-                ["<C-u>"] = actions.preview_scrolling_up,
-                ["<C-d>"] = actions.preview_scrolling_down,
-                ["<C-b>"] = actions.preview_scrolling_up,
-                ["<C-f>"] = actions.preview_scrolling_down,
-                ["<C-g>"] = actions.close,
-                ["<Tab>"] = actions.move_selection_next,
-                ["<S-Tab>"] = actions.move_selection_previous,
-                ["-"] = actions.toggle_selection,
-            }
-        },
-        layout_strategy = 'vertical',
-        layout_config = {
-            height = 0.95,
-            preview_cutoff = 20,
-            prompt_position = "top",
-            width = 0.95,
-            mirror = true,
-        },
-        -- wrap_results = false,
-        winblend = 20,
-        dynamic_preview_title = true,
-        sorting_strategy = "ascending",
-        preview = {
-            check_mime_type = false
-        }
-    },
-    extensions = {
-        ["fzf"] = {
-            fuzzy = true,                   -- false will only do exact matching
-            override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true,    -- override the file sorter
-            case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
-            -- the default case_mode is "smart_case"
-        },
-        -- ["ui-select"] = {
-        --     require("telescope.themes").get_dropdown {
-        --         -- even more opts
-        --     }
-        -- }
-    },
-}
--- To get fzf loaded and working with telescope, you need to call
--- load_extension, somewhere after setup function:
-require('telescope').load_extension('fzf')
--- require("telescope").load_extension("ui-select")
 require("telescope").load_extension("noice")
-require('telescope').load_extension('telescope-tabs')
-require('telescope-tabs').setup()
-
-vim.api.nvim_set_keymap('n', '<Leader><Leader>',
-    ':<Cmd>execute "Telescope git_files cwd=" . mymisc#find_project_dir(g:mymisc_projectdir_reference_files)<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>T', ':<Cmd>Telescope tags<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>al', ':<Cmd>Telescope grep_string    search=<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>b', ':<Cmd>Telescope buffers sort_lastused=true show_all_buffers=false<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader><C-t>', ':<Cmd>Telescope telescope-tabs list_tabs<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>c', ':<Cmd>Telescope find_files<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>f', ':<Cmd>Telescope git_files<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>gr', ':<C-u>Telescope grep_string search=',
-    { silent = false, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>l', ':<Cmd>Telescope current_buffer_fuzzy_find<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>o', ':<Cmd>Telescope lsp_document_symbols<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>r', ':<Cmd>Telescope registers<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>u', ':<Cmd>Telescope oldfiles<CR>',
-    { silent = true, noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>`', ':<Cmd>Telescope marks<CR>',
-    { silent = true, noremap = true })
 
 
-vim.keymap.set("n", "<C-a>", function()
-    require("dial.map").manipulate("increment", "normal")
-end)
-vim.keymap.set("n", "<C-x>", function()
-    require("dial.map").manipulate("decrement", "normal")
-end)
-vim.keymap.set("n", "g<C-a>", function()
-    require("dial.map").manipulate("increment", "gnormal")
-end)
-vim.keymap.set("n", "g<C-x>", function()
-    require("dial.map").manipulate("decrement", "gnormal")
-end)
-vim.keymap.set("v", "<C-a>", function()
-    require("dial.map").manipulate("increment", "visual")
-end)
-vim.keymap.set("v", "<C-x>", function()
-    require("dial.map").manipulate("decrement", "visual")
-end)
-vim.keymap.set("v", "g<C-a>", function()
-    require("dial.map").manipulate("increment", "gvisual")
-end)
-vim.keymap.set("v", "g<C-x>", function()
-    require("dial.map").manipulate("decrement", "gvisual")
-end)
 
 require("aerial").setup({})
 ------------------------------------------------------------------------------
