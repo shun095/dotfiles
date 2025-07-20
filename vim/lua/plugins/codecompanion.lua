@@ -354,13 +354,12 @@ return {
 
 
 
-Finally, you must be a helpful AI assistant.
+Finally, You are a helpful AI assistant.
 ]]
                 end
 
                 new_messages[1].content = new_messages[1].content ..
-                [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.
-]]
+                [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
             end
 
             return { messages = new_messages }
@@ -422,7 +421,7 @@ Finally, you must be a helpful AI assistant.
             },
             opts = {
                 -- Language settings for the plugin
-                language = "English",
+                language = "English or Japanese",
                 -- Set logging level
                 log_level = "INFO",
                 system_prompt = function(opts)
