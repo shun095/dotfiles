@@ -61,6 +61,10 @@ return {
             return table.concat(indentedLines, "\n")
         end
 
+        local function startsWith(str, prefix)
+            return str:sub(1, #prefix) == prefix
+        end
+
         ---Get a available model
         ---@param self CustomCodeCompanionAdapter
         ---@return table
@@ -294,8 +298,18 @@ return {
             end
 
             messages = reorder_messages(messages)
+            local should_skip_think = false
 
             for index, message in ipairs(messages) do
+                if message.role == "user"
+                    and (startsWith(message.content, "Generate a very short and concise title (max 5 words) for this chat based on the following conversation:")
+                        or startsWith(message.content, "The conversation has evolved since the original title was generated. Based on the recent conversation below, generate a new concise title (max 5 words) that better reflects the current topic.")) then
+                    should_skip_think = true
+                    if should_skip_think and get_model(self):find("[Q]wen3") then
+                        message.content = message.content .. "/no_think"
+                    end
+                end
+
                 -- For Gemma 3
                 if get_model(self):find("[gG]emma%-3") then
                     if message.role == "system" then
@@ -354,12 +368,14 @@ return {
 
 
 
-Finally, You are a helpful AI assistant.
+Finally, you are a helpful AI assistant.
 ]]
                 end
 
-                new_messages[1].content = new_messages[1].content ..
-                [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
+                if not should_skip_think then
+                    new_messages[1].content = new_messages[1].content ..
+                        [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
+                end
             end
 
             return { messages = new_messages }
@@ -396,6 +412,10 @@ Finally, You are a helpful AI assistant.
                     opts = {
                         expiration_days = 30,
                         auto_generate_title = true,
+                        title_generation_opts = {
+                            refresh_every_n_prompts = 1,
+                            max_refreshes = 3,
+                        }
                     },
                 },
             },
