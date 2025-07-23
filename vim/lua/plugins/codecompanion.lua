@@ -413,6 +413,7 @@ Finally, you are a helpful AI assistant.
                         expiration_days = 30,
                         auto_generate_title = true,
                         title_generation_opts = {
+                            adapter = "llama_cpp_local",
                             refresh_every_n_prompts = 1,
                             max_refreshes = 3,
                         }
