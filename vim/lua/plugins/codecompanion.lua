@@ -706,7 +706,7 @@ Here is the diff you need to analyze:
     ```
 
 </Diff>
-                            ]],
+]],
                                     indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
                                 )
                             end,
