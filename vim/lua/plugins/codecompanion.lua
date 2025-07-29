@@ -925,6 +925,30 @@ NOTE: Placeholders will be filled dynamicaly, so you don't need to fill them.
 ]]
                         }
                     }
+                },
+                ["Research on the Internet"] = {
+                    strategy = "chat",
+                    description = "Research on the Internet",
+                    opts = {
+                        is_slash_cmd = true,
+                        short_name = "research_internet",
+                    },
+                    prompts = {
+                        {
+                            role = "user",
+                            content = [[
+
+Investigate on the Internet using tools and create a comprehensive report as a answer. You can use @{mcp} tools.
+
+While doing the task:
+- Use sequentialthinking tool with use_mcp_tool to note your thought.
+- Use brave_web_search tool with use_mcp_tool to search on the web.
+- Use fetch tool with use_mcp_tool to fetch contents from the urls known by brave_web_search.
+
+Please pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
+]]
+                        }
+                    }
                 }
             },
         })
