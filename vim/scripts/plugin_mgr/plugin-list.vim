@@ -266,7 +266,9 @@ if has('nvim')
   Plug 'ixru/nvim-markdown'
   Plug 'MeanderingProgrammer/render-markdown.nvim'
 endif
-Plug 'dhruvasagar/vim-table-mode', {'for': ['markdown']}
+if !has('nvim')
+  Plug 'dhruvasagar/vim-table-mode', {'for': ['markdown']}
+endif
 Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
 Plug 'shinespark/vim-list2tree', {'for': ['markdown']}
 Plug 'kannokanno/previm', {'for': ['markdown']}
