@@ -43,7 +43,11 @@ fun! mymisc#ime_deactivate() abort
     endif
   elseif has('mac')
     if executable('im-select')
-      call system('im-select com.apple.keylayout.ABC')
+      if has('nvim')
+        call jobstart(['im-select','com.apple.keylayout.ABC'])
+      else
+        call system('im-select com.apple.keylayout.ABC')
+      endif
       " call system('im-select jp.sourceforge.inputmethod.aquaskk.Ascii')
     else
       echomsg 'Install "im-select" to enable auto IME deactivation.'
