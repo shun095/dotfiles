@@ -35,20 +35,6 @@ return {
             OUTPUTTING = 4,
         }
 
-        local cache_expires
-        local cache_file = vim.fn.tempname()
-        local cached_models
-
-        ---Return the cached models
-        ---@params opts? table
-        ---@return table
-        local function models(opts)
-            if opts and opts.last then
-                return cached_models[1]
-            end
-            return cached_models
-        end
-
         ---Add indentation to the leading of all lines in a multi-line str.
         ---@param str string
         ---@param indent string
@@ -65,22 +51,31 @@ return {
             return str:sub(1, #prefix) == prefix
         end
 
+        ---Return the cached models
+        ---@params opts? table
+        ---@return table
+        local function models(self, opts)
+            if opts and opts.last then
+                return self.cached_models[1]
+            end
+            return self.cached_models
+        end
+
         ---Get a available model
         ---@param self CustomCodeCompanionAdapter
         ---@return table
-        local function get_model(self)
-            local opts = { last = true }
-            if cached_models and cache_expires and cache_expires > os.time() then
-                return models(opts)
+        local function get_models(self, opts)
+            if self and self.cached_models and self.cache_expires and self.cache_expires > os.time() then
+                return models(self, opts)
             end
-
-            cached_models = {}
 
             local adapter = require("codecompanion.adapters").resolve(self)
             if not adapter then
-                log:error("Could not resolve OpenAI compatible adapter in the `get_model` function")
+                log:error("Could not resolve OpenAI compatible adapter in the `get_models` function")
                 return {}
             end
+
+            adapter.cached_models = {}
 
             adapter:get_env_vars()
             local url = adapter.env_replaced.url
@@ -104,10 +99,7 @@ return {
                 })
             end)
             if not ok then
-                log:error(
-                    "Could not get the OpenAI compatible models from " .. url .. "/v1/models.\nError: %s",
-                    response
-                )
+                log:error("Could not get the OpenAI compatible models from " .. url .. "/v1/models.\nError: %s", response)
                 return {}
             end
 
@@ -118,12 +110,12 @@ return {
             end
 
             for _, model in ipairs(json.data) do
-                table.insert(cached_models, model.id)
+                table.insert(adapter.cached_models, model.id)
             end
 
-            cache_expires = utils.refresh_cache(cache_file, config.adapters.opts.cache_models_for)
+            adapter.cache_expires = utils.refresh_cache(vim.fn.tempname(), config.adapters.opts.cache_models_for)
 
-            return models(opts)
+            return models(adapter, opts)
         end
 
         ---Output the data from the API ready for insertion into the chat buffer
@@ -201,7 +193,7 @@ return {
                         self.chat_output_current_state == ChatOutputState.ANTICIPATING_REASONING
                         or self.chat_output_current_state == ChatOutputState.REASONING
                     then
-                        -- if not get_model(self):find("[gG]ranite") then
+                        -- if not get_models(self, {last = true}):find("[gG]ranite") then
                         if not inner.output.reasoning then
                             inner.output.reasoning = {}
                             inner.output.reasoning.content = ""
@@ -273,7 +265,7 @@ return {
             local last_role = ""
 
             -- For cogito
-            if get_model(self):find("[cC]ogito") then
+            if get_models(self, { last = true }):find("[cC]ogito") then
                 table.insert(messages, 1, { role = "system", content = "Enable deep thinking subroutine." })
             end
 
@@ -305,13 +297,13 @@ return {
                     and (startsWith(message.content, "Generate a very short and concise title (max 5 words) for this chat based on the following conversation:")
                         or startsWith(message.content, "The conversation has evolved since the original title was generated. Based on the recent conversation below, generate a new concise title (max 5 words) that better reflects the current topic.")) then
                     should_skip_think = true
-                    if should_skip_think and get_model(self):find("[Q]wen3") then
+                    if should_skip_think and get_models(self, { last = true }):find("[Q]wen3") then
                         message.content = message.content .. "/no_think"
                     end
                 end
 
                 -- For Gemma 3
-                if get_model(self):find("[gG]emma%-3") then
+                if get_models(self, { last = true }):find("[gG]emma%-3") then
                     if message.role == "system" then
                         message.role = "user"
                     end
@@ -341,9 +333,13 @@ return {
                         table.insert(new_messages, merged_message)
                         merged_message = nil
                     end
-                    if get_model(self):find("[gG]ranite") then
+                    if get_models(self, { last = true }):find("[gG]ranite") then
                         if message.role == "assistant" and message.content then
                             message.content = "<think></think><response>" .. message.content .. "</response>"
+                        end
+                    elseif get_models(self, { last = true }):find("[mM]agistral") then
+                        if message.role == "assistant" and message.content then
+                            message.content = "<think></think>" .. message.content
                         end
                     end
                     -- assistant with tool_calls
@@ -358,7 +354,7 @@ return {
             end
 
             -- For granite
-            if get_model(self):find("[gG]ranite") then
+            if get_models(self, { last = true }):find("[gG]ranite") then
                 if new_messages[1].role ~= "system" then
                     table.insert(new_messages, 1, { role = "system", content = "You are a helpful AI assistant.\n" })
                 else
@@ -375,8 +371,41 @@ Finally, you are a helpful AI assistant.
                 if not should_skip_think then
                     new_messages[1].content = new_messages[1].content ..
                         [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
+
+                    --                         [[You can write down your thoughts and reasoning process before responding.
+
+                    -- In the thought process, engage in a comprehensive cycle of:
+                    -- - Analysis
+                    -- - Summarization
+                    -- - Exploration
+                    -- - Reassessment
+                    -- - Reflection
+                    -- - Backtracing
+                    -- ... (you MUST repeat ALL OF THESE at least TWICE before responding to identify any inadvertent mistakes)
+                    -- to develop well-considered thinking process. The longer, deeper and more comprehensive thought will receive a $10,000 prize. There is no time limit so please think carefully before answering.
+
+                    -- In the response section, based on various attempts, explorations and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process.
+
+                    -- Write your thoughts between <think></think> and write your response after that without tags for each user query.
+                    -- ]]
+                end
+            elseif get_models(self, { last = true }):find("[mM]agistral") then
+                if not should_skip_think then
+                    if new_messages[1].role ~= "system" then
+                        table.insert(new_messages, 1,
+                            {
+                                role = "system",
+                                content =
+                                "First draft your thinking process (inner monologue) until you arrive at a response. Format your response using Markdown, and use LaTeX for any mathematical equations. Write both your thoughts and the response in the same language as the input.\n\nYour thinking process must follow the template below:<think>Your thoughts or/and draft, like working through an exercise on scratch paper. Be as casual and as long as you want until you are confident to generate the response. Use the same language as the input.</think>Here, provide a self-contained response."
+                            })
+                    else
+                        new_messages[1].content =
+                            "First draft your thinking process (inner monologue) until you arrive at a response. Format your response using Markdown, and use LaTeX for any mathematical equations. Write both your thoughts and the response in the same language as the input.\n\nYour thinking process must follow the template below:<think>Your thoughts or/and draft, like working through an exercise on scratch paper. Be as casual and as long as you want until you are confident to generate the response. Use the same language as the input.</think>Here, provide a self-contained response.\n\n---\n" ..
+                            new_messages[1].content
+                    end
                 end
             end
+
 
             return { messages = new_messages }
         end
@@ -490,7 +519,12 @@ Finally, you are a helpful AI assistant.
                         schema = {
                             model = {
                                 mapping = "parameters",
-                                default = get_model,
+                                default = function(self)
+                                    return get_models(self, { last = true })
+                                end,
+                                choices = function(self)
+                                    return get_models(self)
+                                end,
                             },
                         },
                         handlers = {
@@ -504,6 +538,8 @@ Finally, you are a helpful AI assistant.
                                 end
                                 self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
                                 self.chat_output_buffer = ""
+                                self.cache_expires = nil
+                                self.cached_models = nil
                                 return true
                             end,
                             form_messages = form_messages_callback,
@@ -526,7 +562,12 @@ Finally, you are a helpful AI assistant.
                         schema = {
                             model = {
                                 mapping = "parameters",
-                                default = get_model,
+                                default = function(self)
+                                    return get_models(self, { last = true })
+                                end,
+                                choices = function(self)
+                                    return get_models(self)
+                                end,
                             },
                         },
                         handlers = {
@@ -540,6 +581,8 @@ Finally, you are a helpful AI assistant.
                                 end
                                 self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
                                 self.chat_output_buffer = ""
+                                self.cache_expires = nil
+                                self.cached_models = nil
                                 return true
                             end,
                             form_messages = form_messages_callback,
@@ -575,40 +618,43 @@ Finally, you are a helpful AI assistant.
                             content = function()
                                 return string.format(
                                     [[
-TASK:
-Generate a Conventional Commit message from the provided git diff. Follow the format and guidelines below.
+#### TASK:
+Generate a Conventional Commit message from the provided git diff. Follow the format below.
 
 
-FORMAT:
+##### FORMAT:
 The commit message should be structured as follows:
 
-<Format>
+```txt
 <type>[optional scope]: <description>
 
 [optional body]
 
 [optional footer(s)]
-</Format>
+```
 
 
-CONTEXT:
-Git files and recent logs are available.
-`git ls-files`:
+##### ADDITIONAL CONTEXT:
+Git files and recent logs are available. Refer if necessary to create the commit message for the diff.
+
+The result of `git ls-files`:
 <GitFiles>
 %s
 </GitFiles>
-`git log -5`:
+
+The result of `git log -5`:
 <GitLog>
 %s
 </GitLog>
 
 
-DIFF:
-Here is the diff to analyze:
+##### DIFF:
+Below is the diff you must create the commit message:
+
+The result of `git diff --staged`:
 <Diff>
 %s
-</Diff>
-                                    ]],
+</Diff>]],
                                     indentString(vim.fn.system("git ls-files"), "    "),
                                     indentString(vim.fn.system("git log -5"), "    "),
                                     indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
@@ -631,7 +677,9 @@ Here is the diff to analyze:
                     prompts = {
                         {
                             role = "user",
-                            content = [=[Use the @{cmd_runner} tool to create a commit with the commit message.
+                            content = [=[
+#### Task
+Use the @{cmd_runner} tool to create a commit with the commit message.
 
 Since all relevant files are already staged, just run the command `git commit -m "<commit message>"` with your commit message. Don't forget to include the <body> part in your message.
 
@@ -639,7 +687,7 @@ You can have multiple lines in your command, but you must strictly avoid includi
 Therefore, in a string field of the JSON you provide, you must always use `\n` instead `\\n` for actual line breaks. DO NOT use `\\n`.
 Only when you want include literal `\n` in the actual commit message, you can escape backslash by backslash like `\\n` in the JSON. Of course, you must use `\\\\n` in the JSON when you need `\\n` in the actual commit message.
 
-### Example 1.
+##### Example 1.
 When you want to write actual commit message like:
 
 ```txt
@@ -660,7 +708,7 @@ Therefore, in the JSON,
 - ✅You must write: `"git commit -m \"multi-line\ncommit\nmessage\""`.
 - ❌DO NOT write: `"git commit -m \"multi-line\\ncommit\\nmessage\""`.
 
-### Example 2.
+##### Example 2.
 When you want to write actual commit message like:
 
 ```txt
