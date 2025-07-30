@@ -182,11 +182,19 @@ return {
                     if self.chat_output_current_state == ChatOutputState.ANTICIPATING_OUTPUTTING then
                         -- Something needed between the Reasoning/Output section can be written here.
                         -- Currently, nothing is needed.
-                        self.chat_output_current_state = ChatOutputState.OUTPUTTING
+                        if self.chat_output_buffer == "\n" then
+                            self.chat_output_buffer = ""
+                        else
+                            self.chat_output_current_state = ChatOutputState.OUTPUTTING
+                        end
                     elseif self.chat_output_current_state == ChatOutputState.ANTICIPATING_REASONING then
                         -- Something needed between the Reasoning/Output section can be written here.
                         -- Currently, nothing is needed.
-                        self.chat_output_current_state = ChatOutputState.REASONING
+                        if self.chat_output_buffer == "\n" then
+                            self.chat_output_buffer = ""
+                        else
+                            self.chat_output_current_state = ChatOutputState.REASONING
+                        end
                     end
 
                     if
@@ -938,14 +946,16 @@ NOTE: Placeholders will be filled dynamicaly, so you don't need to fill them.
                             role = "user",
                             content = [[
 
-Investigate on the Internet using tools and create a comprehensive report as a answer. You can use @{mcp} tools.
+Investigate on the Internet using tools and create a comprehensive and detailed report as a answer. 
 
-While doing the task:
+You may use @{mcp} tools multiple times before creating the answer:
 - Use sequentialthinking tool with use_mcp_tool to note your thought.
 - Use brave_web_search tool with use_mcp_tool to search on the web.
-- Use fetch tool with use_mcp_tool to fetch contents from the urls known by brave_web_search.
+- Use fetch tool with use_mcp_tool to fetch contents from the urls known by brave_web_search or given by the user.
 
-Please pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
+IMPORTANT: Pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
+
+/no_think
 ]]
                         }
                     }
