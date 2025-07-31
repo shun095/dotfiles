@@ -632,20 +632,20 @@ Finally, you are a helpful AI assistant.
 
 Follow the following format:
 
-<Format>
-<type>[optional scope]: <description>
+    ```txt
+    <type>[optional scope]: <description>
 
-[optional body]
+    [optional body]
 
-[optional footer(s)]
-</Format>
+    [optional footer(s)]
+    ```
 
 
 Here is the diff you must analyze:
 
-<Diff>
+    ```diff
 %s
-</Diff>
+    ```
 ]],
                                     indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
                                 )
