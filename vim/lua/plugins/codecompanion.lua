@@ -1,6 +1,8 @@
 ---@class CustomCodeCompanionAdapter : CodeCompanion.Adapter
 ---@field chat_output_buffer string
 ---@field chat_output_current_state ChatOutputState
+---@field cached_models table
+---@field cache_expires number
 
 -- Return the configuration for the CodeCompanion plugin
 return {
@@ -625,46 +627,26 @@ Finally, you are a helpful AI assistant.
                             role = "user",
                             content = function()
                                 return string.format(
-                                    [[
-#### TASK:
-Generate a Conventional Commit message from the provided git diff. Follow the format below.
+                                    [[Task: Generate a Conventional Commit message from the provided git diff. Follow the format below.
 
 
-##### FORMAT:
-The commit message should be structured as follows:
+Follow the following format:
 
-```txt
+<Format>
 <type>[optional scope]: <description>
 
 [optional body]
 
 [optional footer(s)]
-```
+</Format>
 
 
-##### ADDITIONAL CONTEXT:
-Git files and recent logs are available. Refer if necessary to create the commit message for the diff.
+Here is the diff you must analyze:
 
-The result of `git ls-files`:
-<GitFiles>
-%s
-</GitFiles>
-
-The result of `git log -5`:
-<GitLog>
-%s
-</GitLog>
-
-
-##### DIFF:
-Below is the diff you must create the commit message:
-
-The result of `git diff --staged`:
 <Diff>
 %s
-</Diff>]],
-                                    indentString(vim.fn.system("git ls-files"), "    "),
-                                    indentString(vim.fn.system("git log -5"), "    "),
+</Diff>
+]],
                                     indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
                                 )
                             end,
