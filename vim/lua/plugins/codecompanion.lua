@@ -632,22 +632,28 @@ Finally, you are a helpful AI assistant.
                                     [[Task: Generate a Conventional Commit message from the provided git diff. Follow the format below.
 
 
-Follow the following format:
+Adhere strictly to the following format between <Format> and </Format>:
 
-    ```txt
-    <type>[optional scope]: <description>
+<Format>
+#### Commit Message:
 
-    [optional body]
+```txt
+<type>(<scope>): <description>
 
-    [optional footer(s)]
-    ```
+<body>
+
+[optional footer(s)]
+```
+</Format>
 
 
-Here is the diff you must analyze:
+Following diff between <Diff> and </Diff> is the diff you must analyze:
 
+<Diff>
     ```diff
 %s
     ```
+</Diff>
 ]],
                                     indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
                                 )
@@ -930,16 +936,14 @@ NOTE: Placeholders will be filled dynamicaly, so you don't need to fill them.
                             role = "user",
                             content = [[
 
-Investigate on the Internet using tools and create a comprehensive and detailed report as a answer.
+Investigate on the Internet using tools and create a comprehensive and detailed report as the answer.
 
 You may use @{mcp} tools multiple times before creating the answer:
-- Use sequentialthinking tool with use_mcp_tool to note your thought.
 - Use brave_web_search tool with use_mcp_tool to search on the web.
 - Use fetch tool with use_mcp_tool to fetch contents from the urls known by brave_web_search or given by the user.
+- (Optional) Use sequentialthinking tool with use_mcp_tool to note your thought if available.
 
 IMPORTANT: Pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
-
-/no_think
 ]]
                         }
                     }
