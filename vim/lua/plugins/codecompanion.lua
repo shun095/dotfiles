@@ -274,8 +274,10 @@ return {
             local merged_message = nil
             local last_role = ""
 
+            local model_name = get_models(self, { last = true })
+
             -- For cogito
-            if get_models(self, { last = true }):find("[cC]ogito") then
+            if model_name:find("[cC]ogito") then
                 table.insert(messages, 1, { role = "system", content = "Enable deep thinking subroutine." })
             end
 
@@ -307,13 +309,13 @@ return {
                     and (startsWith(message.content, "Generate a very short and concise title (max 5 words) for this chat based on the following conversation:")
                         or startsWith(message.content, "The conversation has evolved since the original title was generated. Based on the recent conversation below, generate a new concise title (max 5 words) that better reflects the current topic.")) then
                     should_skip_think = true
-                    if should_skip_think and get_models(self, { last = true }):find("[Q]wen3") then
+                    if should_skip_think and model_name:find("[Q]wen3") then
                         message.content = message.content .. "/no_think"
                     end
                 end
 
                 -- For Gemma 3
-                if get_models(self, { last = true }):find("[gG]emma%-3") then
+                if model_name:find("[gG]emma%-3") then
                     if message.role == "system" then
                         message.role = "user"
                     end
@@ -343,11 +345,11 @@ return {
                         table.insert(new_messages, merged_message)
                         merged_message = nil
                     end
-                    if get_models(self, { last = true }):find("[gG]ranite") then
+                    if model_name:find("[gG]ranite") then
                         if message.role == "assistant" and message.content then
                             message.content = "<think></think><response>" .. message.content .. "</response>"
                         end
-                    elseif get_models(self, { last = true }):find("[mM]agistral") then
+                    elseif model_name:find("[mM]agistral") then
                         if message.role == "assistant" and message.content then
                             message.content = "<think></think>" .. message.content
                         end
@@ -364,7 +366,7 @@ return {
             end
 
             -- For granite
-            if get_models(self, { last = true }):find("[gG]ranite") then
+            if model_name:find("[gG]ranite") then
                 if new_messages[1].role ~= "system" then
                     table.insert(new_messages, 1, { role = "system", content = "You are a helpful AI assistant.\n" })
                 else
@@ -399,7 +401,7 @@ Finally, you are a helpful AI assistant.
                     -- Write your thoughts between <think></think> and write your response after that without tags for each user query.
                     -- ]]
                 end
-            elseif get_models(self, { last = true }):find("[mM]agistral") then
+            elseif model_name:find("[mM]agistral") then
                 if not should_skip_think then
                     if new_messages[1].role ~= "system" then
                         table.insert(new_messages, 1,
@@ -928,7 +930,7 @@ NOTE: Placeholders will be filled dynamicaly, so you don't need to fill them.
                             role = "user",
                             content = [[
 
-Investigate on the Internet using tools and create a comprehensive and detailed report as a answer. 
+Investigate on the Internet using tools and create a comprehensive and detailed report as a answer.
 
 You may use @{mcp} tools multiple times before creating the answer:
 - Use sequentialthinking tool with use_mcp_tool to note your thought.
