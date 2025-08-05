@@ -646,6 +646,28 @@ Adhere strictly to the following format between <Format> and </Format>:
 ```
 </Format>
 
+<Example>
+#### Example 1 Commit Message (with footer):
+
+```txt
+feat(src/api/auth): migrate to GraphQL
+
+- Replaced REST endpoints with GraphQL queries
+- Added new schema definitions
+
+BREAKING CHANGE: All client integrations must update to use GraphQL instead of REST
+```
+
+#### Example 2 Commit Message (without footer):
+
+```txt
+feat(src/components/Navbar): add dark mode toggle
+
+- Implemented toggle button in header
+- Added CSS variables for theme switching
+```
+</Example>
+
 
 Following diff between <Diff> and </Diff> is the diff you must analyze:
 
