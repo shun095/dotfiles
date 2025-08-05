@@ -7,7 +7,7 @@
 -- Return the configuration for the CodeCompanion plugin
 return {
     "olimorris/codecompanion.nvim",
-    version = "*",
+    version = "v17.11.0",
     -- Plugin dependencies
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -455,7 +455,7 @@ Finally, you are a helpful AI assistant.
                         auto_generate_title = true,
                         title_generation_opts = {
                             adapter = "llama_cpp_local",
-                            refresh_every_n_prompts = 1,
+                            refresh_every_n_prompts = 3,
                             max_refreshes = 3,
                         }
                     },
