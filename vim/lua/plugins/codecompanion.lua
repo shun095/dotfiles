@@ -629,13 +629,13 @@ Finally, you are a helpful AI assistant.
                             role = "user",
                             content = function()
                                 return string.format(
-                                    [[Task: Generate a Conventional Commit message from the provided git diff. Follow the format below.
+                                    [[Task: Generate a Conventional Commit message from the provided git diff. Adhere strictly to the Conventional Commit message format below.
 
 
-Adhere strictly to the following format between <Format> and </Format>:
+Adhere strictly to the following format between <Format> and </Format>.:
 
 <Format>
-#### Commit Message:
+#### Conventional Commit message:
 
 ```txt
 <type>(<scope>): <description>
@@ -645,6 +645,8 @@ Adhere strictly to the following format between <Format> and </Format>:
 [optional footer(s)]
 ```
 </Format>
+
+IMPORTANT: type, scope, description and body are all required.
 
 <Example>
 #### Example 1 Commit Message (with footer):
