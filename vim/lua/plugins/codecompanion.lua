@@ -7,7 +7,9 @@
 -- Return the configuration for the CodeCompanion plugin
 return {
     "olimorris/codecompanion.nvim",
-    version = "v17.11.0",
+    branch = "main",
+    -- version = "*",
+    -- version = "v17.11.0",
     -- Plugin dependencies
     dependencies = {
         "nvim-lua/plenary.nvim",
