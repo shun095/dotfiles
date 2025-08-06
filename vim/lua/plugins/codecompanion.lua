@@ -165,10 +165,12 @@ return {
                 local char = content:sub(i, i)
                 self.chat_output_buffer = self.chat_output_buffer .. char
 
-                if self.chat_output_buffer == "<think>" then
+                if self.chat_output_buffer == "<think>"
+                    or self.chat_output_buffer == "<|channel|>analysis<|message|>" then
                     self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
                     self.chat_output_buffer = ""
-                elseif self.chat_output_buffer == "</think>" then
+                elseif self.chat_output_buffer == "</think>"
+                    or self.chat_output_buffer == "<|start|>assistant<|channel|>final<|message|>" then
                     self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
                     self.chat_output_buffer = ""
                 elseif self.chat_output_buffer == "<response>" then  -- For granite
@@ -177,7 +179,9 @@ return {
                     self.chat_output_buffer = ""
                 elseif
                     (("<think>"):find(self.chat_output_buffer, 1, true) ~= 1)
+                    and (("<|channel|>analysis<|message|>"):find(self.chat_output_buffer, 1, true) ~= 1)
                     and (("</think>"):find(self.chat_output_buffer, 1, true) ~= 1)
+                    and (("<|start|>assistant<|channel|>final<|message|>"):find(self.chat_output_buffer, 1, true) ~= 1)
                     and (("<response>"):find(self.chat_output_buffer, 1, true) ~= 1)
                     and (("</response>"):find(self.chat_output_buffer, 1, true) ~= 1)
                 then
