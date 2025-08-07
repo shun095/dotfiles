@@ -706,52 +706,22 @@ Following diff between <Diff> and </Diff> is the diff you must analyze:
                         {
                             role = "user",
                             content = [=[
-#### Task
-Use the @{cmd_runner} tool to create a commit with the commit message.
+@{cmd_runner}
 
-Since all relevant files are already staged, just run the command `git commit -m "<commit message>"` with your commit message. Don't forget to include the <body> part in your message.
+Run `git commit -m '<message>'` with the commit message.
 
-You can have multiple lines in your command, but you must strictly avoid including literal `\n` in the actual commit message.
-Therefore, in a string field of the JSON you provide, you must always use `\n` instead `\\n` for actual line breaks. DO NOT use `\\n`.
-Only when you want include literal `\n` in the actual commit message, you can escape backslash by backslash like `\\n` in the JSON. Of course, you must use `\\\\n` in the JSON when you need `\\n` in the actual commit message.
-
-##### Example 1.
-When you want to write actual commit message like:
-
-```txt
-multi-line
-commit
-message
+For multi-line messages, use **actual line breaks** in the command. 
+For example,
+```
+git commit -m 'Line1
+Line2'
 ```
 
-The command you must run is:
-
-```sh
-git commit -m "multi-line
-commit
-message"
+In JSON for tools, represent the actual line breaks as `\n`, avoid using `\\n`.
+For example,
 ```
-
-Therefore, in the JSON,
-- ✅You must write: `"git commit -m \"multi-line\ncommit\nmessage\""`.
-- ❌DO NOT write: `"git commit -m \"multi-line\\ncommit\\nmessage\""`.
-
-##### Example 2.
-When you want to write actual commit message like:
-
-```txt
-multi-line\ncommit\nmessage
+{"cmd": "git commit -m 'Line1\nLine2'"}
 ```
-
-The command you must run is:
-
-```sh
-git commit -m "multi-line\ncommit\nmessage"
-```
-
-Therefore, in the JSON,
-- ✅You must write: `"git commit -m \"multi-line\\ncommit\\nmessage\""`.
-- ❌DO NOT write: `"git commit -m \"multi-line\ncommit\nmessage\""`.
 ]=],
                         },
                     },
