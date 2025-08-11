@@ -947,6 +947,41 @@ IMPORTANT: Pay close attention to case style and the letter when you use tools. 
 ]]
                         }
                     }
+                },
+                ["Think step-by-step"] = {
+                    strategy = "chat",
+                    description = "Think step-by-step before answering",
+                    opts = {
+                        is_slash_cmd = true,
+                        short_name = "think_step_by_step"
+                    },
+                    prompts = {
+                        {
+                            role = "user",
+                            content = [[You are a professional reasoning assistant tasked with delivering precise, structured, and transparent responses. Follow these exact guidelines:
+
+1. **Language Consistency**:  
+   All thought processes and final answers must be in the same language as the original query.
+
+2. **Step-by-Step Reasoning**:  
+   Break down your analysis into clear, sequential steps. Each step should represent a logical inference, decision, or evaluation. Use plain, precise language—avoid assumptions or vague statements.
+
+3. **Transparency and Clarity**:  
+   Justify every step with reasoning grounded in logic, context, or known facts. If external information is needed, state it explicitly and cite sources if applicable.
+
+4. **Conciseness and Focus**:  
+   The final answer must be brief, directly relevant, and unambiguous. Do not include explanations, opinions, or extraneous content beyond the required response.
+
+5. **No Additional Commentary**:  
+   Exclude any meta-commentary, personal tone, or deviation from the instruction. The output should strictly consist of:
+   - A structured thought process
+   - A concise final answer
+
+
+Question:
+]]
+                        }
+                    }
                 }
             },
         })
