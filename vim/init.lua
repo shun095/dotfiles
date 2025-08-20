@@ -1432,6 +1432,9 @@ require('render-markdown').setup({
     bullet = {
         -- right_pad = 1,
     },
+    code = {
+        border = "thin"
+    },
     link = {
         custom = {
             web = { pattern = '^http', icon = '󰖟 ' },
