@@ -554,7 +554,11 @@ Finally, you are a helpful AI assistant.
                                     self.parameters.stream = true
                                     self.parameters.stream_options = { include_usage = true }
                                 end
-                                self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
+                                if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507") then
+                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
+                                else
+                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
+                                end
                                 self.chat_output_buffer = ""
                                 self.cache_expires = nil
                                 self.cached_models = nil
@@ -597,7 +601,11 @@ Finally, you are a helpful AI assistant.
                                     self.parameters.stream = true
                                     self.parameters.stream_options = { include_usage = true }
                                 end
-                                self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
+                                if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507") then
+                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
+                                else
+                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
+                                end
                                 self.chat_output_buffer = ""
                                 self.cache_expires = nil
                                 self.cached_models = nil
