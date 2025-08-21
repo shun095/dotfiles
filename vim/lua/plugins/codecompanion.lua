@@ -554,7 +554,7 @@ Finally, you are a helpful AI assistant.
                                     self.parameters.stream = true
                                     self.parameters.stream_options = { include_usage = true }
                                 end
-                                if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507") then
+                                if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
                                     self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
                                 else
                                     self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
@@ -601,7 +601,7 @@ Finally, you are a helpful AI assistant.
                                     self.parameters.stream = true
                                     self.parameters.stream_options = { include_usage = true }
                                 end
-                                if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507") then
+                                if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
                                     self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
                                 else
                                     self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
