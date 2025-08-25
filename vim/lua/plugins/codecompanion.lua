@@ -458,12 +458,12 @@ Finally, you are a helpful AI assistant.
                     enabled = true,
                     opts = {
                         expiration_days = 30,
-                        auto_generate_title = false,
-                        -- title_generation_opts = {
-                        --     adapter = "llama_cpp_local",
-                        --     refresh_every_n_prompts = 3,
-                        --     max_refreshes = 3,
-                        -- }
+                        auto_generate_title = true,
+                        title_generation_opts = {
+                            adapter = "llama_cpp_local_tiny",
+                            refresh_every_n_prompts = 3,
+                            max_refreshes = 3,
+                        }
                     },
                 },
             },
@@ -532,6 +532,56 @@ Finally, you are a helpful AI assistant.
                         },
                         env = {
                             url = "http://localhost:8080",
+                            api_key = vim.env.CODECOMPANION_API_KEY,
+                        },
+                        schema = {
+                            model = {
+                                mapping = "parameters",
+                                default = function(self)
+                                    return get_models(self, { last = true })
+                                end,
+                                choices = function(self)
+                                    return get_models(self)
+                                end,
+                            },
+                        },
+                        handlers = {
+                            setup = function(self)
+                                if self.opts and self.opts.stream then
+                                    if not self.parameters then
+                                        self.parameters = {}
+                                    end
+                                    self.parameters.stream = true
+                                    self.parameters.stream_options = { include_usage = true }
+                                end
+                                if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
+                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
+                                else
+                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
+                                end
+                                self.chat_output_buffer = ""
+                                self.cache_expires = nil
+                                self.cached_models = nil
+                                return true
+                            end,
+                            form_messages = form_messages_callback,
+                            chat_output = chat_output_callback,
+                        },
+                    })
+                end,
+                ["llama_cpp_local_tiny"] = function()
+                    return require("codecompanion.adapters").extend("openai_compatible", {
+                        -- Use following command to launch llama.cpp
+                        -- ./build/bin/llama-server --hf-repo lmstudio-community/gemma-3-4b-it-GGUF --hf-file gemma-3-4b-it-Q8_0.gguf -ngl 40 -c 32768 -np 1 -b 64 -fa -dev Metal
+
+                        name = "llama_cpp_local_tiny",
+                        formatted_name = "Llama.cpp Local Tiny",
+                        roles = {
+                            llm = "assistant",
+                            user = "user",
+                        },
+                        env = {
+                            url = "http://localhost:8081",
                             api_key = vim.env.CODECOMPANION_API_KEY,
                         },
                         schema = {
