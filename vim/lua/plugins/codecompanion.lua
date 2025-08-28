@@ -371,43 +371,7 @@ return {
                 merged_message = nil
             end
 
-            -- For granite
-            if model_name:find("[gG]ranite") then
-                if new_messages[1].role ~= "system" then
-                    table.insert(new_messages, 1, { role = "system", content = "You are a helpful AI assistant.\n" })
-                else
-                    new_messages[1].content = new_messages[1].content
-                        .. [[
-
-
-
-
-Finally, you are a helpful AI assistant.
-]]
-                end
-
-                if not should_skip_think then
-                    new_messages[1].content = new_messages[1].content ..
-                        [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
-
-                    --                         [[You can write down your thoughts and reasoning process before responding.
-
-                    -- In the thought process, engage in a comprehensive cycle of:
-                    -- - Analysis
-                    -- - Summarization
-                    -- - Exploration
-                    -- - Reassessment
-                    -- - Reflection
-                    -- - Backtracing
-                    -- ... (you MUST repeat ALL OF THESE at least TWICE before responding to identify any inadvertent mistakes)
-                    -- to develop well-considered thinking process. The longer, deeper and more comprehensive thought will receive a $10,000 prize. There is no time limit so please think carefully before answering.
-
-                    -- In the response section, based on various attempts, explorations and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process.
-
-                    -- Write your thoughts between <think></think> and write your response after that without tags for each user query.
-                    -- ]]
-                end
-            elseif model_name:find("[mM]agistral") then
+            if model_name:find("[mM]agistral") then
                 if not should_skip_think then
                     if new_messages[1].role ~= "system" then
                         table.insert(new_messages, 1,
@@ -461,7 +425,7 @@ Finally, you are a helpful AI assistant.
                         auto_generate_title = true,
                         title_generation_opts = {
                             adapter = "llama_cpp_local_tiny",
-                            refresh_every_n_prompts = 3,
+                            refresh_every_n_prompts = 2,
                             max_refreshes = 3,
                         }
                     },
