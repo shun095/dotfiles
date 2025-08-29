@@ -1,4 +1,4 @@
----@class CustomCodeCompanionAdapter : CodeCompanion.Adapter
+---@class CustomCodeCompanionAdapter : CodeCompanion.HTTPAdapter
 ---@field chat_output_buffer string
 ---@field chat_output_current_state ChatOutputState
 ---@field cached_models table
@@ -23,7 +23,7 @@ return {
         local config = require("codecompanion.config")
         local curl = require("plenary.curl")
         local log = require("codecompanion.utils.log")
-        local openai = require("codecompanion.adapters.openai")
+        local openai = require("codecompanion.adapters.http.openai")
         local utils = require("codecompanion.utils.adapters")
 
         -- Refer: https://github.com/olimorris/codecompanion.nvim/discussions/669
@@ -74,6 +74,8 @@ return {
             end
 
             local adapter = require("codecompanion.adapters").resolve(self)
+            ---@cast adapter CustomCodeCompanionAdapter
+
             if not adapter then
                 log:error("Could not resolve OpenAI compatible adapter in the `get_models` function")
                 return {}
@@ -81,7 +83,7 @@ return {
 
             adapter.cached_models = {}
 
-            adapter:get_env_vars()
+            utils.get_env_vars(adapter)
             local url = adapter.env_replaced.url
             local models_endpoint = adapter.env_replaced.models_endpoint
 
@@ -98,8 +100,8 @@ return {
                 return curl.get(url .. models_endpoint, {
                     sync = true,
                     headers = headers,
-                    insecure = config.adapters.opts.allow_insecure,
-                    proxy = config.adapters.opts.proxy,
+                    insecure = config.adapters.http.opts.allow_insecure,
+                    proxy = config.adapters.http.opts.proxy,
                 })
             end)
             if not ok then
@@ -117,7 +119,7 @@ return {
                 table.insert(adapter.cached_models, model.id)
             end
 
-            adapter.cache_expires = utils.refresh_cache(vim.fn.tempname(), config.adapters.opts.cache_models_for)
+            adapter.cache_expires = utils.refresh_cache(vim.fn.tempname(), config.adapters.http.opts.cache_models_for)
 
             return models(adapter, opts)
         end
@@ -140,7 +142,7 @@ return {
 
             -- When the openai parser succeeds to parse data, data must be extracted correctly, so the error handlers are not prepared here.
             local data_mod = type(data) == "table" and data.body or utils.clean_streamed_data(data)
-            local ok, json = pcall(vim.json.decode, data_mod, { luanil = { object = true } })
+            local _, json = pcall(vim.json.decode, data_mod, { luanil = { object = true } })
             local choice = json.choices[1]
             local delta = self.opts.stream and choice.delta or choice.message
 
@@ -162,6 +164,9 @@ return {
             inner.output.content = nil
             inner.output.reasoning = nil
 
+            if self.chat_output_buffer == nil then
+                self.chat_output_buffer = ""
+            end
 
             for i = 1, #content do
                 local char = content:sub(i, i)
@@ -479,157 +484,164 @@ return {
             },
             -- Adapters for different AI models
             adapters = {
-                opts = {
-                    cache_models_for = 15,
-                    show_defaults = false,
+                acp = {
+                    opts = {
+                        show_defaults = false,
+                    }
                 },
-                ["llama_cpp_local"] = function()
-                    return require("codecompanion.adapters").extend("openai_compatible", {
-                        -- Use following command to launch llama.cpp
-                        -- ./build/bin/llama-server --hf-repo lmstudio-community/gemma-3-4b-it-GGUF --hf-file gemma-3-4b-it-Q8_0.gguf -ngl 40 -c 32768 -np 1 -b 64 -fa -dev Metal
+                http = {
+                    opts = {
+                        cache_models_for = 300,
+                        show_defaults = false,
+                    },
+                    ["llama_cpp_local"] = function()
+                        return require("codecompanion.adapters").extend("openai_compatible", {
+                            -- Use following command to launch llama.cpp
+                            -- ./build/bin/llama-server --hf-repo lmstudio-community/gemma-3-4b-it-GGUF --hf-file gemma-3-4b-it-Q8_0.gguf -ngl 40 -c 32768 -np 1 -b 64 -fa -dev Metal
 
-                        name = "llama_cpp_local",
-                        formatted_name = "Llama.cpp Local",
-                        roles = {
-                            llm = "assistant",
-                            user = "user",
-                        },
-                        env = {
-                            url = "http://localhost:8080",
-                            api_key = vim.env.CODECOMPANION_API_KEY,
-                        },
-                        schema = {
-                            model = {
-                                mapping = "parameters",
-                                default = function(self)
-                                    return get_models(self, { last = true })
-                                end,
-                                choices = function(self)
-                                    return get_models(self)
-                                end,
+                            name = "llama_cpp_local",
+                            formatted_name = "Llama.cpp Local",
+                            roles = {
+                                llm = "assistant",
+                                user = "user",
                             },
-                        },
-                        handlers = {
-                            setup = function(self)
-                                if self.opts and self.opts.stream then
-                                    if not self.parameters then
-                                        self.parameters = {}
+                            env = {
+                                url = "http://localhost:8080",
+                                api_key = vim.env.CODECOMPANION_API_KEY,
+                            },
+                            schema = {
+                                model = {
+                                    mapping = "parameters",
+                                    default = function(self)
+                                        return get_models(self, { last = true })
+                                    end,
+                                    choices = function(self)
+                                        return get_models(self)
+                                    end,
+                                },
+                            },
+                            handlers = {
+                                setup = function(self)
+                                    if self.opts and self.opts.stream then
+                                        if not self.parameters then
+                                            self.parameters = {}
+                                        end
+                                        self.parameters.stream = true
+                                        self.parameters.stream_options = { include_usage = true }
                                     end
-                                    self.parameters.stream = true
-                                    self.parameters.stream_options = { include_usage = true }
-                                end
-                                if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
-                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
-                                else
-                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
-                                end
-                                self.chat_output_buffer = ""
-                                self.cache_expires = nil
-                                self.cached_models = nil
-                                return true
-                            end,
-                            form_messages = form_messages_callback,
-                            chat_output = chat_output_callback,
-                        },
-                    })
-                end,
-                ["llama_cpp_local_tiny"] = function()
-                    return require("codecompanion.adapters").extend("openai_compatible", {
-                        -- Use following command to launch llama.cpp
-                        -- ./build/bin/llama-server --hf-repo lmstudio-community/gemma-3-4b-it-GGUF --hf-file gemma-3-4b-it-Q8_0.gguf -ngl 40 -c 32768 -np 1 -b 64 -fa -dev Metal
+                                    if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
+                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
+                                    else
+                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
+                                    end
+                                    self.chat_output_buffer = ""
+                                    self.cache_expires = nil
+                                    self.cached_models = nil
+                                    return true
+                                end,
+                                form_messages = form_messages_callback,
+                                chat_output = chat_output_callback,
+                            },
+                        })
+                    end,
+                    ["llama_cpp_local_tiny"] = function()
+                        return require("codecompanion.adapters").extend("openai_compatible", {
+                            -- Use following command to launch llama.cpp
+                            -- ./build/bin/llama-server --hf-repo lmstudio-community/gemma-3-4b-it-GGUF --hf-file gemma-3-4b-it-Q8_0.gguf -ngl 40 -c 32768 -np 1 -b 64 -fa -dev Metal
 
-                        name = "llama_cpp_local_tiny",
-                        formatted_name = "Llama.cpp Local Tiny",
-                        roles = {
-                            llm = "assistant",
-                            user = "user",
-                        },
-                        env = {
-                            url = "http://localhost:8081",
-                            api_key = vim.env.CODECOMPANION_API_KEY,
-                        },
-                        schema = {
-                            model = {
-                                mapping = "parameters",
-                                default = function(self)
-                                    return get_models(self, { last = true })
-                                end,
-                                choices = function(self)
-                                    return get_models(self)
-                                end,
+                            name = "llama_cpp_local_tiny",
+                            formatted_name = "Llama.cpp Local Tiny",
+                            roles = {
+                                llm = "assistant",
+                                user = "user",
                             },
-                        },
-                        handlers = {
-                            setup = function(self)
-                                if self.opts and self.opts.stream then
-                                    if not self.parameters then
-                                        self.parameters = {}
-                                    end
-                                    self.parameters.stream = true
-                                    self.parameters.stream_options = { include_usage = true }
-                                end
-                                if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
-                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
-                                else
-                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
-                                end
-                                self.chat_output_buffer = ""
-                                self.cache_expires = nil
-                                self.cached_models = nil
-                                return true
-                            end,
-                            form_messages = form_messages_callback,
-                            chat_output = chat_output_callback,
-                        },
-                    })
-                end,
-                ["llama_cpp_remote"] = function()
-                    return require("codecompanion.adapters").extend("openai_compatible", {
-                        name = "llama_cpp_remote",
-                        formatted_name = "Llama.cpp Remote",
-                        roles = {
-                            llm = "assistant",
-                            user = "user",
-                        },
-                        env = {
-                            url = vim.env.CODECOMPANION_REMOTE_URL,
-                            api_key = vim.env.CODECOMPANION_API_KEY,
-                        },
-                        schema = {
-                            model = {
-                                mapping = "parameters",
-                                default = function(self)
-                                    return get_models(self, { last = true })
-                                end,
-                                choices = function(self)
-                                    return get_models(self)
-                                end,
+                            env = {
+                                url = "http://localhost:8081",
+                                api_key = vim.env.CODECOMPANION_API_KEY,
                             },
-                        },
-                        handlers = {
-                            setup = function(self)
-                                if self.opts and self.opts.stream then
-                                    if not self.parameters then
-                                        self.parameters = {}
+                            schema = {
+                                model = {
+                                    mapping = "parameters",
+                                    default = function(self)
+                                        return get_models(self, { last = true })
+                                    end,
+                                    choices = function(self)
+                                        return get_models(self)
+                                    end,
+                                },
+                            },
+                            handlers = {
+                                setup = function(self)
+                                    if self.opts and self.opts.stream then
+                                        if not self.parameters then
+                                            self.parameters = {}
+                                        end
+                                        self.parameters.stream = true
+                                        self.parameters.stream_options = { include_usage = true }
                                     end
-                                    self.parameters.stream = true
-                                    self.parameters.stream_options = { include_usage = true }
-                                end
-                                if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
-                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
-                                else
-                                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
-                                end
-                                self.chat_output_buffer = ""
-                                self.cache_expires = nil
-                                self.cached_models = nil
-                                return true
-                            end,
-                            form_messages = form_messages_callback,
-                            chat_output = chat_output_callback,
-                        },
-                    })
-                end,
+                                    if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
+                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
+                                    else
+                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
+                                    end
+                                    self.chat_output_buffer = ""
+                                    self.cache_expires = nil
+                                    self.cached_models = nil
+                                    return true
+                                end,
+                                form_messages = form_messages_callback,
+                                chat_output = chat_output_callback,
+                            },
+                        })
+                    end,
+                    ["llama_cpp_remote"] = function()
+                        return require("codecompanion.adapters").extend("openai_compatible", {
+                            name = "llama_cpp_remote",
+                            formatted_name = "Llama.cpp Remote",
+                            roles = {
+                                llm = "assistant",
+                                user = "user",
+                            },
+                            env = {
+                                url = vim.env.CODECOMPANION_REMOTE_URL,
+                                api_key = vim.env.CODECOMPANION_API_KEY,
+                            },
+                            schema = {
+                                model = {
+                                    mapping = "parameters",
+                                    default = function(self)
+                                        return get_models(self, { last = true })
+                                    end,
+                                    choices = function(self)
+                                        return get_models(self)
+                                    end,
+                                },
+                            },
+                            handlers = {
+                                setup = function(self)
+                                    if self.opts and self.opts.stream then
+                                        if not self.parameters then
+                                            self.parameters = {}
+                                        end
+                                        self.parameters.stream = true
+                                        self.parameters.stream_options = { include_usage = true }
+                                    end
+                                    if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
+                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
+                                    else
+                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
+                                    end
+                                    self.chat_output_buffer = ""
+                                    self.cache_expires = nil
+                                    self.cached_models = nil
+                                    return true
+                                end,
+                                form_messages = form_messages_callback,
+                                chat_output = chat_output_callback,
+                            },
+                        })
+                    end,
+                }
             },
             prompt_library = {
 
