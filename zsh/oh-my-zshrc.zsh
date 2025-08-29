@@ -131,7 +131,7 @@ done < <(for line in $plugins_with_command; do echo $line;done)
 compinit(){ 
     args=$@
     . $ZSH/custom/plugins/zsh-defer/zsh-defer.plugin.zsh
-    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compinit...\";"
+    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compinit $args...\";"
     zsh-defer +12 -dmszr +p -t0.001 -c "unfunction compinit; unfunction compdef; autoload -Uz compinit && compinit $args"
 }
 
@@ -139,6 +139,12 @@ compdef(){
     args=$@
     zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compdef...\";"
     zsh-defer +12 -dmszr +p -t0.001 -c "compdef $args"
+}
+
+compdef(){
+    args=$@
+    zsh-defer +12 -dmszr +p -t0.001 -c "RPROMPT=\"Executing compaudit...\";"
+    zsh-defer +12 -dmszr +p -t0.001 -c "unfunction compaudit; compaudit $args"
 }
 
 source $ZSH/oh-my-zsh.sh

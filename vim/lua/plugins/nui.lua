@@ -290,9 +290,12 @@ return {
                         -- (c) 描画し直し
                         vim.schedule(function()
                             tree:render() -- 変更を反映して再描画します :contentReference[oaicite:1]{index=1}
-                            vim.api.nvim_win_set_cursor(menu.winid, { 1, 0 })
+                            if vim.api.nvim_win_is_valid(menu.winid) then
+                                vim.api.nvim_win_set_cursor(menu.winid, { 1, 0 })
+                            end
                         end)
                     end,
+
                 })
 
             local layout     = Layout(
