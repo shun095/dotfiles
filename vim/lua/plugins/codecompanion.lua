@@ -148,6 +148,9 @@ return {
 
             -- If the reasoning_content exists
             if delta.reasoning_content then
+                if self.chat_format == nil then
+                    self.chat_format = "deepseek"
+                end
                 inner.output.reasoning = inner.output.reasoning or {}
                 inner.output.reasoning.content = delta.reasoning_content
                 return inner
@@ -156,6 +159,10 @@ return {
             -- Return before content parse if the content is nil.
             -- This case occurs when the delta is only for specifying roles.
             if not inner.output.content then
+                return inner
+            end
+
+            if self.chat_format and self.chat_format == "deepseek" then
                 return inner
             end
 
@@ -1003,7 +1010,25 @@ IMPORTANT: Pay close attention to case style and the letter when you use tools. 
    - A concise final answer
 
 
-Question:
+Task:
+]]
+                        }
+                    }
+                },
+                ["Granite tool call with reasoning"] = {
+                    strategy = "chat",
+                    description = "Granite tool call with reasoning",
+                    opts = {
+                        is_slash_cmd = true,
+                        short_name = "granite_tool_call_with_reasoning"
+                    },
+                    prompts = {
+                        {
+                            role = "user",
+                            content = [[
+Each time you MUST write your thought between <think> and </think> before respond. This means you MUST always start your turn with <think> word.
+You MUST start response with <|tool_call|> to use tools immediately after </think>.
+You MUST start your response with <response> to answer to the user immediately after </think>.
 ]]
                         }
                     }

@@ -537,12 +537,12 @@
   vn <leader>p "_dp
   vn <leader>P "_dP
 
-  " vno <leader>ty y:call system("tmux load-buffer -", @0)<cr>
-  " vno <leader>ny y:call system("nc localhost 8377", @0)<cr>
+  vno ty y:call system("tmux load-buffer -", @0)<cr>
+  vno gy y:call system("nc localhost 8377", @0)<cr>
 
-  " nno <leader>tyy yy:call system("tmux load-buffer -", @0)<cr>
-  " nno <leader>nyy yy:call system("nc localhost 8377", @0)<cr>
-  " nno <leader>tp :let @0 = system("tmux save-buffer -")<cr>"0p
+  nno tyy yy:call system("tmux load-buffer -", @0)<cr>
+  nno gyy yy:call system("nc localhost 8377", @0)<cr>
+  nno tp :let @0 = system("tmux save-buffer -")<cr>"0p
 
   nno ,c viw:s/\%V\(_\\|-\)\(.\)/\u\2/g<CR>
   nno ,_ viw:s/\%V\([A-Z]\)/_\l\1/g<CR>
