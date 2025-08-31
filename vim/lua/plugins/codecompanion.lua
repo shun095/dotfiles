@@ -168,6 +168,17 @@ return {
                 self.chat_output_buffer = ""
             end
 
+            if self.chat_output_current_state == nil then
+                local model_name = get_models(self, { last = true })
+                self.schema.model.default = model_name
+                if model_name:find("Qwen3-4B-Thinking-2507", 1, true)
+                    or model_name:find("NVIDIA-Nemotron-Nano-9B-v2", 1, true) then
+                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
+                else
+                    self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
+                end
+            end
+
             for i = 1, #content do
                 local char = content:sub(i, i)
                 self.chat_output_buffer = self.chat_output_buffer .. char
@@ -441,8 +452,9 @@ return {
                 chat = {
                     -- Options to customize the UI of the chat buffer
                     window = {
+                        layout = "vertical",
                         position = "right",
-                        width = 80,
+                        width = 0.3,
                         row = "center", -- for debug window
                         col = "center"  -- for debug window
                     },
@@ -464,7 +476,6 @@ return {
                 system_prompt = function(opts)
                     return string.format(
                         require("prompts.system_prompt"),
-                        os.date("%Y-%m-%d"),
                         opts.language)
                 end,
             },
@@ -512,9 +523,7 @@ return {
                             schema = {
                                 model = {
                                     mapping = "parameters",
-                                    default = function(self)
-                                        return get_models(self, { last = true })
-                                    end,
+                                    default = "llama2",
                                     choices = function(self)
                                         return get_models(self)
                                     end,
@@ -528,11 +537,6 @@ return {
                                         end
                                         self.parameters.stream = true
                                         self.parameters.stream_options = { include_usage = true }
-                                    end
-                                    if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
-                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
-                                    else
-                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
                                     end
                                     self.chat_output_buffer = ""
                                     self.cache_expires = nil
@@ -562,9 +566,7 @@ return {
                             schema = {
                                 model = {
                                     mapping = "parameters",
-                                    default = function(self)
-                                        return get_models(self, { last = true })
-                                    end,
+                                    default = "llama2",
                                     choices = function(self)
                                         return get_models(self)
                                     end,
@@ -578,11 +580,6 @@ return {
                                         end
                                         self.parameters.stream = true
                                         self.parameters.stream_options = { include_usage = true }
-                                    end
-                                    if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
-                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
-                                    else
-                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
                                     end
                                     self.chat_output_buffer = ""
                                     self.cache_expires = nil
@@ -609,9 +606,7 @@ return {
                             schema = {
                                 model = {
                                     mapping = "parameters",
-                                    default = function(self)
-                                        return get_models(self, { last = true })
-                                    end,
+                                    default = "llama2",
                                     choices = function(self)
                                         return get_models(self)
                                     end,
@@ -625,11 +620,6 @@ return {
                                         end
                                         self.parameters.stream = true
                                         self.parameters.stream_options = { include_usage = true }
-                                    end
-                                    if get_models(self, { last = true }):find("Qwen3-4B-Thinking-2507", 1, true) then
-                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_REASONING
-                                    else
-                                        self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
                                     end
                                     self.chat_output_buffer = ""
                                     self.cache_expires = nil
