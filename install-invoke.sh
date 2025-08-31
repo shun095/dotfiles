@@ -767,10 +767,10 @@ elif [[ $(lsb_release -rs) == "24.04" ]]; then
     done
     curl_deps='https://deno.land/install.sh'
 elif type dnf > /dev/null 2>&1; then
-    deps='git gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel utf8proc'
+    deps='git gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python3 python3-devel utf8proc utf8proc-devel'
     curl_deps='https://deno.land/install.sh'
 elif type yum > /dev/null 2>&1; then
-    deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python36u python36u-devel utf8proc'
+    deps='git2u gcc make ncurses ncurses-devel tcl-devel ruby ruby-devel lua lua-devel luajit luajit-devel python3 python3-devel utf8proc'
     curl_deps='https://deno.land/install.sh'
 fi
 install_deps "vim build" "${deps}" "${curl_deps}"
@@ -808,7 +808,7 @@ build_neovim_install_deps() {
     elif type yum > /dev/null 2>&1; then
         deps='cmake'
     fi
-    install_deps "vim build" "${deps}" "${curl_deps}"
+    install_deps "neovim build" "${deps}" "${curl_deps}"
 }
 
 build_tmux_install_deps() {
