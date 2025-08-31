@@ -691,22 +691,22 @@ require("dapui").setup({
                     size = 0.25
                 }
             },
-            position = "right",
-            size = 35
+            position = "top",
+            size = 8
         },
         {
             elements = {
                 {
+                    id = "repl",
+                    size = 0.4
+                },
+                {
                     id = "console",
                     size = 0.6
                 },
-                {
-                    id = "repl",
-                    size = 0.4
-                }
             },
             position = "bottom",
-            size = 12
+            size = 8
         }
     },
 })
