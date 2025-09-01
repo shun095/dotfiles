@@ -321,8 +321,20 @@ return {
                     end
                 end
                 local result = {}
+                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") then
+                    table.insert(result, {
+                        role = 'system',
+                        content = '<SystemInstructions>\n'
+                    })
+                end
                 for _, msg in ipairs(systems) do
                     table.insert(result, msg)
+                end
+                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") then
+                    table.insert(result, {
+                        role = 'system',
+                        content = '\n</SystemInstructions>'
+                    })
                 end
                 for _, msg in ipairs(others) do
                     table.insert(result, msg)
@@ -344,7 +356,7 @@ return {
                 end
 
                 -- For Gemma 3
-                if model_name:find("[gG]emma%-3") then
+                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") then
                     if message.role == "system" then
                         message.role = "user"
                     end
