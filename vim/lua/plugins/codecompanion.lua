@@ -523,6 +523,7 @@ return {
                     opts = {
                         cache_models_for = 300,
                         show_defaults = false,
+                        allow_insecure = true,
                     },
                     ["llama_cpp_local"] = function()
                         return require("codecompanion.adapters").extend("openai_compatible", {
