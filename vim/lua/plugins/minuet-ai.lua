@@ -20,7 +20,7 @@ return {
                     stream = true,
                     model = 'llama',
                     optional = {
-                        max_tokens = 1024
+                        max_tokens = 10240
                     },
                 },
                 openai_fim_compatible = {
@@ -30,7 +30,7 @@ return {
                     stream = true,
                     model = 'llama',
                     optional = {
-                        max_tokens = 1024
+                        max_tokens = 10240
                     },
                     template = {
                         prompt = function(context_before_cursor, context_after_cursor)
