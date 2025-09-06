@@ -322,7 +322,7 @@ return {
                 end
                 local result = {}
  
-                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") then
+                if model_name:find("[gG]emma%-3") then -- or model_name:find("[gG]ranite") then
                     if #systems > 0 then
                         systems[1].content = "<SystemInstructions>\n" .. systems[1].content
                         systems[#systems].content = systems[#systems].content .. "\n</SystemInstructions>"
@@ -353,7 +353,7 @@ return {
                 end
 
                 -- For Gemma 3
-                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") then
+                if model_name:find("[gG]emma%-3") then -- or model_name:find("[gG]ranite") then
                     if message.role == "system" then
                         message.role = "user"
                     end
@@ -403,7 +403,28 @@ return {
                 merged_message = nil
             end
 
-            if model_name:find("[mM]agistral") then
+            -- For granite
+            if model_name:find("[gG]ranite") then
+                if new_messages[1].role ~= "system" then
+                    table.insert(new_messages, 1, { role = "system", content = "You are a helpful AI assistant.\n" })
+                else
+                    new_messages[1].content = new_messages[1].content
+                        .. [[
+
+
+
+
+Finally, you are a helpful AI assistant.
+]]
+                end
+
+                if not should_skip_think then
+                    new_messages[1].content = new_messages[1].content ..
+                        [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
+
+                end
+            elseif model_name:find("[mM]agistral") then
+            -- if model_name:find("[mM]agistral") then
                 if not should_skip_think then
                     if new_messages[1].role ~= "system" then
                         table.insert(new_messages, 1,
@@ -489,11 +510,11 @@ return {
                 language = "English or Japanese",
                 -- Set logging level
                 log_level = "INFO",
-                system_prompt = function(opts)
-                    return string.format(
-                        require("prompts.system_prompt"),
-                        opts.language)
-                end,
+                -- system_prompt = function(opts)
+                --     return string.format(
+                --         require("prompts.system_prompt"),
+                --         opts.language)
+                -- end,
             },
             -- Different strategies for interaction with AI
             strategies = {
