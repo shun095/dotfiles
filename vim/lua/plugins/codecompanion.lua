@@ -324,8 +324,8 @@ return {
  
                 if model_name:find("[gG]emma%-3") then -- or model_name:find("[gG]ranite") then
                     if #systems > 0 then
-                        systems[1].content = "<SystemInstructions>\n" .. systems[1].content
-                        systems[#systems].content = systems[#systems].content .. "\n</SystemInstructions>"
+                        systems[1].content = "<Guidelines>\n" .. systems[1].content
+                        systems[#systems].content = systems[#systems].content .. "\n</Guidelines>"
                     end
                 end
 
@@ -420,7 +420,10 @@ Finally, you are a helpful AI assistant.
 
                 if not should_skip_think then
                     new_messages[1].content = new_messages[1].content ..
-                        [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.]]
+                        [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.
+You thought process between <think> and </think> is not visible for the user. Always write your answer to the user between <response> and </response>.
+This means you MUST always start your response with <think> even the user specifies the format. You must follow the format only in <response> section.
+]]
 
                 end
             elseif model_name:find("[mM]agistral") then
@@ -478,7 +481,7 @@ Finally, you are a helpful AI assistant.
                         auto_generate_title = true,
                         title_generation_opts = {
                             adapter = "llama_cpp_local_tiny",
-                            refresh_every_n_prompts = 2,
+                            refresh_every_n_prompts = 3,
                             max_refreshes = 3,
                         }
                     },
@@ -495,13 +498,9 @@ Finally, you are a helpful AI assistant.
                         row = "center", -- for debug window
                         col = "center"  -- for debug window
                     },
-                    debug_window = {
-                        height = function()
-                            return math.floor(vim.o.lines * 0.9)
-                        end,
-                        width = function()
-                            return math.floor(vim.o.columns * 0.9)
-                        end,
+                    child_window = {
+                        height = 0.8,
+                        width = 0.8,
                     }
                 },
             },
@@ -746,6 +745,8 @@ Following diff between <Diff> and </Diff> is the diff you must analyze:
 %s
     ```
 </Diff>
+
+You must analyze lines which start with `    -` (delete) or `    +` (add).
 ]],
                                     indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
                                 )
@@ -831,7 +832,8 @@ Here is the diff you need to analyze:
                     opts = {
                         modes = { "v" },
                         auto_submit = false,
-                        short_name = "japanese",
+                        short_name = "translate_to_japanese",
+                        is_slash_cmd = true,
                         stop_context_insertion = true,
                     },
                     prompts = {
@@ -867,7 +869,8 @@ Translate following text into natural Japanese precisely:
                     opts = {
                         modes = { "v" },
                         auto_submit = false,
-                        short_name = "english",
+                        short_name = "translate_to_english",
+                        is_slash_cmd = true,
                         stop_context_insertion = true,
                     },
                     prompts = {
@@ -1056,11 +1059,11 @@ Task:
                     prompts = {
                         {
                             role = "user",
-                            content = [[
-Each time you MUST write your thought between <think> and </think> before respond. This means you MUST always start your turn with <think> word.
-You MUST start response with <|tool_call|> to use tools immediately after </think>.
-You MUST start your response with <response> to answer to the user immediately after </think>.
-]]
+                            content = [[When using a tool:
+- You MUST start your response with <|tool_call|> followed by a JSON list of tools used.
+
+When responding to the user:
+- You MUST start your response with <think>.]]
                         }
                     }
                 }

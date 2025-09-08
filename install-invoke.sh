@@ -740,8 +740,19 @@ local deps=""
 local curl_deps=""
 local tmp_deps=""
 if [[ $OSTYPE == 'darwin'* ]]; then
-    deps='lua luajit automake python3 pkg-config utf8proc'
+    tmp_deps='lua luajit automake python3 pkg-config utf8proc'
     curl_deps='https://deno.land/install.sh'
+
+    package_list_tmpfile=$(mktemp)
+    brew ls -1 > "$package_list_tmpfile"
+    for package in ${tmp_deps}; do
+        if ! cat $package_list_tmpfile | grep -Fxq "$package" > /dev/null 2>&1; then
+            echo "$package not found!"
+        else
+            echo "$package found!"
+        fi
+    done
+    rm -f $package_list_tmpfile
 elif [[ $(lsb_release -rs) == "20.04" ]]; then
     tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2 libutf8proc-dev'
     for package in ${tmp_deps}; do
@@ -781,7 +792,18 @@ build_neovim_install_deps() {
     local curl_deps=""
     local tmp_deps=""
     if [[ $OSTYPE == 'darwin'* ]]; then
-        deps='cmake'
+        tmp_deps='cmake'
+
+        package_list_tmpfile=$(mktemp)
+        brew ls -1 > "$package_list_tmpfile"
+        for package in ${tmp_deps}; do
+            if ! cat $package_list_tmpfile | grep -Fxq "$package" > /dev/null 2>&1; then
+                echo "$package not found!"
+            else
+                echo "$package found!"
+            fi
+        done
+        rm -f $package_list_tmpfile
     elif [[ $(lsb_release -rs) == "20.04" ]]; then
         tmp_deps='cmake'
         for package in ${tmp_deps}; do
