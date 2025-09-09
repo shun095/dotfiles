@@ -747,9 +747,7 @@ if [[ $OSTYPE == 'darwin'* ]]; then
     brew ls -1 > "$package_list_tmpfile"
     for package in ${tmp_deps}; do
         if ! cat $package_list_tmpfile | grep -Fxq "$package" > /dev/null 2>&1; then
-            echo "$package not found!"
-        else
-            echo "$package found!"
+            deps="${deps} ${package}"
         fi
     done
     rm -f $package_list_tmpfile
@@ -798,9 +796,7 @@ build_neovim_install_deps() {
         brew ls -1 > "$package_list_tmpfile"
         for package in ${tmp_deps}; do
             if ! cat $package_list_tmpfile | grep -Fxq "$package" > /dev/null 2>&1; then
-                echo "$package not found!"
-            else
-                echo "$package found!"
+                deps="${deps} ${package}"
             fi
         done
         rm -f $package_list_tmpfile
