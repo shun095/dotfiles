@@ -592,6 +592,12 @@ if mymisc#startup#plug_tap('vim-tmux-navigator')
   nnoremap <silent> <M-k>     :<C-U>TmuxNavigateUp<cr>
   nnoremap <silent> <M-Right> :<C-U>TmuxNavigateRight<cr>
   nnoremap <silent> <M-l>     :<C-U>TmuxNavigateRight<cr>
+
+  " Neovide
+  nnoremap <silent> ˙         :<C-U>TmuxNavigateLeft<cr>
+  nnoremap <silent> ∆         :<C-U>TmuxNavigateDown<cr>
+  nnoremap <silent> ˚         :<C-U>TmuxNavigateUp<cr>
+  nnoremap <silent> ¬         :<C-U>TmuxNavigateRight<cr>
 endif
 
 if mymisc#startup#plug_tap('vim-pyenv')

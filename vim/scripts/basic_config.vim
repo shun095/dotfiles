@@ -507,6 +507,13 @@
     tno <M-j>            <c-\><c-n><c-w>j
     tno <M-l>            <c-\><c-n><c-w>l
     tno <M-h>            <c-\><c-n><c-w>h
+
+    " Neovide
+    tno ˚ <c-\><c-n><c-w>k
+    tno ∆ <c-\><c-n><c-w>j
+    tno ¬ <c-\><c-n><c-w>l
+    tno ˙ <c-\><c-n><c-w>h
+
     tno <ESC>            <c-\><c-n><Plug>(esc)
     nno <Plug>(esc)<ESC> i<ESC>
   else
@@ -543,6 +550,8 @@
   nno tyy yy:call system("tmux load-buffer -", @0)<cr>
   nno gyy yy:call system("nc localhost 8377", @0)<cr>
   nno tp :let @0 = system("tmux save-buffer -")<cr>"0p
+  " Neovide
+  noremap! <D-v> <C-r>+
 
   nno ,c viw:s/\%V\(_\\|-\)\(.\)/\u\2/g<CR>
   nno ,_ viw:s/\%V\([A-Z]\)/_\l\1/g<CR>
