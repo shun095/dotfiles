@@ -5,8 +5,9 @@ return {
     },
     build = "bundled_build.lua",
     config = function()
+        vim.o.winborder = "rounded"
         require("mcphub").setup({
-            use_bundled_binary = true,     -- Use local `mcp-hub` binary
+            use_bundled_binary = true,
         })
     end
 }

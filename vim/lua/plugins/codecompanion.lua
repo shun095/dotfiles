@@ -498,10 +498,10 @@ This means you MUST always start your response with <think> even the user specif
                         row = "center", -- for debug window
                         col = "center"  -- for debug window
                     },
-                    child_window = {
-                        height = 0.8,
-                        width = 0.8,
-                    }
+                    -- child_window = {
+                    --     height = 0.8,
+                    --     width = 0.8,
+                    -- }
                 },
             },
             opts = {
