@@ -1694,7 +1694,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     callback = OverrideHighlightColors
 })
 
-if vim.env.COLORTERM == 'truecolor' then
+if vim.env.TERM and vim.env.TERM:match(".*%-256color$") then
     vim.cmd('colorscheme iceberg')
 else
     vim.cmd('colorscheme default')
