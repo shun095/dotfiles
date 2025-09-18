@@ -1,0 +1,55 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "provider": {
+        "llamacpp": {
+            "npm": "@ai-sdk/openai-compatible",
+            "options": {
+                "baseURL": ""
+            },
+            "models": {
+                "llama2": {
+                    "limit": {
+                        "context": 131072,
+                        "output": 0
+                    }
+                }
+            }
+        }
+    },
+    "permission": {
+        "edit": "ask",
+        "bash": {
+            "*": "ask",
+            "git status": "allow",
+            "git diff": "allow",
+            "ls": "allow",
+            "pwd": "allow"
+        }
+    },
+    "lsp": {
+        "custom-clangd": {
+            "command": [
+                "clangd"
+            ],
+            "extensions": [
+                ".c",
+                ".h",
+                ".hpp",
+                ".cpp",
+                ".cu",
+                ".cuh"
+            ]
+        }
+    },
+    "mcp": {
+        "ddg-search": {
+            "type": "local",
+            "command": [
+                "uvx",
+                "duckduckgo-mcp-server"
+            ],
+            "enabled": true
+        }
+    },
+    "share": "disabled"
+}
