@@ -6,7 +6,6 @@ return {
     },
     opts = {
         ensure_installed = {
-            "denols",
             "lua_ls",
         },
     }
