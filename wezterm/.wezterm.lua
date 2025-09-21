@@ -56,6 +56,8 @@ config.audible_bell = "Disabled"
 -- config.front_end = "Software"
 -- config.prefer_egl = false
 config.window_background_opacity = 0.8
+config.macos_window_background_blur = 20
+
 -- local is_windows = wezterm.target_triple:find("windows") ~= nil
 
 -- if is_windows then

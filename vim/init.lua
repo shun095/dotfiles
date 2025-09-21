@@ -1695,7 +1695,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 })
 
 if vim.env.TERM and vim.env.TERM:match(".*%-256color$") then
-    vim.cmd('colorscheme tokyonight-night')
+    vim.cmd('colorscheme iceberg')
 else
     vim.cmd('colorscheme default')
 end
