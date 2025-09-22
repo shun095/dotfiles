@@ -232,7 +232,6 @@ return {
                         self.chat_output_current_state == ChatOutputState.ANTICIPATING_REASONING
                         or self.chat_output_current_state == ChatOutputState.REASONING
                     then
-                        -- if not get_models(self, {last = true}):find("[gG]ranite") then
                         if not inner.output.reasoning then
                             inner.output.reasoning = {}
                             inner.output.reasoning.content = ""
@@ -322,10 +321,10 @@ return {
                 end
                 local result = {}
  
-                if model_name:find("[gG]emma%-3") then -- or model_name:find("[gG]ranite") then
+                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") then
                     if #systems > 0 then
-                        systems[1].content = "<Guidelines>\n" .. systems[1].content
-                        systems[#systems].content = systems[#systems].content .. "\n</Guidelines>"
+                        systems[1].content = "<system>\n" .. systems[1].content
+                        systems[#systems].content = systems[#systems].content .. "\n</system>\n\n---"
                     end
                 end
 
@@ -353,7 +352,7 @@ return {
                 end
 
                 -- For Gemma 3
-                if model_name:find("[gG]emma%-3") then -- or model_name:find("[gG]ranite") then
+                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") then
                     if message.role == "system" then
                         message.role = "user"
                     end
@@ -369,7 +368,7 @@ return {
                         if message.content ~= "" then
                             merged_message = {
                                 role = message.role,
-                                content = merged_message.content .. "\n\n\n\n" .. message.content,
+                                content = merged_message.content .. "\n\n\n" .. message.content,
                             }
                         end
                     else
@@ -405,27 +404,27 @@ return {
 
             -- For granite
             if model_name:find("[gG]ranite") then
-                if new_messages[1].role ~= "system" then
-                    table.insert(new_messages, 1, { role = "system", content = "You are a helpful AI assistant.\n" })
-                else
-                    new_messages[1].content = new_messages[1].content
-                        .. [[
+--                 if new_messages[1].role ~= "system" then
+--                     table.insert(new_messages, 1, { role = "system", content = "You are a helpful AI assistant.\n" })
+--                 else
+--                     new_messages[1].content = new_messages[1].content
+--                         .. [[
 
 
 
 
-Finally, you are a helpful AI assistant.
-]]
-                end
+-- Finally, you are a helpful AI assistant.
+-- ]]
+--                 end
 
-                if not should_skip_think then
-                    new_messages[1].content = new_messages[1].content ..
-                        [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.
-You thought process between <think> and </think> is not visible for the user. Always write your answer to the user between <response> and </response>.
-This means you MUST always start your response with <think> even the user specifies the format. You must follow the format only in <response> section.
-]]
+--                 if not should_skip_think then
+--                     new_messages[1].content = new_messages[1].content ..
+--                         [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.
+-- You thought process between <think> and </think> is not visible for the user. Always write your answer to the user between <response> and </response>.
+-- This means you MUST always start your response with <think> even the user specifies the format. You must follow the format only in <response> section.
+-- ]]
 
-                end
+--                 end
             elseif model_name:find("[mM]agistral") then
             -- if model_name:find("[mM]agistral") then
                 if not should_skip_think then
