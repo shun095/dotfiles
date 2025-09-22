@@ -72,13 +72,13 @@ describe("Fuzzy Finderは", function()
 
         it(case.input.mapping .. " の後 " .. case.input.search .. " を入力すると " .. expected_description,
             function()
-                table.insert(test_timers, vim.fn.timer_start(500, function()
+                table.insert(test_timers, vim.fn.timer_start(1000, function()
                     vim.cmd('call feedkeys("' .. case.input.search .. '", "t")')
                 end, { ["repeat"] = 1 }))
-                table.insert(test_timers, vim.fn.timer_start(1000, function()
+                table.insert(test_timers, vim.fn.timer_start(2000, function()
                     vim.cmd('call feedkeys("\\<CR>", "t")')
                 end, { ["repeat"] = 1 }))
-                table.insert(test_timers, vim.fn.timer_start(1500, function()
+                table.insert(test_timers, vim.fn.timer_start(3000, function()
                     vim.cmd('call feedkeys("\\<ESC>", "t")')
                 end, { ["repeat"] = 1 }))
 
