@@ -618,10 +618,7 @@ install_vim_plugins() {
 
 install_tmux_plugins() {
     echo_section "Installing tmux plugins"
-
-    tmux new-session -d -s tpm_control
-    tmux send-keys -t tpm_control tmux\ source-file\ ~/.tmux.conf C-m
-    tmux send-keys -t tpm_control tmux\ run-shell\ '~/.tmux/plugins/tpm/bin/install_plugins' C-m C-d
+    "$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh"
 }
 
 
@@ -664,9 +661,7 @@ update_vim_plugins() {
 
 update_tmux_plugins() {
     echo_section "Updating tmux plugins"
-    tmux new-session -d -s tpm_control
-    tmux send-keys -t tpm_control tmux\ source-file\ ~/.tmux.conf C-m
-    tmux send-keys -t tpm_control tmux\ run-shell\ '~/.tmux/plugins/tpm/bin/update_plugins\ all' C-m C-d
+    "$HOME/.tmux/plugins/tpm/scripts/update_plugin.sh" -- all
 }
 
 install_deps() {
@@ -954,7 +949,7 @@ deploy() {
     deploy_fzf
     compile_zshfiles
     install_vim_plugins
-    # install_tmux_plugins
+    install_tmux_plugins
     git_configulation
     create_localrc_dir
     create_trash_dir
@@ -983,7 +978,7 @@ update() {
         update_repositories
         deploy
         update_vim_plugins
-        # update_tmux_plugins
+        update_tmux_plugins
     fi
 }
 
