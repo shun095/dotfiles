@@ -695,13 +695,28 @@ return {
                             role = "user",
                             content = function()
                                 return string.format(
-                                    [[Task: Generate a Conventional Commit message from the provided git diff. Adhere strictly to the Conventional Commit message format below.
+                                    [[Your task:
 
+<Task>
+Generate a Conventional Commit message from the provided git diff. Adhere strictly to the Conventional Commit message format below.
+</Task>
 
-Adhere strictly to the following format between <Format> and </Format>.:
+Adhere strictly to the following format between `<Format>` and `</Format>` in your response.:
+
+IMPORTANT:
+- In analysis section, analyze what are deleted or added.
+- In message section, type, scope, description and body are all required.
 
 <Format>
-#### Conventional Commit message:
+#### Analysis of the Diff:
+<your comprehensive and detailed reasoning>
+
+#### What is Conventional Commit Message?:
+<your understanding about Conventional Commit Message>
+
+#### Conventional Commit Message:
+
+Therfore, the commit message for the diff should be like this:
 
 ```txt
 <type>(<scope>): <description>
@@ -712,10 +727,21 @@ Adhere strictly to the following format between <Format> and </Format>.:
 ```
 </Format>
 
-IMPORTANT: type, scope, description and body are all required.
+---
 
-<Example>
-#### Example 1 Commit Message (with footer):
+Here are examples of your output:
+
+
+1. Example 1 (with footer):
+#### Analysis of the Diff:
+The diff shows...
+
+#### What is Conventional Commit Message?:
+A Conventional Commit Message is...
+
+#### Conventional Commit Message:
+
+Therfore, the commit message for the diff should be like this:
 
 ```txt
 feat(src/api/auth): migrate to GraphQL
@@ -726,7 +752,17 @@ feat(src/api/auth): migrate to GraphQL
 BREAKING CHANGE: All client integrations must update to use GraphQL instead of REST
 ```
 
-#### Example 2 Commit Message (without footer):
+
+2. Example 2 (without footer):
+#### Analysis of the Diff:
+The diff shows...
+
+#### What is Conventional Commit Message?:
+A Conventional Commit Message is...
+
+#### Conventional Commit Message:
+
+Therfore, the commit message for the diff should be like this:
 
 ```txt
 feat(src/components/Navbar): add dark mode toggle
@@ -734,8 +770,8 @@ feat(src/components/Navbar): add dark mode toggle
 - Implemented toggle button in header
 - Added CSS variables for theme switching
 ```
-</Example>
 
+---
 
 Following diff between <Diff> and </Diff> is the diff you must analyze:
 
@@ -745,7 +781,8 @@ Following diff between <Diff> and </Diff> is the diff you must analyze:
     ```
 </Diff>
 
-You must analyze lines which start with `    -` (delete) or `    +` (add).
+Let's start your task!
+
 ]],
                                     indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
                                 )
