@@ -612,6 +612,13 @@ xno ,- :s/\%V\([A-Z]\)/-\l\1/g<CR>
 " au VIMRC FileType netrw nn <buffer> q :<C-u>bw<CR>
 " au VIMRC FileType netrw nn <buffer> qq :<C-u>bw<CR>
 " au VIMRC FileType netrw nn <buffer> A :<C-u>cal <SID>lex_toggle_width()<CR>
+
+if executable('whisper.nvim')
+  inoremap <C-G><C-W>  <C-O>:!whisper.nvim<CR><C-O>:let @a = system("cat /tmp/whisper.nvim \| tail -n 1 \| xargs -0 \| tr -d '\\n' \| sed -e 's/^[[:space:]]*//'")<CR><C-R>a
+  nnoremap <C-G><C-W>       :!whisper.nvim<CR>:let @a = system("cat /tmp/whisper.nvim \| tail -n 1 \| xargs -0 \| tr -d '\\n' \| sed -e 's/^[[:space:]]*//'")<CR>"ap
+  vnoremap <C-G><C-W> c<C-O>:!whisper.nvim<CR><C-O>:let @a = system("cat /tmp/whisper.nvim \| tail -n 1 \| xargs -0 \| tr -d '\\n' \| sed -e 's/^[[:space:]]*//'")<CR><C-R>a
+endif
+
 " }}} MAPPING END
 
 " COMMAND {{{

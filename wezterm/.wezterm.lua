@@ -2,6 +2,7 @@ local wezterm = require('wezterm')
 local config = wezterm.config_builder()
 
 config.color_scheme = 'iceberg-dark'
+-- config.color_scheme = 'Tokyo Night'
 config.font = wezterm.font_with_fallback({
     -- 'BlexMono Nerd Font',
     'JetBrainsMono Nerd Font',
@@ -56,7 +57,8 @@ config.audible_bell = "Disabled"
 -- config.front_end = "Software"
 -- config.prefer_egl = false
 config.window_background_opacity = 0.8
-config.macos_window_background_blur = 20
+-- config.macos_window_background_blur = 20
+config.macos_window_background_blur = 0
 
 -- local is_windows = wezterm.target_triple:find("windows") ~= nil
 

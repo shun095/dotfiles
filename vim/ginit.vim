@@ -17,9 +17,11 @@ if v:false
   let g:neovide_opacity = 1.0
   let g:neovide_normal_opacity = 1.0
 endif
-let g:neovide_window_blurred = v:true
-" let g:neovide_floating_blur_amount_x = 0
-" let g:neovide_floating_blur_amount_y = 0
+let g:neovide_window_blurred = v:false
+" let g:neovide_floating_blur_amount_x = 2.0
+" let g:neovide_floating_blur_amount_y = 2.0
+let g:neovide_floating_blur_amount_x = 0
+let g:neovide_floating_blur_amount_y = 0
 let g:neovide_floating_shadow = v:true
 let g:neovide_floating_corner_radius = 0.25
 
