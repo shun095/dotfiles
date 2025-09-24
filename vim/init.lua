@@ -791,55 +791,55 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
         vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#6b7089" })
 
         vim.api.nvim_set_hl(0, "CmpItemKindField",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#B5585F") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#B5585F") })
         vim.api.nvim_set_hl(0, "CmpItemKindProperty",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#B5585F") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#B5585F") })
         vim.api.nvim_set_hl(0, "CmpItemKindEvent",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#B5585F") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#B5585F") })
         vim.api.nvim_set_hl(0, "CmpItemKindText",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#9FBD73") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#9FBD73") })
         vim.api.nvim_set_hl(0, "CmpItemKindEnum",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#9FBD73") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#9FBD73") })
         vim.api.nvim_set_hl(0, "CmpItemKindKeyword",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#9FBD73") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#9FBD73") })
         vim.api.nvim_set_hl(0, "CmpItemKindConstant",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4BB6C") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#D4BB6C") })
         vim.api.nvim_set_hl(0, "CmpItemKindConstructor",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4BB6C") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#D4BB6C") })
         vim.api.nvim_set_hl(0, "CmpItemKindReference",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4BB6C") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#D4BB6C") })
         vim.api.nvim_set_hl(0, "CmpItemKindFunction",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindStruct",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindClass",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindModule",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindOperator",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#A377BF") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#A377BF") })
         vim.api.nvim_set_hl(0, "CmpItemKindVariable",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#7E8294") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#7E8294") })
         vim.api.nvim_set_hl(0, "CmpItemKindFile",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#7E8294") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#7E8294") })
         vim.api.nvim_set_hl(0, "CmpItemKindUnit",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4A959") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#D4A959") })
         vim.api.nvim_set_hl(0, "CmpItemKindSnippet",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4A959") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#D4A959") })
         vim.api.nvim_set_hl(0, "CmpItemKindFolder",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#D4A959") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#D4A959") })
         vim.api.nvim_set_hl(0, "CmpItemKindMethod",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#6C8ED4") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#6C8ED4") })
         vim.api.nvim_set_hl(0, "CmpItemKindValue",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#6C8ED4") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#6C8ED4") })
         vim.api.nvim_set_hl(0, "CmpItemKindEnumMember",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#6C8ED4") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#6C8ED4") })
         vim.api.nvim_set_hl(0, "CmpItemKindInterface",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#58B5A8") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#58B5A8") })
         vim.api.nvim_set_hl(0, "CmpItemKindColor",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#58B5A8") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#58B5A8") })
         vim.api.nvim_set_hl(0, "CmpItemKindTypeParameter",
-            { fg = FindPaletteColor("#FFFFFF"), bg = FindPaletteColor("#58B5A8") })
+            { fg = FindPaletteColor("#CCCCCC"), bg = FindPaletteColor("#58B5A8") })
     end
 })
 

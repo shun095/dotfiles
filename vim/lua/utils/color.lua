@@ -1,4 +1,3 @@
-
 local M = {}
 
 ---Convert hex color to RGB
@@ -119,6 +118,22 @@ function FindPaletteColor(hex)
         "#1e2132", "#686f9a", "#ada0d3",
         "#17171b", "#a093c7", "#ceb0b6",
     }
+
+    -- tokyonight-night palette
+    -- local palette = {
+    --     "#1a1b26", "#16161e", "#0C0E14",
+    --     "#292e42", "#7aa2f7", "#3d59a1",
+    --     "#2ac3de", "#0db9d7", "#89ddff",
+    --     "#b4f9f8", "#394b70", "#565f89",
+    --     "#7dcfff", "#545c7e", "#737aa2",
+    --     "#c0caf5", "#a9b1d6", "#3b4261",
+    --     "#9ece6a", "#73daca", "#41a6b5",
+    --     "#bb9af7", "#ff007c", "#ff9e64",
+    --     "#9d7cd8", "#f7768e", "#db4b4b",
+    --     "#1abc9c", "#414868", "#e0af68",
+    --     "#449dab", "#6183bb", "#914c54",
+    -- }
+
     local r1, g1, b1 = M.hex_to_rgb(hex)
     local x1, y1, z1 = M.rgb_to_xyz(r1, g1, b1)
     local l1, a1, b1 = M.xyz_to_lab(x1, y1, z1)
