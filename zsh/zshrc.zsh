@@ -7,7 +7,7 @@ esac
 
 # GENERAL CONFIG
 if [[ "${EDITOR}" = "" ]]; then
-    export EDITOR=vim
+    export EDITOR=nvim
 fi
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
@@ -77,9 +77,13 @@ _zshrc_get_fzf_preview_cmd() {
     echo $previewcmd
 }
 if [[ $TMUX = "" ]]; then
-    export FZF_DEFAULT_OPTS="--height 50%"
+    export FZF_DEFAULT_OPTS="--height 50% --wrap"
 else
-    export FZF_DEFAULT_OPTS="--tmux bottom,50%"
+    if [ -n "$NVIM" ] || [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+        export FZF_DEFAULT_OPTS="--height 50% --wrap"
+    else
+        export FZF_DEFAULT_OPTS="--tmux bottom,50% --wrap"
+    fi
 fi
 export FZF_CTRL_R_OPTS="--reverse"
 export FZF_CTRL_T_OPTS="--preview '$(_zshrc_get_fzf_preview_cmd)' --preview-window=right:50% --bind=ctrl-/:toggle-preview"
@@ -312,29 +316,11 @@ if type trash-put > /dev/null 2>&1; then
     alias trm="trash-put"
 fi
 
+# Colorize diff
 if type colordiff > /dev/null 2>&1; then
     alias diff="colordiff -u"
 else
     alias diff="diff -u"
-fi
-
-if type $MYDOTFILES/build/vim/bin/vim > /dev/null 2>&1; then
-    # alias vim=$MYDOTFILES/build/vim/bin/vim
-    export PATH=$MYDOTFILES/build/vim/bin:$PATH
-elif type $HOME/build/vim/bin/vim > /dev/null 2>&1; then
-    # alias vim=$HOME/build/vim/bin/vim
-    export PATH=$HOME/build/vim/bin:$PATH
-elif type /usr/local/bin/vim > /dev/null 2>&1;then
-    # alias vim=/usr/local/bin/vim
-    export PATH=/usr/local/bin:$PATH
-fi
-
-if type $MYDOTFILES/build/vim/bin/gvim > /dev/null 2>&1; then
-    alias vim=$MYDOTFILES/build/vim/bin/gvim
-elif type $HOME/build/vim/bin/gvim > /dev/null 2>&1; then
-    alias vim=$HOME/build/vim/bin/gvim
-elif type /usr/local/bin/gvim > /dev/null 2>&1;then
-    alias gvim=/usr/local/bin/gvim
 fi
 
 # Simple vim
@@ -344,10 +330,7 @@ alias svim="vim --cmd \"let g:use_plugins=0\""
 alias gnvim="nvim-qt"
 alias memo="vim -c \"MemoNew\""
 
-if type /usr/local/bin/emacs > /dev/null 2>&1;then
-    alias emacs=/usr/local/bin/emacs
-fi
-
+# Highlighted cat
 alias dir="dir --group-directories-first --color=auto"
 if type pygmentize > /dev/null 2>&1; then
     alias pyg="pygmentize -O style=monokai -f 256 -g"
@@ -357,16 +340,21 @@ if type highlight > /dev/null 2>&1; then
     alias hlt="highlight -O ansi"
 fi
 
+# Git
 alias ggr="git graph"
 
 autoload -Uz zmv
 alias zmv='noglob zmv -W'
 
+# Simple Server
 alias http-echo='http-echo-server'
 alias http-srv='python3 -m http.server 3000'
+
+# Docker
 alias dock='docker'
 alias doco='docker-compose'
 
+# Kubernetes
 if type kubectl >/dev/null 2>&1; then
   kubectl () {
     unset -f kubectl
@@ -377,6 +365,7 @@ if type kubectl >/dev/null 2>&1; then
 fi
 alias k='kubectl'
 
+# Curl
 alias cauthget='curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer $CURL_AUTH_TOKEN" https://localhost/'
 alias cauthpost='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $CURL_AUTH_TOKEN" https://localhost -d '
 alias cauthput='curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer $CURL_AUTH_TOKEN" https://localhost -d '
