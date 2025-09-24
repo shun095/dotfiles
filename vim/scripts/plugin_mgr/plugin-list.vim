@@ -271,7 +271,7 @@ Plug 'mzlogin/vim-markdown-toc', {'for': ['markdown']}
 Plug 'shinespark/vim-list2tree', {'for': ['markdown']}
 Plug 'kannokanno/previm', {'for': ['markdown']}
 Plug 'jceb/vim-orgmode', {'for': ['org']}
-Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
+" Plug 'weirongxu/plantuml-previewer.vim', {'for': ['plantuml'], 'on': ['PlantumlOpen', 'PlantumlSave', 'PlantumlStop']}
 Plug 'lambdalisue/vim-pyenv', {'for': ['python']}
 "Plug 'lervag/vimtex', {'for': ['tex']}
 " }}}
