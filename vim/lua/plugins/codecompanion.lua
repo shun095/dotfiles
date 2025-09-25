@@ -323,8 +323,8 @@ return {
  
                 if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") then
                     if #systems > 0 then
-                        systems[1].content = "<system>\n" .. systems[1].content
-                        systems[#systems].content = systems[#systems].content .. "\n</system>\n\n---"
+                        systems[1].content = "## Conversation Instructions:\n\nFollowing is the system instructions you must follow in this conversation.\n\n<system-instructions>\n" .. systems[1].content
+                        systems[#systems].content = systems[#systems].content .. "\n</system-instructions>\n\nNow, let's start the conversation.\n\n---\n\n## Conversation:"
                     end
                 end
 
