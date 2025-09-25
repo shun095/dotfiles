@@ -73,7 +73,7 @@ require("lazy").setup({
     install          = {
         missing = true,
         colorscheme = {
-            "iceberg",
+            "tokyonight-night",
         }
     },
     ui               = {
@@ -1695,7 +1695,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 })
 
 if vim.env.TERM and vim.env.TERM:match(".*%-256color$") then
-    vim.cmd('colorscheme iceberg')
+    vim.cmd('colorscheme tokyonight-night')
 else
     vim.cmd('colorscheme default')
 end

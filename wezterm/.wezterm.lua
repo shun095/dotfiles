@@ -1,14 +1,18 @@
 local wezterm = require('wezterm')
 local config = wezterm.config_builder()
 
-config.color_scheme = 'iceberg-dark'
--- config.color_scheme = 'Tokyo Night'
+-- config.color_scheme = 'iceberg-dark'
+config.color_scheme = 'Tokyo Night'
 config.font = wezterm.font_with_fallback({
+    'Terminess Nerd Font',
+    'DotGothic16',
+    -- 'x14y24pxHeadUpDaisy',
+    -- 'x12y12pxMaruMinya',
     -- 'BlexMono Nerd Font',
-    'JetBrainsMono Nerd Font',
+    -- 'JetBrainsMono Nerd Font',
     'BIZ UDGothic',
 })
-config.font_size = 13
+config.font_size = 16
 config.hide_tab_bar_if_only_one_tab = true
 config.window_padding = {
     left = 0,
@@ -56,9 +60,12 @@ config.keys = {
 config.audible_bell = "Disabled"
 -- config.front_end = "Software"
 -- config.prefer_egl = false
+
+-- config.window_background_opacity = 1
+config.macos_window_background_blur = 0
+
 config.window_background_opacity = 0.8
 -- config.macos_window_background_blur = 20
-config.macos_window_background_blur = 0
 
 -- local is_windows = wezterm.target_triple:find("windows") ~= nil
 

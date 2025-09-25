@@ -493,7 +493,7 @@ return {
                     window = {
                         layout = "vertical",
                         position = "right",
-                        width = 0.3,
+                        width = 0.5,
                         row = "center", -- for debug window
                         col = "center"  -- for debug window
                     },
