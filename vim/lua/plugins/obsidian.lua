@@ -8,6 +8,7 @@ return {
         local function note_id_func(title)
             local id = ""
             if title ~= nil then
+                -- Sanitize symbols to hyphens
                 id = title:gsub("[\\/:*?\"<>|.]", "-")
                 if id ~= "" then
                     return id
