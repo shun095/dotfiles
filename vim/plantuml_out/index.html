@@ -1,167 +1,201 @@
 <!doctype html>
 <html lang="ja">
+
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>tmp.png Viewer</title>
-<style>
-  :root{
-    --bg:#111;
-    --toolbar-bg: rgba(0,0,0,0.5);
-    --btn-bg: rgba(255,255,255,0.06);
-    --btn-hover: rgba(255,255,255,0.12);
-    --accent: #6cf;
-  }
-  html,body{
-    height:100%;
-    margin:0;
-    background:var(--bg);
-    color:#eee;
-    font-family: system-ui, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
-    -webkit-user-select:none;
-    user-select:none;
-    overflow:hidden;
-  }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>tmp.png Viewer</title>
+  <style>
+    :root {
+      --bg: #111;
+      --toolbar-bg: rgba(0, 0, 0, 0.5);
+      --btn-bg: rgba(255, 255, 255, 0.06);
+      --btn-hover: rgba(255, 255, 255, 0.12);
+      --accent: #6cf;
+    }
 
-  /* viewer full screen */
-  #viewer{
-    position:fixed;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(180deg,#0b0b0b 0%, #141414 100%);
-  }
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: #eee;
+      font-family: system-ui, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+      -webkit-user-select: none;
+      user-select: none;
+      overflow: hidden;
+    }
 
-  /* container that holds the image and clipping */
-  .frame{
-    position:relative;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    touch-action: none; /* we'll handle touch */
-  }
+    /* viewer full screen */
+    #viewer {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #0b0b0b 0%, #141414 100%);
+    }
 
-  /* the actual image element (transformed) */
-  #photo{
-    position:absolute;
-    top:0;
-    left:0;
-    transform-origin: 0 0; /* we'll control translate+scale */
-    will-change: transform;
-    -webkit-user-drag: none;
-    user-drag: none;
-    max-width:none; /* avoid automatic scaling by browser */
-    max-height:none;
-    image-rendering: auto;
-    cursor: grab;
-  }
-  #photo:active{ cursor:grabbing; }
+    /* container that holds the image and clipping */
+    .frame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      touch-action: none;
+      /* we'll handle touch */
+    }
 
-  /* toolbar */
-  .toolbar{
-    position:fixed;
-    right:12px;
-    top:12px;
-    background:var(--toolbar-bg);
-    border-radius:10px;
-    padding:8px;
-    display:flex;
-    gap:6px;
-    z-index:40;
-    backdrop-filter: blur(6px);
-  }
-  .btn{
-    background:var(--btn-bg);
-    color:#fff;
-    border:0;
-    padding:8px 10px;
-    border-radius:8px;
-    font-size:14px;
-    cursor:pointer;
-    min-width:40px;
-  }
-  .btn:hover{ background:var(--btn-hover); }
-  .btn:active{ transform: translateY(1px); }
-  .status{
-    position:fixed;
-    left:12px;
-    top:12px;
-    background:var(--toolbar-bg);
-    padding:8px 12px;
-    border-radius:10px;
-    font-size:13px;
-    z-index:40;
-    backdrop-filter: blur(6px);
-  }
+    /* the actual image element (transformed) */
+    #photo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: 0 0;
+      /* we'll control translate+scale */
+      will-change: transform;
+      -webkit-user-drag: none;
+      user-drag: none;
+      max-width: none;
+      /* avoid automatic scaling by browser */
+      max-height: none;
+      image-rendering: auto;
+      cursor: grab;
+    }
 
-  /* center small hint */
-  .hint{
-    position:fixed;
-    left:50%;
-    bottom:18px;
-    transform:translateX(-50%);
-    background:rgba(0,0,0,0.45);
-    padding:8px 12px;
-    border-radius:999px;
-    font-size:13px;
-    color:#ddd;
-    z-index:40;
-  }
+    #photo:active {
+      cursor: grabbing;
+    }
 
-  /* loading overlay */
-  .loading{
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:30;
-    pointer-events:none;
-  }
-  .spinner{
-    width:64px;
-    height:64px;
-    border-radius:50%;
-    border:6px solid rgba(255,255,255,0.08);
-    border-top-color: var(--accent);
-    animation:spin 1s linear infinite;
-    box-shadow:0 0 18px rgba(0,0,0,0.6);
-  }
-  @keyframes spin{ to { transform: rotate(360deg); } }
+    /* toolbar */
+    .toolbar {
+      position: fixed;
+      right: 12px;
+      top: 12px;
+      background: var(--toolbar-bg);
+      border-radius: 10px;
+      padding: 8px;
+      display: flex;
+      gap: 6px;
+      z-index: 40;
+      backdrop-filter: blur(6px);
+    }
 
-  /* small file-not-found text inside loading */
-  .loading .msg{
-    position:absolute;
-    top:calc(50% + 56px);
-    transform:translateY(-50%);
-    color:#bbb;
-    font-size:13px;
-    text-align:center;
-    width:240px;
-    pointer-events:none;
-  }
+    .btn {
+      background: var(--btn-bg);
+      color: #fff;
+      border: 0;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      min-width: 40px;
+    }
 
-  /* small footer */
-  .footer{
-    position:fixed;
-    right:12px;
-    bottom:12px;
-    background:var(--toolbar-bg);
-    padding:6px 8px;
-    border-radius:10px;
-    font-size:12px;
-    color:#ddd;
-    z-index:40;
-  }
+    .btn:hover {
+      background: var(--btn-hover);
+    }
 
-  /* responsive tiny screens */
-  @media (max-width:420px){
-    .toolbar{ gap:4px; padding:6px; right:8px; top:8px; }
-    .btn{ padding:6px 8px; font-size:13px; min-width:36px; }
-  }
-</style>
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .status {
+      position: fixed;
+      left: 12px;
+      top: 12px;
+      background: var(--toolbar-bg);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      z-index: 40;
+      backdrop-filter: blur(6px);
+    }
+
+    /* center small hint */
+    .hint {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.45);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: #ddd;
+      z-index: 40;
+    }
+
+    /* loading overlay */
+    .loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      pointer-events: none;
+    }
+
+    .spinner {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 6px solid rgba(255, 255, 255, 0.08);
+      border-top-color: var(--accent);
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.6);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* small file-not-found text inside loading */
+    .loading .msg {
+      position: absolute;
+      top: calc(50% + 56px);
+      transform: translateY(-50%);
+      color: #bbb;
+      font-size: 13px;
+      text-align: center;
+      width: 240px;
+      pointer-events: none;
+    }
+
+    /* small footer */
+    .footer {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      background: var(--toolbar-bg);
+      padding: 6px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      color: #ddd;
+      z-index: 40;
+    }
+
+    /* responsive tiny screens */
+    @media (max-width:420px) {
+      .toolbar {
+        gap: 4px;
+        padding: 6px;
+        right: 8px;
+        top: 8px;
+      }
+
+      .btn {
+        padding: 6px 8px;
+        font-size: 13px;
+        min-width: 36px;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div id="viewer" aria-live="polite">
     <div class="frame" id="frame">
@@ -188,386 +222,387 @@
     <div class="hint" id="hint">ホイールでズーム / ドラッグでパン / ダブルクリックで 100%</div>
   </div>
 
-<script>
-/*
-  tmp.png ビューア
-  - file:// を前提に動作
-  - 初回ロード時にウィンドウに合わせる (fit)
-  - リサイズ時に自動でサイズをリセットしない（ユーザー操作でリセット）
-  - 拡大・縮小・パン・フィット(窓に合わせる)・100% リセット
-  - tmp.pngが無ければローディング表示。存在したら表示。
-  - ポーリングで tmp.png の更新を検知して差し替える（現在のズーム/パンは維持）
-*/
+  <script>
+    /*
+      tmp.png ビューア
+      - file:// を前提に動作
+      - 初回ロード時にウィンドウに合わせる (fit)
+      - リサイズ時に自動でサイズをリセットしない（ユーザー操作でリセット）
+      - 拡大・縮小・パン・フィット(窓に合わせる)・100% リセット
+      - tmp.pngが無ければローディング表示。存在したら表示。
+      - ポーリングで tmp.png の更新を検知して差し替える（現在のズーム/パンは維持）
+    */
 
-(() => {
-  const IMG_PATH = 'tmp.png';
-  const POLL_INTERVAL = 1000; // ms: 画像の存在/更新をチェック
-  const CHECK_ON_START = true;
+    (() => {
+      const IMG_PATH = 'tmp.png';
+      const POLL_INTERVAL = 1000; // ms: 画像の存在/更新をチェック
+      const CHECK_ON_START = true;
 
-  const photo = document.getElementById('photo');
-  const loading = document.getElementById('loading');
-  const status = document.getElementById('status');
-  const footer = document.getElementById('footer');
-  const frame = document.getElementById('frame');
+      const photo = document.getElementById('photo');
+      const loading = document.getElementById('loading');
+      const status = document.getElementById('status');
+      const footer = document.getElementById('footer');
+      const frame = document.getElementById('frame');
 
-  const zoomInBtn = document.getElementById('zoomIn');
-  const zoomOutBtn = document.getElementById('zoomOut');
-  const fitBtn = document.getElementById('fit');
-  const reset100Btn = document.getElementById('reset100');
-  const reloadNowBtn = document.getElementById('reloadNow');
+      const zoomInBtn = document.getElementById('zoomIn');
+      const zoomOutBtn = document.getElementById('zoomOut');
+      const fitBtn = document.getElementById('fit');
+      const reset100Btn = document.getElementById('reset100');
+      const reloadNowBtn = document.getElementById('reloadNow');
 
-  let state = {
-    scale: 1,
-    tx: 0, // translate x (px)
-    ty: 0, // translate y (px)
-    dragging: false,
-    lastX: 0,
-    lastY: 0,
-    imgNaturalWidth: 0,
-    imgNaturalHeight: 0,
-    lastProbeKey: '', // last cache-buster used
-    firstLoaded: false, // whether initial fit applied
-  isFit: false, // whether currently in Fit mode
-    pollTimer: null,
-    touch: {
-      isPinching: false,
-      startDist: 0,
-      startScale: 1,
-      startMid: null
-    }
-  };
+      let state = {
+        scale: 1,
+        tx: 0, // translate x (px)
+        ty: 0, // translate y (px)
+        dragging: false,
+        lastX: 0,
+        lastY: 0,
+        imgNaturalWidth: 0,
+        imgNaturalHeight: 0,
+        lastProbeKey: '', // last cache-buster used
+        firstLoaded: false, // whether initial fit applied
+        isFit: false, // whether currently in Fit mode
+        pollTimer: null,
+        touch: {
+          isPinching: false,
+          startDist: 0,
+          startScale: 1,
+          startMid: null
+        }
+      };
 
-  // helpers
-  function log(s){ status.textContent = '状態: ' + s; }
-  function setFooter(s){ footer.textContent = s; }
+      // helpers
+      function log(s) {status.textContent = '状態: ' + s;}
+      function setFooter(s) {footer.textContent = s;}
 
-  // apply CSS transform according to tx,ty,scale
-  function applyTransform(){
-    const t = `translate(${state.tx}px, ${state.ty}px) scale(${state.scale})`;
-    photo.style.transform = t;
-  }
+      // apply CSS transform according to tx,ty,scale
+      function applyTransform() {
+        const t = `translate(${state.tx}px, ${state.ty}px) scale(${state.scale})`;
+        photo.style.transform = t;
+      }
 
-  // fit image to frame (ウィンドウに合わせる) - set scale & center
-  function fitToWindow(){
-    if (!photo.naturalWidth || !photo.naturalHeight) return;
-    const fw = frame.clientWidth;
-    const fh = frame.clientHeight;
-    const iw = photo.naturalWidth;
-    const ih = photo.naturalHeight;
-    const scale = Math.min(fw / iw, fh / ih, 1e9); // avoid Infinity
-    state.scale = scale;
-  // entering Fit mode
-  state.isFit = true;
-    // center
-    state.tx = (fw - iw * state.scale) / 2;
-    state.ty = (fh - ih * state.scale) / 2;
-    applyTransform();
-    log('ウィンドウに合わせて表示 (Fit)');
-  }
-
-  // set 100% (scale=1) and center image inside frame
-  function resetTo100(){
-    state.scale = 1;
-    // center inside frame
-    const fw = frame.clientWidth;
-    const fh = frame.clientHeight;
-    const iw = photo.naturalWidth;
-    const ih = photo.naturalHeight;
-    state.tx = (fw - iw * state.scale) / 2;
-    state.ty = (fh - ih * state.scale) / 2;
-  // exiting Fit mode (user requested 100% view)
-  state.isFit = false;
-    applyTransform();
-    log('100% 表示にリセット');
-  }
-
-  // zoom by factor around a point (clientX, clientY)
-  function zoomBy(factor, clientX, clientY){
-    const prevScale = state.scale;
-    const newScale = prevScale * factor;
-    // clamp min/max
-    const MIN_SCALE = 0.05;
-    const MAX_SCALE = 64;
-    const clamped = Math.max(MIN_SCALE, Math.min(MAX_SCALE, newScale));
-    const scaleFactor = clamped / prevScale;
-    // convert client coords to image-space before scale
-    const rect = frame.getBoundingClientRect();
-    const cx = clientX - rect.left;
-    const cy = clientY - rect.top;
-
-    // image origin in client coords = (tx + 0, ty + 0) scaled by current scale
-  // any manual zoom exits Fit mode
-  state.isFit = false;
-    // to keep point under cursor fixed: adjust tx,ty
-    state.tx = cx - scaleFactor * (cx - state.tx);
-    state.ty = cy - scaleFactor * (cy - state.ty);
-    state.scale = clamped;
-    applyTransform();
-  }
-
-  // zoom in/out shortcuts
-  zoomInBtn.addEventListener('click', ()=> {
-    const cx = frame.clientWidth/2;
-    const cy = frame.clientHeight/2;
-    zoomBy(1.25, cx + frame.getBoundingClientRect().left, cy + frame.getBoundingClientRect().top);
-    log('拡大');
-  });
-  zoomOutBtn.addEventListener('click', ()=> {
-    const cx = frame.clientWidth/2;
-    const cy = frame.clientHeight/2;
-    zoomBy(1/1.25, cx + frame.getBoundingClientRect().left, cy + frame.getBoundingClientRect().top);
-    log('縮小');
-  });
-  fitBtn.addEventListener('click', () => {
-    fitToWindow();
-  });
-  reset100Btn.addEventListener('click', () => {
-    resetTo100();
-  });
-  reloadNowBtn.addEventListener('click', () => {
-    probeImage(true); // force immediate probe and update
-  });
-
-  // pointer / mouse drag for panning
-  frame.addEventListener('pointerdown', (e) => {
-    if (e.pointerType === 'mouse' && e.button !== 0) return; // only left button
-    state.dragging = true;
-    state.lastX = e.clientX;
-    state.lastY = e.clientY;
-    frame.setPointerCapture(e.pointerId);
-    photo.style.cursor = 'grabbing';
-  });
-  frame.addEventListener('pointermove', (e) => {
-    if (!state.dragging) return;
-    const dx = e.clientX - state.lastX;
-    const dy = e.clientY - state.lastY;
-    state.lastX = e.clientX;
-    state.lastY = e.clientY;
-    state.tx += dx;
-    state.ty += dy;
-    applyTransform();
-  });
-  frame.addEventListener('pointerup', (e) => {
-    state.dragging = false;
-    try{ frame.releasePointerCapture(e.pointerId); }catch(e){}
-    photo.style.cursor = 'grab';
-  });
-  frame.addEventListener('pointercancel', (e) => {
-    state.dragging = false;
-    try{ frame.releasePointerCapture(e.pointerId); }catch(e){}
-    photo.style.cursor = 'grab';
-  });
-
-  // wheel zoom (ctrl+wheel? we'll do wheel for zoom)
-  frame.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    const delta = e.deltaY;
-    // adjust factor
-    const factor = Math.exp(-delta * 0.0015); // smooth
-    zoomBy(factor, e.clientX, e.clientY);
-  }, { passive:false });
-
-  // double click => toggle 100% (if at 100% then fit)
-  frame.addEventListener('dblclick', (e) => {
-    if (Math.abs(state.scale - 1) < 0.001) {
-      fitToWindow();
-    } else {
-      resetTo100();
-    }
-  });
-
-  // touch: support pinch zoom
-  frame.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 2) {
-      e.preventDefault();
-      const t0 = e.touches[0], t1 = e.touches[1];
-      state.touch.isPinching = true;
-      state.touch.startDist = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
-      state.touch.startScale = state.scale;
-      state.touch.startMid = { x: (t0.clientX + t1.clientX)/2, y: (t0.clientY + t1.clientY)/2 };
-    } else if (e.touches.length === 1) {
-      // start pan
-      state.dragging = true;
-      state.lastX = e.touches[0].clientX;
-      state.lastY = e.touches[0].clientY;
-    }
-  }, { passive:false });
-
-  frame.addEventListener('touchmove', (e) => {
-    if (state.touch.isPinching && e.touches.length === 2) {
-      e.preventDefault();
-      const t0 = e.touches[0], t1 = e.touches[1];
-      const dist = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
-      const factor = dist / state.touch.startDist;
-      const targetScale = state.touch.startScale * factor;
-      // apply around midpoint
-      zoomAround(state.touch.startMid.x, state.touch.startMid.y, targetScale);
-    } else if (state.dragging && e.touches.length === 1) {
-      const dx = e.touches[0].clientX - state.lastX;
-      const dy = e.touches[0].clientY - state.lastY;
-      state.lastX = e.touches[0].clientX;
-      state.lastY = e.touches[0].clientY;
-      state.tx += dx;
-      state.ty += dy;
-      applyTransform();
-    }
-  }, { passive:false });
-
-  frame.addEventListener('touchend', (e) => {
-    if (e.touches.length < 2) {
-      state.touch.isPinching = false;
-    }
-    if (e.touches.length === 0) {
-      state.dragging = false;
-    }
-  });
-
-  // helper to set absolute scale (used by pinch) while preserving cursor/midpoint
-  function zoomAround(clientX, clientY, absoluteScale){
-    const prevScale = state.scale;
-    const clamped = Math.max(0.05, Math.min(64, absoluteScale));
-    const scaleFactor = clamped / prevScale;
-    const rect = frame.getBoundingClientRect();
-    const cx = clientX - rect.left;
-    const cy = clientY - rect.top;
-    state.tx = cx - scaleFactor * (cx - state.tx);
-    state.ty = cy - scaleFactor * (cy - state.ty);
-    state.scale = clamped;
-  // pinch/zoom via zoomAround exits Fit mode
-  state.isFit = false;
-    applyTransform();
-  }
-
-  // keyboard shortcuts
-  window.addEventListener('keydown', (e) => {
-    if (e.key === '+' || e.key === '=' ) { zoomInBtn.click(); e.preventDefault(); }
-    if (e.key === '-' ) { zoomOutBtn.click(); e.preventDefault(); }
-    if (e.key === '0') { fitBtn.click(); e.preventDefault(); }
-    if (e.key === '1') { reset100Btn.click(); e.preventDefault(); }
-    if (e.key === 'r') { reloadNowBtn.click(); e.preventDefault(); }
-  });
-
-  // Image probing & update logic
-  // We will periodically create an Image with a cache-buster and try to load it.
-  // If it loads and we haven't shown an image yet => display it (apply fit on first load).
-  // If it loads and is a new cache-busted URL => replace src of visible image (keeping transforms).
-  // If it errors (404/not found), keep showing loading spinner.
-  let lastGoodKey = null;
-
-  function makeProbeKey(){
-    return String(Date.now());
-  }
-
-  function probeImage(force=false){
-    // create a candidate src with cache-buster
-    const key = makeProbeKey();
-    const test = new Image();
-    test.onload = () => {
-      // image exists and loaded
-      loading.style.display = 'none';
-      photo.style.display = 'block';
-      // set natural dimensions
-      photo.naturalWidth = test.naturalWidth || test.width;
-      photo.naturalHeight = test.naturalHeight || test.height;
-      // Update src only if new key or force
-      const candidateSrc = IMG_PATH + '?cb=' + key;
-      if (!photo.src || force || lastGoodKey !== key) {
-        // replace image source (this will cause the browser to load it)
-        // keep transforms (do not reset)
-        // using direct src ensures file:// with query string
-        const prevTransform = { scale: state.scale, tx: state.tx, ty: state.ty };
-        photo.src = candidateSrc; // note: visible element will now update
-        // keep state as-is; applyTransform() will use state values
+      // fit image to frame (ウィンドウに合わせる) - set scale & center
+      function fitToWindow() {
+        if (!photo.naturalWidth || !photo.naturalHeight) return;
+        const fw = frame.clientWidth;
+        const fh = frame.clientHeight;
+        const iw = photo.naturalWidth;
+        const ih = photo.naturalHeight;
+        const scale = Math.min(fw / iw, fh / ih, 1e9); // avoid Infinity
+        state.scale = scale;
+        // entering Fit mode
+        state.isFit = true;
+        // center
+        state.tx = (fw - iw * state.scale) / 2;
+        state.ty = (fh - ih * state.scale) / 2;
         applyTransform();
-        lastGoodKey = key;
-        log('画像読み込み完了: ' + new Date().toLocaleTimeString());
-        setFooter('更新時刻: ' + new Date().toLocaleTimeString());
+        log('ウィンドウに合わせて表示 (Fit)');
       }
-      // mark that first load happened; if first, apply fit
-      if (!state.firstLoaded) {
-        state.firstLoaded = true;
-        // Apply fit to window now (initial fit rule)
+
+      // set 100% (scale=1) and center image inside frame
+      function resetTo100() {
+        state.scale = 1;
+        // center inside frame
+        const fw = frame.clientWidth;
+        const fh = frame.clientHeight;
+        const iw = photo.naturalWidth;
+        const ih = photo.naturalHeight;
+        state.tx = (fw - iw * state.scale) / 2;
+        state.ty = (fh - ih * state.scale) / 2;
+        // exiting Fit mode (user requested 100% view)
+        state.isFit = false;
+        applyTransform();
+        log('100% 表示にリセット');
+      }
+
+      // zoom by factor around a point (clientX, clientY)
+      function zoomBy(factor, clientX, clientY) {
+        const prevScale = state.scale;
+        const newScale = prevScale * factor;
+        // clamp min/max
+        const MIN_SCALE = 0.05;
+        const MAX_SCALE = 64;
+        const clamped = Math.max(MIN_SCALE, Math.min(MAX_SCALE, newScale));
+        const scaleFactor = clamped / prevScale;
+        // convert client coords to image-space before scale
+        const rect = frame.getBoundingClientRect();
+        const cx = clientX - rect.left;
+        const cy = clientY - rect.top;
+
+        // image origin in client coords = (tx + 0, ty + 0) scaled by current scale
+        // any manual zoom exits Fit mode
+        state.isFit = false;
+        // to keep point under cursor fixed: adjust tx,ty
+        state.tx = cx - scaleFactor * (cx - state.tx);
+        state.ty = cy - scaleFactor * (cy - state.ty);
+        state.scale = clamped;
+        applyTransform();
+      }
+
+      // zoom in/out shortcuts
+      zoomInBtn.addEventListener('click', () => {
+        const cx = frame.clientWidth / 2;
+        const cy = frame.clientHeight / 2;
+        zoomBy(1.25, cx + frame.getBoundingClientRect().left, cy + frame.getBoundingClientRect().top);
+        log('拡大');
+      });
+      zoomOutBtn.addEventListener('click', () => {
+        const cx = frame.clientWidth / 2;
+        const cy = frame.clientHeight / 2;
+        zoomBy(1 / 1.25, cx + frame.getBoundingClientRect().left, cy + frame.getBoundingClientRect().top);
+        log('縮小');
+      });
+      fitBtn.addEventListener('click', () => {
         fitToWindow();
+      });
+      reset100Btn.addEventListener('click', () => {
+        resetTo100();
+      });
+      reloadNowBtn.addEventListener('click', () => {
+        probeImage(true); // force immediate probe and update
+      });
+
+      // pointer / mouse drag for panning
+      frame.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return; // only left button
+        state.dragging = true;
+        state.lastX = e.clientX;
+        state.lastY = e.clientY;
+        frame.setPointerCapture(e.pointerId);
+        photo.style.cursor = 'grabbing';
+      });
+      frame.addEventListener('pointermove', (e) => {
+        if (!state.dragging) return;
+        const dx = e.clientX - state.lastX;
+        const dy = e.clientY - state.lastY;
+        state.lastX = e.clientX;
+        state.lastY = e.clientY;
+        state.tx += dx;
+        state.ty += dy;
+        applyTransform();
+      });
+      frame.addEventListener('pointerup', (e) => {
+        state.dragging = false;
+        try {frame.releasePointerCapture(e.pointerId);} catch (e) { }
+        photo.style.cursor = 'grab';
+      });
+      frame.addEventListener('pointercancel', (e) => {
+        state.dragging = false;
+        try {frame.releasePointerCapture(e.pointerId);} catch (e) { }
+        photo.style.cursor = 'grab';
+      });
+
+      // wheel zoom (ctrl+wheel? we'll do wheel for zoom)
+      frame.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const delta = e.deltaY;
+        // adjust factor
+        const factor = Math.exp(-delta * 0.0015); // smooth
+        zoomBy(factor, e.clientX, e.clientY);
+      }, {passive: false});
+
+      // double click => toggle 100% (if at 100% then fit)
+      frame.addEventListener('dblclick', (e) => {
+        if (Math.abs(state.scale - 1) < 0.001) {
+          fitToWindow();
+        } else {
+          resetTo100();
+        }
+      });
+
+      // touch: support pinch zoom
+      frame.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+          e.preventDefault();
+          const t0 = e.touches[0], t1 = e.touches[1];
+          state.touch.isPinching = true;
+          state.touch.startDist = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
+          state.touch.startScale = state.scale;
+          state.touch.startMid = {x: (t0.clientX + t1.clientX) / 2, y: (t0.clientY + t1.clientY) / 2};
+        } else if (e.touches.length === 1) {
+          // start pan
+          state.dragging = true;
+          state.lastX = e.touches[0].clientX;
+          state.lastY = e.touches[0].clientY;
+        }
+      }, {passive: false});
+
+      frame.addEventListener('touchmove', (e) => {
+        if (state.touch.isPinching && e.touches.length === 2) {
+          e.preventDefault();
+          const t0 = e.touches[0], t1 = e.touches[1];
+          const dist = Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
+          const factor = dist / state.touch.startDist;
+          const targetScale = state.touch.startScale * factor;
+          // apply around midpoint
+          zoomAround(state.touch.startMid.x, state.touch.startMid.y, targetScale);
+        } else if (state.dragging && e.touches.length === 1) {
+          const dx = e.touches[0].clientX - state.lastX;
+          const dy = e.touches[0].clientY - state.lastY;
+          state.lastX = e.touches[0].clientX;
+          state.lastY = e.touches[0].clientY;
+          state.tx += dx;
+          state.ty += dy;
+          applyTransform();
+        }
+      }, {passive: false});
+
+      frame.addEventListener('touchend', (e) => {
+        if (e.touches.length < 2) {
+          state.touch.isPinching = false;
+        }
+        if (e.touches.length === 0) {
+          state.dragging = false;
+        }
+      });
+
+      // helper to set absolute scale (used by pinch) while preserving cursor/midpoint
+      function zoomAround(clientX, clientY, absoluteScale) {
+        const prevScale = state.scale;
+        const clamped = Math.max(0.05, Math.min(64, absoluteScale));
+        const scaleFactor = clamped / prevScale;
+        const rect = frame.getBoundingClientRect();
+        const cx = clientX - rect.left;
+        const cy = clientY - rect.top;
+        state.tx = cx - scaleFactor * (cx - state.tx);
+        state.ty = cy - scaleFactor * (cy - state.ty);
+        state.scale = clamped;
+        // pinch/zoom via zoomAround exits Fit mode
+        state.isFit = false;
+        applyTransform();
       }
-    };
-    test.onerror = () => {
-      // image doesn't exist or can't be loaded
-      // only show loading overlay if no image displayed yet
-      if (!state.firstLoaded && !photo.src) {
-        loading.style.display = 'flex';
-        log('tmp.png が見つかりません（待機中）');
-        setFooter('tmp.png が同ディレクトリに存在するのを待っています');
-      } else {
-        // keep last image displayed, but if the visible image previously existed,
-        // do not hide it; only show message in status
-        log('画像の再読み込みに失敗（存在しないかアクセス不可）');
+
+      // keyboard shortcuts
+      window.addEventListener('keydown', (e) => {
+        if (e.key === '+' || e.key === '=') {zoomInBtn.click(); e.preventDefault();}
+        if (e.key === '-') {zoomOutBtn.click(); e.preventDefault();}
+        if (e.key === '0') {fitBtn.click(); e.preventDefault();}
+        if (e.key === '1') {reset100Btn.click(); e.preventDefault();}
+        if (e.key === 'r') {reloadNowBtn.click(); e.preventDefault();}
+      });
+
+      // Image probing & update logic
+      // We will periodically create an Image with a cache-buster and try to load it.
+      // If it loads and we haven't shown an image yet => display it (apply fit on first load).
+      // If it loads and is a new cache-busted URL => replace src of visible image (keeping transforms).
+      // If it errors (404/not found), keep showing loading spinner.
+      let lastGoodKey = null;
+
+      function makeProbeKey() {
+        return String(Date.now());
       }
-    };
-    // start load (cache-buster param)
-    test.src = IMG_PATH + '?cb=' + key;
-  }
 
-  // start polling loop
-  function startPolling(){
-    if (state.pollTimer) clearInterval(state.pollTimer);
-    // immediate probe
-    if (CHECK_ON_START) probeImage();
-    state.pollTimer = setInterval(() => {
-      probeImage();
-    }, POLL_INTERVAL);
-  }
+      function probeImage(force = false) {
+        // create a candidate src with cache-buster
+        const key = makeProbeKey();
+        const test = new Image();
+        test.onload = () => {
+          // image exists and loaded
+          loading.style.display = 'none';
+          photo.style.display = 'block';
+          // set natural dimensions
+          photo.naturalWidth = test.naturalWidth || test.width;
+          photo.naturalHeight = test.naturalHeight || test.height;
+          // Update src only if new key or force
+          const candidateSrc = IMG_PATH + '?cb=' + key;
+          if (!photo.src || force || lastGoodKey !== key) {
+            // replace image source (this will cause the browser to load it)
+            // keep transforms (do not reset)
+            // using direct src ensures file:// with query string
+            const prevTransform = {scale: state.scale, tx: state.tx, ty: state.ty};
+            photo.src = candidateSrc; // note: visible element will now update
+            // keep state as-is; applyTransform() will use state values
+            applyTransform();
+            lastGoodKey = key;
+            log('画像読み込み完了: ' + new Date().toLocaleTimeString());
+            setFooter('更新時刻: ' + new Date().toLocaleTimeString());
+          }
+          // mark that first load happened; if first, apply fit
+          if (!state.firstLoaded) {
+            state.firstLoaded = true;
+            // Apply fit to window now (initial fit rule)
+            fitToWindow();
+          }
+        };
+        test.onerror = () => {
+          // image doesn't exist or can't be loaded
+          // only show loading overlay if no image displayed yet
+          if (!state.firstLoaded && !photo.src) {
+            loading.style.display = 'flex';
+            log('tmp.png が見つかりません（待機中）');
+            setFooter('tmp.png が同ディレクトリに存在するのを待っています');
+          } else {
+            // keep last image displayed, but if the visible image previously existed,
+            // do not hide it; only show message in status
+            log('画像の再読み込みに失敗（存在しないかアクセス不可）');
+          }
+        };
+        // start load (cache-buster param)
+        test.src = IMG_PATH + '?cb=' + key;
+      }
 
-  // initial states
-  loading.style.display = 'flex';
-  photo.style.display = 'none';
-  log('初期化中...');
+      // start polling loop
+      function startPolling() {
+        if (state.pollTimer) clearInterval(state.pollTimer);
+        // immediate probe
+        if (CHECK_ON_START) probeImage();
+        state.pollTimer = setInterval(() => {
+          probeImage();
+        }, POLL_INTERVAL);
+      }
 
-  // When visible photo actually loads into DOM, update natural sizes (for safety)
-  photo.addEventListener('load', () => {
-    // natural sizes are available
-    state.imgNaturalWidth = photo.naturalWidth;
-    state.imgNaturalHeight = photo.naturalHeight;
-    // If it's the first time load in DOM (but earlier we set firstLoaded in probe), ensure transform applied
-    if (!state.firstLoaded) {
-      state.firstLoaded = true;
-      fitToWindow();
-    }
-    // keep current transforms (do not change)
-    applyTransform();
-    // hide loading overlay (already hidden by probeImage onload)
-    loading.style.display = 'none';
-    log('画像表示中');
-  });
-
-  // If image fails to load into DOM (e.g. replaced with invalid src), show loader if no image shown
-  photo.addEventListener('error', () => {
-    if (!state.firstLoaded) {
+      // initial states
       loading.style.display = 'flex';
-      log('画像読み込みエラー（表示できません）');
-    } else {
-      log('画像差し替えでエラーが発生しましたが、以前の画像を維持します。');
-    }
-  });
+      photo.style.display = 'none';
+      log('初期化中...');
 
-  // Important: Do NOT reset scale/translate on window resize (per requirement)
-  // But we should update UI info; we will not change transforms.
-  window.addEventListener('resize', () => {
-    log('ウィンドウサイズが変更されました（サイズはリセットされていません）');
-    // optionally update footer
-    setFooter('ウィンドウ: ' + window.innerWidth + '×' + window.innerHeight);
-    // If currently in Fit mode, recompute fit so image follows window size
-    if (state.isFit) {
-      fitToWindow();
-    }
-  });
+      // When visible photo actually loads into DOM, update natural sizes (for safety)
+      photo.addEventListener('load', () => {
+        // natural sizes are available
+        state.imgNaturalWidth = photo.naturalWidth;
+        state.imgNaturalHeight = photo.naturalHeight;
+        // If it's the first time load in DOM (but earlier we set firstLoaded in probe), ensure transform applied
+        if (!state.firstLoaded) {
+          state.firstLoaded = true;
+          fitToWindow();
+        }
+        // keep current transforms (do not change)
+        applyTransform();
+        // hide loading overlay (already hidden by probeImage onload)
+        loading.style.display = 'none';
+        log('画像表示中');
+      });
 
-  // Start polling for file existence/updates
-  startPolling();
+      // If image fails to load into DOM (e.g. replaced with invalid src), show loader if no image shown
+      photo.addEventListener('error', () => {
+        if (!state.firstLoaded) {
+          loading.style.display = 'flex';
+          log('画像読み込みエラー（表示できません）');
+        } else {
+          log('画像差し替えでエラーが発生しましたが、以前の画像を維持します。');
+        }
+      });
 
-  // Accessibility / initial hints
-  setFooter('tmp.png ビューア — 初回はウィンドウに合わせて表示します。');
+      // Important: Do NOT reset scale/translate on window resize (per requirement)
+      // But we should update UI info; we will not change transforms.
+      window.addEventListener('resize', () => {
+        log('ウィンドウサイズが変更されました（サイズはリセットされていません）');
+        // optionally update footer
+        setFooter('ウィンドウ: ' + window.innerWidth + '×' + window.innerHeight);
+        // If currently in Fit mode, recompute fit so image follows window size
+        if (state.isFit) {
+          fitToWindow();
+        }
+      });
 
-})();
-</script>
+      // Start polling for file existence/updates
+      startPolling();
+
+      // Accessibility / initial hints
+      setFooter('tmp.png ビューア — 初回はウィンドウに合わせて表示します。');
+
+    })();
+  </script>
 </body>
+
 </html>
