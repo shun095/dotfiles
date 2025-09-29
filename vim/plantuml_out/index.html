@@ -227,6 +227,7 @@
     imgNaturalHeight: 0,
     lastProbeKey: '', // last cache-buster used
     firstLoaded: false, // whether initial fit applied
+  isFit: false, // whether currently in Fit mode
     pollTimer: null,
     touch: {
       isPinching: false,
@@ -255,6 +256,8 @@
     const ih = photo.naturalHeight;
     const scale = Math.min(fw / iw, fh / ih, 1e9); // avoid Infinity
     state.scale = scale;
+  // entering Fit mode
+  state.isFit = true;
     // center
     state.tx = (fw - iw * state.scale) / 2;
     state.ty = (fh - ih * state.scale) / 2;
@@ -272,6 +275,8 @@
     const ih = photo.naturalHeight;
     state.tx = (fw - iw * state.scale) / 2;
     state.ty = (fh - ih * state.scale) / 2;
+  // exiting Fit mode (user requested 100% view)
+  state.isFit = false;
     applyTransform();
     log('100% 表示にリセット');
   }
@@ -291,6 +296,8 @@
     const cy = clientY - rect.top;
 
     // image origin in client coords = (tx + 0, ty + 0) scaled by current scale
+  // any manual zoom exits Fit mode
+  state.isFit = false;
     // to keep point under cursor fixed: adjust tx,ty
     state.tx = cx - scaleFactor * (cx - state.tx);
     state.ty = cy - scaleFactor * (cy - state.ty);
@@ -426,6 +433,8 @@
     state.tx = cx - scaleFactor * (cx - state.tx);
     state.ty = cy - scaleFactor * (cy - state.ty);
     state.scale = clamped;
+  // pinch/zoom via zoomAround exits Fit mode
+  state.isFit = false;
     applyTransform();
   }
 
@@ -546,7 +555,10 @@
     log('ウィンドウサイズが変更されました（サイズはリセットされていません）');
     // optionally update footer
     setFooter('ウィンドウ: ' + window.innerWidth + '×' + window.innerHeight);
-    // Do not call fitToWindow() here!
+    // If currently in Fit mode, recompute fit so image follows window size
+    if (state.isFit) {
+      fitToWindow();
+    }
   });
 
   // Start polling for file existence/updates
