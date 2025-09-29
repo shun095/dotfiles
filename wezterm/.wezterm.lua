@@ -4,15 +4,28 @@ local config = wezterm.config_builder()
 -- config.color_scheme = 'iceberg-dark'
 config.color_scheme = 'Tokyo Night'
 config.font = wezterm.font_with_fallback({
-    'Terminess Nerd Font',
-    'DotGothic16',
+    -- 'Terminess Nerd Font',
+    {family = 'Terminess Nerd Font', scale = 1.2},
+
+    -- 'DotGothic16',
     -- 'x14y24pxHeadUpDaisy',
     -- 'x12y12pxMaruMinya',
     -- 'BlexMono Nerd Font',
     -- 'JetBrainsMono Nerd Font',
     'BIZ UDGothic',
 })
-config.font_size = 16
+config.font_size = 13
+
+config.font_rules = {
+    -- {
+    --     intensity = 'Normal',
+    --     italic = false,
+    --     font = wezterm.font('Terminess Nerd Font', { })
+    -- },
+}
+
+
+
 config.hide_tab_bar_if_only_one_tab = true
 config.window_padding = {
     left = 0,
