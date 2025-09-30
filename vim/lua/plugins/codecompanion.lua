@@ -321,7 +321,7 @@ return {
                 end
                 local result = {}
 
-                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") then
+                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") or model_name:find("[mM]agistral") then
                     if #systems > 0 then
                         systems[1].content = [[
 ## Conversation guidelines:
@@ -334,9 +334,9 @@ Below is the guidelines of your behavior in this conversation.
 
 </guidelines>
 
-Answer only `OK` if you understand.
+Please start your assistance.
 ]]
-                        table.insert(systems, { role = "assistant", content = "OK" })
+                        table.insert(systems, { role = "assistant", content = "OK. I'm ready to assist you. How can I assist you today?" })
                     end
                 end
 
@@ -364,7 +364,7 @@ Answer only `OK` if you understand.
                 end
 
                 -- For Gemma 3
-                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") then
+                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") or model_name:find("[mM]agistral") then
                     if message.role == "system" then
                         message.role = "user"
                     end
@@ -394,15 +394,6 @@ Answer only `OK` if you understand.
                         table.insert(new_messages, merged_message)
                         merged_message = nil
                     end
-                    if model_name:find("[gG]ranite") then
-                        -- if message.role == "assistant" and message.content then
-                        --     message.content = "<think></think><response>" .. message.content .. "</response>"
-                        -- end
-                    elseif model_name:find("[mM]agistral") then
-                        if message.role == "assistant" and message.content then
-                            message.content = "<think></think>" .. message.content
-                        end
-                    end
                     -- assistant with tool_calls
                     table.insert(new_messages, message)
                 end
@@ -413,48 +404,6 @@ Answer only `OK` if you understand.
                 table.insert(new_messages, merged_message)
                 merged_message = nil
             end
-
-            -- For granite
-            if model_name:find("[gG]ranite") then
-                --                 if new_messages[1].role ~= "system" then
-                --                     table.insert(new_messages, 1, { role = "system", content = "You are a helpful AI assistant.\n" })
-                --                 else
-                --                     new_messages[1].content = new_messages[1].content
-                --                         .. [[
-
-
-
-
-                -- Finally, you are a helpful AI assistant.
-                -- ]]
-                --                 end
-
-                --                 if not should_skip_think then
-                --                     new_messages[1].content = new_messages[1].content ..
-                --                         [[Respond to every user query in a comprehensive and detailed way. You can write down your thoughts and reasoning process before responding. In the thought process, engage in a comprehensive cycle of analysis, summarization, exploration, reassessment, reflection, backtracing, and iteration to develop well-considered thinking process. In the response section, based on various attempts, explorations, and reflections from the thoughts section, systematically present the final solution that you deem correct. The response should summarize the thought process. Write your thoughts between <think></think> and write your response between <response></response> for each user query.
-                -- You thought process between <think> and </think> is not visible for the user. Always write your answer to the user between <response> and </response>.
-                -- This means you MUST always start your response with <think> even the user specifies the format. You must follow the format only in <response> section.
-                -- ]]
-
-                --                 end
-            elseif model_name:find("[mM]agistral") then
-                -- if model_name:find("[mM]agistral") then
-                if not should_skip_think then
-                    if new_messages[1].role ~= "system" then
-                        table.insert(new_messages, 1,
-                            {
-                                role = "system",
-                                content =
-                                "First draft your thinking process (inner monologue) until you arrive at a response. Format your response using Markdown, and use LaTeX for any mathematical equations. Write both your thoughts and the response in the same language as the input.\n\nYour thinking process must follow the template below:<think>Your thoughts or/and draft, like working through an exercise on scratch paper. Be as casual and as long as you want until you are confident to generate the response. Use the same language as the input.</think>Here, provide a self-contained response."
-                            })
-                    else
-                        new_messages[1].content =
-                            "First draft your thinking process (inner monologue) until you arrive at a response. Format your response using Markdown, and use LaTeX for any mathematical equations. Write both your thoughts and the response in the same language as the input.\n\nYour thinking process must follow the template below:<think>Your thoughts or/and draft, like working through an exercise on scratch paper. Be as casual and as long as you want until you are confident to generate the response. Use the same language as the input.</think>Here, provide a self-contained response.\n\n---\n" ..
-                            new_messages[1].content
-                    end
-                end
-            end
-
 
             return { messages = new_messages }
         end

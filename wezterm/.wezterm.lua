@@ -5,7 +5,7 @@ local config = wezterm.config_builder()
 config.color_scheme = 'Tokyo Night'
 config.font = wezterm.font_with_fallback({
     -- 'Terminess Nerd Font',
-    {family = 'Terminess Nerd Font', scale = 1.2},
+    { family = 'Terminess Nerd Font', scale = 1.2 },
 
     -- 'DotGothic16',
     -- 'x14y24pxHeadUpDaisy',
