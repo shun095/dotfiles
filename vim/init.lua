@@ -924,7 +924,6 @@ cmp.setup({
                 }
             },
         },
-        { name = "skkeleton" },
     }),
     mapping = cmp.mapping.preset.insert({
         ['<C-d>'] = cmp.mapping.scroll_docs(4),

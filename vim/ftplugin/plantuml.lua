@@ -55,6 +55,7 @@ local function compile_plantuml()
 
     local cmd = {
         config.java_cmd,
+        '-DPLANTUML_LIMIT_SIZE=16384',
         '-Djava.awt.headless=true',
         '-jar', jar,
         '-tpng',
