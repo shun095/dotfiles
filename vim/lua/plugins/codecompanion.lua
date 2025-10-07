@@ -321,7 +321,7 @@ return {
                 end
                 local result = {}
 
-                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") or model_name:find("[mM]agistral") then
+                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite-3") or model_name:find("[mM]agistral") then
                     if #systems > 0 then
                         systems[1].content = [[
 ## Conversation guidelines:
@@ -364,7 +364,7 @@ Please start your assistance.
                 end
 
                 -- For Gemma 3
-                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite") or model_name:find("[mM]agistral") then
+                if model_name:find("[gG]emma%-3") or model_name:find("[gG]ranite-3") or model_name:find("[mM]agistral") then
                     if message.role == "system" then
                         message.role = "user"
                     end
@@ -766,7 +766,7 @@ Let's start your task!
                         {
                             role = "user",
                             content = [=[
-@{cmd_runner}
+@{neovim__execute_command}
 
 Run `git commit -m '<message>'` with the commit message.
 
@@ -986,12 +986,12 @@ NOTE: Placeholders will be filled dynamicaly, so you don't need to fill them.
                         }
                     }
                 },
-                ["Research on the Internet"] = {
+                ["Research on the Internet using Brave"] = {
                     strategy = "chat",
                     description = "Research on the Internet",
                     opts = {
                         is_slash_cmd = true,
-                        short_name = "research_internet",
+                        short_name = "research_internet_brave",
                     },
                     prompts = {
                         {
@@ -1000,9 +1000,33 @@ NOTE: Placeholders will be filled dynamicaly, so you don't need to fill them.
 
 Investigate on the Internet using tools and create a comprehensive and detailed report as the answer.
 
-You may use @{mcp} tools multiple times before creating the answer:
-- Use brave_web_search tool with use_mcp_tool to search on the web.
-- Use fetch tool with use_mcp_tool to fetch contents from the urls known by brave_web_search or given by the user.
+You MUST use @{brave_search__brave_web_search}, @{fetch__fetch}, @{sequentialthinking__sequentialthinking}. You MUST these tools multiple times before creating the answer:
+- Use search tool with use_mcp_tool to search on the web.
+- Use fetch tool with use_mcp_tool to fetch contents from the urls known by search or given by the user.
+- (Optional) Use sequentialthinking tool with use_mcp_tool to note your thought if available.
+
+IMPORTANT: Pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
+]]
+                        }
+                    }
+                },
+                ["Research on the Internet using DuckDuckGo"] = {
+                    strategy = "chat",
+                    description = "Research on the Internet",
+                    opts = {
+                        is_slash_cmd = true,
+                        short_name = "research_internet_ddg",
+                    },
+                    prompts = {
+                        {
+                            role = "user",
+                            content = [[
+
+Investigate on the Internet using tools and create a comprehensive and detailed report as the answer.
+
+You MUST use @{ddg_search__search}, @{fetch__fetch}, @{sequentialthinking__sequentialthinking}. You MUST these tools multiple times before creating the answer:
+- Use search tool with use_mcp_tool to search on the web.
+- Use fetch tool with use_mcp_tool to fetch contents from the urls known by search or given by the user.
 - (Optional) Use sequentialthinking tool with use_mcp_tool to note your thought if available.
 
 IMPORTANT: Pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
