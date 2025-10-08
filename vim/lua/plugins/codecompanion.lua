@@ -656,19 +656,18 @@ Please start your assistance.
                             role = "user",
                             content = function()
                                 return string.format(
-                                    [[Your task:
+                                    [[
+TASK:
+----------------------
 
-<Task>
-Generate a Conventional Commit message from the provided git diff. Adhere strictly to the Conventional Commit message format below.
-</Task>
+Generate a Conventional Commit message from the provided git diff. Adhere strictly to the format guidelines.
 
-Adhere strictly to the following format within <Format> and </Format> in your response.:
 
-IMPORTANT:
-- In analysis section, analyze what are deleted or added in the diff.
-- In message section, type, scope, description and body are all required.
+FORMAT GUIDELINES:
+----------------------
 
-<Format>
+Adhere strictly to the format below:
+
 #### Analysis of the Diff:
 <your comprehensive and detailed and comprehensive reasoning>
 
@@ -686,14 +685,21 @@ Therfore, the commit message for the diff should be like this:
 
 [optional footer(s)]
 ```
-</Format>
 
----
+
+> [!IMPORTANT]
+> - In the `Analysis of the Diff` section, analyze what are deleted or added in the diff.
+> - In the `Conventional Commit Message` section, type, scope, description and body are all required.
+> - Avoid including the <format></format> or <exampleN></exampleN> tags in your response. You MUST output only format within tags.
+
+
+EXAMPLES:
+----------------------
 
 Here are examples of your output:
 
+### 1. Example 1 (with footer):
 
-1. Example 1 (with footer):
 #### Analysis of the Diff:
 The diff shows...
 
@@ -713,8 +719,8 @@ feat(src/api/auth.ts): migrate to GraphQL
 BREAKING CHANGE: All client integrations must update to use GraphQL instead of REST
 ```
 
+### 2. Example 2 (without footer):
 
-2. Example 2 (without footer):
 #### Analysis of the Diff:
 The diff shows...
 
@@ -733,18 +739,22 @@ feat(src/components/Navbar.ts): add dark mode toggle
 ```
 
 
-IMPORTANT:
-- You MUST AVOID writing [optional footer(s)] for "without footer" case.
+> [!IMPORTANT]
+> - You MUST AVOID writing `[optional footer(s)]` for "without footer" case.
 
----
 
-Following diff between <Diff> and </Diff> is the diff you must analyze:
+DIFF YOU MUST ANALYZE:
+----------------------
 
-<Diff>
+Following diff within <diff></diff> tags is the diff you must analyze:
+
+<diff>
     ```diff
 %s
     ```
-</Diff>
+</diff>
+
+---
 
 Let's start your task!
 
