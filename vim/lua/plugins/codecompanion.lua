@@ -662,15 +662,15 @@ Please start your assistance.
 Generate a Conventional Commit message from the provided git diff. Adhere strictly to the Conventional Commit message format below.
 </Task>
 
-Adhere strictly to the following format between `<Format>` and `</Format>` in your response.:
+Adhere strictly to the following format within <Format> and </Format> in your response.:
 
 IMPORTANT:
-- In analysis section, analyze what are deleted or added.
+- In analysis section, analyze what are deleted or added in the diff.
 - In message section, type, scope, description and body are all required.
 
 <Format>
 #### Analysis of the Diff:
-<your comprehensive and detailed reasoning>
+<your comprehensive and detailed and comprehensive reasoning>
 
 #### What is Conventional Commit Message?:
 <your understanding about Conventional Commit Message>
@@ -702,10 +702,10 @@ A Conventional Commit Message is...
 
 #### Conventional Commit Message:
 
-Therfore, the commit message for the diff should be like this:
+Therfore, the commit message for the diff should be like below:
 
 ```txt
-feat(src/api/auth): migrate to GraphQL
+feat(src/api/auth.ts): migrate to GraphQL
 
 - Replaced REST endpoints with GraphQL queries
 - Added new schema definitions
@@ -726,11 +726,15 @@ A Conventional Commit Message is...
 Therfore, the commit message for the diff should be like this:
 
 ```txt
-feat(src/components/Navbar): add dark mode toggle
+feat(src/components/Navbar.ts): add dark mode toggle
 
 - Implemented toggle button in header
 - Added CSS variables for theme switching
 ```
+
+
+IMPORTANT:
+- You MUST AVOID writing [optional footer(s)] for "without footer" case.
 
 ---
 
@@ -745,7 +749,7 @@ Following diff between <Diff> and </Diff> is the diff you must analyze:
 Let's start your task!
 
 ]],
-                                    indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    ")
+                                    indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    "):gsub("@{","{")
                                 )
                             end,
                             opts = {
@@ -766,22 +770,19 @@ Let's start your task!
                         {
                             role = "user",
                             content = [=[
-@{neovim__execute_command}
-
-Run `git commit -m '<message>'` with the commit message.
-
-For multi-line messages, use **actual line breaks** in the command.
-For example,
+Run following command with the commit message. Use @{neovim__execute_command}.:
 ```
-git commit -m 'Line1
-Line2'
+git commit -F - <<EOF
+<fill the commit message here>
+EOF
 ```
 
-In JSON for tools, represent the actual line breaks as `\n`, avoid using `\\n`.
-For example,
-```
-{"cmd": "git commit -m 'Line1\nLine2'"}
-```
+For multi-line messages, you MUST use **actual line breaks** in the command.
+Therefore, in the JSON for tools, you MUST represent the actual line breaks as `\n`. You MUST strictly avoid escaping `\n` by `\`.
+You MUST:
+- AVOID \\n
+- USE \n
+for actual line breaks.
 ]=],
                         },
                     },
