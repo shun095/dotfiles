@@ -440,7 +440,7 @@ Please start your assistance.
                         expiration_days = 30,
                         auto_generate_title = true,
                         title_generation_opts = {
-                            adapter = "llama_cpp_local_tiny",
+                            adapter = "llama_cpp_local",
                             refresh_every_n_prompts = 3,
                             max_refreshes = 3,
                         }
@@ -525,48 +525,25 @@ Please start your assistance.
                                         return get_models(self)
                                     end,
                                 },
-                            },
-                            handlers = {
-                                setup = function(self)
-                                    if self.opts and self.opts.stream then
-                                        if not self.parameters then
-                                            self.parameters = {}
-                                        end
-                                        self.parameters.stream = true
-                                        self.parameters.stream_options = { include_usage = true }
-                                    end
-                                    self.chat_output_buffer = ""
-                                    self.cache_expires = nil
-                                    self.cached_models = nil
-                                    return true
-                                end,
-                                form_messages = form_messages_callback,
-                                chat_output = chat_output_callback,
-                            },
-                        })
-                    end,
-                    ["llama_cpp_local_tiny"] = function()
-                        return require("codecompanion.adapters").extend("openai_compatible", {
-                            -- Use following command to launch llama.cpp
-                            -- ./build/bin/llama-server --hf-repo lmstudio-community/gemma-3-4b-it-GGUF --hf-file gemma-3-4b-it-Q8_0.gguf -ngl 40 -c 32768 -np 1 -b 64 -fa -dev Metal
-
-                            name = "llama_cpp_local_tiny",
-                            formatted_name = "Llama.cpp Local Tiny",
-                            roles = {
-                                llm = "assistant",
-                                user = "user",
-                            },
-                            env = {
-                                url = "http://localhost:8081",
-                                api_key = vim.env.CODECOMPANION_API_KEY,
-                            },
-                            schema = {
-                                model = {
+                                temperature = {
                                     mapping = "parameters",
-                                    default = "llama2",
-                                    choices = function(self)
-                                        return get_models(self)
-                                    end,
+                                    default = 0.5,
+                                },
+                                top_k = {
+                                    mapping = "parameters",
+                                    default = 100,
+                                },
+                                top_p = {
+                                    mapping = "parameters",
+                                    default = 0.8,
+                                },
+                                min_p = {
+                                    mapping = "parameters",
+                                    default = 0.1,
+                                },
+                                presence_penalty = {
+                                    mapping = "parameters",
+                                    default = 1.5,
                                 },
                             },
                             handlers = {
@@ -607,6 +584,26 @@ Please start your assistance.
                                     choices = function(self)
                                         return get_models(self)
                                     end,
+                                },
+                                temperature = {
+                                    mapping = "parameters",
+                                    default = 0.5,
+                                },
+                                top_k = {
+                                    mapping = "parameters",
+                                    default = 100,
+                                },
+                                top_p = {
+                                    mapping = "parameters",
+                                    default = 0.8,
+                                },
+                                min_p = {
+                                    mapping = "parameters",
+                                    default = 0.1,
+                                },
+                                presence_penalty = {
+                                    mapping = "parameters",
+                                    default = 1.5,
                                 },
                             },
                             handlers = {
