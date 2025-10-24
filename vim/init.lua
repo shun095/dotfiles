@@ -84,11 +84,11 @@ require("lazy").setup({
         hererocks = true,
     },
     checker          = {
-        enabled = true,
+        enabled = false,
         notify = false,
     },
     change_detection = {
-        enabled = true,
+        enabled = false,
         notify = false, -- get a notification when changes are found
     },
     performance      = {
