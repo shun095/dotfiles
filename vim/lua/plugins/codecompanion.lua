@@ -527,7 +527,7 @@ Please start your assistance.
                                 },
                                 temperature = {
                                     mapping = "parameters",
-                                    default = 0.5,
+                                    default = 0.3,
                                 },
                                 top_k = {
                                     mapping = "parameters",
@@ -543,7 +543,7 @@ Please start your assistance.
                                 },
                                 presence_penalty = {
                                     mapping = "parameters",
-                                    default = 1.5,
+                                    default = 1.2,
                                 },
                             },
                             handlers = {
@@ -587,7 +587,7 @@ Please start your assistance.
                                 },
                                 temperature = {
                                     mapping = "parameters",
-                                    default = 0.5,
+                                    default = 1.0,
                                 },
                                 top_k = {
                                     mapping = "parameters",
@@ -595,15 +595,15 @@ Please start your assistance.
                                 },
                                 top_p = {
                                     mapping = "parameters",
-                                    default = 0.8,
+                                    default = 1.0,
                                 },
                                 min_p = {
                                     mapping = "parameters",
-                                    default = 0.1,
+                                    default = 0.0,
                                 },
                                 presence_penalty = {
                                     mapping = "parameters",
-                                    default = 1.5,
+                                    default = 1.0,
                                 },
                             },
                             handlers = {
