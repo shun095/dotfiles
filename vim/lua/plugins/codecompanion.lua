@@ -336,7 +336,8 @@ Below is the guidelines of your behavior in this conversation.
 
 Please start your assistance.
 ]]
-                        table.insert(systems, { role = "assistant", content = "OK. I'm ready to assist you. How can I assist you today?" })
+                        table.insert(systems,
+                            { role = "assistant", content = "OK. I'm ready to assist you. How can I assist you today?" })
                     end
                 end
 
@@ -407,6 +408,25 @@ Please start your assistance.
 
             return { messages = new_messages }
         end
+
+
+        local handlers = {
+            setup = function(self)
+                if self.opts and self.opts.stream then
+                    if not self.parameters then
+                        self.parameters = {}
+                    end
+                    self.parameters.stream = true
+                    self.parameters.stream_options = { include_usage = true }
+                end
+                self.chat_output_buffer = ""
+                self.cache_expires = nil
+                self.cached_models = nil
+                return true
+            end,
+            form_messages = form_messages_callback,
+            chat_output = chat_output_callback,
+        }
 
         vim.api.nvim_set_keymap("n", "<Leader>aa", "<cmd>CodeCompanionActions<CR>", { noremap = true, silent = true })
         vim.api.nvim_set_keymap("v", "<Leader>aa", "<cmd>CodeCompanionActions<CR>", { noremap = true, silent = true })
@@ -546,23 +566,7 @@ Please start your assistance.
                                     default = 1.2,
                                 },
                             },
-                            handlers = {
-                                setup = function(self)
-                                    if self.opts and self.opts.stream then
-                                        if not self.parameters then
-                                            self.parameters = {}
-                                        end
-                                        self.parameters.stream = true
-                                        self.parameters.stream_options = { include_usage = true }
-                                    end
-                                    self.chat_output_buffer = ""
-                                    self.cache_expires = nil
-                                    self.cached_models = nil
-                                    return true
-                                end,
-                                form_messages = form_messages_callback,
-                                chat_output = chat_output_callback,
-                            },
+                            handlers = handlers,
                         })
                     end,
                     ["llama_cpp_remote"] = function()
@@ -606,23 +610,53 @@ Please start your assistance.
                                     default = 1.0,
                                 },
                             },
-                            handlers = {
-                                setup = function(self)
-                                    if self.opts and self.opts.stream then
-                                        if not self.parameters then
-                                            self.parameters = {}
-                                        end
-                                        self.parameters.stream = true
-                                        self.parameters.stream_options = { include_usage = true }
-                                    end
-                                    self.chat_output_buffer = ""
-                                    self.cache_expires = nil
-                                    self.cached_models = nil
-                                    return true
-                                end,
-                                form_messages = form_messages_callback,
-                                chat_output = chat_output_callback,
+                            handlers = handlers,
+                        })
+                    end,
+                    ["custom_remote"] = function()
+                        return require("codecompanion.adapters").extend("openai_compatible", {
+                            name = "custom_remote",
+                            formatted_name = "Custom Remote",
+                            roles = {
+                                llm = "assistant",
+                                user = "user",
                             },
+                            env = {
+                                url = vim.env.CODECOMPANION_CUSTOM_REMOTE_URL,
+                                api_key = vim.env.CODECOMPANION_CUSTOM_API_KEY,
+                                chat_url = "/chat/completions",
+                                models_endpoint = "/models",
+                            },
+                            schema = {
+                                model = {
+                                    mapping = "parameters",
+                                    default = vim.env.CODECOMPANION_CUSTOM_MODEL,
+                                    choices = function(self)
+                                        return get_models(self)
+                                    end,
+                                },
+                                temperature = {
+                                    mapping = "parameters",
+                                    default = 0.5,
+                                },
+                                top_k = {
+                                    mapping = "parameters",
+                                    default = 100,
+                                },
+                                top_p = {
+                                    mapping = "parameters",
+                                    default = 0.8,
+                                },
+                                min_p = {
+                                    mapping = "parameters",
+                                    default = 0.1,
+                                },
+                                presence_penalty = {
+                                    mapping = "parameters",
+                                    default = 1.0,
+                                },
+                            },
+                            handlers = handlers,
                         })
                     end,
                 }
@@ -756,7 +790,7 @@ Following diff within <diff></diff> tags is the diff you must analyze:
 Let's start your task!
 
 ]],
-                                    indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    "):gsub("@{","{")
+                                    indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    "):gsub("@{", "{")
                                 )
                             end,
                             opts = {
