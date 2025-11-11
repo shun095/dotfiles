@@ -97,9 +97,11 @@ return {
                     },
                     note_id_func = note_id_func,
                     note_path_func = note_path_func,
-                    note_frontmatter_func = note_frontmatter_func,
+                    frontmatter = {
+                        func = note_frontmatter_func,
+                    },
                     callbacks = {
-                        pre_write_note = function(client, note)
+                        pre_write_note = function(note)
                             if note and string.match(note.id, "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]T[0-9][0-9][0-9][0-9][0-9][0-9][+][0-9][0-9][0-9][0-9]") then
                                 note.id = note_id_func(note.title)
                             end
