@@ -59,12 +59,29 @@ Adhere strictly to the format below:
 Therfore, the commit message for the diff should be like this:
 
 ```txt
-<type>(<scope>): <description>
+<type>[optional scope]: <description>
 
-<body>
+[optional body]
 
 [optional footer(s)]
 ```
+
+- `<type>`: Specifies the type of change being made. Common types include:
+  - `feat`: A new feature.
+  - `fix`: A bug fix.
+  - `docs`: Documentation updates.
+  - `style`: Changes that don't affect the meaning of the code (white-space, formatting, missing semi-colons, etc.)
+  - `refactor`: Code changes that neither fix a bug nor add a feature.
+  - `test`: Adding missing tests or correcting existing tests.
+  - `chore`: Maintenance tasks like updating dependencies or build scripts.
+
+- `[optional scope]`: A more specific description of the change's context or area affected. It's often used to indicate which part of the codebase the commit affects, such as a module name or feature.
+
+- `<description>`: A brief summary of the changes made. It should be concise and descriptive enough to understand the purpose of the commit at a glance.
+
+- `[optional body]`: Provides more details about the changes made. This can include what was changed, why it was changed, and how it affects the codebase. It's optional but useful for providing context or additional information.
+
+- `[optional footer(s)]`: Contains references to issues, pull requests, or other external resources related to the commit. It can also include breaking change notices or deprecation warnings.
 
 
 > [!IMPORTANT]
