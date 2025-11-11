@@ -179,13 +179,16 @@ return {
                             handlers = handlers,
                         })
                     end,
-                    ["custom_remote"] = function()
+                    ["custom_external"] = function()
                         return require("codecompanion.adapters").extend("openai_compatible", {
                             name = "custom_remote",
                             formatted_name = "Custom Remote",
                             roles = {
                                 llm = "assistant",
                                 user = "user",
+                            },
+                            opts = {
+                                stream = false
                             },
                             env = {
                                 url = vim.env.CODECOMPANION_CUSTOM_REMOTE_URL,

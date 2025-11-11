@@ -908,6 +908,7 @@ cmp.setup({
         end,
     },
     sources = cmp.config.sources({
+        { name = 'minuet' },
         { name = 'nvim_lsp_signature_help' },
         { name = 'ultisnips' },
         { name = 'nvim_lsp' },
