@@ -14,7 +14,7 @@ return {
     -- Configuration options for the plugin
     config = function()
         local handlers = require("codecompanion.custom.handlers")
-        local keymaps = require("codecompanion.custom.keymaps")
+        local _ = require("codecompanion.custom.keymaps")
 
         require("codecompanion").setup({
             extensions = {
@@ -58,7 +58,7 @@ return {
             },
             opts = {
                 -- Language settings for the plugin
-                language = "English or Japanese",
+                language = "Japanese",
                 -- Set logging level
                 log_level = "INFO",
                 -- system_prompt = function(opts)
