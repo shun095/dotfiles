@@ -6,6 +6,10 @@ return {
             markdown = {
                 augend.integer.alias.decimal,
                 augend.misc.alias.markdown_header,
+            },
+            codecompanion = {
+                augend.integer.alias.decimal,
+                augend.misc.alias.markdown_header,
             }
         })
         vim.keymap.set("n", "<C-a>", function()

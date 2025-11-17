@@ -58,7 +58,7 @@ return {
             },
             opts = {
                 -- Language settings for the plugin
-                language = "Japanese",
+                language = "Japanese (not Chinese)",
                 -- Set logging level
                 log_level = "INFO",
                 -- system_prompt = function(opts)
