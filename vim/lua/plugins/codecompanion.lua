@@ -58,7 +58,7 @@ return {
             },
             opts = {
                 -- Language settings for the plugin
-                language = "Japanese (not Chinese)",
+                language = "English or Japanese",
                 -- Set logging level
                 log_level = "INFO",
                 -- system_prompt = function(opts)
@@ -116,7 +116,7 @@ return {
                                 },
                                 temperature = {
                                     mapping = "parameters",
-                                    default = 0.3,
+                                    default = 0.0,
                                 },
                                 top_k = {
                                     mapping = "parameters",
@@ -132,7 +132,7 @@ return {
                                 },
                                 presence_penalty = {
                                     mapping = "parameters",
-                                    default = 1.2,
+                                    default = 1.5,
                                 },
                             },
                             handlers = handlers,

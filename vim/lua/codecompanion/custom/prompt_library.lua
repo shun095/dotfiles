@@ -408,12 +408,17 @@ NOTE: Placeholders will be filled dynamicaly, so you don't need to fill them.
 
 Investigate on the Internet using tools and create a comprehensive and detailed report as the answer.
 
-You MUST use @{brave_search__brave_web_search}, @{fetch__fetch}, @{sequentialthinking__sequentialthinking}. You MUST these tools multiple times before creating the answer:
-- Use search tool with use_mcp_tool to search on the web.
-- Use fetch tool with use_mcp_tool to fetch contents from the urls known by search or given by the user.
-- (Optional) Use sequentialthinking tool with use_mcp_tool to note your thought if available.
+You MUST use following tools: 
+- (Optional) @{sequentialthinking__sequentialthinking}
+    - Use sequentialthinking tool with use_mcp_tool to note your thought if available.
+- @{brave_search__brave_web_search}
+    - Use search tool with use_mcp_tool to search on the web.
+- @{fetch__fetch}
+    - Use fetch tool with use_mcp_tool to fetch contents from the urls known by search or given by the user.
 
-IMPORTANT: Pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
+IMPORTANT: 
+- Pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
+- Please avoid using exactly the same tool with exactly the same arguments repeatedly. Change the arguments for the tool each time.
 ]]
             }
         }
@@ -432,12 +437,17 @@ IMPORTANT: Pay close attention to case style and the letter when you use tools. 
 
 Investigate on the Internet using tools and create a comprehensive and detailed report as the answer.
 
-You MUST use @{ddg_search__search}, @{fetch__fetch}, @{sequentialthinking__sequentialthinking}. You MUST these tools multiple times before creating the answer:
-- Use search tool with use_mcp_tool to search on the web.
-- Use fetch tool with use_mcp_tool to fetch contents from the urls known by search or given by the user.
-- (Optional) Use sequentialthinking tool with use_mcp_tool to note your thought if available.
+You MUST use following tools: 
+- (Optional) @{sequentialthinking__sequentialthinking}
+    - Use sequentialthinking tool with use_mcp_tool to note your thought if available.
+- @{ddg_search__search}
+    - Use search tool with use_mcp_tool to search on the web.
+- @{fetch__fetch}
+    - Use fetch tool with use_mcp_tool to fetch contents from the urls known by search or given by the user.
 
-IMPORTANT: Pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
+IMPORTANT: 
+- Pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
+- Please avoid using exactly the same tool with exactly the same arguments repeatedly. Change the arguments for the tool each time.
 ]]
             }
         }
