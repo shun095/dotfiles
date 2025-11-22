@@ -179,7 +179,7 @@ Let's start your task!
                 content = [=[
 Run following command with the commit message. Use @{neovim__execute_command}.:
 ```
-git commit -F - <<EOF
+git commit -F - <<'EOF'
 <fill the commit message here>
 EOF
 ```
