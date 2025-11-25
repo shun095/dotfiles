@@ -5,12 +5,12 @@ local config = wezterm.config_builder()
 config.color_scheme = 'Tokyo Night'
 config.font = wezterm.font_with_fallback({
     -- 'Terminess Nerd Font',
-    { family = 'Terminess Nerd Font', scale = 1.2 },
+    -- { family = 'Terminess Nerd Font', scale = 1.2 },
 
     -- 'DotGothic16',
     -- 'x14y24pxHeadUpDaisy',
     -- 'x12y12pxMaruMinya',
-    -- 'BlexMono Nerd Font',
+    'BlexMono Nerd Font',
     -- 'JetBrainsMono Nerd Font',
     'BIZ UDGothic',
 })
@@ -71,7 +71,7 @@ config.keys = {
 }
 
 config.audible_bell = "Disabled"
--- config.front_end = "Software"
+config.front_end = "Software"
 -- config.prefer_egl = false
 
 config.window_background_opacity = 1
