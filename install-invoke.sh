@@ -55,6 +55,7 @@ else
 fi
 ALACRITTYRC=$HOME/.config/alacritty/alacritty.toml
 WEZTERMRC=$HOME/.wezterm.lua
+MCPHUB_SERVERS="$HOME/.config/mcphub/servers.json"
 
 SYMLINKS=(
     "${FLAKE8}"
@@ -65,6 +66,7 @@ SYMLINKS=(
     "${TIGRC}"
     "${ALACRITTYRC}"
     "${WEZTERMRC}"
+    "${MCPHUB_SERVERS}"
 )
 
 SYMTARGET=(
@@ -76,6 +78,7 @@ SYMTARGET=(
     "${MYDOTFILES}/tig/tigrc"
     "${MYDOTFILES}/alacritty/alacritty.toml"
     "${MYDOTFILES}/wezterm/.wezterm.lua"
+    "${MYDOTFILES}/mcphub/servers.json"
 )
 
 # actual files

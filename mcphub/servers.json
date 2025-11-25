@@ -1,0 +1,118 @@
+{
+  "mcpServers": {
+    "brave_search": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "autoApprove": [
+        "brave_web_search"
+      ],
+      "command": "npx",
+      "custom_instructions": {
+        "text": "You MUST use brave_web_search tool with use_mcp_tool when you need to search on the Internet.\nDO NOT use the access_mcp_resource to retrive the Internet contents.\naccess_mcp_resource does not have access to the Internet. Only for the MCP servers."
+      },
+      "disabled": false,
+      "disabled_tools": [
+        "brave_local_search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      }
+    },
+    "ddg-search": {
+      "args": [
+        "duckduckgo-mcp-server"
+      ],
+      "autoApprove": [
+        "fetch_content",
+        "search"
+      ],
+      "command": "uvx",
+      "custom_instructions": {
+        "disabled": false,
+        "text": "You must always use this server when you need access to the Internet.\nYou may use search tool with use_mcp_tool for web search.\nYou MUST use fetch_content tool with use_mcp_tool to fetch the content from the urls on the Internet.\nDO NOT use the access_mcp_resource to fetch the Internet contents."
+      },
+      "disabled": false,
+      "disabled_tools": [
+        "fetch_content"
+      ]
+    },
+    "fetch": {
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "autoApprove": [
+        "fetch"
+      ],
+      "command": "uvx",
+      "custom_instructions": {
+        "text": "You MUST use fetch tool with use_mcp_tool to fetch the content from the urls on the Internet.\nDO NOT use the access_mcp_resource to retrive the Internet contents.\naccess_mcp_resource does not have access to the Internet. Only for the MCP servers."
+      },
+      "disabled_prompts": []
+    },
+    "playwright": {
+      "args": [
+        "@playwright/mcp@latest"
+      ],
+      "command": "npx",
+      "disabled": true
+    },
+    "sequentialthinking": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "autoApprove": [
+        "sequentialthinking"
+      ],
+      "command": "npx",
+      "disabled": false
+    }
+  },
+  "nativeMCPServers": {
+    "mcphub": {
+      "autoApprove": [
+        "get_current_servers"
+      ],
+      "disabled": true,
+      "disabled_prompts": [
+        "create_native_server"
+      ],
+      "disabled_resources": [
+        "mcphub://native_server_guide",
+        "mcphub://changelog"
+      ],
+      "disabled_tools": [
+        "toggle_mcp_server"
+      ]
+    },
+    "neovim": {
+      "autoApprove": [
+        "find_files",
+        "list_directory",
+        "read_file",
+        "read_multiple_files"
+      ],
+      "custom_instructions": {
+        "disabled": false,
+        "text": "Use this server if you need file operations and command executions."
+      },
+      "disabled": false,
+      "disabled_prompts": [
+        "create_native_server",
+        "parrot"
+      ],
+      "disabled_resources": [
+        "mcphub://docs",
+        "mcphub://native_server_guide",
+        "mcphub://changelog",
+        "neovim://buffer",
+        "neovim://workspace",
+        "neovim://diagnostics/buffer",
+        "neovim://diagnostics/workspace"
+      ],
+      "disabled_tools": []
+    }
+  }
+}
