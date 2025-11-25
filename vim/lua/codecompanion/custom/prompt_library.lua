@@ -48,15 +48,12 @@ FORMAT GUIDELINES:
 
 Adhere strictly to the format below:
 
-#### Analysis of the Diff:
-<your comprehensive and detailed and comprehensive reasoning>
+#### Thought Process:
+<your comprehensive, detailed and step-by-step reasoning>
 
-#### What is Conventional Commit Message?:
-<your understanding about Conventional Commit Message>
+#### Final Answer:
 
-#### Conventional Commit Message:
-
-Therfore, the commit message for the diff should be like this:
+The commit message for the diff:
 
 ```txt
 <type>[optional scope]: <description>
@@ -66,6 +63,8 @@ Therfore, the commit message for the diff should be like this:
 [optional footer(s)]
 ```
 
+
+Legends:
 - `<type>`: Specifies the type of change being made. Common types include:
   - `feat`: A new feature.
   - `fix`: A bug fix.
@@ -97,15 +96,13 @@ Here are examples of your output:
 
 ### 1. Example 1 (with footer):
 
-#### Analysis of the Diff:
-The diff shows...
+#### Thought Process:
 
-#### What is Conventional Commit Message?:
-A Conventional Commit Message is...
+Let's think step-by-step. ...
 
-#### Conventional Commit Message:
+#### Final Answer:
 
-Therfore, the commit message for the diff should be like below:
+The commit message for the diff:
 
 ```txt
 feat(src/api/auth.ts): migrate to GraphQL
@@ -118,15 +115,13 @@ BREAKING CHANGE: All client integrations must update to use GraphQL instead of R
 
 ### 2. Example 2 (without footer):
 
-#### Analysis of the Diff:
-The diff shows...
+#### Thought Process:
 
-#### What is Conventional Commit Message?:
-A Conventional Commit Message is...
+Let's think step-by-step. ...
 
-#### Conventional Commit Message:
+#### Final Answer:
 
-Therfore, the commit message for the diff should be like this:
+The commit message for the diff:
 
 ```txt
 feat(src/components/Navbar.ts): add dark mode toggle
@@ -146,9 +141,11 @@ DIFF YOU MUST ANALYZE:
 Following diff within <diff></diff> tags is the diff you must analyze:
 
 <diff>
-    ```diff
+
+```diff
 %s
-    ```
+```
+
 </diff>
 
 ---
@@ -156,7 +153,7 @@ Following diff within <diff></diff> tags is the diff you must analyze:
 Let's start your task!
 
 ]],
-                        indentString(vim.fn.system("git diff --no-ext-diff --staged"), "    "):gsub("@{", "{")
+                        indentString(vim.fn.system("git diff --no-ext-diff --staged"), ""):gsub("@{", "{")
                     )
                 end,
                 opts = {
