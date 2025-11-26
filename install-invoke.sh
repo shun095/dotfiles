@@ -19,6 +19,7 @@ source "$(dirname "$0")/help.sh"
 
 source "$(dirname "$0")/logs.sh"
 source "$(dirname "$0")/cli.sh"
+source "$(dirname "$0")/repo_update.sh"
 
 update_repositories() {
     echo_section "Upgrading plugin repositories"
