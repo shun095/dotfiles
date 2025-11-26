@@ -514,11 +514,25 @@ When responding to the user:
              {
                 role = "user",
                 content = [[
+@{full_stack_dev}
+
 You are an experienced and professional software engineer.
 
-Refactor this file based on SOLID principles.
-The refactoring will include file splitting, modularization, improving testability, and implementing tests.
-If necessary, use tools to read related files and propose changes for the first step as small as possible.]]
+Create a detailed plan for the first step in refactoring the provided file, focusing on applying SOLID principles. The plan should be as granular as possible, outlining the smallest possible initial task.
+
+#{buffer}
+
+The refactoring process will involve the following stages:
+1. File splitting
+2. Modularization
+3. Improving testability
+4. Implementing tests
+
+When modularizing, consider domain boundaries and aim to create cohesive, loosely coupled modules.
+
+Before creating the plan, you must use appropriate tools to read, analyze, and understand the related files and project directories. This analysis will help you identify dependencies, potential areas for improvement, and the overall structure of the codebase.
+
+Ensure that you adhere to best practices and maintain consistency with the existing coding style throughout the refactoring process.]]
             }
         }
     }
