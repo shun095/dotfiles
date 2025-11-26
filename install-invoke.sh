@@ -13,89 +13,9 @@ if [ -z "$TERM" ]; then
     export TERM=xterm
 fi
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" >/dev/null 2>&1; pwd -P)"
+source "$(dirname "$0")/config.sh"
 
-export DOTFILES_VERSION="0.1.0"
-
-export MYDOTFILES="${SCRIPT_DIR}"
-export MYDOTFILES_LITERAL='${SCRIPT_DIR}'
-if type cygpath > /dev/null 2>&1; then
-    export MYVIMRUNTIME=$HOME/vimfiles
-else
-    export MYVIMRUNTIME=$HOME/.vim
-fi
-export VADER_OUTPUT_FILE=./test_result.log
-
-if [ ! -z ${ZSH_NAME:-} ];then
-    setopt localoptions ksharrays
-    echo "runnning on zsh"
-fi
-
-# directories
-FZFDIR="$HOME/.fzf"
-OHMYZSHDIR="$HOME/.oh-my-zsh"
-TMUXPLUGINSDIR="$HOME/.tmux/plugins"
-TMUXTPMDIR="$TMUXPLUGINSDIR/tpm"
-
-# symlinks
-ZSHRC="$HOME/.zshrc"
-
-VIMRC="$HOME/.vimrc"
-GVIMRC="$HOME/.gvimrc"
-TMUXCONF="$HOME/.tmux.conf"
-FLAKE8="$HOME/.config/flake8"
-VINTRC="$HOME/.vintrc.yml"
-EMACSINIT="$HOME/.spacemacs"
-TIGRC="$HOME/.tigrc"
-if [[ $OSTYPE == 'msys' ]]; then
-    NVIMRC="$USERPROFILE/AppData/Local/nvim/init.lua"
-    GNVIMRC="$USERPROFILE/AppData/Local/nvim/ginit.vim"
-else
-    NVIMRC="$HOME/.config/nvim/init.lua"
-    GNVIMRC="$HOME/.config/nvim/ginit.vim"
-fi
-ALACRITTYRC=$HOME/.config/alacritty/alacritty.toml
-WEZTERMRC=$HOME/.wezterm.lua
-MCPHUB_SERVERS="$HOME/.config/mcphub/servers.json"
-
-SYMLINKS=(
-    "${FLAKE8}"
-    "${VINTRC}"
-    "${EMACSINIT}"
-    "${NVIMRC}"
-    "${GNVIMRC}"
-    "${TIGRC}"
-    "${ALACRITTYRC}"
-    "${WEZTERMRC}"
-    "${MCPHUB_SERVERS}"
-)
-
-SYMTARGET=(
-    "${MYDOTFILES}/python/lint/flake8"
-    "${MYDOTFILES}/python/lint/vintrc.yml"
-    "${MYDOTFILES}/emacs/spacemacs"
-    "${MYDOTFILES}/vim/init.lua"
-    "${MYDOTFILES}/vim/ginit.vim"
-    "${MYDOTFILES}/tig/tigrc"
-    "${MYDOTFILES}/alacritty/alacritty.toml"
-    "${MYDOTFILES}/wezterm/.wezterm.lua"
-    "${MYDOTFILES}/mcphub/servers.json"
-)
-
-# actual files
-LOCALRCSDIR="$HOME/localrcs"
-LOCALRCS=(
-    "$LOCALRCSDIR/tmux-local"
-    "$LOCALRCSDIR/vim-local.vim"
-    "$LOCALRCSDIR/zsh-local.zsh"
-)
-TRASH="$HOME/.trash"
-
-if type gsed > /dev/null 2>&1; then
-    alias sed="gsed"
-fi
-
-. ./help.sh
+source "$(dirname "$0")/help.sh"
 
 
 ascii_art() {
@@ -872,7 +792,10 @@ runtest() {
             deps="${deps} bats"
         fi
     fi
+    install_deps "test framework" "${deps}" ""
+
     setup_bats_helpers
+
 
     echo "STARTING TEST"
 
