@@ -13,6 +13,29 @@ setup() {
     # Stub echo_section to avoid noisy output
     echo_section() { :; }
 
+    # Provide a compatible mapfile implementation for Bash 3.2 (macOS default)
+    if ! builtin type -t mapfile >/dev/null 2>&1; then
+        mapfile() {
+            local opt t_flag=0 arr_name
+            while [[ "$1" == -* ]]; do
+                case "$1" in
+                    -t) t_flag=1;;
+                esac
+                shift
+            done
+            arr_name=$1
+            # Read from stdin or file redirection
+            local line
+            while IFS= read -r line; do
+                if [[ $t_flag -eq 1 ]]; then
+                    eval "$arr_name+=(\"$line\")"
+                else
+                    eval "$arr_name+=(\"$line\n\")"
+                fi
+            done
+        }
+    fi
+
     # Create a mock git that records full command line arguments
     MOCK_BIN=$(mktemp -d)
     cat > "$MOCK_BIN/git" <<'EOF'
