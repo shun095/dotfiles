@@ -7,6 +7,7 @@
 # Distributed under terms of the MIT license.
 
 set -eu
+source "$(dirname "$0")/utils.sh"
 
 if [ -z "$TERM" ]; then
     export TERM=xterm
@@ -94,23 +95,7 @@ if type gsed > /dev/null 2>&1; then
     alias sed="gsed"
 fi
 
-help() {
-    cat << EOF
-
-usage: $0 [arg]
-
-    --help      Show this message
-    install     Unstall
-    buildtools  Build tools from newest codes
-    reinstall   Refetch zsh-plugins from repository and reinstall.
-    redeploy    Delete symbolic link and link again.
-    runtest     Run test.
-    update      Update plugins
-    undeploy    Delete symbolic link
-    uninstall   Uninstall
-
-EOF
-}
+. ./help.sh
 
 
 ascii_art() {
@@ -209,44 +194,9 @@ update_repositories() {
     cd ${old_cwd}
 }
 
-backup_file() {
-    # .~rc exists
-    if [[ -e "$1" ]]; then
-        # .~rc.bak0 exists
-        if [[ -e "$1.bak0" ]]; then
-            # .~rc differs from .~rc.bak0
-            if [[ $(diff "$1" "$1.bak0") ]]; then
-                for idx in $(seq 3 -1 0); do
-                    if [[ -e "$1.bak$idx" ]]; then
-                        echo "Renaming exist backup"
-                        echo "  from: $1.bak$idx"
-                        echo "  to:   $1.bak$(($idx+1))"
-                        mv "$1.bak$idx" "$1.bak$(($idx+1))"
-                    fi
-                done
-            fi
-        fi
 
-        if [[ ! -d $1 ]]; then
-            echo "Making backup"
-            echo "  from: $1"
-            echo "  to:   $1.bak0"
-            cp $1 $1.bak0
-        fi
-    fi
-}
 
-remove_rcfiles_symlink() {
-    if [[ -L $1 ]]; then
-        echo "Removing symlink: $1"
-        \unlink $1
-    elif [[ -f $1 ]]; then
-        echo "Removing normal file: $1"
-        \rm -f $1
-    else
-        echo "$1 does not exists. Doing nothing."
-    fi
-}
+
 
 remove_rcfiles() {
     echo_section "Removeing existing RC files"
@@ -336,107 +286,11 @@ download_plugin_repositories(){
 }
 
 
-append_line() {
-    set -e
 
-    local update line file pat lno
-    update="$1"
-    line="$2"
-    file="$3"
-    pat="${4:-}"
 
-    echo "Update $file (append):"
-    echo "  - $line"
-    [ -f "$file" ] || touch "$file"
-    if [ $# -lt 4 ]; then
-        lno=$(\grep -nF "$line" "$file" | sed 's/:.*//' | tr '\n' ' ')
-    else
-        lno=$(\grep -nF "$pat" "$file" | sed 's/:.*//' | tr '\n' ' ')
-    fi
-    if [ -n "$lno" ]; then
-        echo "    - Already exists: line #$lno"
-    else
-        if [ $update -eq 1 ]; then
-            echo "$line" >> "$file"
-            echo "    + Added"
-        else
-            echo "    ~ Skipped"
-        fi
-    fi
-}
 
-delete_line() {
-    set -e
 
-    local update line file pat lno
-    update="$1"
-    line="$2"
-    file="$3"
-    pat="${4:-}"
 
-    echo "Update $file (delete):"
-    echo "  - $line"
-    [ -f "$file" ] || touch "$file"
-    if [ $# -lt 4 ]; then
-        lno=$(\grep -nF "$line" "$file" | sed 's/:.*//' | tr '\n' ' ')
-    else
-        echo "  - pattern: $pat"
-        lno=$(\grep -nF "$pat" "$file" | sed 's/:.*//' | tr '\n' ' ')
-    fi
-    if [ -n "$lno" ]; then
-        echo "    - Already exists: line #$lno"
-        if sed --version >/dev/null 2>&1 ; then
-            # GNU sed
-            sed -i --follow-symlinks "${lno}d" $file
-        else
-            # BSD sed
-            sed -i '' -E "${lno}d" $file
-        fi
-        echo "    - Deleted."
-    else
-        echo "    ~ Line is not exists. Skipped."
-    fi
-}
-
-insert_line() {
-    set -e
-
-    local update line file pat lno
-    update="$1"
-    line="$2"
-    file="$3"
-    pat="${4:-}"
-
-    echo "Update $file (insert):"
-    echo "  - $line"
-    [ -f "$file" ] || touch "$file"
-    if [ $# -lt 4 ]; then
-        lno=$(\grep -nF "$line" "$file" | sed 's/:.*//' | tr '\n' ' ')
-    else
-        echo "  - pattern: $pat"
-        lno=$(\grep -nF "$pat" "$file" | sed 's/:.*//' | tr '\n' ' ')
-    fi
-    if [ -n "$lno" ]; then
-        echo "    - Already exists: line #$lno"
-    else
-        if [ $update -eq 1 ]; then
-            if [ -s "$file" ]; then
-                if sed --version >/dev/null 2>&1 ; then
-                    # GNU sed
-                    sed -i --follow-symlinks "1s/^/$line\n/" $file
-                else
-                    # BSD sed
-                    sed -i '' -E "1s/^/$line\n/" $file
-                fi
-            else
-                echo $line > $file
-            fi
-            echo "    + Added"
-        else
-            echo "    ~ Skipped"
-        fi
-    fi
-}
 
 deploy_ohmyzsh_files() {
     echo_section "Installing oh my zsh"
@@ -539,18 +393,6 @@ compile_zshfiles() {
     esac
 }
 
-clone_dotfiles_repository() {
-    echo_section "Cloning dotfiles repository"
-    if [[ ! -d $MYDOTFILES/.git ]]; then
-        if [[ -d $MYDOTFILES ]]; then
-            rm -rf $MYDOTFILES
-        fi
-        git clone https://github.com/ishitaku5522/dotfiles $MYDOTFILES
-    else
-        echo "Nothing to do."
-    fi
-}
-
 install_essential_dependencies() {
     local deps=''
     if ! (type git > /dev/null 2>&1); then
@@ -573,17 +415,35 @@ install_essential_dependencies() {
         fi
     fi
 
-
-    # if [[ $OSTYPE == 'darwin'* ]]; then
-    #     if !(type gtimeout > /dev/null 2>&1); then
-    #         deps="${deps} coreutils"
-    #         alias timeout="gtimeout"
-    #     fi
-    # fi
-
     install_deps "essential softwares" "${deps}" ""
 
     clone_dotfiles_repository
+}
+
+
+
+# Ensure Bats helper libraries are present before any test run. This function can be called explicitly or from other steps.
+setup_bats_helpers() {
+    # Clone the helpers if they are missing – idempotent operation.
+    if [ ! -d "tests/test_helper/bats-support" ]; then
+        git clone https://github.com/bats-core/bats-support.git tests/test_helper/bats-support
+    fi
+    if [ ! -d "tests/test_helper/bats-assert" ]; then
+        git clone https://github.com/bats-core/bats-assert.git tests/test_helper/bats-assert
+    fi
+}
+
+
+clone_dotfiles_repository() {
+    echo_section "Cloning dotfiles repository"
+    if [[ ! -d $MYDOTFILES/.git ]]; then
+        if [[ -d $MYDOTFILES ]]; then
+            rm -rf $MYDOTFILES
+        fi
+        git clone https://github.com/ishitaku5522/dotfiles $MYDOTFILES
+    else
+        echo "Nothing to do."
+    fi
 }
 
 install_vim_plugins() {
@@ -1003,6 +863,17 @@ reinstall() {
 }
 
 runtest() {
+    echo "SETTING UP ENVIRONMENT"
+    # Install Bats testing framework and helpers for CI/tests
+    if ! type bats > /dev/null 2>&1; then
+        if type brew > /dev/null 2>&1; then
+            deps="${deps} bats-core"
+        elif type apt-get > /dev/null 2>&1; then
+            deps="${deps} bats"
+        fi
+    fi
+    setup_bats_helpers
+
     echo "STARTING TEST"
 
     pwd
@@ -1037,6 +908,16 @@ runtest() {
         echo "END TEST"
         echo "TEST FAILED: return_code is not 0"
         return $return_code
+    fi
+
+    # Run Bats tests for utils and other bash helpers
+    echo "Running Bats tests"
+    bats tests/
+    bats_status=$?
+    if [[ $bats_status -ne 0 ]]; then
+        echo "END TEST"
+        echo "BATS TEST FAILED (exit code $bats_status)"
+        return $bats_status
     fi
 
     # echo "Starting vim test"
