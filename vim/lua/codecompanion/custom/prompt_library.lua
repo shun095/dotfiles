@@ -405,7 +405,7 @@ NOTE: Placeholders will be filled dynamicaly, so you don't need to fill them.
 
 Investigate on the Internet using tools and create a comprehensive and detailed report as the answer.
 
-You MUST use following tools: 
+You MUST use following tools:
 - (Optional) @{sequentialthinking__sequentialthinking}
     - Use sequentialthinking tool with use_mcp_tool to note your thought if available.
 - @{brave_search__brave_web_search}
@@ -413,7 +413,7 @@ You MUST use following tools:
 - @{fetch__fetch}
     - Use fetch tool with use_mcp_tool to fetch contents from the urls known by search or given by the user.
 
-IMPORTANT: 
+IMPORTANT:
 - Pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
 - Please avoid using exactly the same tool with exactly the same arguments repeatedly. Change the arguments for the tool each time.
 ]]
@@ -434,7 +434,7 @@ IMPORTANT:
 
 Investigate on the Internet using tools and create a comprehensive and detailed report as the answer.
 
-You MUST use following tools: 
+You MUST use following tools:
 - (Optional) @{sequentialthinking__sequentialthinking}
     - Use sequentialthinking tool with use_mcp_tool to note your thought if available.
 - @{ddg_search__search}
@@ -442,7 +442,7 @@ You MUST use following tools:
 - @{fetch__fetch}
     - Use fetch tool with use_mcp_tool to fetch contents from the urls known by search or given by the user.
 
-IMPORTANT: 
+IMPORTANT:
 - Pay close attention to case style and the letter when you use tools. Strictly follow the tool usages. (e.g., you will see camel case in the sequentialthinking tool usage)
 - Please avoid using exactly the same tool with exactly the same arguments repeatedly. Change the arguments for the tool each time.
 ]]
@@ -500,6 +500,25 @@ Task:
 
 When responding to the user:
 - You MUST start your response with <think>.]]
+            }
+        }
+    },
+    ["Plan refactoring a file"] = {
+        strategy = "chat",
+        description = "Plan refactoring a file",
+        ops = {
+            is_slash_cmd = true,
+            short_name = "plan_refactor_file",
+        },
+        prompts = {
+             {
+                role = "user",
+                content = [[
+You are an experienced and professional software engineer.
+
+Refactor this file based on SOLID principles.
+The refactoring will include file splitting, modularization, improving testability, and implementing tests.
+If necessary, use tools to read related files and propose changes for the first step as small as possible.]]
             }
         }
     }

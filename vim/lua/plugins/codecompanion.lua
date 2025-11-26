@@ -116,7 +116,7 @@ return {
                                 },
                                 temperature = {
                                     mapping = "parameters",
-                                    default = 0.0,
+                                    default = 0.3,
                                 },
                                 top_k = {
                                     mapping = "parameters",
@@ -157,7 +157,7 @@ return {
                                 },
                                 temperature = {
                                     mapping = "parameters",
-                                    default = 1.0,
+                                    default = 0.7,
                                 },
                                 top_k = {
                                     mapping = "parameters",
