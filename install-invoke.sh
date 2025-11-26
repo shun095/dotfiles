@@ -18,6 +18,7 @@ source "$(dirname "$0")/config.sh"
 source "$(dirname "$0")/help.sh"
 
 source "$(dirname "$0")/logs.sh"
+source "$(dirname "$0")/cli.sh"
 
 update_repositories() {
     echo_section "Upgrading plugin repositories"
@@ -306,10 +307,10 @@ install_essential_dependencies() {
 # Ensure Bats helper libraries are present before any test run. This function can be called explicitly or from other steps.
 setup_bats_helpers() {
     # Clone the helpers if they are missing – idempotent operation.
-    if [ ! -d "tests/test_helper/bats-support" ]; then
+    if [ ! -d "tests/test_helper/bats-support/.git" ]; then
         git clone https://github.com/bats-core/bats-support.git tests/test_helper/bats-support
     fi
-    if [ ! -d "tests/test_helper/bats-assert" ]; then
+    if [ ! -d "tests/test_helper/bats-assert/.git" ]; then
         git clone https://github.com/bats-core/bats-assert.git tests/test_helper/bats-assert
     fi
 }
@@ -888,23 +889,4 @@ check_arguments() {
     esac
 }
 
-##############################################
-#                    MAIN                    #
-##############################################
-
-if [[ $# -eq 0 ]]; then
-    arg="install"
-else
-    arg=$1
-fi
-
-check_arguments ${arg}
-ascii_art
-echo "Argument: ${arg}"
-
-if [[ ${arg} != "debug" ]]; then
-    backup
-    ${arg}
-fi
-
-echo -e "\nDone.\n"
+dispatch_command "$@"
