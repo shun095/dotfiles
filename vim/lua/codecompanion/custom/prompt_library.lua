@@ -506,7 +506,7 @@ When responding to the user:
     ["Plan refactoring a file"] = {
         strategy = "chat",
         description = "Plan refactoring a file",
-        ops = {
+        opts = {
             is_slash_cmd = true,
             short_name = "plan_refactor_file",
         },
