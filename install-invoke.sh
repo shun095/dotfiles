@@ -785,6 +785,7 @@ reinstall() {
 runtest() {
     echo "SETTING UP ENVIRONMENT"
     # Install Bats testing framework and helpers for CI/tests
+    local deps=''
     if ! type bats > /dev/null 2>&1; then
         if type brew > /dev/null 2>&1; then
             deps="${deps} bats-core"
