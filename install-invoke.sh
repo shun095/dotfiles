@@ -858,35 +858,6 @@ runtest() {
     return $return_code
 }
 
-check_arguments() {
-    case $1 in
-        --help)
-            help
-            exit 0
-            ;;
-        install)   ;;
-        reinstall) ;;
-        redeploy)  ;;
-        update)    ;;
-        undeploy)  ;;
-        uninstall) ;;
-        debug)     ;;
-        buildtools)
-            # case $2 in
-            #     vim|neovim|tig|tmux|all)
-            #         ;;
-            #     *)
-            #         buildtools_help
-            #         ;;
-            # esac
-            ;;
-        runtest)   ;;
-        *)
-            echo "Unknown argument: ${arg}"
-            help
-            exit 1
-            ;;
-    esac
-}
+
 
 dispatch_command "$@"

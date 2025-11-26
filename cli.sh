@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+# Moved from install-invoke.sh – validates CLI arguments and handles unknown commands
 # CLI dispatcher extracted from install-invoke.sh
 # Provides a single entry point that validates arguments and runs the requested command.
+
 
 dispatch_command() {
     # Determine the command (default: install)
@@ -25,3 +27,36 @@ dispatch_command() {
 
     echo -e "\nDone.\n"
 }
+
+# validates CLI arguments and handles unknown commands
+check_arguments() {
+    case $1 in
+        --help)
+            help
+            exit 0
+            ;;
+        install)   ;;
+        reinstall) ;;
+        redeploy)  ;;
+        update)    ;;
+        undeploy)  ;;
+        uninstall) ;;
+        debug)     ;;
+        buildtools)
+            # case $2 in
+            #     vim|neovim|tig|tmux|all)
+            #         ;;
+            #     *)
+            #         buildtools_help
+            #         ;;
+            # esac
+            ;;
+        runtest)   ;;
+        *)
+            echo "Unknown argument: ${arg}"
+            help
+            exit 1
+            ;;
+    esac
+}
+
