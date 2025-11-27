@@ -14,9 +14,7 @@ if [ -z "$TERM" ]; then
 fi
 
 source "$(dirname "$0")/config.sh"
-
 source "$(dirname "$0")/help.sh"
-
 source "$(dirname "$0")/logs.sh"
 source "$(dirname "$0")/cli.sh"
 source "$(dirname "$0")/repo_update.sh"
