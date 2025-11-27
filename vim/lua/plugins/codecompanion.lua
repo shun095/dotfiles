@@ -16,6 +16,11 @@ return {
         local handlers = require("codecompanion.custom.handlers")
         local _ = require("codecompanion.custom.keymaps")
 
+
+        local function cleanLeadingSlash(str)
+            return str and str:sub(1, 1) == '/' and str:sub(2) or str
+        end
+
         require("codecompanion").setup({
             extensions = {
                 mcphub = {
@@ -106,8 +111,9 @@ return {
                                 user = "user",
                             },
                             env = {
-                                url = "http://localhost:8080",
-                                api_key = vim.env.CODECOMPANION_API_KEY,
+                                url = vim.env.CODECOMPANION_LOCAL_HOST,
+                                api_key = vim.env.CODECOMPANION_LOCAL_API_KEY,
+                                chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_LOCAL_BASE_PATH),
                             },
                             schema = {
                                 model = {
@@ -116,7 +122,7 @@ return {
                                 },
                                 temperature = {
                                     mapping = "parameters",
-                                    default = 0.3,
+                                    default = 0.1,
                                 },
                                 top_k = {
                                     mapping = "parameters",
@@ -147,8 +153,9 @@ return {
                                 user = "user",
                             },
                             env = {
-                                url = vim.env.CODECOMPANION_REMOTE_URL,
-                                api_key = vim.env.CODECOMPANION_API_KEY,
+                                url = vim.env.CODECOMPANION_REMOTE_HOST,
+                                api_key = vim.env.CODECOMPANION_REMOTE_API_KEY,
+                                chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_REMOTE_BASE_PATH),
                             },
                             schema = {
                                 model = {
@@ -179,31 +186,73 @@ return {
                             handlers = handlers,
                         })
                     end,
+                    ["llama_cpp_remote_sub"] = function()
+                        return require("codecompanion.adapters").extend("openai_compatible", {
+                            name = "llama_cpp_remote_sub",
+                            formatted_name = "Llama.cpp Remote Sub",
+                            roles = {
+                                llm = "assistant",
+                                user = "user",
+                            },
+                            env = {
+                                url = vim.env.CODECOMPANION_REMOTE_SUB_HOST,
+                                api_key = vim.env.CODECOMPANION_REMOTE_SUB_API_KEY,
+                                chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_REMOTE_SUB_BASE_PATH),
+                            },
+                            schema = {
+                                model = {
+                                    mapping = "parameters",
+                                    default = "llama2",
+                                },
+                                temperature = {
+                                    mapping = "parameters",
+                                    default = 0.6,
+                                },
+                                top_k = {
+                                    mapping = "parameters",
+                                    default = 100,
+                                },
+                                top_p = {
+                                    mapping = "parameters",
+                                    default = 0.95,
+                                },
+                                min_p = {
+                                    mapping = "parameters",
+                                    default = 0.0,
+                                },
+                                presence_penalty = {
+                                    mapping = "parameters",
+                                    default = 1.0,
+                                },
+                            },
+                            handlers = handlers,
+                        })
+                    end,
                     ["custom_external"] = function()
                         return require("codecompanion.adapters").extend("openai_compatible", {
-                            name = "custom_remote",
-                            formatted_name = "Custom Remote",
+                            name = "custom_external",
+                            formatted_name = "Custom External",
                             roles = {
                                 llm = "assistant",
                                 user = "user",
                             },
                             opts = {
-                                stream = false
+                                stream = true
                             },
                             env = {
-                                url = vim.env.CODECOMPANION_CUSTOM_REMOTE_URL,
-                                api_key = vim.env.CODECOMPANION_CUSTOM_API_KEY,
-                                chat_url = "/chat/completions",
+                                url = vim.env.CODECOMPANION_EXTERNAL_HOST,
+                                api_key = vim.env.CODECOMPANION_EXTERNAL_API_KEY,
+                                chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_EXTERNAL_BASE_PATH),
                                 models_endpoint = "/models",
                             },
                             schema = {
                                 model = {
                                     mapping = "parameters",
-                                    default = vim.env.CODECOMPANION_CUSTOM_MODEL,
+                                    default = vim.env.CODECOMPANION_EXTERNAL_MODEL,
                                 },
                                 temperature = {
                                     mapping = "parameters",
-                                    default = 0.5,
+                                    default = 0.1,
                                 },
                                 top_k = {
                                     mapping = "parameters",
@@ -216,6 +265,52 @@ return {
                                 min_p = {
                                     mapping = "parameters",
                                     default = 0.1,
+                                },
+                                presence_penalty = {
+                                    mapping = "parameters",
+                                    default = 1.5,
+                                },
+                            },
+                            handlers = handlers,
+                        })
+                    end,
+                    ["custom_external_sub"] = function()
+                        return require("codecompanion.adapters").extend("openai_compatible", {
+                            name = "custom_external_sub",
+                            formatted_name = "Custom External Sub",
+                            roles = {
+                                llm = "assistant",
+                                user = "user",
+                            },
+                            opts = {
+                                stream = true
+                            },
+                            env = {
+                                url = vim.env.CODECOMPANION_EXTERNAL_SUB_HOST,
+                                api_key = vim.env.CODECOMPANION_EXTERNAL_SUB_API_KEY,
+                                chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_EXTERNAL_SUB_BASE_PATH),
+                                models_endpoint = "/models",
+                            },
+                            schema = {
+                                model = {
+                                    mapping = "parameters",
+                                    default = vim.env.CODECOMPANION_EXTERNAL_SUB_MODEL,
+                                },
+                                temperature = {
+                                    mapping = "parameters",
+                                    default = 0.7,
+                                },
+                                top_k = {
+                                    mapping = "parameters",
+                                    default = 100,
+                                },
+                                top_p = {
+                                    mapping = "parameters",
+                                    default = 1.0,
+                                },
+                                min_p = {
+                                    mapping = "parameters",
+                                    default = 0.0,
                                 },
                                 presence_penalty = {
                                     mapping = "parameters",
