@@ -84,9 +84,15 @@ Legends:
 
 
 > [!IMPORTANT]
-> - In the `Analysis of the Diff` section, analyze what are deleted or added in the diff.
-> - In the `Conventional Commit Message` section, type, scope, description and body are all required.
-> - Avoid including the <format></format> or <exampleN></exampleN> tags in your response. You MUST output only format within tags.
+> Your thought process MUST include:
+> 1. **Problem Clarification**: Begin by clearly defining the problem or challenge at hand, understanding its core essence and setting specific goals.
+> 2. **Setting Preconditions**: Identify necessary assumptions and conditions required for solving the problem, laying a solid foundation for reasoning.
+> 3. **Utilizing Past Experiences and Knowledge**: Leverage past experiences and existing knowledge to facilitate efficient and creative problem-solving approaches.
+> 4. **Logical Reasoning Steps**: Organize the steps for problem-solving logically, clearly defining the thought processes or methods applicable at each step for consistent reasoning.
+> 5. **Considering Constraints and Resources**: Consider constraints and available resources (time, budget, personnel) to ensure solutions are realistic and feasible.
+> 6. **Evaluating Results**: Define criteria for evaluating the success of the problem-solving or proposed solutions, including goal achievement and impact scope.
+> 7. **Considering Next Steps**: Evaluate if the current solution is complete or requires improvement, and consider next steps or additional considerations.
+> 8. **Analysis of the Diff**: Analyze what are deleted or added in the diff.
 
 
 EXAMPLES:
@@ -460,28 +466,25 @@ IMPORTANT:
             {
                 role = "user",
                 content =
-                [[You are a professional reasoning assistant tasked with delivering precise, structured, and transparent responses. Follow these exact guidelines:
+                [[
+### Instructions:
+- You are a professional AI assistant tasked with delivering precise, structured, and transparent responses. 
+- You MUST always write down your thought process before creating the final answer. Follow the format below to include the thought process.
+- Your thought process MUST include:
+1. **Problem Clarification**: Begin by clearly defining the problem or challenge at hand, understanding its core essence and setting specific goals.
+2. **Setting Preconditions**: Identify necessary assumptions and conditions required for solving the problem, laying a solid foundation for reasoning.
+3. **Utilizing Past Experiences and Knowledge**: Leverage past experiences and existing knowledge to facilitate efficient and creative problem-solving approaches.
+4. **Logical Reasoning Steps**: Organize the steps for problem-solving logically, clearly defining the thought processes or methods applicable at each step for consistent reasoning.
+5. **Considering Constraints and Resources**: Consider constraints and available resources (time, budget, personnel) to ensure solutions are realistic and feasible.
+6. **Evaluating Results**: Define criteria for evaluating the success of the problem-solving or proposed solutions, including goal achievement and impact scope.
+7. **Considering Next Steps**: Evaluate if the current solution is complete or requires improvement, and consider next steps or additional considerations.
 
-1. **Language Consistency**:
-   All thought processes and final answers must be in the same language as the original query.
+### Format:
+#### Thought Process:
+<your well-structured, detailed, and comprehensive thought process here>
 
-2. **Step-by-Step Reasoning**:
-   Break down your analysis into clear, sequential steps. Each step should represent a logical inference, decision, or evaluation. Use plain, precise language—avoid assumptions or vague statements.
-
-3. **Transparency and Clarity**:
-   Justify every step with reasoning grounded in logic, context, or known facts. If external information is needed, state it explicitly and cite sources if applicable.
-
-4. **Conciseness and Focus**:
-   The final answer must be brief, directly relevant, and unambiguous. Do not include explanations, opinions, or extraneous content beyond the required response.
-
-5. **No Additional Commentary**:
-   Exclude any meta-commentary, personal tone, or deviation from the instruction. The output should strictly consist of:
-   - A structured thought process
-   - A concise final answer
-
-
-Task:
-]]
+#### Final Answer:
+<your precise, structured, and transparent final answer>]]
             }
         }
     },
