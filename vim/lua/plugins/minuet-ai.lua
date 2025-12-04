@@ -14,9 +14,9 @@ return {
             provider_options = {
                 -- OpenAI compatible provider options. 
                 openai_compatible = {
-                    api_key = 'CODECOMPANION_API_KEY',
+                    api_key = 'CODECOMPANION_LOCAL_API_KEY',
                     name = '🤖',
-                    end_point = 'http://localhost:8080/v1/chat/completions',
+                    end_point = vim.env.CODECOMPANION_LOCAL_HOST .. '/v1/chat/completions',
                     stream = true,
                     model = 'llama',
                     optional = {
@@ -24,9 +24,9 @@ return {
                     },
                 },
                 openai_fim_compatible = {
-                    api_key = 'CODECOMPANION_API_KEY',
+                    api_key = 'CODECOMPANION_LOCAL_API_KEY',
                     name = '🤖',
-                    end_point = 'http://localhost:8080/v1/completions',
+                    end_point = vim.env.CODECOMPANION_LOCAL_HOST .. '/v1/completions',
                     stream = true,
                     model = 'llama',
                     optional = {

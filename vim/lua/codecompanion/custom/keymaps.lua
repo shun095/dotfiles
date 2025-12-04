@@ -31,6 +31,6 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
     "n",
     "<Leader>ag",
-    "<cmd>CodeCompanion /commit<CR>",
+    "<cmd>CodeCompanion /generate_commit_message<CR>",
     { noremap = true, silent = true }
 )

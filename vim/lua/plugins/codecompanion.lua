@@ -112,7 +112,7 @@ return {
                             },
                             env = {
                                 url = vim.env.CODECOMPANION_LOCAL_HOST,
-                                api_key = vim.env.CODECOMPANION_LOCAL_API_KEY,
+                                api_key = vim.env.CODECOMPANION_LOCAL_API_KEY or vim.env.TERM,  -- fallback to TERM
                                 chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_LOCAL_BASE_PATH),
                             },
                             schema = {
@@ -122,11 +122,11 @@ return {
                                 },
                                 temperature = {
                                     mapping = "parameters",
-                                    default = 0.1,
+                                    default = 0.3,
                                 },
                                 top_k = {
                                     mapping = "parameters",
-                                    default = 100,
+                                    default = 50,
                                 },
                                 top_p = {
                                     mapping = "parameters",
@@ -154,7 +154,7 @@ return {
                             },
                             env = {
                                 url = vim.env.CODECOMPANION_REMOTE_HOST,
-                                api_key = vim.env.CODECOMPANION_REMOTE_API_KEY,
+                                api_key = vim.env.CODECOMPANION_REMOTE_API_KEY or vim.env.TERM,  -- fallback to TERM
                                 chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_REMOTE_BASE_PATH),
                             },
                             schema = {
@@ -196,7 +196,7 @@ return {
                             },
                             env = {
                                 url = vim.env.CODECOMPANION_REMOTE_SUB_HOST,
-                                api_key = vim.env.CODECOMPANION_REMOTE_SUB_API_KEY,
+                                api_key = vim.env.CODECOMPANION_REMOTE_SUB_API_KEY or vim.env.TERM,  -- fallback to TERM
                                 chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_REMOTE_SUB_BASE_PATH),
                             },
                             schema = {
@@ -241,7 +241,7 @@ return {
                             },
                             env = {
                                 url = vim.env.CODECOMPANION_EXTERNAL_HOST,
-                                api_key = vim.env.CODECOMPANION_EXTERNAL_API_KEY,
+                                api_key = vim.env.CODECOMPANION_EXTERNAL_API_KEY or vim.env.TERM,  -- fallback to TERM
                                 chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_EXTERNAL_BASE_PATH),
                                 models_endpoint = "/models",
                             },
@@ -287,7 +287,7 @@ return {
                             },
                             env = {
                                 url = vim.env.CODECOMPANION_EXTERNAL_SUB_HOST,
-                                api_key = vim.env.CODECOMPANION_EXTERNAL_SUB_API_KEY,
+                                api_key = vim.env.CODECOMPANION_EXTERNAL_SUB_API_KEY or vim.env.TERM,  -- fallback to TERM
                                 chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_EXTERNAL_SUB_BASE_PATH),
                                 models_endpoint = "/models",
                             },
