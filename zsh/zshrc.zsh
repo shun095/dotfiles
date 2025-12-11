@@ -280,7 +280,7 @@ alias cdd="cddir"
 
 
 xlsxdiff(){
-    diff <(xlsxtxt $1) <(xlsxtxt $2)
+    diff -u <(xlsxtxt $1 | tr '\t' ',') <(xlsxtxt $2 | tr '\t' ',')
 }
 
 header_appjson() {

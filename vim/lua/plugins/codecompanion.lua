@@ -8,7 +8,7 @@ return {
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
-        "ravitemer/codecompanion-history.nvim",
+        "shun095/codecompanion-history.nvim",
         "ravitemer/mcphub.nvim",
     },
     -- Configuration options for the plugin
@@ -122,23 +122,23 @@ return {
                                 },
                                 temperature = {
                                     mapping = "parameters",
-                                    default = 0.3,
+                                    default = 0.1,
                                 },
                                 top_k = {
                                     mapping = "parameters",
-                                    default = 50,
+                                    default = 0,
                                 },
                                 top_p = {
                                     mapping = "parameters",
-                                    default = 0.8,
+                                    default = 1.0,
                                 },
                                 min_p = {
                                     mapping = "parameters",
-                                    default = 0.1,
+                                    default = 0.0,
                                 },
                                 presence_penalty = {
                                     mapping = "parameters",
-                                    default = 1.5,
+                                    default = 1.0,
                                 },
                             },
                             handlers = handlers,
@@ -164,11 +164,11 @@ return {
                                 },
                                 temperature = {
                                     mapping = "parameters",
-                                    default = 0.7,
+                                    default = 0.2,
                                 },
                                 top_k = {
                                     mapping = "parameters",
-                                    default = 100,
+                                    default = 0,
                                 },
                                 top_p = {
                                     mapping = "parameters",
@@ -206,15 +206,15 @@ return {
                                 },
                                 temperature = {
                                     mapping = "parameters",
-                                    default = 0.6,
+                                    default = 0.1,
                                 },
                                 top_k = {
                                     mapping = "parameters",
-                                    default = 100,
+                                    default = 0,
                                 },
                                 top_p = {
                                     mapping = "parameters",
-                                    default = 0.95,
+                                    default = 1.0
                                 },
                                 min_p = {
                                     mapping = "parameters",
@@ -256,19 +256,19 @@ return {
                                 },
                                 top_k = {
                                     mapping = "parameters",
-                                    default = 100,
+                                    default = 0,
                                 },
                                 top_p = {
                                     mapping = "parameters",
-                                    default = 0.8,
+                                    default = 1.0,
                                 },
                                 min_p = {
                                     mapping = "parameters",
-                                    default = 0.1,
+                                    default = 0.0,
                                 },
                                 presence_penalty = {
                                     mapping = "parameters",
-                                    default = 1.5,
+                                    default = 1.0,
                                 },
                             },
                             handlers = handlers,
