@@ -69,10 +69,17 @@ local function get_models(self, opts)
             headers = headers,
             insecure = config.adapters.http.opts.allow_insecure,
             proxy = config.adapters.http.opts.proxy,
+            timeout = 5000,
         })
     end)
     if not ok then
-        log:error("Could not get the OpenAI compatible models from " .. url .. "/v1/models.\nError: %s", response)
+        -- タイムアウトの場合は1行だけ表示
+        if response:match("timeout") or response:match("was unable to complete in") then
+            log:error("Request timed out")
+        else
+            -- それ以外のエラーはresponseの内容を表示
+            log:error("Could not get the OpenAI compatible models from " .. url .. "/v1/models.\nError: %s", response)
+        end
         return {}
     end
 
@@ -151,6 +158,9 @@ local chat_output_callback = function(self, data, tools)
 
     if self.chat_output_current_state == nil then
         local model_name = get_models(self, { last = true })
+        if not model_name or type(model_name) ~= "string" then
+            model_name = ""
+        end
         self.schema.model.default = model_name
         if model_name:find("Qwen3-4B-Thinking-2507", 1, true)
             or model_name:find("NVIDIA-Nemotron-Nano-9B-v2", 1, true) then
@@ -172,9 +182,9 @@ local chat_output_callback = function(self, data, tools)
             or self.chat_output_buffer == "<|start|>assistant<|channel|>final<|message|>" then
             self.chat_output_current_state = ChatOutputState.ANTICIPATING_OUTPUTTING
             self.chat_output_buffer = ""
-        elseif self.chat_output_buffer == "<response>" then          -- For granite
+        elseif self.chat_output_buffer == "<response>" then  -- For granite
             self.chat_output_buffer = ""
-        elseif self.chat_output_buffer == "</response>" then         -- For granite
+        elseif self.chat_output_buffer == "</response>" then -- For granite
             self.chat_output_buffer = ""
         elseif
             (("<think>"):find(self.chat_output_buffer, 1, true) ~= 1)
@@ -264,6 +274,42 @@ end
 -- -- 実行
 -- chat_output_callback_test()
 
+---Set the parameters
+---@param self CustomCodeCompanionAdapter
+---@param params table
+---@param messages table
+---@return table
+local form_parameters_callback = function(self, params, messages)
+    local params = openai.handlers.form_parameters(self, params, messages)
+
+    local model_name
+    if params.model == "undefined" then
+        model_name = get_models(self, { last = true })
+        if not model_name or type(model_name) ~= "string" then
+            return params
+        end
+        params.model = model_name
+    else
+        model_name = params.model
+    end
+
+    local param_table = require("codecompanion.custom.model_params")
+
+    -- Check if the model name matches any wildcard pattern in param_table
+    for pattern, param_values in pairs(param_table) do
+        -- Convert wildcard pattern to Lua pattern
+        if model_name:match(pattern) then
+            -- Apply parameters from param_values
+            for key, value in pairs(param_values) do
+                params[key] = value
+            end
+            break -- Found a match, no need to check other patterns
+        end
+    end
+
+    return params
+end
+
 ---Set the format of the role and content for the messages from the chat buffer
 ---@param self CustomCodeCompanionAdapter
 ---@param messages table Format is: { { role = "user", content = "Your prompt here" } }
@@ -276,6 +322,9 @@ local form_messages_callback = function(self, messages)
     local last_role = ""
 
     local model_name = get_models(self, { last = true })
+    if not model_name or type(model_name) ~= "string" then
+        model_name = ""
+    end
 
     -- For cogito
     if model_name:find("[cC]ogito") then
@@ -398,5 +447,6 @@ return {
         return true
     end,
     form_messages = form_messages_callback,
+    form_parameters = form_parameters_callback,
     chat_output = chat_output_callback,
 }

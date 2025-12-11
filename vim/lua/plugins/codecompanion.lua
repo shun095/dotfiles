@@ -115,32 +115,6 @@ return {
                                 api_key = vim.env.CODECOMPANION_LOCAL_API_KEY or vim.env.TERM,  -- fallback to TERM
                                 chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_LOCAL_BASE_PATH),
                             },
-                            schema = {
-                                model = {
-                                    mapping = "parameters",
-                                    default = "llama2",
-                                },
-                                temperature = {
-                                    mapping = "parameters",
-                                    default = 0.1,
-                                },
-                                top_k = {
-                                    mapping = "parameters",
-                                    default = 0,
-                                },
-                                top_p = {
-                                    mapping = "parameters",
-                                    default = 1.0,
-                                },
-                                min_p = {
-                                    mapping = "parameters",
-                                    default = 0.0,
-                                },
-                                presence_penalty = {
-                                    mapping = "parameters",
-                                    default = 1.0,
-                                },
-                            },
                             handlers = handlers,
                         })
                     end,
@@ -160,27 +134,7 @@ return {
                             schema = {
                                 model = {
                                     mapping = "parameters",
-                                    default = "llama2",
-                                },
-                                temperature = {
-                                    mapping = "parameters",
-                                    default = 0.2,
-                                },
-                                top_k = {
-                                    mapping = "parameters",
-                                    default = 0,
-                                },
-                                top_p = {
-                                    mapping = "parameters",
-                                    default = 1.0,
-                                },
-                                min_p = {
-                                    mapping = "parameters",
-                                    default = 0.0,
-                                },
-                                presence_penalty = {
-                                    mapping = "parameters",
-                                    default = 1.0,
+                                    default = "undefined",
                                 },
                             },
                             handlers = handlers,
@@ -202,27 +156,7 @@ return {
                             schema = {
                                 model = {
                                     mapping = "parameters",
-                                    default = "llama2",
-                                },
-                                temperature = {
-                                    mapping = "parameters",
-                                    default = 0.1,
-                                },
-                                top_k = {
-                                    mapping = "parameters",
-                                    default = 0,
-                                },
-                                top_p = {
-                                    mapping = "parameters",
-                                    default = 1.0
-                                },
-                                min_p = {
-                                    mapping = "parameters",
-                                    default = 0.0,
-                                },
-                                presence_penalty = {
-                                    mapping = "parameters",
-                                    default = 1.0,
+                                    default = "undefined",
                                 },
                             },
                             handlers = handlers,
@@ -250,26 +184,6 @@ return {
                                     mapping = "parameters",
                                     default = vim.env.CODECOMPANION_EXTERNAL_MODEL,
                                 },
-                                temperature = {
-                                    mapping = "parameters",
-                                    default = 0.1,
-                                },
-                                top_k = {
-                                    mapping = "parameters",
-                                    default = 0,
-                                },
-                                top_p = {
-                                    mapping = "parameters",
-                                    default = 1.0,
-                                },
-                                min_p = {
-                                    mapping = "parameters",
-                                    default = 0.0,
-                                },
-                                presence_penalty = {
-                                    mapping = "parameters",
-                                    default = 1.0,
-                                },
                             },
                             handlers = handlers,
                         })
@@ -295,26 +209,6 @@ return {
                                 model = {
                                     mapping = "parameters",
                                     default = vim.env.CODECOMPANION_EXTERNAL_SUB_MODEL,
-                                },
-                                temperature = {
-                                    mapping = "parameters",
-                                    default = 0.7,
-                                },
-                                top_k = {
-                                    mapping = "parameters",
-                                    default = 100,
-                                },
-                                top_p = {
-                                    mapping = "parameters",
-                                    default = 1.0,
-                                },
-                                min_p = {
-                                    mapping = "parameters",
-                                    default = 0.0,
-                                },
-                                presence_penalty = {
-                                    mapping = "parameters",
-                                    default = 1.0,
                                 },
                             },
                             handlers = handlers,
