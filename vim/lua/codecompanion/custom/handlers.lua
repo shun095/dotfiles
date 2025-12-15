@@ -418,6 +418,9 @@ Please start your assistance.
                 merged_message = nil
             end
             -- assistant with tool_calls
+            if not message.content then
+                message.content = ""
+            end
             table.insert(new_messages, message)
         end
 

@@ -739,3 +739,21 @@ TASK
         }
     }
 }
+
+
+
+-- @{full_stack_dev}
+
+-- Inspect the current directory and check/uncheck the ./TODO.md checklist items according to the current status.
+-- - You MUST only check off items that are fully completed.  
+-- - You MUST uncheck all of the items that are still in progress.
+-- - You MUST inspect if the code actually works as expected. 
+--     - If the task description includes test, you MUST run test. 
+--     - If the task description includes build, You MUST run build. 
+--     - If the task description includes other inspection items, you MUST actually inspect them all.
+-- - Code should not be considered complete just because it exists. The code must be correct and actually work as intended.
+-- - You MUST inspect all of the TODO items. 
+--     - You MUST read all of the related files to inspect them AT LEAST.
+--     - You MUST do all of the other necessary things to inspect the items.
+
+-- This is not a simple task. You have many things to complete this task correctly. Think hard as possible.
