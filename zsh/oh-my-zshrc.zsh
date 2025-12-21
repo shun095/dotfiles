@@ -22,7 +22,7 @@ lazy_plugins=(
     zsh-completions
     zsh-interactive-cd
     zsh-syntax-highlighting
-    zsh-ai-ask
+    zsh-ai-assistant
     history-substring-search
     alias-finder
     aliases

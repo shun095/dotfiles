@@ -57,6 +57,11 @@ update_repositories() {
         --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-completions/ \
         pull &
 
+    echo "  Upgrading zsh-ai-assistant"
+    git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-ai-assistant/.git \
+        --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-ai-assistant/ \
+        pull &
+
     echo "  Upgrading zsh-defer"
     git --git-dir=${OHMYZSHDIR}/custom/plugins/zsh-defer/.git \
         --work-tree=${OHMYZSHDIR}/custom/plugins/zsh-defer/ \
@@ -144,6 +149,9 @@ download_plugin_repositories(){
     fi
     if [[ ! -e ${OHMYZSHDIR}/custom/plugins/zsh-completions ]]; then
         git clone --depth 1 https://github.com/zsh-users/zsh-completions &
+    fi
+    if [[ ! -e ${OHMYZSHDIR}/custom/plugins/zsh-ai-assistant ]]; then
+        git clone --depth 1 https://github.com/shun095/zsh-ai-assistant &
     fi
     if [[ ! -e ${OHMYZSHDIR}/custom/plugins/zsh-defer ]]; then
         git clone --depth 1 https://github.com/romkatv/zsh-defer &

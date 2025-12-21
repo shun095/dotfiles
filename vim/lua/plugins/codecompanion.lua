@@ -90,13 +90,13 @@ return {
             adapters = {
                 acp = {
                     opts = {
-                        show_defaults = false,
+                        show_presets = false,
                     }
                 },
                 http = {
                     opts = {
                         cache_models_for = 300,
-                        show_defaults = false,
+                        show_presets = false,
                         allow_insecure = true,
                     },
                     ["llama_cpp_local"] = function()
