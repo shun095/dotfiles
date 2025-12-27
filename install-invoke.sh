@@ -600,10 +600,10 @@ make_install() {
     local repo=$2
 
     if [[ ! -d $MYDOTFILES/build ]]; then
-        mkdir -p $MYDOTFILES/build
+        mkdir -p $MYDOTFILES/build_src
     fi
 
-    pushd $MYDOTFILES/build
+    pushd $MYDOTFILES/build_src
     if [[ ! -e ./myconfigure_setup.sh ]]; then
         ln -s $MYDOTFILES/tools/myconfigure_setup.sh ./myconfigure_setup.sh
     fi

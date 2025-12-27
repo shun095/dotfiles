@@ -16,6 +16,7 @@
 
 zsh/completions/*
 build/
+build_src/
 
 test_result.log
 deployed-version.txt
