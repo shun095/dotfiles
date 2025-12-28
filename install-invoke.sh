@@ -514,7 +514,7 @@ elif [[ $(lsb_release -rs) == "22.04" ]]; then
         fi
     done
     curl_deps='https://deno.land/install.sh'
-elif [[ $(lsb_release -rs) == "24.04" ]]; then
+elif [[ $(lsb_release -rs) == "24.04" ]] || type apt-get > /dev/null; then
     tmp_deps='git gettext libtinfo-dev libacl1-dev libgpm-dev build-essential libncurses5-dev libncursesw5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev luajit libluajit-5.1-2 libutf8proc-dev'
     for package in ${tmp_deps}; do
         if ! dpkg -s ${package} > /dev/null 2>&1; then
@@ -561,7 +561,7 @@ build_neovim_install_deps() {
                 deps="${deps} ${package}"
             fi
         done
-    elif [[ $(lsb_release -rs) == "24.04" ]]; then
+    elif [[ $(lsb_release -rs) == "24.04" ]] || type apt-get; then
         tmp_deps='cmake'
         for package in ${tmp_deps}; do
             if ! dpkg -s ${package} > /dev/null 2>&1; then
@@ -604,6 +604,7 @@ make_install() {
     fi
 
     pushd $MYDOTFILES/build_src
+    ls -la
     if [[ ! -e ./myconfigure_setup.sh ]]; then
         ln -s $MYDOTFILES/tools/myconfigure_setup.sh ./myconfigure_setup.sh
     fi
