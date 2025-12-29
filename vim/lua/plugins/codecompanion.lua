@@ -15,7 +15,7 @@ return {
     config = function()
         local handlers = require("codecompanion.custom.handlers")
         local _ = require("codecompanion.custom.keymaps")
-
+        local helpers = require("codecompanion.adapters.acp.helpers")
 
         local function cleanLeadingSlash(str)
             return str and str:sub(1, 1) == '/' and str:sub(2) or str
@@ -91,7 +91,63 @@ return {
                 acp = {
                     opts = {
                         show_presets = false,
-                    }
+                    },
+                    ["mistral-vibe"] = function()
+                        return {
+                            name = "mistral-vibe",
+                            formatted_name = "Mistral Vibe",
+                            type = "acp",
+                            roles = {
+                                llm = "assistant",
+                                user = "user",
+                            },
+                            opts = {
+                                vision = true,
+                            },
+                            commands = {
+                                default = {
+                                    "bash",
+                                    "-c",
+                                    "docker run --rm -it --add-host=host.docker.internal:host-gateway -e OPENAI_API_KEY -v $PWD:$PWD -w $PWD --name vibe-container-nvim vibe-container /home/vibeuser/.local/bin/vibe-acp"
+                                },
+                            },
+                            defaults = {
+                                mcpServers = {},
+                                timeout = 20000, -- 20 seconds
+                            },
+                            parameters = {
+                                protocolVersion = 1,
+                                clientCapabilities = {
+                                    fs = { readTextFile = true, writeTextFile = true },
+                                },
+                                clientInfo = {
+                                    name = "CodeCompanion.nvim",
+                                    version = "1.0.0",
+                                },
+                            },
+                            handlers = {
+                                ---@param self CodeCompanion.ACPAdapter
+                                ---@return boolean
+                                setup = function(self)
+                                    return true
+                                end,
+
+                                ---@param self CodeCompanion.ACPAdapter
+                                ---@param messages table
+                                ---@param capabilities table
+                                ---@return table
+                                form_messages = function(self, messages, capabilities)
+                                    return helpers.form_messages(self, messages, capabilities)
+                                end,
+
+                                ---Function to run when the request has completed. Useful to catch errors
+                                ---@param self CodeCompanion.ACPAdapter
+                                ---@param code number
+                                ---@return nil
+                                on_exit = function(self, code) end,
+                            },
+                        }
+                    end
                 },
                 http = {
                     opts = {
@@ -112,7 +168,7 @@ return {
                             },
                             env = {
                                 url = vim.env.CODECOMPANION_LOCAL_HOST,
-                                api_key = vim.env.CODECOMPANION_LOCAL_API_KEY or vim.env.TERM,  -- fallback to TERM
+                                api_key = vim.env.CODECOMPANION_LOCAL_API_KEY or vim.env.TERM, -- fallback to TERM
                                 chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_LOCAL_BASE_PATH),
                             },
                             handlers = handlers,
@@ -128,7 +184,7 @@ return {
                             },
                             env = {
                                 url = vim.env.CODECOMPANION_REMOTE_HOST,
-                                api_key = vim.env.CODECOMPANION_REMOTE_API_KEY or vim.env.TERM,  -- fallback to TERM
+                                api_key = vim.env.CODECOMPANION_REMOTE_API_KEY or vim.env.TERM, -- fallback to TERM
                                 chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_REMOTE_BASE_PATH),
                             },
                             schema = {
@@ -150,7 +206,7 @@ return {
                             },
                             env = {
                                 url = vim.env.CODECOMPANION_REMOTE_SUB_HOST,
-                                api_key = vim.env.CODECOMPANION_REMOTE_SUB_API_KEY or vim.env.TERM,  -- fallback to TERM
+                                api_key = vim.env.CODECOMPANION_REMOTE_SUB_API_KEY or vim.env.TERM, -- fallback to TERM
                                 chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_REMOTE_SUB_BASE_PATH),
                             },
                             schema = {
@@ -175,7 +231,7 @@ return {
                             },
                             env = {
                                 url = vim.env.CODECOMPANION_EXTERNAL_HOST,
-                                api_key = vim.env.CODECOMPANION_EXTERNAL_API_KEY or vim.env.TERM,  -- fallback to TERM
+                                api_key = vim.env.CODECOMPANION_EXTERNAL_API_KEY or vim.env.TERM, -- fallback to TERM
                                 chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_EXTERNAL_BASE_PATH),
                                 models_endpoint = "/models",
                             },
@@ -201,7 +257,7 @@ return {
                             },
                             env = {
                                 url = vim.env.CODECOMPANION_EXTERNAL_SUB_HOST,
-                                api_key = vim.env.CODECOMPANION_EXTERNAL_SUB_API_KEY or vim.env.TERM,  -- fallback to TERM
+                                api_key = vim.env.CODECOMPANION_EXTERNAL_SUB_API_KEY or vim.env.TERM, -- fallback to TERM
                                 chat_url = "/" .. cleanLeadingSlash(vim.env.CODECOMPANION_EXTERNAL_SUB_BASE_PATH),
                                 models_endpoint = "/models",
                             },

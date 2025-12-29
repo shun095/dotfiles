@@ -357,11 +357,11 @@ install_vim_plugins() {
         fi
         if type nvim > /dev/null 2>&1; then
             nvim --version
-            echo "Running :PlugInstall"
+            echo "Running :PlugInstall, :Lazy! install"
             nvim --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
                 --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
                 -c ':PlugInstall --sync' \
-                -c ':Lazy update' \
+                -c ':Lazy! install' \
                 -c ':qa!'
         fi
     fi
@@ -398,12 +398,12 @@ update_vim_plugins() {
         if type nvim > /dev/null 2>&1; then
             if [[ -d $MYVIMRUNTIME/plugged ]] || [[ -d $MYVIMRUNTIME/pack ]]; then
                 nvim --version
-                echo "Running :PlugUpgrade, :PlugUpdate"
+                echo "Running :PlugUpgrade, :PlugUpdate, :Lazy! update"
                 nvim --cmd 'let g:is_test = 1 | set shortmess=a cmdheight=10' \
                     --cmd 'cal feedkeys("\<CR>\<CR>\<CR>\<CR>\<CR>")' \
                     -c ':PlugUpgrade' \
                     -c ':PlugUpdate --sync' \
-                    -c ':Lazy update' \
+                    -c ':Lazy! update' \
                     -c ':qa!'
             fi
         fi
