@@ -54,6 +54,53 @@ Test files are located in the `tests/` directory:
 - `repo_update_test.bats` - Repository update tests
 - `utils_test.bats` - Utility function tests
 
+## AI Agent Rules
+
+### MUST Follow
+
+1. **Do NOT modify**: `.gitignore`, `.gitattributes`, `Dockerfile` without explicit approval
+2. **Do NOT modify**: `install-invoke.sh`, `utils.sh`, `config.sh` without thorough testing
+3. **Do NOT modify**: Test files (`tests/*.bats`) without adding corresponding tests
+4. **Do NOT modify**: Plugin configuration files without understanding dependencies
+5. **Do NOT modify**: `vim/init.lua`, `zsh/zshrc.zsh` without testing in actual environment
+6. **Keep codebase clean**: Create new directories, move/split files to organize. Update outdated documents
+7. **Remove temporary files**: Always check and remove all task-specific documents, tests, or temporal implementations before finishing
+8. **Use relative paths**: Always use relative paths for portability unless explicitly necessary
+9. **Perform web research**: Always perform external web research when stuck in a bug
+10. **Specify timeouts**: Always specify `timeout` parameter when using `bash` tool
+11. **Use file tools first**: Always use `write_file`/`read_file`/`grep` tools prior to `bash` tool
+12. **Use nohup for servers**: Always use `nohup` to launch servers in background
+13. **Act professionally**: Always provide working code that follows best practices and is fully implemented and tested
+14. **Use git safely**: Always use extreme caution with `git` commands. Avoid `git reset --hard` and `git checkout <filename>` unless absolutely necessary
+15. **Use terminalcp for UI testing**: Always use `terminalcp_terminalcp` tool to execute terminal UI tests manually
+16. **Use todo tool**: Always use todo tool to manage tasks. Read existing todos before starting
+17. **Follow user instructions**: Always read user instructions carefully. Prioritize user instructions over existing codebase
+
+### MUST NOT Do
+
+1. **Do NOT commit**: Generated files (`.zwc`, compiled zsh files)
+2. **Do NOT commit**: Build artifacts (contents of `build/` directory)
+3. **Do NOT commit**: Local configuration files (contents of `localrcs/`)
+4. **Do NOT commit**: Sensitive data (passwords, API keys)
+5. **Do NOT modify**: File permissions unnecessarily
+6. **Do NOT assume UI testing**: Strictly avoid assuming UI testing can be completed solely by scripts
+
+### Terminalcp Tool Usage
+
+When launching apps in terminalcp tool, you MUST use:
+```bash
+ENV1=... uv run <command> [options]
+```
+
+- The command MUST be found in `pyproject.toml`
+- Environment variables MUST be retrieved by `env | grep -e OPENAI -e MISTRAL`
+
+### Git Safety Rules
+
+- **Never use**: `git reset --hard` or `git checkout <filename>` lightly
+- **Use instead**: `git stash --all` to preserve changes
+- **Always backup**: Before using dangerous git commands
+
 ## Code Style Guidelines
 
 ### Shell Scripts
@@ -132,64 +179,6 @@ Tests follow the bats framework structure:
 - **Source builds**: Tools are built from source in `build_src/` directory
 - **Cached builds**: Build artifacts cached in `build/` directory
 - **Cleanup**: `apt-get clean` runs after installation
-
-## AI Agent Rules
-
-### MUST Follow
-
-1. **Do NOT modify**: `.gitignore`, `.gitattributes`, `Dockerfile` without explicit approval
-2. **Do NOT modify**: `install-invoke.sh`, `utils.sh`, `config.sh` without thorough testing
-3. **Do NOT modify**: Test files (`tests/*.bats`) without adding corresponding tests
-4. **Do NOT modify**: Plugin configuration files without understanding dependencies
-5. **Do NOT modify**: `vim/init.lua`, `zsh/zshrc.zsh` without testing in actual environment
-
-### SHOULD Follow
-
-1. **Test changes**: Always run `./install-invoke.sh runtest` before committing
-2. **Backup first**: Use `backup_file()` function before modifying critical files
-3. **Document changes**: Update README.md or relevant documentation
-4. **Check dependencies**: Verify plugin compatibility before adding new plugins
-5. **Use absolute paths**: For symlinks and file operations
-
-### MUST NOT Do
-
-1. **Do NOT commit**: Generated files (`.zwc`, compiled zsh files)
-2. **Do NOT commit**: Build artifacts (contents of `build/` directory)
-3. **Do NOT commit**: Local configuration files (contents of `localrcs/`)
-4. **Do NOT commit**: Sensitive data (passwords, API keys)
-5. **Do NOT modify**: File permissions unnecessarily
-
-### File Structure Rules
-
-1. **Symlinks**: Must point to files in the repository
-2. **Configuration**: Separate global and local configurations
-3. **Plugins**: Manage via plugin managers (lazy.nvim, vim-plug, tpm)
-4. **Templates**: Store in `template/` directories
-5. **Scripts**: Store in `scripts/` or `tools/` directories
-
-### Vim/Neovim Specific Rules
-
-1. **Plugin management**: Use lazy.nvim for Neovim, vim-plug for Vim
-2. **Configuration separation**: Global in `init.lua`, local in `ginit.vim`
-3. **After plugin**: Use `after/plugin/` for plugin-specific configurations
-4. **Autoload**: Use `autoload/` for custom functions
-5. **Lua modules**: Organize in `lua/` directory structure
-
-### Shell Specific Rules
-
-1. **zsh**: Use oh-my-zsh framework with custom plugins
-2. **Plugin management**: Use zsh plugin system with `custom/plugins/`
-3. **Compilation**: Compile zsh files with `zsh_compile.zsh`
-4. **Completion**: Store in `zsh/completions/` directory
-5. **Theme**: Custom theme in `zsh/ishitaku.zsh-theme`
-
-### Build System Rules
-
-1. **Source builds**: Use `build_src/` directory for source code
-2. **Artifacts**: Store in `build/` directory
-3. **Cache**: Respect cached builds in CI/CD pipelines
-4. **Cross-platform**: Support both Linux and macOS
-5. **Dependencies**: Document all build dependencies
 
 ## Development Workflow
 
